@@ -1,0 +1,68 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "content": [
+                {
+                    "id": 49,
+                    "clientRate": 5,
+                    "employeeRate": 5,
+                    "authorizationCode": {
+                        "id": 975481,
+                        "defaults": 0,
+                        "rate": 2,
+                        "code": "414",
+                        "name": null,
+                        "description": null,
+                        "status": null,
+                        "codeType": {
+                            "id": 28,
+                            "name": "Non-Billable",
+                            "type": "AUTHORIZATION_CODE_TYPE"
+                        }
+                    },
+                    "employeeId": {
+                        "id": 161,
+                        "username": "test@test.com",
+                        "firstName": "sanvi",
+                        "lastName": "shinde",
+                        "roleName": "Admin",
+                        "organizationId": 76
+                    },
+                    "clientId": {
+                        "id": 21,
+                        "firstName": "Carry",
+                        "lastName": "Dong"
+                    }
+                }
+            ],
+            "pageable": {
+                "pageNumber": 0,
+                "pageSize": 19,
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "paged": true,
+                "unpaged": false
+            },
+            "totalElements": 1,
+            "totalPages": 1,
+            "last": true,
+            "size": 19,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "numberOfElements": 1,
+            "first": true,
+            "empty": false
+        }
+    }
+}

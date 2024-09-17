@@ -1,0 +1,175 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "BEHAVIOR": [
+                {
+                    "id": 57,
+                    "name": "Crying",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 58,
+                    "name": "Hitting",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 59,
+                    "name": "Kicking",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 60,
+                    "name": "Biting",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 61,
+                    "name": "Peer Aggression",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 62,
+                    "name": "Self Injurious Behavior",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 78,
+                    "name": "Technician Aggression",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 79,
+                    "name": "Property Destruction",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 80,
+                    "name": "Physical aggression",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 81,
+                    "name": "Falling to floor",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 82,
+                    "name": "Screaming",
+                    "type": "BEHAVIOR"
+                },
+                {
+                    "id": 87,
+                    "name": "Other",
+                    "type": "BEHAVIOR"
+                }
+            ],
+            "ANTECEDENT": [
+                {
+                    "id": 51,
+                    "name": "Demand placed",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 52,
+                    "name": "Item removed",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 53,
+                    "name": "Peer entered space",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 54,
+                    "name": "Peer interaction initiated",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 55,
+                    "name": "Technician talking to others",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 56,
+                    "name": "Working on activity/task",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 75,
+                    "name": "Engaged in preferred activity",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 76,
+                    "name": "Alone",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 77,
+                    "name": "Waiting",
+                    "type": "ANTECEDENT"
+                },
+                {
+                    "id": 86,
+                    "name": "Other",
+                    "type": "ANTECEDENT"
+                }
+            ],
+            "CONSEQUENCE": [
+                {
+                    "id": 63,
+                    "name": "Follow through on demand",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 64,
+                    "name": "Prompted communication",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 65,
+                    "name": "Removed from location",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 66,
+                    "name": "Peer attention provided",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 67,
+                    "name": "Technician attention provided",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 68,
+                    "name": "Given preferred item",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 83,
+                    "name": "Redirected to another activity",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 84,
+                    "name": "Demand Changed",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 85,
+                    "name": "Demand removed/delayed",
+                    "type": "CONSEQUENCE"
+                },
+                {
+                    "id": 88,
+                    "name": "Other",
+                    "type": "CONSEQUENCE"
+                }
+            ]
+        }
+    }
+}

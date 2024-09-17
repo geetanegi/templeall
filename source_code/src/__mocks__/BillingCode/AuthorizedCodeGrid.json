@@ -1,0 +1,50 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "content": [
+                {
+                    "id": 975494,
+                    "defaults": 0,
+                    "rate": 0,
+                    "code": "2020",
+                    "name": null,
+                    "description": "test",
+                    "status": "Active",
+                    "codeType": {
+                        "id": 28,
+                        "name": "Non-Billable",
+                        "type": "AUTHORIZATION_CODE_TYPE"
+                    }
+                }
+            ],
+            "pageable": {
+                "pageNumber": 0,
+                "pageSize": 19,
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "paged": true,
+                "unpaged": false
+            },
+            "last": false,
+            "totalElements": 76,
+            "totalPages": 4,
+            "size": 19,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "first": true,
+            "numberOfElements": 19,
+            "empty": false
+        }
+    }
+}

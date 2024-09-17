@@ -1,0 +1,68 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "content": [
+                {
+                    "id": 135,
+                    "name": "System Guideline Template",
+                    "description": "system created",
+                    "type": "GUIDELINE_TEMPLATE",
+                    "isSystemGenerated": true,
+                    "isSynchronized": false,
+                    "createdBy": {
+                        "id": 10,
+                        "username": "taylorr@blossomchildrenscenter.com",
+                        "firstName": "Ross",
+                        "lastName": "Taylor",
+                        "roleName": "Clinician",
+                        "organizationId": 1
+                    },
+                    "createdDate": "2024-04-29T11:44:36",
+                    "publishedBy": {
+                        "id": 6,
+                        "username": "dksoni@netlink.com",
+                        "firstName": "Deepak",
+                        "lastName": "Soni",
+                        "roleName": "Admin",
+                        "organizationId": 1
+                    },
+                    "publishedOn": "2024-05-01T05:39:32",
+                    "status": {
+                        "id": 1,
+                        "name": "Published",
+                        "type": "GUIDELINE_TEMPLATE"
+                    },
+                    "activeStatus": "Inactive"
+                }
+            ],
+            "pageable": {
+                "pageNumber": 0,
+                "pageSize": 19,
+                "sort": {
+                    "empty": false,
+                    "unsorted": false,
+                    "sorted": true
+                },
+                "offset": 0,
+                "paged": true,
+                "unpaged": false
+            },
+            "totalElements": 69,
+            "totalPages": 4,
+            "last": false,
+            "size": 19,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "unsorted": false,
+                "sorted": true
+            },
+            "numberOfElements": 19,
+            "first": true,
+            "empty": false
+        }
+    }
+}

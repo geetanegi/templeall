@@ -1,20 +1,19 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# BLOSSOM-FRONTEND
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+### Reference Links:
+- React: https://react.dev/
+- Tailwind: https://tailwindcss.com/
+- Typescript: https://www.typescriptlang.org/
+- Preline: https://preline.co/index.html
+- Usehooks: https://usehooks.com/
+- Redux toolkit: https://redux-toolkit.js.org/
+- React testing library: (https://testing-library.com/docs/react-testing-library/setup/)
+- Prime React Datatable: https://primereact.org/datatable/
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+### Forms will use below libraries:
+- Formik & Yup: https://formik.org/docs/guides/validation
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+### Resources used to setup the project:
+- https://dev.to/ethand91/creating-a-react-app-with-typescript-tailwind-support-18b8
+- https://redux-toolkit.js.org/introduction/getting-started

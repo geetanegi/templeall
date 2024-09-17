@@ -1,0 +1,906 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": [
+            {
+                "id": 429,
+                "name": "Target 2",
+                "taskAnalysisType": null,
+                "targetGoal": "target 2",
+                "targetType": "Percent",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": null,
+                "createdDate": "2024-06-04T07:47:09",
+                "modifiedDate": "2024-06-04T07:47:09",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2721,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 21,
+                    "name": "Baseline",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 2,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "session test",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\",\"Hand over hand\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 431,
+                "name": "Tar fre",
+                "taskAnalysisType": null,
+                "targetGoal": "Test 1",
+                "targetType": "Frequency",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T09:06:09",
+                "modifiedDate": "2024-06-04T09:06:09",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2731,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 21,
+                    "name": "Baseline",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 4,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "test session1",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 434,
+                "name": "Tar task ana",
+                "taskAnalysisType": null,
+                "targetGoal": "Test",
+                "targetType": "Score",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T09:12:15",
+                "modifiedDate": "2024-06-04T09:12:15",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2740,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 21,
+                    "name": "Baseline",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": false,
+                "commentsAllowed": false,
+                "masteredDate": "",
+                "indexCount": 7,
+                "sdInstructionsAllowed": false,
+                "sdInstructions": null,
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\",\"prompt1\",\"Partial Physical\",\"Phonemic Cue\",\"Hand over hand\",\"Gestural Pointing\",\"Dashed Lines\",\"3 seconds\",\"Equidistant Materials\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 435,
+                "name": "Rating scale tar",
+                "taskAnalysisType": null,
+                "targetGoal": "test rating",
+                "targetType": "Rating Scale",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T09:13:08",
+                "modifiedDate": "2024-06-04T09:13:08",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2744,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 21,
+                    "name": "Baseline",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": false,
+                "masteredDate": "",
+                "indexCount": 8,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "rating",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 436,
+                "name": "Time samp",
+                "taskAnalysisType": null,
+                "targetGoal": "Test",
+                "targetType": "Time Sampling",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": null,
+                "createdDate": "2024-06-04T09:14:01",
+                "modifiedDate": "2024-06-04T09:14:01",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2748,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 21,
+                    "name": "Baseline",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": false,
+                "commentsAllowed": false,
+                "masteredDate": "",
+                "indexCount": 9,
+                "sdInstructionsAllowed": false,
+                "sdInstructions": null,
+                "timeSamplingMinutes": 1,
+                "timeSamplingSeconds": 1,
+                "timeSamplingIntervals": 1,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 437,
+                "name": "Rate",
+                "taskAnalysisType": null,
+                "targetGoal": "rate test",
+                "targetType": "Rate",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T09:14:54",
+                "modifiedDate": "2024-06-04T09:14:54",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2751,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 21,
+                    "name": "Baseline",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": false,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 10,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "Test rate",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 428,
+                "name": "Target1",
+                "taskAnalysisType": null,
+                "targetGoal": "target",
+                "targetType": "Percent",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 2,
+                "createdDate": "2024-06-04T07:44:52",
+                "modifiedDate": "2024-06-12T07:37:02",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2717,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 22,
+                    "name": "Intervention",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": false,
+                "masteredDate": "",
+                "indexCount": 1,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "Serssion",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\",\"Hand over hand\",\"Gesture\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 430,
+                "name": "Target 3",
+                "taskAnalysisType": null,
+                "targetGoal": "target session test",
+                "targetType": "Duration",
+                "targetLocation": "Pinned",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T07:48",
+                "modifiedDate": "2024-06-04T07:48",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2727,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 22,
+                    "name": "Intervention",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 3,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "testtt",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 430,
+                "name": "Target 3",
+                "taskAnalysisType": null,
+                "targetGoal": "target session test",
+                "targetType": "Duration",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T07:48",
+                "modifiedDate": "2024-06-04T07:48",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2727,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 22,
+                    "name": "Intervention",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 3,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "testtt",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 433,
+                "name": "Tag first",
+                "taskAnalysisType": null,
+                "targetGoal": "first test",
+                "targetType": "First Probe",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": 1,
+                "createdDate": "2024-06-04T09:10:39",
+                "modifiedDate": "2024-06-04T09:10:39",
+                "initiatedDate": "2024-06-04T00:00",
+                "guidelineTemplateId": {
+                    "id": 21,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Small Text\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"4d832d8a-72f3-4174-ae83-a995dc923412\",\"index\":0},{\"name\":\"dropdown\",\"label\":\"Dropdown\",\"description\":\"\",\"htmlType\":\"select\",\"instructions\":\"\",\"options\":[],\"type\":\"\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"8ae7eb4d-9e6a-4761-88c6-fa7c116d2b69\",\"index\":1}]}",
+                    "createdDate": "2024-05-10T14:26:33",
+                    "modifiedDate": "2024-05-10T15:31:49"
+                },
+                "masteryTemplateId": 2738,
+                "templateData": "{\"smallText-0\":\"\",\"dropdown-1\":\"\"}",
+                "targetStatus": {
+                    "id": 22,
+                    "name": "Intervention",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 6,
+                "sdInstructionsAllowed": true,
+                "sdInstructions": "First ",
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "program1",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "0"
+            },
+            {
+                "id": 1046,
+                "name": "Graph_TA_F",
+                "taskAnalysisType": "Forward",
+                "targetGoal": null,
+                "targetType": "Task Analysis",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": null,
+                "steps": [
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 443,
+                            "description": "Wash hands1",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\"]",
+                            "modifiedDate": "2024-07-22T07:58:28",
+                            "createdDate": "2024-07-22T07:58:28",
+                            "programId": 554,
+                            "targetId": 1046,
+                            "orderCount": 1
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 444,
+                            "description": "Wash hands2",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\"]",
+                            "modifiedDate": "2024-07-22T07:58:28",
+                            "createdDate": "2024-07-22T07:58:28",
+                            "programId": 554,
+                            "targetId": 1046,
+                            "orderCount": 2
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 445,
+                            "description": "Wash hands3",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\"]",
+                            "modifiedDate": "2024-07-22T07:58:28",
+                            "createdDate": "2024-07-22T07:58:28",
+                            "programId": 554,
+                            "targetId": 1046,
+                            "orderCount": 3
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 446,
+                            "description": "Wash hands4",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\"]",
+                            "modifiedDate": "2024-07-22T07:58:28",
+                            "createdDate": "2024-07-22T07:58:28",
+                            "programId": 554,
+                            "targetId": 1046,
+                            "orderCount": 4
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 447,
+                            "description": "Wash hands5",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\"]",
+                            "modifiedDate": "2024-07-22T07:58:28",
+                            "createdDate": "2024-07-22T07:58:28",
+                            "programId": 554,
+                            "targetId": 1046,
+                            "orderCount": 5
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 448,
+                            "description": "Wash hands6",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Verbal Model\"]",
+                            "modifiedDate": "2024-07-22T07:58:28",
+                            "createdDate": "2024-07-22T07:58:28",
+                            "programId": 554,
+                            "targetId": 1046,
+                            "orderCount": 6
+                        }
+                    }
+                ],
+                "createdDate": "2024-07-22T07:58:28",
+                "modifiedDate": "2024-07-25T10:54:26",
+                "initiatedDate": "2024-07-22T00:00",
+                "guidelineTemplateId": {
+                    "id": 68,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Instruction\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"638c6fe5-1b7d-4bf6-bc8f-4860db4f4bbb\",\"index\":0},{\"name\":\"calender\",\"label\":\"Date\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"date\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"594cb86e-d998-4d6f-9198-968282452559\",\"index\":1}]}",
+                    "createdDate": "2024-07-22T06:52:52",
+                    "modifiedDate": "2024-07-22T06:52:52"
+                },
+                "masteryTemplateId": 7646,
+                "templateData": "{\"smallText-0\":\"Test\",\"calender-1\":\"\"}",
+                "targetStatus": {
+                    "id": 23,
+                    "name": "Maintenance",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 1,
+                "sdInstructionsAllowed": false,
+                "sdInstructions": null,
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "Graph_TA_F",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "1"
+            },
+            {
+                "id": 1053,
+                "name": "Graph_TA_Back2",
+                "taskAnalysisType": "Backward",
+                "targetGoal": "",
+                "targetType": "Task Analysis",
+                "targetLocation": null,
+                "minTrials": null,
+                "maxTrials": null,
+                "steps": [
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 479,
+                            "description": "Wash hands1",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Phonemic Cue\"]",
+                            "modifiedDate": "2024-07-22T09:23:33",
+                            "createdDate": "2024-07-22T09:23:33",
+                            "programId": 561,
+                            "targetId": 1053,
+                            "orderCount": 1
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 480,
+                            "description": "Wash hands2",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Phonemic Cue\"]",
+                            "modifiedDate": "2024-07-22T09:23:33",
+                            "createdDate": "2024-07-22T09:23:33",
+                            "programId": 561,
+                            "targetId": 1053,
+                            "orderCount": 2
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 481,
+                            "description": "Wash hands3",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Phonemic Cue\"]",
+                            "modifiedDate": "2024-07-22T09:23:33",
+                            "createdDate": "2024-07-22T09:23:33",
+                            "programId": 561,
+                            "targetId": 1053,
+                            "orderCount": 3
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 482,
+                            "description": "Wash hands4",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Phonemic Cue\"]",
+                            "modifiedDate": "2024-07-22T09:23:33",
+                            "createdDate": "2024-07-22T09:23:33",
+                            "programId": 561,
+                            "targetId": 1053,
+                            "orderCount": 4
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 483,
+                            "description": "Wash hands5",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Phonemic Cue\"]",
+                            "modifiedDate": "2024-07-22T09:23:33",
+                            "createdDate": "2024-07-22T09:23:33",
+                            "programId": 561,
+                            "targetId": 1053,
+                            "orderCount": 5
+                        }
+                    }
+                ],
+                "createdDate": "2024-07-22T09:23:33",
+                "modifiedDate": "2024-07-22T09:23:33",
+                "initiatedDate": "2024-07-22T00:00",
+                "guidelineTemplateId": {
+                    "id": 68,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Instruction\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"638c6fe5-1b7d-4bf6-bc8f-4860db4f4bbb\",\"index\":0},{\"name\":\"calender\",\"label\":\"Date\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"date\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"594cb86e-d998-4d6f-9198-968282452559\",\"index\":1}]}",
+                    "createdDate": "2024-07-22T06:52:52",
+                    "modifiedDate": "2024-07-22T06:52:52"
+                },
+                "masteryTemplateId": 7688,
+                "templateData": "{\"smallText-0\":\"test\",\"calender-1\":\"\"}",
+                "targetStatus": {
+                    "id": 23,
+                    "name": "Maintenance",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 1,
+                "sdInstructionsAllowed": false,
+                "sdInstructions": null,
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "Graph_TA_Back2",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "1"
+            },
+            {
+                "id": 1058,
+                "name": "Graph_TA_F2",
+                "taskAnalysisType": "Forward",
+                "targetGoal": "",
+                "targetType": "Task Analysis",
+                "targetLocation": null,
+                "minTrials": null,
+                "maxTrials": null,
+                "steps": [
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 494,
+                            "description": "Wash hands1",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Physical\"]",
+                            "modifiedDate": "2024-07-23T04:55:23",
+                            "createdDate": "2024-07-23T04:55:23",
+                            "programId": 565,
+                            "targetId": 1058,
+                            "orderCount": 1
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 495,
+                            "description": "Wash hands2",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Physical\"]",
+                            "modifiedDate": "2024-07-23T04:55:23",
+                            "createdDate": "2024-07-23T04:55:23",
+                            "programId": 565,
+                            "targetId": 1058,
+                            "orderCount": 2
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 496,
+                            "description": "Wash hands3",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Physical\"]",
+                            "modifiedDate": "2024-07-23T04:55:23",
+                            "createdDate": "2024-07-23T04:55:23",
+                            "programId": 565,
+                            "targetId": 1058,
+                            "orderCount": 3
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 497,
+                            "description": "Wash hands4",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Physical\"]",
+                            "modifiedDate": "2024-07-23T04:55:23",
+                            "createdDate": "2024-07-23T04:55:23",
+                            "programId": 565,
+                            "targetId": 1058,
+                            "orderCount": 4
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 498,
+                            "description": "Wash hands5",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Full Physical\"]",
+                            "modifiedDate": "2024-07-23T04:55:23",
+                            "createdDate": "2024-07-23T04:55:23",
+                            "programId": 565,
+                            "targetId": 1058,
+                            "orderCount": 5
+                        }
+                    }
+                ],
+                "createdDate": "2024-07-23T04:55:23",
+                "modifiedDate": "2024-07-23T04:55:23",
+                "initiatedDate": "2024-07-23T00:00",
+                "guidelineTemplateId": {
+                    "id": 68,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Instruction\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"638c6fe5-1b7d-4bf6-bc8f-4860db4f4bbb\",\"index\":0},{\"name\":\"calender\",\"label\":\"Date\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"date\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"594cb86e-d998-4d6f-9198-968282452559\",\"index\":1}]}",
+                    "createdDate": "2024-07-22T06:52:52",
+                    "modifiedDate": "2024-07-22T06:52:52"
+                },
+                "masteryTemplateId": 7719,
+                "templateData": "{\"smallText-0\":\"Forward\",\"calender-1\":\"\"}",
+                "targetStatus": {
+                    "id": 23,
+                    "name": "Maintenance",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 1,
+                "sdInstructionsAllowed": false,
+                "sdInstructions": null,
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "Graph_TA_F2",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "1"
+            },
+            {
+                "id": 1060,
+                "name": "Graph_TA_F4",
+                "taskAnalysisType": "Forward",
+                "targetGoal": null,
+                "targetType": "Task Analysis",
+                "targetLocation": "Target List",
+                "minTrials": null,
+                "maxTrials": null,
+                "steps": [
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 504,
+                            "description": "Wash hands1",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Visual Motioning\"]",
+                            "modifiedDate": "2024-07-23T08:17:09",
+                            "createdDate": "2024-07-23T08:17:09",
+                            "programId": 569,
+                            "targetId": 1060,
+                            "orderCount": 1
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 505,
+                            "description": "Wash hands2",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Visual Motioning\"]",
+                            "modifiedDate": "2024-07-23T08:17:09",
+                            "createdDate": "2024-07-23T08:17:09",
+                            "programId": 569,
+                            "targetId": 1060,
+                            "orderCount": 2
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 506,
+                            "description": "Wash hands3",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Visual Motioning\"]",
+                            "modifiedDate": "2024-07-23T08:17:09",
+                            "createdDate": "2024-07-23T08:17:09",
+                            "programId": 569,
+                            "targetId": 1060,
+                            "orderCount": 3
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 507,
+                            "description": "Wash hands4",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Visual Motioning\"]",
+                            "modifiedDate": "2024-07-23T08:17:09",
+                            "createdDate": "2024-07-23T08:17:09",
+                            "programId": 569,
+                            "targetId": 1060,
+                            "orderCount": 4
+                        }
+                    },
+                    {
+                        "disabled": false,
+                        "data": {
+                            "id": 508,
+                            "description": "Wash hands5",
+                            "prompts": "[\"IND\",\"NR\",\"ERR\",\"Visual Motioning\"]",
+                            "modifiedDate": "2024-07-23T08:17:10",
+                            "createdDate": "2024-07-23T08:17:10",
+                            "programId": 569,
+                            "targetId": 1060,
+                            "orderCount": 5
+                        }
+                    }
+                ],
+                "createdDate": "2024-07-23T08:17:10",
+                "modifiedDate": "2024-07-25T10:44:52",
+                "initiatedDate": "2024-07-23T00:00",
+                "guidelineTemplateId": {
+                    "id": 68,
+                    "data": "{\"template\":[{\"name\":\"smallText\",\"label\":\"Instruction\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"text\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"638c6fe5-1b7d-4bf6-bc8f-4860db4f4bbb\",\"index\":0},{\"name\":\"calender\",\"label\":\"Date\",\"description\":\"\",\"instructions\":\"\",\"htmlType\":\"input\",\"type\":\"date\",\"validations\":{\"required\":false},\"value\":\"\",\"placeholder\":\"Default placeholder\",\"id\":\"594cb86e-d998-4d6f-9198-968282452559\",\"index\":1}]}",
+                    "createdDate": "2024-07-22T06:52:52",
+                    "modifiedDate": "2024-07-22T06:52:52"
+                },
+                "masteryTemplateId": 7739,
+                "templateData": "{\"smallText-0\":\"Forward\",\"calender-1\":\"\"}",
+                "targetStatus": {
+                    "id": 23,
+                    "name": "Maintenance",
+                    "type": "PROGRAM_BOOK_OBJECT_STATUS"
+                },
+                "currentPhase": {
+                    "id": 13,
+                    "name": "Baseline",
+                    "type": "MASTERY_CRITERIA_PHASE"
+                },
+                "unreadCommentCount": 0,
+                "autoProgressAllowed": true,
+                "commentsAllowed": true,
+                "masteredDate": "",
+                "indexCount": 1,
+                "sdInstructionsAllowed": false,
+                "sdInstructions": null,
+                "timeSamplingMinutes": null,
+                "timeSamplingSeconds": null,
+                "timeSamplingIntervals": null,
+                "programName": "Graph_TA_F4",
+                "masteryDataPrompts": "[\"IND\",\"NR\",\"ERR\"]",
+                "masteryCriteriaPhaseIndexCount": "1"
+            }
+        ]
+    }
+}

@@ -1,0 +1,129 @@
+{"data":{
+    "description": null,
+    "display": true,
+    "error": false,
+    "data": {
+        "content": [
+            {
+                "id": 58,
+                "word": "ECT",
+                "meaning": "Exetra"
+            },
+            {
+                "id": 53,
+                "word": "test14",
+                "meaning": "testing"
+            },
+            {
+                "id": 52,
+                "word": "test11",
+                "meaning": "testing123"
+            },
+            {
+                "id": 51,
+                "word": "test",
+                "meaning": "testing"
+            },
+            {
+                "id": 49,
+                "word": "hello",
+                "meaning": "test"
+            },
+            {
+                "id": 48,
+                "word": "TQ_1",
+                "meaning": "Thanq"
+            },
+            {
+                "id": 47,
+                "word": "ASAP",
+                "meaning": "As soon as possible"
+            },
+            {
+                "id": 45,
+                "word": "TQ",
+                "meaning": "Thank you"
+            },
+            {
+                "id": 44,
+                "word": "BRB56",
+                "meaning": "Be right back"
+            },
+            {
+                "id": 35,
+                "word": "Hey",
+                "meaning": "Hello"
+            },
+            {
+                "id": 29,
+                "word": "Hr",
+                "meaning": "hours"
+            },
+            {
+                "id": 28,
+                "word": "Min",
+                "meaning": "Minutes"
+            },
+            {
+                "id": 27,
+                "word": "OTTD",
+                "meaning": "outfit of the day"
+            },
+            {
+                "id": 26,
+                "word": "ASAP",
+                "meaning": "The occurrence of events by chance in a happy or beneficial way."
+            },
+            {
+                "id": 24,
+                "word": "Ephemeral",
+                "meaning": " Lasting for a very short time; transient or fleeting."
+            },
+            {
+                "id": 23,
+                "word": "FYI",
+                "meaning": "For Your Information"
+            },
+            {
+                "id": 22,
+                "word": "EOD",
+                "meaning": "End of the day"
+            },
+            {
+                "id": 14,
+                "word": "Elucidate",
+                "meaning": "To make something clear; to explain."
+            },
+            {
+                "id": 13,
+                "word": "ASAP_1",
+                "meaning": "As soon as possible"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 19,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "unpaged": false,
+            "paged": true
+        },
+        "totalElements": 24,
+        "totalPages": 2,
+        "last": false,
+        "size": 19,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "numberOfElements": 19,
+        "first": true,
+        "empty": false
+    }
+}}

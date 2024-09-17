@@ -1,0 +1,23 @@
+{
+"data":{
+    "description": null,
+    "display": true,
+    "error": false,
+    "data": {
+        "id": 297,
+        "username": "ankitadhall@netlink.com",
+        "firstName": "WE16RGRHNEQwM0NLWE16RGRHNEQwM0NLSFNDS9Let8meii2aaweIy21q28PxzJp3",
+        "lastName": "WE16RGRHNEQwM0NLWE16RGRHNEQwM0NLSFNDS/7Cvm5why+ONzCxm1gZjqDpth4=",
+        "cancelAppointmentCount": null,
+        "totalAppointmentCount": null,
+        "isResetPassword": false,
+        "isActive": true,
+        "expirationTime": "2024-09-05T10:58:12.907370035",
+        "otp": null,
+        "otpExpirationTime": null,
+        "createdDate": "2024-09-03T15:09:21",
+        "modifiedDate": "2024-09-03T15:09:21",
+        "isIncompleteProfile": true
+    }
+}
+}

@@ -1,0 +1,26 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": [
+            {
+                "id": 1768552550,
+                "programBookId": null,
+                "name": "Domain 1",
+                "description": "dummy",
+                "createdDate": "2024-08-02T10:29:45",
+                "modifiedDate": null,
+                "programBookLibraryUUID": {
+                    "id": 179986485,
+                    "name": "Demo Test copy program book test",
+                    "description": "",
+                    "createdDate": "2024-08-02T10:29:45",
+                    "modifiedDate": null,
+                    "programBookLibraryUUID": "91731245-3178-4c52-b198-4fd2701fdfff"
+                },
+                "domainStatus": null
+            }
+        ]
+    }
+}

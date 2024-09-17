@@ -1,0 +1,16 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": [
+            {
+                "id": 295,
+                "username": "vankadarasravani8@gmail.com",
+                "firstName": "Sravani",
+                "lastName": "Vankadara",
+                "roleName": "Admin"
+            }
+        ]
+    }
+}

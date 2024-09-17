@@ -1,0 +1,41 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "content": [
+                {
+                    "id": 297,
+                    "name": "name",
+                    "isActive": true
+                }
+            ],
+            "pageable": {
+                "pageNumber": 0,
+                "pageSize": 19,
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "paged": true,
+                "unpaged": false
+            },
+            "last": false,
+            "totalElements": 65,
+            "totalPages": 4,
+            "size": 19,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "first": true,
+            "numberOfElements": 19,
+            "empty": false
+        }
+    }
+}

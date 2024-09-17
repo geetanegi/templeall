@@ -1,0 +1,23 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "id": 299,
+            "username": "Pbarman@netlink.com",
+            "firstName": "WE16RGRHNEQwM0NLWE16RGRHNEQwM0NLSFNDS9bJpd/P7QCySn4d/7/rb5A9NXdnJRyP",
+            "lastName": "WE16RGRHNEQwM0NLWE16RGRHNEQwM0NLSFNDS8TattDG4rP3wSj+CLC5oZn8pYuaYjk=",
+            "cancelAppointmentCount": null,
+            "totalAppointmentCount": null,
+            "isResetPassword": false,
+            "isActive": true,
+            "expirationTime": "2024-09-07T06:10:44.592526497",
+            "otp": null,
+            "otpExpirationTime": null,
+            "createdDate": "2024-09-06T06:10:44.592553437",
+            "modifiedDate": "2024-09-06T06:10:44.59255506",
+            "isIncompleteProfile": true
+        }
+    }
+}

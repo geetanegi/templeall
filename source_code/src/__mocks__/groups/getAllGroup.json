@@ -1,0 +1,340 @@
+{
+"data":{
+    "description": null,
+    "display": true,
+    "error": false,
+    "data": {
+        "content": [
+            {
+                "id": 62,
+                "name": "bloosom",
+                "description": "for test",
+                "createdBy": {
+                    "id": 136,
+                    "username": "muskans@netlink.com",
+                    "firstName": "muskan",
+                    "lastName": "sen",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-08-23T08:28:52",
+                "members": 2,
+                "deleteEnabled": false
+            },
+            {
+                "id": 61,
+                "name": "Test_Group",
+                "description": "Desc",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-08-01T06:52:07",
+                "members": 7,
+                "deleteEnabled": false
+            },
+            {
+                "id": 60,
+                "name": "No mem group",
+                "description": "Mem",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-07-16T08:02:43",
+                "members": 0,
+                "deleteEnabled": true
+            },
+            {
+                "id": 59,
+                "name": "Delete group",
+                "description": "Group func",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-07-16T08:02:10",
+                "members": 2,
+                "deleteEnabled": false
+            },
+            {
+                "id": 58,
+                "name": "Teachers",
+                "description": "Desc",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-06-24T09:02:48",
+                "members": 3,
+                "deleteEnabled": false
+            },
+            {
+                "id": 57,
+                "name": "Test code",
+                "description": "test",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-06-11T08:21:02",
+                "members": 5,
+                "deleteEnabled": false
+            },
+            {
+                "id": 56,
+                "name": "Render billable code ",
+                "description": "test",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-06-10T15:52:01",
+                "members": 5,
+                "deleteEnabled": false
+            },
+            {
+                "id": 55,
+                "name": "\t Demo droup",
+                "description": "test",
+                "createdBy": {
+                    "id": 125,
+                    "username": "sathare1234@netlink.com",
+                    "firstName": "Supriya",
+                    "lastName": "Athare",
+                    "roleName": "Client",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-05-30T11:45:43",
+                "members": 1,
+                "deleteEnabled": false
+            },
+            {
+                "id": 54,
+                "name": "QA DEMO",
+                "description": "QA TEST DEMO DES12",
+                "createdBy": {
+                    "id": 15,
+                    "username": "apathak@netlink.com",
+                    "firstName": "Anjali",
+                    "lastName": "Pathak",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-05-30T08:02:34",
+                "members": 10,
+                "deleteEnabled": false
+            },
+            {
+                "id": 53,
+                "name": "demo droup",
+                "description": "test",
+                "createdBy": {
+                    "id": 125,
+                    "username": "sathare1234@netlink.com",
+                    "firstName": "Supriya",
+                    "lastName": "Athare",
+                    "roleName": "Client",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-05-20T08:14:02",
+                "members": 1,
+                "deleteEnabled": false
+            },
+            {
+                "id": 52,
+                "name": "Demo Group",
+                "description": "Demo testing",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-29T10:21:45",
+                "members": 2,
+                "deleteEnabled": false
+            },
+            {
+                "id": 51,
+                "name": "Demo Group233",
+                "description": "Testing Group functionalitysa",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-29T09:56:32",
+                "members": 2,
+                "deleteEnabled": false
+            },
+            {
+                "id": 50,
+                "name": "test123",
+                "description": "r",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-29T09:38:06",
+                "members": 2,
+                "deleteEnabled": false
+            },
+            {
+                "id": 49,
+                "name": "d",
+                "description": "d",
+                "createdBy": {
+                    "id": 15,
+                    "username": "apathak@netlink.com",
+                    "firstName": "Anjali",
+                    "lastName": "Pathak",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-29T09:25:28",
+                "members": 1,
+                "deleteEnabled": false
+            },
+            {
+                "id": 48,
+                "name": "test",
+                "description": "tt",
+                "createdBy": {
+                    "id": 15,
+                    "username": "apathak@netlink.com",
+                    "firstName": "Anjali",
+                    "lastName": "Pathak",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-29T08:28:26",
+                "members": 1,
+                "deleteEnabled": false
+            },
+            {
+                "id": 47,
+                "name": "Testing member",
+                "description": "Member11",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-25T09:19:28",
+                "members": 2,
+                "deleteEnabled": false
+            },
+            {
+                "id": 46,
+                "name": "User Testing",
+                "description": "Testing Description",
+                "createdBy": {
+                    "id": 15,
+                    "username": "apathak@netlink.com",
+                    "firstName": "Anjali",
+                    "lastName": "Pathak",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-25T07:41:53",
+                "members": 3,
+                "deleteEnabled": false
+            },
+            {
+                "id": 45,
+                "name": "Admin Group ",
+                "description": "This group is created for admin users ",
+                "createdBy": {
+                    "id": 15,
+                    "username": "apathak@netlink.com",
+                    "firstName": "Anjali",
+                    "lastName": "Pathak",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-25T07:30:36",
+                "members": 0,
+                "deleteEnabled": true
+            },
+            {
+                "id": 44,
+                "name": "abc",
+                "description": "abc",
+                "createdBy": {
+                    "id": 6,
+                    "username": "dksoni@netlink.com",
+                    "firstName": "Deepak",
+                    "lastName": "Soni",
+                    "roleName": "Admin",
+                    "organizationId": 1
+                },
+                "createdDate": "2024-04-24T20:15:48",
+                "members": 1,
+                "deleteEnabled": false
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 19,
+            "sort": {
+                "empty": false,
+                "unsorted": false,
+                "sorted": true
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "totalElements": 42,
+        "totalPages": 3,
+        "last": false,
+        "size": 19,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "unsorted": false,
+            "sorted": true
+        },
+        "numberOfElements": 19,
+        "first": true,
+        "empty": false
+    }
+}
+}

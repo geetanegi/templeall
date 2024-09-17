@@ -1,0 +1,21 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "id": 65,
+            "questionType": "Physical Therapy",
+            "questionStatement": "Demo qustion type 4?",
+            "answerType": {
+                "id": 98,
+                "name": "Decimal",
+                "type": "QUESTION_BANK_MANAGEMENT_ANSWER_TYPE"
+            },
+            "answerStatement": "[]",
+            "isGeneralCriteria": false,
+            "createdDate": "2024-09-04T11:13:26",
+            "modifiedDate": "2024-09-04T11:13:26"
+        }
+    }
+}

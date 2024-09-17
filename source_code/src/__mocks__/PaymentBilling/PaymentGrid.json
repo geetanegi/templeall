@@ -1,0 +1,65 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "content": [
+                {
+                    "id": 31,
+                    "paymentDate": "2024-09-05",
+                    "payor": {
+                        "id": 1,
+                        "name": "BCBS",
+                        "isActive": true
+                    },
+                    "paymentType": {
+                        "id": 1,
+                        "name": "Cash",
+                        "type": null
+                    },
+                    "appliedBy": {
+                        "id": 280,
+                        "firstName": "Supriya",
+                        "lastName": "Athare"
+                    },
+                    "resource": "",
+                    "eraNumber": "1",
+                    "amount": "10",
+                    "paymentAction": null,
+                    "createdBy": {
+                        "id": 280,
+                        "firstName": "Supriya",
+                        "lastName": "Athare"
+                    },
+                    "createdDate": "2024-09-05T05:22:04"
+                }
+            ],
+            "pageable": {
+                "pageNumber": 0,
+                "pageSize": 19,
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "paged": true,
+                "unpaged": false
+            },
+            "totalElements": 1,
+            "totalPages": 1,
+            "last": true,
+            "size": 19,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "numberOfElements": 1,
+            "first": true,
+            "empty": false
+        }
+    }
+}

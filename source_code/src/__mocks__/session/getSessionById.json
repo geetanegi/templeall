@@ -1,0 +1,22 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "id": 161,
+            "modifiedDate": "2024-07-03T07:43:08",
+            "createdBy": "Deepak Soni",
+            "modifiedBy": "Deepak Soni",
+            "createdDate": "2024-07-03T07:43:08",
+            "name": "Morning session",
+            "status": "In Progress",
+            "clientId": {
+                "id": 168,
+                "firstName": "nandini",
+                "lastName": "naval"
+            },
+            "programBookId": 1140669945
+        }
+    }
+}

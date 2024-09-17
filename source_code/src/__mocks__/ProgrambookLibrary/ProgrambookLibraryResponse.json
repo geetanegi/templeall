@@ -1,0 +1,51 @@
+{
+    "data": {
+        "description": null,
+        "display": true,
+        "error": false,
+        "data": {
+            "content": [
+                {
+                    "id": 1165801057,
+                    "name": "Demo Test copy program book test-Copy",
+                    "description": "",
+                    "createdBy": {
+                        "id": 5,
+                        "username": "pbarman@netlink.com",
+                        "firstName": "Prabhat",
+                        "lastName": "Barman",
+                        "roleName": "Admin",
+                        "organizationId": 1
+                    },
+                    "createdDate": "2024-08-24T17:29:48",
+                    "programBookLibraryUUID": "05179681-1dbc-4ab7-a1aa-ae6f3c27f1f8"
+                }
+            ],
+            "pageable": {
+                "pageNumber": 0,
+                "pageSize": 19,
+                "sort": {
+                    "empty": false,
+                    "sorted": true,
+                    "unsorted": false
+                },
+                "offset": 0,
+                "paged": true,
+                "unpaged": false
+            },
+            "last": false,
+            "totalElements": 21,
+            "totalPages": 2,
+            "size": 19,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "first": true,
+            "numberOfElements": 19,
+            "empty": false
+        }
+    }
+}

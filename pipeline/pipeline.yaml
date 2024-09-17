@@ -1,0 +1,76 @@
+name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
+
+variables:
+  major: 1
+  minor: 0
+  patch: $[counter(variables['minor'], 1)]
+  tag: $(major).$(minor).$(patch)
+  acr_server: "acecam.azurecr.io"
+  resource_group: rg-acecam
+  aks_resource_name: acecam-aks-prod-001
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    env: prd
+  ${{ elseif eq(variables['Build.SourceBranchName'], 'uat') }}:
+    env: uat
+  ${{ else }}:
+    env: dev
+
+pool: "aks-deployer"
+stages:
+  - stage: build_publish_package
+    displayName: Build and Publish package
+    jobs:
+      - job: Build
+        steps:
+          - task: Npm@1
+            inputs:
+              command: "install"
+              workingDir: "source_code"
+          - task: Npm@1
+            inputs:
+              command: "custom"
+              workingDir: "source_code"
+              customCommand: "build"
+          - publish: $(Build.SourcesDirectory)/source_code/build
+            artifact: $(Build.Repository.Name)
+            displayName: Publish Artifact
+  - stage: docker_image
+    displayName: Build Docker Image
+    dependsOn: build_publish_package
+    jobs:
+      - job: Build
+        steps:
+          - download: current
+            artifact: $(Build.Repository.Name)
+          - bash: mv $(Pipeline.Workspace)/$(Build.Repository.Name)/build docker/
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: "azure-ace-cam"
+              scriptType: "bash"
+              scriptLocation: "inlineScript"
+              inlineScript: "az acr build -t $(Build.Repository.Name):$(tag) -r $(acr_server) ."
+              workingDirectory: "docker"
+  - stage: deploy_in_kube
+    displayName: Deploy Docker Image
+    dependsOn: docker_image
+    jobs:
+      - job: Build
+        steps:
+          - task: HelmInstaller@1
+            inputs:
+              helmVersionToInstall: "latest"
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: "azure-ace-cam"
+              scriptType: "bash"
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                echo "Logging into ACR  & helm"
+                USER_NAME="00000000-0000-0000-0000-000000000000"
+                PASSWORD=$(az acr login -n $(acr_server) --expose-token  --output tsv --query accessToken)
+                helm registry login $(acr_server) --username $USER_NAME  --password $PASSWORD
+                echo "Logging into AKS"
+                az aks get-credentials --name $(aks_resource_name) --resource-group $(resource_group) --overwrite-existing
+                kubelogin convert-kubeconfig -l azurecli
+                echo "Deploy to AKS"
+                helm upgrade --namespace ace-cam-${{ variables.env }} --install  --set image.tag=$(tag)  --set fullnameOverride=$(Build.Repository.Name) --wait $(Build.Repository.Name) oci://$(acr_server)/helm/ace-cam

@@ -42,7 +42,7 @@ stages:
               workingDir: "source_code"
               customCommand: "run build"
             displayName: NPM Build
-          - publish: $(Build.SourcesDirectory)/source_code/build
+          - publish: $(Build.SourcesDirectory)/source_code/dist
             artifact: $(Build.Repository.Name)
             displayName: Publish Artifact
   - stage: docker_image

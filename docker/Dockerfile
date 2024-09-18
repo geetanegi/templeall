@@ -6,6 +6,6 @@ RUN addgroup --gid 10000 --system acecam \
     && adduser --uid 10000 --disabled-password --no-create-home --shell /bin/false --ingroup acecam acecam
 
 RUN npm install -g serve
-COPY dist/ .
+COPY build/ .
 USER acecam
 ENTRYPOINT ["serve","-p","8080","-s","/opt/app"]

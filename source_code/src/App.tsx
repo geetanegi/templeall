@@ -1,102 +1,153 @@
-import React, { useEffect, useRef, useState } from 'react';
-import RoutesComponent from './routes';
-import { PrimeReactProvider } from 'primereact/api';
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import Notifications from './components/Generics/Notifications';
-import { useSelector, useDispatch } from 'react-redux';
-import { closeNotification } from './redux/slice/Notification/notifications';
-import {
-    getUserPermissionCall,
-    savingOrgId,
-    savingUserId,
-    savingOrgName,
-    setFirstTimeUserValue,
-    savingLoggedUserDetails,
-} from './redux/slice/getUserPermission/getUserPermissionSlice';
-import LoaderComponent from './components/LoaderComponent';
-import { getUserProfileDataCall } from './redux/slice/UserProfileData/userProfileDataSlice';
-import { useAuth } from './hooks/useAuth';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { ToastContextProvider } from './contexts/ToastContext';
-// import { getUserProfileDataCall } from './redux/slice/UserProfileData/userProfileDataSlice';
+import { Suspense, lazy } from "react";
+import { useLocation, useRoutes } from "react-router-dom";
+import { PropagateLoader } from "react-spinners";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./routes/PrivateRoute";
+import { ROUTES } from "./utils/routesPath";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import Nav from "./Nav";
+import NoFound from "./pages/NoFound";
+import ContestManagement from "./components/Contests/ContestManagement";
+import CoursePanel from "./components/AdminPanel/courses/CoursePanel";
+import ProfileComponent from "./components/ProfileComponents/ProfileComponent";
+import Contests from "./pages/Contests";
 
-function App(): React.JSX.Element {
-    const [loading, setLoading] = useState(true);
-    const { login } = useAuth();
-    const notifications = useSelector((state: any) => state.notifications);
-    const userProfileData = useSelector(
-        (state: any) => state.userProfileData.value
-    );
-    const dispatch = useDispatch<any>();
-    const access_token =
-        localStorage?.access_token != undefined
-            ? JSON.parse(localStorage?.access_token)
-            : '';
-    const userExist = useSelector(
-        ({ getUserPermission }: any) => getUserPermission
-    );
-    const initializer = useRef(false);
+// Lazy load components
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const AuthStructure = lazy(() => import("./pages/AuthStructure"));
 
-    useEffect(() => {
-        if (!initializer.current) {
-            initializer.current = true;
-            if (!access_token) {
-                setLoading(false);
-            } else if (
-                access_token?.userId &&
-                access_token?.orgId &&
-                !userExist?.value?.data?.userId
-            ) {
-                dispatch(getUserProfileDataCall());
-                dispatch(getUserPermissionCall()).then(() => {
-                    setLoading(false);
-                });
-                dispatch(savingUserId(access_token?.userId));
-                dispatch(savingOrgId(access_token?.orgId));
-                dispatch(savingOrgName(access_token?.organizations));
-                dispatch(
-                    savingLoggedUserDetails({
-                        username: access_token?.username,
-                    })
-                );
-            } else if (
-                userExist?.value?.data?.userId &&
-                userProfileData?.data?.hasOwnProperty('isResetPassword')
-            ) {
-                dispatch(
-                    setFirstTimeUserValue(
-                        userProfileData?.data?.isResetPassword
-                    )
-                );
-                // dispatch(SavingLoginData(access_token));
-                login({
-                    userId:
-                        userExist?.value?.data?.userId || access_token?.userId,
-                    orgId: userExist?.value?.data?.orgId || access_token?.orgId,
-                }).then(() => {
-                    setLoading(false);
-                });
-            }
-        }
-    }, []);
-    return (
-        <DndProvider backend={HTML5Backend}>
-            <ToastContextProvider>
-                <PrimeReactProvider>
-                    {notifications.isOpen ? (
-                        <Notifications
-                            title={notifications.title}
-                            open={notifications.isOpen}
-                            onClose={() => dispatch(closeNotification())}
-                            success={notifications.success} // description={notifications.description}
-                        />
-                    ) : null}
-                    {loading ? <LoaderComponent /> : <RoutesComponent />}
-                </PrimeReactProvider>
-            </ToastContextProvider>
-        </DndProvider>
-    );
+const SuspenseLoading = () => {
+  return (
+    <>
+      <div className="flex h-screen flex-col items-center justify-center py-12 text-center">
+        <div className="flex flex-col px-4">
+          <PropagateLoader color={"#5383ff"} loading={true} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+function AppRoutes() {
+  const routes = useRoutes([
+    {
+      path: ROUTES.LOGIN,
+      element: <AuthStructure />,
+    },
+    {
+      path: ROUTES.SIGNUP,
+      element: <AuthStructure />,
+    },
+    {
+      path: ROUTES.RESET_PASSWORD,
+      element: <AuthStructure />,
+    },
+    {
+      path: ROUTES.FORGET_PASSWORD,
+      element: <AuthStructure />,
+    },
+    {
+      path: ROUTES.STRIPE,
+      element: <AuthStructure />,
+    },
+    {
+      path: ROUTES.DASHBOARD,
+      element: (
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.CONTESTS,
+      element: (
+        <PrivateRoute>
+          <ContestManagement />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.CREATE_CONTEST,
+      element: (
+        <PrivateRoute>
+          <Contests />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.UPDFATE_CONTEST,
+      element: (
+        <PrivateRoute>
+          <Contests />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.PROFILE,
+      element: (
+        <PrivateRoute>
+          <ProfileComponent />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.COMMUNITY,
+      element: (
+        <PrivateRoute>
+          <ProfileComponent isCommunitySearch={true} />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.GENERATE_QR,
+      element: (
+        <PrivateRoute>
+          <CoursePanel />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "*",
+      element: <NoFound />,
+    },
+  ]);
+
+  return routes;
+}
+function App() {
+  const location = useLocation();
+  const isLogin = useSelector((state: RootState) => state.auth.isAuthenticated);
+
+  // useEffect(() => {
+  //   if (token && isLogin && location.pathname !== ROUTES.DASHBOARD) {
+  //     navigate(ROUTES.DASHBOARD);
+  //   }
+  // }, [token, isLogin, navigate, location.pathname]);
+
+  return (
+    <>
+      {[
+        ROUTES.LOGIN,
+        ROUTES.SIGNUP,
+        ROUTES.FORGET_PASSWORD,
+        ROUTES.RESET_PASSWORD,
+      ].includes(location.pathname) ||
+        (isLogin && <Nav />)}
+
+      <Suspense fallback={<SuspenseLoading />}>
+        <AppRoutes />
+        <ToastContainer
+          draggable={true}
+          pauseOnHover={true}
+          autoClose={3000}
+          position="top-right"
+          theme="light"
+        />
+      </Suspense>
+    </>
+  );
 }
 
 export default App;

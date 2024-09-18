@@ -1,50 +1,37 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-    content: [
-        './src/**/*.{js,jsx,ts,tsx}',
-        'node_modules/preline/dist/*.js',
-        './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
-        './node_modules/react-tailwindcss-select/dist/index.esm.js',
-    ],
-    theme: {
-        extend: {
-            colors: {
-                primary: {
-                    100: '#E4F2F7', // disabled
-                    200: '#BFE2EC',
-                    300: '#B6DDEA',
-                    400: '#9AD1E2', // hover
-                    500: '#7FC4DA',
-                    600: '#5AB3CF',
-                    700: '#48ABCA', // main
-                    800: '#06559D', //active
-                },
-                secondary: {
-                    100: '#D6D6D6', //disabled
-                    200: '#BBBBBB',
-                    300: '#999999',
-                    400: '#777777', //hover
-                    500: '#555555',
-                    600: '#333333',
-                    700: '#1A1A1A', //main
-                },
-                theme: {
-                    lightBlue1: '#48ABCA',
-                },
-                state: {
-                    NotYetStarted: '#D8846A',
-                    Started: '#5D9614',
-                    InProgress: '#81C95F',
-                    OnHold: '#CF3939',
-                    Discontinued: '#878787',
-                    Mastered: '#03018B',
-                },
-            },
-        },
-        fontFamily: {
-            sans: ['Lato', 'sans-serif'],
-        },
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+
+    screens: {
+      sm: '420px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
     },
-    plugins: [require('preline/plugin'), require('@tailwindcss/forms')],
-    important: true,
-};
+
+    extend: {
+      backgroundColor: {
+        'black-opacity-50': 'rgba(0, 0, 0, 0.5)'
+      },
+      backgroundImage: {
+        'mobile-background': "url('/src/assets/images/Golf BG.png')",
+        'desktop-background': "url('/src/assets/images/AceCam Golf BG.png')",
+        'profilebackground': "url('/src/assets/images/peofile_background.svg')",
+        'custom-gradient-1': 'linear-gradient(90deg, rgba(209, 228, 156, 0.9) 32.85%, rgba(255, 255, 255, 0.6) 67.86%)',
+        'custom-gradient-2': 'linear-gradient(90deg, rgba(29, 26, 12, 0) 0%, rgba(29, 26, 12, 0.42) 36%, rgba(29, 26, 12, 0.7) 100%)',
+        'custom-gradient-3': 'linear-gradient(90deg, #95C11E 66.59%, rgba(255, 255, 255, 0) 100%)'
+      },
+      height: {
+        'max-content': 'max-content',
+      },
+      borderRadius: {
+        'custom-border-radius': '432px 0px 0px 432px', // Define a custom border-radius
+      },
+    },
+  },
+  plugins: [],
+}

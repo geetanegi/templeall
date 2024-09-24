@@ -35,7 +35,7 @@ const ContestForm: React.FC<ContestProps> = ({
   saveState,
   endDate,
   toggleModal,
-  frequency,
+  //frequency,
   isSuperAdmin,
 }) => {
   const today = moment();

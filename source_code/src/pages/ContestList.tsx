@@ -31,7 +31,8 @@ const ContestList: React.FC = () => {
           data: {},
         },
       );
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+
+      if (res.status === 200 && !res.data.error) {
         dispatch(setCourseList(res.data));
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
@@ -53,9 +54,8 @@ const ContestList: React.FC = () => {
           },
         },
       );
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+      if (res.status === 200 && !res.data.error) {
         dispatch(setHoleList(res.data));
-        console.log("res holes", res.data);
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
@@ -68,8 +68,6 @@ const ContestList: React.FC = () => {
       getHoleListFromselectedCourse();
     }
   }, [selectedCourseId]);
-
-  console.log("HoleList", HoleList);
 
   return (
     <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">

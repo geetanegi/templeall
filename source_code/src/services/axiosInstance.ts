@@ -3,7 +3,8 @@ import { store } from "../store";
 
 const axiosInstance = axios.create({
   // baseURL: "http://10.95.4.121:9091/", // Test env
-   baseURL: "http://10.95.4.121:8081/"    //dev env
+  //  baseURL: "http://10.95.4.121:8081/"    //dev env
+   baseURL: "https://dev.acecamgolf.com/api/"
 });
 
 // Add a request interceptor

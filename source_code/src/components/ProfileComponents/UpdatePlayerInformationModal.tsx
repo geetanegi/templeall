@@ -120,7 +120,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                     data: {},
                 },
             );
-            if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+            if (res.status === 200 && !res.data.error) {
                 setCourses(res.data);
             } else if (res.data.error) {
                 ToastError(res.data.description || "Error fetching course data");

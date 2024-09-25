@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.branding-watermark {
+  position: fixed;
+  left: 0;
+  bottom: 50px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(45, 45, 45, 0.6) 67%,
+    rgba(115, 115, 115, 0) 100%
+  );
+  color: #fff;
+  padding: 8px 16px 16px;
+}
+
+.branding-watermark h2 {
+  font-size: 48px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.branding-watermark p {
+  font-size: 16px;
+  margin: 0;
+  font-weight: SemiBold;
+}

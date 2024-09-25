@@ -96,7 +96,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
           pageSize: "10",
         },
       });
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+      if (res.status === 200 && !res.data.error) {
         setCourseData(res.data.data);
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");

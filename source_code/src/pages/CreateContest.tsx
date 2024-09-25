@@ -309,7 +309,7 @@ const CreateContest: React.FC = () => {
           pageSize: "10",
         },
       });
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+      if (res.status === 200  && !res.data.error) {
         dispatch(setCourseData(res.data));
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
@@ -350,7 +350,7 @@ const CreateContest: React.FC = () => {
           contestId: id,
         },
       });
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+      if (res.status === 200 && !res.data.error) {
         setEditData(res.data.data);
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
@@ -421,7 +421,7 @@ const CreateContest: React.FC = () => {
     try {
       dispatch(setLoading(true));
       const res = await apiService.post<any>(API_URL.createContest, obj);
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+      if (res.status === 200 && !res.data.error) {
         ToastSuccess(res.data.data.message);
         navigate("/contests");
       } else if (res.data.error) {

@@ -24,8 +24,7 @@ export const API_URL = {
   verigyGoogleToken: "identity/auth/verifyGoogleToken",
   verifyFbToken: "identity/auth/verifyFacebookToken",
   getAllContests: "core/contest/all",
-  updateStatusContest:
-    "core/contest/update-status",
+  updateStatusContest: "core/contest/update-status",
   uploadProfileImage: "core/user/update-profile-pic",
   fetchUserProfile: "core/user/fetch-profile",
   updateUserProfile: "core/user/update-profile",
@@ -35,4 +34,8 @@ export const API_URL = {
   getCourseAdminByClubId: "/core/user-course-club/course-admins-count",
   createContest: "/core/contest/create",
   getContestById: "/core/contest/getContestById",
+  getCourses: "/core/course/courses",
+  getHolesByCourseId: "/core/hole/hole-by-courseId-without-tee",
+  getTeeByHoleId: "/core/tee/tee-by-holeId",
+  getContestByTeeId: "/core/contest/get-daily-active-contest",
 };

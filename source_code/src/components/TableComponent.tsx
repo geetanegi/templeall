@@ -4,15 +4,17 @@ import PaginationComponent from './PaginationComponent';
 interface TableComponentProps {
     Headers: Array<any>;
     rowData: Array<any>;
-    currentPage: number;
-    setCurrentPage: (page: number) => void
-    pageSize: number;
-    setPageSize: (pageSize: number) => void
-    totalPages: number;
-    totalAdminCount: Array<any>
+    currentPage?: number;
+    setCurrentPage?: (page: number) => void
+    pageSize?: number;
+    setPageSize?: (pageSize: number) => void
+    totalPages?: number;
+    totalAdminCount?: Array<any>
+    pagination?: boolean;
+    style?:any
 }
 
-const TableComponent: React.FC<TableComponentProps> = ({ Headers, rowData, currentPage, setCurrentPage, totalPages, pageSize, setPageSize, totalAdminCount }) => {
+const TableComponent: React.FC<TableComponentProps> = ({ Headers, rowData, currentPage = 0, setCurrentPage = () => { }, totalPages = 1, pageSize = 10, setPageSize = () => { }, totalAdminCount = [], pagination = true, style={} }) => {
 
     const rowCount = Array.from({ length: 10 }, (_, index) => index + 1)
 
@@ -23,18 +25,32 @@ const TableComponent: React.FC<TableComponentProps> = ({ Headers, rowData, curre
         setPageSize(value.target.value)
     }
 
+    const scrollbarStyles: React.CSSProperties = {
+        overflow: 'auto', // Enable scrolling
+        scrollbarWidth: 'none', // Firefox
+        msOverflowStyle: 'none', // IE and Edge
+    };
+
 
     return (
-        <div className="min-h-screen h-full flex mt-3 pb-14 text-sm">
+        <div className="min-h-screen h-full flex mt-3 pb-14 text-sm"
+        >
             <div className="w-full  px-2">
-                <div className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg " : "rounded-t-lg"} border border-gray-100  md:overflow-auto  2xl:max-w-none mt-2`}>
+                <div className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg " : "rounded-t-lg"} border border-gray-100  md:overflow-auto  2xl:max-w-none mt-2`}
+                    style={scrollbarStyles}
+
+                >
                     <table className="table-auto overflow-scroll md:overflow-auto w-full text-left font-inter border text-sm ">
                         <thead className="rounded-lg text-base text-white font-semibold w-full">
                             <tr className="bg-[#F3F6F9] text-sm">
                                 {
                                     Headers.map((item, index) => {
                                         return (
-                                            <th key={index} className="py-3 px-3 text-[#7B7887] font-normal whitespace-nowrap">
+                                            <th key={index} className={`py-3 px-3  text-[#7B7887] font-normal whitespace-nowrap ${style}`}
+                                                style={{
+                                                    width: "max-content"
+                                                }}
+                                            >
                                                 {item.field}
                                             </th>
                                         )
@@ -66,28 +82,31 @@ const TableComponent: React.FC<TableComponentProps> = ({ Headers, rowData, curre
                 {
                     rowData.length ? null : <div className='flex justify-center h-[100px] align-center border rounded-b-lg bg-white w-full'><div className='my-auto'>Nothing to display</div></div>
                 }
-                <div className="w-full  flex justify-center mt-5 sm:justify-between flex-col sm:flex-row gap-5 mt-1.5 px-1 items-center">
-                    <div className='flex  items-center  justify-center'>
-                        <div >Page</div>
-                        <select
-                            name="example"
-                            id="example"
-                            onChange={handlePageSizeChange}
-                            className='border border-gray-200  h-[30px]  px-5 mx-2 rounded-md'>
-                            {
-                                rowCount.map((row) => (
-                                    <option selected={pageSize === row} value={row}>{row}</option>
-                                ))
-                            }
-                        </select>
-                        <div>of 10</div>
-                    </div>
-                    <PaginationComponent
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        totalPages={totalPages ? totalPages : totalPage}
-                    />
-                </div>
+                {
+                    pagination ?
+                        <div className="w-full  flex justify-center mt-5 sm:justify-between flex-col sm:flex-row gap-5 mt-1.5 px-1 items-center">
+                            <div className='flex  items-center  justify-center'>
+                                <div >Page</div>
+                                <select
+                                    name="example"
+                                    id="example"
+                                    onChange={handlePageSizeChange}
+                                    className='border border-gray-200  h-[30px]  px-5 mx-2 rounded-md'>
+                                    {
+                                        rowCount.map((row) => (
+                                            <option selected={pageSize === row} value={row}>{row}</option>
+                                        ))
+                                    }
+                                </select>
+                                <div>of 10</div>
+                            </div>
+                            <PaginationComponent
+                                currentPage={currentPage}
+                                setCurrentPage={setCurrentPage}
+                                totalPages={totalPages ? totalPages : totalPage}
+                            />
+                        </div> : null
+                }
             </div>
         </div>
     );

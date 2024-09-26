@@ -11,5 +11,8 @@ export const ROUTES = {
   UPDFATE_CONTEST: "/update-contest/:id",
   PROFILE: "/profile",
   GENERATE_QR: "/generate-qr",
-  COMMUNITY:"/community"
+  CONTEST_LIST: "/contest-list",
+  CHECKOUT: "/checkout",
+  COMMUNITY: "/community",
+  MEDIA: "/media-management",
 };

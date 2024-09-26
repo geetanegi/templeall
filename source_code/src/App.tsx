@@ -1,5 +1,5 @@
-import { Suspense, lazy } from "react";
-import { useLocation, useRoutes } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
+import { useLocation, useNavigate, useRoutes } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +13,10 @@ import ContestManagement from "./components/Contests/ContestManagement";
 import CoursePanel from "./components/AdminPanel/courses/CoursePanel";
 import ProfileComponent from "./components/ProfileComponents/ProfileComponent";
 import Contests from "./pages/Contests";
+import MediaManagement from "./components/MediaManagement/MediaManagement";
 import CreateContest from "./pages/CreateContest";
+import ContestList from "./pages/ContestList";
+import Checkout from "./pages/Checkout";
 
 // Lazy load components
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -102,10 +105,34 @@ function AppRoutes() {
       ),
     },
     {
+      path: ROUTES.MEDIA,
+      element: (
+        <PrivateRoute>
+          <MediaManagement  />
+        </PrivateRoute>
+      ),
+    },
+    {
       path: ROUTES.GENERATE_QR,
       element: (
         <PrivateRoute>
           <CoursePanel />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.CONTEST_LIST,
+      element: (
+        <PrivateRoute>
+          <ContestList />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.CHECKOUT,
+      element: (
+        <PrivateRoute>
+          <Checkout />
         </PrivateRoute>
       ),
     },
@@ -120,12 +147,14 @@ function AppRoutes() {
 function App() {
   const location = useLocation();
   const isLogin = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const token = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (token && isLogin && location.pathname !== ROUTES.DASHBOARD) {
-  //     navigate(ROUTES.DASHBOARD);
-  //   }
-  // }, [token, isLogin, navigate, location.pathname]);
+  useEffect(() => {
+    if (token && isLogin && location.pathname === ROUTES.LOGIN) {
+      navigate(ROUTES.DASHBOARD);
+    }
+  }, [token, isLogin, navigate, location.pathname]);
 
   return (
     <>

@@ -15,6 +15,7 @@ import { MdSportsGolf } from "react-icons/md";
 import Modal from "../ModalComponent";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
+import ContestList from "../../pages/ContestList";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -62,13 +63,13 @@ const ContestManagement = () => {
   }, [pageSize, currentPage, totalAdminCount]);
 
   const computePagination = async () => {
-    const startIndex = await currentPage * pageSize;
+    const startIndex = (await currentPage) * pageSize;
     const currentItems =
-      await totalAdminCount?.slice(
+      (await totalAdminCount?.slice(
         startIndex,
         Number(startIndex) + Number(pageSize),
-      ) || [];
-    const tableData = await computeTableData(currentItems)
+      )) || [];
+    const tableData = await computeTableData(currentItems);
     setRowData(tableData);
   };
 
@@ -123,13 +124,12 @@ const ContestManagement = () => {
         isCompleted(contest.activeStatus, contest.id)
       ),
     }));
-    return data
+    return data;
   };
-
 
   const isCompleted = (status: string, id: number) => {
     return (
-      <div className="flex gap-2 py-2 justify-between w-[70%]">
+      <div className="flex w-[70%] justify-between gap-2 py-2">
         <button style={{ color: "#95c11e" }}>
           <SquarePen
             strokeWidth={1}
@@ -160,17 +160,17 @@ const ContestManagement = () => {
   };
 
   const updateActiveStatus = (id: number | string, newStatus: string) => {
-    const status = newStatus === "AC" ? "Active" : "Inactive"
+    const status = newStatus === "AC" ? "Active" : "Inactive";
     const newData = totalAdminCount.map((contest: any) => {
       if (contest.id === id) {
         return {
           ...contest,
-          activeStatus: status
+          activeStatus: status,
         };
       }
       return contest;
     });
-    setTotalAdminCount(newData)
+    setTotalAdminCount(newData);
   };
 
   const fetchContestList = async (status: any) => {
@@ -189,8 +189,8 @@ const ContestManagement = () => {
       }
 
       if (res.status === 200 && !res.data.error) {
-        setTotalAdminCount(res.data.data)
-        computePagination()
+        setTotalAdminCount(res.data.data);
+        computePagination();
       } else {
         ToastError(res.data.description || "Error fetching contest data");
       }
@@ -208,7 +208,6 @@ const ContestManagement = () => {
   };
 
   const updateContestStatus = async (id: number, status: boolean) => {
-
     try {
       // Map the current status to the backend code
 
@@ -227,27 +226,29 @@ const ContestManagement = () => {
 
       if (res.status === 200 && res?.data != null && !res?.data.error) {
         ToastSuccess(res.data.data.message);
-        updateActiveStatus(id, newStatus)
+        updateActiveStatus(id, newStatus);
       } else if (res?.data.error && res.data.description) {
         ToastError(res.data.description || "Error updating contest status");
-
       }
     } catch (error) {
       ToastError("Error updating contest status");
     }
   };
   if (userPermisions?.data?.permission["is_player"]) {
-    return (<div>Player Contest Page</div>)
+    return (
+      <div>
+        <ContestList />
+      </div>
+    );
   }
 
   return (
-
     <div
       className="bg-admin-bg-position h-full bg-white bg-contain bg-fixed bg-no-repeat pt-10 md:flex-row"
       style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
     >
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
-        <div className="mb-4 flex flex-col justify-between md:flex-row items-center">
+        <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between">
             <select
               id="courses"
@@ -268,7 +269,7 @@ const ContestManagement = () => {
           </div>
           {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (
             <button
-              className="mt-4 flex gap-2 rounded-md px-4 py-2 text-white md:mr-2 md:mt-0 md:px-6 bg-[#95c11e] text-sm h-9 pt-2 pb-0 mb-0"
+              className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-[#95c11e] px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
                 navigate(ROUTES.CREATE_CONTEST);
               }}
@@ -331,7 +332,7 @@ const ContestManagement = () => {
           </div>
         </>
       </Modal>
-    </div >
+    </div>
   );
 };
 

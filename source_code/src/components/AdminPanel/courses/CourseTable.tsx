@@ -27,7 +27,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
   const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
 
-
   useEffect(() => {
     const startIndex = currentPage * pageSize;
     let currentItems = [];
@@ -82,7 +81,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
   }, [selectedCourse, selectedHoles, courseData]);
 
   const handlePageSizeChange = (value: any) => {
-    setCurrentPage(0)
+    setCurrentPage(0);
     setPageSize(value.target.value);
   };
 
@@ -275,7 +274,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
               return (
                 <QRCode
                   key={holeKey}
-                  value={`${API_URL.qrCodeByHoldId}${hole.holeNumber}&par:${hole.par}`}
+                  value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}`}
                   size={500}
                   level="H"
                   bgColor="#FFFFFF"

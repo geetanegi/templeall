@@ -5,6 +5,12 @@ import GolfTee from "../../../assets/images/sports_golf (1).png";
 import { ROUTES } from "../../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addSelectedContest,
+  removeSelectedContest,
+} from "../../../reducers/Courses_data/courses";
+import { RootState } from "../../../store";
 
 interface TeeContest {
   contestId: number | null;
@@ -23,10 +29,47 @@ interface TeeContest {
   activeContestDate: string | null;
   recurringType: string | null;
   scheduleContestId: number | null;
+  selectedTeeType: string | null;
 }
 
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const selectedContests = useSelector(
+    (state: RootState) => state.courses.selectedContests,
+  );
+  // Check if the current contest is already selected
+  const isSelected =
+    teeContest.selectedTeeType &&
+    selectedContests[teeContest.selectedTeeType]?.some(
+      (contest: any) => contest.contestId === teeContest.contestId,
+    );
+
+  const handleContestSelection = () => {
+    // When selecting a contest, replace any existing contests for that tee type
+    if (teeContest?.contestId !== null && teeContest.selectedTeeType) {
+      dispatch(
+        addSelectedContest({
+          teeType: teeContest.selectedTeeType,
+          contest: teeContest,
+        }),
+      );
+    }
+  };
+
+  const handleRemoveContest = () => {
+    // Remove the contest if it is already selected
+    if (teeContest?.contestId !== null && teeContest.selectedTeeType) {
+      dispatch(
+        removeSelectedContest({
+          teeType: teeContest.selectedTeeType,
+          contestId: teeContest.contestId,
+        }),
+      );
+    }
+  };
+
   return (
     <div className="">
       <div className="m-4">
@@ -51,10 +94,19 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             </span>
           </div>
           <div>
-            <Plus
-              size={32}
-              className="rounded-full bg-[#95c11e] p-1 font-semibold text-white"
-            />
+            {isSelected ? (
+              <Minus
+                size={32}
+                className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
+                onClick={handleRemoveContest}
+              />
+            ) : (
+              <Plus
+                size={32}
+                className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
+                onClick={handleContestSelection}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -67,7 +119,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
         >
           <ShoppingCart className="relative" />
           <span className="absolute right-[6rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-            5
+            {Object.values(selectedContests).flat().length}
           </span>
           <span className="mx-2">Checkout</span>
         </button>

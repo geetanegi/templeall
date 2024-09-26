@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ApiResponse,
+  contest,
   ContestListApiRes,
   CourseListApiRes,
   HoleListApiRes,
@@ -13,6 +14,7 @@ export interface CoursesState {
   HoleList: HoleListApiRes | null;
   TeeList: TeeListApiRes | null;
   contestList: ContestListApiRes | null;
+  selectedContests: { [key: string]: any[] }; // Object to hold selected contests by tee type
 }
 
 // Define the initial state
@@ -22,6 +24,7 @@ const initialState: CoursesState = {
   HoleList: null,
   TeeList: null,
   contestList: null,
+  selectedContests: {}, // Initialize as an empty object
 };
 
 // Create the slice
@@ -52,6 +55,48 @@ const courseSlice = createSlice({
     ) => {
       state.contestList = action.payload;
     },
+    addSelectedContest: (
+      state,
+      action: PayloadAction<{ teeType: string; contest: any }>,
+    ) => {
+      const { teeType, contest } = action.payload;
+
+      // Clear previously selected contests for all other tee types
+      Object.keys(state.selectedContests).forEach((key) => {
+        if (key !== teeType) {
+          delete state.selectedContests[key]; // Remove contests for other tee types
+        }
+      });
+
+      // Initialize the array for the current tee type if it doesn't exist yet
+      if (!state.selectedContests[teeType]) {
+        state.selectedContests[teeType] = [];
+      }
+
+      // Add the new contest to the array for this tee type
+      state.selectedContests[teeType].push(contest);
+    },
+    // Define the action to remove a selected contest
+    removeSelectedContest: (
+      state,
+      action: PayloadAction<{ teeType: string; contestId: number }>,
+    ) => {
+      const { teeType, contestId } = action.payload;
+      if (state.selectedContests[teeType]) {
+        state.selectedContests[teeType] = state.selectedContests[
+          teeType
+        ].filter((contest) => contest.contestId !== contestId);
+
+        // If no contests are left for this tee type, delete it from selectedContests
+        if (state.selectedContests[teeType].length === 0) {
+          delete state.selectedContests[teeType];
+        }
+      }
+    },
+    // Clear all selected contests
+    clearAllSelectedContests: (state) => {
+      state.selectedContests = {};
+    },
   },
 });
 
@@ -62,5 +107,8 @@ export const {
   setHoleList,
   setTeeList,
   setContestList,
+  addSelectedContest,
+  removeSelectedContest,
+  clearAllSelectedContests,
 } = courseSlice.actions;
 export default courseSlice.reducer;

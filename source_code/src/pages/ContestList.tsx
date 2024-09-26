@@ -34,6 +34,7 @@ const ContestList: React.FC = () => {
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
   const [selectedTeeId, setSelectedTeeId] = useState<number | null>(null);
+  const [selectedTeeType, setSelectedTeeType] = useState<string | null>(null);
 
   const getCoursesList = async () => {
     try {
@@ -174,6 +175,7 @@ const ContestList: React.FC = () => {
                       imageBase64: tee.imageBase64 || null,
                       onSelectTeeId: setSelectedTeeId,
                       selectedTeeId: selectedTeeId,
+                      onSelectedTeeType: setSelectedTeeType,
                     }}
                   />
                 ))}
@@ -183,7 +185,27 @@ const ContestList: React.FC = () => {
                 {contestList?.data.map((contestListItem) => (
                   <TeeContests
                     key={contestListItem.contestId}
-                    teeContest={contestListItem}
+                    teeContest={{
+                      contestId: contestListItem.contestId,
+                      name: contestListItem.name,
+                      contestType: contestListItem.contestType,
+                      startTime: contestListItem.startTime,
+                      endTime: contestListItem.endTime,
+                      registrationStartTime:
+                        contestListItem.registrationStartTime,
+                      registrationEndTime: contestListItem.registrationEndTime,
+                      entryFee: contestListItem.entryFee,
+                      limitSection: contestListItem.limitSection,
+                      entriesPer24Hours: contestListItem.entriesPer24Hours,
+                      waitTimeBetweenEntries:
+                        contestListItem.waitTimeBetweenEntries,
+                      queueLimit: contestListItem.queueLimit,
+                      activeStatus: contestListItem.activeStatus,
+                      activeContestDate: contestListItem.activeContestDate,
+                      recurringType: contestListItem.recurringType,
+                      scheduleContestId: contestListItem.scheduleContestId,
+                      selectedTeeType: selectedTeeType,
+                    }}
                   />
                 ))}
                 {/* <TeeContests /> */}

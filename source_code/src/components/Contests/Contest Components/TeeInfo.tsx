@@ -12,13 +12,17 @@ interface tee {
   imageBase64: string | null;
   onSelectTeeId: (teeId: number) => void;
   selectedTeeId: number | null;
+  onSelectedTeeType: (teeType: string) => void;
 }
 
 const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
   return (
     <div
       className="w-full cursor-pointer"
-      onClick={() => tee.onSelectTeeId(tee.id)}
+      onClick={() => {
+        tee.onSelectedTeeType(tee.teeName);
+        tee.onSelectTeeId(tee.id);
+      }}
     >
       <div className="my-3">
         <div className="flex justify-center space-y-4">

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ApiResponse,
+  ContestListApiRes,
   CourseListApiRes,
   HoleListApiRes,
   TeeListApiRes,
@@ -11,6 +12,7 @@ export interface CoursesState {
   courseList: CourseListApiRes | null;
   HoleList: HoleListApiRes | null;
   TeeList: TeeListApiRes | null;
+  contestList: ContestListApiRes | null;
 }
 
 // Define the initial state
@@ -19,6 +21,7 @@ const initialState: CoursesState = {
   courseList: null,
   HoleList: null,
   TeeList: null,
+  contestList: null,
 };
 
 // Create the slice
@@ -42,10 +45,22 @@ const courseSlice = createSlice({
     setTeeList: (state, action: PayloadAction<TeeListApiRes | null>) => {
       state.TeeList = action.payload;
     },
+    // Define the action to set TeeList data
+    setContestList: (
+      state,
+      action: PayloadAction<ContestListApiRes | null>,
+    ) => {
+      state.contestList = action.payload;
+    },
   },
 });
 
 // Export actions and reducer
-export const { setCourseData, setCourseList, setHoleList, setTeeList } =
-  courseSlice.actions;
+export const {
+  setCourseData,
+  setCourseList,
+  setHoleList,
+  setTeeList,
+  setContestList,
+} = courseSlice.actions;
 export default courseSlice.reducer;

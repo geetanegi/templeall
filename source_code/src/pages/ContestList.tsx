@@ -7,6 +7,7 @@ import apiService from "../services/apiService";
 import { API_URL } from "../services/enums";
 import { ToastError } from "../components/Toast";
 import {
+  setContestList,
   setCourseList,
   setHoleList,
   setTeeList,
@@ -17,6 +18,7 @@ import {
   CourseListApiRes,
   HoleListApiRes,
 } from "../reducers/Courses_data/course";
+import moment from "moment";
 
 const ContestList: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,6 +27,9 @@ const ContestList: React.FC = () => {
   );
   const HoleList = useSelector((state: RootState) => state.courses.HoleList);
   const TeeList = useSelector((state: RootState) => state.courses.TeeList);
+  const contestList = useSelector(
+    (state: RootState) => state.courses.contestList,
+  );
 
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
@@ -96,6 +101,28 @@ const ContestList: React.FC = () => {
     }
   }, [selectedHoleId]);
 
+  const getContestByTeeIdFunc = async () => {
+    try {
+      const res = await apiService.post<any>(API_URL.getContestByTeeId, {
+        data: {
+          teeId: selectedTeeId,
+          date: moment().format("YYYY-MM-DD"),
+        },
+      });
+      if (res.status === 200 && !res.data.error) {
+        dispatch(setContestList(res.data));
+      } else if (res.data.error) {
+        ToastError(res.data.description || "Error fetching course data");
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (selectedTeeId != null) {
+      getContestByTeeIdFunc();
+    }
+  }, [selectedTeeId]);
+
   return (
     <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
       <div className="h-screen overflow-auto p-1">
@@ -153,7 +180,13 @@ const ContestList: React.FC = () => {
                 {/* <TeeInfo /> */}
               </div>
               <div className="h-96 w-[70%] overflow-auto">
-                <TeeContests />
+                {contestList?.data.map((contestListItem) => (
+                  <TeeContests
+                    key={contestListItem.contestId}
+                    teeContest={contestListItem}
+                  />
+                ))}
+                {/* <TeeContests /> */}
               </div>
             </div>
           </div>

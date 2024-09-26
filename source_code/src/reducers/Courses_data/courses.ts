@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ApiResponse,
-  contest,
   ContestListApiRes,
   CourseListApiRes,
   HoleListApiRes,

@@ -36,4 +36,5 @@ export const API_URL = {
   getContestById: "/core/contest/getContestById",
   getCourses: "/core/course/courses",
   getHolesByCourseId: "/core/hole/hole-by-courseId-without-tee",
+  getTeeByHoleId: "/core/tee/tee-by-holeId",
 };

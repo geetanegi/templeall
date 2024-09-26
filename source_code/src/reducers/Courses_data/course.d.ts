@@ -10,6 +10,8 @@ export interface Tee {
   teeName: string;
   teePosition: string;
   yardage: number;
+  imageBase64?: null;
+  imageUrl?: null;
 }
 
 export interface Hole {
@@ -101,4 +103,13 @@ export interface HoleListApiRes {
   display: boolean;
   error: boolean;
   data: Hole[];
+}
+
+// tee api interface
+
+interface TeeListApiRes {
+  description: string | null;
+  display: boolean;
+  error: boolean;
+  data: Tee[];
 }

@@ -35,6 +35,11 @@ interface TeeContest {
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const selectedTeeType = useSelector(
+    (state: RootState) => state.courses.selectedTeeType,
+  );
+
+  console.log("selectedTeeType", selectedTeeType);
 
   const selectedContests = useSelector(
     (state: RootState) => state.courses.selectedContests,

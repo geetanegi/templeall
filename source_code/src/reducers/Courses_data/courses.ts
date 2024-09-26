@@ -14,6 +14,10 @@ export interface CoursesState {
   HoleList: HoleListApiRes | null;
   TeeList: TeeListApiRes | null;
   contestList: ContestListApiRes | null;
+  selectedCourseId: number | null;
+  selectedHoleId: number | null;
+  selectedTeeId: number | null;
+  selectedTeeType: string | null;
   selectedContests: { [key: string]: any[] }; // Object to hold selected contests by tee type
 }
 
@@ -24,6 +28,10 @@ const initialState: CoursesState = {
   HoleList: null,
   TeeList: null,
   contestList: null,
+  selectedCourseId: null,
+  selectedHoleId: null,
+  selectedTeeId: null,
+  selectedTeeType: null,
   selectedContests: {}, // Initialize as an empty object
 };
 
@@ -97,6 +105,23 @@ const courseSlice = createSlice({
     clearAllSelectedContests: (state) => {
       state.selectedContests = {};
     },
+    // Define the action to set the selected course ID
+    setSelectedCourseId: (state, action: PayloadAction<number | null>) => {
+      state.selectedCourseId = action.payload;
+    },
+    // Define the action to set the selected hole ID
+    setSelectedHoleId: (state, action: PayloadAction<number | null>) => {
+      state.selectedHoleId = action.payload;
+    },
+    // Define the action to set the selected tee ID
+    setSelectedTeeId: (state, action: PayloadAction<number | null>) => {
+      state.selectedTeeId = action.payload;
+    },
+    // Define the action to set the selected tee type
+    setSelectedTeeType: (state, action: PayloadAction<string | null>) => {
+      state.selectedTeeType = action.payload;
+      state.selectedContests = {}; // Clear selectedContests when tee type changes
+    },
   },
 });
 
@@ -110,5 +135,9 @@ export const {
   addSelectedContest,
   removeSelectedContest,
   clearAllSelectedContests,
+  setSelectedCourseId,
+  setSelectedHoleId,
+  setSelectedTeeId,
+  setSelectedTeeType,
 } = courseSlice.actions;
 export default courseSlice.reducer;

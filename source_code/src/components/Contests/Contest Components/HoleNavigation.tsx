@@ -2,6 +2,11 @@ import React from "react";
 import { Info, FlagIcon } from "lucide-react";
 import Golf from "../../../assets/images/golf_course.png";
 import WhiteGolf from "../../../assets/images/golf_course (1).png";
+import {
+  clearAllSelectedContests,
+  setSelectedHoleId,
+} from "../../..//reducers/Courses_data/courses";
+import { useDispatch } from "react-redux";
 
 interface hole {
   holeNumber: number;
@@ -15,7 +20,8 @@ interface hole {
 }
 
 const HoleNavigation: React.FC<{ hole: hole }> = ({ hole }) => {
-  console.log("selected hole", hole.selectedHoleId);
+  const dispatch = useDispatch();
+  // console.log("selected hole", hole.selectedHoleId);
   return (
     <div
       className={`flex cursor-pointer items-center gap-2 rounded-full border px-3 py-2 shadow-sm ${
@@ -23,7 +29,11 @@ const HoleNavigation: React.FC<{ hole: hole }> = ({ hole }) => {
           ? "bg-[#95c11e] text-white"
           : "border-gray-400 bg-white hover:bg-gray-100"
       }`}
-      onClick={() => hole.onSelectHoleId(hole.id)}
+      onClick={() => {
+        hole.onSelectHoleId(hole.id);
+        dispatch(setSelectedHoleId(hole.id));
+        dispatch(clearAllSelectedContests());
+      }}
     >
       {hole.selectedHoleId === hole.id ? (
         <img src={WhiteGolf} alt="" className="h-4 w-4 text-gray-500" />

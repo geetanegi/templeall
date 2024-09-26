@@ -11,6 +11,10 @@ import {
   setCourseList,
   setHoleList,
   setTeeList,
+  setSelectedCourseId,
+  setSelectedHoleId,
+  setSelectedTeeId,
+  setSelectedTeeType,
 } from "../reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -19,6 +23,8 @@ import {
   HoleListApiRes,
 } from "../reducers/Courses_data/course";
 import moment from "moment";
+import PageLoader from "../components/PageLoader";
+import { setLoading } from "../reducers/loader/loader";
 
 const ContestList: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,14 +36,28 @@ const ContestList: React.FC = () => {
   const contestList = useSelector(
     (state: RootState) => state.courses.contestList,
   );
+  const selectedCourseId = useSelector(
+    (state: RootState) => state.courses.selectedCourseId,
+  );
+  const selectedHoleId = useSelector(
+    (state: RootState) => state.courses.selectedHoleId,
+  );
+  const selectedTeeId = useSelector(
+    (state: RootState) => state.courses.selectedTeeId,
+  );
+  const selectedTeeType = useSelector(
+    (state: RootState) => state.courses.selectedTeeType,
+  );
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
-  const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
-  const [selectedTeeId, setSelectedTeeId] = useState<number | null>(null);
-  const [selectedTeeType, setSelectedTeeType] = useState<string | null>(null);
+  // const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
+  // const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
+  // const [selectedTeeId, setSelectedTeeId] = useState<number | null>(null);
+  // const [selectedTeeType, setSelectedTeeType] = useState<string | null>(null);
 
   const getCoursesList = async () => {
     try {
+      dispatch(setLoading(true));
       const res = await apiService.post<CourseListApiRes>(
         API_URL.getCourseList,
         {
@@ -50,7 +70,10 @@ const ContestList: React.FC = () => {
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
   useEffect(() => {
     getCoursesList();
@@ -58,6 +81,7 @@ const ContestList: React.FC = () => {
 
   const getHoleListFromselectedCourseId = async () => {
     try {
+      dispatch(setLoading(true));
       const res = await apiService.post<HoleListApiRes>(
         API_URL.getHolesByCourseId,
         {
@@ -71,7 +95,10 @@ const ContestList: React.FC = () => {
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   useEffect(() => {
@@ -83,6 +110,7 @@ const ContestList: React.FC = () => {
 
   const getTeeListFromSelectedHoleId = async () => {
     try {
+      dispatch(setLoading(true));
       const res = await apiService.post<any>(API_URL.getTeeByHoleId, {
         data: {
           holeId: selectedCourseId,
@@ -90,10 +118,15 @@ const ContestList: React.FC = () => {
       });
       if (res.status === 200 && !res.data.error) {
         dispatch(setTeeList(res.data));
+        dispatch(setContestList(null));
+        dispatch(setSelectedTeeId(null));
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   useEffect(() => {
@@ -104,6 +137,7 @@ const ContestList: React.FC = () => {
 
   const getContestByTeeIdFunc = async () => {
     try {
+      dispatch(setLoading(true));
       const res = await apiService.post<any>(API_URL.getContestByTeeId, {
         data: {
           teeId: selectedTeeId,
@@ -115,7 +149,10 @@ const ContestList: React.FC = () => {
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   useEffect(() => {
@@ -125,96 +162,99 @@ const ContestList: React.FC = () => {
   }, [selectedTeeId]);
 
   return (
-    <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
-      <div className="h-screen overflow-auto p-1">
-        {/* First column content (20% width) */}
-        {courseList?.data.map((course) => (
-          <div key={course.id} className="col-span-4">
-            <GolfClubInfo
-              course={course}
-              onSelectCourseId={setSelectedCourseId}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className="">
-        {/* Hole Navigation  Section */}
-        <div className="flex space-x-6 px-3 py-3">
-          {HoleList?.data.map((hole) => (
-            <HoleNavigation
-              key={hole.id}
-              hole={{
-                holeNumber: hole.holeNumber,
-                id: hole.id,
-                imageBase64: hole.imageBase64,
-                imageUrl: hole.imageUrl,
-                par: hole.par,
-                yardage: hole.yardage,
-                onSelectHoleId: setSelectedHoleId,
-                selectedHoleId: selectedHoleId,
-              }}
-            />
+    <PageLoader isActive={loader}>
+      <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
+        <div className="h-screen overflow-auto p-1">
+          {/* First column content (20% width) */}
+          {courseList?.data.map((course) => (
+            <div key={course.id} className="col-span-4">
+              <GolfClubInfo
+                course={course}
+                onSelectCourseId={setSelectedCourseId}
+              />
+            </div>
           ))}
         </div>
 
-        {/* GolfTeeSelection Section */}
-        <div className="relative px-3">
-          <div className="my-4 overflow-auto rounded-lg border border-gray-200 shadow-sm">
-            <div className="flex">
-              <div className="h-auto w-[30%] border-r border-gray-400">
-                {TeeList?.data.map((tee) => (
-                  <TeeInfo
-                    key={tee.id}
-                    tee={{
-                      id: tee.id,
-                      teeName: tee.teeName,
-                      teePosition: tee.teePosition,
-                      yardage: tee.yardage,
-                      imageUrl: tee.imageUrl || null,
-                      imageBase64: tee.imageBase64 || null,
-                      onSelectTeeId: setSelectedTeeId,
-                      selectedTeeId: selectedTeeId,
-                      onSelectedTeeType: setSelectedTeeType,
-                    }}
-                  />
-                ))}
-                {/* <TeeInfo /> */}
-              </div>
-              <div className="h-96 w-[70%] overflow-auto">
-                {contestList?.data.map((contestListItem) => (
-                  <TeeContests
-                    key={contestListItem.contestId}
-                    teeContest={{
-                      contestId: contestListItem.contestId,
-                      name: contestListItem.name,
-                      contestType: contestListItem.contestType,
-                      startTime: contestListItem.startTime,
-                      endTime: contestListItem.endTime,
-                      registrationStartTime:
-                        contestListItem.registrationStartTime,
-                      registrationEndTime: contestListItem.registrationEndTime,
-                      entryFee: contestListItem.entryFee,
-                      limitSection: contestListItem.limitSection,
-                      entriesPer24Hours: contestListItem.entriesPer24Hours,
-                      waitTimeBetweenEntries:
-                        contestListItem.waitTimeBetweenEntries,
-                      queueLimit: contestListItem.queueLimit,
-                      activeStatus: contestListItem.activeStatus,
-                      activeContestDate: contestListItem.activeContestDate,
-                      recurringType: contestListItem.recurringType,
-                      scheduleContestId: contestListItem.scheduleContestId,
-                      selectedTeeType: selectedTeeType,
-                    }}
-                  />
-                ))}
-                {/* <TeeContests /> */}
+        <div className="">
+          {/* Hole Navigation  Section */}
+          <div className="flex space-x-6 px-3 py-3">
+            {HoleList?.data.map((hole) => (
+              <HoleNavigation
+                key={hole.id}
+                hole={{
+                  holeNumber: hole.holeNumber,
+                  id: hole.id,
+                  imageBase64: hole.imageBase64,
+                  imageUrl: hole.imageUrl,
+                  par: hole.par,
+                  yardage: hole.yardage,
+                  onSelectHoleId: setSelectedHoleId,
+                  selectedHoleId: selectedHoleId,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* GolfTeeSelection Section */}
+          <div className="relative px-3">
+            <div className="my-4 overflow-auto rounded-lg border border-gray-200 shadow-sm">
+              <div className="flex">
+                <div className="h-auto w-[30%] border-r border-gray-400">
+                  {TeeList?.data.map((tee) => (
+                    <TeeInfo
+                      key={tee.id}
+                      tee={{
+                        id: tee.id,
+                        teeName: tee.teeName,
+                        teePosition: tee.teePosition,
+                        yardage: tee.yardage,
+                        imageUrl: tee.imageUrl || null,
+                        imageBase64: tee.imageBase64 || null,
+                        onSelectTeeId: setSelectedTeeId,
+                        // selectedTeeId: selectedTeeId,
+                        // onSelectedTeeType: setSelectedTeeType,
+                      }}
+                    />
+                  ))}
+                  {/* <TeeInfo /> */}
+                </div>
+                <div className="h-96 w-[70%] overflow-auto">
+                  {contestList?.data.map((contestListItem) => (
+                    <TeeContests
+                      key={contestListItem.contestId}
+                      teeContest={{
+                        contestId: contestListItem.contestId,
+                        name: contestListItem.name,
+                        contestType: contestListItem.contestType,
+                        startTime: contestListItem.startTime,
+                        endTime: contestListItem.endTime,
+                        registrationStartTime:
+                          contestListItem.registrationStartTime,
+                        registrationEndTime:
+                          contestListItem.registrationEndTime,
+                        entryFee: contestListItem.entryFee,
+                        limitSection: contestListItem.limitSection,
+                        entriesPer24Hours: contestListItem.entriesPer24Hours,
+                        waitTimeBetweenEntries:
+                          contestListItem.waitTimeBetweenEntries,
+                        queueLimit: contestListItem.queueLimit,
+                        activeStatus: contestListItem.activeStatus,
+                        activeContestDate: contestListItem.activeContestDate,
+                        recurringType: contestListItem.recurringType,
+                        scheduleContestId: contestListItem.scheduleContestId,
+                        selectedTeeType: selectedTeeType,
+                      }}
+                    />
+                  ))}
+                  {/* <TeeContests /> */}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </PageLoader>
   );
 };
 

@@ -32,8 +32,6 @@ const ContestList: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const queryParams = Object.fromEntries(searchParams);
 
-  console.log("queryParams", queryParams);
-
   useEffect(() => {
     if (queryParams.course) {
       dispatch(setSelectedCourseId(Number(queryParams.course)));
@@ -177,6 +175,32 @@ const ContestList: React.FC = () => {
     }
   }, [selectedTeeId]);
 
+  useEffect(() => {
+    if (selectedCourseId === null && courseList?.data[0]?.id !== undefined) {
+      dispatch(setSelectedCourseId(courseList.data[0].id));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      selectedCourseId !== null &&
+      HoleList?.data[0]?.id !== undefined &&
+      selectedHoleId === null
+    ) {
+      dispatch(setSelectedHoleId(HoleList.data[0].id));
+    }
+  }, [selectedCourseId, HoleList]);
+
+  useEffect(() => {
+    if (
+      selectedTeeId === null &&
+      TeeList?.data[0]?.id !== undefined &&
+      selectedTeeId === null
+    ) {
+      dispatch(setSelectedTeeId(TeeList.data[0].id));
+    }
+  }, [selectedCourseId, TeeList]);
+
   return (
     <PageLoader isActive={loader}>
       <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
@@ -263,6 +287,15 @@ const ContestList: React.FC = () => {
                       }}
                     />
                   ))}
+                  {contestList?.data.length === 0 && (
+                    <div className="flex h-full items-center justify-center">
+                      <div className="text-center">
+                        <p className="text-gray-500">
+                          No active contests available.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   {/* <TeeContests /> */}
                 </div>
               </div>

@@ -18,7 +18,7 @@ const BreadCumModal: React.FC<ModalComponentProps> = ({ isOpen, onClose }) => {
           <div className="flex justify-end space-x-2 rounded-b-lg bg-gray-100 px-4 py-5">
             <div className="space-x-2">
               <button
-                // onClick={handleSaveModal}
+                onClick={onClose}
                 className="rounded-lg bg-[#95c11e] px-5 py-2 text-sm font-medium text-white"
               >
                 Stay on this Page

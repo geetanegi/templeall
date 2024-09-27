@@ -233,7 +233,7 @@ const ContestList: React.FC = () => {
                       }}
                     />
                   ))}
-                  {/* <TeeInfo /> */}
+                  {/* <TeeInfo  />   */}
                 </div>
                 <div className="h-96 w-[70%] overflow-auto">
                   {contestList?.data.map((contestListItem) => (

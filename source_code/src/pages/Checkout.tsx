@@ -36,16 +36,16 @@ const Checkout: React.FC = () => {
         <h1 className="py-3 text-xl">Player Cart</h1>
         {/* Breadcrumb Section */}
         <div className="mb-4 flex items-center space-x-2 text-sm text-gray-500">
-          <span className="flex gap-1">
+          <span className="flex cursor-pointer gap-1">
             <LandPlot className="h-4 w-4" /> {selectedCourseName}
           </span>
           <span>&gt;</span>
-          <span className="flex gap-1">
+          <span className="flex cursor-pointer gap-1">
             <img src={Golf} className="h-4 w-4" />
             Hole #{selectedHoleNumber} - Par {selectedPar}
           </span>
           <span>&gt;</span>
-          <span className="flex gap-1">
+          <span className="flex cursor-pointer gap-1">
             <img src={GolfTee} className="h-4 w-4" />
             {selectedTeeType}({selectedYardage} yards)
           </span>

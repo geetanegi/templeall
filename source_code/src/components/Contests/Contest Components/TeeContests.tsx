@@ -117,10 +117,15 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className="relative flex gap-1 rounded-md bg-[#95c11e] px-3 py-2 text-white"
+          className={`relative flex gap-1 rounded-md bg-[#95c11e] px-3 py-2 text-white ${
+            Object.values(selectedContests).flat().length === 0
+              ? "cursor-not-allowed"
+              : ""
+          }`}
           onClick={() => {
             navigate(ROUTES.CHECKOUT);
           }}
+          disabled={Object.values(selectedContests).flat().length === 0}
         >
           <ShoppingCart className="relative" />
           <span className="absolute right-[6rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">

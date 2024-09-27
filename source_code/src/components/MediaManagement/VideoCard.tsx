@@ -1,7 +1,8 @@
 import { Bookmark, Dot, LockKeyholeOpen, Share2, ThumbsUp } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiPlayCircleBold } from 'react-icons/pi';
+import VideoRequestModal from './VideoRequestModal';
 
 interface VideoCardProps {
     thumbnail: string;
@@ -19,6 +20,8 @@ interface VideoCardProps {
     tee?: string;
     onTeeTime?: string
 }
+
+
 
 
 
@@ -78,7 +81,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ thumbnail, duration, author, titl
                             {/* Like and Comments Section */}
                             <div className="flex justify-between items-center mt-0 text-xs w-[103px] h-[20px]">
                                 {/* Comments */}
-                                <button className='flex items-center space-x-1 ml-1'>
+                                <button className='flex items-center space-x-1 ml-1' onClick={() => setIsModalOpen(true)}>
                                     <LockKeyholeOpen size={12} />
                                     <span>Request Video</span>
                                 </button>
@@ -103,14 +106,23 @@ const VideoCard: React.FC<VideoCardProps> = ({ thumbnail, duration, author, titl
                     <div className="flex items-center justify-start text-xs text-gray-400 mt-2">
                         <span>On-Tee Time:</span>
                         <span className='text-white ml-1'>{onTeeTime}</span>
-                        
+
                     </div>
+
+                    <VideoRequestModal
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+
 
 
                 </div>
+
             )
         }
     }
+
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     return (
         <div className="max-w-sm bg-[#1D1A0C] w-[280px] text-white border border-gray-800 rounded-lg shadow-lg">
             {/* Thumbnail with duration and overlay icons */}

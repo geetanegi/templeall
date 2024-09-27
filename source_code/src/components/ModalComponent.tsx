@@ -21,7 +21,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
                 onClick={onClose}
             >
                 <div
-                    className="bg-white rounded-lg md:mx-0 mx-5 rounded-lg max-w-max shadow-lg "
+                    className="bg-white md:mx-0 mx-5 rounded-lg max-w-max shadow-lg "
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className='flex m-4 align-center justify-between mb-5'>

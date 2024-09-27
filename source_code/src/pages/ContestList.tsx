@@ -32,8 +32,6 @@ const ContestList: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const queryParams = Object.fromEntries(searchParams);
 
-  console.log("queryParams", queryParams);
-
   useEffect(() => {
     if (queryParams.course) {
       dispatch(setSelectedCourseId(Number(queryParams.course)));
@@ -202,8 +200,6 @@ const ContestList: React.FC = () => {
       dispatch(setSelectedTeeId(TeeList.data[0].id));
     }
   }, [selectedCourseId, TeeList]);
-
-  // console.log("courseList", courseList?.data[0]?.id);
 
   return (
     <PageLoader isActive={loader}>

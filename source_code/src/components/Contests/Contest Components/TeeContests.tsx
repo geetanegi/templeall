@@ -82,7 +82,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           <div className="flex">
             <img src={golfStickWithTee} alt="" className="h-14 w-14" />
             <div className="pl-1">
-              <p className="text-sm font-semibold">{teeContest.contestType}</p>
+              <p className="text-sm font-semibold">{teeContest.name}</p>
               <p className="text-sm font-semibold text-red-600">
                 ${teeContest.entryFee}
               </p>

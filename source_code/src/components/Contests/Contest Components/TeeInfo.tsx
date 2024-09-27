@@ -5,6 +5,7 @@ import { Info } from "lucide-react";
 import {
   setSelectedTeeId,
   setSelectedTeeType,
+  setYardage,
 } from "../../..//reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -34,6 +35,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
         tee.onSelectTeeId(tee.id);
         dispatch(setSelectedTeeId(tee.id));
         dispatch(setSelectedTeeType(tee.teeName));
+        dispatch(setYardage(tee.yardage));
       }}
     >
       <div className="my-3">

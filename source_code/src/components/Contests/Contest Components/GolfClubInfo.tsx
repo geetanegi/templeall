@@ -1,7 +1,10 @@
 import React from "react";
 import { MapPin, Info } from "lucide-react"; // Importing Lucide icons
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedCourseId } from "../../..//reducers/Courses_data/courses";
+import {
+  setCourseName,
+  setSelectedCourseId,
+} from "../../..//reducers/Courses_data/courses";
 import { RootState } from "../../../store";
 
 interface courseListCourse {
@@ -33,6 +36,7 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
       onClick={() => {
         onSelectCourseId(course.id);
         dispatch(setSelectedCourseId(course.id));
+        dispatch(setCourseName(course.courseName));
       }}
       className={`mb-4 max-w-sm cursor-pointer rounded-lg border shadow-md ${course.id === selectedCourseId ? "border-2 border-[#95c11e]" : ""} `}
     >

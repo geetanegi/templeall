@@ -15,6 +15,10 @@ import {
   setSelectedHoleId,
   setSelectedTeeId,
   setSelectedTeeType,
+  setCourseName,
+  setHoleNumber,
+  setPar,
+  setYardage,
   // setSelectedTeeType,
 } from "../reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
@@ -179,8 +183,9 @@ const ContestList: React.FC = () => {
   useEffect(() => {
     if (selectedCourseId === null && courseList?.data[0]?.id !== undefined) {
       dispatch(setSelectedCourseId(courseList.data[0].id));
+      dispatch(setCourseName(courseList.data[0].courseName));
     }
-  }, []);
+  }, [selectedCourseId, courseList]);
 
   useEffect(() => {
     if (
@@ -189,6 +194,8 @@ const ContestList: React.FC = () => {
       selectedHoleId === null
     ) {
       dispatch(setSelectedHoleId(HoleList.data[0].id));
+      dispatch(setHoleNumber(HoleList.data[0].holeNumber));
+      dispatch(setPar(HoleList.data[0].par));
     }
   }, [selectedCourseId, HoleList]);
 
@@ -200,6 +207,7 @@ const ContestList: React.FC = () => {
     ) {
       dispatch(setSelectedTeeId(TeeList.data[0].id));
       dispatch(setSelectedTeeType(TeeList.data[0]?.teeName));
+      dispatch(setYardage(TeeList.data[0]?.yardage));
     }
   }, [selectedCourseId, TeeList]);
 

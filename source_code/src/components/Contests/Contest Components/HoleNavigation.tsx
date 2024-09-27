@@ -4,6 +4,8 @@ import Golf from "../../../assets/images/golf_course.png";
 import WhiteGolf from "../../../assets/images/golf_course (1).png";
 import {
   clearAllSelectedContests,
+  setHoleNumber,
+  setPar,
   setSelectedHoleId,
 } from "../../..//reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +39,8 @@ const HoleNavigation: React.FC<{ hole: hole }> = ({ hole }) => {
       onClick={() => {
         hole.onSelectHoleId(hole.id);
         dispatch(setSelectedHoleId(hole.id));
+        dispatch(setHoleNumber(hole.holeNumber));
+        dispatch(setPar(hole.par));
         dispatch(clearAllSelectedContests());
       }}
     >

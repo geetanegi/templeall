@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import GolfClubInfo from "../components/Contests/Contest Components/GolfClubInfo";
 import HoleNavigation from "../components/Contests/Contest Components/HoleNavigation";
 import TeeInfo from "../components/Contests/Contest Components/TeeInfo";
@@ -14,7 +14,7 @@ import {
   setSelectedCourseId,
   setSelectedHoleId,
   setSelectedTeeId,
-  setSelectedTeeType,
+  // setSelectedTeeType,
 } from "../reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -25,8 +25,24 @@ import {
 import moment from "moment";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
+import { useLocation } from "react-router-dom";
 
 const ContestList: React.FC = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const queryParams = Object.fromEntries(searchParams);
+
+  console.log("queryParams", queryParams);
+
+  useEffect(() => {
+    if (queryParams.course) {
+      dispatch(setSelectedCourseId(Number(queryParams.course)));
+    }
+    if (queryParams.holeId) {
+      dispatch(setSelectedHoleId(Number(queryParams.holeId)));
+    }
+  }, [queryParams.course, queryParams.holeId]);
+
   const dispatch = useDispatch();
   const courseList = useSelector(
     (state: RootState) => state.courses.courseList,
@@ -217,7 +233,7 @@ const ContestList: React.FC = () => {
                       }}
                     />
                   ))}
-                  {/* <TeeInfo /> */}
+                  {/* <TeeInfo  />   */}
                 </div>
                 <div className="h-96 w-[70%] overflow-auto">
                   {contestList?.data.map((contestListItem) => (

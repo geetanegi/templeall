@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PlayingCart from "../components/PlayingCart/PlayingCart";
 import Golf from "../assets/images/golf_course.png";
 import GolfTee from "../assets/images/sports_golf.png";
-import cardType from "../assets/images/Card Type.png";
+// import cardType from "../assets/images/Card Type.png";
 
 import { LandPlot, ShoppingCart, Trophy } from "lucide-react";
 import CheckoutCard from "../components/Checkout/Checkout";

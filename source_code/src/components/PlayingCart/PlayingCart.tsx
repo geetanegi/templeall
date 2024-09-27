@@ -48,35 +48,43 @@ const PlayingCart: React.FC = () => {
         </div>
         {/* Contest Items */}
         {selectedTeeType !== null &&
-        selectedContestsList[selectedTeeType]?.length > 0
-          ? selectedContestsList[selectedTeeType].map((contest) => (
-              <div
-                key={contest.contestId}
-                className="mb-4 flex items-center justify-between px-4 py-3"
-              >
-                <div>
-                  <div className="flex items-center">
-                    <img
-                      src={contest.imageUrl || golfStickWithTee}
-                      alt={contest.name}
-                      className="mr-4 h-14 w-14"
-                    />
-                    <span>{contest.name}</span>
-                  </div>
-                </div>
-                <div className="flex w-1/2 items-center justify-between">
-                  <div className="">
-                    <span className="text-red-500">${contest.entryFee}</span>
-                  </div>
-                  <Minus
-                    size={32}
-                    className="cursor-pointer rounded-full bg-red-500 p-1 font-semibold text-white"
-                    onClick={() => handleRemoveContest(contest)}
+        selectedContestsList[selectedTeeType]?.length > 0 ? (
+          selectedContestsList[selectedTeeType].map((contest) => (
+            <div
+              key={contest.contestId}
+              className="mb-4 flex items-center justify-between px-4 py-3"
+            >
+              <div>
+                <div className="flex items-center">
+                  <img
+                    src={contest.imageUrl || golfStickWithTee}
+                    alt={contest.name}
+                    className="mr-4 h-14 w-14"
                   />
+                  <span>{contest.name}</span>
                 </div>
               </div>
-            ))
-          : null}
+              <div className="flex w-1/2 items-center justify-between">
+                <div className="">
+                  <span className="text-red-500">${contest.entryFee}</span>
+                </div>
+                <Minus
+                  size={32}
+                  className="cursor-pointer rounded-full bg-red-500 p-1 font-semibold text-white"
+                  onClick={() => handleRemoveContest(contest)}
+                />
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <div className="text-center">
+              <p className="text-gray-500">
+                Your cart is empty. Please add a contest to proceed to checkout.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Total Price */}
         <div className="flex justify-end border-t bg-gray-100 p-4">

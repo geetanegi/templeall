@@ -6,8 +6,25 @@ import GolfTee from "../assets/images/sports_golf.png";
 
 import { LandPlot, ShoppingCart, Trophy } from "lucide-react";
 import CheckoutCard from "../components/Checkout/Checkout";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const Checkout: React.FC = () => {
+  const selectedCourseName = useSelector(
+    (state: RootState) => state.courses.courseName,
+  );
+
+  const selectedHoleNumber = useSelector(
+    (state: RootState) => state.courses.holeNumber,
+  );
+
+  const selectedPar = useSelector((state: RootState) => state.courses.par);
+  const selectedTeeType = useSelector(
+    (state: RootState) => state.courses.selectedTeeType,
+  );
+  const selectedYardage = useSelector(
+    (state: RootState) => state.courses.yardage,
+  );
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     "wallet" | "credit_card"
   >("wallet"); // Default to 'wallet'
@@ -20,16 +37,17 @@ const Checkout: React.FC = () => {
         {/* Breadcrumb Section */}
         <div className="mb-4 flex items-center space-x-2 text-sm text-gray-500">
           <span className="flex gap-1">
-            <LandPlot className="h-4 w-4" /> Saginaw Country Club
+            <LandPlot className="h-4 w-4" /> {selectedCourseName}
           </span>
           <span>&gt;</span>
           <span className="flex gap-1">
-            <img src={Golf} className="h-4 w-4" /> Hole #7 - Par 3
+            <img src={Golf} className="h-4 w-4" />
+            Hole #{selectedHoleNumber} - Par {selectedPar}
           </span>
           <span>&gt;</span>
           <span className="flex gap-1">
             <img src={GolfTee} className="h-4 w-4" />
-            White Tees (147 Yards)
+            {selectedTeeType}({selectedYardage} yards)
           </span>
           <span>&gt;</span>
           <span className="flex gap-1 text-[#afd156]">

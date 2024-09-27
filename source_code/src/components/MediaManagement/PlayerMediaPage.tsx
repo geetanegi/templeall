@@ -2,13 +2,48 @@ import React, { useState } from 'react'
 import thumbnail from '../../assets/images/image mask.png'
 import VideoCard from './VideoCard';
 import { FileVideo2 } from 'lucide-react';
+import apiService from '../../services/apiService';
+import { ToastError } from '../Toast';
+import { setLoading } from '../../reducers/loader/loader';
+import { useDispatch } from 'react-redux';
+import { API_URL } from '../../services/enums';
 
 interface PlayerMediaPageProps {
 
 }
 
+
 const PlayerMediaPage:React.FC<PlayerMediaPageProps> = () => {
   const [selectedTab, setSelectedTab] = useState<number>(1)
+  const dispatch = useDispatch();
+  const getAllVideos=async()=>{
+    
+
+    try {
+      dispatch(setLoading(true));
+      const { data, status } = await apiService.post<any>(
+        API_URL.getAllRequestedVideos,
+        {
+          "data": {
+              "searchParams":{
+                  "playerUserid":"2"
+              }
+          }
+      },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+       
+        
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError('Something went wrong')
+    } finally {
+      dispatch(setLoading(false));
+    }
+
+  }
   
 
     const videoData = {

@@ -38,4 +38,5 @@ export const API_URL = {
   getHolesByCourseId: "/core/hole/hole-by-courseId-without-tee",
   getTeeByHoleId: "/core/tee/tee-by-holeId",
   getContestByTeeId: "/core/contest/get-daily-active-contest",
+  getAllRequestedVideos: "/core/request-video/all-req-videos"
 };

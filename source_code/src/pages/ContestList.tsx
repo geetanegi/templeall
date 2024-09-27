@@ -177,6 +177,34 @@ const ContestList: React.FC = () => {
     }
   }, [selectedTeeId]);
 
+  useEffect(() => {
+    if (selectedCourseId === null && courseList?.data[0]?.id !== undefined) {
+      dispatch(setSelectedCourseId(courseList.data[0].id));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      selectedCourseId !== null &&
+      HoleList?.data[0]?.id !== undefined &&
+      selectedHoleId === null
+    ) {
+      dispatch(setSelectedHoleId(HoleList.data[0].id));
+    }
+  }, [selectedCourseId, HoleList]);
+
+  useEffect(() => {
+    if (
+      selectedTeeId === null &&
+      TeeList?.data[0]?.id !== undefined &&
+      selectedTeeId === null
+    ) {
+      dispatch(setSelectedTeeId(TeeList.data[0].id));
+    }
+  }, [selectedCourseId, TeeList]);
+
+  // console.log("courseList", courseList?.data[0]?.id);
+
   return (
     <PageLoader isActive={loader}>
       <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
@@ -263,6 +291,15 @@ const ContestList: React.FC = () => {
                       }}
                     />
                   ))}
+                  {contestList?.data.length === 0 && (
+                    <div className="flex h-full items-center justify-center">
+                      <div className="text-center">
+                        <p className="text-gray-500">
+                          No active contests available.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   {/* <TeeContests /> */}
                 </div>
               </div>

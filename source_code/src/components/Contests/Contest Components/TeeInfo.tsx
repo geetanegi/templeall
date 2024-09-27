@@ -46,7 +46,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
             )}
             <span
               className={`text-sm ${tee.id === selectedTeeId ? "text-[#95c11e]" : "text-gray-500"}`}
-            >{`${tee.teeName} (${tee.yardage})`}</span>
+            >{`${tee.teeName} (${tee.yardage} yards) `}</span>
             <Info size={20} className="text-blue-700" />
           </div>
         </div>

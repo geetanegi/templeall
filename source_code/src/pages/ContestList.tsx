@@ -185,7 +185,7 @@ const ContestList: React.FC = () => {
       dispatch(setSelectedCourseId(courseList.data[0].id));
       dispatch(setCourseName(courseList.data[0].courseName));
     }
-  }, []);
+  }, [selectedCourseId]);
 
   useEffect(() => {
     if (

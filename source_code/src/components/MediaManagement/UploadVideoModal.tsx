@@ -5,7 +5,8 @@ import { MonitorUp } from 'lucide-react'
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
-  setIsModalOpen: (flag: boolean) => void
+  setIsModalOpen: (flag: boolean) => void;
+  isSoTW:boolean
 }
 
 const initialValue = {
@@ -14,7 +15,7 @@ const initialValue = {
 
 }
 
-const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen }) => {
+const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, isSoTW=false }) => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -26,10 +27,14 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
   };
 
   const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setVideoFile(file);
-      generateThumbnail(file);
+    try {
+      const file = event.target.files?.[0];
+      if (file) {
+        setVideoFile(file);
+        generateThumbnail(file);
+      }
+    } catch (error) {
+      
     }
   };
 
@@ -91,26 +96,12 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
               className='flex flex-col gap-4'
 
             >
-              <div className="relative px-5">
-                <select
-                  id="videoTab"
-                  name="videoTag"
-                  // value={values.roleIds}
-                  onChange={handleChange}
-                  // onBlur={handleBlur}
-                  disabled
-                  className=" w-full rounded-lg border border-gray-200 bg-[#D7D7D7] px-2 py-3 text-gray-500"
-                >
-                  <option value="" label="Blooper" />
-                  {/* {roles.map((role: any) => (
-                  <option
-                    key={role.roleId}
-                    value={role.roleId}
-                    label={role.roleName}
-                  />
-                ))} */}
-                </select>
-              </div>
+              {
+                isSoTW ?
+              <div className="px-5">
+                <span className='text-[gray]' >Video Category:</span><span className='text-[#000000] font-semibold'>  Blooper</span>
+              </div> : null
+              }
               <div className="relative mx-5">
                 <input
                   type="title"

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TableComponent from '../TableComponent';
 
 import { computeMediaHeaders } from './mediaUtils/mediaUtils';
-import { Minus } from 'lucide-react';
+import { Minus, CirclePlay } from 'lucide-react';
 import ConfirmationModal from '../GenericUIcomponents/ConfirmationModal';
 
 interface MediaManagementTableProps {

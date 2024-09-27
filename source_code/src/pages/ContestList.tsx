@@ -14,6 +14,7 @@ import {
   setSelectedCourseId,
   setSelectedHoleId,
   setSelectedTeeId,
+  setSelectedTeeType,
   // setSelectedTeeType,
 } from "../reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
@@ -198,6 +199,7 @@ const ContestList: React.FC = () => {
       selectedTeeId === null
     ) {
       dispatch(setSelectedTeeId(TeeList.data[0].id));
+      dispatch(setSelectedTeeType(TeeList.data[0]?.teeName));
     }
   }, [selectedCourseId, TeeList]);
 

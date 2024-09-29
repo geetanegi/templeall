@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import GolfClubInfo from "../components/Contests/Contest Components/GolfClubInfo";
 import HoleNavigation from "../components/Contests/Contest Components/HoleNavigation";
 import TeeInfo from "../components/Contests/Contest Components/TeeInfo";
@@ -15,6 +15,11 @@ import {
   setSelectedHoleId,
   setSelectedTeeId,
   setSelectedTeeType,
+  setCourseName,
+  setHoleNumber,
+  setPar,
+  setYardage,
+  // setSelectedTeeType,
 } from "../reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -25,8 +30,22 @@ import {
 import moment from "moment";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
+import { useLocation } from "react-router-dom";
 
 const ContestList: React.FC = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const queryParams = Object.fromEntries(searchParams);
+
+  useEffect(() => {
+    if (queryParams.course) {
+      dispatch(setSelectedCourseId(Number(queryParams.course)));
+    }
+    if (queryParams.holeId) {
+      dispatch(setSelectedHoleId(Number(queryParams.holeId)));
+    }
+  }, [queryParams.course, queryParams.holeId]);
+
   const dispatch = useDispatch();
   const courseList = useSelector(
     (state: RootState) => state.courses.courseList,
@@ -161,6 +180,37 @@ const ContestList: React.FC = () => {
     }
   }, [selectedTeeId]);
 
+  useEffect(() => {
+    if (selectedCourseId === null && courseList?.data[0]?.id !== undefined) {
+      dispatch(setSelectedCourseId(courseList.data[0].id));
+      dispatch(setCourseName(courseList.data[0].courseName));
+    }
+  }, [selectedCourseId, courseList]);
+
+  useEffect(() => {
+    if (
+      selectedCourseId !== null &&
+      HoleList?.data[0]?.id !== undefined &&
+      selectedHoleId === null
+    ) {
+      dispatch(setSelectedHoleId(HoleList.data[0].id));
+      dispatch(setHoleNumber(HoleList.data[0].holeNumber));
+      dispatch(setPar(HoleList.data[0].par));
+    }
+  }, [selectedCourseId, HoleList]);
+
+  useEffect(() => {
+    if (
+      selectedTeeId === null &&
+      TeeList?.data[0]?.id !== undefined &&
+      selectedTeeId === null
+    ) {
+      dispatch(setSelectedTeeId(TeeList.data[0].id));
+      dispatch(setSelectedTeeType(TeeList.data[0]?.teeName));
+      dispatch(setYardage(TeeList.data[0]?.yardage));
+    }
+  }, [selectedCourseId, TeeList]);
+
   return (
     <PageLoader isActive={loader}>
       <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
@@ -217,7 +267,7 @@ const ContestList: React.FC = () => {
                       }}
                     />
                   ))}
-                  {/* <TeeInfo /> */}
+                  {/* <TeeInfo  />   */}
                 </div>
                 <div className="h-96 w-[70%] overflow-auto">
                   {contestList?.data.map((contestListItem) => (
@@ -247,6 +297,15 @@ const ContestList: React.FC = () => {
                       }}
                     />
                   ))}
+                  {contestList?.data.length === 0 && (
+                    <div className="flex h-full items-center justify-center">
+                      <div className="text-center">
+                        <p className="text-gray-500">
+                          No active contests available.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   {/* <TeeContests /> */}
                 </div>
               </div>

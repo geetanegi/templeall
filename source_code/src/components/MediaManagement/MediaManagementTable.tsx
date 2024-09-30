@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import TableComponent from '../TableComponent';
 
 import { computeMediaHeaders, deleteVideos } from './mediaUtils/mediaUtils';
-import { Minus, CirclePlay, CircleCheck, CircleX, Upload, CircleMinus } from 'lucide-react';
+import { Minus, CirclePlay, CircleCheck, CircleX, Upload, CircleMinus, Info } from 'lucide-react';
 import ConfirmationModal from '../GenericUIcomponents/ConfirmationModal';
 import StatusDropdown from './StatusDropdown';
 import moment from 'moment';
@@ -37,6 +37,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   const [activeStatus, setActiveStatus] = useState<string>('')
   const [fetchedData, setFetchedData] = useState<Array<any>>([])
   const [deleteParams, setDeleteParams] = useState<any>({ requestType: "", requestId: "" })
+  const [isVisible, setIsVisible] = useState<any>('')
+
   const dispatch = useDispatch();
   useEffect(() => {
     getVideosList()
@@ -47,7 +49,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     if (rowData.length) {
       computeRowData(fetchedData)
     }
-  }, [activeStatus])
+  }, [activeStatus, isVisible])
 
   const getVideosList = async () => {
     try {
@@ -156,9 +158,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       </div>
     } else {
       if (selectedTab === 2) {
-        return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status ==='APPROVED') ? '' : 'cursor-default'} `}
+        return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED') ? '' : 'cursor-default'} `}
           onClick={() => {
-            if (activeStatus === 'Approved' || status ==='APPROVED') {
+            if (activeStatus === 'Approved' || status === 'APPROVED') {
               setVideoCategory(videoCategory)
               setSelectedReqVideoId(reqId)
               setIsModalOpen(true)
@@ -166,15 +168,15 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
           }
           }
         >
-          <Upload size={18} className={`${(activeStatus === 'Approved' || status ==='APPROVED') ? "text-[#0077B6]" : 'text-[gray] '}`} />
-          <div className={`${(activeStatus === 'Approved'|| status ==='APPROVED') ? 'text-[#0077B6]' : 'text-[gray]'}`} >Video</div>
+          <Upload size={18} className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? "text-[#0077B6]" : 'text-[gray] '}`} />
+          <div className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? 'text-[#0077B6]' : 'text-[gray]'}`} >Video</div>
 
         </button>
       }
       else {
         return <button className={`flex py-4 gap-2 ${activeStatus === 'Approved' ? '' : 'cursor-default'} `}
           onClick={() => {
-            if (activeStatus === 'Approved' || status ==='APPROVED') {
+            if (activeStatus === 'Approved' || status === 'APPROVED') {
               setIsModalOpen(true)
             }
           }
@@ -228,6 +230,21 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             time: moment(data?.requestTime).utc().format('HH:SS'),
+            Category: <div className="relative flex items-center text-[14px]  inline-block">
+              {data.videoCategory === "TOP_SHOT"? "Top Shot " :data.videoCategory === "NOT_TOP_SHOT"? "Not Top Shot": "Bloopers"}
+              <Info size={16} className='ml-2 cursor-pointer'
+                onMouseEnter={() => {
+                  setIsVisible(data.id)
+                }}
+                onMouseLeave={() => setIsVisible(false)}
+              />
+              {isVisible === data.id && (
+                <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-gray-700 text-white text-sm rounded p-2 shadow-lg">
+                  {data?.description}
+                </div>
+              )}
+            </div>,
+
             status: computeStatus(data.status, data.id, data.videos),
             upload: computeUploadColumn(data.videos, data.status, data.videoCategory || '', data.id, playvideo),
           }

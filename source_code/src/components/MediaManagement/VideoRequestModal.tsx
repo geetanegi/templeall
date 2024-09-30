@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import Modal from '../ModalComponent'
 import { Formik, FormikHelpers } from 'formik'
 import apiService from '../../services/apiService';
@@ -45,7 +45,6 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIs
                 "videoCategory":selectedOption
             }
 
-            console.log("requestVideoPayload?.contestQueueId",  requestVideoPayload)
             const { data, status } = await apiService.post<any>( 
                 API_URL.requestHighlight,
                 {

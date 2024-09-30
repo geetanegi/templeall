@@ -26,6 +26,7 @@ export const computeMediaHeaders = (tab:number) =>{
             { id: 6, key: "hole", field: "Hole" },
             { id: 7, key: "tee", field: "Tee" },
             { id: 9, key: "time", field: "Time" },
+            { id: 12, key: "category", field: "Category" },
             { id: 10, key: "status", field: "Status" },
             { id: 11, key: "uploade", field: "Upload" },
         ]

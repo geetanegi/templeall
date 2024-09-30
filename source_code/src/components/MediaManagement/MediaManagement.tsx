@@ -85,13 +85,23 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleUpdateStatus = async (id: number | string, status: string, rejectReasons?: string) => {
     const updatedStatus = status === "Rejected" ? "Reject" : status
     try {
+      let payload = {}
+       payload = {
+        "requestVideoId": id,
+        "status": updatedStatus.toUpperCase()
+      }
+
+      if(updatedStatus === "Reject"){
+        payload = {
+          ...payload,
+          rejectionReason: rejectReasons
+        }
+      }
+
       const { data, status } = await apiService.post<any>(
         API_URL.updateVideoStatus,
         {
-          "data": {
-            "requestVideoId": id,
-            "status": updatedStatus.toUpperCase()
-          }
+          "data": payload
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {

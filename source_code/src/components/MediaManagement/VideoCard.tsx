@@ -35,7 +35,9 @@ interface VideoCardProps {
     requestVideoPayload: any
     getAllVideos: () => void;
     setIsVideoPlayerVisible: (flag: boolean) => void
-    setSelectedVideo: (video: string) => void
+    setSelectedVideo: (video: string) => void;
+    setRefreshList:(flag:boolean)=>void;
+    refreshList:boolean
 }
 
 
@@ -43,7 +45,8 @@ interface VideoCardProps {
 
 
 const VideoCard: React.FC<VideoCardProps> = (
-    {
+    {   setRefreshList,
+        refreshList,
         duration,
         author,
         title,
@@ -80,7 +83,6 @@ const VideoCard: React.FC<VideoCardProps> = (
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [dropdownRef]);
-    debugger
     const computeCardDetails = () => {
         if (isApproved) {
             return (
@@ -215,7 +217,8 @@ const VideoCard: React.FC<VideoCardProps> = (
                 }
             });
             if (res.status === 200 && !res.data.error) {
-                ToastSuccess(res.data.message)
+                ToastSuccess(res.data.data.message)
+                setRefreshList(!refreshList)
             } else if (res.data.error) {
                 ToastError(res.data.description || "");
             }

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import thumbnail from '../../assets/images/image mask.png'
 import VideoCard from './VideoCard';
 import { FileVideo2 } from 'lucide-react';
 import apiService from '../../services/apiService';
@@ -20,13 +19,15 @@ interface PlayerMediaPageProps {
 interface getVideosListPayloadType {
   playerId?: number | string | undefined;
   date?: string;
-  searchParams?: any
+  searchParams?: searchParams
 }
 
 interface searchParams {
   isPublished?: boolean;
   status?: string;
   "playerUser.id"?: number | string | undefined;
+  "club.id"?:number | string;
+  videoCategory?:string
 
 }
 
@@ -40,7 +41,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<string>('')
   const [filterValue, setFilterValue] = useState<string>('')
- 
+  const [refreshList, setRefreshList] = useState<boolean>(false)
 
 
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     setFilterValue('')
     getAllVideos()
     setSelectedValue('')
-  }, [selectedTab])
+  }, [selectedTab, refreshList])
 
   
 
@@ -212,10 +213,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         }
       </div>
       <PageLoader isActive={loader}>
-        <div className='flex gap-4'>
+        <div className='flex gap-4 flex-wrap w-[100vw]'>
           {
             allVideos?.map((videoData) => {
-              console.log(videoData, "videoDatavideoData")
 
               return <VideoCard
                 author={(videoData?.firstName || '') + " " + (videoData?.firstName || '')}
@@ -232,6 +232,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                 getAllVideos={getAllVideos}
                 setSelectedVideo={setSelectedVideo}
                 setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+                setRefreshList={setRefreshList}
+                refreshList={refreshList}
               />
             })
           }

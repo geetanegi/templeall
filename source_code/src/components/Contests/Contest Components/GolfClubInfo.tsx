@@ -1,7 +1,11 @@
 import React from "react";
 import { MapPin, Info } from "lucide-react"; // Importing Lucide icons
-import { useDispatch } from "react-redux";
-import { setSelectedCourseId } from "../../..//reducers/Courses_data/courses";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCourseName,
+  setSelectedCourseId,
+} from "../../..//reducers/Courses_data/courses";
+import { RootState } from "../../../store";
 
 interface courseListCourse {
   holeList: null;
@@ -21,6 +25,9 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
   onSelectCourseId,
 }) => {
   const dispatch = useDispatch();
+  const selectedCourseId = useSelector(
+    (state: RootState) => state.courses.selectedCourseId,
+  );
 
   const link =
     "https://images.unsplash.com/photo-1726476641991-d243eb5e5d8d?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -29,10 +36,15 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
       onClick={() => {
         onSelectCourseId(course.id);
         dispatch(setSelectedCourseId(course.id));
+        dispatch(setCourseName(course.courseName));
       }}
-      className="mb-4 max-w-sm cursor-pointer rounded-lg border shadow-md"
+      className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-md ${course.id === selectedCourseId ? "border-2 border-[#95c11e]" : ""} `}
     >
-      <img src={link} alt={course.courseName} className="rounded-t-lg" />
+      <img
+        src={course.imageBase64 || link}
+        alt={course.courseName}
+        className="rounded-t-lg"
+      />
       <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="space-y-2">

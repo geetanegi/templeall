@@ -5,6 +5,7 @@ import { Info } from "lucide-react";
 import {
   setSelectedTeeId,
   setSelectedTeeType,
+  setYardage,
 } from "../../..//reducers/Courses_data/courses";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -34,6 +35,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
         tee.onSelectTeeId(tee.id);
         dispatch(setSelectedTeeId(tee.id));
         dispatch(setSelectedTeeType(tee.teeName));
+        dispatch(setYardage(tee.yardage));
       }}
     >
       <div className="my-3">
@@ -46,7 +48,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
             )}
             <span
               className={`text-sm ${tee.id === selectedTeeId ? "text-[#95c11e]" : "text-gray-500"}`}
-            >{`${tee.teeName} (${tee.yardage})`}</span>
+            >{`${tee.teeName} (${tee.yardage} yards) `}</span>
             <Info size={20} className="text-blue-700" />
           </div>
         </div>

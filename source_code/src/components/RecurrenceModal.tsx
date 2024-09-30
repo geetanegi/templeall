@@ -62,7 +62,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
         onClose={onClose}
         title="Make Recurring"
         footer={
-          <>
+          <div className="flex justify-end p-4">
             <div className="space-x-2">
               <button
                 onClick={handleSaveModal}
@@ -78,7 +78,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 Back
               </button>
             </div>
-          </>
+          </div>
         }
       >
         <div className="w-full space-y-4">

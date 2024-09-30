@@ -18,8 +18,8 @@ export const API_URL = {
   getCourseList: "core/course/courses",
   getCourseData: "core/club/all-club",
   getHoleByCourseId: "core/hole/hole-by-courseId",
-  qrCodeByCourseId: "http://localhost:5173/aceCamDev/course?course=",
-  qrCodeByHoldId: "http://localhost:5173/aceCamDev/course?course=holeNumber:",
+  qrCodeByCourseId: "https://dev.acecamgolf.com/contests?course=",
+  qrCodeByHoldId: " https://dev.acecamgolf.com/contests",
   fbRedirectUI: "http://localhost:8080/aceCamDev/abcd",
   verigyGoogleToken: "identity/auth/verifyGoogleToken",
   verifyFbToken: "identity/auth/verifyFacebookToken",
@@ -49,5 +49,6 @@ export const API_URL = {
   uploadRequestedVideo: "/core/video/upload",
   publishVideos: "/core/request-video/published",
   deleteVideo: "/core/video/delete",
-  uploadShotOfTheWeek: "/core/shot-of-the-week/create"
+  uploadShotOfTheWeek: "/core/shot-of-the-week/create",
+  contestCheckoutCoreRegistrationSave: "/core/registration/save",
 };

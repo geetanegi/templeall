@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ApiResponse,
-  contest,
   ContestListApiRes,
   CourseListApiRes,
   HoleListApiRes,
@@ -19,6 +18,10 @@ export interface CoursesState {
   selectedTeeId: number | null;
   selectedTeeType: string | null;
   selectedContests: { [key: string]: any[] }; // Object to hold selected contests by tee type
+  courseName: string | null;
+  holeNumber: number | null;
+  par: number | null;
+  yardage: number | null;
 }
 
 // Define the initial state
@@ -33,6 +36,10 @@ const initialState: CoursesState = {
   selectedTeeId: null,
   selectedTeeType: null,
   selectedContests: {}, // Initialize as an empty object
+  courseName: null,
+  holeNumber: null,
+  par: null,
+  yardage: null,
 };
 
 // Create the slice
@@ -122,6 +129,24 @@ const courseSlice = createSlice({
       state.selectedTeeType = action.payload;
       state.selectedContests = {}; // Clear selectedContests when tee type changes
     },
+
+    // breadcrum states
+    // // Define the action to set the course name
+    setCourseName: (state, action: PayloadAction<string | null>) => {
+      state.courseName = action.payload;
+    },
+    // Define the action to set the hole number
+    setHoleNumber: (state, action: PayloadAction<number | null>) => {
+      state.holeNumber = action.payload;
+    },
+    // Define the action to set the par
+    setPar: (state, action: PayloadAction<number | null>) => {
+      state.par = action.payload;
+    },
+    // Define the action to set the yardage
+    setYardage: (state, action: PayloadAction<number | null>) => {
+      state.yardage = action.payload;
+    },
   },
 });
 
@@ -139,5 +164,9 @@ export const {
   setSelectedHoleId,
   setSelectedTeeId,
   setSelectedTeeType,
+  setCourseName,
+  setHoleNumber,
+  setPar,
+  setYardage,
 } = courseSlice.actions;
 export default courseSlice.reducer;

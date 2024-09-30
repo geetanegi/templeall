@@ -32,6 +32,8 @@ import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import { useLocation } from "react-router-dom";
 
+import BG from "../assets/images/dashboardBG.svg";
+
 const ContestList: React.FC = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -213,100 +215,105 @@ const ContestList: React.FC = () => {
 
   return (
     <PageLoader isActive={loader}>
-      <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden bg-[#ffffff] px-2">
-        <div className="h-screen overflow-auto p-1">
-          {/* First column content (20% width) */}
-          {courseList?.data.map((course) => (
-            <div key={course.id} className="col-span-4">
-              <GolfClubInfo
-                course={course}
-                onSelectCourseId={setSelectedCourseId}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="">
-          {/* Hole Navigation  Section */}
-          <div className="flex space-x-6 px-3 py-3">
-            {HoleList?.data.map((hole) => (
-              <HoleNavigation
-                key={hole.id}
-                hole={{
-                  holeNumber: hole.holeNumber,
-                  id: hole.id,
-                  imageBase64: hole.imageBase64,
-                  imageUrl: hole.imageUrl,
-                  par: hole.par,
-                  yardage: hole.yardage,
-                  onSelectHoleId: setSelectedHoleId,
-                  selectedHoleId: selectedHoleId,
-                }}
-              />
+      <div
+        className="bg-[#ffffff] bg-contain bg-fixed bg-no-repeat"
+        style={{ backgroundImage: `url(${BG})` }}
+      >
+        <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden px-2">
+          <div className="h-screen overflow-auto p-1">
+            {/* First column content (20% width) */}
+            {courseList?.data.map((course) => (
+              <div key={course.id} className="col-span-4">
+                <GolfClubInfo
+                  course={course}
+                  onSelectCourseId={setSelectedCourseId}
+                />
+              </div>
             ))}
           </div>
 
-          {/* GolfTeeSelection Section */}
-          <div className="relative px-3">
-            <div className="my-4 overflow-auto rounded-lg border border-gray-200 shadow-sm">
-              <div className="flex">
-                <div className="h-auto w-[30%] border-r border-gray-400">
-                  {TeeList?.data.map((tee) => (
-                    <TeeInfo
-                      key={tee.id}
-                      tee={{
-                        id: tee.id,
-                        teeName: tee.teeName,
-                        teePosition: tee.teePosition,
-                        yardage: tee.yardage,
-                        imageUrl: tee.imageUrl || null,
-                        imageBase64: tee.imageBase64 || null,
-                        onSelectTeeId: setSelectedTeeId,
-                        // selectedTeeId: selectedTeeId,
-                        // onSelectedTeeType: setSelectedTeeType,
-                      }}
-                    />
-                  ))}
-                  {/* <TeeInfo  />   */}
-                </div>
-                <div className="h-96 w-[70%] overflow-auto">
-                  {contestList?.data.map((contestListItem) => (
-                    <TeeContests
-                      key={contestListItem.contestId}
-                      teeContest={{
-                        contestId: contestListItem.contestId,
-                        name: contestListItem.name,
-                        contestType: contestListItem.contestType,
-                        startTime: contestListItem.startTime,
-                        endTime: contestListItem.endTime,
-                        registrationStartTime:
-                          contestListItem.registrationStartTime,
-                        registrationEndTime:
-                          contestListItem.registrationEndTime,
-                        entryFee: contestListItem.entryFee,
-                        limitSection: contestListItem.limitSection,
-                        entriesPer24Hours: contestListItem.entriesPer24Hours,
-                        waitTimeBetweenEntries:
-                          contestListItem.waitTimeBetweenEntries,
-                        queueLimit: contestListItem.queueLimit,
-                        activeStatus: contestListItem.activeStatus,
-                        activeContestDate: contestListItem.activeContestDate,
-                        recurringType: contestListItem.recurringType,
-                        scheduleContestId: contestListItem.scheduleContestId,
-                        selectedTeeType: selectedTeeType,
-                      }}
-                    />
-                  ))}
-                  {contestList?.data.length === 0 && (
-                    <div className="flex h-full items-center justify-center">
-                      <div className="text-center">
-                        <p className="text-gray-500">
-                          No active contests available.
-                        </p>
+          <div className="">
+            {/* Hole Navigation  Section */}
+            <div className="flex space-x-6 px-3 py-3">
+              {HoleList?.data.map((hole) => (
+                <HoleNavigation
+                  key={hole.id}
+                  hole={{
+                    holeNumber: hole.holeNumber,
+                    id: hole.id,
+                    imageBase64: hole.imageBase64,
+                    imageUrl: hole.imageUrl,
+                    par: hole.par,
+                    yardage: hole.yardage,
+                    onSelectHoleId: setSelectedHoleId,
+                    selectedHoleId: selectedHoleId,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* GolfTeeSelection Section */}
+            <div className="relative px-3">
+              <div className="my-4 overflow-auto rounded-lg border border-gray-200 bg-[#ffffff] shadow-sm">
+                <div className="flex">
+                  <div className="h-auto w-[30%] border-r border-gray-400">
+                    {TeeList?.data.map((tee) => (
+                      <TeeInfo
+                        key={tee.id}
+                        tee={{
+                          id: tee.id,
+                          teeName: tee.teeName,
+                          teePosition: tee.teePosition,
+                          yardage: tee.yardage,
+                          imageUrl: tee.imageUrl || null,
+                          imageBase64: tee.imageBase64 || null,
+                          onSelectTeeId: setSelectedTeeId,
+                          // selectedTeeId: selectedTeeId,
+                          // onSelectedTeeType: setSelectedTeeType,
+                        }}
+                      />
+                    ))}
+                    {/* <TeeInfo  />   */}
+                  </div>
+                  <div className="h-96 w-[70%] overflow-auto">
+                    {contestList?.data.map((contestListItem) => (
+                      <TeeContests
+                        key={contestListItem.contestId}
+                        teeContest={{
+                          contestId: contestListItem.contestId,
+                          name: contestListItem.name,
+                          contestType: contestListItem.contestType,
+                          startTime: contestListItem.startTime,
+                          endTime: contestListItem.endTime,
+                          registrationStartTime:
+                            contestListItem.registrationStartTime,
+                          registrationEndTime:
+                            contestListItem.registrationEndTime,
+                          entryFee: contestListItem.entryFee,
+                          limitSection: contestListItem.limitSection,
+                          entriesPer24Hours: contestListItem.entriesPer24Hours,
+                          waitTimeBetweenEntries:
+                            contestListItem.waitTimeBetweenEntries,
+                          queueLimit: contestListItem.queueLimit,
+                          activeStatus: contestListItem.activeStatus,
+                          activeContestDate: contestListItem.activeContestDate,
+                          recurringType: contestListItem.recurringType,
+                          scheduleContestId: contestListItem.scheduleContestId,
+                          selectedTeeType: selectedTeeType,
+                        }}
+                      />
+                    ))}
+                    {contestList?.data.length === 0 && (
+                      <div className="flex h-full items-center justify-center">
+                        <div className="text-center">
+                          <p className="text-gray-500">
+                            No active contests available.
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  {/* <TeeContests /> */}
+                    )}
+                    {/* <TeeContests /> */}
+                  </div>
                 </div>
               </div>
             </div>

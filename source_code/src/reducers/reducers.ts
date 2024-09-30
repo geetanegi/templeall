@@ -21,7 +21,7 @@ export interface RootState {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"], // Add the reducers you want to persist here shiv
+  whitelist: ["auth", "courses"], // Add the reducers you want to persist here shiv
 };
 
 // Combine reducers with the proper key names

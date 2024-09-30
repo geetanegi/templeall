@@ -14,6 +14,7 @@ import apiService from "../services/apiService";
 import { ToastError } from "../components/Toast";
 
 import BG from "../assets/images/dashboardBG.svg";
+import PaymentSuccessCard from "../components/SuccessCart";
 
 const Checkout: React.FC = () => {
   const selectedCourseName = useSelector(
@@ -54,6 +55,8 @@ const Checkout: React.FC = () => {
   >("wallet"); // Default to 'wallet'
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
+  const [paymentSucess, setPaymentSucess] = useState<boolean>(true);
+
   console.log("selectedContests", selectedContests);
 
   const handleCheckoutCart = async () => {
@@ -91,6 +94,10 @@ const Checkout: React.FC = () => {
       ToastError("Error fetching course data");
     }
   };
+
+  if (paymentSucess) {
+    return <PaymentSuccessCard />;
+  }
 
   return (
     <div

@@ -101,10 +101,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     }
   }
 
-  const computeStatus = (status: string, reqId: string | number, video: any) => {
+  
+
+  const computeStatus = (status: string, reqId: string | number, ) => {
     return (status === "PENDING") ?
       <StatusDropdown setActiveStatus={setActiveStatus} handleUpdateStatus={(status) => {
-        if (status !== "PENDING") {
+        if (status === "Reject" ) {
           setIsRejectModalOpen(true)
           setUpdateStatusData({ id: reqId, status })
         } else {
@@ -245,7 +247,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
               )}
             </div>,
 
-            status: computeStatus(data.status, data.id, data.videos),
+            status: computeStatus(data.status, data.id),
             upload: computeUploadColumn(data.videos, data.status, data.videoCategory || '', data.id, playvideo),
           }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import GolfClubInfo from "../components/Contests/Contest Components/GolfClubInfo";
 import HoleNavigation from "../components/Contests/Contest Components/HoleNavigation";
 import TeeInfo from "../components/Contests/Contest Components/TeeInfo";
@@ -33,6 +33,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { useLocation } from "react-router-dom";
 
 import BG from "../assets/images/dashboardBG.svg";
+import WarningAlerts from "../components/Alerts/WarningAlerts";
 
 const ContestList: React.FC = () => {
   const location = useLocation();
@@ -75,6 +76,8 @@ const ContestList: React.FC = () => {
   // const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
   // const [selectedTeeId, setSelectedTeeId] = useState<number | null>(null);
   // const [selectedTeeType, setSelectedTeeType] = useState<string | null>(null);
+
+  const [showWarning, setShowWarning] = useState<number>(0);
 
   const getCoursesList = async () => {
     try {
@@ -213,6 +216,10 @@ const ContestList: React.FC = () => {
     }
   }, [selectedCourseId, TeeList]);
 
+  const handleWarningAlerts = () => {
+    setShowWarning(2);
+  };
+
   return (
     <PageLoader isActive={loader}>
       <div
@@ -251,6 +258,14 @@ const ContestList: React.FC = () => {
                 />
               ))}
             </div>
+            {showWarning === 1 && (
+              <div className="px-3">
+                <WarningAlerts
+                  message="You can only register for contests from one tee at a time"
+                  onClose={handleWarningAlerts}
+                />
+              </div>
+            )}
 
             {/* GolfTeeSelection Section */}
             <div className="relative px-3">
@@ -268,6 +283,8 @@ const ContestList: React.FC = () => {
                           imageUrl: tee.imageUrl || null,
                           imageBase64: tee.imageBase64 || null,
                           onSelectTeeId: setSelectedTeeId,
+                          setShowWarning: setShowWarning,
+                          showWarning: showWarning,
                           // selectedTeeId: selectedTeeId,
                           // onSelectedTeeType: setSelectedTeeType,
                         }}

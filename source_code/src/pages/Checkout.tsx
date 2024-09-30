@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlayingCart from "../components/PlayingCart/PlayingCart";
 import Golf from "../assets/images/golf_course.png";
 import GolfTee from "../assets/images/sports_golf.png";
@@ -15,8 +15,33 @@ import { ToastError } from "../components/Toast";
 
 import BG from "../assets/images/dashboardBG.svg";
 import PaymentSuccessCard from "../components/SuccessCart";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../utils/routesPath";
 
 const Checkout: React.FC = () => {
+  const navigate = useNavigate();
+
+  // Function to handle leaving the page
+  const onLeave = () => {
+    setModalOpen(false); // Close modal before navigating
+    navigate(ROUTES.CONTESTS, { replace: true }); // Go back to the previous URL
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setModalOpen(true); // Show modal when back button is clicked
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    // Push initial state to history
+    window.history.pushState(null, "", window.location.href);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState); // Clean up listener on unmount
+    };
+  }, []);
+
   const selectedCourseName = useSelector(
     (state: RootState) => state.courses.courseName,
   );
@@ -199,6 +224,7 @@ const Checkout: React.FC = () => {
         <BreadCumModal
           isOpen={isModalOpen}
           onClose={() => setModalOpen(!isModalOpen)}
+          onLeave={onLeave}
         />
       </div>
     </div>

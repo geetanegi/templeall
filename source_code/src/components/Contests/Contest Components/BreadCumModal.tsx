@@ -6,9 +6,14 @@ import { useNavigate } from "react-router-dom";
 interface ModalComponentProps {
   isOpen: boolean;
   onClose: () => void;
+  onLeave?: () => void;
 }
 
-const BreadCumModal: React.FC<ModalComponentProps> = ({ isOpen, onClose }) => {
+const BreadCumModal: React.FC<ModalComponentProps> = ({
+  isOpen,
+  onClose,
+  onLeave,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -25,7 +30,7 @@ const BreadCumModal: React.FC<ModalComponentProps> = ({ isOpen, onClose }) => {
               </button>
 
               <button
-                onClick={() => navigate(-1)}
+                onClick={onLeave}
                 className="rounded-md bg-[#7B7887] px-8 py-2 text-sm font-medium text-white"
               >
                 Leave this Page

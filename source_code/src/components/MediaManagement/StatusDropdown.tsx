@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { CircleEllipsis, CircleCheck, CircleX } from "lucide-react"; // Import icons
 
-const StatusDropdown = () => {
+interface StatusDropdownProps {
+  setActiveStatus :(status: string)=>void;
+  handleUpdateStatus: (status: string)=>void
+}
+
+const StatusDropdown:React.FC<StatusDropdownProps> = ({setActiveStatus, handleUpdateStatus}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [openUpwards, setOpenUpwards] = useState(false); // Add state to track direction of dropdown
     const [status, setStatus] = useState<"Pending" | "Approved" | "Rejected">("Pending");
@@ -25,6 +30,10 @@ const StatusDropdown = () => {
 
     const handleStatusChange = (action: keyof typeof statusMap) => {
         setStatus(statusMap[action] as "Pending" | "Approved" | "Rejected");
+        setActiveStatus(statusMap[action] as "Pending" | "Approved" | "Rejected");
+        if(statusMap[action] as "Rejected"){
+            handleUpdateStatus(statusMap[action] as "Pending" | "Approved" | "Rejected")
+        }
         setIsOpen(false);
     };
 
@@ -70,9 +79,9 @@ const StatusDropdown = () => {
                     }`}
                 style={{ width: "90px", height: "22px" }}
             >
-                {status === "Pending" && <CircleEllipsis size={12} />}
-                {status === "Approved" && <CircleCheck size={12} />}
-                {status === "Rejected" && <CircleX size={12} />}
+                {status === "Pending" && <CircleEllipsis size={16} />}
+                {status === "Approved" && <CircleCheck size={24} />}
+                {status === "Rejected" && <CircleX size={16} />}
                 <span
                     className=""
                     style={{
@@ -104,7 +113,7 @@ const StatusDropdown = () => {
                         bottom: openUpwards ? "100%" : "auto", // Adjust bottom if opening upwards
                     }}
                 >
-                    {availableActions[status].map((action) => (
+                    {availableActions[status]?.map((action) => (
                         <button
                             key={action}
                             onClick={() => handleStatusChange(action as keyof typeof statusMap)}

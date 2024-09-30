@@ -1,56 +1,75 @@
+// Input.tsx
 import React from "react";
-import { Field, ErrorMessage, FieldProps } from "formik";
-import TextError from "./TextError";
+import { Field, ErrorMessage } from "formik";
+import TextField from "@mui/material/TextField";
 
 interface InputProps {
-  label?: string;
+  label: string;
   name: string;
   type?: string;
-  placeholder?: string;
   className?: string;
+  required?: boolean;
+  maxLength?: number;
+  validateRegex?: RegExp;
 }
 
-const CustomInput: React.FC<InputProps> = ({
+const Input: React.FC<InputProps> = ({
   label,
   name,
   type = "text",
-  placeholder,
-  className,
-  ...rest
+  className = "",
+  required = false,
+  maxLength,
+  validateRegex,
 }) => {
+  // Function to validate input and block special characters and spaces
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const char = String.fromCharCode(event.which);
+    // Check if the character is not alphanumeric
+    if (validateRegex) {
+      if (!validateRegex.test(char)) {
+        event.preventDefault(); // Block the input
+      }
+    }
+  };
+
   return (
-    <div className={`relative ${className}`}>
+    <div className={`mb-4 ${className}`}>
       <Field name={name}>
-        {({ field, meta }: FieldProps) => (
-          <>
-            <input
-              {...field}
-              type={type}
-              id={name}
-              placeholder={placeholder || label}
-              className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                meta.touched && meta.error && typeof meta.error === "string"
-                  ? "border-red-500"
-                  : "border-gray-200"
-              } w-full`}
-              {...rest}
-            />
-            <span
-              className={`pointer-events-none absolute left-[45%] top-3 text-red-600 ${
-                field.value ? "hidden" : ""
-              }`}
-            >
-              *
-            </span>
-          </>
+        {({ field, form }: { field: any; form: any }) => (
+          <TextField
+            {...field}
+            type={type}
+            label={
+              <span style={{ display: "flex", alignItems: "center" }}>
+                {label}
+                {required && (
+                  <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
+                )}
+              </span>
+            }
+            variant="filled"
+            fullWidth
+            helperText={<ErrorMessage name={name} component="span" />}
+            error={Boolean(form.errors[name] && form.touched[name])}
+            inputProps={{ maxLength }}
+            onKeyUp={handleKeyPress} // Attach the key press handler
+            sx={{
+              "& .MuiInputBase-root-MuiOutlinedInput-root": {},
+              width: "100%",
+              "& .MuiInputBase-root": {
+                borderRadius: "5px",
+                backgroundColor: "#FAFAFA",
+                fontSize: "14px",
+                padding: "0px 10px 0px 6px",
+                height: "40px",
+              },
+            }}
+          />
         )}
       </Field>
-      <ErrorMessage
-        name={name}
-        component={TextError as React.ComponentType<{}>}
-      />
     </div>
   );
 };
 
-export default CustomInput;
+export default Input;

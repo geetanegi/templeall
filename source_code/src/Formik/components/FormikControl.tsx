@@ -7,7 +7,6 @@ import RadioButtons from "./RadioButtons";
 import Select from "./MUISelect";
 import Textarea from "./Textarea";
 import NumberInput from "./NumberInput";
-import CustomInput from "./CustomInput";
 import MUIInput from "./MUIInput";
 
 interface FormikControlProps {

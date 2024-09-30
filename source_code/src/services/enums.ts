@@ -38,5 +38,16 @@ export const API_URL = {
   getHolesByCourseId: "/core/hole/hole-by-courseId-without-tee",
   getTeeByHoleId: "/core/tee/tee-by-holeId",
   getContestByTeeId: "/core/contest/get-daily-active-contest",
-  getAllRequestedVideos: "/core/request-video/all-req-videos"
+  getAllPlayerReqHighlights: "/core/record/player-request-highlight",
+  requestHighlight: '/core/request-video/create',
+  getAllApprovedVideos: '/core/request-video/all-approved-req-videos',
+  getAllPublishedVideos: '/core/request-video/all-published-videos',
+  getAllShotOfTheWeek: "/core/shot-of-the-week/all-shot-of-the-week",
+  getAllWinnersVideo:'/core/winner-video/all-winner-videos',
+  getAllReqVideos: '/core/request-video/all-req-videos',
+  updateVideoStatus: "/core/request-video/update-status",
+  uploadRequestedVideo: "/core/video/upload",
+  publishVideos: "/core/request-video/published",
+  deleteVideo: "/core/video/delete",
+  uploadShotOfTheWeek: "/core/shot-of-the-week/create"
 };

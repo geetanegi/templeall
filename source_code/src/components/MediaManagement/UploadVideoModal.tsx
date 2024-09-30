@@ -1,26 +1,102 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Modal from '../ModalComponent'
 import { Formik, FormikHelpers } from 'formik'
 import { MonitorUp } from 'lucide-react'
+import FormikControl from '../../Formik/components/FormikControl';
+import MUISelect from '../../Formik/components/MUISelect';
+import CustomDatePicker from '../../Formik/components/CustomDatePicker';
+import moment from 'moment';
+import { ToastError, ToastSuccess } from '../Toast';
+import { API_URL } from '../../services/enums';
+import apiService from '../../services/apiService';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import PageLoader from '../PageLoader';
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
-  isSoTW:boolean
+  isSoTW: boolean;
+  videoCategory: string;
+  selectedReqVideoId: number | string;
+  setIsRefreshList:(flag:boolean)=>void;
+  isRefreshList:boolean
 }
 
 const initialValue = {
   title: "",
-  description: ""
+  description: "",
+  club:"",
+  course: "",
+  hole:"",
+  tee: "",
+  dateTime:""
 
 }
 
-const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, isSoTW=false }) => {
+const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, isSoTW = false, videoCategory, selectedReqVideoId, setIsRefreshList,isRefreshList }) => {
+
+  const courseData = useSelector(
+    (state: RootState) => state.courses.courseData,
+  );
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const clubOptions =
+    courseData?.data?.map((item: { id: number; name: string }) => ({
+      value: item.id,
+      key: item.name,
+    })) || [];
+  const [selectedClub, setSelectedClub] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
+  const [courseOptions, setCourseOptions] = useState<[]>([]);
+  const [holeOptions, setHoleOptions] = useState<[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedHole, setSelectedHole] = useState("");
+  const [teeOptions, setTeeOptions] = useState<[] | null>(null);
+  useEffect(() => {
+      const courseList =
+        courseData?.data?.find((club) => club.id === parseInt(selectedClub))
+          ?.courseList || [];
+      if (courseList.length > 0) {
+        const courseListOptions =
+          courseList?.map((course) => ({
+            value: course.id,
+            key: course.courseName,
+          })) || [];
+        setCourseOptions(courseListOptions as []);
+        const holeList = courseList.find(
+          (item) => item.id === parseInt(selectedCourse),
+        )?.holeList;
 
+        if (selectedCourse) {
+          const holeListOptions =
+            holeList?.map((item) => ({
+              key: item.holeNumber,
+              value: item.id,
+            })) || [];
+          setHoleOptions(holeListOptions as []);
+
+          if (selectedHole) {
+            const teeList =
+              holeList?.find((hole) => hole.id === parseInt(selectedHole))
+                ?.teeList || [];
+            const teeOptions =
+              teeList?.map((item) => ({
+                key: item.teeName,
+                value: item.id,
+              })) || [];
+            setTeeOptions(teeOptions as []);
+          } else {
+            setTeeOptions([]);
+          }
+
+        } else {
+        }
+      }
+    
+  }, [selectedClub, selectedCourse]);
 
   const handleButtonClick = () => {
     fileInputRef?.current?.click();
@@ -34,7 +110,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
         generateThumbnail(file);
       }
     } catch (error) {
-      
+
     }
   };
 
@@ -64,16 +140,102 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
     video.load();
   }
 
+
+
   const handleSubmit = async (
     values: any,
-    {  }: FormikHelpers<any>,
+    { }: FormikHelpers<any>,
   ) => {
-    console.log(values, videoFile, "values")
+
+    try {
+      if (videoFile) {
+
+        let formData = new FormData();
+        formData.append("file", videoFile)
+        if (!isSoTW) {
+          const data1 = {
+            data: {
+              "requestType": "REQUEST_VIDEO",
+              "videoCategory": "TOP_SHOT",
+              "videoDescription": values.description,
+              "videoTitle": values.title,
+              "requestId": selectedReqVideoId
+            }
+          }
+
+          let newBlobData = new Blob([JSON.stringify(data1)], {
+            type: "application/json",
+          });
+          formData.append("data", newBlobData);
+
+          const { data, status } = await apiService.post<any>(
+            API_URL.uploadRequestedVideo,
+            formData
+          );
+          if (status === 200 && data?.data != null && !data?.error) {
+            ToastSuccess(data?.data?.message)
+            setIsRefreshList(!isRefreshList)
+          } else if (data?.error && data.description) {
+            ToastError(data.description);
+          }
+        } else if (isSoTW) {
+          const data1 = {
+            data: {
+              "dateTime": values.dateTime,
+              "contestType": values.contestName,
+              "club": 1,
+              "course":1,
+              "hole": 1,
+              "tee": "1",
+              "videoDescription": values.description,
+              "videoTitle": values.title,
+              "player": "2"
+            }
+          }
+
+          let newBlobData = new Blob([JSON.stringify(data1)], {
+            type: "application/json",
+          });
+          formData.append("data", newBlobData);
+
+          const { data, status } = await apiService.post<any>(
+            API_URL.uploadShotOfTheWeek,
+            formData
+          );
+          if (status === 200 && data?.data != null && !data?.error) {
+            ToastSuccess(data?.data?.message)
+            setIsRefreshList(!isRefreshList)
+          } else if (data?.error && data.description) {
+            ToastError(data.description);
+          }
+        } else {
+          //do nothing
+        }
+
+      }
+    } catch (error) {
+
+    }finally{
+      setIsModalOpen(false)
+    }
+
   };
+
+  const scrollbarStyles: React.CSSProperties = {
+    overflow: 'auto',  // Enable scrolling
+    scrollbarWidth: 'none', // Firefox
+    msOverflowStyle: 'none', // IE and Edge
+  };
+  const handleValues = useCallback((values:any) => {
+    setSelectedClub(values.club);
+    setSelectedCourse(values.course);
+    setSelectedHole(values.hole)
+  }, []);
 
 
   return (
     <div>
+      <PageLoader isActive={loader}>
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -86,71 +248,127 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
         >
           {({
             values,
-            
-            handleChange,
             handleSubmit,
             isSubmitting,
-          }) => (
-            <form
+          }) => {
+            handleValues(values);
+             return(<form
               onSubmit={handleSubmit}
               className='flex flex-col gap-4'
 
             >
-              {
-                isSoTW ?
-              <div className="px-5">
-                <span className='text-[gray]' >Video Category:</span><span className='text-[#000000] font-semibold'>  Blooper</span>
-              </div> : null
-              }
-              <div className="relative mx-5">
-                <input
-                  type="title"
-                  name="title"
-                  placeholder="Video Title"
-                  id="title"
-                  value={values.title}
-                  onChange={handleChange}
-                  // onBlur={handleBlur}
-                  className="w-full rounded-lg border border-gray-300 bg-[#FAFAFA] px-2 py-3 text-gray-500"
-                />
-                <span
-                  className={`pointer-events-none absolute left-[21%] top-3 text-red-500 ${values.title ? "hidden" : ""}`}
-                >
-                  *
-                </span>
-              </div>
-              <div className='relative px-5'>
-                <textarea
-                  name="description"
-                  id="description"
-                  onChange={handleChange}
-                  placeholder='Video Description'
-                  className="w-full resize-none rounded-lg border border-gray-300 bg-[#FAFAFA] px-2 py-3 text-gray-500"></textarea>
-                <span
-                  className={`pointer-events-none absolute left-[34%] top-3 text-red-500 ${values.description ? "hidden" : ""}`}
-                >
-                  *
-                </span>
-              </div>
-              <div className='flex px-5 gap-5'>
-                <div className='w-[120px]'>
-                  <img src={thumbnail} alt="" className='w-[120px] h-[92px] rounded-md' />
-                </div>
-                <div className=''>
-                  <div className='flex flex-col border cursor-pointer rounded-md ml-auto border-[#7B7887] border-dashed items-center justify-center w-[300px] h-[92px] bg-[#F5F6F7]'
-                    onClick={handleButtonClick}
-                  >
-                    <MonitorUp className='text-[#7B7887]' />
-                    <div className='text-[#7B7887]'>Upload Video</div>
-                  </div>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    id="videoUpload"
-                    accept="video/*"
-                    className="hidden "
-                    onChange={handleVideoUpload}
+              <div className='h-[360px] overflow-auto pt-[6px] scrollbar-hidden'
+                style={scrollbarStyles}>
+
+                {
+                  !isSoTW ?
+                    <div className="px-5 mb-3">
+                      <span className='text-[gray]' >Video Category :</span><span className='text-[#000000] font-semibold'> {videoCategory}</span>
+                    </div> : <>
+                      <div className="px-5  mb-3">
+                        <MUISelect
+                          label="Club"
+                          name="club"
+                          required={true}                          
+                          options={clubOptions}
+                        />
+                      </div>
+                      <div className="px-5  mb-3">
+                        <MUISelect
+                          label="Course"
+                          name="course"
+                          required={true}
+                          options={courseOptions || []}
+                        />
+                      </div>
+                      <div className="px-5  mb-3">
+                        <MUISelect
+                          label="Hole"
+                          name="hole"
+                          required={true}
+                          options={holeOptions || []}
+                        />
+                      </div>
+                      <div className="px-5  mb-3">
+                        <MUISelect
+                          label="Tee"
+                          name="tee"
+                          required={true}
+                          options={teeOptions || []}
+                        />
+                      </div>
+                     
+                      <div className="px-5  mb-3">
+                        <MUISelect
+                          label="Contest Name"
+                          name="contestName"
+                          required={true}
+                          // disabled={isSuperAdmin}
+                          options={[
+                            {
+                              key: "AceCam-Jackpot",
+                              value: "ACE_CAM_JACKPOT",
+                            },
+                            {
+                              key: "Closest-to-the-Pin",
+                              value: "CLOSEST_TO_THE_PIN",
+                            },
+                          ]}
+                        // disabled={isUpdateContest ? true : false || isSuperAdmin}
+                        />
+                      </div>
+                      <div className="px-5  mb-3">
+                        <CustomDatePicker
+                          name="dateTime"
+                          label="Date/Time"
+                          required={true}
+                          // disabled={isSuperAdmin}
+                          minDate={moment().utc().format('YYYY-MM-DD')}
+                        />
+                      </div>
+                    </>
+                }
+                <div className="flex  px-5">
+                  <FormikControl
+                    label="Video Title"
+                    name="title"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="Your First Name"
+                    type="text"
+                    required={true}
                   />
+                </div>
+                <div className="flex  px-5">
+                  <FormikControl
+                    label="Video Description"
+                    name="description"
+                    control="textarea"
+                    placeholder="Video Description"
+                    type="text"
+                    required={true}
+                  />
+                </div>
+                <div className='flex px-5 gap-5'>
+                  <div className='w-[120px]'>
+                    <img src={thumbnail} alt="" className='w-[120px] h-[92px] rounded-md' />
+                  </div>
+                  <div className=''>
+                    <div className='flex flex-col border cursor-pointer rounded-md ml-auto border-[#7B7887] border-dashed items-center justify-center w-[300px] h-[92px] bg-[#F5F6F7]'
+                      onClick={handleButtonClick}
+                    >
+                      <MonitorUp className='text-[#7B7887]' />
+                      <div className='text-[#7B7887]'>Upload Video</div>
+                    </div>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      id="videoUpload"
+                      accept="video/*"
+                      className="hidden "
+                      onChange={handleVideoUpload}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -171,9 +389,10 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
                 </button>
               </div>
             </form>
-          )}
+          )}}
         </Formik>
       </Modal>
+      </PageLoader>
     </div>
   )
 }

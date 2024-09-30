@@ -1,41 +1,83 @@
 import React, { useRef, useState } from 'react'
 import Modal from '../ModalComponent'
 import { Formik, FormikHelpers } from 'formik'
+import apiService from '../../services/apiService';
+import { API_URL } from '../../services/enums';
+import moment from 'moment';
+import { RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastError, ToastSuccess } from '../Toast';
+import { setLoading } from '../../reducers/loader/loader';
 
 
 interface UploadVideoModalProps {
     isModalOpen: boolean;
-    setIsModalOpen: (flag: boolean) => void
+    setIsModalOpen: (flag: boolean) => void;
+    requestVideoPayload:any;
+    getAllVideos:()=>void
 }
 
 const initialValue = {
     title: "",
     description: ""
-
+    
 }
 
-const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen }) => {
-
-
-
-
-
-
+const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, requestVideoPayload, getAllVideos }) => {
+    const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+    const [selectedOption, setSelectedOption] = useState('');
+    
+    const dispatch = useDispatch();
 
 
     const handleSubmit = async (
         values: any,
         { }: FormikHelpers<any>,
     ) => {
+        try {
+            dispatch(setLoading(true));
+            const payload = {
+                "requestVideoId":requestVideoPayload?.requestVideoId,
+                "scheduleContestId": requestVideoPayload?.scheduleContestId,
+                "playerId": typeof userInfo === "object" ? userInfo.userId : null,
+                "description": values.description,
+                "requestDate":  moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+                "videoCategory":selectedOption
+            }
 
+            console.log("requestVideoPayload?.contestQueueId",  requestVideoPayload)
+            const { data, status } = await apiService.post<any>( 
+                API_URL.requestHighlight,
+                {
+                    data:{ ...payload, 
+                        "contestQueueRecordId": requestVideoPayload?.contestQueueId
+                    }
+                }
+            )
+
+            if (status === 200 && data.message !== null){
+                    ToastSuccess(data.data.message)
+                    setIsModalOpen(false)
+                    getAllVideos()
+            }else if(data.description){
+                ToastError(data.description)
+            }
+              
+            
+        } catch (error) {
+            ToastError('Something went wrong')
+        }finally{
+            dispatch(setLoading(false));
+        }
     };
 
 
-    const [selectedOption, setSelectedOption] = useState('option1');
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
     };
+
+    
 
     return (
         <div style={{ color: "black", fontSize: "18px", fontWeight: "400",width:"420px" }}>
@@ -53,7 +95,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIs
                     {({
                         values,
 
-                        
+                        handleChange,
                         handleSubmit,
                         isSubmitting,
                     }) => (
@@ -73,9 +115,9 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIs
                                         <input
                                             type="radio"
                                             name="TopShots"
-                                            value="TopShots"
-                                            checked={selectedOption === 'TopShots'}
-                                            onChange={handleChange}
+                                            value="TOP_SHOT"
+                                            checked={selectedOption === 'TOP_SHOT'}
+                                            onChange={handleTagChange}
                                             className="form-radio text-blue-600"
                                         />
                                         <span className="ml-2 text-[14px]">Top Shots</span>
@@ -84,9 +126,9 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIs
                                         <input
                                             type="radio"
                                             name="NotTopShots"
-                                            value="NotTopShots"
-                                            checked={selectedOption === 'NotTopShots'}
-                                            onChange={handleChange}
+                                            value="NOT_TOP_SHOT"
+                                            checked={selectedOption === 'NOT_TOP_SHOT'}
+                                            onChange={handleTagChange}
                                             className="form-radio text-blue-600"
                                         />
                                         <span className="ml-2 text-[14px]">Not Top Shots</span>
@@ -95,9 +137,9 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIs
                                         <input
                                             type="radio"
                                             name="Bloopers"
-                                            value="Bloopers"
-                                            checked={selectedOption === 'Bloopers'}
-                                            onChange={handleChange}
+                                            value="BLOOPERS"
+                                            checked={selectedOption === 'BLOOPERS'}
+                                            onChange={handleTagChange}
                                             className="form-radio text-blue-600"
                                         />
                                         <span className="ml-2 text-[14px]">Bloopers</span>
@@ -112,7 +154,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIs
                                 <textarea
                                     name="description"
                                     id="description"
-
+                                    onChange={handleChange}
                                     placeholder='Description'
                                     className="w-[382px] h-[60px] resize-none rounded-[4px] text-[14px] border border-gray-300 bg-[#FAFAFA] px-2 py-3 text-gray-500"></textarea>
                                 <span

@@ -8,8 +8,15 @@ import MediaManagementTable from './MediaManagementTable'
 import UploadVideoModal from './UploadVideoModal'
 import VideoPlayer from './VideoPlayer'
 import { RootState } from '../../store'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PlayerMediaPage from './PlayerMediaPage'
+import apiService from '../../services/apiService'
+import { API_URL } from '../../services/enums'
+import { ToastError, ToastSuccess } from '../Toast'
+import { setCourseData } from '../../reducers/Courses_data/courses'
+import { setLoading } from '../../reducers/loader/loader'
+import RejectConfirmationModal from './RejectConfirmationModal'
+import { computeFilterDropDown } from './mediaUtils/mediaUtils'
 
 interface MediaManagementProps {
 
@@ -20,25 +27,86 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [selectedTab, setSelectedTab] = useState<number>(1)
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState<boolean>(false);
   const [isSoTW, setIsSoTW] = useState<boolean>(false)
+  const [videoCategory, setVideoCategory] = useState<string>('')
+  const [selectedReqVideoId, setSelectedReqVideoId] = useState<number | string>('')
+  const [selectedVideo, setSelectedVideo] = useState<string>('')
+  const [isRefreshList, setIsRefreshList] = useState<boolean>(false)
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState<boolean>(false)
+  const [updateStatusData, setUpdateStatusData] = useState<{ id: string | number, status: string }>({ id: "", status: "" })
+  const [filterValue, setFilterValue] = useState<string>('')
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
 
+
+  const dispatch = useDispatch()
+
   if (userPermisions?.data?.permission["is_player"]) {
-    return <PlayerMediaPage />
+    return <PlayerMediaPage
+
+    />
   }
 
-  useEffect(()=>{
-    getVideosList()
+
+  useEffect(() => {
+    setIsSoTW(false)
+  }, [selectedTab])
+
+  useEffect(() => {
+    fetchCourseData()
   }, [])
 
-  const getVideosList = () =>{
+
+
+  const fetchCourseData = async () => {
     try {
-      
+      dispatch(setLoading(true));
+      const res = await apiService.post<any>(API_URL.getCourseData, {
+        data: {
+          sortDir: "ASC",
+          sortBy: "courseName",
+          pageNumber: "0",
+          pageSize: "10",
+        },
+      });
+      if (res.status === 200 && !res.data.error) {
+        dispatch(setCourseData(res.data));
+      } else if (res.data.error) {
+        ToastError(res.data.description || "Error fetching course data");
+      }
     } catch (error) {
-      
+      ToastError("Error fetching course data");
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+
+  const handleUpdateStatus = async (id: number | string, status: string, rejectReasons?: string) => {
+    const updatedStatus = status === "Rejected" ? "Reject" : status
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.updateVideoStatus,
+        {
+          "data": {
+            "requestVideoId": id,
+            "status": updatedStatus.toUpperCase()
+          }
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        ToastSuccess(data?.data?.message)
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+
     }
   }
+
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterValue(event.target.value); // Update the state with the selected value
+  };
 
 
   return (
@@ -85,13 +153,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 <select
                   id="courses"
                   className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
+                  onChange={handleFilterChange}
                 >
-                  <option value="All Contests" selected>
-                    All Videos
-                  </option>
-                  <option value="DE">Winning Shot Jackpot</option>
-                  <option value="AC">Winning Shot CTP</option>
-                  <option value="CP">Shot Of The Week</option>
+                  {
+                    computeFilterDropDown(selectedTab, "SuperAdmin")?.map((filter) => {
+                      return <option value={filter.key} >{filter.name}</option>
+                    })
+                  }
                 </select>
               </div> : null
           }
@@ -113,16 +181,37 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       <MediaManagementTable
         setIsVideoPlayerVisible={setIsVideoPlayerVisible}
         selectedTab={selectedTab}
+        setIsModalOpen={setIsModalOpen}
+        setVideoCategory={setVideoCategory}
+        setSelectedReqVideoId={setSelectedReqVideoId}
+        setSelectedVideo={setSelectedVideo}
+        isRefreshList={isRefreshList}
+        setUpdateStatusData={setUpdateStatusData}
+        setIsRejectModalOpen={setIsRejectModalOpen}
+        handleUpdateStatus={handleUpdateStatus}
+        filterValue={filterValue}
       />
 
       <UploadVideoModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         isSoTW={isSoTW}
+        videoCategory={videoCategory}
+        selectedReqVideoId={selectedReqVideoId}
+        setIsRefreshList={setIsRefreshList}
+        isRefreshList={isRefreshList}
       />
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}
         setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+        selectedVideo={selectedVideo}
+        setSelectedVideo={setSelectedVideo}
+      />
+      <RejectConfirmationModal
+        isRejectModalOpen={isRejectModalOpen}
+        setIsRejectModalOpen={setIsRejectModalOpen}
+        handleUpdateStatus={handleUpdateStatus}
+        updateStatusData={updateStatusData}
       />
     </div>
   )

@@ -1,41 +1,79 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import thumbnail from '../../assets/images/image mask.png'
 import VideoCard from './VideoCard';
 import { FileVideo2 } from 'lucide-react';
 import apiService from '../../services/apiService';
 import { ToastError } from '../Toast';
 import { setLoading } from '../../reducers/loader/loader';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '../../services/enums';
+import { RootState } from '../../store';
+import PageLoader from '../PageLoader';
+import moment from 'moment';
+import VideoPlayer from './VideoPlayer';
+import { computeFilterDropDown } from './mediaUtils/mediaUtils';
 
 interface PlayerMediaPageProps {
 
 }
 
+interface getVideosListPayloadType {
+  playerId?: number | string | undefined;
+  date?: string;
+  searchParams?: any
+}
 
-const PlayerMediaPage:React.FC<PlayerMediaPageProps> = () => {
+interface searchParams {
+  isPublished?: boolean;
+  status?: string;
+  "playerUser.id"?: number | string | undefined;
+
+}
+
+
+const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [selectedTab, setSelectedTab] = useState<number>(1)
-  const dispatch = useDispatch();
-  const getAllVideos=async()=>{
-    
+  const [allVideos, setAllVideos] = useState<Array<any>>([])
+  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState<boolean>(false);
+  const [selectedVideo, setSelectedVideo] = useState<string>('')
+  const [filterValue, setFilterValue] = useState<string>('')
+ 
 
+
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    setAllVideos([])
+    setFilterValue('')
+    getAllVideos()
+    setSelectedValue('')
+  }, [selectedTab])
+
+  
+
+  useEffect(() => {
+    if (filterValue === 'SOTW') {
+      makeApiCall(API_URL.getAllShotOfTheWeek)
+    }else{
+      getAllVideos()
+    }
+  }, [filterValue])
+
+  const getAllVideos = async () => {
     try {
       dispatch(setLoading(true));
-      const { data, status } = await apiService.post<any>(
-        API_URL.getAllRequestedVideos,
-        {
-          "data": {
-              "searchParams":{
-                  "playerUserid":"2"
-              }
-          }
-      },
-      );
-      if (status === 200 && data?.data != null && !data?.error) {
-       
-        
-      } else if (data?.error && data.description) {
-        ToastError(data.description);
+      if (selectedTab === 2) {
+        await makeApiCall(API_URL.getAllPlayerReqHighlights)
+      } else if (selectedTab === 3) {
+       await makeApiCall(API_URL.getAllApprovedVideos)
+      } else if (selectedTab === 1) {
+       await makeApiCall(API_URL.getAllPublishedVideos)
+      } else {
+        // do nothing
       }
     } catch (error) {
       ToastError('Something went wrong')
@@ -44,18 +82,81 @@ const PlayerMediaPage:React.FC<PlayerMediaPageProps> = () => {
     }
 
   }
-  
 
-    const videoData = {
-      thumbnail: thumbnail,
-      duration: '8:15',
-      author: 'Michael DeTizio',
-      title: 'Hole-in-One',
-      likes: 12,
-      views: '53K',
-      uploadDate: '01/10/2024',
-      comments: 2,
-    };
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterValue(event.target.value); // Update the state with the selected value
+  };
+
+  const makeApiCall = async (endPoint: string,) => {
+    let payload: getVideosListPayloadType = {}
+    
+
+    if (selectedValue === 'SOTW') {
+      payload = {
+        ...payload,
+        searchParams: {
+          "club.id": "1"
+        }
+      }
+    } else {
+      if (selectedTab === 3) {
+        const searchParams = {
+          "status": "APPROVED",
+          "playerUser.id": typeof userInfo === "object" ? userInfo.userId : undefined
+        }
+        payload = {
+          ...payload,
+          searchParams
+        }
+
+      } else if (selectedTab === 2) {
+        payload = {
+          ...payload, "date": moment().utc().format('YYYY-MM-DD'),
+          "playerId": typeof userInfo === "object" ? userInfo.userId : undefined
+        }
+      } else if (selectedTab === 1) {
+        const searchParams = {
+          "status": "APPROVED",
+          "isPublished": true,
+          "playerUser.id": typeof userInfo === "object" ? userInfo.userId : undefined
+        }
+        payload = {
+          ...payload, searchParams
+
+        }
+      }
+    }
+    if (filterValue) {
+      payload = {
+        ...payload,
+        searchParams: {
+          "status":"APPROVED",
+          "videoCategory": filterValue
+        }
+      }
+    }
+    if(filterValue === "SOTW"){
+      payload = {
+        searchParams: {
+        }
+      }
+    }
+    
+
+    const { data, status } = await apiService.post<any>(
+      endPoint,
+      {
+        "data": {
+          ...payload,
+        }
+      },
+    );
+    if (status === 200 && data?.data != null && !data?.error) {
+      setAllVideos(data?.data)
+    } else if (data?.error && data.description) {
+      ToastError(data.description);
+    }
+  }
 
   return (
     <div className='h-[100vh] bg-[#ffffff] px-10'>
@@ -78,7 +179,7 @@ const PlayerMediaPage:React.FC<PlayerMediaPageProps> = () => {
             onClick={() => setSelectedTab(2)}
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 2 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
-            Requeste Highlights
+            Request Highlights
             <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
           </button>
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
@@ -91,23 +192,58 @@ const PlayerMediaPage:React.FC<PlayerMediaPageProps> = () => {
             <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
           </button>
         </div>
-        <div className="flex  gap-[16px]">
-          <div className="align-center flex">
-            <select
-              id="courses"
-              className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
-            >
-              <option value="All Contests" selected>
-                All Videos
-              </option>
-              <option value="DE">Top Shots</option>
-              <option value="AC">Not Top Shots</option>
-              <option value="CP">Shot Of The Week</option>
-            </select>
-          </div>
-        </div>
+        {
+          selectedTab !== 2 ?
+            <div className="flex  gap-[16px]">
+              <div className="align-center flex">
+                <select
+                  id="courses"
+                  className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
+                  onChange={handleFilterChange}
+                >
+                  {
+                    computeFilterDropDown("", "Player")?.map((filter) => {
+                      return <option value={filter.key} selected={filterValue === filter?.key} >{filter.name}</option>
+                    })
+                  }
+                </select>
+              </div>
+            </div> : null
+        }
       </div>
-       <VideoCard {...videoData} isPublished={selectedTab!=2} />
+      <PageLoader isActive={loader}>
+        <div className='flex gap-4'>
+          {
+            allVideos?.map((videoData) => {
+              console.log(videoData, "videoDatavideoData")
+
+              return <VideoCard
+                author={(videoData?.firstName || '') + " " + (videoData?.firstName || '')}
+                duration={'9:00'}
+                uploadDate={moment(videoData?.startTime).utc().format('DD/MM/YYYY')}
+                title={videoData?.contestType}
+                status={videoData?.status}
+                clubName={videoData?.club?.name || ''}
+                tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
+                holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
+                requestVideoPayload={{ ...videoData }}
+                isApproved={selectedTab != 2}
+                isPublished={videoData.isPublished}
+                getAllVideos={getAllVideos}
+                setSelectedVideo={setSelectedVideo}
+                setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+              />
+            })
+          }
+
+        </div>
+      </PageLoader>
+      <VideoPlayer
+        isVideoPlayerVisible={isVideoPlayerVisible}
+        setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+        selectedVideo={selectedVideo}
+        setSelectedVideo={setSelectedVideo}
+      />
     </div>
   )
 }

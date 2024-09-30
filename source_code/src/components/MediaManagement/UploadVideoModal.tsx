@@ -5,7 +5,6 @@ import { MonitorUp } from 'lucide-react'
 import FormikControl from '../../Formik/components/FormikControl';
 import MUISelect from '../../Formik/components/MUISelect';
 import CustomDatePicker from '../../Formik/components/CustomDatePicker';
-import moment from 'moment';
 import { ToastError, ToastSuccess } from '../Toast';
 import { API_URL } from '../../services/enums';
 import apiService from '../../services/apiService';

@@ -1,7 +1,6 @@
 import React from "react";
 import { Info } from "lucide-react";
 import Modal from "../../Modals/Modal";
-import { useNavigate } from "react-router-dom";
 
 interface ModalComponentProps {
   isOpen: boolean;
@@ -14,7 +13,6 @@ const BreadCumModal: React.FC<ModalComponentProps> = ({
   onClose,
   onLeave,
 }) => {
-  const navigate = useNavigate();
 
   return (
     <div>

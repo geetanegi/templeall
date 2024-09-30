@@ -106,6 +106,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       );
       if (status === 200 && data?.data != null && !data?.error) {
         ToastSuccess(data?.data?.message)
+        setIsRefreshList(!isRefreshList)
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }

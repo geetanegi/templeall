@@ -55,7 +55,7 @@ const Checkout: React.FC = () => {
   >("wallet"); // Default to 'wallet'
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  const [paymentSucess, setPaymentSucess] = useState<boolean>(true);
+  const [paymentSucess, setPaymentSucess] = useState<boolean>(false);
 
   console.log("selectedContests", selectedContests);
 
@@ -87,6 +87,7 @@ const Checkout: React.FC = () => {
       );
       if (res.status === 200 && !res.data.error) {
         console.log(res.data.data);
+        setPaymentSucess(true);
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }

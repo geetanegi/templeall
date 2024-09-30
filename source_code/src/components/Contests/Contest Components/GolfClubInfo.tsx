@@ -40,7 +40,11 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
       }}
       className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-md ${course.id === selectedCourseId ? "border-2 border-[#95c11e]" : ""} `}
     >
-      <img src={link} alt={course.courseName} className="rounded-t-lg" />
+      <img
+        src={course.imageBase64 || link}
+        alt={course.courseName}
+        className="rounded-t-lg"
+      />
       <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="space-y-2">

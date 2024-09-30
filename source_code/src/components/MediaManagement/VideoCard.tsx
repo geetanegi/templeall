@@ -1,7 +1,8 @@
 import { Bookmark, Dot, LockKeyholeOpen, Share2, ThumbsUp } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { PiPlayCircleBold } from 'react-icons/pi';
+import ShareVideoModal from './ShareRequestModal';
 
 interface VideoCardProps {
     thumbnail: string;
@@ -22,8 +23,11 @@ interface VideoCardProps {
 
 
 
+
+
 const VideoCard: React.FC<VideoCardProps> = ({ thumbnail, duration, author, title, likes, views, uploadDate, isPublished = true, contestName = 'AceCam Jackpot', clubName = 'Shanghai COntry CLub, MI', holeName = 'Hole #10 - Par 3', tee = 'Black Tees (157 Yards)', onTeeTime = '2:32:21 PM' }) => {
 
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const computeCardDetails = () => {
         if (isPublished) {
             return (
@@ -46,7 +50,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ thumbnail, duration, author, titl
 
                                 {/* Likes */}
                                 <div className="flex items-center space-x-2">
-                                    <Share2 className="text-gray-300 " size={16} />
+                                    <button onClick={() => setIsModalOpen(true)}><Share2 className="text-gray-300 " size={16} /></button>
                                 </div>
                             </div>
                         </span>
@@ -138,8 +142,9 @@ const VideoCard: React.FC<VideoCardProps> = ({ thumbnail, duration, author, titl
 
             {/* Video Details */}
             {computeCardDetails()}
+
+
+            <ShareVideoModal isModalOpen={isModalOpen} url='test.com' setIsModalOpen={() => setIsModalOpen(false)} />
         </div>
     );
-};
-
-export default VideoCard;
+};export default VideoCard;

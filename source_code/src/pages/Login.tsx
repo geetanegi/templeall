@@ -21,7 +21,7 @@ import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import { downloadFile } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/sample-privacy-policy-template.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();

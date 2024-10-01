@@ -42,7 +42,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   const [selectedVideo, setSelectedVideo] = useState<string>('')
   const [filterValue, setFilterValue] = useState<string>('')
   const [refreshList, setRefreshList] = useState<boolean>(false)
-
+  const [highlightsCounts,setHighlightsCounts] = useState<any>({})
 
   const dispatch = useDispatch();
 
@@ -52,8 +52,27 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     setFilterValue('')
     getAllVideos()
     setSelectedValue('')
+    getAllHighlightsCounts()
   }, [selectedTab, refreshList])
 
+  const getAllHighlightsCounts = async() => {
+    try {
+
+      const { data, status } = await apiService.post<any>(
+        API_URL.getAllMediaCounts,
+        {
+          "data": {}
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setHighlightsCounts(data.data)
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+
+    }
+  }
   
 
   useEffect(() => {
@@ -160,7 +179,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   }
 
   return (
-    <div className='h-[100vh] bg-[#ffffff] px-10'>
+    <div className='min-h-[100vh] h-full bg-fixed bg-[#ffffff] px-10 pb-10'>
       <div className='flex justify-between  py-5'>
         <div className='flex bg-[#F5F6F7] p-[4px] gap-[16px] rounded-l-full rounded-r-full border'
           style={{ width: "max-content" }}
@@ -172,7 +191,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 1 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             published Highlights
-            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
+            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.published_highligh || 0}</span>
           </button>
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
           ${selectedTab === 2 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -181,7 +200,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 2 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             Request Highlights
-            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
+            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.request_highlight || 0}</span>
           </button>
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
           ${selectedTab === 3 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -190,7 +209,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 3 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             All Highlights
-            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
+            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.all_highlight || 0}</span>
           </button>
         </div>
         {

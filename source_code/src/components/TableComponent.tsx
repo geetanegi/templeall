@@ -37,7 +37,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ Headers, rowData, curre
         >
             <div className="w-full  px-2">
                 <div className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg " : "rounded-t-lg"} border border-gray-100  md:overflow-auto  2xl:max-w-none mt-2`}
-                    style={scrollbarStyles}
+                    style={rowData.length ?  {}:scrollbarStyles}
 
                 >
                     <table className="table-auto overflow-scroll md:overflow-auto w-full text-left font-inter border text-sm ">

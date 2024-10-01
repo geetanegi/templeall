@@ -26,12 +26,14 @@ interface MediaManagementTableProps {
   setIsRejectModalOpen: (flag: true) => void;
   handleUpdateStatus: (id: number | string, status: string, des: string) => void,
   filterValue: string;
+  isCourseAdmin: boolean;
 }
 
 
-const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus }) => {
+const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
   const [rowData, setRowData] = useState<Array<any>>([])
   const [activeStatus, setActiveStatus] = useState<string>('')
@@ -54,7 +56,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   const getVideosList = async () => {
     try {
       dispatch(setLoading(true));
-      if (selectedTab === 1) {
+      if(isCourseAdmin){
+        await makeApiCall(API_URL.getCourseSpecificVideo)
+      }
+      else if (selectedTab === 1) {
         await makeApiCall(API_URL.getAllWinnersVideo)
       } else if (selectedTab === 2) {
         await makeApiCall(API_URL.getAllReqVideos)
@@ -84,6 +89,21 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         searchParams: {
           "status": filterValue
         }
+      }
+    }
+
+    if(isCourseAdmin){
+      payload = {
+        "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
+        "contestType":  null
+      }
+    }
+
+    if(filterValue){
+      payload = {
+        ...payload,
+        "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
+        "contestType":  filterValue
       }
     }
 
@@ -151,7 +171,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
           onClick={() => {
             setDeleteParams({
               ...deleteParams,
-              requestType: selectedTab === 3 ? 'SOTW_VIDEO' : selectedTab === 2 ? 'REQUEST_VIDEO' : 'WINNER_VIDEO',
+              requestType: 'REQUEST_VIDEO',
               requestId: reqId || ''
             })
             setIsConfirmationModalOpen(true)
@@ -180,8 +200,29 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   const computeRowData = (tabledata: any) => {
     if (tabledata) {
       const rowData = tabledata?.map((data: any) => {
+        if(isCourseAdmin){
+          return {
+            contestName:  data?.contestType || '',
+            club: data?.clubName || '',
+            course: data?.courseName || '',
+            hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
+            tee: data?.teeName || '',
+            playerUserName: "MDeTizio",
+            date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
+            time: moment(data?.requestTime).utc().format('HH:SS'),
+            upload: <div className='flex items-center py-4 gap-2'>
+              <CirclePlay className='text-[#0077B6] cursor-pointer'
+                size={18}
+                onClick={() => {
+                  setSelectedVideo(data.videos.url)
+                  setIsVideoPlayerVisible(true)
+                }}
+              />
+            </div>
 
-        if (selectedTab === 1) {
+          }
+        }
+        else if (selectedTab === 1) {
           return {
             contestName: data?.contestType || '',
             club: data?.clubName || '',
@@ -207,7 +248,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
                 setIsVideoPlayerVisible(true)
               }}>Uploaded</button>
               <Minus size={20} className='bg-[red] rounded-full text-[#fff] cursor-pointer'
-                onClick={() => setIsConfirmationModalOpen(true)}
+                onClick={() =>{ 
+                  setDeleteParams({
+                    ...deleteParams,
+                    requestType: 'WINNER_VIDEO',
+                    requestId: data.id || ''
+                  })
+                  setIsConfirmationModalOpen(true)}}
               />
             </div>,
           }
@@ -266,10 +313,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
               />
               <CircleMinus size={18} className='text-[red] cursor-pointer'
                 onClick={() => {
+                  debugger
                   setDeleteParams({
                     ...deleteParams,
-                    requestType: selectedTab === 3 ? 'SOTW_VIDEO' : selectedTab === 2 ? 'REQUEST_VIDEO' : 'WINNER_VIDEO',
-                    requestId: data.id || ''
+                    requestType: 'SOTW_VIDEO',
+                    requestId: data.id
                   })
                   setIsConfirmationModalOpen(true)
                 }}
@@ -313,8 +361,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
           setIsConfirmationModalOpen(false)
         }}
         onOk={() => {
+          debugger
           setIsConfirmationModalOpen(false)
-          deleteVideos(deleteParams.requestType, deleteParams.requestId)
+          deleteVideos(deleteParams.requestType, deleteParams.requestId, getVideosList)
         }}
       />
     </div>

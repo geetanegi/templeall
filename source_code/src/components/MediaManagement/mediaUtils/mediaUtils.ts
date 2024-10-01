@@ -49,7 +49,7 @@ export const computeMediaHeaders = (tab:number) =>{
 }
 
 
-export const deleteVideos = async (type:string, reqId:string | number) =>{
+export const deleteVideos = async (type:string, reqId:string | number, getVideosList?:()=>{}) =>{
     const res = await apiService.post<any>(API_URL.deleteVideo, {
         data:  {
             "requestType": type,
@@ -58,6 +58,7 @@ export const deleteVideos = async (type:string, reqId:string | number) =>{
       });
       if (res.status === 200 && !res.data.error) {
             ToastSuccess(res.data.data.message)
+            getVideosList?.()
       } else if (res.data.error) {
         ToastError(res.data.description || "");
       }
@@ -68,7 +69,7 @@ export const computeFilterDropDown = (selectedTab:number|string, renderFor:strin
         if(selectedTab === 1 && renderFor === "SuperAdmin"){
             return   [
                 {id:1, key:"", name: "All Videos"},
-                {id:2, key:"ACE_CAM_JAKPOT", name: "Winning Shot Jakpot"},
+                {id:2, key:"ACE_CAM_JACKPOT", name: "Winning Shot Jackpot"},
                 {id:2, key:"CLOSEST_TO_THE_PIN", name: "Winning Shot CTP"}
             ]
         }else if(selectedTab === 2 && renderFor === "SuperAdmin"){

@@ -15,6 +15,7 @@ import { API_URL } from '../../services/enums';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../reducers/loader/loader';
 import VideoThumbnail from './VideoThumbnail';
+import ShareVideoModal from './ShareRequestModal';
 
 interface VideoCardProps {
     thumbnail?: string;
@@ -36,8 +37,9 @@ interface VideoCardProps {
     getAllVideos: () => void;
     setIsVideoPlayerVisible: (flag: boolean) => void
     setSelectedVideo: (video: string) => void;
-    setRefreshList:(flag:boolean)=>void;
-    refreshList:boolean
+    setRefreshList: (flag: boolean) => void;
+    refreshList: boolean,
+    
 }
 
 
@@ -45,7 +47,7 @@ interface VideoCardProps {
 
 
 const VideoCard: React.FC<VideoCardProps> = (
-    {   setRefreshList,
+    { setRefreshList,
         refreshList,
         duration,
         author,
@@ -64,7 +66,10 @@ const VideoCard: React.FC<VideoCardProps> = (
         requestVideoPayload,
         setSelectedVideo,
         setIsVideoPlayerVisible,
-        getAllVideos }) => {
+        getAllVideos,
+         }) => {
+
+    const[isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -105,7 +110,7 @@ const VideoCard: React.FC<VideoCardProps> = (
 
                                 {/* Likes */}
                                 <div className="flex items-center space-x-2">
-                                    <Share2 className="text-gray-300 " size={16} />
+                                    <button onClick={() => setIsShareModalOpen(true)}><Share2 className="text-gray-300 " size={16} /></button>
                                 </div>
                             </div>
                         </span>
@@ -141,14 +146,14 @@ const VideoCard: React.FC<VideoCardProps> = (
                                 </div> :
                                 <span className='inline-block bg-[#95C11E] rounded-sm'>
                                     {/* Like and Comments Section */}
-                                    <div className="flex justify-between items-center pr-1 mt-0 text-xs  h-[20px]" 
-                                        style={{width: "max-content"}}
+                                    <div className="flex justify-between items-center pr-1 mt-0 text-xs  h-[20px]"
+                                        style={{ width: "max-content" }}
                                     >
                                         {/* Comments */}
 
                                         <button className='flex items-center space-x-1 ml-1 whitespace-nowrap' onClick={() => setIsModalOpen(true)}>
                                             <LockKeyholeOpen size={12} />
-                                            <span>{requestVideoPayload.status === 'REJECT' ? "Re-Request Video": "Request Video"} </span>
+                                            <span>{requestVideoPayload.status === 'REJECT' ? "Re-Request Video" : "Request Video"} </span>
                                         </button>
 
                                     </div>
@@ -194,10 +199,10 @@ const VideoCard: React.FC<VideoCardProps> = (
     const computeVideoThumbnail = () => {
         if (isApproved) {
             return <VideoThumbnail videoUrl={requestVideoPayload?.videos?.url || ''}
-            onClick={() => {
-                setSelectedVideo(requestVideoPayload?.videos?.url || '')
-                setIsVideoPlayerVisible(true)
-            }}
+                onClick={() => {
+                    setSelectedVideo(requestVideoPayload?.videos?.url || '')
+                    setIsVideoPlayerVisible(true)
+                }}
             />
         } else if (status === "PENDING" || !status) {
             return <img src={requestvideo} alt="Thumbnail" className="w-full rounded-t-lg object-cover" />
@@ -238,7 +243,7 @@ const VideoCard: React.FC<VideoCardProps> = (
 
             >
                 {/* Thumbnail with duration and overlay icons */}
-                <div className="relative bg-[#ffffff] h-[175px] rounded-t-lg overflow-hidden" 
+                <div className="relative bg-[#ffffff] h-[175px] rounded-t-lg overflow-hidden"
                 >
                     {computeVideoThumbnail()}
 
@@ -288,7 +293,7 @@ const VideoCard: React.FC<VideoCardProps> = (
                                                 ${isPublished ? 'text-[#FD8A02]' : "text-[#7B7887]"}
                                                 
                                             `} onClick={handleVideoPublish}
-                                            ><BookmarkX size={16}  /> Published</button>
+                                            ><BookmarkX size={16} /> Published</button>
                                             <hr />
                                             <button className='text-[#000000] flex items-center justify-center gap-2 px-2 py-1 text-[13px] text-[#7B7887]'
                                                 onClick={() => setIsConfirmationModalOpen(true)}
@@ -313,11 +318,14 @@ const VideoCard: React.FC<VideoCardProps> = (
                 }}
                 onOk={() => {
                     setIsConfirmationModalOpen(false)
-                    deleteVideos("REQUEST_VIDEO", requestVideoPayload?.id )
+                    deleteVideos("REQUEST_VIDEO", requestVideoPayload?.id)
                 }}
             />
+
+            {isApproved?
+           <div> <ShareVideoModal isShareModalOpen={isShareModalOpen} url={requestVideoPayload.videos.url} setIsShareModalOpen={() => setIsShareModalOpen(false)}/></div>
+            :  <div></div> 
+            }
         </>
     );
-};
-
-export default VideoCard;
+}; export default VideoCard;

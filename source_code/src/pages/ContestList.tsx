@@ -137,7 +137,7 @@ const ContestList: React.FC = () => {
       dispatch(setLoading(true));
       const res = await apiService.post<any>(API_URL.getTeeByHoleId, {
         data: {
-          holeId: selectedCourseId,
+          holeId: selectedHoleId,
         },
       });
       if (res.status === 200 && !res.data.error) {

@@ -17,6 +17,7 @@ import { setCourseData } from '../../reducers/Courses_data/courses'
 import { setLoading } from '../../reducers/loader/loader'
 import RejectConfirmationModal from './RejectConfirmationModal'
 import { computeFilterDropDown } from './mediaUtils/mediaUtils'
+import UploadShotOfTheWeekModal from './UploadShotOfTheWeekModal'
 
 interface MediaManagementProps {
 
@@ -24,6 +25,7 @@ interface MediaManagementProps {
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSOTWModalOpen, setIsSOTWModalOpen] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<number>(1)
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState<boolean>(false);
   const [isSoTW, setIsSoTW] = useState<boolean>(false)
@@ -180,7 +182,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 className="flex items-center whitespace-nowrap justify-center font-[14px] rounded-md bg-[#95C11E] px-6  text-[#ffffff]"
                 onClick={() => {
                   setIsSoTW(true)
-                  setIsModalOpen(true)
+                  setIsSOTWModalOpen(true)
                 }}
               >
                 <FileVideo2 size={18} className=' mr-2  text-[#ffffff]' />
@@ -211,6 +213,15 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         selectedReqVideoId={selectedReqVideoId}
         setIsRefreshList={setIsRefreshList}
         isRefreshList={isRefreshList}
+      />
+      <UploadShotOfTheWeekModal 
+         isModalOpen={isSOTWModalOpen}
+         setIsModalOpen={setIsSOTWModalOpen}
+         isSoTW={isSoTW}
+         videoCategory={videoCategory}
+         selectedReqVideoId={selectedReqVideoId}
+         setIsRefreshList={setIsRefreshList}
+         isRefreshList={isRefreshList}
       />
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}

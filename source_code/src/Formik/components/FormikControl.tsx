@@ -7,17 +7,21 @@ import RadioButtons from "./RadioButtons";
 import Select from "./MUISelect";
 import Textarea from "./Textarea";
 import NumberInput from "./NumberInput";
+import CustomInput from "./CustomInput";
+import MUIInput from "./MUIInput";
 
 interface FormikControlProps {
   control:
-    | "input"
-    | "textarea"
-    | "select"
-    | "radio"
-    | "checkbox"
-    | "customCheckbox"
-    | "number"
-    | "date";
+  | "input"
+  | "textarea"
+  | "select"
+  | "radio"
+  | "checkbox"
+  | "customCheckbox"
+  | "number"
+  | "date"
+  | "customInput";
+
   [key: string]: any;
 }
 
@@ -33,12 +37,21 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
           {...rest}
         />
       );
+    case 'customInput':
+      return <MUIInput
+        label={rest.label}
+        name={rest.name}
+        maxLength={rest.maxLength}
+        validateRegex={rest.validateRegex}
+        {...rest}
+      />
     case "textarea":
       return (
         <Textarea
           label={rest.label}
           name={rest.name}
-          maxDate={rest.maxDate}
+          maxLength={rest.maxLength}
+          validateRegex={rest.validateRegex}
           {...rest}
         />
       );

@@ -1,24 +1,39 @@
 import React from "react";
 import { Minus } from "lucide-react";
 import golfStickWithTee from "../../assets/images/image 8.png";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { removeSelectedContest } from "../../reducers/Courses_data/courses";
 
 const PlayingCart: React.FC = () => {
-  const contests = [
-    {
-      id: 1,
-      name: "Closest-to-Pin",
-      price: 5.0,
-      imageUrl: golfStickWithTee,
-    },
-    {
-      id: 2,
-      name: "Hole-in-One",
-      price: 10.0,
-      imageUrl: golfStickWithTee,
-    },
-  ];
+  const dispatch = useDispatch();
 
-  const totalPrice = contests.reduce((acc, contest) => acc + contest.price, 0);
+  const selectedContestsList = useSelector(
+    (state: RootState) => state.courses.selectedContests,
+  );
+
+  const selectedTeeType = useSelector(
+    (state: RootState) => state.courses.selectedTeeType,
+  );
+
+  const totalPrice =
+    selectedTeeType !== null &&
+    selectedContestsList[selectedTeeType]?.length > 0
+      ? selectedContestsList[selectedTeeType].reduce(
+          (acc, contest) => acc + contest.entryFee,
+          0,
+        )
+      : 0;
+
+  const handleRemoveContest = (contest: any) => {
+    // Remove the contest if it is already selected
+    dispatch(
+      removeSelectedContest({
+        teeType: contest.selectedTeeType,
+        contestId: contest.contestId,
+      }),
+    );
+  };
 
   return (
     <div className="max-w-4xl rounded-lg bg-white shadow-md">
@@ -32,34 +47,44 @@ const PlayingCart: React.FC = () => {
           </div>
         </div>
         {/* Contest Items */}
-        {contests.map((contest) => (
-          <div
-            key={contest.id}
-            className="mb-4 flex items-center justify-between px-4 py-3"
-          >
-            <div>
-              <div className="flex items-center">
-                <img
-                  src={contest.imageUrl}
-                  alt={contest.name}
-                  className="mr-4 h-14 w-14"
+        {selectedTeeType !== null &&
+        selectedContestsList[selectedTeeType]?.length > 0 ? (
+          selectedContestsList[selectedTeeType].map((contest) => (
+            <div
+              key={contest.contestId}
+              className="mb-4 flex items-center justify-between px-4 py-3"
+            >
+              <div>
+                <div className="flex items-center">
+                  <img
+                    src={contest.imageUrl || golfStickWithTee}
+                    alt={contest.name}
+                    className="mr-4 h-14 w-14"
+                  />
+                  <span>{contest.name}</span>
+                </div>
+              </div>
+              <div className="flex w-1/2 items-center justify-between">
+                <div className="">
+                  <span className="text-red-500">${contest.entryFee}</span>
+                </div>
+                <Minus
+                  size={32}
+                  className="cursor-pointer rounded-full bg-red-500 p-1 font-semibold text-white"
+                  onClick={() => handleRemoveContest(contest)}
                 />
-                <span>{contest.name}</span>
               </div>
             </div>
-            <div className="flex w-1/2 items-center justify-between">
-              <div className="">
-                <span className="text-red-500">
-                  ${contest.price.toFixed(2)}
-                </span>
-              </div>
-              <Minus
-                size={32}
-                className="rounded-full bg-red-500 p-1 font-semibold text-white"
-              />
+          ))
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <div className="text-center">
+              <p className="text-gray-500">
+                Your cart is empty. Please add a contest to proceed to checkout.
+              </p>
             </div>
           </div>
-        ))}
+        )}
 
         {/* Total Price */}
         <div className="flex justify-end border-t bg-gray-100 p-4">
@@ -72,5 +97,4 @@ const PlayingCart: React.FC = () => {
     </div>
   );
 };
-
 export default PlayingCart;

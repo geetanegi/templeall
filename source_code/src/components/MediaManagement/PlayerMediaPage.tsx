@@ -253,6 +253,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                 setIsVideoPlayerVisible={setIsVideoPlayerVisible}
                 setRefreshList={setRefreshList}
                 refreshList={refreshList}
+                
               />
             })
           }

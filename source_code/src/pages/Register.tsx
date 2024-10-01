@@ -29,6 +29,10 @@ import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
+
+import { downloadFile } from "../utils/downloadUtils";
 
 const Register: React.FC = () => {
   const stripe = useStripe();
@@ -199,6 +203,14 @@ const Register: React.FC = () => {
     }
   };
 
+  const downloadTermsAndConditionsFunc = () => {
+    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+  };
+
+  const downloadPrivacyPolicyFunc = () => {
+    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+  };
+
   return (
     <>
       {!showOtpScreen && !showSuccessScreen && (
@@ -338,10 +350,11 @@ const Register: React.FC = () => {
                   </h2>
                   <div className="mb-4 flex flex-col">
                     <div
-                      className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${cardTouched && cardError
+                      className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
+                        cardTouched && cardError
                           ? "border-red-500"
                           : "border-gray-300"
-                        }`}
+                      }`}
                     >
                       <CardNumberElement
                         options={{
@@ -363,10 +376,11 @@ const Register: React.FC = () => {
                     </div>
 
                     <div
-                      className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${cardTouched && cardError
+                      className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
+                        cardTouched && cardError
                           ? "border-red-500"
                           : "border-gray-300"
-                        }`}
+                      }`}
                     >
                       <CardExpiryElement
                         options={{
@@ -387,10 +401,11 @@ const Register: React.FC = () => {
                       />
                     </div>
                     <div
-                      className={`rounded border-2 bg-black-opacity-50 p-4 ${cardTouched && cardError
+                      className={`rounded border-2 bg-black-opacity-50 p-4 ${
+                        cardTouched && cardError
                           ? "border-red-500"
                           : "border-gray-300"
-                        }`}
+                      }`}
                     >
                       <CardCvcElement
                         options={{
@@ -439,6 +454,7 @@ const Register: React.FC = () => {
                       <span className="ml-2 text-gray-950">
                         Agreeing to{" "}
                         <Link
+                          onClick={downloadTermsAndConditionsFunc}
                           className="px-1 text-sm text-[#1E95C1] underline hover:underline"
                           to=""
                         >
@@ -493,6 +509,16 @@ const Register: React.FC = () => {
               </Form>
             )}
           </Formik>
+          <div className="fixed bottom-14 right-[70px] flex h-0.5 w-[17%] items-end">
+            <div className="right-1 top-[1px] md:absolute">
+              <p
+                className="cursor-pointer p-2 text-white hover:underline"
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                Privacy Policy
+              </p>
+            </div>
+          </div>
         </div>
       )}
       {showOtpScreen && (

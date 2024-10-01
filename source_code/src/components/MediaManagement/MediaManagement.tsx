@@ -36,6 +36,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isRejectModalOpen, setIsRejectModalOpen] = useState<boolean>(false)
   const [updateStatusData, setUpdateStatusData] = useState<{ id: string | number, status: string }>({ id: "", status: "" })
   const [filterValue, setFilterValue] = useState<string>('')
+  const [mediaCounts, setMediaCounts] = useState<any>({})
+
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
@@ -52,13 +54,32 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
   useEffect(() => {
     setIsSoTW(false)
-  }, [selectedTab])
+    getAllMediaCounts()
+  }, [selectedTab, isRefreshList])
 
   useEffect(() => {
     fetchCourseData()
   }, [])
 
 
+  const getAllMediaCounts = async() => {
+    try {
+
+      const { data, status } = await apiService.post<any>(
+        API_URL.getAllMediaCounts,
+        {
+          "data": {}
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setMediaCounts(data.data)
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+
+    }
+  }
 
   const fetchCourseData = async () => {
     try {
@@ -137,7 +158,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               >
                 <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 1 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
                 Video Management
-                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
+                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{mediaCounts.Video_Management || 0}</span>
               </button>
               <button className={`flex whitespace-nowrap items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[2px]
           ${selectedTab === 2 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -146,7 +167,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               >
                 <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 2 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
                 Requested Videos
-                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
+                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{mediaCounts.Requested_Video || 0}</span>
               </button>
               <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px] whitespace-nowrap
           ${selectedTab === 3 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -155,7 +176,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               >
                 <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 3 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
                 Shot of the Week
-                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>0</span>
+                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{mediaCounts.Shot_Of_The_Week || 0}</span>
               </button>
             </div> : null
         }
@@ -203,6 +224,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
+        isCourseAdmin={userPermisions?.data?.permission["is_course_admin"]}
       />
 
       <UploadVideoModal

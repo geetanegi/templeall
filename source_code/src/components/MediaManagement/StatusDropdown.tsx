@@ -3,12 +3,14 @@ import { CircleEllipsis, CircleCheck, CircleX } from "lucide-react"; // Import i
 
 interface StatusDropdownProps {
   setActiveStatus :(status: string)=>void;
-  handleUpdateStatus: (status: string)=>void
+  handleUpdateStatus: (status: string)=>void;
+  tablelength:number;
+  index:number
 }
 
-const StatusDropdown:React.FC<StatusDropdownProps> = ({setActiveStatus, handleUpdateStatus}) => {
+const StatusDropdown:React.FC<StatusDropdownProps> = ({setActiveStatus, handleUpdateStatus, tablelength, index}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [openUpwards, setOpenUpwards] = useState(false); // Add state to track direction of dropdown
+    const [openUpwards, setOpenUpwards] = useState(tablelength-2 < index); // Add state to track direction of dropdown
     const [status, setStatus] = useState<"Pending" | "Approved" | "Rejected">("Pending");
     const dropdownRef = useRef<HTMLDivElement>(null);
 

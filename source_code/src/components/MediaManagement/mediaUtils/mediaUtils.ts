@@ -3,8 +3,23 @@ import { API_URL } from "../../../services/enums"
 import { ToastError, ToastSuccess } from "../../Toast"
 
 
-export const computeMediaHeaders = (tab:number) =>{
-    if(tab === 1){
+export const computeMediaHeaders = (tab:number, renderFor?:string) =>{
+    if(renderFor === "courseAdmin"){
+        return [
+            { id: 1, key:"playerUsername", field: "Player Username" },
+            { id: 3, key: "contestName", field: "Contest Name" },
+            { id: 4, key: "club", field: "Club" },
+            { id: 5, key: "course", field: "Course" },
+            { id: 6, key: "hole", field: "Hole" },
+            { id: 7, key: "tee", field: "Tee" },
+            { id: 9, key: "time", field: "Time" },
+            { id: 2, key:"date", field: "Date" },
+            { id: 12, key: "category", field: "Category" },
+            { id: 10, key: "status", field: "Status" },
+            { id: 11, key: "view", field: "View" },
+        ]
+    }
+    else if(tab === 1){
         return  [
             { id: 1, key:"contestName", field: "Contest Name" },
             { id: 2, key: "club", field: "Club" },

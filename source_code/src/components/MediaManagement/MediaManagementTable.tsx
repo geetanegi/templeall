@@ -123,9 +123,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
 
 
-  const computeStatus = (status: string, reqId: string | number,) => {
+  const computeStatus = (status: string, reqId: string | number, index:number, tablelength:number) => {
     return (status === "PENDING") ?
-      <StatusDropdown setActiveStatus={setActiveStatus} handleUpdateStatus={(status) => {
+      <StatusDropdown setActiveStatus={setActiveStatus}
+      index={index}
+      tablelength={tablelength}
+      handleUpdateStatus={(status) => {
         if (status === "Reject") {
           setIsRejectModalOpen(true)
           setUpdateStatusData({ id: reqId, status })
@@ -160,6 +163,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   }
 
   const computeUploadColumn = (videos: any, status: string, videoCategory: string, reqId: string | number, playvideo: () => void) => {
+    debugger;
     if (status === 'REJECT') {
       return <div className='text-[gray] p-1' >No video</div>
     } else if (videos) {
@@ -199,18 +203,18 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
   const computeRowData = (tabledata: any) => {
     if (tabledata) {
-      const rowData = tabledata?.map((data: any) => {
+      const rowData = tabledata?.map((data: any, index:number) => {
         if(isCourseAdmin){
           return {
-            contestName:  data?.contestType || '',
+            playerUserName: data?.username || '',
+            contestName: data?.contestType || '',
             club: data?.clubName || '',
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            playerUserName: "MDeTizio",
-            date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('HH:SS'),
-            upload: <div className='flex items-center py-4 gap-2'>
+            reuestDate: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
+            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            upload: <div className='flex items-center py-4 gap-2'>  
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
                 onClick={() => {
@@ -273,7 +277,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            time: moment(data?.requestTime).utc().format('HH:SS'),
+            time: moment(data?.requestTime).utc().format('HH:SS A'),
             Category: <div className="relative flex items-center text-[14px]  inline-block">
               {data.videoCategory === "TOP_SHOT" ? "Top Shot " : data.videoCategory === "NOT_TOP_SHOT" ? "Not Top Shot" : "Bloopers"}
               <Info size={16} className='ml-2 cursor-pointer'
@@ -289,7 +293,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
               )}
             </div>,
 
-            status: computeStatus(data.status, data.id),
+            status: computeStatus(data.status, data.id, index, tabledata.length),
             upload: computeUploadColumn(data.videos, data.status, data.videoCategory || '', data.id, playvideo),
           }
 
@@ -300,9 +304,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            playerUserName: "MDeTizio",
+            playerUserName: data?.username || '',
             date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('HH:SS'),
+            time: moment(data?.requestTime).utc().format('HH:SS A'),
             upload: <div className='flex items-center py-4 gap-2'>
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
@@ -342,7 +346,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       <PageLoader isActive={loader}>
         <TableComponent
           rowData={rowData}
-          Headers={computeMediaHeaders(selectedTab)}
+          Headers={computeMediaHeaders(selectedTab, isCourseAdmin ? "courseAdmin" :"")}
           currentPage={0}
           pageSize={10}
           setCurrentPage={() => { }}

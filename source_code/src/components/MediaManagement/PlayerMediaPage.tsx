@@ -190,7 +190,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             onClick={() => setSelectedTab(1)}
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 1 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
-            published Highlights
+            Published Highlights
             <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.published_highligh || 0}</span>
           </button>
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
@@ -237,8 +237,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             allVideos?.map((videoData) => {
 
               return <VideoCard
-                author={(videoData?.firstName || '') + " " + (videoData?.firstName || '')}
-                duration={'9:00'}
+                author={(videoData?.firstName || '') + " " + (videoData?.lastName || '')}
                 uploadDate={moment(videoData?.startTime).utc().format('DD/MM/YYYY')}
                 title={videoData?.contestType}
                 status={videoData?.status}

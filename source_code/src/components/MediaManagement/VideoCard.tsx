@@ -19,7 +19,6 @@ import ShareVideoModal from './ShareRequestModal';
 
 interface VideoCardProps {
     thumbnail?: string;
-    duration: string;
     author: string;
     title: string;
     likes?: number;
@@ -49,7 +48,6 @@ interface VideoCardProps {
 const VideoCard: React.FC<VideoCardProps> = (
     { setRefreshList,
         refreshList,
-        duration,
         author,
         title,
         likes,
@@ -74,7 +72,8 @@ const VideoCard: React.FC<VideoCardProps> = (
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
-
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [duration, setDuration] = useState<number | null>(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -88,6 +87,25 @@ const VideoCard: React.FC<VideoCardProps> = (
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [dropdownRef]);
+
+
+  useEffect(() => {
+    if (videoRef.current) {
+      const handleLoadedMetadata = () => {
+        setDuration(videoRef.current?.duration || 0);
+      };
+
+      const videoElement = videoRef.current;
+      videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+
+      // Clean up the event listener
+      return () => {
+        videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      };
+    }
+  }, [requestVideoPayload?.videos?.url]);
+
+
     const computeCardDetails = () => {
         if (isApproved) {
             return (
@@ -218,7 +236,8 @@ const VideoCard: React.FC<VideoCardProps> = (
             dispatch(setLoading(true));
             const res = await apiService.post<any>(API_URL.publishVideos, {
                 data: {
-                    "requestVideoId": requestVideoPayload.id
+                    "requestVideoId": requestVideoPayload.id,
+                    "isPublished": !isPublished
                 }
             });
             if (res.status === 200 && !res.data.error) {
@@ -252,12 +271,12 @@ const VideoCard: React.FC<VideoCardProps> = (
                     >
                         <PiPlayCircleBold style={{ height: '38px', width: '38px' }}
                             onClick={() => {
-                                setSelectedVideo(requestVideoPayload.videos.url)
+                                setSelectedVideo(requestVideoPayload?.videos?.url || '')
                                 setIsVideoPlayerVisible(true)
                             }}
                         />
                     </div>
-
+                    <video ref={videoRef} src={requestVideoPayload?.videos?.url || ''} style={{ display: 'none' }} />
                     {/* Duration tag */}
                     {
                         isApproved ?

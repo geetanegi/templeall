@@ -188,6 +188,17 @@ const Login: React.FC = () => {
             Forgot Password?
           </Link>
         </div>
+        {/* <div className="fixed bottom-5 h-1 w-full bg-white"></div> */}
+        {/* <div className="bottom-12 hidden h-0.5 w-[88%] bg-white lg:fixed lg:block">
+          <div className="right-0 md:absolute">
+            <p className="p-2 text-white">Privacy Policy</p>
+          </div>
+        </div> */}
+        <div className="fixed bottom-14 right-[70px] flex h-0.5 w-[17%] items-end">
+          <div className="right-1 top-[1px] md:absolute">
+            <p className="p-2 text-white">Privacy Policy</p>
+          </div>
+        </div>
       </div>
     </>
   );

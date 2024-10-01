@@ -30,7 +30,7 @@ import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/sample-privacy-policy-template.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
 
 import { downloadFile } from "../utils/downloadUtils";
 

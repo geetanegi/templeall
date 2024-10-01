@@ -28,6 +28,7 @@ const WarningAlerts: React.FC<alerts> = ({ message, onClose }) => {
         className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-50 p-1.5 text-yellow-500 hover:bg-yellow-200 focus:ring-2 focus:ring-yellow-400 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700"
         data-dismiss-target="#alert-4"
         aria-label="Close"
+        onClick={onClose}
       >
         <span className="sr-only">Close</span>
         <svg
@@ -36,7 +37,7 @@ const WarningAlerts: React.FC<alerts> = ({ message, onClose }) => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 14 14"
-          onClick={onClose}
+          // onClick={onClose}
         >
           <path
             stroke="currentColor"

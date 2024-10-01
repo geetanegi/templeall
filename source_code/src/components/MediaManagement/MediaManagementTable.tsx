@@ -191,12 +191,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             playerUserName: data?.username || '',
             date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
             time: moment(data?.requestTime).utc().format('hh:mm A'),
-            upload: !data.videos ? <button className={`flex py-4 gap-2 cursor-pointer ${activeStatus === 'Approved' ? '' : 'cursor-default'} `}
+            upload: !data.videos ? <button className={`flex py-4 gap-2 cursor-pointer`}
               onClick={() => {
-
+                setVideoCategory("WINNER_VIDEO")
+                setSelectedReqVideoId(data.id)
                 setIsModalOpen(true)
-              }
-              }
+              }}
             >
               <Upload size={18} className="text-[#0077B6]" />
               <div className='text-[#0077B6]'>Video</div>

@@ -20,6 +20,8 @@ import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
+import { downloadFile } from "../utils/downloadUtils";
+import privacyPolicyPdf from "../assets/Pdf/sample-privacy-policy-template.pdf";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -97,6 +99,10 @@ const Login: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
+  };
+
+  const downloadPrivacyPolicyFunc = () => {
+    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
   };
 
   return (
@@ -196,7 +202,12 @@ const Login: React.FC = () => {
         </div> */}
         <div className="fixed bottom-14 right-[70px] flex h-0.5 w-[17%] items-end">
           <div className="right-1 top-[1px] md:absolute">
-            <p className="p-2 text-white">Privacy Policy</p>
+            <p
+              className="cursor-pointer p-2 text-white hover:underline"
+              onClick={downloadPrivacyPolicyFunc}
+            >
+              Privacy Policy
+            </p>
           </div>
         </div>
       </div>

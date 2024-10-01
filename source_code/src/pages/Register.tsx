@@ -29,6 +29,10 @@ import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/sample-privacy-policy-template.pdf";
+
+import { downloadFile } from "../utils/downloadUtils";
 
 const Register: React.FC = () => {
   const stripe = useStripe();
@@ -197,6 +201,14 @@ const Register: React.FC = () => {
     } else if (showSuccessScreen === true) {
       return <SuccessScreen />;
     }
+  };
+
+  const downloadTermsAndConditionsFunc = () => {
+    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+  };
+
+  const downloadPrivacyPolicyFunc = () => {
+    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
   };
 
   return (
@@ -442,6 +454,7 @@ const Register: React.FC = () => {
                       <span className="ml-2 text-gray-950">
                         Agreeing to{" "}
                         <Link
+                          onClick={downloadTermsAndConditionsFunc}
                           className="px-1 text-sm text-[#1E95C1] underline hover:underline"
                           to=""
                         >
@@ -498,7 +511,12 @@ const Register: React.FC = () => {
           </Formik>
           <div className="fixed bottom-14 right-[70px] flex h-0.5 w-[17%] items-end">
             <div className="right-1 top-[1px] md:absolute">
-              <p className="p-2 text-white">Privacy Policy</p>
+              <p
+                className="cursor-pointer p-2 text-white hover:underline"
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                Privacy Policy
+              </p>
             </div>
           </div>
         </div>

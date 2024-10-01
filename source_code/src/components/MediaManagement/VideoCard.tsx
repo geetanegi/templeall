@@ -38,7 +38,8 @@ interface VideoCardProps {
     setIsVideoPlayerVisible: (flag: boolean) => void
     setSelectedVideo: (video: string) => void;
     setRefreshList: (flag: boolean) => void;
-    refreshList: boolean
+    refreshList: boolean,
+    
 }
 
 
@@ -65,7 +66,10 @@ const VideoCard: React.FC<VideoCardProps> = (
         requestVideoPayload,
         setSelectedVideo,
         setIsVideoPlayerVisible,
-        getAllVideos }) => {
+        getAllVideos,
+         }) => {
+
+    const[isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -106,7 +110,7 @@ const VideoCard: React.FC<VideoCardProps> = (
 
                                 {/* Likes */}
                                 <div className="flex items-center space-x-2">
-                                    <button onClick={() => setIsModalOpen(true)}><Share2 className="text-gray-300 " size={16} /></button>
+                                    <button onClick={() => setIsShareModalOpen(true)}><Share2 className="text-gray-300 " size={16} /></button>
                                 </div>
                             </div>
                         </span>
@@ -318,7 +322,10 @@ const VideoCard: React.FC<VideoCardProps> = (
                 }}
             />
 
-            <ShareVideoModal isModalOpen={isModalOpen} url='test.com' setIsModalOpen={() => setIsModalOpen(false)} />
+            {isApproved?
+           <div> <ShareVideoModal isShareModalOpen={isShareModalOpen} url={requestVideoPayload.videos.url} setIsShareModalOpen={() => setIsShareModalOpen(false)}/></div>
+            :  <div></div> 
+            }
         </>
     );
 }; export default VideoCard;

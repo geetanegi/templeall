@@ -159,36 +159,21 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         />
       </div>
     } else {
-      if (selectedTab === 2) {
-        return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED') ? '' : 'cursor-default'} `}
-          onClick={() => {
-            if (activeStatus === 'Approved' || status === 'APPROVED') {
-              setVideoCategory(videoCategory)
-              setSelectedReqVideoId(reqId)
-              setIsModalOpen(true)
-            }
+      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' ) ? '' : 'cursor-default'} `}
+        onClick={() => {
+          if (activeStatus === 'Approved') {
+            setVideoCategory(videoCategory)
+            setSelectedReqVideoId(reqId)
+            setIsModalOpen(true)
           }
-          }
-        >
-          <Upload size={18} className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? "text-[#0077B6]" : 'text-[gray] '}`} />
-          <div className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? 'text-[#0077B6]' : 'text-[gray]'}`} >Video</div>
+        }
+        }
+      >
+        <Upload size={18} className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? "text-[#0077B6]" : 'text-[gray] '}`} />
+        <div className={`${(activeStatus === 'Approved') ? 'text-[#0077B6]' : 'text-[gray]'}`} >Video</div>
 
-        </button>
-      }
-      else {
-        return <button className={`flex py-4 gap-2 ${activeStatus === 'Approved' ? '' : 'cursor-default'} `}
-          onClick={() => {
-            if (activeStatus === 'Approved' || status === 'APPROVED') {
-              setIsModalOpen(true)
-            }
-          }
-          }
-        >
-          <Upload size={18} className="text-[#0077B6]" />
-          <div className='text-[#0077B6]'>Video</div>
+      </button>
 
-        </button>
-      }
     }
   }
 
@@ -206,12 +191,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             playerUserName: data?.username || '',
             date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
             time: moment(data?.requestTime).utc().format('hh:mm A'),
-            upload: !data.videos ? <button className={`flex py-4 gap-2 cursor-pointer ${activeStatus === 'Approved' ? '' : 'cursor-default'} `}
+            upload: !data.videos ? <button className={`flex py-4 gap-2 cursor-pointer`}
               onClick={() => {
-           
-                  setIsModalOpen(true)
-              }
-              }
+                setVideoCategory("WINNER_VIDEO")
+                setSelectedReqVideoId(data.id)
+                setIsModalOpen(true)
+              }}
             >
               <Upload size={18} className="text-[#0077B6]" />
               <div className='text-[#0077B6]'>Video</div>

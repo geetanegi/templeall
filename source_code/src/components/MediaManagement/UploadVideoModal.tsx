@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Modal from '../ModalComponent'
 import { Formik, FormikHelpers } from 'formik'
 import { MonitorUp } from 'lucide-react'
 import FormikControl from '../../Formik/components/FormikControl';
-import MUISelect from '../../Formik/components/MUISelect';
-import CustomDatePicker from '../../Formik/components/CustomDatePicker';
+
 import { ToastError, ToastSuccess } from '../Toast';
 import { API_URL } from '../../services/enums';
 import apiService from '../../services/apiService';
@@ -47,68 +46,17 @@ const validationSchema = Yup.object({
 
 const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, isSoTW = false, videoCategory, selectedReqVideoId, setIsRefreshList, isRefreshList }) => {
 
-  const courseData = useSelector(
-    (state: RootState) => state.courses.courseData,
-  );
+ 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const clubOptions =
-    courseData?.data?.map((item: { id: number; name: string }) => ({
-      value: item.id,
-      key: item.name,
-    })) || [];
-  const [selectedClub, setSelectedClub] = useState("");
+
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
-  const [courseOptions, setCourseOptions] = useState<[]>([]);
-  const [holeOptions, setHoleOptions] = useState<[]>([]);
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedHole, setSelectedHole] = useState("");
-  const [teeOptions, setTeeOptions] = useState<[] | null>(null);
   const [checkvideo, setCheckVideo] = useState<boolean>(false)
+ 
   const dispatch = useDispatch();
-  useEffect(() => {
-    const courseList =
-      courseData?.data?.find((club) => club.id === parseInt(selectedClub))
-        ?.courseList || [];
-    if (courseList.length > 0) {
-      const courseListOptions =
-        courseList?.map((course) => ({
-          value: course.id,
-          key: course.courseName,
-        })) || [];
-      setCourseOptions(courseListOptions as []);
-      const holeList = courseList.find(
-        (item) => item.id === parseInt(selectedCourse),
-      )?.holeList;
 
-      if (selectedCourse) {
-        const holeListOptions =
-          holeList?.map((item) => ({
-            key: item.holeNumber,
-            value: item.id,
-          })) || [];
-        setHoleOptions(holeListOptions as []);
-        if (selectedHole) {
-          const teeList =
-            holeList?.find((hole) => hole.id === parseInt(selectedHole))
-              ?.teeList || [];
-          const teeOptions =
-            teeList?.map((item) => ({
-              key: item.teeName,
-              value: item.id,
-            })) || [];
-          setTeeOptions(teeOptions as []);
-        } else {
-          setTeeOptions([]);
-        }
-
-      } else {
-      }
-    }
-
-  }, [selectedClub, selectedCourse, selectedHole]);
 
   useEffect(() => {
     setVideoFile(null);
@@ -255,11 +203,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
     scrollbarWidth: 'none', // Firefox
     msOverflowStyle: 'none', // IE and Edge
   };
-  const handleValues = useCallback((values: any) => {
-    setSelectedClub(values.club);
-    setSelectedCourse(values.course);
-    setSelectedHole(values.hole)
-  }, []);
+
 
 
   return (
@@ -279,12 +223,10 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
             onSubmit={handleSubmit}
           >
             {({
-              values,
               errors,
               handleSubmit,
               isSubmitting,
             }) => {
-              handleValues(values);
               return (<form
                 onSubmit={handleSubmit}
                 className='flex flex-col gap-4'

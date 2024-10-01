@@ -42,7 +42,6 @@ const validationSchema = Yup.object({
     description: Yup.string()
         .required("Video description is required. Please provide a description (up to 100 words)")
         .max(100, "Video description must be less than 100 characters"),
-    videoUrl: Yup.string().required("No video has been uploaded. Please upload an MP4 video under 250MB."),
     club: Yup.string().required("Club must be selected"),
     course: Yup.string().required("Course must be selected"),
     hole: Yup.string().required("Hole must be selected"),
@@ -75,7 +74,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({ isModalOpen
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedHole, setSelectedHole] = useState("");
     const [teeOptions, setTeeOptions] = useState<[] | null>(null);
-    const [checkvideo, setCheckVideo] = useState<boolean>(false)
+    const [, setCheckVideo] = useState<boolean>(false)
     const dispatch = useDispatch();
     useEffect(() => {
         const courseList =
@@ -375,7 +374,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({ isModalOpen
                                                 </div>
                                             </>
                                     }
-                                    {/* <div className="flex  px-5">
+                                    <div className="flex  px-5">
                                         <FormikControl
                                             label="Player Username"
                                             name="username"
@@ -385,7 +384,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({ isModalOpen
                                             type="text"
                                             required={true}
                                         />
-                                    </div> */}
+                                    </div>
                                     <div className="flex  px-5">
                                         <FormikControl
                                             label="Video Title"
@@ -430,13 +429,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({ isModalOpen
                                             />
                                         </div>
                                     </div>
-                                    <div className="mb-5 ml-6 ">
-                                        {checkvideo &&
-                                            errors.videoUrl &&
-                                            typeof errors.videoUrl === "string" && (
-                                                <span className="text-red-600">{errors.videoUrl}</span>
-                                            )}
-                                    </div>
+                                    
 
                                 </div>
 

@@ -128,12 +128,29 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           ...payload,
           searchParams
         }
+        if (filterValue) {
+          payload = {
+            searchParams: {
+              ...payload.searchParams,
+              "videoCategory": filterValue
+            }
+          }
+        }
 
       } else if (selectedTab === 2) {
         payload = {
           ...payload, "date": moment().utc().format('YYYY-MM-DD'),
           "playerId": typeof userInfo === "object" ? userInfo.userId : undefined
         }
+        if (filterValue) {
+          payload = {
+            searchParams: {
+              ...payload.searchParams,
+              "videoCategory": filterValue
+            }
+          }
+        }
+
       } else if (selectedTab === 1) {
         const searchParams = {
           "status": "APPROVED",
@@ -144,17 +161,17 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           ...payload, searchParams
 
         }
-      }
-    }
-    if (filterValue) {
-      payload = {
-        ...payload,
-        searchParams: {
-          "status":"APPROVED",
-          "videoCategory": filterValue
+        if (filterValue) {
+          payload = {
+            searchParams: {
+              ...payload.searchParams,
+              "videoCategory": filterValue
+            }
+          }
         }
       }
     }
+   
     if(filterValue === "SOTW"){
       payload = {
         searchParams: {

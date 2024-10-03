@@ -55,6 +55,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   useEffect(() => {
     setIsSoTW(false)
     getAllMediaCounts()
+    setFilterValue('')
   }, [selectedTab, isRefreshList])
 
   useEffect(() => {
@@ -191,7 +192,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 >
                   {
                     computeFilterDropDown(selectedTab, "SuperAdmin")?.map((filter) => {
-                      return <option value={filter.key} >{filter.name}</option>
+                      return <option value={filter.key} selected={filterValue === filter?.key} >{filter.name}</option>
                     })
                   }
                 </select>

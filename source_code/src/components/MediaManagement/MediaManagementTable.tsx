@@ -40,11 +40,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   const [fetchedData, setFetchedData] = useState<Array<any>>([])
   const [deleteParams, setDeleteParams] = useState<any>({ requestType: "", requestId: "" })
   const [isVisible, setIsVisible] = useState<any>('')
-
   const dispatch = useDispatch();
   useEffect(() => {
     getVideosList()
-    setRowData([]);
+    if(!(selectedTab === 1) && !filterValue){
+      setRowData([]);
+    }
   }, [selectedTab, isRefreshList, filterValue])
 
   useEffect(() => {
@@ -73,6 +74,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     }
   }
 
+  const filterByContestType = ()=>{
+      const filterData = rowData.filter((video)=>{
+        return video.contestName == filterValue
+      })
+      return filterData || []
+  }
+
   const makeApiCall = async (endPoint: string,) => {
     let payload = {};
 
@@ -82,12 +90,17 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         searchParams: {
         }
       }
-    }
-    if (filterValue) {
-      payload = {
-        ...payload,
-        searchParams: {
-          "status": filterValue
+    }else if(selectedTab === 1){
+
+      if (filterValue) {
+        return
+      }
+    }else if(selectedTab === 2){
+      if (filterValue) {
+        payload = {
+          searchParams: {
+            "status": filterValue
+          }
         }
       }
     }
@@ -97,15 +110,15 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
         "contestType":  null
       }
-    }
-
-    if(filterValue){
-      payload = {
-        ...payload,
-        "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
-        "contestType":  filterValue
+      if(filterValue){
+        payload = {
+          ...payload,
+          "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
+          "contestType":  filterValue
+        }
       }
     }
+
 
     const { data, status } = await apiService.post<any>(
       endPoint,
@@ -345,7 +358,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     <div className='px-10'>
       <PageLoader isActive={loader}>
         <TableComponent
-          rowData={rowData}
+          rowData={(filterValue && selectedTab === 1) ? filterByContestType() : rowData}
           Headers={computeMediaHeaders(selectedTab, isCourseAdmin ? "courseAdmin" :"")}
           currentPage={0}
           pageSize={10}

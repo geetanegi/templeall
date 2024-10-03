@@ -36,12 +36,11 @@ const initialValue = {
 
 const validationSchema = Yup.object({
   title: Yup.string()
-    .required("Video title is required. Please provide a title (up to 25 words).")
-    .max(25, "Video title must be less than 100 characters"),
+    .required("Video title is required.")
+    .max(25, "Video title must be less than 25 characters"),
   description: Yup.string()
-    .required("Video description is required. Please provide a description (up to 100 words)")
+    .required("Video description is required.")
     .max(100, "Video description must be less than 100 characters"),
-  // videoUrl: Yup.string().required("No video has been uploaded. Please upload an MP4 video under 250MB.")
 });
 
 const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, isSoTW = false, videoCategory, selectedReqVideoId, setIsRefreshList, isRefreshList }) => {

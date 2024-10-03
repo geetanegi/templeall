@@ -25,7 +25,7 @@ videoCategory: "",
 
 const validationSchema = Yup.object({
   description: Yup.string()
-    .required("Video description is required.")
+    .required("Description is required.")
     .max(100, "Video description must be less than 100 characters"),
 });
 
@@ -111,6 +111,11 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                 <span className="mb-0 text-[13px] text-black">
                   Select your video category
                 </span>
+                <span
+                className={`pointer-events-none absolute left-[42%] top-1 text-[14px] text-red-500`}
+              >
+                *
+              </span>
 
                 <div className="flex space-x-4">
                   <label className="inline-flex items-center">
@@ -122,7 +127,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                       onChange={handleTagChange}
                       className="form-radio text-blue-600"
                     />
-                    <span className="ml-2 text-[14px]">Top Shots</span>
+                    <span className="ml-2 text-[14px]">Top Shot</span>
                   </label>
                   <label className="inline-flex items-center">
                     <input
@@ -133,7 +138,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                       onChange={handleTagChange}
                       className="form-radio text-blue-600"
                     />
-                    <span className="ml-2 text-[14px]">Not Top Shots</span>
+                    <span className="ml-2 text-[14px]">Not Top Shot</span>
                   </label>
                   <label className="inline-flex items-center">
                     <input
@@ -144,14 +149,14 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                       onChange={handleTagChange}
                       className="form-radio text-blue-600"
                     />
-                    <span className="ml-2 text-[14px]">Bloopers</span>
+                    <span className="ml-2 text-[14px]">Blooper</span>
                   </label>
                 </div>
                 
                 <div>
                     {
                         !selectedOption && touched.videoCategory ?
-                        <span className="text-[#d32f2f] ml-4 text-[13px]"> Video Category is required.</span> :null 
+                        <span className="text-[#d32f2f] ml-4 text-[13px]"> Please select category.</span> :null 
                     }
                     
                 </div>

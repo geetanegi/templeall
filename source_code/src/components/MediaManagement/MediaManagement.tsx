@@ -230,6 +230,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
       <UploadVideoModal
         isModalOpen={isModalOpen}
+        selectedTab={selectedTab}
         setIsModalOpen={setIsModalOpen}
         isSoTW={isSoTW}
         videoCategory={videoCategory}

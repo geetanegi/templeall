@@ -18,8 +18,8 @@ interface tee {
   imageUrl: string | null;
   imageBase64: string | null;
   onSelectTeeId: (teeId: number) => void;
-  setShowWarning: (showWarning: number) => void;
-  showWarning: number;
+  // setShowWarning: (showWarning: number) => void;
+  // showWarning: number;
   // selectedTeeId: number | null;
   // onSelectedTeeType: (teeType: string) => void;
 }
@@ -34,9 +34,9 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
       className="w-full cursor-pointer"
       onClick={() => {
         // tee.onSelectedTeeType(tee.teeName);
-        if (tee.showWarning === 0) {
-          tee.setShowWarning(1);
-        }
+        // if (tee.showWarning === 0) {
+        //   tee.setShowWarning(1);
+        // }
 
         tee.onSelectTeeId(tee.id);
         dispatch(setSelectedTeeId(tee.id));

@@ -17,6 +17,7 @@ import BG from "../assets/images/dashboardBG.svg";
 import PaymentSuccessCard from "../components/SuccessCart";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
+import moment from "moment";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -88,7 +89,7 @@ const Checkout: React.FC = () => {
     const obj = {
       data: {
         playerId: 1,
-        registrationDate: "2024-09-11T13:05:51Z",
+        registrationDate: moment.utc(new Date()).format(),
         totalAmount: totalPrice,
         cartInfo:
           selectedContests && Array.isArray(selectedContests)

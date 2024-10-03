@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, ErrorMessage } from "formik";
+import { Field, ErrorMessage, FieldProps } from "formik";
 import TextField from "@mui/material/TextField";
 
 interface InputProps {
@@ -9,7 +9,6 @@ interface InputProps {
   className?: string;
   required?: boolean;
   maxLength?: number;
-  validateRegex?: RegExp;
   disabled?: boolean;
 }
 
@@ -30,10 +29,7 @@ const MUINumber: React.FC<InputProps> = ({
       "Delete",
       "Tab",
     ];
-    if (
-      !allowedKeys.includes(event.key) && // Allow backspace, delete, arrows, and tab
-      !/^[0-9]$/.test(event.key) // Only allow number keys
-    ) {
+    if (!allowedKeys.includes(event.key) && !/^[0-9]$/.test(event.key)) {
       event.preventDefault();
     }
   };
@@ -41,17 +37,15 @@ const MUINumber: React.FC<InputProps> = ({
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     const pasteData = event.clipboardData.getData("text");
     if (!/^\d+$/.test(pasteData)) {
-      // Allow only numeric paste data
       event.preventDefault();
     }
   };
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    form: any,
+    form: FieldProps["form"],
   ) => {
     const { value } = event.target;
-    // Only allow numeric values
     if (/^\d*$/.test(value)) {
       form.setFieldValue(name, value);
     }
@@ -60,53 +54,55 @@ const MUINumber: React.FC<InputProps> = ({
   return (
     <div className={`mb-4 ${className}`}>
       <Field name={name}>
-        {({ field, form }: { field: any; form: any }) => (
+        {({ field, form }: FieldProps) => (
           <TextField
             {...field}
             type={type}
             label={
-              <span className="">
+              <span>
                 {label}
                 {required && <span className="ml-1 text-red-500">*</span>}
               </span>
             }
             disabled={disabled}
-            className={`w-full rounded-lg border px-2 text-gray-500`}
-            // Remove fullWidth to allow custom width control
+            className="w-full"
             helperText={<ErrorMessage name={name} component="span" />}
             error={Boolean(form.errors[name] && form.touched[name])}
-            onKeyDown={handleKeyDown} // Restrict key input to numbers
-            onPaste={handlePaste} // Restrict paste input to numbers
+            onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleChange(e, form)
             }
             inputProps={{ maxLength }}
             sx={{
+
               "& .MuiInputBase-root": {
-                borderRadius: "10px",
+                borderRadius: "5px",
                 backgroundColor: "#FAFAFA",
+                padding: "6px", // Adjust padding as needed
+                margin: 0, // Remove margin if needed
+                // border: "1px solid #CACACA", // Adjust or remove border
               },
-              // width: "100%",
-              // borderRadius: "10px",
-              // borderColor: "#CACACA",
-              // // backgroundColor: "#FAFAFA",
-              // padding: "2",
-              // color: "gray.500",
-              // "& .MuiInputBase-root": {
-              //   // color: "white",
-              //   borderRadius: "10px",
-              //   // border: "1.5px solid white",
-              // },
-              // "& .MuiOutlinedInput-notchedOutline": {
-              //   borderColor: "#CACACA",
-              // },
-              // "&:hover .MuiOutlinedInput-notchedOutline": {
-              //   // borderColor: "#CACACA",
-              // },
-              // "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              //   // borderColor: "blue.500", // Change color when focused
-              // },
-            }} // Set width to 100% to fill parent
+              "& .MuiInputBase-input": {
+                padding: "6px",
+                fontSize: "14px" // Adjust input padding to align with your design
+              },
+              "& .MuiFormHelperText-root": {
+                margin: 0, // Remove margin from helper text
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                // borderColor: "#CACACA", // Adjust border color
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                // borderColor: "#CACACA", // Adjust border color on hover
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                // borderColor: "#CACACA", // Adjust border color when focused
+              },
+              "& .MuiInputLabel-root": {
+                fontSize: '14px',
+              }
+            }}
           />
         )}
       </Field>

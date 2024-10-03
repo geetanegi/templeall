@@ -20,8 +20,6 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId = '', isComm
     (state: RootState) => state.auth.userPermissions,
   );
 
-  console.log("idididididid", id, role)
-
   const [selectedUser, setSelectedUser] = useState<string | number>(userId)
 
   useEffect(() => {

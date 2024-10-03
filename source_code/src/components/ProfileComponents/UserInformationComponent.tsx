@@ -8,6 +8,7 @@ import golfCourse from '../../assets/images/golf_course.svg'
 import golfBallIcon from '../../assets/images/sports_golf.svg';
 import faceBookImage from '../../assets/images/Facebook.svg'
 import InstagramImage from '../../assets/images/Instagram.svg'
+import twitterImage from '../../assets/images/Twitter-Logо.png';
 import googleImage from '../../assets/images/Google.svg'
 import UpdatePlayerInformationModal from './UpdatePlayerInformationModal';
 import StripeIntegration from '../../pages/StripeIntegration';
@@ -25,22 +26,18 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 
-  function calculateAge(dob: string): number {
-    // Create a Date object from the ISO 8601 format date string
-    const birthDate = new Date(dob);
-    const today = new Date();
+  function formatDate(dateString: string): string {
+    // Parse the date string
+    const date = new Date(dateString);
+    
+    // Extract the month, day, and year
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
 
-    // Calculate the age
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDifference = today.getMonth() - birthDate.getMonth();
-
-    // Adjust age if the birthday hasn't occurred yet this year
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-
-    return age;
-  }
+    // Return the formatted date
+    return `${month}-${day}-${year}`;
+}
 
 
   return (
@@ -56,12 +53,12 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
             <img src={golfCourse} alt="Golf Course Icon" />
           </div>
           <div>
-            <div><span className='mr-5'>Age :</span><span >{calculateAge(userinformation?.userProfile?.dateOfBirth || '') || '---'}</span></div>
-            <div><span className='mr-5'>Handicap :</span><span>{userinformation?.userProfile?.handicap || '---'}</span></div>
-            <div><span className='mr-5'>Clubs :</span><span></span>{userinformation?.userProfile?.clubs || '---'}</div>
-            <div><span className='mr-5'>Ball :</span><span>{userinformation?.userProfile?.ball || '---'}</span></div>
-            <div><span className='mr-5'>Course :</span><span>{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</span></div>
-            <div><span className='mr-5'>Member Since:</span><span>{userinformation?.userCourseAndClubInfo?.[0]?.club?.createdBy || '---'}</span></div>
+            <div><span className='mr-3'>Age :</span><span >{userinformation?.userProfile?.age || '---'}</span></div>
+            <div><span className='mr-3'>Handicap :</span><span>{userinformation?.userProfile?.handicap || '---'}</span></div>
+            <div><span className='mr-3'>Clubs :</span><span></span>{userinformation?.userProfile?.clubs || '---'}</div>
+            <div><span className='mr-3'>Ball :</span><span>{userinformation?.userProfile?.ball || '---'}</span></div>
+            <div><span className='mr-3'>Course :</span><span>{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</span></div>
+            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{formatDate(userinformation?.userProfile?.memberSince) || '---'}</span></div>
           </div>
           <div>
           </div>
@@ -69,6 +66,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
         <div>
           <div className='w-full flex align-center justify-center gap-4 mt-5' >
             <img className='h-[18px] cursor-pointer' src={faceBookImage} alt="" />
+            <img className='h-[18px] cursor-pointer' src={twitterImage} alt="" />
             <img className='h-[18px] cursor-pointer' src={InstagramImage} alt="" />
             <img className='h-[18px] cursor-pointer' src={googleImage} alt="" />
 

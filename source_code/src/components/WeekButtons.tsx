@@ -15,9 +15,9 @@ const DayButton: React.FC<DayButtonProps> = ({ day, isActive, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-8 rounded-md px-2 py-2 ${isActive ? "bg-lime-500" : "bg-[#7b7887]"}`}
+      className={`w-8 rounded-md px-2 py-1 text-sm ${isActive ? "bg-[#95c11e]" : "bg-[#7b7887]"}`}
     >
-      <span className="font-normal text-white"> {day.label}</span>
+      <span className="text-sm font-bold text-white"> {day.label}</span>
     </button>
   );
 };
@@ -54,7 +54,7 @@ const WeekButtons: React.FC<WeekButtonsProps> = ({
         <DayButton
           key={day.id}
           day={day}
-          isActive={selectedDays.includes(day.id)} // Check if the day ID is in the selectedDays array
+          isActive={selectedDays?.includes(day?.id)} // Check if the day ID is in the selectedDays array
           onClick={() => handleClick(day.id)}
         />
       ))}

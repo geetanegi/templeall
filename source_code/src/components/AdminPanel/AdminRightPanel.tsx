@@ -308,7 +308,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             Headers={tableHeaders}
             rowData={rowData}
             currentPage={currentPage}
-            totalPages={totalPages}
+            totalPages={selectedUserTab == 3 ? totalPages: Math.ceil(totalAdminCount.length / Number(pageSize))}
             setCurrentPage={setCurrentPage}
             pageSize={pageSize}
             setPageSize={setPageSize}

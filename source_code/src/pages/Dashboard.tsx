@@ -54,9 +54,9 @@ const Dashboard: React.FC = () => {
   };
   return (
     <div>
-      {userPermisions?.data?.permission["is_player"] && <h1>Player User</h1>}
-      {userPermisions?.data?.permission["is_super_admin"] && <Adminpanel />}
-      {userPermisions.data?.permission["is_course_admin"] && (
+      {userPermisions?.data?.permission["is_player"] && (<h1>Player User</h1>)}
+      {userPermisions?.data?.permission["is_super_admin"] && (<Adminpanel />)}
+      {userPermisions?.data?.permission["is_course_admin"] && (
         <Adminpanel isCourseAdmin={true} />
       )}
     </div>

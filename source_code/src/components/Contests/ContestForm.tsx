@@ -6,6 +6,11 @@ import { RefreshCcw, SquarePen } from "lucide-react";
 import moment from "moment";
 import FormikControl from "../../Formik/components/FormikControl";
 import { getOrdinal } from "../../utils/RegexPatterns";
+import { matchPath, useLocation } from "react-router-dom";
+import { ROUTES } from "../../utils/routesPath";
+import { useFormikContext } from "formik";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface ContestProps {
   clubOptions: { value: number; key: string }[];
@@ -30,14 +35,74 @@ const ContestForm: React.FC<ContestProps> = ({
   saveState,
   endDate,
   toggleModal,
-  frequency,
+  
   isSuperAdmin,
 }) => {
+  const today = moment();
+  const location = useLocation();
+  const { setFieldValue } = useFormikContext(); // To access Formik's setFieldValue
+
+  // Handle change for clubName
+  const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const clubValue = event.target.value;
+
+    // Update clubName and reset dependent fields
+    setFieldValue("clubName", clubValue);
+    setFieldValue("courseName", ""); // Reset courseName
+    setFieldValue("holesName", ""); // Reset holeName
+    setFieldValue("Tee", ""); // Reset teeName
+  };
+
+  // Handle change for courseName
+  const handleCourseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const courseValue = event.target.value;
+
+    // Update courseName and reset dependent fields
+    setFieldValue("courseName", courseValue);
+    setFieldValue("holesName", ""); // Reset holeName
+    setFieldValue("Tee", ""); // Reset teeName
+  };
+
+  // Handle change for holeName
+  const handleHoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const holeValue = event.target.value;
+
+    // Update courseName and reset dependent fields
+    setFieldValue("holesName", holeValue);
+    setFieldValue("Tee", ""); // Reset teeName
+  };
+
+  // Handle change for holeName
+  // const handleRadioChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const holeValue = event.target.value;
+
+  //   // Update courseName and reset dependent fields
+  //   setFieldValue("holesName", holeValue);
+  //   setFieldValue("Tee", ""); // Reset teeName
+  // };
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const radioValue = event.target.value;
+
+    if (radioValue === "no") {
+      setFieldValue("entriesPer24Hours", "", false);
+      setFieldValue("waitTimeBetweenEntries", "", false);
+    }
+  };
+
   const radioOptions = [
     { value: "yes", key: "Yes" },
     { value: "no", key: "No" },
   ];
 
+  const isUpdateContest = matchPath(
+    { path: ROUTES.UPDFATE_CONTEST },
+    location.pathname,
+  );
+
+  const userPermisions = useSelector(
+    (state: RootState) => state.auth.userPermissions,
+  );
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -46,17 +111,18 @@ const ContestForm: React.FC<ContestProps> = ({
             label="Contest Type"
             name="contestType"
             required={true}
-            disabled={isSuperAdmin}
+            // disabled={isSuperAdmin}
             options={[
               {
-                key: "Ace Cam Jackpot",
+                key: "AceCam-Jackpot",
                 value: "ACE_CAM_JACKPOT",
               },
               {
-                key: "closest To The Pin",
+                key: "Closest-to-the-Pin",
                 value: "CLOSEST_TO_THE_PIN",
               },
             ]}
+            disabled={isUpdateContest ? true : false || isSuperAdmin}
           />
         </div>
         <div className="">
@@ -64,8 +130,9 @@ const ContestForm: React.FC<ContestProps> = ({
             label="Club Name"
             name="clubName"
             required={true}
-            disabled={isSuperAdmin}
+            disabled={isUpdateContest ? true : false || isSuperAdmin}
             options={clubOptions || []}
+            onChange={handleClubChange} // Attach change handler
           />
         </div>
         <div className="">
@@ -73,17 +140,19 @@ const ContestForm: React.FC<ContestProps> = ({
             label="Course Name"
             name="courseName"
             required={true}
-            disabled={isSuperAdmin}
+            disabled={isUpdateContest ? true : false || isSuperAdmin}
             options={courseOptions || []}
+            onChange={handleCourseChange} // Attach change handler
           />
         </div>
         <div className="">
           <MUISelect
-            label="Hole Name"
+            label="Hole No."
             name="holesName"
             required={true}
-            disabled={isSuperAdmin}
+            disabled={isUpdateContest ? true : false || isSuperAdmin}
             options={holeOptions || []}
+            onChange={handleHoleChange} // Attach change handler
           />
         </div>
         <div className="">
@@ -91,13 +160,13 @@ const ContestForm: React.FC<ContestProps> = ({
             label="Tee"
             name="Tee"
             required={true}
-            disabled={isSuperAdmin}
+            disabled={isUpdateContest ? true : false || isSuperAdmin}
             options={teeOptions || []}
           />
         </div>
       </div>
       <div className="mb-4 w-full space-y-4">
-        <h5 className="text-xl font-normal">Contest Duration</h5>
+        <h5 className="text-l font-normal text-black">Contest Duration</h5>
         <div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
             <div>
@@ -106,6 +175,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 label="Start Date/Time"
                 required={true}
                 disabled={isSuperAdmin}
+                minDate={today.format("YYYY-MM-DD")}
               />
             </div>
             <div>
@@ -121,15 +191,16 @@ const ContestForm: React.FC<ContestProps> = ({
         </div>
       </div>
       <div className="mb-4 space-y-4">
-        <h5 className="text-xl font-normal">Registration Period</h5>
+        <h5 className="text-l font-normal text-black">Registration Period</h5>
         <div>
-          <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+          <div className="mb-6 grid grid-cols-1 gap-x-5 gap-y-5 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
             <div>
               <CustomDatePicker
                 name="registrationStartTime"
                 label="Start Date/Time"
                 required={true}
                 disabled={isSuperAdmin}
+                maxDate={values.endDate}
               />
             </div>
             <div>
@@ -139,6 +210,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 required={true}
                 disabled={isSuperAdmin}
                 minDate={values?.registrationStartTime || undefined}
+                maxDate={values.endDate}
               />
             </div>
           </div>
@@ -175,11 +247,11 @@ const ContestForm: React.FC<ContestProps> = ({
               )}
             {saveState.selectedDays !== "" && saveState.frequency !== "" && (
               <div className="mb-4 flex items-center">
-                {frequency === "WEEKLY" && (
+                {saveState?.frequency === "WEEKLY" && (
                   <span className="text-xs text-gray-500">
                     {" "}
                     Occurs every{" "}
-                    {saveState.selectedDays.length < 7
+                    {saveState?.selectedDays?.length < 7
                       ? saveState.selectedDays.join(" ,")
                       : "day"}{" "}
                     until{" "}
@@ -188,24 +260,31 @@ const ContestForm: React.FC<ContestProps> = ({
                     </span>
                   </span>
                 )}
-                {frequency === "DAILY" && (
+                {saveState?.frequency === "DAILY" && (
                   <span className="text-xs text-gray-500">
                     {" "}
                     Occurs{" "}
                     {saveState.repeatEvery === 1
                       ? "every"
-                      : ` every ${getOrdinal(saveState.repeatEvery)}`}
+                      : ` every ${getOrdinal(saveState.repeatEvery)} `}
                     day until{" "}
                     <span className="text-xs font-semibold text-gray-500">
                       {moment.utc(endDate).format("DD/MM/YYYY")}
                     </span>
                   </span>
                 )}
-                <SquarePen
-                  className="mx-2 h-5 cursor-pointer text-blue-600"
-                  strokeWidth={1}
-                  onClick={toggleModal}
-                />
+                {userPermisions?.data?.permission["is_super_admin"] && (
+                  <SquarePen
+                    className={`mx-2 h-5 text-[#95c11e]`}
+                    strokeWidth={1}
+                    onClick={() => {
+                      if (isSuperAdmin) {
+                        return;
+                      }
+                      toggleModal();
+                    }}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -256,7 +335,9 @@ const ContestForm: React.FC<ContestProps> = ({
             </div>
           </div>
           <div>
-            <h5 className="text-xl font-normal">User Limits Section</h5>
+            <h5 className="text-l font-normal text-black">
+              User Limits Section
+            </h5>
             <div>
               <FormikControl
                 control="radio"
@@ -265,30 +346,36 @@ const ContestForm: React.FC<ContestProps> = ({
                 className="flex flex-row"
                 options={radioOptions}
                 disabled={isSuperAdmin}
+                sx={{
+                  "& MuiFormControlLabel-labelPlacementEnd ": {
+                    fontSize: "30px !important",
+                  },
+                }}
+                onChange={handleRadioChange}
               />
             </div>
           </div>
           <div className="my-4 grid grid-cols-1 gap-x-5 gap-y-5 md:w-2/3 md:grid-cols-2">
             <div className="">
               <MUINumber
-                label="How many Enteries Per 24 Hours"
+                label="How many Entries Per 24 Hours"
                 name="entriesPer24Hours"
                 className="w-full"
                 type="text"
                 required={true}
                 maxLength={25}
-                disabled={isSuperAdmin}
+                disabled={isSuperAdmin || values.limitSection === "no"}
               />
             </div>
             <div className="">
               <MUINumber
-                label="Wait Time in Between Enteries"
+                label="Wait Time in Between Entries"
                 name="waitTimeBetweenEntries"
                 className="w-full"
                 type="text"
                 required={true}
                 maxLength={25}
-                disabled={isSuperAdmin}
+                disabled={isSuperAdmin || values.limitSection === "no"}
               />
             </div>
           </div>
@@ -301,13 +388,13 @@ const ContestForm: React.FC<ContestProps> = ({
                 type="text"
                 required={true}
                 maxLength={25}
-                disabled={isSuperAdmin}
+                disabled={true} // for not user can not update its default 4 for que limit
               />
             </div>
           </div>
         </div>
+        <div></div>
       </div>
-      <div></div>
     </div>
   );
 };

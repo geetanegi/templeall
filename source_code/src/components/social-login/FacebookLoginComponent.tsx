@@ -84,7 +84,6 @@ const FacebookLoginComponent: React.FC<FacebookLoginComponentProps> = ({
   };
 
   const componentClicked = () => {
-    console.log("Facebook login button clicked");
   };
 
   return (

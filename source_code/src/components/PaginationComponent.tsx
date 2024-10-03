@@ -1,23 +1,23 @@
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 import React from 'react'
- 
+
 interface PaginationConponentProps {
     currentPage: any;
     setCurrentPage: (value: number) => void;
     totalPages: number;
 }
- 
+
 const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, setCurrentPage, totalPages }) => {
- 
+
     const handlePageChange = (value: any) => {
         setCurrentPage(value - 1);
     }
-     
- 
+
+
     const nextPage = () => {
         setCurrentPage(currentPage + 1);
     };
- 
+
     const previousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
@@ -25,7 +25,7 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
             setCurrentPage(0);
         }
     };
- 
+
     const renderPageNumbers = () => {
         let pages: any = [];
         const activePage = currentPage + 1
@@ -64,7 +64,7 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
             if (end < totalPages - 1) {
                 pages.push('...');
             }
- 
+
             // Always show the last page
             if (totalPages > 3 && activePage !== totalPages) {
                 pages.push(totalPages);
@@ -74,14 +74,14 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
             <button
                 key={index}
                 onClick={() => page !== '...' && handlePageChange(page)}
-                className={`flex text-center py-1 px-3 justify-center rounded-[6px]  border-[1px] border-solid border-[#E4E4EB] ${page == (currentPage + 1) ? 'bg-lime-500 text-white' : 'text-black'} `}
- 
+                className={`flex text-center py-1 px-3 justify-center rounded-[6px]  border-[1px] border-solid border-[#E4E4EB] ${page == (currentPage + 1) ? 'bg-[#95c11e] text-white' : 'text-black'} `}
+
             >
                 {page}
             </button>
         ));
     };
- 
+
     return (
         <div className="flex ml-auto backdrop-blur-md">
             <ul
@@ -96,7 +96,7 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
                             : " cursor-pointer"
                         }
                                   `}
-                    onClick={()=>setCurrentPage(0)}
+                    onClick={() => setCurrentPage(0)}
                 >
                     <ChevronsLeft />
                 </li>
@@ -104,10 +104,10 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
                     className={` prev-btn flex bg-transparent items-center justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] disabled] 
                         ${currentPage === 0 ? "bg-[#cccccc] pointer-events-none" : "cursor-pointer"
                         } `}
-                        style={currentPage ===0 ? {cursor:"not-allowed"}: {cursor:"pointer"}}
+                    style={currentPage === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }}
                     onClick={previousPage}
                 >
-                    <ChevronLeft style={currentPage ===0 ? {cursor:"not-allowed"}: {cursor:"pointer"}} />
+                    <ChevronLeft style={currentPage === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }} />
                 </li>
                 {
                     renderPageNumbers()
@@ -122,12 +122,12 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
                     <ChevronRight />
                 </li>
                 <li
-                    className={` prev-btn flex cursor-pointer bg-transparent items-center justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] disabled] ${(currentPage + 1) === totalPages 
+                    className={` prev-btn flex cursor-pointer bg-transparent items-center justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] disabled] ${(currentPage + 1) === totalPages
                         ? "bg-[#cccccc] pointer-events-none"
                         : " cursor-pointer"
                         }
     `}
-                    onClick={()=>setCurrentPage(totalPages-1)}
+                    onClick={() => setCurrentPage(totalPages - 1)}
                 >
                     <ChevronsRight />
                 </li>
@@ -135,5 +135,5 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
         </div>
     )
 }
- 
+
 export default PaginationComponent;

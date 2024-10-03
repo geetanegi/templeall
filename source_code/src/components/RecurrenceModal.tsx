@@ -4,7 +4,7 @@ import { RefreshCcw } from "lucide-react";
 import WeekButtons from "./WeekButtons";
 import { getOrdinal } from "../utils/RegexPatterns";
 
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 
 interface RecurrenceModalProps {
   isOpen: boolean;
@@ -21,6 +21,11 @@ interface RecurrenceModalProps {
   setSelectedDays: Dispatch<SetStateAction<string[]>>;
   handleEndDateChange: (date: Date | null) => void;
   setFrequency: (frequency: string) => void;
+  saveState: {
+    selectedDays: string[];
+    frequency: string;
+    repeatEvery: number;
+  };
 }
 const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
   isOpen,
@@ -37,7 +42,19 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
   setSelectedDays,
   handleEndDateChange,
   setFrequency,
+  saveState,
 }) => {
+  useEffect(() => {
+    setFrequency(saveState?.frequency ? saveState.frequency : "DAILY");
+    setSelectedDays(saveState?.selectedDays);
+    setRepeatEvery(saveState?.repeatEvery ? saveState.repeatEvery : 1);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (frequency === "DAILY") {
+      setSelectedDays([]);
+    }
+  }, [frequency, isOpen]);
   return (
     <div>
       <Modal
@@ -45,11 +62,11 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
         onClose={onClose}
         title="Make Recurring"
         footer={
-          <>
+          <div className="flex justify-end p-4">
             <div className="space-x-2">
               <button
                 onClick={handleSaveModal}
-                className="rounded-lg bg-lime-500 px-5 py-2 text-sm font-medium text-white"
+                className="rounded-lg bg-[#95c11e] px-5 py-2 text-sm font-medium text-white"
               >
                 Save
               </button>
@@ -61,7 +78,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 Back
               </button>
             </div>
-          </>
+          </div>
         }
       >
         <div className="w-full space-y-4">
@@ -119,13 +136,13 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 setSelectedDays={setSelectedDays}
               />
             )}
-            <p className="text-sm text-gray-400">
+            <p className="text-xs text-gray-400">
               {frequency === "WEEKLY" && (
                 <span>
                   {" "}
                   Occurs every{" "}
-                  {selectedDays.length < 7
-                    ? selectedDays.join(" ,")
+                  {selectedDays?.length < 7
+                    ? selectedDays?.join(" ,")
                     : "day"}{" "}
                   until
                 </span>
@@ -133,9 +150,10 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
               {frequency === "DAILY" && (
                 <span>
                   {" "}
-                  Occurs every{" "}
-                  {repeatEvery === 1 ? "every" : getOrdinal(repeatEvery)} day
-                  until
+                  Occurs {repeatEvery === 1
+                    ? "every"
+                    : getOrdinal(repeatEvery)}{" "}
+                  day until
                 </span>
               )}
             </p>

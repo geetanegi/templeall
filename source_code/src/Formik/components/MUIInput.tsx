@@ -10,6 +10,7 @@ interface InputProps {
   required?: boolean;
   maxLength?: number;
   validateRegex?: RegExp;
+  onFocus?:()=>void;
 }
 
 const MUIInput: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ const MUIInput: React.FC<InputProps> = ({
   required = false,
   maxLength,
   validateRegex,
+  onFocus=()=>{},
 }) => {
   // Function to validate input and block special characters and spaces
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -36,6 +38,8 @@ const MUIInput: React.FC<InputProps> = ({
           <TextField
             {...field}
             type={type}
+            onFocus={onFocus}
+            autoComplete="off"
             label={
               <span className="">
                 {label}

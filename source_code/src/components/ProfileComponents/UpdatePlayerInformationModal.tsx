@@ -21,9 +21,10 @@ interface userProfileType {
     location?: string;
     alternateEmail?: string;
     clubs: string;
-
+ 
 }
 interface userDataTypes {
+    userCourseAndClubInfo: any;
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -36,15 +37,15 @@ interface userDataTypes {
     courseIds?: string;
     userProfile: userProfileType;
 }
-
+ 
 interface updateProfileModalprops {
     isModalOpen: boolean;
     setIsModalOpen: (val: boolean) => void;
     fetchUserInformation: () => void
     userData: userDataTypes
-
+ 
 }
-
+ 
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -65,9 +66,9 @@ const initialValues = {
     courseIds: "",
     clubs: "",
     countryCode: "+1"
-
+ 
 };
-
+ 
 const validationSchema = Yup.object({
     firstName: Yup.string()
         .required("First Name is required ")
@@ -91,17 +92,17 @@ const validationSchema = Yup.object({
         .max(10, "Please enter valid phone number."),
     location: Yup.string().matches(
         /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters",
+        "Location must contain only alphabetic characters",
     ),
     city: Yup.string().matches(
         /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters",
+        "City must contain only alphabetic characters",
     ),
     ghin: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid GHIN Number.'),
     alternateEmail: Yup.string()
         .email("Please enter a valid email address")
 });
-
+ 
 const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isModalOpen, setIsModalOpen, fetchUserInformation, userData }) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -119,7 +120,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                     data: {},
                 },
             );
-            if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
+            if (res.status === 200 && !res.data.error) {
                 setCourses(res.data);
             } else if (res.data.error) {
                 ToastError(res.data.description || "Error fetching course data");
@@ -128,14 +129,14 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
             ToastError("Error fetching course data");
         }
     };
-
-
-
+ 
+ 
+ 
     useEffect(() => {
         getCurrentDate();
         fetchCourseList();
     }, [])
-
+ 
     const getCurrentDate = () => {
         const today = new Date();
         today.setDate(today.getDate() - 1);
@@ -143,17 +144,17 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
         setMaxDate(maxDateString);
     }
     const dispatch = useDispatch();
-
+ 
     const handleSubmit = async (
         values: any,
         { setSubmitting }: FormikHelpers<any>,
-
+ 
     ) => {
         setCardTouched(false)
         dispatch(setLoading(true));
         try {
-
-
+ 
+ 
             const payload = {
                 data: {
                     ...values,
@@ -178,7 +179,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
             setSubmitting(false);
             dispatch(setLoading(false));
         }
-
+ 
         if (!stripe || !elements) {
             // Stripe.js has not loaded yet
             return;
@@ -196,10 +197,10 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
         scrollbarWidth: 'none', // Firefox
         msOverflowStyle: 'none', // IE and Edge
     };
-
+ 
     return (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title='Edit Profile'
-
+ 
         >
             <Formik
                 initialValues={userData ? {
@@ -218,7 +219,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                     username: userData?.username || '',
                     ball: userData?.userProfile?.ball || '',
                     clubId: "1",
-                    courseIds: "",
+                    courseIds: userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0].id,
                     clubs: userData?.userProfile?.clubs || '',
                     cvv: "",
                     countryCode: "+1"
@@ -237,7 +238,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                 }) => (
                     <form
                         onSubmit={handleSubmit}
-
+ 
                     >
                         <div className='h-[340px] overflow-auto scrollbar-hidden'
                             style={scrollbarStyles}
@@ -296,7 +297,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                     value={values.username}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-
+ 
                                     className="mx-5 rounded-lg border border-gray-200 bg-[#E6E6E6] text-[#7B7887] cursor-not-allowed px-2 py-3 text-gray-500 w-[90%] md:w-[430px]"
                                 />
                                 <div className="mb-5 ml-6">
@@ -341,7 +342,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                             )}
                                     </div>
                                 </div>
-
+ 
                                 <div className='w-1/2'>
                                     <input
                                         type="text"
@@ -360,7 +361,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                                 <span className="text-red-600">{errors.city}</span>
                                             )}
                                     </div>
-
+ 
                                 </div>
                             </div>
                             <div>
@@ -464,7 +465,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                         className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 "
                                     />
                                 </div>
-
+ 
                                 <div className='w-1/2'>
                                     <input
                                         type="text"
@@ -492,14 +493,15 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                         <option
                                             key={course.id}
                                             value={course.id}
+                                            selected={values.courseIds === course.id}
                                             label={course.courseName}
                                         />
                                     ))}
                                 </select>
                                 <ChevronDown className='absolute right-10 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none' />
-
+ 
                             </div>
-
+ 
                             {/* Card Inforemation */}
                             <div className='ml-5 mb-3 text-[20px] font-semibold'>
                                 Card Information
@@ -531,7 +533,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                 </div>
                                 <div className='flex mx-5 w-[90%] md:w-[430px] gap-4 my-5'>
                                     <div
-                                        className={`w-3/4  w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 ${cardTouched && cardError
+                                        className={`lg:w-3/4  w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 ${cardTouched && cardError
                                             ? "border-red-500"
                                             : "border-gray-300"
                                             }`}
@@ -553,9 +555,9 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                                 },
                                             }}
                                         />
-
+ 
                                     </div>
-                                    <div className={`w-1/4 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500  ${cardTouched && cardError
+                                    <div className={`lg:w-1/4 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500  ${cardTouched && cardError
                                         ? "border-red-500"
                                         : "border-gray-300"
                                         }`}>
@@ -591,10 +593,10 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
                                     className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-[#6B7280] md:w-[430px]"
                                 />
                             </div>
-
+ 
                         </div>
-
-
+ 
+ 
                         <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
                             <button
                                 type="button"
@@ -617,5 +619,5 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({ isMod
         </Modal >
     )
 }
-
+ 
 export default UpdatePlayerInformationModal

@@ -17,6 +17,7 @@ interface RadioButtonsProps {
   options: Option[];
   className?: string; // Optional className prop
   disabled?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // Optional onChange prop
 }
 
 const RadioButtons: React.FC<RadioButtonsProps> = ({
@@ -25,25 +26,41 @@ const RadioButtons: React.FC<RadioButtonsProps> = ({
   options,
   className,
   disabled = false,
+  onChange, // Destructure onChange prop
 }) => {
   return (
-    <FormControl component="fieldset">
+    <FormControl component="fieldset" className={className} disabled={disabled}>
       <FormLabel component="legend">{label}</FormLabel>
       <Field name={name}>
-        {({ field }: FieldProps) => (
-          <div className={className}>
+        {({ field, form }: FieldProps) => (
+          <div>
             {options.map((option) => (
               <FormControlLabel
+                sx={{
+                  "& .MuiTypography-root": {
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  },
+                }}
                 key={option.value}
                 control={
                   <Radio
                     {...field}
                     value={option.value}
                     checked={field.value === option.value}
+                    disabled={disabled}
+                    onChange={(event) => {
+                      // Update Formik field value
+                      form.setFieldValue(name, event.target.value);
+
+                      // Call the additional onChange logic if provided
+                      if (onChange) {
+                        onChange(event);
+                      }
+                    }}
                   />
                 }
                 label={option.key}
-                disabled={disabled}
               />
             ))}
             <ErrorMessage

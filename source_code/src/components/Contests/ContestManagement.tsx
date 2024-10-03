@@ -15,6 +15,7 @@ import { MdSportsGolf } from "react-icons/md";
 import Modal from "../ModalComponent";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
+import ContestList from "../../pages/ContestList";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -36,7 +37,7 @@ const ContestManagement = () => {
 
   const isCourseAdmin = userPermisions.data?.permission["is_course_admin"];
   const [rowData, setRowData] = useState<any[]>([]);
-  const [pageSize, setPageSize] = useState<number>(5);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<any>(0);
@@ -61,15 +62,15 @@ const ContestManagement = () => {
     computePagination();
   }, [pageSize, currentPage, totalAdminCount]);
 
-  const computePagination = () => {
-    const startIndex = currentPage * pageSize;
+  const computePagination = async () => {
+    const startIndex = (await currentPage) * pageSize;
     const currentItems =
-      totalAdminCount?.slice(
+      (await totalAdminCount?.slice(
         startIndex,
         Number(startIndex) + Number(pageSize),
-      ) || [];
-
-    setRowData(currentItems);
+      )) || [];
+    const tableData = await computeTableData(currentItems);
+    setRowData(tableData);
   };
 
   const getStatus = (status: string) => {
@@ -112,9 +113,6 @@ const ContestManagement = () => {
         <button
           className="text-[#0077B6]"
           onClick={() => {
-            // console.log("eye clicked!", contest);
-            // navigate(`${ROUTES.UPDFATE_CONTEST.replace(":id", selectedId)}`);
-
             navigate(
               `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
             );
@@ -126,45 +124,30 @@ const ContestManagement = () => {
         isCompleted(contest.activeStatus, contest.id)
       ),
     }));
-
-    setTotalAdminCount(data);
-    computePagination();
-  };
-
-  const isChecked = (status: string) => {
-    if (status == "Active") {
-      return true;
-    }
-    if (status == "Inactive") {
-      return false;
-    }
+    return data;
   };
 
   const isCompleted = (status: string, id: number) => {
-    if (status !== "Completed") {
-      return (
-        <div className="flex gap-2 py-2">
-          <button style={{ color: "#0077B6" }}>
-            <SquarePen
-              onClick={() => {
-                // alert("yes");
-
-                // console.log("setSetselectedRow===>", id);
-                setSetselectedId(id);
-                setIsModalOpen(true);
-              }}
-              height={20}
-              width={20}
-            />
-          </button>
-          <SwitchComponent
-            isChecked={isChecked(status)}
-            id={id}
-            onChange={() => updateContestStatus(id, status)} // Update status on switch change
+    return (
+      <div className="flex w-[70%] justify-between gap-2 py-2">
+        <button style={{ color: "#95c11e" }}>
+          <SquarePen
+            strokeWidth={1}
+            onClick={() => {
+              setSetselectedId(id);
+              setIsModalOpen(true);
+            }}
+            height={24}
+            width={24}
           />
-        </div>
-      );
-    }
+        </button>
+        <SwitchComponent
+          isChecked={status === "Active"}
+          id={id}
+          onChange={(status: boolean) => updateContestStatus(id, status)} // Update status on switch change
+        />
+      </div>
+    );
   };
 
   const getContestType = (contest: string) => {
@@ -174,6 +157,20 @@ const ContestManagement = () => {
     if (contest == "CLOSEST_TO_THE_PIN") {
       return "Closest-to-the-Pin";
     }
+  };
+
+  const updateActiveStatus = (id: number | string, newStatus: string) => {
+    const status = newStatus === "AC" ? "Active" : "Inactive";
+    const newData = totalAdminCount.map((contest: any) => {
+      if (contest.id === id) {
+        return {
+          ...contest,
+          activeStatus: status,
+        };
+      }
+      return contest;
+    });
+    setTotalAdminCount(newData);
   };
 
   const fetchContestList = async (status: any) => {
@@ -191,8 +188,9 @@ const ContestManagement = () => {
         );
       }
 
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
-        computeTableData(res.data.data);
+      if (res.status === 200 && !res.data.error) {
+        setTotalAdminCount(res.data.data);
+        computePagination();
       } else {
         ToastError(res.data.description || "Error fetching contest data");
       }
@@ -201,21 +199,21 @@ const ContestManagement = () => {
     }
   };
 
-  const mapStatusToBackend = (status: string) => {
-    if (status === "Active") {
-      return "DE"; // Backend expects 'DE' for Inactive
-    } else if (status === "Inactive") {
-      return "AC"; // Backend expects 'AC' for Active
+  const mapStatusToBackend = (status: boolean) => {
+    if (status) {
+      return "AC"; // Backend expects 'DE' for Inactive
+    } else {
+      return "DE"; // Backend expects 'AC' for Active
     }
-    return ""; // Default case if status doesn't match
   };
 
-  const updateContestStatus = async (id: number, status: string) => {
+  const updateContestStatus = async (id: number, status: boolean) => {
     try {
       // Map the current status to the backend code
+
       const newStatus = mapStatusToBackend(status);
 
-      const res = await apiService.post<ContestApiResponse>(
+      const res = await apiService.post<any>(
         API_URL.updateStatusContest,
 
         {
@@ -226,16 +224,23 @@ const ContestManagement = () => {
         }, // Send backend code (DE/AC)
       );
 
-      if (res.status === 200 && res.statusText === "OK" && !res.data.error) {
-        ToastSuccess("Status updated successfully");
-        fetchContestList(currentStatus); // Refresh the table data after update
-      } else {
+      if (res.status === 200 && res?.data != null && !res?.data.error) {
+        ToastSuccess(res.data.data.message);
+        updateActiveStatus(id, newStatus);
+      } else if (res?.data.error && res.data.description) {
         ToastError(res.data.description || "Error updating contest status");
       }
     } catch (error) {
       ToastError("Error updating contest status");
     }
   };
+  if (userPermisions?.data?.permission["is_player"]) {
+    return (
+      <div>
+        <ContestList />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -243,7 +248,7 @@ const ContestManagement = () => {
       style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
     >
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
-        <div className="mb-4 flex flex-col justify-between md:flex-row">
+        <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between">
             <select
               id="courses"
@@ -262,14 +267,14 @@ const ContestManagement = () => {
               <option value="CP">Completed</option>
             </select>
           </div>
-          {!isCourseAdmin && (
+          {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (
             <button
-              className="mt-4 flex gap-2 rounded-md bg-lime-500 px-4 py-2 text-white md:mr-2 md:mt-0 md:px-6"
+              className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-[#95c11e] px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
                 navigate(ROUTES.CREATE_CONTEST);
               }}
             >
-              <Plus /> Create Contest
+              <Plus height={18} width={18} /> Create Contest
             </button>
           )}
         </div>
@@ -278,7 +283,7 @@ const ContestManagement = () => {
             Headers={tableHeaders}
             rowData={rowData}
             currentPage={currentPage}
-            totalPages={Math.round(totalAdminCount.length / Number(pageSize))}
+            totalPages={Math.ceil(totalAdminCount.length / Number(pageSize))}
             setCurrentPage={setCurrentPage}
             pageSize={pageSize}
             setPageSize={setPageSize}
@@ -319,9 +324,8 @@ const ContestManagement = () => {
                     `${ROUTES.UPDFATE_CONTEST.replace(":id", selectedId?.toString())}`,
                   );
                 }
-                // navigate(ROUTES.UPDFATE_CONTEST, { state: { edit: true } });
               }}
-              className="w-32 rounded-md bg-lime-500 py-2 text-white"
+              className="w-32 rounded-md bg-[#95c11e] py-2 text-white"
             >
               {"OK"}
             </button>

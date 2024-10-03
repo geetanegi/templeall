@@ -39,7 +39,7 @@ const FormikContainer = () => {
     birthDate: Yup.date().required("Required").nullable(),
   });
   const onSubmit = (values: typeof initialValues) =>
-    console.log("submit data values ", values);
+    console.log("submit data values ", values); //TO BE REMOVED
   return (
     <Formik
       initialValues={initialValues}

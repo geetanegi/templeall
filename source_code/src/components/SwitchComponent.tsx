@@ -31,7 +31,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({ isChecked = false, id
           className="sr-only peer"
         />
         <div
-          className={`w-11 h-6 bg-[#7B7887] rounded-full   ${checked ? 'bg-lime-600' : 'bg-[#7B7887]'
+          className={`w-11 h-6 bg-[#7B7887] rounded-full   ${checked ? 'bg-[#95c11e]' : 'bg-[#7B7887]'
             } transition duration-200 ease-in-out`}
         ></div>
         <span

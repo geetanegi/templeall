@@ -42,7 +42,11 @@ const AdminProfileComponent: React.FC<AdminProfileComponentProps> = ({ userinfor
                     <div className='text-[#0077B6]'>{userinformation?.email || "---"}</div>
                 </div>
                 <div className='flex gap-2' ><Phone className='h-[18px] w-[18px]' />
-                    <div className='text-[#7B7887]'>{"+1"+userinformation?.userProfile?.contactNumber || '---'}</div>
+                        {
+                            userinformation?.userProfile?.contactNumber ?
+                            <div className='text-[#7B7887]'>{"+1" + userinformation?.userProfile?.contactNumber}</div>:
+                            '---'
+                        }
                 </div>
                 {
             !userId || (userId == userInfo?.userId) ?

@@ -79,7 +79,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
                     );
                   }}
                   onError={(error) => {
-                    console.log("error", error);
                     setError(error);
                     if (error) {
                       setIsIncomplete(true);

@@ -34,13 +34,29 @@ const MUISelect: React.FC<SelectProps> = ({
   return (
     <Field name={name}>
       {({ field, form }: FieldProps) => (
-        <Box sx={{ minWidth: 120 }}>
+        <Box sx={{ minWidth: "200px" }}>
+          {" "}
+          {/* Define the minimum width */}
           <FormControl
             fullWidth
             variant="outlined"
             error={Boolean(form.errors[name] && form.touched[name])}
+            sx={{
+              // Control the overall width of the select component
+              width: "100%", // This ensures it adapts to parent width or can be set explicitly like '300px'
+              minWidth: "150px", // Reduce default width
+              "& .MuiInputBase-root": {
+                padding: "4px", // Reduce default padding inside the Select
+              },
+            }}
           >
-            <InputLabel id={`${name}-label`}>
+            <InputLabel
+              id={`${name}-label`}
+              sx={{
+                fontSize: "14px", // Reduce label font size
+                paddingLeft: "4px", // Reduce label padding
+              }}
+            >
               <span style={{ display: "flex", alignItems: "center" }}>
                 {label}
                 {required && (
@@ -53,16 +69,32 @@ const MUISelect: React.FC<SelectProps> = ({
               id={name}
               {...field}
               {...rest}
-              value={field.value || ""} // Set default value to empty string if undefined
+              value={field.value || ""}
               onChange={(event: SelectChangeEvent<string>) => {
+                // Ensure form value is updated
                 form.setFieldValue(name, event.target.value);
+
+                // If additional logic is needed when changing the value (e.g., reset dependent fields), it can be added here.
+                if (rest.onChange) {
+                  rest.onChange(event); // Call any additional onChange logic passed via props
+                }
               }}
               disabled={disabled}
-              className={`w-full rounded-lg border px-2 text-gray-500`}
               label={label}
               sx={{
                 backgroundColor: "#FAFAFA",
-                borderRadius: "10px",
+                padding: "6px", // Reduce the padding inside the select
+                borderRadius: "6px", // Reduce border radius
+                fontSize: "14px", // Adjust font size to make it smaller
+                "& .MuiSelect-select": {
+                  padding: "8px 12px", // Reduce the internal padding of the text inside the select
+                },
+                "&:hover": {
+                  backgroundColor: "#f0f0f0",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  // borderColor: "blue", // Custom focus border color
+                },
               }}
             >
               <MenuItem value="">
@@ -74,7 +106,12 @@ const MUISelect: React.FC<SelectProps> = ({
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText>
+            <FormHelperText
+              sx={{
+                paddingLeft: "4px", // Reduce padding for helper text
+                fontSize: "12px", // Reduce font size for helper text
+              }}
+            >
               <ErrorMessage name={name} />
             </FormHelperText>
           </FormControl>

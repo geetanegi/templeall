@@ -1,18 +1,18 @@
 import React from "react";
 import { Field, FieldProps } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import dayjs, { Dayjs } from "dayjs";
+import moment, { Moment } from "moment";
 
 interface DatePickerProps {
   label?: string;
   name: string;
   placeholder?: string;
-  maxDate?: Dayjs | string;
-  [key: string]: any;
+  maxDate?: Moment | string;
   required?: boolean;
-  minDate?: Dayjs | string;
+  minDate?: Moment | string;
+  [key: string]: any;
 }
 
 const CustomDatePicker: React.FC<DatePickerProps> = ({
@@ -24,7 +24,9 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
   minDate,
   ...rest
 }) => {
-  const minDateValue = typeof minDate === "string" ? dayjs(minDate) : minDate;
+  const minDateValue = typeof minDate === "string" ? moment(minDate) : minDate;
+  const maxDateValue = typeof maxDate === "string" ? moment(maxDate) : maxDate;
+
   return (
     <div>
       <Field name={name}>
@@ -33,12 +35,18 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
           const { value } = field;
 
           return (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
               <div>
                 <DateTimePicker
-                  // label={label}
                   label={
-                    <span style={{ display: "flex", alignItems: "center" }}>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        padding: "0",
+                      }}
+                    >
                       {label}
                       {required && (
                         <span style={{ color: "red", marginLeft: "0.25rem" }}>
@@ -48,10 +56,11 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
                     </span>
                   }
                   minDate={minDateValue}
+                  maxDate={maxDateValue}
                   {...field}
                   {...rest}
-                  value={value ? dayjs(value) : null}
-                  onChange={(newValue: Dayjs | null) => {
+                  value={value ? moment(value) : null}
+                  onChange={(newValue: Moment | null) => {
                     setFieldValue(
                       name,
                       newValue ? newValue.toISOString() : null,
@@ -64,25 +73,15 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
                     textField: {
                       error: Boolean(meta.error && meta.touched),
                       helperText: meta.touched && meta.error,
-                      // helperText: ,
-                      // helperText: (
-                      //   <ErrorMessage
-                      //     name={name}
-                      //     component={TextError as React.ComponentType<{}>}
-                      //   />
-                      // ),
                       sx: {
-                        "& .MuiInputBase-root-MuiOutlinedInput-root": {
-                          // backgroundColor: "#FAFAFA",
-                        },
+                        "& .MuiInputBase-root-MuiOutlinedInput-root": {},
                         width: "100%",
-                        // borderRadius: "10px",
-                        // // border: `2px solid ${meta.error && meta.touched ? "red" : "gray.500"}`,
-                        // padding: "2",
-                        // color: "gray.500",
                         "& .MuiInputBase-root": {
-                          borderRadius: "10px",
+                          borderRadius: "5px",
                           backgroundColor: "#FAFAFA",
+                          fontSize: "14px",
+                          padding: "0px 16px 0px 6px",
+                          height: "48px",
                         },
                       },
                     },
@@ -96,4 +95,5 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
     </div>
   );
 };
+
 export default CustomDatePicker;

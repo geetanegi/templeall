@@ -235,7 +235,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
                 <div className='h-[360px] overflow-auto pt-[6px] scrollbar-hidden'
                   style={scrollbarStyles}>
                   <div className="px-5 mb-3">
-                    <span className='text-[gray] hidden' >Video Category :</span><span className='text-[#000000] font-semibold'> {videoCategory}</span>
+                    <span className={`text-[gray] ${videoCategory === 'WINNER_VIDEO' ? 'hidden': 'visible'}`} >Video Category :</span><span className='text-[#000000] font-semibold'> {videoCategory === 'TOP_SHOT' ? 'Top Shot' :videoCategory === 'NOT_TOP_SHOT'? 'Not Top Shot' : ''  }</span>
                   </div>
                   <div className="flex  px-5">
                     <FormikControl

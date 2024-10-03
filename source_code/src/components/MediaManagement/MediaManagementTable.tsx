@@ -306,7 +306,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             tee: data?.teeName || '',
             playerUserName: data?.username || '',
             date: moment.utc(data?.dateTime).local().format('YYYY-MM-DD'),
-            time: moment.utc(data?.dateTime).local().format('HH:MM A'),
+            time: moment.utc(data?.dateTime).local().format('h:mm A'),
             upload: <div className='flex items-center py-4 gap-2'>
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}

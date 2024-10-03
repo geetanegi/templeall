@@ -20,6 +20,7 @@ interface UploadVideoModalProps {
   selectedReqVideoId: number | string;
   setIsRefreshList: (flag: boolean) => void;
   isRefreshList: boolean
+  selectedTab:number;
 }
 
 const initialValue = {
@@ -43,7 +44,7 @@ const validationSchema = Yup.object({
     .max(100, "Video description must be less than 100 characters"),
 });
 
-const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsModalOpen, isSoTW = false, videoCategory, selectedReqVideoId, setIsRefreshList, isRefreshList }) => {
+const UploadVideoModal: React.FC<UploadVideoModalProps> = ({selectedTab, isModalOpen, setIsModalOpen, isSoTW = false, videoCategory, selectedReqVideoId, setIsRefreshList, isRefreshList }) => {
 
  
   const loader = useSelector((state: RootState) => state.loader.isLoading);
@@ -125,7 +126,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ isModalOpen, setIsM
           if (!isSoTW) {
             const data1 = {
               data: {
-                "requestType": videoCategory,
+                "requestType": selectedTab === 1 ? 'WINNER_VIDEO' : 'REQUEST_VIDEO',
                 "videoCategory": "TOP_SHOT",
                 "videoDescription": values.description,
                 "videoTitle": values.title,

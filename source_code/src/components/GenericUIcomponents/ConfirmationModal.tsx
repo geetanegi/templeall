@@ -7,7 +7,8 @@ interface ConfirmationModalProps {
     confirmationText: string;
     isOpen:boolean;
     onClose:(flag: boolean)=>void
-    onOk:()=>void
+    onOk:()=>void;
+    
 }
 
 const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, confirmationText, isOpen, onClose, onOk }) => {

@@ -225,8 +225,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            reuestDate: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            reuestDate: moment().utc(data?.requestTime).local().format('YYYY-MM-DD'),
+            time: moment.utc(data?.requestTime).local().format('HH:SS A'),
             upload: <div className='flex items-center py-4 gap-2'>  
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
@@ -247,8 +247,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             playerUserName: data?.username || '',
-            date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('hh:mm A'),
+            date: moment.utc(data?.requestTime).local().format('YYYY-MM-DD'),
+            time: moment().utc(data?.requestTime).local().format('hh:mm A'),
             upload: !data.videos ? <button className={`flex py-4 gap-2 cursor-pointer`}
               onClick={() => {
                 setVideoCategory("WINNER_VIDEO")
@@ -284,13 +284,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
           return {
             playerUserName: data?.username || '',
-            reuestDate: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
+            reuestDate: moment.utc(data?.requestTime).local().format('YYYY-MM-DD'),
             contestName: data?.contestType || '',
             club: data?.clubName || '',
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            time: moment.utc(data?.requestTime).local().format('HH:MM A'),
             Category: <div className="relative flex items-center text-[14px]  inline-block">
               {data.videoCategory === "TOP_SHOT" ? "Top Shot " : data.videoCategory === "NOT_TOP_SHOT" ? "Not Top Shot" : "Bloopers"}
               <Info size={16} className='ml-2 cursor-pointer'
@@ -312,14 +312,14 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
         } else if (selectedTab === 3) {
           return {
-            contestName: "Shot-of-the-Week",
+            contestName: data?.contestType || '',
             club: data?.clubName || '',
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             playerUserName: data?.username || '',
-            date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            date: moment.utc(data?.dateTime).local().format('YYYY-MM-DD'),
+            time: moment.utc(data?.dateTime).local().format('h:mm A'),
             upload: <div className='flex items-center py-4 gap-2'>
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}

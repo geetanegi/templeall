@@ -89,6 +89,7 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
           label={rest.label}
           name={rest.name}
           id={rest.id}
+          onFocus={rest.onFocus}
           {...rest}
         />
       );

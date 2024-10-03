@@ -84,8 +84,8 @@ export const computeFilterDropDown = (selectedTab:number|string, renderFor:strin
         if(selectedTab === 1 && renderFor === "SuperAdmin"){
             return   [
                 {id:1, key:"", name: "All Videos"},
-                {id:2, key:"ACE_CAM_JACKPOT", name: "Winning Shot Jackpot"},
-                {id:2, key:"CLOSEST_TO_THE_PIN", name: "Winning Shot CTP"}
+                {id:2, key:"ACE_CAM_JACKPOT", name: "AceCam Jackpot"},
+                {id:2, key:"CLOSEST_TO_THE_PIN", name: "Closest to the Pin"}
             ]
         }else if(selectedTab === 2 && renderFor === "SuperAdmin"){
             return   [

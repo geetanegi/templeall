@@ -59,7 +59,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     try {
 
       const { data, status } = await apiService.post<any>(
-        API_URL.getAllMediaCounts,
+        API_URL.getAllHighlightsCounts,
         {
           "data": {}
         },
@@ -191,7 +191,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 1 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             Published Highlights
-            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.published_highligh || 0}</span>
+            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.published || 0}</span>
           </button>
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
           ${selectedTab === 2 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -200,7 +200,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 2 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             Request Highlights
-            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.request_highlight || 0}</span>
+            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.allRequested || 0}</span>
           </button>
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
           ${selectedTab === 3 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -209,7 +209,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 3 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             All Highlights
-            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.all_highlight || 0}</span>
+            <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{highlightsCounts.allHighlight || 0}</span>
           </button>
         </div>
         {
@@ -252,6 +252,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                 setIsVideoPlayerVisible={setIsVideoPlayerVisible}
                 setRefreshList={setRefreshList}
                 refreshList={refreshList}
+                isSOTW={filterValue === "SOTW"}
                 
               />
             })

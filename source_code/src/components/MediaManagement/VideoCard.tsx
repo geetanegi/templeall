@@ -38,6 +38,7 @@ interface VideoCardProps {
     setSelectedVideo: (video: string) => void;
     setRefreshList: (flag: boolean) => void;
     refreshList: boolean,
+    isSOTW:boolean
     
 }
 
@@ -65,8 +66,8 @@ const VideoCard: React.FC<VideoCardProps> = (
         setSelectedVideo,
         setIsVideoPlayerVisible,
         getAllVideos,
+        isSOTW,
          }) => {
-
     const[isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -292,6 +293,8 @@ const VideoCard: React.FC<VideoCardProps> = (
                                 <span className='text-[#FD8A02]'><Bookmark fill='#FD8A02' size={18} /></span> : null
                         }
                     </div>
+                    {
+                        !isSOTW ?
                     <div className="absolute top-2 right-2">
                         {
                             isApproved ?
@@ -322,7 +325,8 @@ const VideoCard: React.FC<VideoCardProps> = (
                                 </div> :
                                 <img src={lockvideo} alt="" />
                         }
-                    </div>
+                    </div> : null
+                    }
                 </div>
 
                 {/* Video Details */}

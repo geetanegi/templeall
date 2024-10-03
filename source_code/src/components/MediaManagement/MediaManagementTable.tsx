@@ -163,7 +163,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   }
 
   const computeUploadColumn = (videos: any, status: string, videoCategory: string, reqId: string | number, playvideo: () => void) => {
-    debugger;
     if (status === 'REJECT') {
       return <div className='text-[gray] p-1' >No video</div>
     } else if (videos) {
@@ -183,9 +182,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         />
       </div>
     } else {
-      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' ) ? '' : 'cursor-default'} `}
+      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED' ) ? '' : 'cursor-default'} `}
         onClick={() => {
-          if (activeStatus === 'Approved') {
+          
+          if (activeStatus === 'Approved' || status === 'APPROVED' ) {
             setVideoCategory(videoCategory)
             setSelectedReqVideoId(reqId)
             setIsModalOpen(true)
@@ -194,7 +194,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         }
       >
         <Upload size={18} className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? "text-[#0077B6]" : 'text-[gray] '}`} />
-        <div className={`${(activeStatus === 'Approved') ? 'text-[#0077B6]' : 'text-[gray]'}`} >Video</div>
+        <div className={`${(activeStatus === 'Approved' || status === 'APPROVED') ? 'text-[#0077B6]' : 'text-[gray]'}`} >Video</div>
 
       </button>
 

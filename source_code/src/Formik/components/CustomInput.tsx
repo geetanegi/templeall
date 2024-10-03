@@ -11,6 +11,7 @@ interface InputProps {
   required?: boolean;
   maxLength?: number;
   validateRegex?: RegExp;
+  onFocus?:()=>void
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
   required = false,
   maxLength,
   validateRegex,
+  onFocus=()=>{}
 }) => {
   // Function to validate input and block special characters and spaces
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -32,14 +34,19 @@ const Input: React.FC<InputProps> = ({
       }
     }
   };
-
+debugger
   return (
     <div className={`mb-4 ${className}`}>
-      <Field name={name}>
+      <Field name={name} onFocus={()=>{
+              debugger
+              onFocus()}}>
         {({ field, form }: { field: any; form: any }) => (
           <TextField
             {...field}
             type={type}
+            onFocus={()=>{
+              debugger
+              onFocus()}}
             label={
               <span style={{ display: "flex", alignItems: "center" }}>
                 {label}

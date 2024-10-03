@@ -207,7 +207,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 }}
               >
                 <FileVideo2 size={18} className=' mr-2  text-[#ffffff]' />
-                Add Short of the Week
+                Add Shot of the Week
               </button> : null
           }
         </div>

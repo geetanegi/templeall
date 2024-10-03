@@ -10,9 +10,9 @@ const VideoThumbnail: React.FC<VideoThumbnailprops> = ({ videoUrl, onClick }) =>
     
 
     return (
-        <div className='w-full rounded-t-lg object-cover' onClick={()=>onClick()} >
+        <div className='w-full h-full rounded-t-lg object-cover' onClick={()=>onClick()} >
             <video ref={videoRef} src={videoUrl} 
-            className='w-full rounded-t-lg object-cover'
+            className='w-full h-full rounded-t-lg object-cover'
             // style={{ display: 'none' }} 
             />
             <canvas ref={canvasRef} style={{ display: 'none' }} />

@@ -77,7 +77,7 @@ const ContestList: React.FC = () => {
   // const [selectedTeeId, setSelectedTeeId] = useState<number | null>(null);
   // const [selectedTeeType, setSelectedTeeType] = useState<string | null>(null);
 
-  const [showWarning, setShowWarning] = useState<number>(0);
+  const [showWarning, setShowWarning] = useState<number>(1);
 
   const getCoursesList = async () => {
     try {
@@ -283,8 +283,8 @@ const ContestList: React.FC = () => {
                           imageUrl: tee.imageUrl || null,
                           imageBase64: tee.imageBase64 || null,
                           onSelectTeeId: setSelectedTeeId,
-                          setShowWarning: setShowWarning,
-                          showWarning: showWarning,
+                          // setShowWarning: setShowWarning,
+                          // showWarning: showWarning,
                           // selectedTeeId: selectedTeeId,
                           // onSelectedTeeType: setSelectedTeeType,
                         }}

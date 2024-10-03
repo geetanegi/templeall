@@ -40,11 +40,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
   const [fetchedData, setFetchedData] = useState<Array<any>>([])
   const [deleteParams, setDeleteParams] = useState<any>({ requestType: "", requestId: "" })
   const [isVisible, setIsVisible] = useState<any>('')
-
   const dispatch = useDispatch();
   useEffect(() => {
     getVideosList()
-    setRowData([]);
+    if(!(selectedTab === 1) && !filterValue){
+      setRowData([]);
+    }
   }, [selectedTab, isRefreshList, filterValue])
 
   useEffect(() => {
@@ -73,6 +74,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     }
   }
 
+  const filterByContestType = ()=>{
+      const filterData = rowData.filter((video)=>{
+        return video.contestName == filterValue
+      })
+      return filterData || []
+  }
+
   const makeApiCall = async (endPoint: string,) => {
     let payload = {};
 
@@ -82,12 +90,17 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         searchParams: {
         }
       }
-    }
-    if (filterValue) {
-      payload = {
-        ...payload,
-        searchParams: {
-          "status": filterValue
+    }else if(selectedTab === 1){
+
+      if (filterValue) {
+        return
+      }
+    }else if(selectedTab === 2){
+      if (filterValue) {
+        payload = {
+          searchParams: {
+            "status": filterValue
+          }
         }
       }
     }
@@ -97,15 +110,15 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
         "contestType":  null
       }
-    }
-
-    if(filterValue){
-      payload = {
-        ...payload,
-        "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
-        "contestType":  filterValue
+      if(filterValue){
+        payload = {
+          ...payload,
+          "loginUserId": typeof userInfo === "object" ? userInfo.userId : null,
+          "contestType":  filterValue
+        }
       }
     }
+
 
     const { data, status } = await apiService.post<any>(
       endPoint,
@@ -212,8 +225,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            reuestDate: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            reuestDate: moment().utc(data?.requestTime).local().format('YYYY-MM-DD'),
+            time: moment.utc(data?.requestTime).local().format('HH:SS A'),
             upload: <div className='flex items-center py-4 gap-2'>  
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
@@ -234,8 +247,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             playerUserName: data?.username || '',
-            date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('hh:mm A'),
+            date: moment.utc(data?.requestTime).local().format('YYYY-MM-DD'),
+            time: moment().utc(data?.requestTime).local().format('hh:mm A'),
             upload: !data.videos ? <button className={`flex py-4 gap-2 cursor-pointer`}
               onClick={() => {
                 setVideoCategory("WINNER_VIDEO")
@@ -271,13 +284,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
           return {
             playerUserName: data?.username || '',
-            reuestDate: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
+            reuestDate: moment.utc(data?.requestTime).local().format('YYYY-MM-DD'),
             contestName: data?.contestType || '',
             club: data?.clubName || '',
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            time: moment.utc(data?.requestTime).local().format('HH:MM A'),
             Category: <div className="relative flex items-center text-[14px]  inline-block">
               {data.videoCategory === "TOP_SHOT" ? "Top Shot " : data.videoCategory === "NOT_TOP_SHOT" ? "Not Top Shot" : "Bloopers"}
               <Info size={16} className='ml-2 cursor-pointer'
@@ -299,14 +312,14 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
         } else if (selectedTab === 3) {
           return {
-            contestName: "Shot-of-the-Week",
+            contestName: data?.contestType || '',
             club: data?.clubName || '',
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             playerUserName: data?.username || '',
-            date: moment(data?.requestTime).utc().format('YYYY-MM-DD'),
-            time: moment(data?.requestTime).utc().format('HH:SS A'),
+            date: moment.utc(data?.dateTime).local().format('YYYY-MM-DD'),
+            time: moment.utc(data?.dateTime).local().format('h:mm A'),
             upload: <div className='flex items-center py-4 gap-2'>
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
@@ -345,7 +358,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     <div className='px-10'>
       <PageLoader isActive={loader}>
         <TableComponent
-          rowData={rowData}
+          rowData={(filterValue && selectedTab === 1) ? filterByContestType() : rowData}
           Headers={computeMediaHeaders(selectedTab, isCourseAdmin ? "courseAdmin" :"")}
           currentPage={0}
           pageSize={10}

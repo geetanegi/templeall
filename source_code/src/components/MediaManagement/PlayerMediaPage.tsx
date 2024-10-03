@@ -128,12 +128,29 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           ...payload,
           searchParams
         }
+        if (filterValue) {
+          payload = {
+            searchParams: {
+              ...payload.searchParams,
+              "videoCategory": filterValue
+            }
+          }
+        }
 
       } else if (selectedTab === 2) {
         payload = {
           ...payload, "date": moment().utc().format('YYYY-MM-DD'),
           "playerId": typeof userInfo === "object" ? userInfo.userId : undefined
         }
+        if (filterValue) {
+          payload = {
+            searchParams: {
+              ...payload.searchParams,
+              "videoCategory": filterValue
+            }
+          }
+        }
+
       } else if (selectedTab === 1) {
         const searchParams = {
           "status": "APPROVED",
@@ -144,17 +161,17 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           ...payload, searchParams
 
         }
-      }
-    }
-    if (filterValue) {
-      payload = {
-        ...payload,
-        searchParams: {
-          "status":"APPROVED",
-          "videoCategory": filterValue
+        if (filterValue) {
+          payload = {
+            searchParams: {
+              ...payload.searchParams,
+              "videoCategory": filterValue
+            }
+          }
         }
       }
     }
+   
     if(filterValue === "SOTW"){
       payload = {
         searchParams: {
@@ -180,8 +197,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   return (
     <div className='min-h-[100vh] h-full bg-fixed bg-[#ffffff] px-10 pb-10'>
-      <div className='flex justify-between  py-5'>
-        <div className='flex bg-[#F5F6F7] p-[4px] gap-[16px] rounded-l-full rounded-r-full border'
+      <div className='flex justify-between pt-5'>
+        <div className='flex h-[45px] bg-[#F5F6F7] p-[4px] gap-[16px] rounded-l-full rounded-r-full border'
           style={{ width: "max-content" }}
         >
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px] 
@@ -214,7 +231,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         </div>
         {
           selectedTab !== 2 ?
-            <div className="flex  gap-[16px]">
+            <div className="flex  gap-[16px] mb-4">
               <div className="align-center flex">
                 <select
                   id="courses"
@@ -228,11 +245,11 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                   }
                 </select>
               </div>
-            </div> : null
+            </div> : <div className='flex  gap-[16px]'><span className=' mt-8 mr-1 text-[14px]'>{ moment().format('MMMM D, YYYY')}</span></div>
         }
       </div>
       <PageLoader isActive={loader}>
-        <div className='flex gap-4 flex-wrap w-[100vw]'>
+        <div className='flex gap-4 flex-wrap w-[100vw] mt-3'>
           {
             allVideos?.map((videoData) => {
 

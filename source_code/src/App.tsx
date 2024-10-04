@@ -17,6 +17,8 @@ import MediaManagement from "./components/MediaManagement/MediaManagement";
 import CreateContest from "./pages/CreateContest";
 import ContestList from "./pages/ContestList";
 import Checkout from "./pages/Checkout";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditons from "./pages/TermsAndConditons";
 
 // Lazy load components
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -55,6 +57,14 @@ function AppRoutes() {
     {
       path: ROUTES.STRIPE,
       element: <AuthStructure />,
+    },
+    {
+      path: ROUTES.PRIVACY_POLICY,
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: ROUTES.TERMS_AND_CONDITIONS,
+      element: <TermsAndConditons />,
     },
     {
       path: ROUTES.DASHBOARD,
@@ -108,7 +118,7 @@ function AppRoutes() {
       path: ROUTES.MEDIA,
       element: (
         <PrivateRoute>
-          <MediaManagement  />
+          <MediaManagement />
         </PrivateRoute>
       ),
     },

@@ -60,6 +60,8 @@ const StatusDropdown:React.FC<StatusDropdownProps> = ({setActiveStatus, handleUp
                 const spaceBelow = window.innerHeight - rect.bottom;
                 if (spaceBelow < 100) {
                     setOpenUpwards(true); // If space below is less than 100px, open upwards
+                }else if(tablelength-2 < index){
+                    setOpenUpwards(true); 
                 } else {
                     setOpenUpwards(false); // Otherwise, open downwards
                 }

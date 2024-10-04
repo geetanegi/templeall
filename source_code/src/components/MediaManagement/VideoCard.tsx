@@ -66,7 +66,6 @@ const VideoCard: React.FC<VideoCardProps> = (
         setSelectedVideo,
         setIsVideoPlayerVisible,
         getAllVideos,
-        isSOTW,
          }) => {
     const[isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

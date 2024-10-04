@@ -35,11 +35,24 @@ interface TeeContest {
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const selectedTeeType = useSelector(
     (state: RootState) => state.courses.selectedTeeType,
   );
 
-  console.log("selectedTeeType", selectedTeeType);
+  const currentTime = moment.utc(); // Get the current time in UTC
+
+  // Assuming your dates are already in UTC
+  const registrationStart = moment(teeContest.registrationStartTime); // UTC from server
+  const registrationEnd = moment(teeContest.registrationEndTime); // UTC from server
+
+  // Check if the current UTC time is between the registration start and end times
+  const isRegistrationOpen = currentTime.isBetween(
+    registrationStart,
+    registrationEnd,
+    null,
+    "[]",
+  );
 
   const selectedContests = useSelector(
     (state: RootState) => state.courses.selectedContests,
@@ -104,18 +117,22 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             </span>
           </div>
           <div>
-            {isSelected ? (
-              <Minus
-                size={32}
-                className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
-                onClick={handleRemoveContest}
-              />
-            ) : (
-              <Plus
-                size={32}
-                className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
-                onClick={handleContestSelection}
-              />
+            {isRegistrationOpen && (
+              <>
+                {isSelected ? (
+                  <Minus
+                    size={32}
+                    className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
+                    onClick={handleRemoveContest}
+                  />
+                ) : (
+                  <Plus
+                    size={32}
+                    className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
+                    onClick={handleContestSelection}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

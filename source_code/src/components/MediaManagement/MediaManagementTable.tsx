@@ -71,6 +71,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
     } finally {
       dispatch(setLoading(false));
+      setActiveStatus('')
     }
   }
 
@@ -195,7 +196,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         />
       </div>
     } else {
-      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED' ) ? '' : 'cursor-default'} `}
+      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED' ) ? 'cursor-pointer' : 'cursor-default'} `}
         onClick={() => {
           
           if (activeStatus === 'Approved' || status === 'APPROVED' ) {
@@ -330,7 +331,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
               />
               <CircleMinus size={18} className='text-[red] cursor-pointer'
                 onClick={() => {
-                  debugger
                   setDeleteParams({
                     ...deleteParams,
                     requestType: 'SOTW_VIDEO',

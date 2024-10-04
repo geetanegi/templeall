@@ -37,7 +37,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [updateStatusData, setUpdateStatusData] = useState<{ id: string | number, status: string }>({ id: "", status: "" })
   const [filterValue, setFilterValue] = useState<string>('')
   const [mediaCounts, setMediaCounts] = useState<any>({})
-
+  const [isStatusChange,setIsStatusChange] = useState<boolean>(false)
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
@@ -227,6 +227,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
         isCourseAdmin={userPermisions?.data?.permission["is_course_admin"]}
+        setIsStatusChange={setIsStatusChange}
+        isStatusChange={isStatusChange}
       />
 
       <UploadVideoModal
@@ -247,6 +249,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
          selectedReqVideoId={selectedReqVideoId}
          setIsRefreshList={setIsRefreshList}
          isRefreshList={isRefreshList}
+        
       />
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}
@@ -259,6 +262,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         updateStatusData={updateStatusData}
+        setIsStatusChange={setIsStatusChange}
+        isStatusChange={isStatusChange}
       />
     </div>
   )

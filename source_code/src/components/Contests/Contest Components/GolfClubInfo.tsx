@@ -41,7 +41,11 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
       className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-md ${course.id === selectedCourseId ? "border-2 border-[#95c11e]" : ""} `}
     >
       <img
-        src={course.imageBase64 || link}
+        src={
+          course.imageBase64 !== null
+            ? `data:image/png;base64,${course.imageBase64}`
+            : link
+        }
         alt={course.courseName}
         className="rounded-t-lg"
       />

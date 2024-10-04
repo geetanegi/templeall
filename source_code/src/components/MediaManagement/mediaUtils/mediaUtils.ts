@@ -14,8 +14,6 @@ export const computeMediaHeaders = (tab:number, renderFor?:string) =>{
             { id: 7, key: "tee", field: "Tee" },
             { id: 9, key: "time", field: "Time" },
             { id: 2, key:"date", field: "Date" },
-            { id: 12, key: "category", field: "Category" },
-            { id: 10, key: "status", field: "Status" },
             { id: 11, key: "view", field: "View" },
         ]
     }
@@ -64,8 +62,12 @@ export const computeMediaHeaders = (tab:number, renderFor?:string) =>{
 }
 
 
-export const deleteVideos = async (type:string, reqId:string | number, getVideosList?:()=>void) =>{
-    const res = await apiService.post<any>(API_URL.deleteVideo, {
+export const deleteVideos = async (type:string, reqId:string | number, getVideosList?:()=>void, userRole?:string) =>{
+    let endPoint = API_URL.deleteVideo
+    if(type === 'REQUEST_VIDEO' && userRole === 'superAdmin'){
+        endPoint = API_URL.deleteRequestVideo
+    }
+    const res = await apiService.post<any>(endPoint, {
         data:  {
             "requestType": type,
              "requestId": reqId

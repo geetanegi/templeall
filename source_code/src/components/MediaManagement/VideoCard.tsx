@@ -66,7 +66,6 @@ const VideoCard: React.FC<VideoCardProps> = (
         setSelectedVideo,
         setIsVideoPlayerVisible,
         getAllVideos,
-        isSOTW,
          }) => {
     const[isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -254,7 +253,9 @@ const VideoCard: React.FC<VideoCardProps> = (
         }
     }
 
-
+    const refreshVideo = ()=> {
+        setRefreshList(!refreshList) 
+    }
 
 
     return (
@@ -293,8 +294,7 @@ const VideoCard: React.FC<VideoCardProps> = (
                                 <span className='text-[#FD8A02]'><Bookmark fill='#FD8A02' size={18} /></span> : null
                         }
                     </div>
-                    {
-                        !isSOTW ?
+                    
                     <div className="absolute top-2 right-2">
                         {
                             isApproved ?
@@ -326,7 +326,6 @@ const VideoCard: React.FC<VideoCardProps> = (
                                 <img src={lockvideo} alt="" />
                         }
                     </div> : null
-                    }
                 </div>
 
                 {/* Video Details */}
@@ -334,14 +333,14 @@ const VideoCard: React.FC<VideoCardProps> = (
             </div>
             <ConfirmationModal
                 type={"error"}
-                confirmationText={'Are you sure you want to delete this Video?'}
+                confirmationText={'Are you sure you want to remove this video?'}
                 isOpen={isConfirmationModalOpen}
                 onClose={() => {
                     setIsConfirmationModalOpen(false)
                 }}
                 onOk={() => {
                     setIsConfirmationModalOpen(false)
-                    deleteVideos("REQUEST_VIDEO", requestVideoPayload?.id)
+                    deleteVideos("REQUEST_VIDEO", requestVideoPayload?.id, refreshVideo)
                 }}
             />
 

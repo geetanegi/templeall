@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
   hole: Yup.string().required("Hole must be selected"),
   tee: Yup.string().required("Tee must be selected"),
   contestName: Yup.string().required("Contest Name must be selected"),
-  dateTime: Yup.string().required("Date and Time Name must be selected"),
+  dateTime: Yup.string().required("Date and Time must be selected"),
   username: Yup.string().required("Username is required"),
 });
 

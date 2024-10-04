@@ -28,6 +28,7 @@ interface searchParams {
   "playerUser.id"?: number | string | undefined;
   "club.id"?:number | string;
   videoCategory?:string
+  "player.id"?: string | number | undefined
 
 }
 
@@ -49,7 +50,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   useEffect(() => {
     setAllVideos([])
-    setFilterValue('')
     getAllVideos()
     setSelectedValue('')
     getAllHighlightsCounts()
@@ -111,7 +111,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     let payload: getVideosListPayloadType = {}
     
 
-    if (selectedValue === 'SOTW') {
+    if (selectedValue === 'SOTW' && endPoint === '/core/shot-of-the-week/all-shot-of-the-week') {
       payload = {
         ...payload,
         searchParams: {
@@ -175,6 +175,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     if(filterValue === "SOTW"){
       payload = {
         searchParams: {
+          "player.id": typeof userInfo === "object" ? userInfo.userId : undefined
         }
       }
     }
@@ -204,7 +205,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px] 
                   ${selectedTab === 1 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
           `}
-            onClick={() => setSelectedTab(1)}
+            onClick={() =>{
+              setFilterValue('')
+              setSelectedTab(1)}}
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 1 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             Published Highlights
@@ -213,7 +216,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
           ${selectedTab === 2 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
           `}
-            onClick={() => setSelectedTab(2)}
+            onClick={() =>{
+              setFilterValue('')
+              setSelectedTab(2)}}
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 2 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             Request Highlights
@@ -222,7 +227,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px]
           ${selectedTab === 3 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
           `}
-            onClick={() => setSelectedTab(3)}
+            onClick={() =>{
+              setFilterValue('')
+              setSelectedTab(3)}}
           >
             <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 3 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
             All Highlights
@@ -249,6 +256,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         }
       </div>
       <PageLoader isActive={loader}>
+        {
+          allVideos.length ?
         <div className='flex gap-4 flex-wrap w-[100vw] mt-3'>
           {
             allVideos?.map((videoData) => {
@@ -275,7 +284,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             })
           }
 
-        </div>
+        </div> : <div className='flex h-[70vh] items-center justify-center'>No videos available at this time.</div>
+        }
       </PageLoader>
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}

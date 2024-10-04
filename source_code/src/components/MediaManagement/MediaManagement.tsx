@@ -45,11 +45,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
   const dispatch = useDispatch()
 
-  if (userPermisions?.data?.permission["is_player"]) {
-    return <PlayerMediaPage
-
-    />
-  }
+ 
 
 
   useEffect(() => {
@@ -142,6 +138,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterValue(event.target.value); // Update the state with the selected value
   };
+
+
+  if (userPermisions?.data?.permission["is_player"]) {
+    return <PlayerMediaPage />
+  }
 
 
   return (

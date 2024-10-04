@@ -49,6 +49,7 @@ export const API_URL = {
   uploadRequestedVideo: "/core/video/upload",
   publishVideos: "/core/request-video/published",
   deleteVideo: "/core/video/delete",
+  deleteRequestVideo: "/core/request-video/delete",
   uploadShotOfTheWeek: "/core/shot-of-the-week/create",
   contestCheckoutCoreRegistrationSave: "/core/registration/save",
   getCourseSpecificVideo:"/core/winner-video/get-course-specific-video",

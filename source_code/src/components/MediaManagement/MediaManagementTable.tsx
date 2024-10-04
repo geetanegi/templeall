@@ -142,7 +142,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       index={index}
       tablelength={tablelength}
       handleUpdateStatus={(status) => {
-        if (status === "Reject") {
+        if (status === "Rejected") {
           setIsRejectModalOpen(true)
           setUpdateStatusData({ id: reqId, status })
         } else {
@@ -226,13 +226,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             reuestDate: moment().utc(data?.requestTime).local().format('YYYY-MM-DD'),
-            time: moment.utc(data?.requestTime).local().format('HH:SS A'),
+            time: moment.utc(data?.requestTime).local().format('hh:mm A'),
             upload: <div className='flex items-center py-4 gap-2'>  
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
                 onClick={() => {
-                  setSelectedVideo(data.videos.url)
                   setIsVideoPlayerVisible(true)
+                  setSelectedVideo(data.videos.url)
                 }}
               />
             </div>
@@ -290,7 +290,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            time: moment.utc(data?.requestTime).local().format('HH:MM A'),
+            time: moment.utc(data?.requestTime).local().format('hh:mm A'),
             Category: <div className="relative flex items-center text-[14px]  inline-block">
               {data.videoCategory === "TOP_SHOT" ? "Top Shot " : data.videoCategory === "NOT_TOP_SHOT" ? "Not Top Shot" : "Bloopers"}
               <Info size={16} className='ml-2 cursor-pointer'
@@ -371,7 +371,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       </PageLoader>
       <ConfirmationModal
         type={"error"}
-        confirmationText={'Are you sure you want to remove this video?'}
+        confirmationText={'Are you sure you want to delete this video?'}
         isOpen={isConfirmationModalOpen}
         onClose={() => {
           setDeleteParams({ requestType: "", requestId: "" })
@@ -379,7 +379,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         }}
         onOk={() => {
           setIsConfirmationModalOpen(false)
-          deleteVideos(deleteParams.requestType, deleteParams.requestId, getVideosList)
+          deleteVideos(deleteParams.requestType, deleteParams.requestId, getVideosList, 'superAdmin')
         }}
       />
     </div>

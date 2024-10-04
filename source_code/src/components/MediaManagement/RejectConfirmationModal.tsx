@@ -2,13 +2,20 @@ import React from 'react'
 import Modal from '../ModalComponent'
 import { Formik, FormikHelpers } from 'formik'
 import FormikControl from '../../Formik/components/FormikControl'
-
+import * as Yup from "yup";
 interface RejectConfirmationModalProps {
     setIsRejectModalOpen: (flag: boolean) => void
     isRejectModalOpen: boolean;
     handleUpdateStatus: (id: number | string, status: string, rejectReasons: string) => void;
     updateStatusData: any
 }
+
+const validationSchema = Yup.object({
+    rejectReasons: Yup.string()
+    .required("Video description is required.")
+    .max(100, "Video description must be less than 100 characters"),
+
+});
 
 const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRejectModalOpen, setIsRejectModalOpen, handleUpdateStatus, updateStatusData }) => {
 
@@ -30,8 +37,8 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRej
                         onClose={() => setIsRejectModalOpen(false)}
                     >
                         <Formik
-                            initialValues={{ description: "" }}
-                            // validationSchema={validationSchema}
+                            initialValues={{ rejectReasons: "" }}
+                            validationSchema={validationSchema}
                             onSubmit={handleSubmit}
                         >
                             {({
@@ -48,7 +55,6 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRej
                                             label="Reject Reasons"
                                             name="rejectReasons"
                                             control="textarea"
-                                            placeholder="Video Description"
                                             type="text"
                                             required={true}
                                         />

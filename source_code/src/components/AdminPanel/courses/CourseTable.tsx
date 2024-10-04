@@ -262,7 +262,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
             <QRCode
               value={`${API_URL.qrCodeByCourseId}${course.id}`}
               size={500}
-              level="H"
+              // level="H"
               bgColor="#FFFFFF"
               fgColor="#000000"
               ref={(el: any) =>
@@ -276,7 +276,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                   key={holeKey}
                   value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}`}
                   size={500}
-                  level="H"
+                  // level="H"
                   bgColor="#FFFFFF"
                   fgColor="#000000"
                   ref={(el: any) => (qrCodeRefs.current[holeKey] = el)}

@@ -62,7 +62,6 @@ const VideoCard: React.FC<VideoCardProps> = ({
   uploadDate,
   isApproved = true,
   isPublished,
-  contestName = "AceCam Jackpot",
   clubName = "Shanghai COntry CLub, MI",
   holeName = "Hole #10 - Par 3",
   tee = "",

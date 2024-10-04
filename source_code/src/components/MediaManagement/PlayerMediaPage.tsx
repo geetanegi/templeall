@@ -180,8 +180,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         }
       }
     }
-
-    debugger
     
 
     const { data, status } = await apiService.post<any>(

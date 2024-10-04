@@ -371,14 +371,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       </PageLoader>
       <ConfirmationModal
         type={"error"}
-        confirmationText={'Are you sure you want to delete this Video?'}
+        confirmationText={'Are you sure you want to remove this video?'}
         isOpen={isConfirmationModalOpen}
         onClose={() => {
           setDeleteParams({ requestType: "", requestId: "" })
           setIsConfirmationModalOpen(false)
         }}
         onOk={() => {
-          debugger
           setIsConfirmationModalOpen(false)
           deleteVideos(deleteParams.requestType, deleteParams.requestId, getVideosList)
         }}

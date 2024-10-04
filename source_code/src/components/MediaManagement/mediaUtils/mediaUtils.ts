@@ -64,7 +64,7 @@ export const computeMediaHeaders = (tab:number, renderFor?:string) =>{
 }
 
 
-export const deleteVideos = async (type:string, reqId:string | number, getVideosList?:()=>{}) =>{
+export const deleteVideos = async (type:string, reqId:string | number, getVideosList?:()=>void) =>{
     const res = await apiService.post<any>(API_URL.deleteVideo, {
         data:  {
             "requestType": type,

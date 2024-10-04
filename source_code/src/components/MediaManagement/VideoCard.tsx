@@ -101,21 +101,24 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
   useEffect(() => {
     if (videoRef.current) {
-      const handleLoadedMetadata = () => {
-        setDuration(videoRef.current?.duration || 0);
-      };
-
-      const videoElement = videoRef.current;
-      videoElement.addEventListener("loadedmetadata", handleLoadedMetadata);
-
-      // Clean up the event listener
-      return () => {
-        videoElement.removeEventListener(
-          "loadedmetadata",
-          handleLoadedMetadata,
-        );
-      };
-    }
+        const handleLoadedMetadata = () => {
+            videoRef.current?.duration && setDuration((videoRef?.current?.duration / 1000 )|| 0);
+        };
+    
+        const handleCanPlayThrough = () => {
+            videoRef.current?.duration  && setDuration((videoRef?.current?.duration / 100 ) || 0);
+        };
+    
+        const videoElement = videoRef.current;
+        videoElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+        videoElement.addEventListener("canplaythrough", handleCanPlayThrough);
+    
+        // Clean up the event listeners
+        return () => {
+          videoElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
+          videoElement.removeEventListener("canplaythrough", handleCanPlayThrough);
+        };
+      }
   }, [requestVideoPayload?.videos?.url]);
 
   const computeCardDetails = () => {

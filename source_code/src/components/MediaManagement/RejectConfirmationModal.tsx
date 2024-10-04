@@ -8,16 +8,18 @@ interface RejectConfirmationModalProps {
     isRejectModalOpen: boolean;
     handleUpdateStatus: (id: number | string, status: string, rejectReasons: string) => void;
     updateStatusData: any
+    setIsStatusChange:(flag:boolean)=>void
+    isStatusChange:boolean
 }
 
 const validationSchema = Yup.object({
     rejectReasons: Yup.string()
-    .required("Video description is required.")
-    .max(100, "Video description must be less than 100 characters"),
+    .required("Reject Reason is required.")
+    .max(100, "Reject Reason must be less than 100 characters"),
 
 });
 
-const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRejectModalOpen, setIsRejectModalOpen, handleUpdateStatus, updateStatusData }) => {
+const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({setIsStatusChange, isStatusChange, isRejectModalOpen, setIsRejectModalOpen, handleUpdateStatus, updateStatusData }) => {
 
 
     const handleSubmit = (values: any,
@@ -34,7 +36,9 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRej
                     <Modal
                         title='Confirmation'
                         isOpen={isRejectModalOpen}
-                        onClose={() => setIsRejectModalOpen(false)}
+                        onClose={() =>{
+                            setIsStatusChange(!isStatusChange)
+                            setIsRejectModalOpen(false)}}
                     >
                         <Formik
                             initialValues={{ rejectReasons: "" }}
@@ -52,7 +56,7 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRej
                                 >
                                     <div className="flex  px-5">
                                         <FormikControl
-                                            label="Reject Reasons"
+                                            label="Reject Reason"
                                             name="rejectReasons"
                                             control="textarea"
                                             type="text"
@@ -62,7 +66,9 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({ isRej
                                     <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
                                         <button
                                             type="button"
-                                            onClick={() => setIsRejectModalOpen(false)}
+                                            onClick={() =>{
+                                                setIsStatusChange(!isStatusChange)
+                                                setIsRejectModalOpen(false)}}
                                             className="mr-5 w-32 rounded-md bg-[#7B7887] py-2 text-white"
                                         >
                                             Cancel

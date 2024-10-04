@@ -61,13 +61,7 @@ const PlayingCart: React.FC = () => {
                     alt={contest.name}
                     className="mr-4 h-14 w-14"
                   />
-                  <span>
-                    {" "}
-                    {contest?.contestType
-                      ?.toLowerCase()
-                      ?.replace(/_/g, " ") // Replace underscores with spaces
-                      ?.replace(/\b\w/g, (char: any) => char.toUpperCase())}
-                  </span>
+                  <span> {contest?.contestType}</span>
                 </div>
               </div>
               <div className="flex w-1/2 items-center justify-between">

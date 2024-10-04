@@ -173,7 +173,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     }
    
     if(filterValue === "SOTW"){
-      debugger
       payload = {
         searchParams: {
           "player.id": typeof userInfo === "object" ? userInfo.userId : undefined

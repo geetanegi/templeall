@@ -273,7 +273,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
         {courseData[0]?.courseList?.map((course) => (
           <React.Fragment key={course.id}>
             <QRCode
-              value={`${API_URL.qrCodeByCourseId}${course.id}`}
+              value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
               size={500}
               // level="H"
               bgColor="#FFFFFF"
@@ -287,7 +287,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
               return (
                 <QRCode
                   key={holeKey}
-                  value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}`}
+                  value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`}
                   size={500}
                   // level="H"
                   bgColor="#FFFFFF"

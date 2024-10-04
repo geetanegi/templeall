@@ -142,7 +142,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       index={index}
       tablelength={tablelength}
       handleUpdateStatus={(status) => {
-        debugger
         if (status === "Rejected") {
           setIsRejectModalOpen(true)
           setUpdateStatusData({ id: reqId, status })

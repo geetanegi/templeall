@@ -1,6 +1,6 @@
 import {
   Bookmark,
-  BookmarkX,
+  BookmarkPlus,
   CircleEllipsis,
   Dot,
   LockKeyholeOpen,
@@ -166,12 +166,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
       );
     } else {
       return (
-        <div className="p-4">
+        <div className="p-2">
           <div className="mt-2 flex items-center justify-between overflow-visible text-sm text-white">
             <span>
               {/* Author */}
-              <p className="text-sm font-normal text-[#E6E6E6]">
-                {contestName}
+              <p className=" font-normal text-[13px] text-[#E6E6E6] mr-1">
+                {title}
               </p>
             </span>
             {status === "PENDING" ? (
@@ -368,7 +368,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                       className={`flex items-center justify-center gap-2 px-2 py-1 text-[13px] text-[#000000] ${isPublished ? "text-[#FD8A02]" : "text-[#7B7887]"} `}
                       onClick={handleVideoPublish}
                     >
-                      <BookmarkX size={16} /> Published
+                      <BookmarkPlus size={16} /> Published
                     </button>
                     <hr />
                     <button

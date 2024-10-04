@@ -27,10 +27,12 @@ interface MediaManagementTableProps {
   handleUpdateStatus: (id: number | string, status: string, des: string) => void,
   filterValue: string;
   isCourseAdmin: boolean;
+  isStatusChange:boolean;
+  setIsStatusChange:(flag:boolean)=>void
 }
 
 
-const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
+const MediaManagementTable: React.FC<MediaManagementTableProps> = ({isStatusChange,setIsStatusChange, filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -47,6 +49,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       setRowData([]);
     }
   }, [selectedTab, isRefreshList, filterValue])
+
+  useEffect(()=>{
+    debugger
+    setActiveStatus('pending')
+    computeRowData(rowData)
+  },[isStatusChange])
 
   useEffect(() => {
     if (rowData.length) {
@@ -72,6 +80,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     } finally {
       dispatch(setLoading(false));
       setActiveStatus('')
+      setIsStatusChange(false)
     }
   }
 

@@ -49,7 +49,7 @@ interface VideoCardProps {
   setRefreshList: (flag: boolean) => void;
   refreshList: boolean;
   isSOTW: boolean;
-  rejectionReason:string;
+  rejectionReason: string;
 }
 
 const VideoCard: React.FC<VideoCardProps> = ({
@@ -71,7 +71,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
   setSelectedVideo,
   setIsVideoPlayerVisible,
   getAllVideos,
-  rejectionReason
+  rejectionReason,
+  isSOTW,
 }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -100,24 +101,32 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
   useEffect(() => {
     if (videoRef.current) {
-        const handleLoadedMetadata = () => {
-            videoRef.current?.duration && setDuration((videoRef?.current?.duration / 1000 )|| 0);
-        };
-    
-        const handleCanPlayThrough = () => {
-            videoRef.current?.duration  && setDuration((videoRef?.current?.duration / 100 ) || 0);
-        };
-    
-        const videoElement = videoRef.current;
-        videoElement.addEventListener("loadedmetadata", handleLoadedMetadata);
-        videoElement.addEventListener("canplaythrough", handleCanPlayThrough);
-    
-        // Clean up the event listeners
-        return () => {
-          videoElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
-          videoElement.removeEventListener("canplaythrough", handleCanPlayThrough);
-        };
-      }
+      const handleLoadedMetadata = () => {
+        videoRef.current?.duration &&
+          setDuration(videoRef?.current?.duration / 1000 || 0);
+      };
+
+      const handleCanPlayThrough = () => {
+        videoRef.current?.duration &&
+          setDuration(videoRef?.current?.duration / 100 || 0);
+      };
+
+      const videoElement = videoRef.current;
+      videoElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+      videoElement.addEventListener("canplaythrough", handleCanPlayThrough);
+
+      // Clean up the event listeners
+      return () => {
+        videoElement.removeEventListener(
+          "loadedmetadata",
+          handleLoadedMetadata,
+        );
+        videoElement.removeEventListener(
+          "canplaythrough",
+          handleCanPlayThrough,
+        );
+      };
+    }
   }, [requestVideoPayload?.videos?.url]);
 
   const computeCardDetails = () => {
@@ -151,11 +160,11 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
           {/* Stats */}
           <div className="mt-2 flex items-center justify-start text-sm text-gray-400">
-            <span>{views} Views </span>
+            <span>{views || 0} Views </span>
             <span>
               <Dot />
             </span>
-            <span>{likes} Likes</span>
+            <span>{likes || 0} Likes</span>
             <span>
               <Dot />
             </span>
@@ -169,7 +178,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className="mt-2 flex items-center justify-between overflow-visible text-sm text-white">
             <span>
               {/* Author */}
-              <p className=" font-normal text-[13px] text-[#E6E6E6] mr-1">
+              <p className="mr-1 text-[13px] font-normal text-[#E6E6E6]">
                 {title}
               </p>
             </span>
@@ -270,12 +279,22 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const handleVideoPublish = async () => {
     try {
       dispatch(setLoading(true));
-      const res = await apiService.post<any>(API_URL.publishVideos, {
-        data: {
+      let payload = {};
+      let endPoint = API_URL.publishVideos;
+
+      if (isSOTW) {
+        endPoint = API_URL.publishSOTW;
+        payload = { sowId: requestVideoPayload.id, isPublished: !isPublished };
+      } else {
+        payload = {
           requestVideoId: requestVideoPayload.id,
-          isPublished: !isPublished,
-        },
+        };
+      }
+
+      const res = await apiService.post<any>(endPoint, {
+        data: payload,
       });
+
       if (res.status === 200 && !res.data.error) {
         ToastSuccess(res.data.data.message);
         setRefreshList(!refreshList);
@@ -299,23 +318,22 @@ const VideoCard: React.FC<VideoCardProps> = ({
         <div className="relative h-[175px] overflow-hidden rounded-t-lg bg-[#ffffff]">
           {computeVideoThumbnail()}
           {/* Play Button */}
-          <div className="absolute inset-0 flex items-center justify-center ">
+          <div className="absolute inset-0 flex items-center justify-center">
             {" "}
             {status === "REJECT" ? (
-              <div className="flex h-[70%] w-[90%]  flex-col  rounded-md bg-[#1D1A0C99] text-[14px]">
-                <div className=" flex items-center mt-[5px] justify-center">
-
-                <div className="rounded-full bg-[#FFFFFF26] p-2">
-                <VideoOff
-                  color="#ffffff"
-                //   strokeWidth={1}
-                  size={36}
-                  className="font-extralight bg-[#FFFFFF59] p-2 rounded-full"
-                />
+              <div className="flex h-[70%] w-[90%] flex-col rounded-md bg-[#1D1A0C99] text-[14px]">
+                <div className="mt-[5px] flex items-center justify-center">
+                  <div className="rounded-full bg-[#FFFFFF26] p-2">
+                    <VideoOff
+                      color="#ffffff"
+                      //   strokeWidth={1}
+                      size={36}
+                      className="rounded-full bg-[#FFFFFF59] p-2 font-extralight"
+                    />
+                  </div>
                 </div>
-                </div>
-                <div className="overflow-hidden text-[14px] overflow-ellipsis text-center pl-[1px] pr-[1px]" >
-                {rejectionReason}
+                <div className="overflow-hidden overflow-ellipsis pl-[1px] pr-[1px] text-center text-[14px]">
+                  {rejectionReason}
                 </div>
               </div>
             ) : (
@@ -398,7 +416,11 @@ const VideoCard: React.FC<VideoCardProps> = ({
         }}
         onOk={() => {
           setIsConfirmationModalOpen(false);
-          deleteVideos("REQUEST_VIDEO", requestVideoPayload?.id, refreshVideo);
+          deleteVideos(
+            isSOTW ? "SOTW_VIDEO" : "REQUEST_VIDEO",
+            requestVideoPayload?.id,
+            refreshVideo,
+          );
         }}
       />
 

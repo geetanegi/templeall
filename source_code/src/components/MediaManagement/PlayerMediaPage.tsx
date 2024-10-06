@@ -46,7 +46,11 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   useEffect(() => {
     setAllVideos([]);
-    getAllVideos();
+    if(filterValue  ==="SOTW"){
+      makeApiCall(API_URL.getAllShotOfTheWeek);
+    }else{
+      getAllVideos();
+    }
     setSelectedValue("");
     getAllHighlightsCounts();
   }, [selectedTab, refreshList]);
@@ -171,8 +175,19 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         searchParams: {
           "player.id":
             typeof userInfo === "object" ? userInfo.userId : undefined,
+
         },
       };
+      if(selectedTab === 1){
+        payload = {
+          searchParams: {
+            "player.id":
+              typeof userInfo === "object" ? userInfo.userId : undefined,
+             isPublished : true
+  
+          },
+        };
+      }
     }
 
     const { data, status } = await apiService.post<any>(endPoint, {
@@ -206,7 +221,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             />
             Published Highlights
             <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-              {highlightsCounts.published || 0}
+              {(selectedTab === 1 && filterValue) ? allVideos.length : highlightsCounts.published || 0}
             </span>
           </button>
           <button
@@ -236,7 +251,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             />
             All Highlights
             <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-              {highlightsCounts.allHighlight || 0}
+              {(selectedTab === 3 && filterValue) ? allVideos.length : highlightsCounts.allHighlight || 0}
             </span>
           </button>
         </div>

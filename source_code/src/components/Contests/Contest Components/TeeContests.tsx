@@ -36,9 +36,9 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const selectedTeeType = useSelector(
-    (state: RootState) => state.courses.selectedTeeType,
-  );
+  // const selectedTeeType = useSelector(
+  //   (state: RootState) => state.courses.selectedTeeType,
+  // );
 
   const currentTime = moment.utc(); // Get the current time in UTC
 

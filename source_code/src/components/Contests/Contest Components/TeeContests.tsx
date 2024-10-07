@@ -47,7 +47,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     (state: RootState) => state.courses.yardage,
   );
 
-  const currentTime = moment.utc(); // Get the current time in UTC
+  const currentTime = moment.utc(); // Get the current time in UTC as
 
   // Assuming your dates are already in UTC
   const registrationStart = moment(teeContest.registrationStartTime); // UTC from server

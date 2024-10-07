@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, Info } from "lucide-react"; // Importing Lucide icons
+import { MapPin } from "lucide-react"; // Importing Lucide icons
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCourseName,

@@ -90,13 +90,14 @@ const Checkout: React.FC = () => {
   const [paymentSucess, setPaymentSucess] = useState<boolean>(false);
 
   const handleCheckoutCart = async () => {
+    // api obj
     const obj = {
       data: {
         playerId: 1,
         registrationDate: moment.utc(new Date()).format(),
         totalAmount: totalPrice,
-        // holeId: selectedContests && selectedContests[0]?.holeId,
-        // teeId: selectedContests && selectedContests[0]?.teeId,
+        holeId: selectedContests && selectedContests[0]?.holeId,
+        teeId: selectedContests && selectedContests[0]?.teeId,
         cartInfo:
           selectedContests && Array.isArray(selectedContests)
             ? selectedContests.map((item) => ({

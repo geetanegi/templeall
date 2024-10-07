@@ -63,7 +63,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
 
   const dispatch = useDispatch();
 
-  const CHUNK_SIZE = 10 * 1024 * 1024;
+  const CHUNK_SIZE = 0.5 * 1024 * 1024;
 
   useEffect(() => {
     setVideoFile(null);
@@ -124,8 +124,16 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
           const chunk = videoFile.slice(start, end);
           let formData = new FormData();
           formData.append("file", chunk);
-          formData.append("chunkNumber", i.toString());
-          formData.append("totalChunks", totalChunks.toString());
+          let chunkNumber = new Blob([JSON.stringify( i.toString() + 1)], {
+            type: "application/json",
+          });
+          formData.append("chunkNumber",chunkNumber);
+          let fdTOtalChunk = new Blob([JSON.stringify( totalChunks.toString())], {
+            type: "application/json",
+          });
+          
+          formData.append("totalChunks", fdTOtalChunk);
+          formData.append
           if (videoFile.type === "video/mp4") {
             if (!isSoTW) {
               const data1 = {
@@ -145,7 +153,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
               formData.append("data", newBlobData);
 
               const { data, status } = await apiService.post<any>(
-                API_URL.uploadRequestedVideo,
+                API_URL.uploadVideoInChunks,
                 formData,
               );
               if (status === 200 && data?.data != null && !data?.error) {

@@ -55,5 +55,6 @@ export const API_URL = {
   contestCheckoutCoreRegistrationSave: "/core/registration/save",
   getCourseSpecificVideo:"/core/winner-video/get-course-specific-video",
   getAllHighlightsCounts: "/core/request-video/get-all-highlight-count",
-  getAllMediaCounts:"/core/request-video/get-all-media-count"
+  getAllMediaCounts:"/core/request-video/get-all-media-count",
+  uploadVideoInChunks: "/core/video/upload-chunk"
 };

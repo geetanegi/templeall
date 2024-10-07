@@ -122,15 +122,28 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
     return new Promise((resolve, reject) => {
       img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
+        // Define padding around the QR code
+        const padding = 20; // Adjust this value for more or less padding
+        const imgWidth = img.width;
+        const imgHeight = img.height;
+
+        // Set the canvas size to include padding
+        canvas.width = imgWidth + padding * 2;
+        canvas.height = imgHeight + padding * 2;
+
         if (ctx) {
-          ctx.drawImage(img, 0, 0);
+          // Fill the canvas with a white background
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // Draw the SVG image on top of the white background with padding
+          ctx.drawImage(img, padding, padding);
           resolve(canvas.toDataURL(`image/${format}`));
         } else {
           reject("Canvas context is not available");
         }
       };
+
       img.onerror = reject;
     });
   };
@@ -260,9 +273,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
         {courseData[0]?.courseList?.map((course) => (
           <React.Fragment key={course.id}>
             <QRCode
-              value={`${API_URL.qrCodeByCourseId}${course.id}`}
+              value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
               size={500}
-              level="H"
+              // level="H"
               bgColor="#FFFFFF"
               fgColor="#000000"
               ref={(el: any) =>
@@ -274,9 +287,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
               return (
                 <QRCode
                   key={holeKey}
-                  value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}`}
+                  value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`}
                   size={500}
-                  level="H"
+                  // level="H"
                   bgColor="#FFFFFF"
                   fgColor="#000000"
                   ref={(el: any) => (qrCodeRefs.current[holeKey] = el)}

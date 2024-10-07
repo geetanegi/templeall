@@ -37,7 +37,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [updateStatusData, setUpdateStatusData] = useState<{ id: string | number, status: string }>({ id: "", status: "" })
   const [filterValue, setFilterValue] = useState<string>('')
   const [mediaCounts, setMediaCounts] = useState<any>({})
-
+  const [isStatusChange,setIsStatusChange] = useState<boolean>(false)
+  const [dataLength, setDataLength] = useState<number>(0)
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
@@ -45,16 +46,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
   const dispatch = useDispatch()
 
-  if (userPermisions?.data?.permission["is_player"]) {
-    return <PlayerMediaPage
-
-    />
-  }
+ 
 
 
   useEffect(() => {
     setIsSoTW(false)
     getAllMediaCounts()
+    setFilterValue('')
   }, [selectedTab, isRefreshList])
 
   useEffect(() => {
@@ -143,6 +141,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   };
 
 
+  if (userPermisions?.data?.permission["is_player"]) {
+    return <PlayerMediaPage />
+  }
+
+
   return (
     <div className='h-[full] bg-[#ffffff] w-full'>
       <div className='flex justify-between px-10 pt-10'>
@@ -158,7 +161,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               >
                 <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 1 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
                 Video Management
-                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{mediaCounts.Video_Management || 0}</span>
+                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{(selectedTab === 1 && filterValue) ? dataLength : (mediaCounts.Video_Management || 0)}</span>
               </button>
               <button className={`flex whitespace-nowrap items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[2px]
           ${selectedTab === 2 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -167,7 +170,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               >
                 <FileVideo2 className={`w-[16px] mr-2 h-[16px] ${selectedTab === 2 ? 'text-[#ffffff]' : 'text-[#7B7887]'}`} />
                 Requested Videos
-                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{mediaCounts.Requested_Video || 0}</span>
+                <span className='w-[26px] h-[14px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] ml-[16px]'>{(selectedTab === 2 && filterValue) ? dataLength :( mediaCounts.Requested_Video || 0)}</span>
               </button>
               <button className={`flex items-center justify-center font-[14px] rounded-l-full rounded-r-full  px-[16px] py-[6px] whitespace-nowrap
           ${selectedTab === 3 ? 'bg-[#95C11E] text-[#ffffff]' : 'text-[#7B7887]'}
@@ -191,7 +194,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 >
                   {
                     computeFilterDropDown(selectedTab, "SuperAdmin")?.map((filter) => {
-                      return <option value={filter.key} >{filter.name}</option>
+                      return <option value={filter.key} selected={filterValue === filter?.key} >{filter.name}</option>
                     })
                   }
                 </select>
@@ -207,7 +210,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 }}
               >
                 <FileVideo2 size={18} className=' mr-2  text-[#ffffff]' />
-                Add Short of the Week
+                Add Shot of the Week
               </button> : null
           }
         </div>
@@ -225,10 +228,14 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
         isCourseAdmin={userPermisions?.data?.permission["is_course_admin"]}
+        setIsStatusChange={setIsStatusChange}
+        isStatusChange={isStatusChange}
+        setDataLength={setDataLength}
       />
 
       <UploadVideoModal
         isModalOpen={isModalOpen}
+        selectedTab={selectedTab}
         setIsModalOpen={setIsModalOpen}
         isSoTW={isSoTW}
         videoCategory={videoCategory}
@@ -244,6 +251,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
          selectedReqVideoId={selectedReqVideoId}
          setIsRefreshList={setIsRefreshList}
          isRefreshList={isRefreshList}
+        
       />
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}
@@ -256,6 +264,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         updateStatusData={updateStatusData}
+        setIsStatusChange={setIsStatusChange}
+        isStatusChange={isStatusChange}
       />
     </div>
   )

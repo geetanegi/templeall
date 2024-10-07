@@ -13,6 +13,7 @@ import { RootState } from "../../store";
 import PageLoader from "../PageLoader";
 import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
+import moment from "moment";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -30,30 +31,43 @@ const initialValue = {
   course: "",
   hole: "",
   tee: "",
+  contestName:"",
   dateTime: "",
   videoUrl: "",
   username: "",
 };
 
 const validationSchema = Yup.object({
-  title: Yup.string()
-    .required(
-      "Video title is required. Please provide a title (up to 25 words).",
-    )
-    .max(25, "Video title must be less than 100 characters"),
+    title: Yup.string()
+    .required("Video title is required.")
+    .max(25, "Video title must be less than 25 characters"),
   description: Yup.string()
-    .required(
-      "Video description is required. Please provide a description (up to 100 words)",
-    )
+    .required("Video description is required.")
     .max(100, "Video description must be less than 100 characters"),
   club: Yup.string().required("Club must be selected"),
   course: Yup.string().required("Course must be selected"),
   hole: Yup.string().required("Hole must be selected"),
   tee: Yup.string().required("Tee must be selected"),
   contestName: Yup.string().required("Contest Name must be selected"),
-  dateTime: Yup.string().required("Date and Time Name must be selected"),
+  dateTime: Yup.string().required("Date and Time must be selected"),
   username: Yup.string().required("Username is required"),
 });
+
+const ensureUTC = (date: string | Date): string => {
+    const dateObj = moment(date);
+
+    // Check if the date is valid
+    if (!dateObj.isValid()) {
+      throw new Error("Invalid date provided");
+    }
+
+    // Check if the date is in UTC
+    if (dateObj.utcOffset() === 0) {
+      return dateObj.format(); // Return the original date as it's already in UTC
+    } else {
+      return dateObj.utc().format(); // Convert to UTC and return
+    }
+  };
 
 const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   isModalOpen,
@@ -92,7 +106,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     const courseList =
-      courseData?.data?.find((club) => club.id === parseInt(selectedClub))
+      courseData?.data?.find((club:any) => club.id === parseInt(selectedClub))
         ?.courseList || [];
     if (courseList.length > 0) {
       const courseListOptions =
@@ -214,7 +228,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           } else if (isSoTW) {
             const data1 = {
               data: {
-                dateTime: values.dateTime,
+                dateTime: ensureUTC(values.dateTime || ''),
                 contestType: values.contestName,
                 club: values.club,
                 course: values.course,
@@ -340,7 +354,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ values, errors, handleSubmit, touched, isSubmitting }) => {
+            {({ values, handleSubmit, isSubmitting }) => {
               handleValues(values);
               useEffect(() => {
                 handleUserSearch2(values);
@@ -415,6 +429,15 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                               },
                             ]}
                           />
+                          {/* <div className="ml-6 w-[450px]">
+                            {touched.contestName &&
+                              errors.contestName &&
+                              typeof errors.contestName === "string" && (
+                                <span className="text-red-600">
+                                  {errors.dateTime}
+                                </span>
+                              )}
+                          </div> */}
                         </div>
                         <div className="px-5">
                           <CustomDatePicker
@@ -422,15 +445,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                             label="Date/Time"
                             required={true}
                           />
-                          <div className="ml-6 w-[450px]">
-                            {touched.dateTime &&
-                              errors.dateTime &&
-                              typeof errors.dateTime === "string" && (
-                                <span className="text-red-600">
-                                  {errors.dateTime}
-                                </span>
-                              )}
-                          </div>
                         </div>
                       </div>
                     )}

@@ -16,10 +16,15 @@ const PlayingCart: React.FC = () => {
     (state: RootState) => state.courses.selectedTeeType,
   );
 
+  const selectedContestObj: any =
+    selectedTeeType !== null && selectedContestsList;
+
+  const selectedContestTee = Object.keys(selectedContestObj)[0];
+
   const totalPrice =
-    selectedTeeType !== null &&
-    selectedContestsList[selectedTeeType]?.length > 0
-      ? selectedContestsList[selectedTeeType].reduce(
+    selectedContestTee !== null &&
+    selectedContestsList[selectedContestTee]?.length > 0
+      ? selectedContestsList[selectedContestTee].reduce(
           (acc, contest) => acc + contest.entryFee,
           0,
         )
@@ -34,7 +39,7 @@ const PlayingCart: React.FC = () => {
       }),
     );
   };
-
+  // console.log("selectedContestsList", selectedContestsList);
   return (
     <div className="max-w-4xl rounded-lg bg-white shadow-md">
       {/* Contests List */}
@@ -47,9 +52,9 @@ const PlayingCart: React.FC = () => {
           </div>
         </div>
         {/* Contest Items */}
-        {selectedTeeType !== null &&
-        selectedContestsList[selectedTeeType]?.length > 0 ? (
-          selectedContestsList[selectedTeeType].map((contest) => (
+        {selectedContestTee !== null &&
+        selectedContestsList[selectedContestTee]?.length > 0 ? (
+          selectedContestsList[selectedContestTee].map((contest) => (
             <div
               key={contest.contestId}
               className="mb-4 flex items-center justify-between px-4 py-3"
@@ -61,7 +66,7 @@ const PlayingCart: React.FC = () => {
                     alt={contest.name}
                     className="mr-4 h-14 w-14"
                   />
-                  <span>{contest.name}</span>
+                  <span> {contest?.contestType}</span>
                 </div>
               </div>
               <div className="flex w-1/2 items-center justify-between">

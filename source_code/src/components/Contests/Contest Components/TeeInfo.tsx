@@ -1,6 +1,7 @@
 import React from "react";
-import GolfTee from "../../../assets/images/sports_golf.png";
-import GolfGreenTee from "../../../assets/images/green_tee.png";
+// import GolfTee from "../../../assets/images/sports_golf.png";
+import GolfGreenTee from "../../../assets/images/sports_golf_active.svg";
+import GolfTee from "../../../assets/images/sports_golf_default.svg";
 import { Info } from "lucide-react";
 import {
   setSelectedTeeId,
@@ -18,8 +19,8 @@ interface tee {
   imageUrl: string | null;
   imageBase64: string | null;
   onSelectTeeId: (teeId: number) => void;
-  setShowWarning: (showWarning: number) => void;
-  showWarning: number;
+  // setShowWarning: (showWarning: number) => void;
+  // showWarning: number;
   // selectedTeeId: number | null;
   // onSelectedTeeType: (teeType: string) => void;
 }
@@ -34,9 +35,9 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
       className="w-full cursor-pointer"
       onClick={() => {
         // tee.onSelectedTeeType(tee.teeName);
-        if (tee.showWarning === 0) {
-          tee.setShowWarning(1);
-        }
+        // if (tee.showWarning === 0) {
+        //   tee.setShowWarning(1);
+        // }
 
         tee.onSelectTeeId(tee.id);
         dispatch(setSelectedTeeId(tee.id));
@@ -45,17 +46,24 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
       }}
     >
       <div className="my-3">
-        <div className="flex justify-center space-y-4">
+        <div className="j flex items-center justify-between px-3">
           <div className="flex items-center space-x-3 py-2">
             {tee.id === selectedTeeId ? (
-              <img src={GolfGreenTee} alt="" />
+              <img
+                src={GolfGreenTee}
+                alt=""
+                className="h-6 w-6"
+                style={{ fill: "red" }}
+              />
             ) : (
-              <img src={GolfTee} alt="" />
+              <img src={GolfTee} alt="" className="h-6 w-6" />
             )}
             <span
               className={`text-sm ${tee.id === selectedTeeId ? "text-[#95c11e]" : "text-gray-500"}`}
             >{`${tee.teeName} (${tee.yardage} yards) `}</span>
-            <Info size={20} className="text-blue-700" />
+          </div>
+          <div>
+            <Info size={20} className="ml-auto text-blue-700" />
           </div>
         </div>
       </div>

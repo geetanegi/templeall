@@ -6,7 +6,7 @@ import GolfTee from "../assets/images/sports_golf.png";
 
 import { LandPlot, ShoppingCart, Trophy } from "lucide-react";
 import CheckoutCard from "../components/Checkout/Checkout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import BreadCumModal from "../components/Contests/Contest Components/BreadCumModal";
 import { API_URL } from "../services/enums";
@@ -17,19 +17,24 @@ import BG from "../assets/images/dashboardBG.svg";
 import PaymentSuccessCard from "../components/SuccessCart";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
+import moment from "moment";
+import { clearAllSelectedContests } from "../reducers/Courses_data/courses";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Function to handle leaving the page
   const onLeave = () => {
     setModalOpen(false); // Close modal before navigating
     navigate(ROUTES.CONTESTS, { replace: true }); // Go back to the previous URL
+    dispatch(clearAllSelectedContests());
   };
 
   useEffect(() => {
     const handlePopState = () => {
       setModalOpen(true); // Show modal when back button is clicked
+      window.history.pushState(null, "", window.location.href); // Push a new state to keep the modal open
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -54,22 +59,24 @@ const Checkout: React.FC = () => {
   const selectedTeeType = useSelector(
     (state: RootState) => state.courses.selectedTeeType,
   );
-  const selectedYardage = useSelector(
-    (state: RootState) => state.courses.yardage,
-  );
   const selectedContestsList = useSelector(
     (state: RootState) => state.courses.selectedContests,
   );
 
+  const selectedContestObj: any =
+    selectedTeeType !== null && selectedContestsList;
+
+  const selectedContestTee = Object.keys(selectedContestObj)[0];
+
   const selectedContests =
-    selectedTeeType !== null &&
-    selectedContestsList[selectedTeeType]?.length > 0 &&
-    selectedContestsList[selectedTeeType];
+    selectedContestTee !== null &&
+    selectedContestsList[selectedContestTee]?.length > 0 &&
+    selectedContestsList[selectedContestTee];
 
   const totalPrice =
-    selectedTeeType !== null &&
-    selectedContestsList[selectedTeeType]?.length > 0
-      ? selectedContestsList[selectedTeeType].reduce(
+    selectedContestTee !== null &&
+    selectedContestsList[selectedContestTee]?.length > 0
+      ? selectedContestsList[selectedContestTee].reduce(
           (acc, contest) => acc + contest.entryFee,
           0,
         )
@@ -82,14 +89,14 @@ const Checkout: React.FC = () => {
 
   const [paymentSucess, setPaymentSucess] = useState<boolean>(false);
 
-  console.log("selectedContests", selectedContests);
-
   const handleCheckoutCart = async () => {
     const obj = {
       data: {
         playerId: 1,
-        registrationDate: "2024-09-11T13:05:51Z",
+        registrationDate: moment.utc(new Date()).format(),
         totalAmount: totalPrice,
+        // holeId: selectedContests && selectedContests[0]?.holeId,
+        // teeId: selectedContests && selectedContests[0]?.teeId,
         cartInfo:
           selectedContests && Array.isArray(selectedContests)
             ? selectedContests.map((item) => ({
@@ -156,7 +163,8 @@ const Checkout: React.FC = () => {
               onClick={() => setModalOpen(true)}
             >
               <img src={GolfTee} className="h-4 w-4" />
-              {selectedTeeType}({selectedYardage} yards)
+              {selectedContestTee}(
+              {selectedContests && selectedContests[0]?.yardage} yards)
             </span>
             <span>&gt;</span>
             <span className="flex gap-1 text-[#afd156]">

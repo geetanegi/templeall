@@ -58,22 +58,24 @@ const Checkout: React.FC = () => {
   const selectedTeeType = useSelector(
     (state: RootState) => state.courses.selectedTeeType,
   );
-  const selectedYardage = useSelector(
-    (state: RootState) => state.courses.yardage,
-  );
   const selectedContestsList = useSelector(
     (state: RootState) => state.courses.selectedContests,
   );
 
+  const selectedContestObj: any =
+    selectedTeeType !== null && selectedContestsList;
+
+  const selectedContestTee = Object.keys(selectedContestObj)[0];
+
   const selectedContests =
-    selectedTeeType !== null &&
-    selectedContestsList[selectedTeeType]?.length > 0 &&
-    selectedContestsList[selectedTeeType];
+    selectedContestTee !== null &&
+    selectedContestsList[selectedContestTee]?.length > 0 &&
+    selectedContestsList[selectedContestTee];
 
   const totalPrice =
-    selectedTeeType !== null &&
-    selectedContestsList[selectedTeeType]?.length > 0
-      ? selectedContestsList[selectedTeeType].reduce(
+    selectedContestTee !== null &&
+    selectedContestsList[selectedContestTee]?.length > 0
+      ? selectedContestsList[selectedContestTee].reduce(
           (acc, contest) => acc + contest.entryFee,
           0,
         )
@@ -85,13 +87,6 @@ const Checkout: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   const [paymentSucess, setPaymentSucess] = useState<boolean>(false);
-
-  const selectedContestObj: any =
-    selectedTeeType !== null && selectedContestsList;
-
-  const selectedContestTee = Object.keys(selectedContestObj)[0];
-
-  console.log("selectedContests", selectedContests);
 
   const handleCheckoutCart = async () => {
     const obj = {
@@ -165,7 +160,8 @@ const Checkout: React.FC = () => {
               onClick={() => setModalOpen(true)}
             >
               <img src={GolfTee} className="h-4 w-4" />
-              {selectedContestTee}({selectedYardage} yards)
+              {selectedContestTee}(
+              {selectedContests && selectedContests[0]?.yardage} yards)
             </span>
             <span>&gt;</span>
             <span className="flex gap-1 text-[#afd156]">

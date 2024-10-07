@@ -11,7 +11,6 @@ import {
   removeSelectedContest,
 } from "../../../reducers/Courses_data/courses";
 import { RootState } from "../../../store";
-import { ToastError } from "../../Toast";
 
 interface TeeContest {
   contestId: number | null;
@@ -42,6 +41,10 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
 
   const selectedTeeType = useSelector(
     (state: RootState) => state.courses.selectedTeeType,
+  );
+
+  const currentSelectedYardage = useSelector(
+    (state: RootState) => state.courses.yardage,
   );
 
   const currentTime = moment.utc(); // Get the current time in UTC
@@ -98,7 +101,10 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       dispatch(
         addSelectedContest({
           teeType: teeContest.selectedTeeType,
-          contest: teeContest,
+          contest: {
+            ...teeContest,
+            yardage: currentSelectedYardage,
+          },
         }),
       );
     }

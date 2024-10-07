@@ -15,4 +15,6 @@ export const ROUTES = {
   CHECKOUT: "/checkout",
   COMMUNITY: "/community",
   MEDIA: "/media-management",
+  PRIVACY_POLICY: "/privacy-policy",
+  TERMS_AND_CONDITIONS: "/terms-and-conditions",
 };

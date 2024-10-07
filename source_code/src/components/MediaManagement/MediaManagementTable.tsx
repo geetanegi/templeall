@@ -27,10 +27,13 @@ interface MediaManagementTableProps {
   handleUpdateStatus: (id: number | string, status: string, des: string) => void,
   filterValue: string;
   isCourseAdmin: boolean;
+  isStatusChange:boolean;
+  setIsStatusChange:(flag:boolean)=>void;
+  setDataLength:(dataLength:number)=>void
 }
 
 
-const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
+const MediaManagementTable: React.FC<MediaManagementTableProps> = ({setDataLength,isStatusChange,setIsStatusChange, filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -47,6 +50,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       setRowData([]);
     }
   }, [selectedTab, isRefreshList, filterValue])
+
+  useEffect(()=>{
+    setActiveStatus('pending')
+    computeRowData(rowData)
+  },[isStatusChange])
 
   useEffect(() => {
     if (rowData.length) {
@@ -71,6 +79,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
 
     } finally {
       dispatch(setLoading(false));
+      setActiveStatus('')
+      setIsStatusChange(false)
     }
   }
 
@@ -78,6 +88,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       const filterData = rowData.filter((video)=>{
         return video.contestName == filterValue
       })
+      setDataLength(filterData.length)
       return filterData || []
   }
 
@@ -129,6 +140,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
     if (status === 200 && data?.data != null && !data?.error) {
       computeRowData(data?.data)
       setFetchedData(data?.data)
+      setDataLength(data?.data?.length)
     } else if (data?.error && data.description) {
       ToastError(data.description);
     }
@@ -142,7 +154,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       index={index}
       tablelength={tablelength}
       handleUpdateStatus={(status) => {
-        if (status === "Reject") {
+        if (status === "Rejected") {
           setIsRejectModalOpen(true)
           setUpdateStatusData({ id: reqId, status })
         } else {
@@ -195,7 +207,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         />
       </div>
     } else {
-      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED' ) ? '' : 'cursor-default'} `}
+      return <button className={`flex py-4 gap-2 ${(activeStatus === 'Approved' || status === 'APPROVED' ) ? 'cursor-pointer' : 'cursor-default'} `}
         onClick={() => {
           
           if (activeStatus === 'Approved' || status === 'APPROVED' ) {
@@ -226,13 +238,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
             reuestDate: moment().utc(data?.requestTime).local().format('YYYY-MM-DD'),
-            time: moment.utc(data?.requestTime).local().format('HH:SS A'),
+            time: moment.utc(data?.requestTime).local().format('hh:mm A'),
             upload: <div className='flex items-center py-4 gap-2'>  
               <CirclePlay className='text-[#0077B6] cursor-pointer'
                 size={18}
                 onClick={() => {
-                  setSelectedVideo(data.videos.url)
                   setIsVideoPlayerVisible(true)
+                  setSelectedVideo(data.videos.url)
                 }}
               />
             </div>
@@ -290,7 +302,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
             course: data?.courseName || '',
             hole: `Hole #${data.holeNumber} - Par ${data.par || ''}`,
             tee: data?.teeName || '',
-            time: moment.utc(data?.requestTime).local().format('HH:MM A'),
+            time: moment.utc(data?.requestTime).local().format('hh:mm A'),
             Category: <div className="relative flex items-center text-[14px]  inline-block">
               {data.videoCategory === "TOP_SHOT" ? "Top Shot " : data.videoCategory === "NOT_TOP_SHOT" ? "Not Top Shot" : "Bloopers"}
               <Info size={16} className='ml-2 cursor-pointer'
@@ -330,7 +342,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
               />
               <CircleMinus size={18} className='text-[red] cursor-pointer'
                 onClick={() => {
-                  debugger
                   setDeleteParams({
                     ...deleteParams,
                     requestType: 'SOTW_VIDEO',
@@ -371,7 +382,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
       </PageLoader>
       <ConfirmationModal
         type={"error"}
-        confirmationText={'Are you sure you want to remove this video?'}
+        confirmationText={'Are you sure you want to delete this video?'}
         isOpen={isConfirmationModalOpen}
         onClose={() => {
           setDeleteParams({ requestType: "", requestId: "" })
@@ -379,7 +390,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({ filterValue
         }}
         onOk={() => {
           setIsConfirmationModalOpen(false)
-          deleteVideos(deleteParams.requestType, deleteParams.requestId, getVideosList)
+          deleteVideos(deleteParams.requestType, deleteParams.requestId, getVideosList, 'superAdmin')
         }}
       />
     </div>

@@ -95,8 +95,8 @@ const Checkout: React.FC = () => {
         playerId: 1,
         registrationDate: moment.utc(new Date()).format(),
         totalAmount: totalPrice,
-        // holeId: selectedContests && selectedContests[0]?.holeId,
-        // teeId: selectedContests && selectedContests[0]?.teeId,
+        holeId: selectedContests && selectedContests[0]?.holeId,
+        teeId: selectedContests && selectedContests[0]?.teeId,
         cartInfo:
           selectedContests && Array.isArray(selectedContests)
             ? selectedContests.map((item) => ({

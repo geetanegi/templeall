@@ -63,7 +63,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
             >{`${tee.teeName} (${tee.yardage} yards) `}</span>
           </div>
           <div>
-            <Info size={20} className="ml-auto text-blue-700" />
+            {/* <Info size={20} className="ml-auto text-blue-700" /> */}
           </div>
         </div>
       </div>

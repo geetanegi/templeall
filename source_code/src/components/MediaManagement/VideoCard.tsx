@@ -340,8 +340,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
               <PiPlayCircleBold
                 style={{ height: "38px", width: "38px" }}
                 onClick={() => {
+                  if(isApproved){
                   setSelectedVideo(requestVideoPayload?.videos?.url || "");
                   setIsVideoPlayerVisible(true);
+                  }
                 }}
               />
             )}

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import golfStickWithTee from "../../../assets/images/image 8.png";
-import { Plus, Minus, ShoppingCart } from "lucide-react";
+import { Plus, Minus, ShoppingCart, Info } from "lucide-react";
 import GolfTee from "../../../assets/images/sports_golf (1).png";
 import { ROUTES } from "../../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
@@ -36,11 +36,18 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const selectedTeeType = useSelector(
-  //   (state: RootState) => state.courses.selectedTeeType,
-  // );
+  const [isContestAlreadySelected, setIsContestAlreadySelected] =
+    useState(false);
 
-  const currentTime = moment.utc(); // Get the current time in UTC
+  const selectedTeeType = useSelector(
+    (state: RootState) => state.courses.selectedTeeType,
+  );
+
+  const currentSelectedYardage = useSelector(
+    (state: RootState) => state.courses.yardage,
+  );
+
+  const currentTime = moment.utc(); // Get the current time in UTC as
 
   // Assuming your dates are already in UTC
   const registrationStart = moment(teeContest.registrationStartTime); // UTC from server
@@ -64,13 +71,40 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       (contest: any) => contest.contestId === teeContest.contestId,
     );
 
+  const selectedContestsList = useSelector(
+    (state: RootState) => state.courses.selectedContests,
+  );
+
+  const selectedContestObj: any =
+    selectedTeeType !== null && selectedContestsList;
+
+  const selectedContestTee = Object.keys(selectedContestObj)[0];
+
+  useEffect(() => {
+    if (Object.keys(selectedContestObj)[0] !== selectedTeeType) {
+      if (selectedContestsList[selectedContestTee]?.length > 0) {
+        setIsContestAlreadySelected(true);
+      }
+    }
+  }, [selectedTeeType, selectedContestsList[selectedContestTee]]);
+
   const handleContestSelection = () => {
+    if (Object.keys(selectedContestObj)[0] !== selectedTeeType) {
+      if (selectedContestsList[selectedContestTee]?.length > 0) {
+        // ToastError("You can only register for contests from one tee at a time");
+        return;
+      }
+    }
+
     // When selecting a contest, replace any existing contests for that tee type
     if (teeContest?.contestId !== null && teeContest.selectedTeeType) {
       dispatch(
         addSelectedContest({
           teeType: teeContest.selectedTeeType,
-          contest: teeContest,
+          contest: {
+            ...teeContest,
+            yardage: currentSelectedYardage,
+          },
         }),
       );
     }
@@ -121,11 +155,19 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
                     onClick={handleRemoveContest}
                   />
                 ) : (
-                  <Plus
-                    size={32}
-                    className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
-                    onClick={handleContestSelection}
-                  />
+                  <span className="flex items-center gap-1">
+                    <Plus
+                      size={32}
+                      className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-[#95c11e] p-1 font-semibold text-white`}
+                      // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
+                      onClick={handleContestSelection}
+                    />
+                    {isContestAlreadySelected && (
+                      <div title="You can only register for contests from one tee at a time">
+                        <Info size={20} className="ml-auto text-blue-700" />
+                      </div>
+                    )}
+                  </span>
                 )}
               </>
             )}

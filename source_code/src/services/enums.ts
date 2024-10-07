@@ -48,6 +48,7 @@ export const API_URL = {
   updateVideoStatus: "/core/request-video/update-status",
   uploadRequestedVideo: "/core/video/upload",
   publishVideos: "/core/request-video/published",
+  publishSOTW:"/core/shot-of-the-week/published",
   deleteVideo: "/core/video/delete",
   deleteRequestVideo: "/core/request-video/delete",
   uploadShotOfTheWeek: "/core/shot-of-the-week/create",

@@ -292,7 +292,7 @@ const ContestList: React.FC = () => {
                     ))}
                     {/* <TeeInfo  />   */}
                   </div>
-                  <div className="h-96 w-[70%] overflow-auto">
+                  <div className="h-96 w-[70%] overflow-auto last:mb-[75px]">
                     {contestList?.data.map((contestListItem) => (
                       <TeeContests
                         key={contestListItem.contestId}

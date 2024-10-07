@@ -28,11 +28,12 @@ interface MediaManagementTableProps {
   filterValue: string;
   isCourseAdmin: boolean;
   isStatusChange:boolean;
-  setIsStatusChange:(flag:boolean)=>void
+  setIsStatusChange:(flag:boolean)=>void;
+  setDataLength:(dataLength:number)=>void
 }
 
 
-const MediaManagementTable: React.FC<MediaManagementTableProps> = ({isStatusChange,setIsStatusChange, filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
+const MediaManagementTable: React.FC<MediaManagementTableProps> = ({setDataLength,isStatusChange,setIsStatusChange, filterValue, setIsVideoPlayerVisible, selectedTab, setIsModalOpen, setVideoCategory, setSelectedReqVideoId, setUpdateStatusData, setSelectedVideo, isRefreshList, setIsRejectModalOpen, handleUpdateStatus, isCourseAdmin }) => {
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -51,7 +52,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({isStatusChan
   }, [selectedTab, isRefreshList, filterValue])
 
   useEffect(()=>{
-    debugger
     setActiveStatus('pending')
     computeRowData(rowData)
   },[isStatusChange])
@@ -88,6 +88,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({isStatusChan
       const filterData = rowData.filter((video)=>{
         return video.contestName == filterValue
       })
+      setDataLength(filterData.length)
       return filterData || []
   }
 
@@ -139,6 +140,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({isStatusChan
     if (status === 200 && data?.data != null && !data?.error) {
       computeRowData(data?.data)
       setFetchedData(data?.data)
+      setDataLength(data?.data?.length)
     } else if (data?.error && data.description) {
       ToastError(data.description);
     }

@@ -78,7 +78,7 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({setIsS
                                             disabled={isSubmitting}
                                             className="w-32 rounded-md bg-lime-500 py-2 text-white"
                                         >
-                                            ok
+                                            Ok
                                         </button>
                                     </div>
                                 </form>

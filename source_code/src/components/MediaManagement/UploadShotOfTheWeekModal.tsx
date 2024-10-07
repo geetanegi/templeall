@@ -106,7 +106,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     const courseList =
-      courseData?.data?.find((club) => club.id === parseInt(selectedClub))
+      courseData?.data?.find((club:any) => club.id === parseInt(selectedClub))
         ?.courseList || [];
     if (courseList.length > 0) {
       const courseListOptions =

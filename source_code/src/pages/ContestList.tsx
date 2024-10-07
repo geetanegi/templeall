@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import GolfClubInfo from "../components/Contests/Contest Components/GolfClubInfo";
 import HoleNavigation from "../components/Contests/Contest Components/HoleNavigation";
 import TeeInfo from "../components/Contests/Contest Components/TeeInfo";

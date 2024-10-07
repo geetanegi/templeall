@@ -60,7 +60,10 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       const { data, status } = await apiService.post<any>(
         API_URL.getAllHighlightsCounts,
         {
-          data: {},
+          data: {
+            playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
+            date:moment.utc().local().format("YYYY-MM-DDTHH:mm:ss[Z]")
+          },
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {

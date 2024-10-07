@@ -127,7 +127,7 @@ const courseSlice = createSlice({
     // Define the action to set the selected tee type
     setSelectedTeeType: (state, action: PayloadAction<string | null>) => {
       state.selectedTeeType = action.payload;
-      state.selectedContests = {}; // Clear selectedContests when tee type changes
+      // state.selectedContests = {}; // Clear selectedContests when tee type changes
     },
 
     // breadcrum states

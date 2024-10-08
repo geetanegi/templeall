@@ -120,6 +120,9 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
         let fileName = new Blob([videoFile.name], {
           type: "application/json",
         });
+        let vidthumbnail =  new Blob([JSON.stringify(thumbnail)], {
+          type: "application/json",
+        });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
         for (let i = 0; i < totalChunks; i++) {
           const start = i * CHUNK_SIZE;
@@ -138,7 +141,9 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
           });
 
           formData.append("totalChunks", fdTOtalChunk);
-
+          if(totalChunks === i+1){
+            formData.append("thumbnail", vidthumbnail)
+          }
           if (videoFile.type === "video/mp4") {
             if (!isSoTW) {
               const data1 = {

@@ -193,11 +193,16 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     video.load();
   };
 
+  console.log("thumbnail", thumbnail)
+
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     try {
       dispatch(setLoading(true));
       if (videoFile) {
         let fileName = new Blob([videoFile.name], {
+          type: "application/json",
+        });
+        let vidthumbnail =  new Blob([JSON.stringify(thumbnail)], {
           type: "application/json",
         });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
@@ -212,6 +217,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           let chunkNumber = new Blob([JSON.stringify(chunkNo)], {
             type: "application/json",
           });
+
           formData.append("chunkNumber", chunkNumber);
           let fdTOtalChunk = new Blob(
             [JSON.stringify(totalChunks.toString())],
@@ -219,8 +225,10 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               type: "application/json",
             },
           );
-
           formData.append("totalChunks", fdTOtalChunk);
+          if(totalChunks === i+1){
+            formData.append("thumbnail", vidthumbnail)
+          }
 
           if (videoFile.type === "video/mp4") {
             const data1 = {

@@ -43,6 +43,14 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     (state: RootState) => state.courses.selectedTeeType,
   );
 
+  const selectedHoleId = useSelector(
+    (state: RootState) => state.courses.selectedHoleId,
+  );
+
+  const selectedTeeId = useSelector(
+    (state: RootState) => state.courses.selectedTeeId,
+  );
+
   const currentSelectedYardage = useSelector(
     (state: RootState) => state.courses.yardage,
   );
@@ -104,6 +112,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           contest: {
             ...teeContest,
             yardage: currentSelectedYardage,
+            holeId: selectedHoleId,
+            teeId: selectedTeeId,
           },
         }),
       );

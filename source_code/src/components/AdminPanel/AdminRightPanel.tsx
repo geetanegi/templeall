@@ -315,15 +315,16 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       if(selectedUserTab === 3){
         getPlayer()
       }else{
+        debugger;
         const lowercasedTerm = searchString.toLowerCase();
         const searchedData =  totalAdminCount.filter((user:any) => 
-          user.firstname.toLowerCase().includes(lowercasedTerm) ||
-          user.lastname.toLowerCase().includes(lowercasedTerm) ||
+          user.firstName.toLowerCase().includes(lowercasedTerm) ||
+          user.lastName.toLowerCase().includes(lowercasedTerm) ||
           user.username.toLowerCase().includes(lowercasedTerm) ||
           user.email.toLowerCase().includes(lowercasedTerm)
       );
         if(searchedData && searchedData.length){
-          setRowData(searchedData);
+          setRowData(computeTableData(searchedData, selectedUserTab));
         }
 
       }

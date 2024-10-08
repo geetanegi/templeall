@@ -117,6 +117,9 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
     try {
       dispatch(setLoading(true));
       if (videoFile) {
+        let fileName = new Blob([videoFile.name], {
+          type: "application/json",
+        });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
         for (let i = 0; i < totalChunks; i++) {
           const start = i * CHUNK_SIZE;
@@ -124,16 +127,18 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
           const chunk = videoFile.slice(start, end);
           let formData = new FormData();
           formData.append("file", chunk);
-          let chunkNumber = new Blob([JSON.stringify( i.toString() + 1)], {
+          let chunkNo = i + 1;
+          formData.append("fileName",fileName);
+          let chunkNumber = new Blob([JSON.stringify(chunkNo)], {
             type: "application/json",
           });
           formData.append("chunkNumber",chunkNumber);
           let fdTOtalChunk = new Blob([JSON.stringify( totalChunks.toString())], {
             type: "application/json",
           });
-          
+
           formData.append("totalChunks", fdTOtalChunk);
-          formData.append
+
           if (videoFile.type === "video/mp4") {
             if (!isSoTW) {
               const data1 = {
@@ -212,6 +217,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
       setIsModalOpen(false);
       dispatch(setLoading(false));
     }
+
   };
 
   const scrollbarStyles: React.CSSProperties = {

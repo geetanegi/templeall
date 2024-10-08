@@ -162,8 +162,10 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                 formData,
               );
               if (status === 200 && data?.data != null && !data?.error) {
-                ToastSuccess(data?.data?.message);
-                setIsRefreshList(!isRefreshList);
+                if(data?.data?.message === 'The video has been successfully uploaded and saved.'){
+                  ToastSuccess(data?.data?.message);
+                  setIsRefreshList(!isRefreshList);
+                }
               } else if (data?.error && data.description) {
                 ToastError(data.description);
               }

@@ -65,6 +65,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [pageSize, setPageSize] = useState<number>(10);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
+    const [searchString, setSearchString] = useState<string>("");
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -283,6 +284,51 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       }
     };
 
+    const getPlayer = async () => {
+      dispatch(setLoading(true));
+      try {
+        const payload = {
+          username: searchString,
+          firstName: searchString,
+          lastName: searchString,
+          email: searchString,
+        };
+        const { data, status } = await apiService.post<any>(
+          API_URL.searchPlayer,
+          { data: { searchParams: payload } },
+        );
+        if (status === 200 && data?.data != null && !data?.error) {
+          setRowData(computeTableData(data?.data?.content || [], selectedUserTab));
+        } else if (data?.error && data.description) {
+          ToastError(data.description);
+        }
+      } catch (error) {
+        ToastError("Something went wrong");
+      } finally {
+        dispatch(setLoading(false));
+      }
+      if (!searchString) {
+      }
+    };
+
+    const handleUserSearch = () =>{
+      if(selectedUserTab === 3){
+        getPlayer()
+      }else{
+        const lowercasedTerm = searchString.toLowerCase();
+        const searchedData =  totalAdminCount.filter((user:any) => 
+          user.firstname.toLowerCase().includes(lowercasedTerm) ||
+          user.lastname.toLowerCase().includes(lowercasedTerm) ||
+          user.username.toLowerCase().includes(lowercasedTerm) ||
+          user.email.toLowerCase().includes(lowercasedTerm)
+      );
+        if(searchedData && searchedData.length){
+          setRowData(searchedData);
+        }
+
+      }
+    }
+
     return (
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col justify-between md:flex-row">
@@ -290,9 +336,19 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             <input
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
-              placeholder={computeSearchPlaceholder()}
+              onChange={(event)=>setSearchString(event.target.value)}
+              placeholder={computeSearchPlaceholder()} 
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleUserSearch();
+                }
+            }}
             />
-            <Search size={20} color="gray" />
+            <Search size={20} color="gray" 
+              onClick={() => {
+                  handleUserSearch();
+            }}
+            />
           </div>
           {!isCourseAdmin && selectedUserTab != 3 && (
             <button
@@ -308,7 +364,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             Headers={tableHeaders}
             rowData={rowData}
             currentPage={currentPage}
-            totalPages={selectedUserTab == 3 ? totalPages: Math.ceil(totalAdminCount.length / Number(pageSize))}
+            totalPages={
+              selectedUserTab == 3
+                ? totalPages
+                : Math.ceil(totalAdminCount.length / Number(pageSize))
+            }
             setCurrentPage={setCurrentPage}
             pageSize={pageSize}
             setPageSize={setPageSize}

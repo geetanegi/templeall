@@ -319,8 +319,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         const searchedData =  totalAdminCount.filter((user:any) => 
           user.firstName?.toLowerCase().includes(lowercasedTerm) ||
           user.lastName?.toLowerCase().includes(lowercasedTerm) ||
-          user.username?.toLowerCase().includes(lowercasedTerm) ||
-          user.email?.toLowerCase().includes(lowercasedTerm)
+          user.username?.toLowerCase().includes(lowercasedTerm)
       );
         if(searchedData && searchedData.length){
           setRowData(computeTableData(searchedData, selectedUserTab));

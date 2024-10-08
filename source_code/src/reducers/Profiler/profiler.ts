@@ -22,6 +22,7 @@ const profilerSlice = createSlice({
                 profiler: any;
             }>,
         ) => {
+            debugger;
             state.profile = action.payload.profiler
         },
         updateProfileImage: (

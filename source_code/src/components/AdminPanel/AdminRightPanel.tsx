@@ -217,7 +217,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     ) => {
       return (
         <div
-          className={`flex ${activeStatus ? "cursor-pointer" : "cursor-not-allowed"}`}
+          className={`flex h-[40px] ${activeStatus ?  "cursor-pointer" : "cursor-not-allowed"}`}
           onClick={() => {
             if (activeStatus) {
               navigate(ROUTES.PROFILE, { state: { id: id, role: role } });
@@ -228,10 +228,10 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             <img src={image} alt="" />
           </div>
           <div className="flex flex-col text-sm text-gray-500">
-            <span className="text-md text-lime-500">
-              {firstName} {lastName}
-            </span>
-            {role}
+            <div className={`text-md text-lime-500 ${(firstName && lastName) ? "visible" : "invisible" }`}>
+              {firstName || 'dsds'} {lastName || 'sdd'}
+            </div>
+            <div>{role}</div> 
           </div>
         </div>
       );
@@ -315,13 +315,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       if(selectedUserTab === 3){
         getPlayer()
       }else{
-        debugger;
         const lowercasedTerm = searchString.toLowerCase();
         const searchedData =  totalAdminCount.filter((user:any) => 
-          user.firstName.toLowerCase().includes(lowercasedTerm) ||
-          user.lastName.toLowerCase().includes(lowercasedTerm) ||
-          user.username.toLowerCase().includes(lowercasedTerm) ||
-          user.email.toLowerCase().includes(lowercasedTerm)
+          user.firstName?.toLowerCase().includes(lowercasedTerm) ||
+          user.lastName?.toLowerCase().includes(lowercasedTerm) ||
+          user.username?.toLowerCase().includes(lowercasedTerm) ||
+          user.email?.toLowerCase().includes(lowercasedTerm)
       );
         if(searchedData && searchedData.length){
           setRowData(computeTableData(searchedData, selectedUserTab));

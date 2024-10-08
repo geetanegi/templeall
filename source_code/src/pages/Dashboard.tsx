@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         const profileImage = data?.data?.userProfile?.imageBase64;
         dispatch(updateProfileImage({ profileImage }));
-        dispatch(updateProfile(data.data));
+        dispatch(updateProfile({profiler :data.data}));  
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }

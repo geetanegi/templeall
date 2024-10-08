@@ -24,6 +24,8 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+
   // Function to handle leaving the page
   const onLeave = () => {
     setModalOpen(false); // Close modal before navigating
@@ -92,7 +94,7 @@ const Checkout: React.FC = () => {
   const handleCheckoutCart = async () => {
     const obj = {
       data: {
-        playerId: 1,
+        playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
         registrationDate: moment.utc(new Date()).format(),
         totalAmount: totalPrice,
         holeId: selectedContests && selectedContests[0]?.holeId,

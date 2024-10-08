@@ -244,7 +244,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({setDataLengt
                 size={18}
                 onClick={() => {
                   setIsVideoPlayerVisible(true)
-                  setSelectedVideo(data.videos.url)
+                  setSelectedVideo(data.url)
                 }}
               />
             </div>

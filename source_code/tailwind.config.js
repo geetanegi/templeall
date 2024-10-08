@@ -19,7 +19,7 @@ export default {
       },
       backgroundImage: {
         'mobile-background': "url('/src/assets/images/Golf BG.png')",
-        'desktop-background': "url('/src/assets/images/AceCam Golf BG.png')",
+        'desktop-background': "url('/src/assets/images/bg-img-authflow.jpg')",
         'profilebackground': "url('/src/assets/images/peofile_background.svg')",
         'custom-gradient-1': 'linear-gradient(90deg, rgba(209, 228, 156, 0.9) 32.85%, rgba(255, 255, 255, 0.6) 67.86%)',
         'custom-gradient-2': 'linear-gradient(90deg, rgba(29, 26, 12, 0) 0%, rgba(29, 26, 12, 0.42) 36%, rgba(29, 26, 12, 0.7) 100%)',

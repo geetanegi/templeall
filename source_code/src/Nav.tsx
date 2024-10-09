@@ -14,6 +14,8 @@ import { setLoading } from "./reducers/loader/loader";
 import defaultUserImage from "./assets/images/default-user 1.png";
 import BreadCumModal from "./components/Contests/Contest Components/BreadCumModal";
 import { clearAllSelectedContests } from "./reducers/Courses_data/courses";
+import { ToastError } from "./components/Toast";
+import { updateProfile, updateProfileImage } from "./reducers/Profiler/profiler";
 
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
@@ -51,6 +53,7 @@ const Nav: React.FC = () => {
 
   useEffect(() => {
     getUserRole();
+    fetchUserInformation()
   }, []);
   const menuList = data?.data?.menuList;
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -97,6 +100,32 @@ const Nav: React.FC = () => {
     }
     setModalOpen(false); // Close the modal
     setPendingNavigation(null); // Reset pending navigation
+  };
+
+  const fetchUserInformation = async () => {
+    try {
+      dispatch(setLoading(true));
+      const { data, status } = await apiService.post<any>(
+        API_URL.fetchUserProfile,
+        {
+          data: {
+            loginUserId:
+              typeof userInfo === "object" ? userInfo.userId : undefined,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        const profileImage = data?.data?.userProfile?.imageBase64;
+        dispatch(updateProfileImage({ profileImage }));
+        dispatch(updateProfile({ profiler: data.data }));
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong");
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (

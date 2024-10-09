@@ -34,18 +34,15 @@ const Input: React.FC<InputProps> = ({
       }
     }
   };
-debugger
   return (
     <div className={`mb-4 ${className}`}>
       <Field name={name} onFocus={()=>{
-              debugger
               onFocus()}}>
         {({ field, form }: { field: any; form: any }) => (
           <TextField
             {...field}
             type={type}
             onFocus={()=>{
-              debugger
               onFocus()}}
             label={
               <span style={{ display: "flex", alignItems: "center" }}>

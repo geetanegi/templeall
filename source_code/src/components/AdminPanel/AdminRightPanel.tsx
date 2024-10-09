@@ -80,9 +80,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     }, [selectedUserTab]);
 
     useEffect(() => {
-      if (searchString) {
-        handleUserSearch();
-      } else {
+      if(searchString.length === 0) {
         if (selectedUserTab === 2 || selectedUserTab === 1) {
           setTotalPages(0);
           const startIndex = currentPage * pageSize;
@@ -93,10 +91,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ) || [];
           setRowData(computeTableData(currentItems, selectedUserTab));
         } else {
-          getUserData();
+          if(searchString.length === 0){
+            getUserData();
+          }
         }
       }
-    }, [pageSize, currentPage, totalAdminCount]);
+    }, [pageSize, currentPage, totalAdminCount, searchString]);
 
     const handleActiveDeactiveUser = async (value: boolean, userId: any) => {
       dispatch(setLoading(true));
@@ -357,6 +357,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               ) || [];
             setTotalPages(Math.ceil(searchedData.length / pageSize));
             setRowData(computeTableData(currentItems, selectedUserTab));
+          }else{
+            if(selectedUserTab === 2){
+              setRowData([])
+            }else if(selectedUserTab === 1){
+              setRowData([])
+            }
           }
         } catch (error) {
         } finally {
@@ -373,8 +379,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
               value={searchString}
-              onChange={(event) => setSearchString(event.target.value)}
+              onChange={(event) =>{
+                    setSearchString(event.target.value)
+                }}
               placeholder={computeSearchPlaceholder()}
+              
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleUserSearch();

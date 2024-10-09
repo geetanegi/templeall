@@ -360,8 +360,10 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           }else{
             if(selectedUserTab === 2){
               setRowData([])
+              ToastError("Sorry, no course admin matches your search criteria")
             }else if(selectedUserTab === 1){
               setRowData([])
+              ToastError("Sorry, no super admin matches your search criteria")
             }
           }
         } catch (error) {

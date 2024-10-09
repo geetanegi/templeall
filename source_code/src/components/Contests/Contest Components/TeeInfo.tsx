@@ -1,8 +1,6 @@
 import React from "react";
-// import GolfTee from "../../../assets/images/sports_golf.png";
 import GolfGreenTee from "../../../assets/images/sports_golf_active.svg";
 import GolfTee from "../../../assets/images/sports_golf_default.svg";
-// import { Info } from "lucide-react";
 import {
   setSelectedTeeId,
   setSelectedTeeType,
@@ -19,10 +17,6 @@ interface tee {
   imageUrl: string | null;
   imageBase64: string | null;
   onSelectTeeId: (teeId: number) => void;
-  // setShowWarning: (showWarning: number) => void;
-  // showWarning: number;
-  // selectedTeeId: number | null;
-  // onSelectedTeeType: (teeType: string) => void;
 }
 
 const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
@@ -34,11 +28,6 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
     <div
       className="w-full cursor-pointer"
       onClick={() => {
-        // tee.onSelectedTeeType(tee.teeName);
-        // if (tee.showWarning === 0) {
-        //   tee.setShowWarning(1);
-        // }
-
         tee.onSelectTeeId(tee.id);
         dispatch(setSelectedTeeId(tee.id));
         dispatch(setSelectedTeeType(tee.teeName));

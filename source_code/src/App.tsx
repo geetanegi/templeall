@@ -67,12 +67,20 @@ function AppRoutes() {
       element: <TermsAndConditons />,
     },
     {
-      path: ROUTES.DASHBOARD,
+      path: ROUTES.USERS,
       element: (
         <PrivateRoute>
           <Dashboard />
         </PrivateRoute>
       ),
+    },
+    {
+      path: ROUTES.DASHBOARD,
+      element : (
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
+      )
     },
     {
       path: ROUTES.CONTESTS,
@@ -159,7 +167,6 @@ function App() {
   const isLogin = useSelector((state: RootState) => state.auth.isAuthenticated);
   const token = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
-
   useEffect(() => {
     if (token && isLogin && location.pathname === ROUTES.LOGIN) {
       navigate(ROUTES.DASHBOARD);

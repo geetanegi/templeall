@@ -58,7 +58,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
             <div><span className='mr-3'>Clubs :</span><span></span>{userinformation?.userProfile?.clubs || '---'}</div>
             <div><span className='mr-3'>Ball :</span><span>{userinformation?.userProfile?.ball || '---'}</span></div>
             <div><span className='mr-3'>Course :</span><span>{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</span></div>
-            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{formatDate(userinformation?.userProfile?.memberSince) || '---'}</span></div>
+            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
           </div>
           <div>
           </div>

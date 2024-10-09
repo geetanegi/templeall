@@ -10,10 +10,13 @@ import {
   updateProfileImage,
 } from "../reducers/Profiler/profiler";
 import { ToastError } from "../components/Toast";
+import { useLocation } from "react-router-dom";
+import { ROUTES } from "../utils/routesPath";
 
 const Dashboard: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
@@ -42,7 +45,7 @@ const Dashboard: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         const profileImage = data?.data?.userProfile?.imageBase64;
         dispatch(updateProfileImage({ profileImage }));
-        dispatch(updateProfile(data.data));
+        dispatch(updateProfile({ profiler: data.data }));
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
@@ -52,12 +55,24 @@ const Dashboard: React.FC = () => {
       dispatch(setLoading(false));
     }
   };
+
+  const renderAdminPanal = () =>{
+      if(userPermisions?.data?.permission["is_super_admin"]){
+        return <Adminpanel />
+      }else if(userPermisions?.data?.permission["is_course_admin"]){
+        return <Adminpanel isCourseAdmin={true} />
+      }
+  }
+
   return (
     <div>
-      {userPermisions?.data?.permission["is_player"] && (<h1>Player User</h1>)}
-      {userPermisions?.data?.permission["is_super_admin"] && (<Adminpanel />)}
+      {location.pathname === ROUTES.USERS && renderAdminPanal()}
+      {userPermisions?.data?.permission["is_player"] && <h1>Player User</h1>}
+      {userPermisions?.data?.permission["is_super_admin"] && (
+        <h1>Super Admin</h1>
+      )}
       {userPermisions?.data?.permission["is_course_admin"] && (
-        <Adminpanel isCourseAdmin={true} />
+        <h1>Course Admin</h1>
       )}
     </div>
   );

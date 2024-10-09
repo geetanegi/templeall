@@ -24,7 +24,6 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
-import VideoThumbnail from "./VideoThumbnail";
 import ShareVideoModal from "./ShareRequestModal";
 
 interface VideoCardProps {
@@ -241,13 +240,11 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeVideoThumbnail = () => {
     if (isApproved) {
       return (
-        <VideoThumbnail
-          videoUrl={requestVideoPayload?.videos?.url || ""}
-          onClick={() => {
-            setSelectedVideo(requestVideoPayload?.videos?.url || "");
-            setIsVideoPlayerVisible(true);
-          }}
-        />
+       <div className="w-full h-full rounded-t-lg object-cover">
+        <img
+          className="w-full h-full rounded-t-lg object-cover"
+        src={requestVideoPayload?.videos?.thumbnailUrl || ''} alt="" />
+       </div>
       );
     } else if (status === "PENDING" || !status) {
       return (

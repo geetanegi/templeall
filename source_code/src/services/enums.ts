@@ -30,6 +30,7 @@ export const API_URL = {
   updateUserProfile: "core/user/update-profile",
   downloadProfileImage: "core/files/view-file",
   searchPlayer: "core/user/all-player-user",
+  searchAllPlayer: "/core/user/all-users",
   getClubCourseAdmin: "core/user-course-club/course-admins",
   getCourseAdminByClubId: "/core/user-course-club/course-admins-count",
   createContest: "/core/contest/create",
@@ -51,9 +52,10 @@ export const API_URL = {
   publishSOTW:"/core/shot-of-the-week/published",
   deleteVideo: "/core/video/delete",
   deleteRequestVideo: "/core/request-video/delete",
-  uploadShotOfTheWeek: "/core/shot-of-the-week/create",
+  uploadShotOfTheWeek: "/core/shot-of-the-week/createChunk",
   contestCheckoutCoreRegistrationSave: "/core/registration/save",
   getCourseSpecificVideo:"/core/winner-video/get-course-specific-video",
   getAllHighlightsCounts: "/core/request-video/get-all-highlight-count",
-  getAllMediaCounts:"/core/request-video/get-all-media-count"
+  getAllMediaCounts:"/core/request-video/get-all-media-count",
+  uploadVideoInChunks: "/core/video/upload-chunk"
 };

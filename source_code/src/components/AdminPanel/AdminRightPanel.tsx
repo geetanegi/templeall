@@ -65,6 +65,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [pageSize, setPageSize] = useState<number>(10);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
+    const [searchString, setSearchString] = useState<string>("");
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -75,20 +76,25 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     useEffect(() => {
       getUserData();
+      setSearchString("");
     }, [selectedUserTab]);
 
     useEffect(() => {
-      if (selectedUserTab === 2 || selectedUserTab === 1) {
-        setTotalPages(0);
-        const startIndex = currentPage * pageSize;
-        const currentItems =
-          totalAdminCount?.slice(
-            startIndex,
-            Number(startIndex) + Number(pageSize),
-          ) || [];
-        setRowData(computeTableData(currentItems, selectedUserTab));
+      if (searchString) {
+        handleUserSearch();
       } else {
-        getUserData();
+        if (selectedUserTab === 2 || selectedUserTab === 1) {
+          setTotalPages(0);
+          const startIndex = currentPage * pageSize;
+          const currentItems =
+            totalAdminCount?.slice(
+              startIndex,
+              Number(startIndex) + Number(pageSize),
+            ) || [];
+          setRowData(computeTableData(currentItems, selectedUserTab));
+        } else {
+          getUserData();
+        }
       }
     }, [pageSize, currentPage, totalAdminCount]);
 
@@ -132,7 +138,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ? "Course Admin"
             : "Player";
       return Data.map((item) => {
-        const activeStatus = item.activeStatus === "AC";
+        const activeStatus = item.activeStatus === "Active";
         return {
           name: computeUserName(
             item.firstName,
@@ -216,7 +222,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     ) => {
       return (
         <div
-          className={`flex ${activeStatus ? "cursor-pointer" : "cursor-not-allowed"}`}
+          className={`flex h-[40px] ${activeStatus ? "cursor-pointer" : "cursor-not-allowed"}`}
           onClick={() => {
             if (activeStatus) {
               navigate(ROUTES.PROFILE, { state: { id: id, role: role } });
@@ -227,10 +233,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             <img src={image} alt="" />
           </div>
           <div className="flex flex-col text-sm text-gray-500">
-            <span className="text-md text-lime-500">
-              {firstName} {lastName}
-            </span>
-            {role}
+            <div
+              className={`text-md text-lime-500 ${firstName && lastName ? "visible" : "invisible"}`}
+            >
+              {firstName || "dsds"} {lastName || "sdd"}
+            </div>
+            <div>{role}</div>
           </div>
         </div>
       );
@@ -283,6 +291,80 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       }
     };
 
+    const getPlayer = async () => {
+      dispatch(setLoading(true));
+      try {
+        const payload = {
+          username: searchString,
+          firstName: searchString,
+          lastName: searchString,
+        };
+
+        const { data, status } = await apiService.post<any>(
+          API_URL.searchAllPlayer,
+          {
+            data: {
+              searchParams: payload,
+              pageSortingParam: {
+                sortDir: "ASC",
+                sortBy: "username",
+                pageNumber: currentPage,
+                pageSize: pageSize,
+              },
+            },
+          },
+        );
+        if (status === 200 && data?.data != null && !data?.error) {
+          setRowData(
+            computeTableData(data?.data?.content || [], selectedUserTab),
+          );
+          setTotalPages(data.data.totalPages);
+        } else if (data?.error && data.description) {
+          ToastError(data.description);
+        }
+      } catch (error) {
+        ToastError("Something went wrong");
+      } finally {
+        dispatch(setLoading(false));
+      }
+      if (!searchString) {
+      }
+    };
+
+    const handleUserSearch = () => {
+      if (selectedUserTab === 3) {
+        if (searchString) {
+          getPlayer();
+        } else {
+          getUserData();
+        }
+      } else {
+        try {
+          dispatch(setLoading(true));
+          const lowercasedTerm = searchString.toLowerCase();
+          const searchedData = totalAdminCount.filter(
+            (user: any) =>
+              user.firstName?.toLowerCase().includes(lowercasedTerm) ||
+              user.lastName?.toLowerCase().includes(lowercasedTerm) ||
+              user.username?.toLowerCase().includes(lowercasedTerm),
+          );
+          if (searchedData && searchedData.length) {
+            const startIndex = currentPage * pageSize;
+            const currentItems =
+              searchedData?.slice(
+                startIndex,
+                Number(startIndex) + Number(pageSize),
+              ) || [];
+            setTotalPages(Math.ceil(searchedData.length / pageSize));
+            setRowData(computeTableData(currentItems, selectedUserTab));
+          }
+        } catch (error) {
+        } finally {
+          dispatch(setLoading(false));
+        }
+      }
+    };
+
     return (
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col justify-between md:flex-row">
@@ -290,9 +372,22 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             <input
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
+              value={searchString}
+              onChange={(event) => setSearchString(event.target.value)}
               placeholder={computeSearchPlaceholder()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleUserSearch();
+                }
+              }}
             />
-            <Search size={20} color="gray" />
+            <Search
+              size={20}
+              color="gray"
+              onClick={() => {
+                handleUserSearch();
+              }}
+            />
           </div>
           {!isCourseAdmin && selectedUserTab != 3 && (
             <button
@@ -308,7 +403,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             Headers={tableHeaders}
             rowData={rowData}
             currentPage={currentPage}
-            totalPages={selectedUserTab == 3 ? totalPages: Math.ceil(totalAdminCount.length / Number(pageSize))}
+            totalPages={
+              selectedUserTab == 3
+                ? totalPages
+                : searchString
+                  ? totalPages
+                  : Math.ceil(totalAdminCount.length / Number(pageSize))
+            }
             setCurrentPage={setCurrentPage}
             pageSize={pageSize}
             setPageSize={setPageSize}

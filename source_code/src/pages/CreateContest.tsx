@@ -309,7 +309,7 @@ const CreateContest: React.FC = () => {
           pageSize: "10",
         },
       });
-      if (res.status === 200  && !res.data.error) {
+      if (res.status === 200 && !res.data.error) {
         dispatch(setCourseData(res.data));
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
@@ -375,10 +375,10 @@ const CreateContest: React.FC = () => {
   ) => {
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
-    if (saveState.repeatEvery === 0 || saveState.frequency === "") {
-      ToastError("Please select Make Recurring ");
-      return;
-    }
+    // if (saveState.repeatEvery === 0 || saveState.frequency === "") {
+    //   ToastError("Please select Make Recurring ");
+    //   return;
+    // }
 
     const obj = {
       data: {
@@ -410,10 +410,10 @@ const CreateContest: React.FC = () => {
         },
         recurrence: {
           id: editData?.recurringSchedule?.id,
-          frequency: saveState.frequency,
+          frequency: saveState.frequency || "DAILY", // added change default frequency
           daysOfWeek:
             saveState?.selectedDays?.length > 0 ? selectedDays.join(",") : null,
-          endAfterOccurrences: saveState.repeatEvery,
+          endAfterOccurrences: saveState.repeatEvery || 1,
         },
       },
     };

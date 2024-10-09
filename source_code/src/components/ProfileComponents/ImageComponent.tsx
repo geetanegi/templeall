@@ -10,6 +10,7 @@ import defaultUserImage from "../../assets/images/default-user 1.png";
 interface userDetails {
   firstName: string;
   lastName: string;
+  location: string
 }
 interface ImageComponentProps {
   userDetails: userDetails;
@@ -35,6 +36,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
   userId,
   image,
 }) => {
+  debugger
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -139,7 +141,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           </div>
           <div className="m-0 text-right text-[14px] text-[#F5F6F7]">
             {" "}
-            Detroit, MI
+            {userDetails.location}
           </div>
         </div>
       </div>

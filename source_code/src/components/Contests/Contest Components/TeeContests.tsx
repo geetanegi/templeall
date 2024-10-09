@@ -56,10 +56,20 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   );
 
   const currentTime = moment.utc(); // Get the current time in UTC as
+  // Function to check if the date string is in UTC
+  const isUtcDate = (dateString: any) => {
+    // Check for 'Z' at the end or a timezone offset
+    return dateString.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(dateString);
+  };
 
-  // Assuming your dates are already in UTC
-  const registrationStart = moment(teeContest.registrationStartTime); // UTC from server
-  const registrationEnd = moment(teeContest.registrationEndTime); // UTC from server
+  // Parse registration start and end times
+  const registrationStart = isUtcDate(teeContest.registrationStartTime)
+    ? moment(teeContest.registrationStartTime) // already in UTC
+    : moment.utc(teeContest.registrationStartTime); // treat as UTC
+
+  const registrationEnd = isUtcDate(teeContest.registrationEndTime)
+    ? moment(teeContest.registrationEndTime) // already in UTC
+    : moment.utc(teeContest.registrationEndTime); // treat as UTC
 
   // Check if the current UTC time is between the registration start and end times
   const isRegistrationOpen = currentTime.isBetween(
@@ -68,7 +78,6 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     null,
     "[]",
   );
-
   const selectedContests = useSelector(
     (state: RootState) => state.courses.selectedContests,
   );

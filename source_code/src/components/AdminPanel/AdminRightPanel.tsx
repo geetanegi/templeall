@@ -245,7 +245,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     };
 
     const statusField = (activeStatus: boolean, item: any) => {
-      debugger;
       return (
         <>
           {isCourseAdmin ? (

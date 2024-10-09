@@ -133,7 +133,8 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         image={userinformation?.userProfile?.imageBase64}
         userDetails={{
           firstName: userinformation?.firstName || '',
-          lastName: userinformation?.lastName || ''
+          lastName: userinformation?.lastName || '',
+          location: userinformation?.userProfile?.location || ''
         }}
         userCourseAndClubInfo={userinformation?.userCourseAndClubInfo || {}}
         fetchUserInformation={fetchUserInformation}

@@ -19,12 +19,11 @@ import requestvideo from "../../assets/images/requestvideothumbnail.png";
 import lockvideo from "../../assets/images/lock.png";
 import ConfirmationModal from "../GenericUIcomponents/ConfirmationModal";
 import { deleteVideos } from "./mediaUtils/mediaUtils";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastError } from "../Toast";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
-import VideoThumbnail from "./VideoThumbnail";
 import ShareVideoModal from "./ShareRequestModal";
 
 interface VideoCardProps {
@@ -241,13 +240,11 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeVideoThumbnail = () => {
     if (isApproved) {
       return (
-        <VideoThumbnail
-          videoUrl={requestVideoPayload?.videos?.url || ""}
-          onClick={() => {
-            setSelectedVideo(requestVideoPayload?.videos?.url || "");
-            setIsVideoPlayerVisible(true);
-          }}
-        />
+       <div className="w-full h-full rounded-t-lg object-cover">
+        <img
+          className="w-full h-full rounded-t-lg object-cover"
+        src={requestVideoPayload?.videos?.thumbnailUrl || ''} alt="" />
+       </div>
       );
     } else if (status === "PENDING" || !status) {
       return (
@@ -288,6 +285,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
       } else {
         payload = {
           requestVideoId: requestVideoPayload.id,
+          isPublished: !isPublished
         };
       }
 
@@ -296,7 +294,6 @@ const VideoCard: React.FC<VideoCardProps> = ({
       });
 
       if (res.status === 200 && !res.data.error) {
-        ToastSuccess(res.data.data.message);
         setRefreshList(!refreshList);
       } else if (res.data.error) {
         ToastError(res.data.description || "");

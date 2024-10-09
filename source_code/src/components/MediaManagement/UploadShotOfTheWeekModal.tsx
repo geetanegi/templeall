@@ -14,6 +14,7 @@ import PageLoader from "../PageLoader";
 import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
 import moment from "moment";
+import uuid from "react-uuid";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -74,7 +75,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   setIsModalOpen,
   isSoTW = false,
   videoCategory,
-  selectedReqVideoId,
   setIsRefreshList,
   isRefreshList,
 }) => {
@@ -91,7 +91,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     })) || [];
   const [selectedClub, setSelectedClub] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
+  const [thumbnail, setThumbnail] = useState<string | "">("");
   const [courseOptions, setCourseOptions] = useState<[]>([]);
   const [holeOptions, setHoleOptions] = useState<[]>([]);
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -147,7 +147,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     setVideoFile(null);
-    setThumbnail(undefined);
+    setThumbnail('');
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -193,16 +193,16 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     video.load();
   };
 
-  console.log("thumbnail", thumbnail)
 
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     try {
       dispatch(setLoading(true));
       if (videoFile) {
-        let fileName = new Blob([videoFile.name], {
+        const name =  videoFile.name + uuid();
+        let fileName = new Blob([name], {
           type: "application/json",
         });
-        let vidthumbnail =  new Blob([JSON.stringify(thumbnail)], {
+        let vidthumbnail =  new Blob([thumbnail], {
           type: "application/json",
         });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
@@ -255,7 +255,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               formData,
             );
             if (status === 200 && data?.data != null && !data?.error) {
-              if(data?.data?.message === 'The video has been successfully uploaded and saved.'){
+              if(totalChunks === i+1){
                 ToastSuccess(data?.data?.message);
                 setIsRefreshList(!isRefreshList);
               }

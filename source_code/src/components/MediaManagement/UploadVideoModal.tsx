@@ -12,6 +12,7 @@ import { RootState } from "../../store";
 import PageLoader from "../PageLoader";
 import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
+import uuid from "react-uuid";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -58,7 +59,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
+  const [thumbnail, setThumbnail] = useState<string | "">("");
   const [checkvideo, setCheckVideo] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     setVideoFile(null);
-    setThumbnail(undefined);
+    setThumbnail('');
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -117,10 +118,11 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
     try {
       dispatch(setLoading(true));
       if (videoFile) {
-        let fileName = new Blob([videoFile.name], {
+        const name = uuid() +  videoFile.name ;
+        let fileName = new Blob([name], {
           type: "application/json",
         });
-        let vidthumbnail =  new Blob([JSON.stringify(thumbnail)], {
+        let vidthumbnail = thumbnail && new Blob([thumbnail], {
           type: "application/json",
         });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
@@ -142,7 +144,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
 
           formData.append("totalChunks", fdTOtalChunk);
           if(totalChunks === i+1){
-            formData.append("thumbnail", vidthumbnail)
+            vidthumbnail &&  formData.append("thumbnail", vidthumbnail)
           }
           if (videoFile.type === "video/mp4") {
             if (!isSoTW) {
@@ -167,7 +169,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                 formData,
               );
               if (status === 200 && data?.data != null && !data?.error) {
-                if(data?.data?.message === 'The video has been successfully uploaded and saved.'){
+                if(totalChunks === i+1){
                   ToastSuccess(data?.data?.message);
                   setIsRefreshList(!isRefreshList);
                 }

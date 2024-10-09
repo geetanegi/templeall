@@ -2,7 +2,6 @@ import React from "react";
 // import GolfTee from "../../../assets/images/sports_golf.png";
 import GolfGreenTee from "../../../assets/images/sports_golf_active.svg";
 import GolfTee from "../../../assets/images/sports_golf_default.svg";
-import { Info } from "lucide-react";
 import {
   setSelectedTeeId,
   setSelectedTeeType,
@@ -63,7 +62,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
             >{`${tee.teeName} (${tee.yardage} yards) `}</span>
           </div>
           <div>
-            <Info size={20} className="ml-auto text-blue-700" />
+            {/* <Info size={20} className="ml-auto text-blue-700" /> */}
           </div>
         </div>
       </div>

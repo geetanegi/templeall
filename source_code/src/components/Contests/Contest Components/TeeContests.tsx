@@ -43,11 +43,19 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     (state: RootState) => state.courses.selectedTeeType,
   );
 
+  const selectedHoleId = useSelector(
+    (state: RootState) => state.courses.selectedHoleId,
+  );
+
+  const selectedTeeId = useSelector(
+    (state: RootState) => state.courses.selectedTeeId,
+  );
+
   const currentSelectedYardage = useSelector(
     (state: RootState) => state.courses.yardage,
   );
 
-  const currentTime = moment.utc(); // Get the current time in UTC
+  const currentTime = moment.utc(); // Get the current time in UTC as
 
   // Assuming your dates are already in UTC
   const registrationStart = moment(teeContest.registrationStartTime); // UTC from server
@@ -104,6 +112,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           contest: {
             ...teeContest,
             yardage: currentSelectedYardage,
+            holeId: selectedHoleId,
+            teeId: selectedTeeId,
           },
         }),
       );

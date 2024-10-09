@@ -34,6 +34,7 @@ const Checkout: React.FC = () => {
   useEffect(() => {
     const handlePopState = () => {
       setModalOpen(true); // Show modal when back button is clicked
+      window.history.pushState(null, "", window.location.href); // Push a new state to keep the modal open
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -94,6 +95,8 @@ const Checkout: React.FC = () => {
         playerId: 1,
         registrationDate: moment.utc(new Date()).format(),
         totalAmount: totalPrice,
+        holeId: selectedContests && selectedContests[0]?.holeId,
+        teeId: selectedContests && selectedContests[0]?.teeId,
         cartInfo:
           selectedContests && Array.isArray(selectedContests)
             ? selectedContests.map((item) => ({

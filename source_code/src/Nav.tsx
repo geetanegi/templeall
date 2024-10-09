@@ -11,15 +11,18 @@ import apiService from "./services/apiService";
 import { API_URL } from "./services/enums";
 import { loginUserDetails } from "./reducers/permissions/permissions";
 import { setLoading } from "./reducers/loader/loader";
-import defaultUserImage from "./assets/images/default-user 1.png"
+import defaultUserImage from "./assets/images/default-user 1.png";
+import BreadCumModal from "./components/Contests/Contest Components/BreadCumModal";
+import { clearAllSelectedContests } from "./reducers/Courses_data/courses";
 
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const profileImage = useSelector(
-    (state: RootState) => state.profiler.profileImage,
-  ) || ''
+  const profileImage =
+    useSelector((state: RootState) => state.profiler.profileImage) || "";
+    const profiledetails =
+    useSelector((state: RootState) => state.profiler.profile) || "";
   const location = useLocation();
   const data = useSelector(
     (state: RootState) => state.permissions.userPermissions,
@@ -55,6 +58,11 @@ const Nav: React.FC = () => {
   const [usersSubMenu, setUsersSubMenu] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(
+    null,
+  );
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -63,9 +71,32 @@ const Nav: React.FC = () => {
     setNavCollapsed(!navCollapsed);
   };
 
-  const handleMenuClick = (menuName: string) => {
-    setSelectedMenu(menuName);
-    setUsersSubMenu(!usersSubMenu);
+  // const handleMenuClick = (menuName: string) => {
+  //   setSelectedMenu(menuName);
+  //   setUsersSubMenu(!usersSubMenu);
+  // };
+
+  const handleMenuClick = (menuName: string, routeUrl: string) => {
+    // Check if the current path is "/checkout"
+    if (location.pathname === ROUTES.CHECKOUT) {
+      // If on checkout page, store the pending navigation and show modal
+      setSelectedMenu(menuName);
+      setPendingNavigation(routeUrl);
+      setModalOpen(true); // Open the modal
+    } else {
+      // If not on checkout page, navigate directly
+      setUsersSubMenu(!usersSubMenu);
+      navigate(routeUrl);
+    }
+  };
+
+  const handleModalClose = (confirm: boolean) => {
+    if (confirm && pendingNavigation) {
+      dispatch(clearAllSelectedContests()); // Dispatch the action to clear selected contests
+      navigate(pendingNavigation); // Navigate to the pending route
+    }
+    setModalOpen(false); // Close the modal
+    setPendingNavigation(null); // Reset pending navigation
   };
 
   return (
@@ -101,7 +132,10 @@ const Nav: React.FC = () => {
                       <NavUserMenu
                         selectedMenu={selectedMenu || ""}
                         menu={menu}
-                        handleMenuClick={handleMenuClick}
+                        // handleMenuClick={handleMenuClick}
+                        handleMenuClick={(name: string) =>
+                          handleMenuClick(name, menu.routeUrl)
+                        }
                         usersSubMenu={usersSubMenu}
                       />
                     </div>
@@ -114,32 +148,36 @@ const Nav: React.FC = () => {
                             ? "bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white" // Background unchanged
                             : "hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                         }`}
-                        onClick={() => handleMenuClick(menu.name)}
+                        // onClick={() => handleMenuClick(menu.name)}
+                        onClick={(e) => {
+                          e.preventDefault(); // Prevent immediate navigation
+                          handleMenuClick(menu.name, menu.routeUrl);
+                        }}
                       >
                         {getIconComponent({
                           strokeWidth: 1,
                           name: menu.name,
                           size: 32,
                           color:
-                            menu.routeUrl === location.pathname ||
-                            selectedMenu === menu.name
-                              ? "#95c11e"
+                            menu.routeUrl === location.pathname
+                              ? // ||selectedMenu === menu.name
+                                "#95c11e"
                               : "#7b7887", // Change icon color
                         })}
                         <span
                           style={{
                             color:
-                              menu.routeUrl === location.pathname ||
-                              selectedMenu === menu.name
-                                ? "#95c11e"
+                              menu.routeUrl === location.pathname
+                                ? // || selectedMenu === menu.name
+                                  "#95c11e"
                                 : "#7b7887",
                           }}
                           className={`px-2 pb-2 md:px-0`}
                         >
                           {menu.name}
                         </span>
-                        {(menu.routeUrl === location.pathname ||
-                          selectedMenu === menu.name) && (
+                        {menu.routeUrl === location.pathname && (
+                          //  ||  selectedMenu === menu.name
                           <div className="w-full border-b-2 border-[#95c11e]" />
                         )}
                         {/* sub menu for user */}
@@ -148,12 +186,12 @@ const Nav: React.FC = () => {
                             className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                             id="user-dropdown"
                           >
-                            <div className="px-4 py-3">
-                              <span className="block text-sm text-gray-900 dark:text-white">
-                                Bonnie Green
+                            <div className="px-4 py-3 cursor-pointer" >
+                              <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
+                                {profiledetails.firstName} {profiledetails.lastName}
                               </span>
-                              <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-                                name@flowbite.com
+                              <span className="block truncate text-sm cursor-pointer text-gray-500 dark:text-gray-400">
+                                {profiledetails.email}
                               </span>
                             </div>
                             <ul
@@ -208,31 +246,32 @@ const Nav: React.FC = () => {
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <button
               type="button"
-              className="flex rounded-full bg-gray-800 overflow-hidden text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600"
+              className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600"
               onClick={toggleDropdown}
             >
               <span className="sr-only">Open user menu</span>
-              {
-                profileImage ?
-              <img
-                className="h-8 w-8 rounded-full"
-                src={`data:image/png;base64,${profileImage}`}
-                alt="user photo"
-              /> : <img src={defaultUserImage} alt="" className='h-8 w-8' />
-            }
-                </button>
+              {profileImage ? (
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src={`data:image/png;base64,${profileImage}`}
+                  alt="user photo"
+                />
+              ) : (
+                <img src={defaultUserImage} alt="" className="h-8 w-8" />
+              )}
+            </button>
 
             {dropdownOpen && (
               <div
                 className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                 id="user-dropdown"
               >
-                <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">
-                    Bonnie Green
+                <div className="px-4 py-3 cursor-pointer">
+                  <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
+                  {profiledetails.firstName} {profiledetails.lastName}
                   </span>
-                  <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-                    name@flowbite.com
+                  <span className="block truncate cursor-pointer text-sm text-gray-500 dark:text-gray-400">
+                    {profiledetails.email}
                   </span>
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">
@@ -315,6 +354,11 @@ const Nav: React.FC = () => {
           </div>
         </div>
       </div>
+      <BreadCumModal
+        isOpen={modalOpen}
+        onClose={() => handleModalClose(false)}
+        onLeave={() => handleModalClose(true)}
+      />
     </nav>
   );
 };

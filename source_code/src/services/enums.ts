@@ -30,6 +30,7 @@ export const API_URL = {
   updateUserProfile: "core/user/update-profile",
   downloadProfileImage: "core/files/view-file",
   searchPlayer: "core/user/all-player-user",
+  searchAllPlayer: "/core/user/all-users",
   getClubCourseAdmin: "core/user-course-club/course-admins",
   getCourseAdminByClubId: "/core/user-course-club/course-admins-count",
   createContest: "/core/contest/create",

@@ -21,6 +21,8 @@ const Nav: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const profileImage =
     useSelector((state: RootState) => state.profiler.profileImage) || "";
+    const profiledetails =
+    useSelector((state: RootState) => state.profiler.profile) || "";
   const location = useLocation();
   const data = useSelector(
     (state: RootState) => state.permissions.userPermissions,
@@ -184,12 +186,12 @@ const Nav: React.FC = () => {
                             className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                             id="user-dropdown"
                           >
-                            <div className="px-4 py-3">
-                              <span className="block text-sm text-gray-900 dark:text-white">
-                                Bonnie Green
+                            <div className="px-4 py-3 cursor-pointer" >
+                              <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
+                                {profiledetails.firstName} {profiledetails.lastName}
                               </span>
-                              <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-                                name@flowbite.com
+                              <span className="block truncate text-sm cursor-pointer text-gray-500 dark:text-gray-400">
+                                {profiledetails.email}
                               </span>
                             </div>
                             <ul
@@ -264,12 +266,12 @@ const Nav: React.FC = () => {
                 className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                 id="user-dropdown"
               >
-                <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">
-                    Bonnie Green
+                <div className="px-4 py-3 cursor-pointer">
+                  <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
+                  {profiledetails.firstName} {profiledetails.lastName}
                   </span>
-                  <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-                    name@flowbite.com
+                  <span className="block truncate cursor-pointer text-sm text-gray-500 dark:text-gray-400">
+                    {profiledetails.email}
                   </span>
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">

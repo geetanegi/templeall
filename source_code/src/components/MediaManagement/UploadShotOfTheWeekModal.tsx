@@ -14,6 +14,7 @@ import PageLoader from "../PageLoader";
 import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
 import moment from "moment";
+import uuid from "react-uuid";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -31,14 +32,14 @@ const initialValue = {
   course: "",
   hole: "",
   tee: "",
-  contestName:"",
+  contestName: "",
   dateTime: "",
   videoUrl: "",
   username: "",
 };
 
 const validationSchema = Yup.object({
-    title: Yup.string()
+  title: Yup.string()
     .required("Video title is required.")
     .max(25, "Video title must be less than 25 characters"),
   description: Yup.string()
@@ -54,27 +55,26 @@ const validationSchema = Yup.object({
 });
 
 const ensureUTC = (date: string | Date): string => {
-    const dateObj = moment(date);
+  const dateObj = moment(date);
 
-    // Check if the date is valid
-    if (!dateObj.isValid()) {
-      throw new Error("Invalid date provided");
-    }
+  // Check if the date is valid
+  if (!dateObj.isValid()) {
+    throw new Error("Invalid date provided");
+  }
 
-    // Check if the date is in UTC
-    if (dateObj.utcOffset() === 0) {
-      return dateObj.format(); // Return the original date as it's already in UTC
-    } else {
-      return dateObj.utc().format(); // Convert to UTC and return
-    }
-  };
+  // Check if the date is in UTC
+  if (dateObj.utcOffset() === 0) {
+    return dateObj.format(); // Return the original date as it's already in UTC
+  } else {
+    return dateObj.utc().format(); // Convert to UTC and return
+  }
+};
 
 const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   isModalOpen,
   setIsModalOpen,
   isSoTW = false,
   videoCategory,
-  selectedReqVideoId,
   setIsRefreshList,
   isRefreshList,
 }) => {
@@ -91,7 +91,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     })) || [];
   const [selectedClub, setSelectedClub] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
+  const [thumbnail, setThumbnail] = useState<string | "">("");
   const [courseOptions, setCourseOptions] = useState<[]>([]);
   const [holeOptions, setHoleOptions] = useState<[]>([]);
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -101,12 +101,13 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [selectedUser, setSelectedUser] = useState<any>({ username: "" });
   const [usersList, setUsersList] = useState<any>(null);
   const [isUserSearchVisible, setUserSearchVisible] = useState<boolean>(false);
-  const [userNotFound, setUserNotFound] = useState<string>('')
+  const [userNotFound, setUserNotFound] = useState<string>("");
   const dispatch = useDispatch();
 
+  const CHUNK_SIZE = 0.5 * 1024 * 1024;
   useEffect(() => {
     const courseList =
-      courseData?.data?.find((club:any) => club.id === parseInt(selectedClub))
+      courseData?.data?.find((club: any) => club.id === parseInt(selectedClub))
         ?.courseList || [];
     if (courseList.length > 0) {
       const courseListOptions =
@@ -146,7 +147,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     setVideoFile(null);
-    setThumbnail(undefined);
+    setThumbnail('');
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -192,40 +193,44 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     video.load();
   };
 
+
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     try {
       dispatch(setLoading(true));
       if (videoFile) {
-        let formData = new FormData();
-        formData.append("file", videoFile);
-        if (videoFile.type === "video/mp4") {
-          if (!isSoTW) {
-            const data1 = {
-              data: {
-                requestType: "REQUEST_VIDEO",
-                videoCategory: "TOP_SHOT",
-                videoDescription: values.description,
-                videoTitle: values.title,
-                requestId: selectedReqVideoId,
-              },
-            };
+        const name =  videoFile.name + uuid();
+        let fileName = new Blob([name], {
+          type: "application/json",
+        });
+        let vidthumbnail =  new Blob([thumbnail], {
+          type: "application/json",
+        });
+        const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
+        for (let i = 0; i < totalChunks; i++) {
+          const start = i * CHUNK_SIZE;
+          const end = Math.min(start + CHUNK_SIZE, videoFile.size);
+          const chunk = videoFile.slice(start, end);
+          let formData = new FormData();
+          formData.append("file", chunk);
+          let chunkNo = i + 1;
+          formData.append("fileName", fileName);
+          let chunkNumber = new Blob([JSON.stringify(chunkNo)], {
+            type: "application/json",
+          });
 
-            let newBlobData = new Blob([JSON.stringify(data1)], {
+          formData.append("chunkNumber", chunkNumber);
+          let fdTOtalChunk = new Blob(
+            [JSON.stringify(totalChunks.toString())],
+            {
               type: "application/json",
-            });
-            formData.append("data", newBlobData);
+            },
+          );
+          formData.append("totalChunks", fdTOtalChunk);
+          if(totalChunks === i+1){
+            formData.append("thumbnail", vidthumbnail)
+          }
 
-            const { data, status } = await apiService.post<any>(
-              API_URL.uploadRequestedVideo,
-              formData,
-            );
-            if (status === 200 && data?.data != null && !data?.error) {
-              ToastSuccess(data?.data?.message);
-              setIsRefreshList(!isRefreshList);
-            } else if (data?.error && data.description) {
-              ToastError(data.description);
-            }
-          } else if (isSoTW) {
+          if (videoFile.type === "video/mp4") {
             const data1 = {
               data: {
                 dateTime: ensureUTC(values.dateTime || ''),
@@ -239,6 +244,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 player: selectedUser?.id || "",
               },
             };
+
             let newBlobData = new Blob([JSON.stringify(data1)], {
               type: "application/json",
             });
@@ -249,18 +255,18 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               formData,
             );
             if (status === 200 && data?.data != null && !data?.error) {
-              ToastSuccess(data?.data?.message);
-              setIsRefreshList(!isRefreshList);
+              if(totalChunks === i+1){
+                ToastSuccess(data?.data?.message);
+                setIsRefreshList(!isRefreshList);
+              }
             } else if (data?.error && data.description) {
               ToastError(data.description);
             }
           } else {
-            //do nothing
+            ToastError(
+              "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
+            );
           }
-        } else {
-          ToastError(
-            "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
-          );
         }
       } else {
         ToastError(
@@ -270,6 +276,8 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     } catch (error) {
       ToastError("Video Upload Failed");
     } finally {
+      setIsModalOpen(false);
+      dispatch(setLoading(false));
       setIsModalOpen(false);
       dispatch(setLoading(false));
       setSelectedUser({ username: "" });
@@ -295,10 +303,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         setUsersList(data.data.content);
       } else if (data?.error && data.description) {
-        setUserNotFound(data.description)
+        setUserNotFound(data.description);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleUserSearch = function (
@@ -490,10 +497,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                           {!usersList.length ? (
                             <div className="absolute z-10 mt-[-25px] flex min-h-[150px] w-[490px] items-center justify-center rounded border bg-white shadow-lg">
                               {" "}
-                              {
-                                userNotFound ? "User not Found" : "Search User"
-                              }
-                              
+                              {userNotFound ? "User not Found" : "Search User"}
                             </div>
                           ) : null}
                         </ul>

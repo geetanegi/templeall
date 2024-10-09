@@ -2,7 +2,6 @@ import React from "react";
 // import GolfTee from "../../../assets/images/sports_golf.png";
 import GolfGreenTee from "../../../assets/images/sports_golf_active.svg";
 import GolfTee from "../../../assets/images/sports_golf_default.svg";
-import { Info } from "lucide-react";
 import {
   setSelectedTeeId,
   setSelectedTeeType,

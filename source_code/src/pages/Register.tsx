@@ -50,7 +50,7 @@ const Register: React.FC = () => {
     nameOnCard: string;
     email: string;
     countryCode: string;
-    phone: number | null;
+    phone: number | string;
     acceptTerms: boolean;
   }
 
@@ -65,7 +65,7 @@ const Register: React.FC = () => {
     nameOnCard: "",
     email: "",
     countryCode: "+1",
-    phone: null,
+    phone: "",
     acceptTerms: false,
   };
 
@@ -110,6 +110,7 @@ const Register: React.FC = () => {
       [true],
       "You must agree to the Terms and Conditions to proceed",
     ),
+    phone: Yup.string().required("Phone is Required"),
   });
 
   const [cardError, setCardError] = useState<string | null>(null);
@@ -332,6 +333,7 @@ const Register: React.FC = () => {
                       control="number"
                       className="w-full"
                       placeholder="Phone"
+                      required={true}
                     />
                   </div>
                 </div>

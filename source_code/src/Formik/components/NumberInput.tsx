@@ -67,7 +67,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
             }
             variant="filled"
             fullWidth
-            required={required}
+            // required={required}
             helperText={<ErrorMessage name={name} component="span" />}
             error={Boolean(form.errors[name] && form.touched[name])}
             onKeyDown={handleKeyDown} // Restrict key input to numbers

@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
 import moment from "moment";
 import { clearAllSelectedContests } from "../reducers/Courses_data/courses";
+import { setPaymentSuccess } from "../reducers/Payment/Payment";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -84,12 +85,14 @@ const Checkout: React.FC = () => {
         )
       : 0;
 
+  const paymentSucess = useSelector(
+    (state: RootState) => state.payment.paymentSuccess,
+  );
+
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     "wallet" | "credit_card"
   >("wallet"); // Default to 'wallet'
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-
-  const [paymentSucess, setPaymentSucess] = useState<boolean>(false);
 
   const handleCheckoutCart = async () => {
     // api obj
@@ -122,7 +125,8 @@ const Checkout: React.FC = () => {
       );
       if (res.status === 200 && !res.data.error) {
         console.log(res.data.data);
-        setPaymentSucess(true);
+        dispatch(setPaymentSuccess(true));
+        dispatch(clearAllSelectedContests());
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
@@ -132,7 +136,7 @@ const Checkout: React.FC = () => {
   };
 
   if (paymentSucess) {
-    return <PaymentSuccessCard />;
+    navigate(ROUTES.PAYMENT_SUCCESS);
   }
 
   return (

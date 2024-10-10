@@ -240,11 +240,13 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeVideoThumbnail = () => {
     if (isApproved) {
       return (
-       <div className="w-full h-full rounded-t-lg object-cover">
-        <img
-          className="w-full h-full rounded-t-lg object-cover"
-        src={requestVideoPayload?.videos?.thumbnailUrl || ''} alt="" />
-       </div>
+        <div className="h-full w-full rounded-t-lg object-cover">
+          <img
+            className="h-full w-full rounded-t-lg object-cover"
+            src={requestVideoPayload?.videos?.thumbnailUrl || ""}
+            alt=""
+          />
+        </div>
       );
     } else if (status === "PENDING" || !status) {
       return (
@@ -285,7 +287,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
       } else {
         payload = {
           requestVideoId: requestVideoPayload.id,
-          isPublished: !isPublished
+          isPublished: !isPublished,
         };
       }
 
@@ -337,9 +339,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
               <PiPlayCircleBold
                 style={{ height: "38px", width: "38px" }}
                 onClick={() => {
-                  if(isApproved){
-                  setSelectedVideo(requestVideoPayload?.videos?.url || "");
-                  setIsVideoPlayerVisible(true);
+                  if (isApproved) {
+                    setSelectedVideo(requestVideoPayload?.videos?.url || "");
+                    setIsVideoPlayerVisible(true);
                   }
                 }}
               />
@@ -384,7 +386,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
                       className={`flex items-center justify-center gap-2 px-2 py-1 text-[13px] text-[#000000] ${isPublished ? "text-[#FD8A02]" : "text-[#7B7887]"} `}
                       onClick={handleVideoPublish}
                     >
-                      <BookmarkPlus size={16} /> Published
+                      <BookmarkPlus size={16} />{" "}
+                      {isPublished ? "Unpublish" : "Publish"}
                     </button>
                     <hr />
                     <button

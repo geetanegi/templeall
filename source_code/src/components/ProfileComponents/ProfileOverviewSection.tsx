@@ -10,7 +10,7 @@ import { API_URL } from '../../services/enums';
 import { ToastError } from '../Toast';
 import UpdateProfileModal from './UpdateProfileModal';
 import ImageComponent from './ImageComponent';
-import { updateProfileImage } from '../../reducers/Profiler/profiler';
+import { updateProfile, updateProfileImage } from '../../reducers/Profiler/profiler';
 
 
 interface ProfileOverviewSectionProps {
@@ -54,6 +54,8 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         const profileImage = data?.data?.userProfile?.imageBase64
         if (!userId || (userId == (typeof userInfo === "object" ? userInfo.userId : undefined))) {
           dispatch(updateProfileImage({ profileImage }))
+          dispatch(updateProfile({ profiler: data.data }));
+
         }
       } else if (data?.error && data.description) {
         ToastError(data.description);

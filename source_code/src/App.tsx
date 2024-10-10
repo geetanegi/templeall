@@ -19,6 +19,7 @@ import ContestList from "./pages/ContestList";
 import Checkout from "./pages/Checkout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditons from "./pages/TermsAndConditons";
+import PaymentSuccessCard from "./components/SuccessCart";
 
 // Lazy load components
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -76,11 +77,11 @@ function AppRoutes() {
     },
     {
       path: ROUTES.DASHBOARD,
-      element : (
+      element: (
         <PrivateRoute>
           <Dashboard />
         </PrivateRoute>
-      )
+      ),
     },
     {
       path: ROUTES.CONTESTS,
@@ -151,6 +152,14 @@ function AppRoutes() {
       element: (
         <PrivateRoute>
           <Checkout />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: ROUTES.PAYMENT_SUCCESS,
+      element: (
+        <PrivateRoute>
+          <PaymentSuccessCard />
         </PrivateRoute>
       ),
     },

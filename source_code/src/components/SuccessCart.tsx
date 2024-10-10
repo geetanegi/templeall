@@ -1,8 +1,23 @@
 import { CircleCheck } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import BG from "../assets/images/dashboardBG.svg";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const PaymentSuccess: React.FC = () => {
+  const navigate = useNavigate();
+
+  const paymentSucess = useSelector(
+    (state: RootState) => state.payment.paymentSuccess,
+  );
+
+  useEffect(() => {
+    if (!paymentSucess) {
+      navigate(-1);
+    }
+  }, [paymentSucess]);
+
   return (
     <div
       className="bg-[#ffffff] bg-contain bg-fixed bg-no-repeat"

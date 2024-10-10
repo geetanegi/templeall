@@ -9,6 +9,7 @@ import loaderReducer from "./loader/loader";
 import coursesReducer from "./Courses_data/courses";
 import profileReducer from "./Profiler/profiler";
 import permissions from "./permissions/permissions";
+import paymentReducer from "./Payment/Payment";
 
 // Define the shape of the root state
 export interface RootState {
@@ -16,6 +17,7 @@ export interface RootState {
   loader: ReturnType<typeof loaderReducer>;
   courses: ReturnType<typeof coursesReducer>;
   profiler: ReturnType<typeof profileReducer>;
+  payment: ReturnType<typeof paymentReducer>;
 }
 
 const persistConfig = {
@@ -31,6 +33,7 @@ const combinedReducer = combineReducers({
   courses: coursesReducer,
   profiler: profileReducer,
   permissions: permissions,
+  payment: paymentReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

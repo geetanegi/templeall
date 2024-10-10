@@ -15,7 +15,11 @@ import defaultUserImage from "./assets/images/default-user 1.png";
 import BreadCumModal from "./components/Contests/Contest Components/BreadCumModal";
 import { clearAllSelectedContests } from "./reducers/Courses_data/courses";
 import { ToastError } from "./components/Toast";
-import { updateProfile, updateProfileImage } from "./reducers/Profiler/profiler";
+import {
+  updateProfile,
+  updateProfileImage,
+} from "./reducers/Profiler/profiler";
+import { ChevronDown, Dot } from "lucide-react";
 
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,7 +27,7 @@ const Nav: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const profileImage =
     useSelector((state: RootState) => state.profiler.profileImage) || "";
-    const profiledetails =
+  const profiledetails =
     useSelector((state: RootState) => state.profiler.profile) || "";
   const location = useLocation();
   const data = useSelector(
@@ -53,7 +57,7 @@ const Nav: React.FC = () => {
 
   useEffect(() => {
     getUserRole();
-    fetchUserInformation()
+    fetchUserInformation();
   }, []);
   const menuList = data?.data?.menuList;
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -215,11 +219,12 @@ const Nav: React.FC = () => {
                             className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                             id="user-dropdown"
                           >
-                            <div className="px-4 py-3 cursor-pointer" >
-                              <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
-                                {profiledetails.firstName} {profiledetails.lastName}
+                            <div className="cursor-pointer px-4 py-3">
+                              <span className="block cursor-pointer text-sm text-gray-900 dark:text-white">
+                                {profiledetails.firstName}{" "}
+                                {profiledetails.lastName}
                               </span>
-                              <span className="block truncate text-sm cursor-pointer text-gray-500 dark:text-gray-400">
+                              <span className="block cursor-pointer truncate text-sm text-gray-500 dark:text-gray-400">
                                 {profiledetails.email}
                               </span>
                             </div>
@@ -275,19 +280,36 @@ const Nav: React.FC = () => {
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <button
               type="button"
-              className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600"
+              className="flex justify-center items-center"
               onClick={toggleDropdown}
+              style={{ width: "max-content" }}
             >
               <span className="sr-only">Open user menu</span>
-              {profileImage ? (
-                <img
-                  className="h-8 w-8 rounded-full"
-                  src={`data:image/png;base64,${profileImage}`}
-                  alt="user photo"
-                />
-              ) : (
-                <img src={defaultUserImage} alt="" className="h-8 w-8" />
-              )}
+              <div className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600">
+                {profileImage ? (
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src={`data:image/png;base64,${profileImage}`}
+                    alt="user photo"
+                  />
+                ) : (
+                  <img src={defaultUserImage} alt="" className="h-10 w-10" />
+                )}
+              </div>
+              <div className="mx-4">
+                <div className="flex">
+                  {profiledetails?.firstName || ""}{" "}
+                  {profiledetails?.lastName || ""}
+                </div>
+                <div className="flex text-[#7B7887]">
+                  <span className="text-[12px]">
+                    HDCP: {profiledetails?.userProfile?.handicap}
+                  </span>
+                  <Dot className="mx-[-4px]" />
+                  <span className="text-[12px]">GHIN: {profiledetails?.userProfile?.ghin}</span>
+                </div>
+              </div>
+              <ChevronDown size={24} color="#1D1A0C" />
             </button>
 
             {dropdownOpen && (
@@ -295,11 +317,11 @@ const Nav: React.FC = () => {
                 className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                 id="user-dropdown"
               >
-                <div className="px-4 py-3 cursor-pointer">
-                  <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
-                  {profiledetails.firstName} {profiledetails.lastName}
+                <div className="cursor-pointer px-4 py-3">
+                  <span className="block cursor-pointer text-sm text-gray-900 dark:text-white">
+                    {profiledetails.firstName} {profiledetails.lastName}
                   </span>
-                  <span className="block truncate cursor-pointer text-sm text-gray-500 dark:text-gray-400">
+                  <span className="block cursor-pointer truncate text-sm text-gray-500 dark:text-gray-400">
                     {profiledetails.email}
                   </span>
                 </div>

@@ -146,8 +146,9 @@ const Register: React.FC = () => {
         firstName: firstName,
         lastName: lastName,
         emailId: email,
+        countryCode: countryCode,
         ...(phone && phone.toString().length >= 2
-          ? { mobile: `${countryCode}${phone}` }
+          ? { mobile: `${phone}` }
           : {}),
         ...(dateOfBirth && {
           dateOfBirth: moment.utc(dateOfBirth).format(),

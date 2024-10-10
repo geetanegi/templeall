@@ -18,6 +18,7 @@ import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
+import { ensureUTC } from "../utils/TimeUtils";
 
 // interface recurrence {
 //   frequency: string;
@@ -374,22 +375,6 @@ const Contests: React.FC = () => {
       fetchEditData();
     }
   }, [id]);
-
-  const ensureUTC = (date: string | Date): string => {
-    const dateObj = moment(date);
-
-    // Check if the date is valid
-    if (!dateObj.isValid()) {
-      throw new Error("Invalid date provided");
-    }
-
-    // Check if the date is in UTC
-    if (dateObj.utcOffset() === 0) {
-      return dateObj.format(); // Return the original date as it's already in UTC
-    } else {
-      return dateObj.utc().format(); // Convert to UTC and return
-    }
-  };
 
   const handleSubmit = async (
     values: ContestFormValues,

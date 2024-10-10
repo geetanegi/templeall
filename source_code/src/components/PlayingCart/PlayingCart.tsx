@@ -1,13 +1,10 @@
 import React from "react";
-import { Minus } from "lucide-react";
-import golfStickWithTee from "../../assets/images/image 8.png";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { removeSelectedContest } from "../../reducers/Courses_data/courses";
+import CartItem from "./CartItem";
 
 const PlayingCart: React.FC = () => {
-  const dispatch = useDispatch();
-
   const selectedContestsList = useSelector(
     (state: RootState) => state.courses.selectedContests,
   );
@@ -30,15 +27,6 @@ const PlayingCart: React.FC = () => {
         )
       : 0;
 
-  const handleRemoveContest = (contest: any) => {
-    // Remove the contest if it is already selected
-    dispatch(
-      removeSelectedContest({
-        teeType: contest.selectedTeeType,
-        contestId: contest.contestId,
-      }),
-    );
-  };
   // console.log("selectedContestsList", selectedContestsList);
   return (
     <div className="max-w-4xl rounded-lg bg-white shadow-md">
@@ -55,31 +43,7 @@ const PlayingCart: React.FC = () => {
         {selectedContestTee !== null &&
         selectedContestsList[selectedContestTee]?.length > 0 ? (
           selectedContestsList[selectedContestTee].map((contest) => (
-            <div
-              key={contest.contestId}
-              className="mb-4 flex items-center justify-between px-4 py-3"
-            >
-              <div>
-                <div className="flex items-center">
-                  <img
-                    src={contest.imageUrl || golfStickWithTee}
-                    alt={contest.name}
-                    className="mr-4 h-14 w-14"
-                  />
-                  <span> {contest?.contestType}</span>
-                </div>
-              </div>
-              <div className="flex w-1/2 items-center justify-between">
-                <div className="">
-                  <span className="text-red-500">${contest.entryFee}</span>
-                </div>
-                <Minus
-                  size={32}
-                  className="cursor-pointer rounded-full bg-red-500 p-1 font-semibold text-white"
-                  onClick={() => handleRemoveContest(contest)}
-                />
-              </div>
-            </div>
+            <CartItem contest={contest} />
           ))
         ) : (
           <div className="flex h-full items-center justify-center">

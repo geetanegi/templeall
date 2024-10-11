@@ -385,7 +385,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
                     setSearchString(event.target.value)
                 }}
               placeholder={computeSearchPlaceholder()}
-              
+              maxLength={100}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleUserSearch();

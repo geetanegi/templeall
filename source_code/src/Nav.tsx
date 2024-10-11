@@ -25,6 +25,9 @@ const Nav: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const userPermisions = useSelector(
+    (state: RootState) => state.auth.userPermissions,
+  );
   const profileImage =
     useSelector((state: RootState) => state.profiler.profileImage) || "";
   const profiledetails =
@@ -301,13 +304,16 @@ const Nav: React.FC = () => {
                   {profiledetails?.firstName || ""}{" "}
                   {profiledetails?.lastName || ""}
                 </div>
+                {
+                 userPermisions?.data?.permission["is_player"] ?
                 <div className="flex text-[#7B7887]">
                   <span className="text-[12px]">
                     HDCP: {profiledetails?.userProfile?.handicap}
                   </span>
                   <Dot className="mx-[-4px]" />
                   <span className="text-[12px]">GHIN: {profiledetails?.userProfile?.ghin}</span>
-                </div>
+                </div> : null
+                }
               </div>
               <ChevronDown size={24} color="#1D1A0C" />
             </button>

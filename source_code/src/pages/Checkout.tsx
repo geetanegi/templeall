@@ -14,7 +14,6 @@ import apiService from "../services/apiService";
 import { ToastError } from "../components/Toast";
 
 import BG from "../assets/images/dashboardBG.svg";
-import PaymentSuccessCard from "../components/SuccessCart";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
 import moment from "moment";

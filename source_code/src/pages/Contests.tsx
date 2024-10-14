@@ -12,6 +12,8 @@ import { setCourseData } from "../reducers/Courses_data/courses";
 import { ApiResponse } from "../reducers/Courses_data/course";
 import { RootState } from "../store";
 import moment from "moment";
+import momentTz from "moment-timezone";
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
@@ -146,6 +148,7 @@ const validationSchema = Yup.object({
 
 const Contests: React.FC = () => {
   const dispatch = useDispatch();
+  const tz = momentTz.tz.guess();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -389,6 +392,7 @@ const Contests: React.FC = () => {
 
     const obj = {
       data: {
+        timeZone: tz,
         id: id ? id : null,
         name: "Test contest 99",
         contestType: values.contestType,

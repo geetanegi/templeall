@@ -55,7 +55,6 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         if (!userId || (userId == (typeof userInfo === "object" ? userInfo.userId : undefined))) {
           dispatch(updateProfileImage({ profileImage }))
           dispatch(updateProfile({ profiler: data.data }));
-
         }
       } else if (data?.error && data.description) {
         ToastError(data.description);

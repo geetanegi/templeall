@@ -46,9 +46,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   useEffect(() => {
     setAllVideos([]);
-    if(filterValue  ==="SOTW"){
+    if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
-    }else{
+    } else {
       getAllVideos();
     }
     setSelectedValue("");
@@ -61,8 +61,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         API_URL.getAllHighlightsCounts,
         {
           data: {
-            playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
-            date:moment.utc().local().format("YYYY-MM-DDTHH:mm:ss[Z]")
+            playerId:
+              typeof userInfo === "object" ? userInfo.userId : undefined,
+            date: moment.utc().local().format("YYYY-MM-DDTHH:mm:ss[Z]"),
           },
         },
       );
@@ -77,7 +78,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   useEffect(() => {
     if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
-    } else {
+    } else{
       getAllVideos();
     }
   }, [filterValue]);
@@ -85,15 +86,23 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   const getAllVideos = async () => {
     try {
       dispatch(setLoading(true));
-      if (selectedTab === 2) {
+      if(!filterValue){
+      if (selectedTab === 2 ) {
         await makeApiCall(API_URL.getAllPlayerReqHighlights);
       } else if (selectedTab === 3) {
-        await makeApiCall(API_URL.getAllApprovedVideos);
+        await makeApiCall(API_URL.getAllHighlightsVideo);
       } else if (selectedTab === 1) {
-        await makeApiCall(API_URL.getAllPublishedVideos);
+        await makeApiCall(API_URL.getAllpublishSotwVideos);
       } else {
         // do nothing
       }
+    }else{
+      if(selectedTab === 3){
+        await makeApiCall(API_URL.getAllApprovedVideos);
+      }else if(selectedTab === 1){
+        await makeApiCall(API_URL.getAllPublishedVideos);
+      }
+    }
     } catch (error) {
       ToastError("Something went wrong");
     } finally {
@@ -178,16 +187,14 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         searchParams: {
           "player.id":
             typeof userInfo === "object" ? userInfo.userId : undefined,
-
         },
       };
-      if(selectedTab === 1){
+      if (selectedTab === 1) {
         payload = {
           searchParams: {
             "player.id":
               typeof userInfo === "object" ? userInfo.userId : undefined,
-             isPublished : true
-  
+            isPublished: true,
           },
         };
       }
@@ -224,7 +231,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             />
             Published Highlights
             <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-              {(selectedTab === 1 && filterValue) ? allVideos.length : highlightsCounts.published || 0}
+              {selectedTab === 1 && filterValue
+                ? allVideos.length
+                : highlightsCounts.published || 0}
             </span>
           </button>
           <button
@@ -254,7 +263,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             />
             All Highlights
             <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-              {(selectedTab === 3 && filterValue) ? allVideos.length : highlightsCounts.allHighlight || 0}
+              {selectedTab === 3 && filterValue
+                ? allVideos.length
+                : highlightsCounts.allHighlight || 0}
             </span>
           </button>
         </div>
@@ -293,6 +304,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             {allVideos?.map((videoData) => {
               return (
                 <VideoCard
+                  key={videoData.id}
                   author={
                     (videoData?.firstName || "") +
                     " " +
@@ -315,15 +327,20 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                   setRefreshList={setRefreshList}
                   refreshList={refreshList}
                   isSOTW={filterValue === "SOTW"}
-                  rejectionReason={videoData?.rejectionReason || ''}
+                  rejectionReason={videoData?.rejectionReason || ""}
                 />
               );
             })}
           </div>
         ) : (
-          <div className="my-5 h-[206px] w-full border rounded-[8px] bg-[#F5F6F7] p-3">  
+          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3">
             <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
-              <VideoOff color="#7B7887" strokeWidth={1} size={84} className="font-extralight" />
+              <VideoOff
+                color="#7B7887"
+                strokeWidth={1}
+                size={84}
+                className="font-extralight"
+              />
               <span className="text-[#7B7887]">
                 No videos available at this time.
               </span>

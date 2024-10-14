@@ -71,7 +71,6 @@ const VideoCard: React.FC<VideoCardProps> = ({
   setIsVideoPlayerVisible,
   getAllVideos,
   rejectionReason,
-  isSOTW,
 }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -280,8 +279,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
       dispatch(setLoading(true));
       let payload = {};
       let endPoint = API_URL.publishVideos;
-
-      if (isSOTW) {
+      debugger;
+      if (requestVideoPayload.type === "SOTW") {
         endPoint = API_URL.publishSOTW;
         payload = { sowId: requestVideoPayload.id, isPublished: !isPublished };
       } else {
@@ -419,7 +418,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
         onOk={() => {
           setIsConfirmationModalOpen(false);
           deleteVideos(
-            isSOTW ? "SOTW_VIDEO" : "REQUEST_VIDEO",
+            requestVideoPayload.type === "SOTW" ? "SOTW_VIDEO" : "REQUEST_VIDEO",
             requestVideoPayload?.id,
             refreshVideo,
           );

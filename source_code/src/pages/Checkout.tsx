@@ -94,6 +94,7 @@ const Checkout: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   const handleCheckoutCart = async () => {
+    // api obj
     const obj = {
       data: {
         playerId: typeof userInfo === "object" ? userInfo.userId : undefined,

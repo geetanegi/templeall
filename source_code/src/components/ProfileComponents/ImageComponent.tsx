@@ -36,6 +36,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
   userId,
   image,
 }) => {
+  debugger
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const fileInputRef = useRef<HTMLInputElement>(null);
 

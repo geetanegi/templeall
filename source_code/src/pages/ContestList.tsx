@@ -162,7 +162,7 @@ const ContestList: React.FC = () => {
       const res = await apiService.post<any>(API_URL.getContestByTeeId, {
         data: {
           teeId: selectedTeeId,
-          date: moment().format("YYYY-MM-DD"),
+          date: moment().utc().format(),
         },
       });
       if (res.status === 200 && !res.data.error) {

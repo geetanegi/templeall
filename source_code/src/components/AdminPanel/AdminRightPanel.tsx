@@ -98,6 +98,14 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       }
     }, [pageSize, currentPage, totalAdminCount, searchString]);
 
+    useEffect(()=>{
+      if(selectedUserTab === 3){
+        if(searchString.length){
+          handleUserSearch()
+        }
+      }
+    },[currentPage, pageSize])
+
     const handleActiveDeactiveUser = async (value: boolean, userId: any) => {
       dispatch(setLoading(true));
       try {

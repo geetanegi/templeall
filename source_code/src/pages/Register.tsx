@@ -298,11 +298,11 @@ const Register: React.FC = () => {
                 </div>
                 <div className="mb-4">
                   <FormikControl
-                    label="DOB"
+                    label="Date of Birth"
                     name="dateOfBirth"
                     control="date"
                     className="w-full"
-                    placeholder="DOB"
+                    placeholder="Date of Birth"
                     type="date"
                     maxDate={dayjs()}
                   />

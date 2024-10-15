@@ -12,7 +12,6 @@ const CoursePanel: React.FC = () => {
   const [selectedHoles, setSelectedHoles] = useState<string[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
 
-
   const fetchCourseList = async () => {
     try {
       const res = await apiService.post<CourseApiResponse>(
@@ -76,14 +75,14 @@ const CoursePanel: React.FC = () => {
 
   return (
     <>
-      <div className="flex-1 px-4 md:flex-[0.75] md:px-8 pt-10">
+      <div className="flex-1 bg-white px-4 pt-10 md:flex-[0.75] md:px-8">
         <div className="mb-4 flex flex-col justify-between md:flex-row">
           <div className="align-center md:w-2xl mt-5 flex w-full flex-col rounded-md px-0 md:ml-2 md:mt-0">
             <div className="flex max-w-screen-sm items-center space-x-3">
               <select
                 id="courses"
                 onChange={handleCoursesChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-[#7b7887] outline-none md:w-[320px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px] dark:text-white dark:placeholder-gray-400"
               >
                 <option value="">Filter by Courses</option>
                 {courses?.data.map((course) => (
@@ -103,7 +102,7 @@ const CoursePanel: React.FC = () => {
                 label="Filter by Holes"
                 disabled={selectedCourse ? false : true}
                 onChange={handleSelectedValuesChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-[#7B7887]  outline-none md:w-[320px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px] dark:text-white dark:placeholder-gray-400"
               />
             </div>
             <CourseTable

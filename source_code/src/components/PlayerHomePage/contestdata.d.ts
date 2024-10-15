@@ -1,0 +1,38 @@
+interface Contest {
+  contestId: number;
+  name: string;
+  contestType: string;
+  startTime: string; // ISO 8601 date string (e.g., "2024-10-09T12:00:00")
+  endTime: string;
+  registrationStartTime: string;
+  registrationEndTime: string;
+  entryFee: number;
+  scheduleContestId: number;
+  activeStatus: string;
+  acecamPercentage: number;
+  charityPercentage: number;
+  playerPercentage: number;
+  coursePercentage: number;
+}
+
+export interface CourseData {
+  clubName: string;
+  courseName: string;
+  holeNumber: number;
+  teeName: string;
+  clubId: number;
+  courseId: number;
+  holeId: number;
+  teeId: number;
+  par: number;
+  yardage: number;
+  teePosition: string;
+  allDailyActiveContestDTOS: Contest[];
+}
+
+export interface APIResContestData {
+  description: string | null;
+  display: boolean;
+  error: boolean;
+  data: CourseData[];
+}

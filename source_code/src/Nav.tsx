@@ -19,7 +19,7 @@ import {
   updateProfile,
   updateProfileImage,
 } from "./reducers/Profiler/profiler";
-import { ChevronDown, Dot } from "lucide-react";
+import { Bell, ChevronDown, Dot } from "lucide-react";
 
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
@@ -281,9 +281,15 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
+            <div className="relative">
+              <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                4
+              </span>
+              <Bell color="#7b7887" strokeWidth={2} />
+            </div>
             <button
               type="button"
-              className="flex justify-center items-center"
+              className="flex items-center justify-center"
               onClick={toggleDropdown}
               style={{ width: "max-content" }}
             >
@@ -304,16 +310,17 @@ const Nav: React.FC = () => {
                   {profiledetails?.firstName || ""}{" "}
                   {profiledetails?.lastName || ""}
                 </div>
-                {
-                 userPermisions?.data?.permission["is_player"] ?
-                <div className="flex text-[#7B7887]">
-                  <span className="text-[12px]">
-                    HDCP: {profiledetails?.userProfile?.handicap}
-                  </span>
-                  <Dot className="mx-[-4px]" />
-                  <span className="text-[12px]">GHIN: {profiledetails?.userProfile?.ghin}</span>
-                </div> : null
-                }
+                {userPermisions?.data?.permission["is_player"] ? (
+                  <div className="flex text-[#7B7887]">
+                    <span className="text-[12px]">
+                      HDCP: {profiledetails?.userProfile?.handicap}
+                    </span>
+                    <Dot className="mx-[-4px]" />
+                    <span className="text-[12px]">
+                      GHIN: {profiledetails?.userProfile?.ghin}
+                    </span>
+                  </div>
+                ) : null}
               </div>
               <ChevronDown size={24} color="#1D1A0C" />
             </button>

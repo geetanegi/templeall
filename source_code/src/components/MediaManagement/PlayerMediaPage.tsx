@@ -78,7 +78,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   useEffect(() => {
     if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
-    } else{
+    } else {
       getAllVideos();
     }
   }, [filterValue]);
@@ -86,23 +86,23 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   const getAllVideos = async () => {
     try {
       dispatch(setLoading(true));
-      if(!filterValue){
-      if (selectedTab === 2 ) {
-        await makeApiCall(API_URL.getAllPlayerReqHighlights);
-      } else if (selectedTab === 3) {
-        await makeApiCall(API_URL.getAllHighlightsVideo);
-      } else if (selectedTab === 1) {
-        await makeApiCall(API_URL.getAllpublishSotwVideos);
+      if (!filterValue) {
+        if (selectedTab === 2) {
+          await makeApiCall(API_URL.getAllPlayerReqHighlights);
+        } else if (selectedTab === 3) {
+          await makeApiCall(API_URL.getAllHighlightsVideo);
+        } else if (selectedTab === 1) {
+          await makeApiCall(API_URL.getAllpublishSotwVideos);
+        } else {
+          // do nothing
+        }
       } else {
-        // do nothing
+        if (selectedTab === 3) {
+          await makeApiCall(API_URL.getAllApprovedVideos);
+        } else if (selectedTab === 1) {
+          await makeApiCall(API_URL.getAllPublishedVideos);
+        }
       }
-    }else{
-      if(selectedTab === 3){
-        await makeApiCall(API_URL.getAllApprovedVideos);
-      }else if(selectedTab === 1){
-        await makeApiCall(API_URL.getAllPublishedVideos);
-      }
-    }
     } catch (error) {
       ToastError("Something went wrong");
     } finally {
@@ -300,16 +300,11 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       </div>
       <PageLoader isActive={loader}>
         {allVideos.length ? (
-          <div className="mt-3 flex w-[100vw] flex-wrap gap-4">
+          <div className="mt-3 flex w-full flex-wrap gap-2">
             {allVideos?.map((videoData) => {
               return (
                 <VideoCard
                   key={videoData.id}
-                  author={
-                    (videoData?.firstName || "") +
-                    " " +
-                    (videoData?.lastName || "")
-                  }
                   uploadDate={moment(videoData?.startTime)
                     .utc()
                     .format("DD/MM/YYYY")}
@@ -324,10 +319,12 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                   getAllVideos={getAllVideos}
                   setSelectedVideo={setSelectedVideo}
                   setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+                  isVideoPlayerVisible={isVideoPlayerVisible}
                   setRefreshList={setRefreshList}
                   refreshList={refreshList}
                   isSOTW={filterValue === "SOTW"}
                   rejectionReason={videoData?.rejectionReason || ""}
+                  userInfo={userInfo}
                 />
               );
             })}
@@ -348,12 +345,14 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           </div>
         )}
       </PageLoader>
-      <VideoPlayer
-        isVideoPlayerVisible={isVideoPlayerVisible}
-        setIsVideoPlayerVisible={setIsVideoPlayerVisible}
-        selectedVideo={selectedVideo}
-        setSelectedVideo={setSelectedVideo}
-      />
+      <div className="fixed bottom-1 right-0 z-50">
+        <VideoPlayer
+          isVideoPlayerVisible={isVideoPlayerVisible}
+          setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+          selectedVideo={selectedVideo}
+          setSelectedVideo={setSelectedVideo}
+        />
+      </div>
     </div>
   );
 };

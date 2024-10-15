@@ -9,4 +9,7 @@ export default defineConfig({
   server: {
     port: 8080, // Replace 3001 with your desired port
   },
+  define: {
+    global: {},
+},
 });

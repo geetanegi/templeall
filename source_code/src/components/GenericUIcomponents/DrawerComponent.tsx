@@ -20,19 +20,21 @@ const Drawer: React.FC<DrawerProps> = ({
 }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 transition-transform ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      className={`fixed inset-0 z-50 backdrop-blur-sm bg-gray-900 bg-opacity-30 transition-transform ${isOpen ? "translate-x-0" : "translate-x-full"}`}
     >
-      <div className="fixed inset-0" onClick={onClose}></div>
+      <div className="fixed inset-0"></div>
       <div
         className={`absolute right-0 h-full w-64 bg-white shadow-lg transition-transform ${className ? className : ""}`}
-      >
-        <div className="flex items-center border shadow-sm"
+      >{
+        title ?  <div className="flex items-center border shadow-sm"
         >
           <button className="p-4 text-xl" onClick={onClose}>
             <CircleArrowLeft size={24} color="#95C11E" />
           </button>
           <span>{title}</span>
-        </div>
+        </div> : null
+      }
+       
         
         <div className="">{children}</div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Drawer from "../GenericUIcomponents/DrawerComponent";
-import { SendHorizonal } from "lucide-react";
+import { Dot, SendHorizonal, Trophy, X } from "lucide-react";
 import { createComment } from "./mediaUtils/mediaUtils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -9,7 +9,8 @@ import { API_URL } from "../../services/enums";
 import { ToastError } from "../Toast";
 import moment from "moment";
 import defaultuserimag from "../../assets/images/default-user 1.png";
-import WebSocketService from "../../socket/WebSocketService";
+import ReactPlayer from "react-player";
+import { PiPlayCircleBold } from "react-icons/pi";
 
 interface CommentsDrawerProps {
   isDrawerOpen: boolean;
@@ -17,6 +18,7 @@ interface CommentsDrawerProps {
   videoId: number | string;
   setVideoDetails: (count: number) => void;
   videoDetails: any;
+  requestVideoPayload: any;
 }
 
 const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
@@ -25,35 +27,20 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
   videoId,
   setVideoDetails,
   videoDetails,
+  requestVideoPayload,
 }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComments] = useState<Array<any>>([]);
-  const socket = useRef<WebSocketService | null>(null);
+  const [isVideoPlaying, setISVideoPlaying] = useState<boolean>(false);
   const commentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (isDrawerOpen) {
       getComments();
-      socket.current = new WebSocketService("http://localhost:8083/ws");
-      socket.current.connect();
-
-      // Subscribe to new comments
-      socket.current.subscribe("/chatRoom/public", (data) => {
-        setAllComments((prevComments) => [...prevComments, data]);
-      });
     } else {
-      if (socket.current) {
-        socket.current.disconnect();
-        setAllComments([]);
-      }
+      setAllComments([]);
     }
-
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-      }
-    };
   }, [isDrawerOpen]);
 
   useEffect(() => {
@@ -87,12 +74,6 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
   const UpdateComment = () => {
     const userId = typeof userInfo === "object" ? userInfo.userId : "";
     createComment(videoId, userId, comment, getComments);
-    const newComment = { videoId, userId, comment };
-    if (socket.current) {
-      socket.current.send({ type: "/app/comment", payload: newComment });
-    } else {
-      console.error("WebSocket connection is not established.");
-    }
   };
 
   return (
@@ -100,23 +81,83 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
       <Drawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        className="w-[393px] overflow-hidden rounded-l-[12px] border"
-        title="Comments"
+        className="w-[510px] overflow-hidden border"
       >
-        <div className="h-full">
-          <div ref={commentRef} className="h-[500px] overflow-auto pt-5">
+        <div className="h-[100vh]">
+          <div className="h-[52%]">
+            <div className="relative mt-[-10px]">
+              <ReactPlayer
+                url={isDrawerOpen ? requestVideoPayload.videos.url: ""}
+                playing={isVideoPlaying} // Auto-play is true
+                width={"510px"}
+                height={"287px"}
+                onPause={() => setISVideoPlaying(false)}
+                controls={isVideoPlaying}
+              />
+              <X
+                className="absolute right-2 top-5 z-50 cursor-pointer rounded-full bg-[#1D1A0C99] p-1 text-[24px] text-[#ffffff]"
+                onClick={() => {
+                  setIsDrawerOpen(false)
+                }}
+              />
+              {isVideoPlaying ? null : (
+                <div className="absolute top-[40%] left-[47%] flex items-center justify-center cursor-pointer">
+                  <PiPlayCircleBold
+                    style={{ height: "38px", width: "38px" }}
+                    color="#ffffff"
+                    onClick={() => {
+                      setISVideoPlaying(true)
+                    }}
+                  />
+                </div>
+              )}
+              <div className="h-[64px] w-full bg-[#1D1A0C] p-1 px-2">
+                <div className="flex text-[#fff]">
+                  <span>{requestVideoPayload?.videos?.title || ""}</span>
+                  <Dot />
+                  <span>{requestVideoPayload?.username || ""}</span>
+                </div>
+                <div className="mt-1 items-center justify-start text-white">
+                  <div className="mt-1 flex whitespace-nowrap text-[14px]">
+                    <div className="items.center flex gap-1 text-sm font-light">
+                      <Trophy size={12} className="mt-1" />{" "}
+                      <span className="text-[12px]">
+                        {requestVideoPayload?.contestType || ""}
+                      </span>{" "}
+                    </div>
+                    <Dot />
+                    <span className="text-[12px]">
+                      {requestVideoPayload?.clubName || ""}
+                    </span>
+                    <Dot />
+                    <span className="text-[12px]">
+                      Hole#{requestVideoPayload?.holeNumber || ""}
+                    </span>
+                    <Dot />
+                    <span className="text-[12px]">
+                      {requestVideoPayload?.teeName || ""}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+          <div ref={commentRef} className="h-[35%] absolute bottom-12 flex flex-col overflow-y-auto ">
+            <div className="mt-auto">
             {allComment.map((comment) => (
               <React.Fragment key={comment.id}>
                 {" "}
                 {/* Ensure unique key */}
-                <div className="flex">
+                <div className="flex w-[496px]">
                   <img
                     src={defaultuserimag}
                     alt=""
-                    className="ml-3 h-[48px] w-[48px] rounded-full border"
+                    className="ml-3 h-[32px] w-[32px] rounded-full border"
                   />
                   <div className="ml-2 w-full">
-                    <div className="flex w-[301px] justify-between">
+                    <div className="flex w-[420px] justify-between">
                       <div className="flex gap-1">
                         <span className="text-black-800 text-[14px] font-bold">
                           {comment.firstName}
@@ -137,16 +178,19 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                     </div>
                   </div>
                 </div>
-                <div className="mx-auto my-5 h-[1px] w-[361px] bg-[#F5F6F7]"></div>
+                <hr className="my-3" />
               </React.Fragment>
             ))}
+            </div>
           </div>
+         
+
           <div className="absolute bottom-0 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7]">
             <input
               type="text"
               placeholder="Comments"
               value={comment}
-              className="h-[32px] w-[327px] rounded-[4px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3"
+              className="h-[32px] w-[430px] rounded-[4px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3"
               onChange={(e) => setComment(e.target.value)}
               maxLength={150}
               onKeyDown={(e) => {

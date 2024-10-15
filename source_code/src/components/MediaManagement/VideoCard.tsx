@@ -100,7 +100,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
     click: false,
   });
   const [videodetails, setVideoDetails] = useState<any>({
-    ...requestVideoPayload.videos,
+    ...(requestVideoPayload?.videos || {}),
   });
   const dispatch = useDispatch();
 
@@ -157,10 +157,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <span>
               {/* Author */}
               <p className="text-[16px] font-light">
-                {requestVideoPayload.videos.title}
+                {requestVideoPayload?.videos?.title}
               </p>
               <p className="text-[12px] text-sm font-light">
-                {requestVideoPayload.username}
+                {requestVideoPayload?.username || ""}
               </p>
               {/* Title */}
             </span>
@@ -172,14 +172,16 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className="mt-1 items-center justify-start text-white">
             <div className="mt-1 flex whitespace-nowrap text-[14px]">
               <span className="text-[12px]">
-                {requestVideoPayload.clubName}
+                {requestVideoPayload?.clubName || ""}
               </span>
               <Dot />
               <span className="text-[12px]">
-                Hole#{requestVideoPayload.holeNumber}
+                Hole#{requestVideoPayload?.holeNumber || ""}
               </span>
               <Dot />
-              <span className="text-[12px]">{requestVideoPayload.teeName}</span>
+              <span className="text-[12px]">
+                {requestVideoPayload?.teeName || ""}
+              </span>
             </div>
           </div>
           {/* Stats */}
@@ -270,7 +272,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                   >
                     <LockKeyholeOpen size={12} />
                     <span>
-                      {requestVideoPayload.status === "REJECT"
+                      {requestVideoPayload?.status === "REJECT"
                         ? "Re-Request Video"
                         : "Request Video"}{" "}
                     </span>
@@ -381,12 +383,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
     if (requestVideoPayload.type === "SOTW") {
       return "Shot-of-the-Week";
     } else {
-      if (requestVideoPayload.videoCategory === "TOP_SHOT") {
+      if (requestVideoPayload?.videoCategory === "TOP_SHOT") {
         return "Top Shot";
-      } else if (requestVideoPayload.videoCategory === "NOT_TOP_SHOT") {
+      } else if (requestVideoPayload?.videoCategory === "NOT_TOP_SHOT") {
         return "Not top shot";
       } else {
-        return requestVideoPayload.videos.videoCategory;
+        return requestVideoPayload?.videoCategory;
       }
     }
   };
@@ -465,10 +467,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className="absolute right-2 top-2">
             {isApproved ? (
               <div className="relative inline-block" ref={dropdownRef}>
-                <BsThreeDotsVertical
-                  className="cursor-pointer rounded-full bg-[#1D1A0C99] p-1 text-[24px] text-white"
-                  onClick={() => setIsOpen(!isOpen)}
-                />
+                {Number(requestVideoPayload.playerId) === Number(userInfo.userId) ? (
+                  <BsThreeDotsVertical
+                    className="cursor-pointer rounded-full bg-[#1D1A0C99] p-1 text-[24px] text-white"
+                    onClick={() => setIsOpen(!isOpen)}
+                  />
+                ) : null}
                 {isOpen && (
                   <div
                     className="absolute z-10 rounded border bg-white shadow-lg"
@@ -515,7 +519,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
         onOk={() => {
           setIsConfirmationModalOpen(false);
           deleteVideos(
-            requestVideoPayload.type === "SOTW"
+            requestVideoPayload?.type === "SOTW"
               ? "SOTW_VIDEO"
               : "REQUEST_VIDEO",
             requestVideoPayload?.id,
@@ -540,6 +544,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
         videoId={requestVideoPayload?.videos?.id || ""}
         setVideoDetails={setVideoDetails}
         videoDetails={videodetails}
+        requestVideoPayload={requestVideoPayload}
       />
     </>
   );

@@ -15,8 +15,8 @@ interface CommentsDrawerProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: (flag: boolean) => void;
   videoId: number | string;
-  setVideoDetails:(count:number)=>void
-  videoDetails:any
+  setVideoDetails: (count: number) => void;
+  videoDetails: any;
 }
 
 const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
@@ -24,7 +24,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
   setIsDrawerOpen,
   videoId,
   setVideoDetails,
-  videoDetails
+  videoDetails,
 }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [comment, setComment] = useState<string>("");
@@ -35,11 +35,11 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
   useEffect(() => {
     if (isDrawerOpen) {
       getComments();
-      socket.current = new WebSocketService('http://localhost:8083/ws');
+      socket.current = new WebSocketService("http://localhost:8083/ws");
       socket.current.connect();
 
       // Subscribe to new comments
-      socket.current.subscribe('/chatRoom/public', (data) => {
+      socket.current.subscribe("/chatRoom/public", (data) => {
         setAllComments((prevComments) => [...prevComments, data]);
       });
     } else {
@@ -72,7 +72,10 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
 
       if (status === 200 && data?.data != null && !data?.error) {
         setAllComments(data.data);
-        setVideoDetails({...videoDetails, commentCount : data?.data?.length || 0 })
+        setVideoDetails({
+          ...videoDetails,
+          commentCount: data?.data?.length || 0,
+        });
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }

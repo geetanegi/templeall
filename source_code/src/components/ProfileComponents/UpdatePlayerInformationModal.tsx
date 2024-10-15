@@ -255,12 +255,11 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
             handleSubmit,
             isSubmitting,
           }) => {
-            
             return (
               <form onSubmit={handleSubmit}>
                 <div
                   className="scrollbar-hidden h-[340px] overflow-auto"
-                  style={scrollbarStyles}
+                  // style={scrollbarStyles}
                 >
                   <div className="flex w-[90%] gap-4 md:w-[430px]">
                     <div className="w-1/2">
@@ -379,7 +378,15 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         placeholder="City"
                         id="city"
                         value={values.city}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+
+                          const regex = /^[A-Za-z\s]*$/;
+
+                          if (regex.test(inputValue)) {
+                            handleChange(e);
+                          }
+                        }}
                         onBlur={handleBlur}
                         className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
                       />
@@ -499,7 +506,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
 
                         if (regex.test(inputValue)) {
                           const isDecimal = inputValue.includes(".");
-                          const maxLength = isDecimal ? 8 :7;
+                          const maxLength = isDecimal ? 8 : 7;
 
                           if (inputValue.length <= maxLength) {
                             handleChange(e);
@@ -671,7 +678,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                   </div>
                 </div>
 
-                <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
+                <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}

@@ -90,12 +90,18 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [like, setlike] = useState<{islike:Boolean, likecount:number|string, click:boolean}>({
-    islike:requestVideoPayload?.videos?.isUserLiked || false,
-    likecount:requestVideoPayload?.videos?.likes || 0,
-    click:false
-  })
-  const [videodetails, setVideoDetails] = useState<any>({...requestVideoPayload.videos})
+  const [like, setlike] = useState<{
+    islike: Boolean;
+    likecount: number | string;
+    click: boolean;
+  }>({
+    islike: requestVideoPayload?.videos?.isUserLiked || false,
+    likecount: requestVideoPayload?.videos?.likes || 0,
+    click: false,
+  });
+  const [videodetails, setVideoDetails] = useState<any>({
+    ...requestVideoPayload.videos,
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -157,16 +163,14 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 {requestVideoPayload.username}
               </p>
               {/* Title */}
-              
             </span>
             <span>{uploadDate}</span>
           </div>
-          <div className="mt-1 flex items-center  gap-1 text-sm font-light">
-                <Trophy size={13} />{" "}
-                <span className="text-[12px]">{title}</span>{" "}
-              </div>
+          <div className="mt-1 flex items-center gap-1 text-sm font-light">
+            <Trophy size={13} /> <span className="text-[12px]">{title}</span>{" "}
+          </div>
           <div className="mt-1 items-center justify-start text-white">
-            <div className="mt-1 flex text-[14px] whitespace-nowrap">
+            <div className="mt-1 flex whitespace-nowrap text-[14px]">
               <span className="text-[12px]">
                 {requestVideoPayload.clubName}
               </span>
@@ -184,21 +188,22 @@ const VideoCard: React.FC<VideoCardProps> = ({
               <Eye size={13} /> {formatCount(videodetails.views) || 0}
             </span>
             <span></span>
-            <div className="relative ml-auto mr-10 mt-0 flex h-[16px] w-[44px] n gap-[12px] text-sm">
-              <div className="flex items-center space-x-5" onClick={() =>{
-                    setIsDrawerOpen(true)}}>
-                <MessageCircle
-                  size={16}
-                  
-                />
+            <div className="n relative ml-auto mr-10 mt-0 flex h-[16px] w-[44px] gap-[12px] text-sm">
+              <div
+                className="flex items-center space-x-5"
+                onClick={() => {
+                  setIsDrawerOpen(true);
+                }}
+              >
+                <MessageCircle size={16} />
                 <span className="text[#ffffff] absolute right-6 top-0 flex h-[10px] w-[10px] items-center justify-center rounded-full bg-[#FF3B30] text-[8px]">
                   {formatCount(videodetails.commentCount) || 0}
                 </span>
               </div>
               {/* Comments */}
-              <div className="flex  gap-1">
+              <div className="flex gap-1">
                 <ThumbsUp
-                  className={`${ like.islike ? "text-blue-500" : ""} `}
+                  className={`${like.islike ? "text-blue-500" : ""} `}
                   size={16}
                   onClick={() => {
                     makeVieoLiked(
@@ -206,10 +211,21 @@ const VideoCard: React.FC<VideoCardProps> = ({
                       typeof userInfo === "object" ? userInfo.userId : "",
                       requestVideoPayload?.videos?.isUserLiked,
                     );
-                    setlike({...like, islike: !like.islike, likecount: like.islike ? Number(like.likecount) - 1 : Number(like.likecount) + 1 , click: true})
+                    setlike({
+                      ...like,
+                      islike: !like.islike,
+                      likecount: like.islike
+                        ? Number(like.likecount) - 1
+                        : Number(like.likecount) + 1,
+                      click: true,
+                    });
                   }}
                 />
-               <span className="text-[16px]">{like.click ? formatCount(like.likecount) : formatCount(requestVideoPayload?.videos?.likes)}</span> 
+                <span className="text-[16px]">
+                  {like.click
+                    ? formatCount(like.likecount)
+                    : formatCount(requestVideoPayload?.videos?.likes)}
+                </span>
               </div>
               {/* Likes */}
               <div className="flex items-center space-x-2">
@@ -410,7 +426,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
                       setIsVideoPlayerVisible(true);
                       if (requestVideoPayload?.videos?.url) {
                         updateViewCount(requestVideoPayload?.videos?.id);
-                        setVideoDetails({...videodetails, views: Number(videodetails.views)+1})
+                        setVideoDetails({
+                          ...videodetails,
+                          views: Number(videodetails.views) + 1,
+                        });
                       }
                     }
                   }

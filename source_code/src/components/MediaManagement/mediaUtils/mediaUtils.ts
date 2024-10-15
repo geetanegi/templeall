@@ -113,49 +113,51 @@ export const createComment = async (
   id: string | number,
   userId: string | number,
   commentText: string,
-  getComments:()=>void
+  getComments: () => void,
 ) => {
-  const {data, status} = await apiService.post<any>(API_URL.createComment, {
+  const { data, status } = await apiService.post<any>(API_URL.createComment, {
     data: {
       videoId: id,
       userId: userId,
       commentText: commentText,
     },
   });
-    if (status === 200 && data?.data != null && !data?.error) {
-        getComments();
-      } else if (data?.error && data.description) {
-        ToastError(data.description);
-      }
+  if (status === 200 && data?.data != null && !data?.error) {
+    getComments();
+  } else if (data?.error && data.description) {
+    ToastError(data.description);
+  }
 };
 
+export const updateViewCount = async (id: string | number) => {
+  await apiService.post<any>(API_URL.updatevideoViewCount, {
+    data: {
+      videosId: id,
+      views: true,
+    },
+  });
+};
 
-export const updateViewCount = async (id:string|number)=>{
-    await apiService.post<any>(API_URL.updatevideoViewCount, {
-       data:  {
-           "videosId": id,
-           "views": true
-       }
-     });
-}
-
-
-export const makeVieoLiked = async(videoId:string |number, userId: number | string, islike:boolean) =>{
-    await apiService.post<any>(API_URL.likeVideo, {
-        data:  {
-            "videoId": videoId,
-            "userId" : userId,
-            "liked": !islike
-        }
-      });
-}
+export const makeVieoLiked = async (
+  videoId: string | number,
+  userId: number | string,
+  islike: boolean,
+) => {
+  await apiService.post<any>(API_URL.likeVideo, {
+    data: {
+      videoId: videoId,
+      userId: userId,
+      liked: !islike,
+    },
+  });
+};
 
 export const formatCount = (value: number | string) => {
-    if (Number(value) < 1000) {
-        return value.toString(); // Return as is for values less than 1000
-    } else if (Number(value) < 1000000) {
-        return (Number(value) / 1000).toFixed(1) + 'K'; // Format as thousands
-    } else {
-        return (Number(value) / 1000000).toFixed(1) + 'M'; // Format as millions
-    }
-}
+  if (Number(value) < 1000) {
+    return value.toString(); // Return as is for values less than 1000
+  } else if (Number(value) < 1000000) {
+    return (Number(value) / 1000).toFixed(1) + "K"; // Format as thousands
+  } else {
+    return (Number(value) / 1000000).toFixed(1) + "M"; // Format as millions
+  }
+};

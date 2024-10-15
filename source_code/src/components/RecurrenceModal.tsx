@@ -65,8 +65,13 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
           <div className="flex justify-end p-4">
             <div className="space-x-2">
               <button
+                disabled={
+                  frequency === "WEEKLY" && selectedDays.length === 0
+                    ? true
+                    : false
+                }
                 onClick={handleSaveModal}
-                className="rounded-lg bg-[#95c11e] px-5 py-2 text-sm font-medium text-white"
+                className={` ${frequency === "WEEKLY" && selectedDays.length === 0 ? "cursor-not-allowed" : ""} rounded-lg bg-[#95c11e] px-5 py-2 text-sm font-medium text-white`}
               >
                 Save
               </button>
@@ -108,10 +113,14 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 onChange={(e) => {
                   setRepeatEvery(Number(e.target.value));
                 }}
-                className="block w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-sm text-[#7b7887] outline-none md:w-[70px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-sm font-semibold text-gray-800 outline-none md:w-[70px] dark:text-white dark:placeholder-gray-400"
               >
                 {Array.from({ length: 31 }, (_, i) => (
-                  <option key={i} value={i + 1}>
+                  <option
+                    key={i}
+                    value={i + 1}
+                    className="font-semibold text-gray-800"
+                  >
                     {i + 1}
                   </option>
                 ))}
@@ -122,10 +131,14 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 onChange={(e) => {
                   setFrequency(e.target.value);
                 }}
-                className="block w-full rounded border border-gray-300 bg-gray-100 p-2 text-sm text-[#7b7887] outline-none md:w-[140px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded border border-gray-300 bg-gray-100 p-2 text-sm font-semibold text-gray-800 outline-none md:w-[140px] dark:text-white dark:placeholder-gray-400"
               >
-                <option value="DAILY">Day</option>
-                <option value="WEEKLY">Week</option>
+                <option className="font-semibold text-gray-800" value="DAILY">
+                  Day
+                </option>
+                <option className="font-semibold text-gray-800" value="WEEKLY">
+                  Week
+                </option>
               </select>
             </div>
           </div>
@@ -136,7 +149,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 setSelectedDays={setSelectedDays}
               />
             )}
-            <p className="text-xs text-gray-400">
+            <p className="text-xs font-semibold text-gray-400">
               {frequency === "WEEKLY" && (
                 <span>
                   {" "}

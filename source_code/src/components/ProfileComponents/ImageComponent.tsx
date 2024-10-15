@@ -10,7 +10,7 @@ import defaultUserImage from "../../assets/images/default-user 1.png";
 interface userDetails {
   firstName: string;
   lastName: string;
-  location: string
+  location: string;
 }
 interface ImageComponentProps {
   userDetails: userDetails;

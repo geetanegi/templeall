@@ -37,6 +37,7 @@ const LiveLeaderBoard: React.FC = () => {
     }
   };
 
+  console.log("leaderBoardData", leaderBoardData);
   useEffect(() => {
     getLiveLeaderBoard();
   }, []);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "../ModalComponent";
 import { Info } from "lucide-react";
 

@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import VideoCard from "../MediaManagement/VideoCard";
 import moment from "moment";
 import VideoPlayer from "../MediaManagement/VideoPlayer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const PlayerSOTW: React.FC<any> = ({ data }) => {
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+
   const getAllVideos = () => {};
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] =
     useState<boolean>(false);
@@ -19,9 +23,8 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
         return (
           <div className="space-y-4 pl-5" key={i}>
             <VideoCard
-              author={
-                (videoData?.firstName || "") + " " + (videoData?.lastName || "")
-              }
+              isVideoPlayerVisible={isVideoPlayerVisible}
+              userInfo={userInfo}
               uploadDate={moment(videoData?.startTime)
                 .utc()
                 .format("DD/MM/YYYY")}

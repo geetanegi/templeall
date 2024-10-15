@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import ReactPlayer from "react-player";
 import { X } from "lucide-react";
 import Draggable from "react-draggable";

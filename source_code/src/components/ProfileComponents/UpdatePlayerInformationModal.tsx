@@ -201,11 +201,6 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
       return;
     }
   };
-  // const scrollbarStyles: React.CSSProperties = {
-  //   overflow: "auto", // Enable scrolling
-  //   scrollbarWidth: "none", // Firefox
-  //   msOverflowStyle: "none", // IE and Edge
-  // };
 
   return (
     <PageLoader isActive={loader}>

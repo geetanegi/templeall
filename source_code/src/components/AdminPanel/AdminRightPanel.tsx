@@ -329,6 +329,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setTotalPages(data.data.totalPages);
         } else if (data?.error && data.description) {
           ToastError(data.description);
+          setRowData([])
         }
       } catch (error) {
         ToastError("Something went wrong");

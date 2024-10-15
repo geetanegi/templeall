@@ -107,7 +107,7 @@ const validationSchema = Yup.object({
   alternateEmail: Yup.string().email("Please enter a valid email address"),
   handicap: Yup.string()
     .typeError("Handicap number Must be a number")
-    .matches(/^\d+(\.\d+)?$/, "Handicap Must be a valid number")
+    .matches(/^\d+(\.\d+)?$/, "Handicap must be a valid number")
     .required("Handicap number is required"),
 });
 

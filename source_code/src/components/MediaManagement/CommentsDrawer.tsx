@@ -15,17 +15,22 @@ interface CommentsDrawerProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: (flag: boolean) => void;
   videoId: number | string;
+  setVideoDetails:(count:number)=>void
+  videoDetails:any
 }
 
 const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
   isDrawerOpen,
   setIsDrawerOpen,
   videoId,
+  setVideoDetails,
+  videoDetails
 }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComments] = useState<Array<any>>([]);
   const socket = useRef<WebSocketService | null>(null);
+  const commentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (isDrawerOpen) {
@@ -51,6 +56,12 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
     };
   }, [isDrawerOpen]);
 
+  useEffect(() => {
+    if (commentRef.current) {
+      commentRef.current.scrollTop = commentRef.current.scrollHeight;
+    }
+  }, [allComment]);
+
   const getComments = async () => {
     try {
       const { data, status } = await apiService.post<any>(API_URL.getComments, {
@@ -61,6 +72,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
 
       if (status === 200 && data?.data != null && !data?.error) {
         setAllComments(data.data);
+        setVideoDetails({...videoDetails, commentCount : data?.data?.length || 0 })
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
@@ -71,10 +83,10 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
 
   const UpdateComment = () => {
     const userId = typeof userInfo === "object" ? userInfo.userId : "";
-    createComment(videoId, userId, comment);
+    createComment(videoId, userId, comment, getComments);
     const newComment = { videoId, userId, comment };
     if (socket.current) {
-      socket.current.send({ type: '/app/comment', payload: newComment });
+      socket.current.send({ type: "/app/comment", payload: newComment });
     } else {
       console.error("WebSocket connection is not established.");
     }
@@ -89,27 +101,40 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
         title="Comments"
       >
         <div className="h-full">
-          <div className="pt-5 h-[500px] overflow-auto">
+          <div ref={commentRef} className="h-[500px] overflow-auto pt-5">
             {allComment.map((comment) => (
-              <React.Fragment key={comment.id}> {/* Ensure unique key */}
-                <div className="flex ">
-                  <img  
+              <React.Fragment key={comment.id}>
+                {" "}
+                {/* Ensure unique key */}
+                <div className="flex">
+                  <img
                     src={defaultuserimag}
                     alt=""
-                    className="h-[48px] ml-3 w-[48px] rounded-full border"
+                    className="ml-3 h-[48px] w-[48px] rounded-full border"
                   />
                   <div className="ml-2 w-full">
-                    <div className="flex justify-between w-[301px]">
+                    <div className="flex w-[301px] justify-between">
                       <div className="flex gap-1">
-                        <span className="text-[14px] text-black-800 font-bold">{comment.firstName}</span>
-                        <span className="text-[14px] text-black-800 font-bold">{comment.lastName}</span>
+                        <span className="text-black-800 text-[14px] font-bold">
+                          {comment.firstName}
+                        </span>
+                        <span className="text-black-800 text-[14px] font-bold">
+                          {comment.lastName}
+                        </span>
                       </div>
-                      <span className="text-[#7B7887] text-[11px]">{moment.utc(comment.commentDate).local().format('MM/DD/YYYY')}</span>
+                      <span className="text-[11px] text-[#7B7887]">
+                        {moment
+                          .utc(comment.commentDate)
+                          .local()
+                          .format("MM/DD/YYYY")}
+                      </span>
                     </div>
-                    <div className="w-[80%] break-words text-[12px] text-[#1D1A0C]">{comment.commentText}</div>
+                    <div className="w-[80%] break-words text-[12px] text-[#1D1A0C]">
+                      {comment.commentText}
+                    </div>
                   </div>
                 </div>
-                <div className="w-[361px] my-5 h-[1px] bg-[#F5F6F7] mx-auto"></div>
+                <div className="mx-auto my-5 h-[1px] w-[361px] bg-[#F5F6F7]"></div>
               </React.Fragment>
             ))}
           </div>
@@ -118,8 +143,9 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               type="text"
               placeholder="Comments"
               value={comment}
-              className="rounded-[4px] h-[32px] w-[327px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3"
+              className="h-[32px] w-[327px] rounded-[4px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3"
               onChange={(e) => setComment(e.target.value)}
+              maxLength={150}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   UpdateComment();

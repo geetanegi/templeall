@@ -24,8 +24,7 @@ const PlayerHomePage: React.FC = () => {
         {
           data: {
             searchParams: {
-              // "player.id":
-              //   typeof userInfo === "object" ? userInfo.userId : undefined,
+              isPublished: true,
             },
           },
         },

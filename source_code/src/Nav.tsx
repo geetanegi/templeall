@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import aceCampLogo from "./assets/images/aceCamp_logo.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,8 @@ import { Bell, ChevronDown, Dot } from "lucide-react";
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
@@ -134,6 +136,25 @@ const Nav: React.FC = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside the dropdown
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Clean up the event listener on component unmount
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="w-full border-b border-gray-200 bg-white shadow dark:bg-gray-900">
@@ -327,6 +348,7 @@ const Nav: React.FC = () => {
 
             {dropdownOpen && (
               <div
+                ref={dropdownRef}
                 className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                 id="user-dropdown"
               >

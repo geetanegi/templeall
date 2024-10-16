@@ -6,17 +6,20 @@ import orangeGolf from "../../assets/images/sports_golf-orange.png";
 import BGGolfImage from "../../assets/images/bg-img-authflow.jpg";
 import { ContestInfo, leaderBoard } from "./LeaderBoard";
 import TooltipSpan from "../Tooltip/TooltipSpan";
+import CustomDropdown from "./CustomDropdown";
 
 const ClubCard: React.FC<{
   contestInfo?: ContestInfo;
   showDropDown?: boolean;
   dropDownList?: leaderBoard[];
   setSelectedValue?: (value: string) => void;
+  selectedValue: string;
 }> = ({
   contestInfo,
   showDropDown = false,
   dropDownList,
   setSelectedValue,
+  selectedValue,
 }) => {
   return (
     <div>
@@ -31,31 +34,19 @@ const ClubCard: React.FC<{
             opacity: 0.1,
           }}
         />
-        {showDropDown && (
-          <div className="" style={{ zIndex: 2, opacity: 0.9 }}>
-            <div className="flex items-center justify-center">
-              <select
-                name=""
-                id=""
-                onChange={(e) => {
-                  setSelectedValue?.(e.target.value);
-                }}
-              >
-                {dropDownList &&
-                  dropDownList?.length > 0 &&
-                  dropDownList?.map((item) => (
-                    <option value={item.scheduleContestId}>
-                      <div>
-                        <span>{`${item.clubName} `}</span>
-                        <span>Hole #{item.holeNumber}-</span>
-                        <span>Par {item.par}</span>
-                      </div>
-                    </option>
-                  ))}
-              </select>
+        <div className="relative mt-4 flex flex-col items-center justify-center gap-4 p-4">
+          {showDropDown && (
+            <div>
+              <CustomDropdown
+                dropDownList={
+                  dropDownList && dropDownList?.length > 0 ? dropDownList : []
+                }
+                setSelectedValue={setSelectedValue}
+                selectedValue={selectedValue}
+              />
             </div>
-          </div>
-        )}
+          )}
+        </div>
         {contestInfo && (
           <div className="flex items-center justify-between p-2">
             {/* part 1 */}
@@ -158,5 +149,4 @@ const ClubCard: React.FC<{
     </div>
   );
 };
-
 export default ClubCard;

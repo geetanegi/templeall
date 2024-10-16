@@ -56,7 +56,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       let dataForRegister = {
         tempUserId: localStorage.getItem("tokenRegisterPassword"),
       };
-      const newData = { otp, username };
+      const newData = { username, mode:"WEB" };
       const { data, status } = await apiService.post<any>(urlResend, {
         data: url ? dataForRegister : newData,
       });

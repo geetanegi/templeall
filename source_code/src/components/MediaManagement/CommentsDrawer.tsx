@@ -19,6 +19,7 @@ interface CommentsDrawerProps {
   setVideoDetails: (count: number) => void;
   videoDetails: any;
   requestVideoPayload: any;
+  updateViewCount:()=>void
 }
 
 const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
@@ -28,6 +29,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
   setVideoDetails,
   videoDetails,
   requestVideoPayload,
+  updateViewCount
 }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [comment, setComment] = useState<string>("");
@@ -84,7 +86,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
         className="w-[510px] overflow-hidden border"
       >
         <div className="h-[100vh]">
-          <div className="h-[52%]">
+          <div className="h-[350px]">
             <div className="relative mt-[-10px]">
               <ReactPlayer
                 url={isDrawerOpen ? requestVideoPayload.videos.url: ""}
@@ -107,6 +109,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                     color="#ffffff"
                     onClick={() => {
                       setISVideoPlaying(true)
+                      updateViewCount()
                     }}
                   />
                 </div>
@@ -144,7 +147,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
           </div>
           
 
-          <div ref={commentRef} className="h-[35%] absolute bottom-12 flex flex-col overflow-y-auto ">
+          <div ref={commentRef} className="absolute mt-[20px] top-[345px] bottom-12 flex flex-col overflow-y-auto ">
             <div className="mt-auto">
             {allComment.map((comment) => (
               <React.Fragment key={comment.id}>

@@ -1,59 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import ProfileOverviewSection from './ProfileOverviewSection';
-import CommunitySearchComponent from './CommunityPanel/CommunitySearchComponent';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import FeatureHighlightsComponents from './CommunityPanel/FeatureHighlightsComponents';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import ProfileOverviewSection from "./ProfileOverviewSection";
+import CommunitySearchComponent from "./CommunityPanel/CommunitySearchComponent";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import FeatureHighlightsComponents from "./CommunityPanel/FeatureHighlightsComponents";
+import { useLocation } from "react-router-dom";
 // import { useLocation } from 'react-router-dom';
-
 
 interface ProfileComponentProps {
   userId?: string;
-  isCommunitySearch?: boolean | undefined
+  isCommunitySearch?: boolean | undefined;
 }
 
-const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId = '', isCommunitySearch }) => {
+const ProfileComponent: React.FC<ProfileComponentProps> = ({
+  userId = "",
+  isCommunitySearch,
+}) => {
   const location = useLocation();
   const { id, role } = location.state || {};
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
 
-  const [selectedUser, setSelectedUser] = useState<string | number>(userId)
+  const [selectedUser, setSelectedUser] = useState<string | number>(userId);
 
   useEffect(() => {
-    setSelectedUser('')
-  }, [isCommunitySearch])
-
+    setSelectedUser("");
+  }, [isCommunitySearch]);
 
   return (
-    <div
-      className="min-h-[90vh] bg-white-700 overflow-auto lg:overflow-hidden sm:bg-profilebackground bg-cover bg-contain bg-fixed bg-contain md:flex-row sm:flex-row h-full bg-no-repeat "
-    >
+    <div className="bg-white-700 h-full min-h-[90vh] overflow-auto bg-contain bg-cover bg-fixed bg-no-repeat sm:flex-row sm:bg-profilebackground md:flex-row lg:overflow-hidden">
       <div className="flex pt-6">
-
-        {userPermisions?.data?.permission['is_player']
-          && isCommunitySearch ? <CommunitySearchComponent
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser} /> : null
-        }
-        <div className='w-[90%] lg:w-3/4 ml-auto'>
+        {userPermisions?.data?.permission["is_player"] && isCommunitySearch ? (
+          <CommunitySearchComponent
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+          />
+        ) : null}
+        <div className="ml-auto w-[90%] lg:w-3/4">
           <ProfileOverviewSection
             userId={id || selectedUser}
             isCommunitySearch={isCommunitySearch}
             role={role}
           />
-          {
-            isCommunitySearch ?
-              <FeatureHighlightsComponents /> : null
-          }
-
+          {isCommunitySearch ? (
+            <FeatureHighlightsComponents selectedUser={selectedUser} />
+          ) : null}
         </div>
-
       </div>
     </div>
   );
-}
+};
 
 export default ProfileComponent;

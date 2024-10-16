@@ -119,17 +119,17 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           <img
             src={`data:image/png;base64,${image}`}
             alt=""
-            className="h-full w-full sm:h-[452px] sm:w-[312px]"
+            className="absolute top-[31px] h-full w-full sm:h-[420px] sm:w-[312px]"
           />
         ) : (
           <img
             src={defaultUserImage}
             alt=""
-            className="h-full w-full sm:h-[452px] sm:w-[312px]"
+            className="absolute top-[31px] h-full w-full sm:h-[420px] sm:w-[312px]"
           />
         )}
       </div>
-      <div className="w-[312px hidden h-[82px] bg-custom-gradient-2 sm:relative sm:left-[24px] sm:top-[-167px] sm:block">
+      <div className="w-[312px} hidden h-[82px] bg-custom-gradient-2 sm:relative sm:left-[24px] sm:top-[-167px] sm:block">
         <div className="ml-auto mr-5" style={{ width: "max-content" }}>
           <div className="m-0 text-[#F5F6F7]">This is</div>
           <div className="m-0 text-[24px] text-[#F5F6F7]">

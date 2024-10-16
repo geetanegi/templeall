@@ -47,12 +47,12 @@ const ClubCard: React.FC<{ contestInfo: ContestInfo }> = ({ contestInfo }) => {
               <div className="flex items-center space-x-2">
                 <img src={GolfTee} alt="" className="h-4 w-4" />
                 <span className="text-sm">
-                  Black Tees ({contestInfo.yardage} yards)
+                  Black Tees static ({contestInfo.yardage} yards)
                 </span>
               </div>
             </div>
           </div>
-          {status === "open" && (
+          {contestInfo.status === "Open" && (
             <div className="flex items-center space-x-1 rounded-lg bg-[#FD8A0233] p-1 px-2">
               <img src={orangeGolf} alt="" className="h-4 w-4" />
               <p className="text-xs text-[#FD8A02]">Open</p>

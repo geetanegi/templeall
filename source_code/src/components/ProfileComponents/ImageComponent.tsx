@@ -119,13 +119,13 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           <img
             src={`data:image/png;base64,${image}`}
             alt=""
-            className="absolute top-[31px] h-full w-full sm:h-[420px] sm:w-[312px]"
+            className="absolute top-[20px] left-[20px] h-full w-full sm:h-[432px] sm:w-[312px]"
           />
         ) : (
           <img
             src={defaultUserImage}
             alt=""
-            className="absolute top-[31px] h-full w-full sm:h-[420px] sm:w-[312px]"
+            className="absolute top-[20px] h-full w-full sm:h-[432px] sm:w-[312px]"
           />
         )}
       </div>

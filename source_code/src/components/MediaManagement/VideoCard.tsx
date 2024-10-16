@@ -403,7 +403,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
   return (
     <>
-      <div className={`w-[${width}] max-w-sm cursor-pointer rounded-lg border border-gray-100 bg-[#1D1A0C] text-white shadow-lg`}>
+      <div className={`cursor-pointer rounded-lg border border-gray-100 bg-[#1D1A0C] text-white shadow-lg`}
+        style={{width: width}}
+      >
         {/* Thumbnail with duration and overlay icons */}
         <div className="relative h-[175px] overflow-hidden rounded-t-lg bg-[#ffffff]">
           {computeVideoThumbnail()}

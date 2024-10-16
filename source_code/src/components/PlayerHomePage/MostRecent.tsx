@@ -1,75 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import momentTz from "moment-timezone";
 import ClubCard from "./ClubCard";
 import LeaderBoardTable from "./LeaderBoardTable";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import apiService from "../../services/apiService";
+import { API_URL } from "../../services/enums";
+import { ToastError } from "../Toast";
+import { APIResLeaderBoardData } from "./LeaderBoard";
 
 const MostRecent: React.FC = () => {
+  const tz = momentTz.tz.guess();
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+
+  const [recentData, setRecentData] = useState<any>([]);
+
+  const getLiveLeaderBoard = async () => {
+    try {
+      const { data, status } = await apiService.post<APIResLeaderBoardData>(
+        API_URL.getRecent,
+        {
+          data: {
+            playerId:
+              typeof userInfo === "object" ? userInfo.userId : undefined,
+            zoneId: tz,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setRecentData(data);
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    getLiveLeaderBoard();
+  }, []);
+
+  console.log("recentData", recentData);
+
   return (
     <div>
-      <ClubCard
-        contestInfo={{
-          contestType: "Ace-Cam Jackpot",
-          courseName: "Test 2",
-          club: "Test",
-          holeNumber: "Test 3",
-          tee: "TEE",
-          par: 2,
-          yardage: 200,
-          status: "Completed",
-          entryFee: 20.0,
-          playerCount: 4,
-          totalPrize: 1000.0,
-          playerPercentage: 2.0,
-          acecamPercentage: 3.0,
-          coursePercentage: 0.5,
-          charityPercentage: 2.0,
-        }}
-      />
-      <LeaderBoardTable
-        leaderBoardData={[
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-        ]}
-      />
+      {recentData?.data?.contestInfo && (
+        <ClubCard contestInfo={recentData.data.contestInfo} />
+      )}
+
+      {recentData?.data?.leaderboard && (
+        <LeaderBoardTable leaderBoardData={recentData.data.leaderboard} />
+      )}
     </div>
   );
 };

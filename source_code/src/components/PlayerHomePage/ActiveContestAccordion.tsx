@@ -56,8 +56,6 @@ const ActiveContestAccordion: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  console.log("data", data);
-
   return (
     <div className="w-full">
       {data &&

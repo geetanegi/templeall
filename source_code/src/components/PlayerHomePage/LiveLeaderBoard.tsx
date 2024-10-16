@@ -28,7 +28,6 @@ const LiveLeaderBoard: React.FC = () => {
       );
       if (status === 200 && data?.data != null && !data?.error) {
         setLeaderBoardData(data);
-        console.log(data?.data);
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
@@ -44,74 +43,15 @@ const LiveLeaderBoard: React.FC = () => {
 
   return (
     <div>
-      {/* <ClubCard contestInfo={leaderBoardData.data.contestInfo} /> */}
-      <ClubCard
-        contestInfo={{
-          contestType: "Ace-Cam Jackpot",
-          courseName: "Test 2",
-          club: "Test",
-          holeNumber: "Test 3",
-          tee: "TEE",
-          par: 2,
-          yardage: 200,
-          status: "Completed",
-          entryFee: 20.0,
-          playerCount: 4,
-          totalPrize: 1000.0,
-          playerPercentage: 2.0,
-          acecamPercentage: 3.0,
-          coursePercentage: 0.5,
-          charityPercentage: 2.0,
-        }}
-      />
+      {leaderBoardData?.data?.contestInfo && (
+        <ClubCard contestInfo={leaderBoardData.data.contestInfo} />
+      )}
+
       {/* <ClubCard status="open" /> */}
 
-      <LeaderBoardTable
-        leaderBoardData={[
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-          {
-            position: 1,
-            username: "Akshay",
-            proximity: 20.0,
-            prize: 10.0,
-          },
-        ]}
-      />
+      {leaderBoardData?.data?.leaderboard && (
+        <LeaderBoardTable leaderBoardData={leaderBoardData.data.leaderboard} />
+      )}
     </div>
   );
 };

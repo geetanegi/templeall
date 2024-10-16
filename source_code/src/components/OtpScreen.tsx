@@ -130,7 +130,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       <div className="flex flex-col items-center space-y-2">
         <h4 className="text-xs md:text-sm">
           Enter the OTP sent to{" "}
-          <span className="font-semibold text-red-600">
+          <span className="text-[16px] font-bold text-black">
             {email ? email : maskEmail}
           </span>
         </h4>
@@ -142,10 +142,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             <p className="text-xs text-gray-500 md:text-sm">
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold ${timeLeft > 0 && isRunning
-                  ? "cursor-not-allowed opacity-60"
-                  : "cursor-pointer text-red-600"
-                  }`}
+                className={`font-semibold ${
+                  timeLeft > 0 && isRunning
+                    ? "cursor-not-allowed opacity-60"
+                    : "cursor-pointer text-red-600"
+                }`}
                 onClick={handleReset}
                 disabled={timeLeft > 0 && isRunning}
               >

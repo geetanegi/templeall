@@ -35,7 +35,7 @@ const ContestForm: React.FC<ContestProps> = ({
   saveState,
   endDate,
   toggleModal,
-  
+
   isSuperAdmin,
 }) => {
   const today = moment();
@@ -216,7 +216,7 @@ const ContestForm: React.FC<ContestProps> = ({
           </div>
 
           <div className="my-4 grid grid-cols-1 gap-x-5 gap-y-3 md:w-full md:grid-cols-[1fr,2fr]">
-            <div className="">
+            <div className="mt-2">
               <MUINumber
                 label="Entry Fee"
                 name="entryFee"
@@ -288,50 +288,55 @@ const ContestForm: React.FC<ContestProps> = ({
               </div>
             )}
           </div>
-          <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-3 lg:grid-cols-4">
-            <div className="">
-              <MUINumber
-                label="Player(%)"
-                name="playerPercentage"
-                className="w-full"
-                type="text"
-                required={true}
-                maxLength={25}
-                disabled={isSuperAdmin}
-              />
-            </div>
-            <div className="">
-              <MUINumber
-                label="AceCam(%)"
-                name="acecamPercentage"
-                className="w-full"
-                type="text"
-                required={true}
-                maxLength={25}
-                disabled={isSuperAdmin}
-              />
-            </div>
-            <div className="">
-              <MUINumber
-                label="Course(%)"
-                name="coursePercentage"
-                className="w-full"
-                type="text"
-                required={true}
-                maxLength={25}
-                disabled={isSuperAdmin}
-              />
-            </div>
-            <div className="">
-              <MUINumber
-                label="Charity(%)"
-                name="charityPercentage"
-                className="w-full"
-                type="text"
-                required={true}
-                maxLength={25}
-                disabled={isSuperAdmin}
-              />
+          <div className="mb-4 space-y-4">
+            <h5 className="text-l -mb-1 -mt-2 font-normal text-black">
+              Payout
+            </h5>
+            <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-3 lg:grid-cols-4">
+              <div className="">
+                <MUINumber
+                  label="Player(%)"
+                  name="playerPercentage"
+                  className="w-full"
+                  type="text"
+                  required={true}
+                  maxLength={25}
+                  disabled={isSuperAdmin}
+                />
+              </div>
+              <div className="">
+                <MUINumber
+                  label="AceCam(%)"
+                  name="acecamPercentage"
+                  className="w-full"
+                  type="text"
+                  required={true}
+                  maxLength={25}
+                  disabled={isSuperAdmin}
+                />
+              </div>
+              <div className="">
+                <MUINumber
+                  label="Course(%)"
+                  name="coursePercentage"
+                  className="w-full"
+                  type="text"
+                  required={true}
+                  maxLength={25}
+                  disabled={isSuperAdmin}
+                />
+              </div>
+              <div className="">
+                <MUINumber
+                  label="Charity(%)"
+                  name="charityPercentage"
+                  className="w-full"
+                  type="text"
+                  required={true}
+                  maxLength={25}
+                  disabled={isSuperAdmin}
+                />
+              </div>
             </div>
           </div>
           <div>

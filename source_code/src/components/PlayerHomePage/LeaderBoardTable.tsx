@@ -19,19 +19,26 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
     { id: 4, key: "Prize", field: "Prize" },
   ];
   const updatedTableData = () => {
-    const updatedData = leaderBoardData?.map((row) => ({
-      ...row,
+    const updatedData = leaderBoardData?.map((row: any, index: number) => ({
+      Pos: index + 1,
       username: (
         <div
           className="flex cursor-pointer items-center"
           onClick={() => {
-            navigate(ROUTES.PROFILE, { state: { id: 12, role: "player" } });
+            navigate(ROUTES.PROFILE, {
+              state: { id: row.playerId, role: "player" },
+            });
           }}
         >
-          <img src={""} className="mr-1 h-8 w-8 rounded-full" />
+          <img
+            src={`data:image/png;base64,${row?.imageBase64}`}
+            className="mr-1 h-8 w-8 rounded-full"
+          />
           <span>{row.username}</span>
         </div>
       ),
+      "Proximity(FEET)": row.proximity,
+      Prize: row.price,
     }));
     setTableData(updatedData);
     // return updatedData;

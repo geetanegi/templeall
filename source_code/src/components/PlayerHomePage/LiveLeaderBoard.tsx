@@ -5,21 +5,28 @@ import ClubCard from "./ClubCard";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { ToastError } from "../Toast";
-import { APIResLeaderBoardData } from "./LeaderBoard";
-import { useSelector } from "react-redux";
+import { APIResLeaderBoardData, leaderBoard } from "./LeaderBoard";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { setLoading } from "../../reducers/loader/loader";
 
 const LiveLeaderBoard: React.FC = () => {
   const tz = momentTz.tz.guess();
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const dispatch = useDispatch();
 
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const [dropDownList, setDropDownList] = useState<leaderBoard[] | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | number>("");
   const [leaderBoardData, setLeaderBoardData] = useState<any>([]);
   const getLiveLeaderBoard = async () => {
     try {
+      dispatch(setLoading(true));
+
       const { data, status } = await apiService.post<APIResLeaderBoardData>(
         API_URL.getLiveLeaderBoard,
         {
           data: {
+            scheduleContestId: selectedValue,
             playerId:
               typeof userInfo === "object" ? userInfo.userId : undefined,
             zoneId: tz,
@@ -33,19 +40,55 @@ const LiveLeaderBoard: React.FC = () => {
       }
     } catch (error) {
       ToastError("Something went wrong");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
-  console.log("leaderBoardData", leaderBoardData);
+  const liveLeaderBoardDropDown = async () => {
+    try {
+      dispatch(setLoading(true));
+      const { data, status } = await apiService.post<any>(
+        API_URL.liveleaderBoardDropdown,
+        {
+          data: {
+            zoneId: tz,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setDropDownList(data?.data);
+        setSelectedValue(data?.data[0]?.scheduleContestId);
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong");
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   useEffect(() => {
-    getLiveLeaderBoard();
+    if (selectedValue) {
+      getLiveLeaderBoard();
+    }
+  }, [selectedValue]);
+
+  useEffect(() => {
+    liveLeaderBoardDropDown();
   }, []);
 
   return (
     <div>
-      {leaderBoardData?.data?.contestInfo && (
-        <ClubCard contestInfo={leaderBoardData.data.contestInfo} />
-      )}
+      <ClubCard
+        contestInfo={leaderBoardData?.data?.contestInfo}
+        showDropDown={true}
+        dropDownList={
+          dropDownList && dropDownList.length > 0 ? dropDownList : []
+        }
+        setSelectedValue={setSelectedValue}
+      />
 
       {/* <ClubCard status="open" /> */}
 
@@ -55,5 +98,4 @@ const LiveLeaderBoard: React.FC = () => {
     </div>
   );
 };
-
 export default LiveLeaderBoard;

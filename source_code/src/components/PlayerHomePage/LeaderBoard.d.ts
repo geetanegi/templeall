@@ -1,12 +1,12 @@
 export interface ContestInfo {
   contestType: string;
   courseName: string;
-  club: string;
+  clubName: string;
   holeNumber: string;
-  tee: string;
+  teeName: string;
   par: number;
   yardage: number;
-  status: string;
+  activeStatus: string;
   entryFee: number;
   playerCount: number;
   totalPrize: number;
@@ -14,6 +14,8 @@ export interface ContestInfo {
   acecamPercentage: number;
   coursePercentage: number;
   charityPercentage: number;
+  imageBase64: string;
+  location: string;
 }
 
 export interface LeaderboardEntry {
@@ -31,4 +33,14 @@ export interface APIResLeaderBoardData {
     contestInfo: ContestInfo;
     leaderboard: LeaderboardEntry[];
   };
+}
+
+export interface leaderBoard {
+  clubName: string;
+  courseName: string;
+  holeNumber: number;
+  scheduleContestId: number;
+  teeName: string;
+  yardage: number;
+  par: number;
 }

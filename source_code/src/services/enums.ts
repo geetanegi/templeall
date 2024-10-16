@@ -68,4 +68,5 @@ export const API_URL = {
   getAllDailyActiveContest: "core/contest/get-all-daily-active-contest",
   getLiveLeaderBoard: "/core/leader-board/live",
   getRecent: "/core/leader-board/recent",
+  liveleaderBoardDropdown: "/core/leader-board/live-dropdown",
 };

@@ -90,8 +90,8 @@ const ActiveContestAccordion: React.FC = () => {
               </span>
             </button>
             <div
-              className={`transition-max-height overflow-hidden duration-300 ${
-                openAccordion === i ? "max-h-72" : "max-h-0"
+              className={`transition-max-height overflow-auto duration-300 ${
+                openAccordion === i ? "max-h-96" : "max-h-0"
               }`}
             >
               {/* content  */}

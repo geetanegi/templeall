@@ -2,21 +2,26 @@ import React, { useEffect, useState } from "react";
 import momentTz from "moment-timezone";
 import ClubCard from "./ClubCard";
 import LeaderBoardTable from "./LeaderBoardTable";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { ToastError } from "../Toast";
 import { APIResLeaderBoardData } from "./LeaderBoard";
+import { setLoading } from "../../reducers/loader/loader";
 
 const MostRecent: React.FC = () => {
   const tz = momentTz.tz.guess();
+
+  const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   const [recentData, setRecentData] = useState<any>([]);
 
   const getLiveLeaderBoard = async () => {
     try {
+      dispatch(setLoading(true));
+
       const { data, status } = await apiService.post<APIResLeaderBoardData>(
         API_URL.getRecent,
         {
@@ -34,6 +39,8 @@ const MostRecent: React.FC = () => {
       }
     } catch (error) {
       ToastError("Something went wrong");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -41,10 +48,14 @@ const MostRecent: React.FC = () => {
     getLiveLeaderBoard();
   }, []);
 
-  console.log("recentData", recentData);
-
   return (
     <div>
+      {recentData?.data?.message && (
+        <div>
+          <span>{recentData?.data?.message}</span>
+        </div>
+      )}
+
       {recentData?.data?.contestInfo && (
         <ClubCard contestInfo={recentData.data.contestInfo} />
       )}

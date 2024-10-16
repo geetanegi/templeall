@@ -41,7 +41,11 @@ const ClubCard: React.FC<{
                 dropDownList={
                   dropDownList && dropDownList?.length > 0 ? dropDownList : []
                 }
-                setSelectedValue={setSelectedValue}
+                setSelectedValue={(value: string | number) => {
+                  if (setSelectedValue) {
+                    setSelectedValue(value.toString());
+                  }
+                }}
                 selectedValue={selectedValue}
               />
             </div>

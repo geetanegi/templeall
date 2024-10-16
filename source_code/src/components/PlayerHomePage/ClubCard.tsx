@@ -13,13 +13,13 @@ const ClubCard: React.FC<{
   showDropDown?: boolean;
   dropDownList?: leaderBoard[];
   setSelectedValue?: (value: string) => void;
-  selectedValue: string;
+  selectedValue?: string;
 }> = ({
   contestInfo,
   showDropDown = false,
   dropDownList,
   setSelectedValue,
-  selectedValue,
+  selectedValue = "",
 }) => {
   return (
     <div>

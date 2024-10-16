@@ -16,7 +16,7 @@ const LiveLeaderBoard: React.FC = () => {
 
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [dropDownList, setDropDownList] = useState<leaderBoard[] | null>(null);
-  const [selectedValue, setSelectedValue] = useState<string | number>("");
+  const [selectedValue, setSelectedValue] = useState<any>("");
   const [leaderBoardData, setLeaderBoardData] = useState<any>([]);
   const getLiveLeaderBoard = async () => {
     try {
@@ -87,6 +87,7 @@ const LiveLeaderBoard: React.FC = () => {
         dropDownList={
           dropDownList && dropDownList.length > 0 ? dropDownList : []
         }
+        selectedValue={selectedValue}
         setSelectedValue={setSelectedValue}
       />
 

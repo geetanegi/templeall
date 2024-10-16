@@ -1,20 +1,120 @@
-import { VideoOff } from 'lucide-react'
-import React from 'react'
+import { VideoOff } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import apiService from "../../../services/apiService";
+import { API_URL } from "../../../services/enums";
+import { ToastError } from "../../Toast";
+import VideoCard from "../../MediaManagement/VideoCard";
+import moment from "moment";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import VideoPlayer from "../../MediaManagement/VideoPlayer";
+import PageLoader from "../../PageLoader";
 
 interface FeatureHighlightsComponentsprops {
-
+  selectedUser:string|number
 }
 
-const FeatureHighlightsComponents: React.FC<FeatureHighlightsComponentsprops> = () => {
+const FeatureHighlightsComponents: React.FC<
+  FeatureHighlightsComponentsprops
+> = ({
+  selectedUser
+}) => {
+
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const [allVideos, setAllVideos] = useState<Array<any>>([]);
+  const [refreshList, setRefreshList] = useState<boolean>(false);
+  const [isVideoPlayerVisible, setIsVideoPlayerVisible] =
+    useState<boolean>(false);
+    const [selectedVideo, setSelectedVideo] = useState<string>("");
+  useEffect(() => {
+    if(selectedUser){
+      getAllPublishVideo();
+    }
+  }, [refreshList, selectedUser]);
+
+  const getAllPublishVideo = async () => {
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.getAllpublishSotwVideos,
+        {
+          data: {
+            searchParams: {
+              status: "APPROVED",
+              isPublished: true,
+              "playerUser.id": JSON.stringify(selectedUser),
+            },
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setAllVideos(data?.data);
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong");
+    }
+  };
+
   return (
-    <div className='bg-[#1D1A0C99] p-3 w-[992px] my-5 h-[206px] rounded-[8px]'>
-      <span className='text-[#ffffff] text-[16px]'>Featured Highlights</span>
-      <div className='bg-[#FFFFFF1A] mt-2 w-[full] h-[152px] flex flex-col  justify-center items-center  rounded-[6px]'>
-        <VideoOff color='#ffffff' size={84} className=' font-extralight' />
-        <span className='text-[#F5F6F7]'>No videos are available to watch</span>
+    <PageLoader isActive={loader}>
+    <div className="my-5 w-[95%] rounded-[8px] bg-[#1D1A0C99] p-3">
+      <div className="flex items-center justify-between">
+        <span className="text-[16px] text-[#ffffff]">Featured Highlights</span>
+      </div>
+
+      {allVideos.length ? (
+        <div className="mt-5 flex flex-wrap gap-1 gap-y-4" 
+          style={{}}
+        >
+          {allVideos.map((videoData) => {
+            return <VideoCard
+            key={videoData.id}
+            uploadDate={moment(videoData?.startTime)
+              .utc()
+              .format("DD/MM/YYYY")}
+            title={videoData?.contestType}
+            status={videoData?.status}
+            clubName={videoData?.club?.name || ""}
+            tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
+            holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
+            requestVideoPayload={{ ...videoData }}
+            isApproved={true}
+            isPublished={videoData.isPublished}
+            getAllVideos={getAllPublishVideo}
+            setSelectedVideo={setSelectedVideo}
+            setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+            isVideoPlayerVisible={isVideoPlayerVisible}
+            setRefreshList={setRefreshList}
+            refreshList={refreshList}
+            isSOTW={videoData.type === "SOTW"}
+            rejectionReason={videoData?.rejectionReason || ""}
+            userInfo={userInfo}
+            width="216px"
+          />
+          })
+          }
+        </div>
+      ) : (
+        <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
+          <VideoOff color="#ffffff" size={84} className="font-extralight" />
+          <span className="text-[#F5F6F7]">
+            No videos are available to watch
+          </span>
+        </div>
+      )}
+      <div className="fixed bottom-1 right-0 z-50">
+        <VideoPlayer
+          isVideoPlayerVisible={isVideoPlayerVisible}
+          setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+          selectedVideo={selectedVideo}
+          setSelectedVideo={setSelectedVideo}
+        />
       </div>
     </div>
-  )
-}
+    </PageLoader>
+  );
+};
 
-export default FeatureHighlightsComponents
+export default FeatureHighlightsComponents;

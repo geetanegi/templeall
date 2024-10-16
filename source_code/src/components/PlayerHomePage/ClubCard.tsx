@@ -5,7 +5,6 @@ import GolfTee from "../../assets/images/sports_golf (2).png";
 import orangeGolf from "../../assets/images/sports_golf-orange.png";
 import BGGolfImage from "../../assets/images/bg-img-authflow.jpg";
 import { ContestInfo } from "./LeaderBoard";
-
 import TooltipSpan from "../Tooltip/TooltipSpan";
 
 const ClubCard: React.FC<{ contestInfo: ContestInfo }> = ({ contestInfo }) => {
@@ -30,11 +29,10 @@ const ClubCard: React.FC<{ contestInfo: ContestInfo }> = ({ contestInfo }) => {
               <div className="flex items-center space-x-2">
                 <LandPlot strokeWidth={1.25} className="h-5 w-5" />
                 <span className="text-sm font-semibold">
-                  Saginaw Country Club
                   {contestInfo.club}
                 </span>
               </div>
-              <p className="text-xs text-gray-500">Saginaw, MI</p>
+              <p className="text-xs text-gray-500">Saginaw, MI static </p>
             </div>
             {/* sub-part 2 */}
             <div>
@@ -48,7 +46,7 @@ const ClubCard: React.FC<{ contestInfo: ContestInfo }> = ({ contestInfo }) => {
               <div className="flex items-center space-x-2">
                 <img src={GolfTee} alt="" className="h-4 w-4" />
                 <span className="text-sm">
-                  Black Tees static ({contestInfo.yardage} yards)
+                  {contestInfo.tee} ({contestInfo.yardage} yards)
                 </span>
               </div>
             </div>
@@ -56,7 +54,7 @@ const ClubCard: React.FC<{ contestInfo: ContestInfo }> = ({ contestInfo }) => {
           {contestInfo.status === "Open" && (
             <div className="flex items-center space-x-1 rounded-lg bg-[#FD8A0233] p-1 px-2">
               <img src={orangeGolf} alt="" className="h-4 w-4" />
-              <p className="text-xs text-[#FD8A02]">Open</p>
+              <p className="text-xs text-[#FD8A02]">{contestInfo.status}</p>
             </div>
           )}
           {contestInfo.status === "Completed" && (
@@ -73,7 +71,7 @@ const ClubCard: React.FC<{ contestInfo: ContestInfo }> = ({ contestInfo }) => {
 
           {/* part 2 */}
           <div className="space-y-2">
-            <h3 className="text-sm">Closest-to-the-Pin</h3>
+            <h3 className="text-sm">{contestInfo.contestType}</h3>
             <h3 className="text-sm">Entry Fee: ${contestInfo.entryFee}</h3>
             <h3 className="text-sm">Players: {contestInfo.playerCount}</h3>
             <h3 className="text-sm">Total Prize: {contestInfo.totalPrize}</h3>

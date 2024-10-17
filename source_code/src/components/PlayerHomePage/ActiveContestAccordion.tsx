@@ -58,6 +58,8 @@ const ActiveContestAccordion: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  console.log("accordionData", data);
+
   return (
     <div className="w-full">
       {data &&
@@ -144,12 +146,21 @@ const ActiveContestAccordion: React.FC = () => {
                           </p>
                           <div className="py-2">
                             <p className="text-sm">
-                              Start Time:{" "}
+                              Reg. start date/time:{" "}
+                              <span className="text-sm font-bold">
+                                {moment
+                                  .utc(item.registrationStartTime)
+                                  .local()
+                                  .format("MM/DD/YYYY - hh:mm A")}
+                              </span>
+                            </p>
+                            <p className="text-sm">
+                              Contest start date/time:{" "}
                               <span className="text-sm font-bold">
                                 {moment
                                   .utc(item.startTime)
                                   .local()
-                                  .format("hh:mm A")}
+                                  .format("MM/DD/YYYY - hh:mm A")}
                               </span>
                             </p>
                           </div>
@@ -175,12 +186,21 @@ const ActiveContestAccordion: React.FC = () => {
                           </div>
                           <div className="mt-2">
                             <p className="text-sm">
-                              End Time:{" "}
+                              Reg. end date/time{" "}
+                              <span className="text-sm font-bold">
+                                {moment
+                                  .utc(item.registrationEndTime)
+                                  .local()
+                                  .format("MM/DD/YYYY - hh:mm A")}
+                              </span>
+                            </p>
+                            <p className="text-sm">
+                              Contest end date/time{" "}
                               <span className="text-sm font-bold">
                                 {moment
                                   .utc(item.endTime)
                                   .local()
-                                  .format("hh:mm A")}
+                                  .format("MM/DD/YYYY - hh:mm A")}
                               </span>
                             </p>
                           </div>

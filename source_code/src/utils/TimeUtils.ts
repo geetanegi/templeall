@@ -1,4 +1,6 @@
 import moment from "moment";
+import momentTz from "moment-timezone";
+export const timeZone = momentTz.tz.guess();
 
 export const ensureUTC = (date: string | Date): string => {
   const dateObj = moment(date);

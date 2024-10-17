@@ -58,8 +58,6 @@ const ActiveContestAccordion: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  console.log("accordionData", data);
-
   return (
     <div className="w-full">
       {data &&

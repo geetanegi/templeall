@@ -134,13 +134,11 @@ const ActiveContestAccordion: React.FC = () => {
                                 needPY={false}
                               />
                               <span>/</span>
-                              {item.charityPercentage > 0 && (
-                                <TooltipSpan
-                                  text={item.charityPercentage}
-                                  tooltip="Charity Percentage"
-                                  needPY={false}
-                                />
-                              )}
+                              <TooltipSpan
+                                text={item?.charityPercentage || "0"}
+                                tooltip="Charity Percentage"
+                                needPY={false}
+                              />
                               )
                             </span>
                           </p>

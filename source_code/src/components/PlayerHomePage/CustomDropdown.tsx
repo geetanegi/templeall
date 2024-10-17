@@ -15,7 +15,13 @@ const PlayerCustomDropdown: React.FC<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const [selectedText, setSelectedText] = useState<string>("");
+  const [selectedText, setSelectedText] = useState<{
+    clubName: string;
+    holeNumber: number;
+    par: number;
+    teeName: string;
+    yardage: number;
+  } | null>(null);
 
   // Set default selected text based on selectedValue
   useEffect(() => {
@@ -23,19 +29,27 @@ const PlayerCustomDropdown: React.FC<Props> = ({
       (item) => item.scheduleContestId.toString() === selectedValue.toString(),
     );
     if (selectedItem) {
-      setSelectedText(
-        `${selectedItem.clubName} Hole #${selectedItem.holeNumber} - Par ${selectedItem.par}, ${selectedItem.teeName} (${selectedItem.yardage})`,
-      );
+      setSelectedText({
+        clubName: selectedItem.clubName,
+        holeNumber: selectedItem.holeNumber,
+        par: selectedItem.par,
+        teeName: selectedItem.teeName,
+        yardage: selectedItem.yardage,
+      });
     } else {
-      setSelectedText(""); // Clear if no match found
+      setSelectedText(null); // Clear if no match found
     }
   }, [dropDownList, selectedValue]);
 
   const handleSelect = (item: leaderBoard) => {
     setSelectedValue?.(item.scheduleContestId); // Set the selected value as the ID
-    setSelectedText(
-      `${item.clubName} Hole #${item.holeNumber} - Par ${item.par}, ${item.teeName} (${item.yardage})`,
-    ); // Store full option text
+    setSelectedText({
+      clubName: item.clubName,
+      holeNumber: item.holeNumber,
+      par: item.par,
+      teeName: item.teeName,
+      yardage: item.yardage,
+    }); // Store full option text
     setIsOpen(false); // Close the dropdown after selecting an option
   };
 
@@ -59,15 +73,30 @@ const PlayerCustomDropdown: React.FC<Props> = ({
   return (
     <div className="relative" ref={dropdownRef}>
       <div
-        className="flex cursor-pointer items-center rounded border p-2"
+        className="flex cursor-pointer items-center rounded-md border p-2 shadow-sm"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="flex-grow">{selectedText || "Select an option"}</span>{" "}
+        <span className="flex-grow">
+          {
+            <>
+              {selectedText ? (
+                <div>
+                  {selectedText.clubName} Hole{" "}
+                  <strong>#{selectedText.holeNumber}</strong> - Par{" "}
+                  {selectedText.par}, {selectedText.teeName} (
+                  {selectedText.yardage})
+                </div>
+              ) : (
+                "Select an option"
+              )}
+            </>
+          }
+        </span>{" "}
         {/* Display full text here */}
         <ChevronDown className="ml-2 h-4 w-4" /> {/* Add dropdown icon */}
       </div>
       {isOpen && (
-        <div className="absolute z-10 mt-2 max-h-36 w-full overflow-y-auto rounded border bg-white shadow-md">
+        <div className="absolute z-10 mt-2 max-h-36 w-full overflow-y-auto rounded-md border bg-white shadow-md">
           {dropDownList &&
             dropDownList.map((item) => {
               const optionText = `${item.clubName} Hole #${item.holeNumber} - Par ${item.par}, ${item.teeName} (${item.yardage})`;

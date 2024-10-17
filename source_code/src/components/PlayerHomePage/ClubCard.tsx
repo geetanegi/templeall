@@ -34,7 +34,7 @@ const ClubCard: React.FC<{
             opacity: 0.1,
           }}
         />
-        <div className="relative mt-4 flex flex-col items-center justify-center gap-4 p-4">
+        <div className="relative flex flex-col items-center justify-center gap-4 p-4">
           {showDropDown && (
             <div>
               <CustomDropdown

@@ -29,15 +29,15 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
   }, [isCommunitySearch]);
 
   return (
-    <div className="bg-white-700 h-full min-h-[90vh] overflow-auto bg-contain bg-cover bg-fixed bg-no-repeat sm:flex-row sm:bg-profilebackground md:flex-row lg:overflow-hidden">
-      <div className="flex pt-6">
+    <div className="bg-white-700 h-full min-h-[90vh] w-full overflow-auto bg-contain bg-cover bg-fixed bg-no-repeat sm:flex-row sm:bg-profilebackground md:flex-row lg:overflow-hidden">
+      <div className="flex pt-6 w-full">
         {userPermisions?.data?.permission["is_player"] && isCommunitySearch ? (
           <CommunitySearchComponent
             selectedUser={selectedUser}
             setSelectedUser={setSelectedUser}
           />
         ) : null}
-        <div className="ml-auto w-[90%] lg:w-3/4">
+        <div className="ml-auto w-[90%] lg:w-[75%]">
           <ProfileOverviewSection
             userId={id || selectedUser}
             isCommunitySearch={isCommunitySearch}

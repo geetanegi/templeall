@@ -47,7 +47,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   };
 
   return (
-    <div className="mt-3 flex text-sm">
+    <div className="mt-3 flex h-full mb-2 text-sm">
       <div className="w-full">
         <div
           className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg" : "rounded-t-lg"} 2xl:max-w-none mt-2 border border-gray-100 md:overflow-auto`}

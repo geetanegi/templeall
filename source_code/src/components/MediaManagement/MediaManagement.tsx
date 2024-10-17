@@ -137,10 +137,14 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
   if (userPermisions?.data?.permission["is_player"]) {
     return <PlayerMediaPage />;
+  }else if(!userPermisions?.data?.permission){
+    return <div className="h-[100vh] bg-[#ffffff]"></div>
   }
 
   return (
-    <div className="h-[full] w-full bg-[#ffffff]">
+    <div className=" min-h-[88vh] bg-fixed w-full bg-[#ffffff]" 
+      style={{height:"max-content"}}
+    >
       <div className="flex justify-between px-10 pt-10">
         {userPermisions?.data?.permission["is_super_admin"] ? (
           <div
@@ -244,7 +248,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         isStatusChange={isStatusChange}
         setDataLength={setDataLength}
       />
-
+      
       <UploadVideoModal
         isModalOpen={isModalOpen}
         selectedTab={selectedTab}

@@ -26,38 +26,35 @@ interface AddAdminModalProps {
   closeModal: () => void;
   handleRefreshUserCount: () => void;
   refreashUserData: () => void;
+  selectedUserTab:number | string
 }
 
 const validationSchema = Yup.object({
-    firstName: Yup.string()
-        .required("First Name is required ")
-        .matches(
-            /^[A-Za-z]+$/,
-            "First Name must contain only alphabetic characters",
-        )
-        .max(100, "First Name must be less than 100 characters"),
-    lastName: Yup.string()
-        .required("Last Name is required ")
-        .matches(
-            /^[A-Za-z]+$/,
-            "Last Name must contain only alphabetic characters",
-        )
-        .max(100, "Last Name must be less than 100 characters"),
-    roleIds: Yup.string().required("Role is required"),
-    username: Yup.string()
-        .required("Username is Required")
-        .matches(
-            /^[a-zA-Z0-9]+$/,
-            "Username must contain only alphanumeric characters",
-        )
-        .min(3, "Username must be at least 3 characters")
-        .max(25, "Username must be less than 25 characters"),
-    password: Yup.string()
-        .required("Password is Required")
-        .matches(
-            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,25}$/,
-            "Password must be 8-25 characters long, include at least one letter, one number, and one special character.",
-        )
+  firstName: Yup.string()
+    .required("First Name is required ")
+    .matches(
+      /^[A-Za-z]+$/,
+      "First Name must contain only alphabetic characters",
+    )
+    .max(100, "First Name must be less than 100 characters"),
+  lastName: Yup.string()
+    .required("Last Name is required ")
+    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
+    .max(100, "Last Name must be less than 100 characters"),
+  username: Yup.string()
+    .required("Username is Required")
+    .matches(
+      /^[a-zA-Z0-9]+$/,
+      "Username must contain only alphanumeric characters",
+    )
+    .min(3, "Username must be at least 3 characters")
+    .max(25, "Username must be less than 25 characters"),
+  password: Yup.string()
+    .required("Password is Required")
+    .matches(
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,25}$/,
+      "Password must be 8-25 characters long, include at least one letter, one number, and one special character.",
+    ),
 });
 
 const initialValues = {
@@ -76,8 +73,9 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
   closeModal,
   handleRefreshUserCount,
   refreashUserData,
+  selectedUserTab,
 }) => {
-  const [roles, setRoles] = useState<any[]>([]);
+  const [, setRoles] = useState<any[]>([]);
 
   const dispatch = useDispatch();
 
@@ -117,6 +115,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
             ...values,
             password: null,
             selectedUserId: userData ? userData.id : null,
+            roleIds: selectedUserTab === 1 ? 1 : 2
           },
         };
       }
@@ -124,6 +123,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         data: {
           ...values,
           selectedUserId: userData ? userData.id : null,
+          roleIds: selectedUserTab === 1 ? 1 : 2
         },
       };
       const { data, status } = await apiService.post<any>(
@@ -131,13 +131,13 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         payload,
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        ToastSuccess(data.description);
+        ToastSuccess(data.data.message || '');
         handleRefreshUserCount();
         refreashUserData();
         setIsModalOpen(false);
       } else if (data?.error && data.description) {
         ToastError(data.description);
-      } 
+      }
     } catch (error) {
       ToastError("Something went wrong");
     } finally {
@@ -177,38 +177,14 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
             onSubmit={handleSubmit}
             className="w-full overflow-hidden rounded-lg md:w-[480px]"
           >
-            <div className="relative">
-              <select
-                id="roleIds"
-                name="roleIds"
-                value={values.roleIds}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="mx-5 w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
-              >
-                <option value="" label="Select Role" />
-                {roles.map((role: any) => (
-                  <option
-                    key={role.roleId}
-                    value={role.roleId}
-                    label={role.roleName}
-                  />
-                ))}
-              </select>
+            <div className="relative ml-5 mb-5 mr-7">
+              <input
+                type="text"
+                value={selectedUserTab === 2 ? "Course Admin" : "Super Admin"}
+                disabled
+                className={`rounded-lg w-full border bg-[#E6E6E6] px-2 py-3 text-gray-500  `}
+              />
               {/* Asterisk styled to appear as if inside the select */}
-              <span
-                className={`pointer-events-none absolute left-[24%] top-3 text-red-500 ${values.roleIds ? "hidden" : ""}`}
-              >
-                *
-              </span>
-            </div>
-
-            <div className="mb-5 ml-6">
-              {touched.roleIds &&
-                errors.roleIds &&
-                typeof errors.roleIds === "string" && (
-                  <span className="text-red-600">{errors.roleIds}</span>
-                )}
             </div>
 
             <div className="mx-5 mb-5 flex w-full justify-between md:w-[430px]">

@@ -57,17 +57,17 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const renderAdminPanal = () => {
+
+  if(location.pathname === ROUTES.USERS){
     if (userPermisions?.data?.permission["is_super_admin"]) {
       return <Adminpanel />;
     } else if (userPermisions?.data?.permission["is_course_admin"]) {
       return <Adminpanel isCourseAdmin={true} />;
     }
-  };
+  }
 
   return (
     <div>
-      {location.pathname === ROUTES.USERS && renderAdminPanal()}
       {userPermisions?.data?.permission["is_player"] && <PlayerHomePage />}
       {userPermisions?.data?.permission["is_super_admin"] && (
         <h1>Super Admin</h1>

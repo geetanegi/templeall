@@ -18,7 +18,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
         <>
             <div
                 className="fixed z-20 inset-0 backdrop-blur-sm bg-gray-900 bg-opacity-50 flex flex-col items-center justify-center"
-                onClick={onClose}
             >
                 <div
                     className="bg-white md:mx-0 mx-5 rounded-lg max-w-max shadow-lg "

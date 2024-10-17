@@ -240,6 +240,8 @@ const ContestManagement = () => {
         <ContestList />
       </div>
     );
+  }else if(!userPermisions?.data?.permission){
+    return <div className="h-[100vh] bg-[#ffffff]"></div>
   }
 
   return (

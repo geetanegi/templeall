@@ -67,8 +67,8 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
     return (
         <>
             <div
-                className="flex flex-col bg-fixed bg-[#ffffff] bg-contain md:flex-row h-full bg-no-repeat bg-contain pt-10 bg-admin-bg-position"
-                style={{ backgroundImage: `url(${BG})` }}
+                className="flex flex-col bg-fixed bg-[#ffffff] bg-contain md:flex-row min-h-[88vh] bg-no-repeat bg-contain pt-10 bg-admin-bg-position"
+                style={{ backgroundImage: `url(${BG})`, height: "max-content" }}
             >
                 <div className="flex-1 px-4 md:flex-[0.25] lg:flex-[0.25] xl:flex-[0.25] md:px-10">
                     <AdminSidePanel
@@ -101,6 +101,7 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
                 isModalOpen={isModalOpen}
                 handleRefreshUserCount={handleRefreshUserCount}
                 refreashUserData={() => adminRightPanelRef?.current?.getUserData()}
+                selectedUserTab={selectedUserTab}
             />
         </>
     );

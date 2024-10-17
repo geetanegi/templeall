@@ -166,22 +166,24 @@ const ActiveContestAccordion: React.FC = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="flex w-[150px] justify-between py-3">
-                            <div className="">
-                              <p className="rounded-md bg-[#DCE8DF] p-1 text-sm font-bold shadow-md">
-                                Status:{" "}
-                                <span className="text-xs font-bold text-[#248A3D]">
-                                  {item.activeStatus}
-                                </span>{" "}
-                              </p>
-                            </div>
-                            <div>
-                              <SwitchComponent
-                                isChecked={item.activeStatus === "Open"}
-                                onChange={(isChecked) =>
-                                  handleSwitch(isChecked)
-                                }
-                              />
+                          <div className="flex justify-end">
+                            <div className="flex w-[150px] justify-between py-3">
+                              <div className="">
+                                <p className="rounded-md bg-[#DCE8DF] p-1 text-sm font-bold shadow-md">
+                                  Status:{" "}
+                                  <span className="text-xs font-bold text-[#248A3D]">
+                                    {item.activeStatus}
+                                  </span>{" "}
+                                </p>
+                              </div>
+                              <div>
+                                <SwitchComponent
+                                  isChecked={item.activeStatus === "Open"}
+                                  onChange={(isChecked) =>
+                                    handleSwitch(isChecked)
+                                  }
+                                />
+                              </div>
                             </div>
                           </div>
                           <div className="mt-2">

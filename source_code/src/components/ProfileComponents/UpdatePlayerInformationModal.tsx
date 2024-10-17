@@ -410,7 +410,12 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         placeholder="Phone number"
                         id="contactNumber"
                         value={values.contactNumber}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+                          if (/^[0-9]*$/.test(inputValue)) {
+                            handleChange(e);
+                          }
+                        }}
                         onBlur={handleBlur}
                         maxLength={10}
                         className="w-[71%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"

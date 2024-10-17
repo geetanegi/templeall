@@ -99,9 +99,9 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
   };
 
   return (
-    <div className="h-[452px] w-[312px]">
+    <div className="relative left- top-[-24px] h-[432px] w-[350px]">
       <button
-        className={`relative left-[130px] top-[160px] z-10 cursor-pointer rounded-full bg-[#1D1A0C66] p-2 sm:left-[290px] sm:top-0 ${!userId || (typeof userInfo === "object" && "userId" in userInfo && userId == userInfo.userId) ? "" : "invisible"} `}
+        className={`relative left-[310px] top-[10px] z-10 cursor-pointer rounded-full bg-[#1D1A0C66] p-2  ${!userId || (typeof userInfo === "object" && "userId" in userInfo && userId == userInfo.userId) ? "" : "invisible"} `}
       >
         <Camera
           onClick={handleButtonClick}
@@ -114,22 +114,22 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           onChange={handleFileChange}
         />
       </button>
-      <div className="border-gray relative top-[70px] mx-auto h-[156px] w-[156px] overflow-hidden rounded-full border bg-gray-500 p-2 sm:left-0 sm:top-[-85px] sm:h-[452px] sm:w-[312px] sm:overflow-visible sm:rounded-sm sm:p-0 lg:border-0 lg:lg:bg-transparent">
+      <div className="relative left-[40px] top-[-45px] border-gray mx-auto h-[103%] w-[100%] border bg-gray-500 p-2  lg:border-0 lg:lg:bg-transparent">
         {image ? (
           <img
             src={`data:image/png;base64,${image}`}
             alt=""
-            className="absolute top-[20px] left-[20px] h-full w-full sm:h-[432px] sm:w-[312px]"
+            className="h-full w-full"
           />
         ) : (
           <img
             src={defaultUserImage}
             alt=""
-            className="absolute top-[20px] h-full w-full sm:h-[432px] sm:w-[312px]"
+            className="h-full w-full sm:h-[432px] sm:w-[312px]"
           />
         )}
       </div>
-      <div className="w-[312px} hidden h-[82px] bg-custom-gradient-2 sm:relative sm:left-[24px] sm:top-[-167px] sm:block">
+      <div className="w-[312px} hidden h-[82px] bg-custom-gradient-2 sm:relative sm:left-[24px] sm:top-[-134px] sm:block">
         <div className="ml-auto mr-5" style={{ width: "max-content" }}>
           <div className="m-0 text-[#F5F6F7]">This is</div>
           <div className="m-0 text-[24px] text-[#F5F6F7]">

@@ -231,7 +231,7 @@ const Checkout: React.FC = () => {
               className="relative mx-auto flex w-full items-center justify-center gap-1 rounded-md bg-[#95c11e] py-2 text-white"
             >
               <ShoppingCart className="relative" />
-              <span className="mx-2">Checkout</span>
+              <span className="mx-2">Register</span>
             </button>
           </div>
         </div>

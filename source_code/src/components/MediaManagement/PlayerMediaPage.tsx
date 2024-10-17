@@ -11,6 +11,7 @@ import PageLoader from "../PageLoader";
 import moment from "moment";
 import VideoPlayer from "./VideoPlayer";
 import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
+import { timeZone } from "../../utils/TimeUtils";
 
 interface PlayerMediaPageProps {}
 
@@ -64,6 +65,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             playerId:
               typeof userInfo === "object" ? userInfo.userId : undefined,
             date: moment.utc().local().format("YYYY-MM-DDTHH:mm:ss[Z]"),
+            zoneId: timeZone,
           },
         },
       );

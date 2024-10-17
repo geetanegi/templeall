@@ -10,6 +10,7 @@ import RegisterConfirmationModal from "./RegisterConfirmationModal";
 import TooltipSpan from "../Tooltip/TooltipSpan";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
+import { timeZone } from "../../utils/TimeUtils";
 
 const ActiveContestAccordion: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const ActiveContestAccordion: React.FC = () => {
         {
           data: {
             date: moment().utc(),
+            zoneId: timeZone,
           },
         },
       );

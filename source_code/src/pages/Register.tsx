@@ -111,6 +111,13 @@ const Register: React.FC = () => {
       "You must agree to the Terms and Conditions to proceed",
     ),
     phone: Yup.string().required("Phone is Required"),
+    dateOfBirth: Yup.date()
+      .nullable() // Allows the field to be empty (null)
+      .test(
+        "not-future-date",
+        "Date cannot be in the future",
+        (value) => !value || moment(value).isSameOrBefore(moment(), "day"),
+      ),
   });
 
   const [cardError, setCardError] = useState<string | null>(null);

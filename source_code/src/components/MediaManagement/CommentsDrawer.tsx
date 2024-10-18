@@ -42,6 +42,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
       getComments();
     } else {
       setAllComments([]);
+      setISVideoPlaying(false)
     }
   }, [isDrawerOpen]);
 
@@ -78,6 +79,13 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
     createComment(videoId, userId, comment, getComments);
   };
 
+
+  const handleProgress = (state: { playedSeconds: number }) => {
+   if(state.playedSeconds < 1 && isVideoPlaying){
+      updateViewCount()
+    }
+  };
+
   return (
     <div>
       <Drawer
@@ -89,10 +97,12 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
           <div className="h-[350px]">
             <div className="relative mt-[-10px]">
               <ReactPlayer
-                url={isDrawerOpen ? requestVideoPayload.videos.url: ""}
+                url={isDrawerOpen ? requestVideoPayload?.videos?.url : ""}
                 playing={isVideoPlaying} // Auto-play is true
                 width={"510px"}
-                height={"287px"}
+                height={"100%"}
+                onProgress={handleProgress}
+                onPlay={()=>setISVideoPlaying(true)}
                 onPause={() => setISVideoPlaying(false)}
                 controls={isVideoPlaying}
               />
@@ -109,7 +119,6 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                     color="#ffffff"
                     onClick={() => {
                       setISVideoPlaying(true)
-                      updateViewCount()
                     }}
                   />
                 </div>

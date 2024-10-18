@@ -70,7 +70,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
-    } catch (error) {}
+    } catch (error) {
+      ToastError("Something went wrong.")
+    }
   };
 
   const fetchCourseData = async () => {
@@ -128,7 +130,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
-    } catch (error) {}
+    } catch (error) {
+      ToastError("Something went wrong.")
+    }
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

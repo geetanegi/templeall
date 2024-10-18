@@ -327,7 +327,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                   isSOTW={filterValue === "SOTW"}
                   rejectionReason={videoData?.rejectionReason || ""}
                   userInfo={userInfo}
-                  isEdit={true}
+                  isEdit={videoData?.videos?.url ? true : false}
                 />
               );
             })}

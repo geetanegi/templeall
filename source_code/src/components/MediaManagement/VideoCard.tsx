@@ -19,6 +19,7 @@ import VideoRequestModal from "./VideoRequestModal";
 
 import rejectedVideo from "../../assets/images/rejectedVideo.png";
 import requestvideo from "../../assets/images/requestvideothumbnail.png";
+import videoNotAvailable from "../../assets/images/videoNot_available.png"
 import lockvideo from "../../assets/images/lock.png";
 import ConfirmationModal from "../GenericUIcomponents/ConfirmationModal";
 import {
@@ -193,7 +194,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             </div>
           </div>
           {/* Stats */}
-          <div className="flex items-center justify-start text-sm">
+          <div className={`flex items-center justify-start text-sm ${requestVideoPayload?.videos?.url ? "visible" : "invisible"}`}>
             <span className="flex items-center justify-center gap-1 text-[12px]">
               <Eye size={13} /> {videodetails.views ? formatCount(videodetails.views) : 0}
             </span>
@@ -202,7 +203,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
               <div
                 className="flex items-center space-x-5"
                 onClick={() => {
-                  setIsDrawerOpen(true);
+                  if(requestVideoPayload?.videos?.url){
+                    setIsDrawerOpen(true);
+                  } 
                 }}
               >
                 <MessageCircle size={16} />
@@ -319,10 +322,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeVideoThumbnail = () => {
     if (isApproved) {
       return (
-        <div className="h-full w-full rounded-t-lg object-cover">
+        <div className="h-full w-full rounded-t-lg object-cover bg-gray-100">
           <img
             className="h-full w-full rounded-t-lg object-cover"
-            src={requestVideoPayload?.videos?.thumbnailUrl || ""}
+            src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
             alt=""
           />
         </div>
@@ -431,9 +434,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
             ) : (
               <PiPlayCircleBold
                 style={{ height: "38px", width: "38px" }}
+                className={`${requestVideoPayload?.videos?.url ? "visible" : "invisible"}`}
                 onClick={() => {
                   if (isApproved) {
-                    if (!isVideoPlayerVisible) {
+                    if (!isVideoPlayerVisible && requestVideoPayload?.videos?.url) {
                       setSelectedVideo(requestVideoPayload?.videos?.url || "");
                       setIsVideoPlayerVisible(true);
                       if (requestVideoPayload?.videos?.url) {
@@ -557,11 +561,11 @@ const VideoCard: React.FC<VideoCardProps> = ({
         requestVideoPayload={requestVideoPayload}
         updateViewCount={()=>{
             if (requestVideoPayload?.videos?.url) {
-              updateViewCount(requestVideoPayload?.videos?.id);
-              setVideoDetails({
-                ...videodetails,
-                views: Number(videodetails.views) + 1,
-              });
+                updateViewCount(requestVideoPayload?.videos?.id);
+                setVideoDetails({
+                  ...videodetails,
+                  views: Number(videodetails.views) + 1,
+                });
             }
         }}
       />

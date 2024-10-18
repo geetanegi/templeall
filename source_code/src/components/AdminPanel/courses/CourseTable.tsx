@@ -243,29 +243,31 @@ const CourseTable: React.FC<CourseTableProps> = ({
             <tbody className="bg-white">{renderCourses(dataPerPage)}</tbody>
           </table>
         </div>
-        <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
-          <div className="align-center flex h-[30px] justify-center">
-            <p>Page</p>
-            <select
-              name="example"
-              id="example"
-              onChange={handlePageSizeChange}
-              className="mx-2 rounded-md border border-gray-200 px-5"
-            >
-              {rowCount.map((row, i) => (
-                <option key={i} selected={5 === row} value={row}>
-                  {row}
-                </option>
-              ))}
-            </select>
-            <p>of 10</p>
+        {courseData[0]?.courseList.length > 10 && (
+          <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
+            <div className="align-center flex h-[30px] justify-center">
+              <p>Page</p>
+              <select
+                name="example"
+                id="example"
+                onChange={handlePageSizeChange}
+                className="mx-2 rounded-md border border-gray-200 px-5"
+              >
+                {rowCount.map((row, i) => (
+                  <option key={i} selected={5 === row} value={row}>
+                    {row}
+                  </option>
+                ))}
+              </select>
+              <p>of 10</p>
+            </div>
+            <PaginationComponent
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
           </div>
-          <PaginationComponent
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
-        </div>
+        )}
       </div>
 
       {/* QR code components rendered off-screen */}

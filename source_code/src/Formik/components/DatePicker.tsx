@@ -22,7 +22,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [isIncomplete, setIsIncomplete] = useState(false);
   const [error, setError] = useState<boolean | string | null>(false);
 
   return (
@@ -36,17 +35,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
           const maxDateValue =
             typeof maxDate === "string" ? dayjs(maxDate) : maxDate;
 
-          useEffect(() => {
-            if (value) {
-              const date = dayjs(value);
-              setIsIncomplete(!date.isValid());
-            } else {
-              setIsIncomplete(false);
-            }
-          }, [value]);
-
           const marginTop = () => {
-            if (isFocused || isDateTyped || hasError || isIncomplete) {
+            if (isFocused || isDateTyped || hasError) {
               return "12px"; // Label should be up for focused, typed, error, or incomplete state
             }
             return "0"; // Default state
@@ -74,18 +64,19 @@ const DatePicker: React.FC<DatePickerProps> = ({
                       name,
                       newValue ? newValue.toISOString() : null,
                     );
-                    setIsIncomplete(
-                      newValue ? !dayjs(newValue).isValid() : false,
-                    );
+                    // setIsIncomplete(
+                    //   newValue ? !dayjs(newValue).isValid() : false,
+                    // );
                   }}
                   onError={(error) => {
-                    setError(error);
-                    if (error) {
-                      setIsIncomplete(true);
-                      setFieldValue(name, null);
-                    } else {
-                      setIsIncomplete(false);
-                    }
+                    console.log("error", error);
+                    // setError(error);
+                    // if (error) {
+                    //   setIsIncomplete(true);
+                    //   setFieldValue(name, null);
+                    // } else {
+                    //   setIsIncomplete(false);
+                    // }
                   }}
                   maxDate={maxDateValue}
                   {...rest}
@@ -96,7 +87,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                       color: "white",
                       borderRadius: "5px",
                       border: "1.5px solid",
-                      borderColor: hasError || isIncomplete ? "red" : "white",
+                      borderColor: hasError ? "red" : "white",
                       "&:hover .MuiOutlinedInput-notchedOutline": {
                         borderColor: hasError ? "red" : "lightgray",
                       },
@@ -109,7 +100,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                       },
                     },
                     "& .MuiInputLabel-root": {
-                      color: hasError || isIncomplete ? "red" : "white",
+                      color: hasError ? "red" : "white",
                       position: "absolute",
                       pointerEvents: "none",
                       marginTop: error ? "12px" : marginTop(),

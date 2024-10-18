@@ -188,7 +188,7 @@ const ActiveContestAccordion: React.FC = () => {
                           </div>
                           <div className="mt-2">
                             <p className="text-sm">
-                              Reg. end date/time{" "}
+                              Reg. end date/time :{" "}
                               <span className="text-sm font-bold">
                                 {moment
                                   .utc(item.registrationEndTime)
@@ -197,7 +197,7 @@ const ActiveContestAccordion: React.FC = () => {
                               </span>
                             </p>
                             <p className="text-sm">
-                              Contest end date/time{" "}
+                              Contest end date/time:{" "}
                               <span className="text-sm font-bold">
                                 {moment
                                   .utc(item.endTime)

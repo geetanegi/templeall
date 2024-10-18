@@ -18,10 +18,12 @@ const AuthStructure: React.FC = () => {
   return (
     <PageLoader isActive={loader}>
       <div
-        className={`align-center flex h-screen w-full justify-center overflow-y-auto bg-mobile-background bg-contain bg-cover bg-fixed bg-center bg-no-repeat md:bg-desktop-background`}
+        className={`align-center flex h-screen w-full ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto bg-mobile-background bg-contain bg-cover bg-fixed bg-center bg-no-repeat md:bg-desktop-background`}
       >
         <AceCamUI />
-        <div className="flex h-full w-full flex-col justify-center md:flex-row">
+        <div
+          className={`flex h-full w-full flex-col ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} md:flex-row`}
+        >
           {location.pathname === ROUTES.LOGIN && (
             <div className="mx-auto flex w-full flex-col items-center justify-center overflow-y-auto p-12 md:max-w-2xl md:p-8">
               {location.pathname === ROUTES.LOGIN && <Login />}

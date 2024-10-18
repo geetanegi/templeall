@@ -78,9 +78,9 @@ const ResetPassword: React.FC = () => {
     }
   };
   return (
-    <div className="flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 p-6 md:mt-10 md:w-full">
+    <div className="flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 p-2 md:mt-10 md:w-full md:p-6">
       {/* // sm:max-h-56 for mobile but not */}
-      <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
+      <img src={aceCampLogo} alt="" className="-mt-20 h-32 w-32" />
 
       {showSuccessScreen ? (
         <div className="mt-10">
@@ -88,7 +88,7 @@ const ResetPassword: React.FC = () => {
         </div>
       ) : (
         <>
-          <h1 className="py-5 text-2xl font-semibold text-gray-700">
+          <h1 className="py-2 text-xl font-semibold text-gray-700 md:py-5 md:text-2xl">
             Reset Your Password
           </h1>
           <Formik

@@ -107,8 +107,8 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 p-6 md:mt-10 md:w-full">
-        <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
+      <div className="flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 p-2 md:mt-10 md:w-full md:p-6">
+        <img src={aceCampLogo} alt="" className="h-32 w-32 sm:-mt-20" />
         <div className="flex gap-5">
           <InstagramLoginComponent />
           <FacebookLoginComponent
@@ -118,7 +118,7 @@ const Login: React.FC = () => {
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
         </div>
-        <h3 className="py-5 font-semibold text-gray-950">-OR-</h3>
+        <h3 className="py-3 font-semibold text-gray-950 md:py-5">-OR-</h3>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -177,7 +177,7 @@ const Login: React.FC = () => {
             </button>
           </Form>
         </Formik>
-        <div className="mt-2 flex w-full max-w-sm justify-between md:max-w-md">
+        <div className="f mt-2 flex w-full max-w-sm gap-1 text-sm sm:justify-between md:max-w-md">
           <p className="text-gray-700">
             Don't have an account?{" "}
             <Link
@@ -194,20 +194,24 @@ const Login: React.FC = () => {
             Forgot Password?
           </Link>
         </div>
-        {/* <div className="fixed bottom-5 h-1 w-full bg-white"></div> */}
-        {/* <div className="bottom-12 hidden h-0.5 w-[88%] bg-white lg:fixed lg:block">
-          <div className="right-0 md:absolute">
-            <p className="p-2 text-white">Privacy Policy</p>
-          </div>
-        </div> */}
-        <div className="fixed bottom-14 right-[70px] flex h-0.5 w-[17%] items-end">
-          <div className="right-1 top-[1px] md:absolute">
+        <div>
+          <div className="md:hidden">
             <p
-              className="cursor-pointer p-2 text-white hover:underline"
+              className="cursor-pointer text-white hover:underline"
               onClick={downloadPrivacyPolicyFunc}
             >
               Privacy Policy
             </p>
+          </div>
+          <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
+            <div className="right-1 top-[1px] md:absolute">
+              <p
+                className="cursor-pointer p-2 text-white hover:underline"
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                Privacy Policy
+              </p>
+            </div>
           </div>
         </div>
       </div>

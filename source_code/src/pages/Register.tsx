@@ -216,7 +216,7 @@ const Register: React.FC = () => {
   return (
     <>
       {!showOtpScreen && !showSuccessScreen && (
-        <div className="bg-back-600 my-10 flex h-auto w-full flex-col items-center rounded-xl bg-[#ffffff] bg-opacity-50 p-6 md:w-full md:p-8">
+        <div className="bg-back-600 my-10 flex h-auto w-full flex-col items-center rounded-xl bg-[#ffffff] bg-opacity-50 p-2 md:w-full md:p-8">
           <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
           <div className="flex gap-5">
             <InstagramLoginComponent />
@@ -500,7 +500,7 @@ const Register: React.FC = () => {
                   Create Account
                 </button>
 
-                <p className="mb-6 mt-2 text-left text-gray-700">
+                <p className="mb-6 mt-2 text-center text-gray-700 md:text-left">
                   Already have an account?{" "}
                   <Link
                     to={ROUTES.LOGIN}
@@ -512,14 +512,25 @@ const Register: React.FC = () => {
               </Form>
             )}
           </Formik>
-          <div className="fixed bottom-14 right-[70px] flex h-0.5 w-[17%] items-end">
-            <div className="right-1 top-[1px] md:absolute">
+
+          <div>
+            <div className="-mt-5 md:hidden">
               <p
-                className="cursor-pointer p-2 text-white hover:underline"
+                className="cursor-pointer text-white hover:underline"
                 onClick={downloadPrivacyPolicyFunc}
               >
                 Privacy Policy
               </p>
+            </div>
+            <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
+              <div className="right-1 top-[1px] md:absolute">
+                <p
+                  className="cursor-pointer p-2 text-white hover:underline"
+                  onClick={downloadPrivacyPolicyFunc}
+                >
+                  Privacy Policy
+                </p>
+              </div>
             </div>
           </div>
         </div>

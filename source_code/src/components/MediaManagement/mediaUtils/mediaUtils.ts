@@ -64,22 +64,28 @@ export const deleteVideos = async (
   getVideosList?: () => void,
   userRole?: string,
 ) => {
-  let endPoint = API_URL.deleteVideo;
-  if (type === "REQUEST_VIDEO" && userRole === "superAdmin") {
-    endPoint = API_URL.deleteRequestVideo;
+  try {
+     let endPoint = API_URL.deleteVideo;
+
+    if (type === "REQUEST_VIDEO" && userRole === "superAdmin") {
+      endPoint = API_URL.deleteRequestVideo;
+    }
+    const res = await apiService.post<any>(endPoint, {
+      data: {
+        requestType: type,
+        requestId: reqId,
+      },
+    });
+    if (res.status === 200 && !res.data.error) {
+      ToastSuccess(res.data.data.message);
+      getVideosList?.();
+    } else if (res.data.error) {
+      ToastError(res.data.description || "");
+    }
+  } catch (error) {
+    ToastError("Something went wrong.")
   }
-  const res = await apiService.post<any>(endPoint, {
-    data: {
-      requestType: type,
-      requestId: reqId,
-    },
-  });
-  if (res.status === 200 && !res.data.error) {
-    ToastSuccess(res.data.data.message);
-    getVideosList?.();
-  } else if (res.data.error) {
-    ToastError(res.data.description || "");
-  }
+ 
 };
 
 export const computeFilterDropDown = (
@@ -115,17 +121,21 @@ export const createComment = async (
   commentText: string,
   getComments: () => void,
 ) => {
-  const { data, status } = await apiService.post<any>(API_URL.createComment, {
-    data: {
-      videoId: id,
-      userId: userId,
-      commentText: commentText,
-    },
-  });
-  if (status === 200 && data?.data != null && !data?.error) {
-    getComments();
-  } else if (data?.error && data.description) {
-    ToastError(data.description);
+  try {   
+    const { data, status } = await apiService.post<any>(API_URL.createComment, {
+      data: {
+        videoId: id,
+        userId: userId,
+        commentText: commentText,
+      },
+    });
+    if (status === 200 && data?.data != null && !data?.error) {
+      getComments();
+    } else if (data?.error && data.description) {
+      ToastError(data.description);
+    }
+  } catch (error) {
+    ToastError("Something went wrong.") 
   }
 };
 
@@ -143,13 +153,17 @@ export const makeVieoLiked = async (
   userId: number | string,
   islike: boolean,
 ) => {
-  await apiService.post<any>(API_URL.likeVideo, {
-    data: {
-      videoId: videoId,
-      userId: userId,
-      liked: !islike,
-    },
-  });
+  try {
+    await apiService.post<any>(API_URL.likeVideo, {
+      data: {
+        videoId: videoId,
+        userId: userId,
+        liked: !islike,
+      },
+    });
+  } catch (error) {
+    ToastError("Something went wrong.")
+  }
 };
 
 export const formatCount = (value: number | string) => {

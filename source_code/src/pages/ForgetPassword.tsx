@@ -13,6 +13,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { ToastError, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
+import { Colors } from "../utils/colorEnum";
 
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -93,14 +94,17 @@ const ForgetPassword: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div
-        className={`flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+        className={`flex w-full flex-col items-center rounded-xl pb-28 border ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+        style={{
+          background: Colors.backgroundDark2
+        }}
       >
         {/* // sm:max-h-56 for mobile but not */}
         <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
 
-        <h1 className="py-5 text-2xl font-semibold text-gray-700">
+        <h1 className={`py-5 text-2xl font-semibold text-[${Colors.primaryText}]`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
@@ -127,7 +131,7 @@ const ForgetPassword: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600"
+                  className={`w-full rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-white hover:bg-lime-600`}
                 >
                   Send OTP
                 </button>
@@ -136,7 +140,7 @@ const ForgetPassword: React.FC = () => {
             <p className="mt-4 text-center">
               <Link
                 to={ROUTES.LOGIN}
-                className="text-[#1E95C1] hover:underline"
+                className={`text-[${Colors.link}] hover:underline`}
               >
                 Back to login
               </Link>

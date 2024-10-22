@@ -90,7 +90,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                   sx={{
                     "& .MuiInputBase-root": {
                       // backgroundColor: "transparent",
-                      backgroundColor: "rgba(83, 83, 83, 0.8)",
+                      backgroundColor: "#00000099",
                       color: "white",
                       borderRadius: "5px",
                       border: "1.5px solid",

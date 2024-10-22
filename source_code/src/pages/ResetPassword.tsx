@@ -12,6 +12,7 @@ import { ToastError, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
+import { Colors } from "../utils/colorEnum";
 
 const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -78,7 +79,9 @@ const ResetPassword: React.FC = () => {
     }
   };
   return (
-    <div className="flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 p-2 md:mt-10 md:w-full md:p-6">
+    <div className="flex w-full flex-col items-center border rounded-lg p-2 md:mt-10 md:w-full md:p-6"
+      style={{background: Colors.backgroundDark2}}
+    >
       {/* // sm:max-h-56 for mobile but not */}
       <img src={aceCampLogo} alt="" className="-mt-20 h-32 w-32" />
 
@@ -88,7 +91,7 @@ const ResetPassword: React.FC = () => {
         </div>
       ) : (
         <>
-          <h1 className="py-2 text-xl font-semibold text-gray-700 md:py-5 md:text-2xl">
+          <h1 className={`py-2 text-xl font-semibold text-[${Colors.primaryText}] md:py-5 md:text-2xl`}>
             Reset Your Password
           </h1>
           <Formik
@@ -120,14 +123,14 @@ const ResetPassword: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600"
+                className={`w-full rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-white hover:bg-lime-600`}
               >
                 Reset Password
               </button>
             </Form>
           </Formik>
           <p className="mt-4 text-center">
-            <Link to={ROUTES.LOGIN} className="text-[#1E95C1] hover:underline">
+            <Link to={ROUTES.LOGIN} className={`text-[${Colors.link}] hover:underline`}>
               Back to login
             </Link>
           </p>

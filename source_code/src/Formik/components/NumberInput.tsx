@@ -77,27 +77,27 @@ const NumberInput: React.FC<NumberInputProps> = ({
             } // Restrict change input to numbers
             sx={{
               "& .MuiInputBase-root": {
-                backgroundColor: "rgba(83, 83, 83, 0.8)",
+                backgroundColor: "#00000099",
                 color: "white",
                 borderRadius: "5px",
                 border: "1.5px solid white",
                 "&:hover": {
-                  backgroundColor: "rgba(83, 83, 83, 0.8)", // Ensure consistency on hover
+                  backgroundColor: "#00000099", // Ensure consistency on hover
                 },
                 "&.Mui-focused": {
-                  backgroundColor: "rgba(83, 83, 83, 0.8)", // Ensure consistency on focus
+                  backgroundColor: "#00000099", // Ensure consistency on focus
                   border: "1.5px solid white",
                 },
                 "&.Mui-error": {
-                  backgroundColor: "rgba(83, 83, 83, 0.8) !important", // Ensure consistency on error
+                  backgroundColor: "#00000099 !important", // Ensure consistency on error
                   border: "1.5px solid red !important",
                 },
                 "&.Mui-error:hover": {
-                  backgroundColor: "rgba(83, 83, 83, 0.8) !important", // Ensure consistency on error hover
+                  backgroundColor: "#00000099 !important", // Ensure consistency on error hover
                   border: "1.5px solid red !important",
                 },
                 "&.Mui-error.Mui-focused": {
-                  backgroundColor: "rgba(83, 83, 83, 0.8) !important", // Ensure consistency on error focus
+                  backgroundColor: "#00000099 !important", // Ensure consistency on error focus
                   border: "1.5px solid red !important",
                 },
               },
@@ -118,17 +118,17 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 // Autofill styles to maintain color consistency
                 "&:-webkit-autofill": {
                   WebkitBoxShadow:
-                    "0 0 0 100px rgba(83, 83, 83, 0.8) inset !important", // Ensures background color consistency
+                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency
                   WebkitTextFillColor: "white !important", // Ensures text color consistency
                 },
                 "&:-webkit-autofill:hover": {
                   WebkitBoxShadow:
-                    "0 0 0 100px rgba(83, 83, 83, 0.8) inset !important", // Ensures background color consistency on hover
+                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on hover
                   WebkitTextFillColor: "white !important", // Ensures text color consistency on hover
                 },
                 "&:-webkit-autofill:focus": {
                   WebkitBoxShadow:
-                    "0 0 0 100px rgba(83, 83, 83, 0.8) inset !important", // Ensures background color consistency on focus
+                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on focus
                   WebkitTextFillColor: "white !important", // Ensures text color consistency on focus
                 },
               },

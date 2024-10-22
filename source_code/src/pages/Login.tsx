@@ -22,6 +22,7 @@ import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import { downloadFile } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
+import { Colors } from "../utils/colorEnum";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -107,7 +108,11 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center rounded-lg bg-white bg-opacity-60 p-2 md:mt-10 md:w-full md:p-6">
+      <div className="flex w-full flex-col gap-4 items-center rounded-xl border p-2 md:mt-10 md:w-full md:p-6"
+       style={{
+        background: Colors.backgroundDark2
+      }}
+      >
         <img src={aceCampLogo} alt="" className="h-32 w-32 sm:-mt-20" />
         <div className="flex gap-5">
           <InstagramLoginComponent />
@@ -118,7 +123,7 @@ const Login: React.FC = () => {
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
         </div>
-        <h3 className="py-3 font-semibold text-gray-950 md:py-5">-OR-</h3>
+        <h3 className="py-3 font-semibold my-5 text-[#FFFFFF] md:my-1">-OR-</h3>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -160,7 +165,7 @@ const Login: React.FC = () => {
                     name="rememberme"
                     className="form-checkbox h-4 w-4 leading-tight text-blue-400"
                   />
-                  <span className="ml-2 text-gray-950">Remember me ?</span>
+                  <span className="ml-2 text-[#FFFFFF]">Remember me ?</span>
                 </label>
                 <ErrorMessage
                   name="rememberme"
@@ -171,25 +176,25 @@ const Login: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="w-full rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600"
+              className={`w-full rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-[${Colors.primaryText}] hover:bg-lime-600`}
             >
               Login
             </button>
           </Form>
         </Formik>
         <div className="f mt-2 flex w-full max-w-sm gap-1 text-sm sm:justify-between md:max-w-md">
-          <p className="text-gray-700">
+          <p className={`text-[${Colors.primaryText}]`}>
             Don't have an account?{" "}
             <Link
               to={ROUTES.SIGNUP}
-              className="text-sm text-[#1E95C1] hover:underline"
+              className={`text-sm text-[${Colors.link}] hover:underline`}
             >
               Sign Up
             </Link>
           </p>
           <Link
             to={ROUTES.FORGET_PASSWORD}
-            className="text-sm text-[#1E95C1] hover:underline"
+            className={`text-sm text-[${Colors.link}] hover:underline`}
           >
             Forgot Password?
           </Link>
@@ -197,7 +202,7 @@ const Login: React.FC = () => {
         <div>
           <div className="md:hidden">
             <p
-              className="cursor-pointer text-white hover:underline"
+              className={`cursor-pointer text-[${Colors.link}] hover:underline`}
               onClick={downloadPrivacyPolicyFunc}
             >
               Privacy Policy
@@ -206,7 +211,7 @@ const Login: React.FC = () => {
           <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
             <div className="right-1 top-[1px] md:absolute">
               <p
-                className="cursor-pointer p-2 text-white hover:underline"
+                className={`cursor-pointer p-2 text-[${Colors.link}] hover:underline`}
                 onClick={downloadPrivacyPolicyFunc}
               >
                 Privacy Policy

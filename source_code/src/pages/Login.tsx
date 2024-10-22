@@ -108,7 +108,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col gap-4 items-center rounded-xl border p-2 md:mt-10 md:w-full md:p-6"
+      <div className="flex w-full flex-col gap-2 items-center rounded-xl border p-2 md:mt-10 md:w-full md:p-6"
        style={{
         background: Colors.backgroundDark2
       }}
@@ -176,25 +176,25 @@ const Login: React.FC = () => {
             </div>
             <button
               type="submit"
-              className={`w-full rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-[${Colors.primaryText}] hover:bg-lime-600`}
+              className={`w-full rounded-md bg-buttonPrimary border py-2 text-primaryText hover:bg-lime-600`}
             >
               Login
             </button>
           </Form>
         </Formik>
         <div className="f mt-2 flex w-full max-w-sm gap-1 text-sm sm:justify-between md:max-w-md">
-          <p className={`text-[${Colors.primaryText}]`}>
+          <p className={`text-primaryText`}>
             Don't have an account?{" "}
             <Link
               to={ROUTES.SIGNUP}
-              className={`text-sm text-[${Colors.link}] hover:underline`}
+              className={`text-sm text-link hover:underline`}
             >
               Sign Up
             </Link>
           </p>
           <Link
             to={ROUTES.FORGET_PASSWORD}
-            className={`text-sm text-[${Colors.link}] hover:underline`}
+            className={`text-sm text-link hover:underline`}
           >
             Forgot Password?
           </Link>
@@ -202,7 +202,7 @@ const Login: React.FC = () => {
         <div>
           <div className="md:hidden">
             <p
-              className={`cursor-pointer text-[${Colors.link}] hover:underline`}
+              className={`cursor-pointer text-link hover:underline`}
               onClick={downloadPrivacyPolicyFunc}
             >
               Privacy Policy
@@ -211,7 +211,7 @@ const Login: React.FC = () => {
           <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
             <div className="right-1 top-[1px] md:absolute">
               <p
-                className={`cursor-pointer p-2 text-[${Colors.link}] hover:underline`}
+                className={`cursor-pointer p-2 text-link hover:underline`}
                 onClick={downloadPrivacyPolicyFunc}
               >
                 Privacy Policy

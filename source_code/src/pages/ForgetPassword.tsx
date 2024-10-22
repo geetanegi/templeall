@@ -104,7 +104,7 @@ const ForgetPassword: React.FC = () => {
         {/* // sm:max-h-56 for mobile but not */}
         <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
 
-        <h1 className={`py-5 text-2xl font-semibold text-[${Colors.primaryText}]`}>
+        <h1 className={`py-5 text-2xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
@@ -131,7 +131,7 @@ const ForgetPassword: React.FC = () => {
 
                 <button
                   type="submit"
-                  className={`w-full rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-white hover:bg-lime-600`}
+                  className={`w-full rounded-md bg-buttonPrimary border py-2 text-white hover:bg-lime-600`}
                 >
                   Send OTP
                 </button>
@@ -140,7 +140,7 @@ const ForgetPassword: React.FC = () => {
             <p className="mt-4 text-center">
               <Link
                 to={ROUTES.LOGIN}
-                className={`text-[${Colors.link}] hover:underline`}
+                className={`text-link hover:underline`}
               >
                 Back to login
               </Link>

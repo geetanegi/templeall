@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastError, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
-import { Colors } from "../utils/colorEnum";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -131,7 +130,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       <div className="flex flex-col items-center space-y-2">
         <h4 className="px-6 text-xs md:text-sm">
           Enter the OTP sent to{" "}
-          <span className={`text-[16px] font-bold text-[${Colors.yellowText}]`}>
+          <span className={`text-[16px] font-bold text-yellowText`}>
             {email ? email : maskEmail}
           </span>
         </h4>
@@ -140,10 +139,10 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
         <div className="flex w-full flex-col-reverse justify-between pb-2 md:flex-row md:pb-6">
           <div className="text-center">
-            <p className={`text-xs text-[${Colors.primaryText}] md:text-sm`}>
+            <p className={`text-xs text-primaryText md:text-sm`}>
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold text-[${Colors.link}] ${
+                className={`font-semibold text-link ${
                   timeLeft > 0 && isRunning
                     ? "cursor-not-allowed opacity-60"
                     : "cursor-pointer text-red-600"
@@ -170,13 +169,13 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         </button>
 
         <div className="flex w-full justify-between pb-4 md:pb-0">
-          <p className={`text-xs text-[${Colors.primaryText}] md:text-sm`}>
-            You can resend OTP in <span className={`text-[${Colors.yellowText}]`}>{timeLeft}</span>{" "}
+          <p className={`text-xs text-primaryText md:text-sm`}>
+            You can resend OTP in <span className={`text-yellowText`}>{timeLeft}</span>{" "}
             seconds
           </p>
           <Link
             to={ROUTES.LOGIN}
-            className={`text-xs text-[${Colors.link}] hover:underline md:text-sm`}
+            className={`text-xs text-link hover:underline md:text-sm`}
             onClick={handleOtpState}
           >
             Back to Login

@@ -239,7 +239,7 @@ const Register: React.FC = () => {
             <img src={TikTok} alt="" />
             <GoogleLoginComponent  />
           </div>
-          <h2 className={`my py-2 my-8 font-semibold text-[${Colors.primaryText}]`}>-OR-</h2>
+          <h2 className={`my py-2 my-8 font-semibold text-primaryText`}>-OR-</h2>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -360,7 +360,7 @@ const Register: React.FC = () => {
                   />
                 </div>
                 <div className="mx-auto max-w-md">
-                  <h2 className={`mb-4 text-xl text-[${Colors.primaryText}] font-semibold `}>
+                  <h2 className={`mb-4 text-xl text-primaryText font-semibold `}>
                     Card Information
                   </h2>
                   <div className="mb-4 flex flex-col">
@@ -466,11 +466,11 @@ const Register: React.FC = () => {
                         name="acceptTerms"
                         className="form-checkbox h-4 w-4 leading-tight text-blue-400"
                       />
-                      <span className={`ml-2 text-[${Colors.primaryText}]`}>
+                      <span className={`ml-2 text-primaryText`}>
                         Agreeing to{" "}
                         <Link
                           onClick={downloadTermsAndConditionsFunc}
-                          className={`px-1 text-sm text-[${Colors.link}] underline hover:underline`}
+                          className={`px-1 text-sm text-link underline hover:underline`}
                           to=""
                         >
                           Terms and Conditions
@@ -506,17 +506,17 @@ const Register: React.FC = () => {
 
                 <button
                   type="submit"
-                  className={`w-full rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-white hover:bg-lime-600`}
+                  className={`w-full rounded-md bg-buttonPrimary border py-2 text-white hover:bg-lime-600`}
                   disabled={isSubmitting}
                 >
                   Create Account
                 </button>
 
-                <p className={`mb-6 mt-2 text-center text-[${Colors.primaryText}] md:text-left`}>
+                <p className={`mb-6 mt-2 text-center text-primaryText md:text-left`}>
                   Already have an account?{" "}
                   <Link
                     to={ROUTES.LOGIN}
-                    className={`text-sm text-[${Colors.link}] hover:underline`}
+                    className={`text-sm text-link hover:underline`}
                   >
                     Login
                   </Link>
@@ -528,7 +528,7 @@ const Register: React.FC = () => {
           <div>
             <div className="-mt-5 md:hidden">
               <p
-                className={`cursor-pointer text-[${Colors.link}] hover:underline`}
+                className={`cursor-pointer text-link hover:underline`}
                 onClick={downloadPrivacyPolicyFunc}
               >
                 Privacy Policy
@@ -537,7 +537,7 @@ const Register: React.FC = () => {
             <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
               <div className="right-1 top-[1px] md:absolute">
                 <p
-                  className={`cursor-pointer p-2 text-[${Colors.link}] hover:underline`}
+                  className={`cursor-pointer p-2 text-link hover:underline`}
                   onClick={downloadPrivacyPolicyFunc}
                 >
                   Privacy Policy

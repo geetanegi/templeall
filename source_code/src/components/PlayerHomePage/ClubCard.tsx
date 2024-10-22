@@ -136,13 +136,11 @@ const ClubCard: React.FC<{
                     needPY={false}
                   />
                   <span>/</span>
-                  {contestInfo.charityPercentage > 0 && (
-                    <TooltipSpan
-                      text={contestInfo.charityPercentage}
-                      tooltip="Charity Percentage"
-                      needPY={false}
-                    />
-                  )}
+                  <TooltipSpan
+                    text={contestInfo.charityPercentage}
+                    tooltip="Charity Percentage"
+                    needPY={false}
+                  />
                   )
                 </span>
               </h3>

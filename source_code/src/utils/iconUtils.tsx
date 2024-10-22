@@ -7,10 +7,10 @@ const iconMap = {
   Communities: Icons.UsersRound,
   Home: Icons.Home,
   Users: Icons.Users,
-  Media: Icons.Calendar,
+  "Highlight Hub": Icons.Calendar,
   Courses: Icons.LandPlot,
   Reports: Icons.Calendar,
-  Contest: Icons.MonitorPlay,
+  "Bet Central": Icons.MonitorPlay,
   "Generate QR Code": Icons.QrCode,
 };
 

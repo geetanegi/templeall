@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastError, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
-import { Colors } from "../utils/colorEnum";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -129,9 +128,9 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   return (
     <>
       <div className="flex flex-col items-center space-y-2">
-        <h4 className={`px-6 text-xs text-[${Colors.primaryText}] md:text-sm`}>
+        <h4 className="px-6 text-xs md:text-sm">
           Enter the OTP sent to{" "}
-          <span className={`text-[16px] font-bold text-[${Colors.yellowText}]`}>
+          <span className={`text-[16px] font-bold text-yellowText`}>
             {email ? email : maskEmail}
           </span>
         </h4>
@@ -140,10 +139,10 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
         <div className="flex w-full flex-col-reverse justify-between pb-2 md:flex-row md:pb-6">
           <div className="text-center">
-            <p className={`text-xs text-[${Colors.primaryText}] md:text-sm`}>
+            <p className={`text-xs text-primaryText md:text-sm`}>
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold text-[${Colors.link}] ${
+                className={`font-semibold text-link ${
                   timeLeft > 0 && isRunning
                     ? "cursor-not-allowed opacity-60"
                     : "cursor-pointer text-red-600"
@@ -156,7 +155,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             </p>
           </div>
           <div className="flex w-full flex-col justify-between md:w-auto md:flex-row">
-            <p className={`mb-4 pl-6 text-xs font-semibold text-[${Colors.primaryText}] sm:text-left md:px-0 md:text-center md:text-sm lg:text-right`}>
+            <p className="mb-4 pl-6 text-xs font-semibold text-gray-700 sm:text-left md:px-0 md:text-center md:text-sm lg:text-right">
               OTP is valid for 5 minutes
             </p>
           </div>
@@ -164,19 +163,19 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
         <button
           onClick={handleOTP}
-          className={`w-48 rounded-md bg-[${Colors.buttonPrimary}] border py-2 text-white hover:bg-lime-600 md:w-full`}
+          className="w-48 rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600 md:w-full"
         >
           Verify
         </button>
 
         <div className="flex w-full justify-between pb-4 md:pb-0">
-          <p className={`text-xs text-[${Colors.primaryText}] md:text-sm`}>
-            You can resend OTP in <span className={`text-[${Colors.yellowText}]`}>{timeLeft}</span>{" "}
+          <p className={`text-xs text-primaryText md:text-sm`}>
+            You can resend OTP in <span className={`text-yellowText`}>{timeLeft}</span>{" "}
             seconds
           </p>
           <Link
             to={ROUTES.LOGIN}
-            className={`text-xs text-[${Colors.link}] hover:underline md:text-sm`}
+            className={`text-xs text-link hover:underline md:text-sm`}
             onClick={handleOtpState}
           >
             Back to Login

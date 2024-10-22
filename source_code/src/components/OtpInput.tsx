@@ -58,7 +58,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
             onChange={(e) => handleChange(e.target.value, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             onPaste={handlePaste}
-            style={{ background: "#55584b" }}
+            style={{ background: "#00000099" }}
             className="h-9 w-9 rounded-lg border text-center text-lg text-white outline-none md:h-14 md:w-14"
           />
         ))}

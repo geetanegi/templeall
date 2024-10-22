@@ -151,7 +151,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           name: computeUserName(
             item.firstName,
             item.lastName,
-            item.imageUrl,
+            item.userProfile.imageBase64 || '',
             userRole,
             item.id,
             activeStatus,
@@ -228,6 +228,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       id: string,
       activeStatus: boolean,
     ) => {
+      console.log("image", image)
       return (
         <div
           className={`flex h-[40px] ${activeStatus ? "cursor-pointer" : "cursor-not-allowed"}`}
@@ -238,7 +239,9 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           }}
         >
           <div className="mr-5 w-10 rounded-md border bg-[#ebf0fa]">
-            <img src={image} alt="" />
+          {
+            image ? <img src={`data:image/png;base64,${image}`} alt="" className="rounded-md w-10 h-10 " /> : null
+          }  
           </div>
           <div className="flex flex-col text-sm text-gray-500">
             <div

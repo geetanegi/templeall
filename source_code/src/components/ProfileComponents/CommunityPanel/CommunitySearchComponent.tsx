@@ -61,7 +61,7 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({ sel
     };
 
     return (
-        <div className='ml-5 h-[90vh] overflow-auto'
+        <div className='ml-5 h-[90vh] w-[25%] overflow-auto'
             style={scrollbarStyles}
         >
             <div className="flex align-center  mt-5 bg-gray-100 w-full justify-between rounded-md border border-gray-300 py-2 px-4 md:mt-0 md:w-[242px]">

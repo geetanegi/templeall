@@ -102,7 +102,6 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
           onSubmit={handleSubmit}
         >
           {({ handleSubmit, touched, isSubmitting }) => {
-            console.log(isSubmitting, "isSubmittingisSubmitting")
             return(
             
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">

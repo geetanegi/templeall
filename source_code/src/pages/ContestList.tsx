@@ -33,6 +33,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { useLocation } from "react-router-dom";
 
 import BG from "../assets/images/dashboardBG.svg";
+import { timeZone } from "../utils/TimeUtils";
 
 const ContestList: React.FC = () => {
   const location = useLocation();
@@ -162,7 +163,8 @@ const ContestList: React.FC = () => {
       const res = await apiService.post<any>(API_URL.getContestByTeeId, {
         data: {
           teeId: selectedTeeId,
-          date: moment().format("YYYY-MM-DD"),
+          date: moment().utc().format(),
+          zoneId: timeZone,
         },
       });
       if (res.status === 200 && !res.data.error) {

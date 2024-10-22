@@ -59,7 +59,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
                   position: "relative",
                   // padding: "5px",
                   borderRadius: "5px",
-                  // backgroundColor:
                   //   hasError || isIncomplete ? "" : "rgba(83, 83, 83, 0.8)",
                   transition: "background-color 0.3s ease",
                 }}
@@ -82,7 +81,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
                     setError(error);
                     if (error) {
                       setIsIncomplete(true);
-                      setFieldValue(name, null);
                     } else {
                       setIsIncomplete(false);
                     }

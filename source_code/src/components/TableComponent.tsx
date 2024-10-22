@@ -1,115 +1,130 @@
-import React from 'react'
-import PaginationComponent from './PaginationComponent';
+import React from "react";
+import PaginationComponent from "./PaginationComponent";
 
 interface TableComponentProps {
-    Headers: Array<any>;
-    rowData: Array<any>;
-    currentPage?: number;
-    setCurrentPage?: (page: number) => void
-    pageSize?: number;
-    setPageSize?: (pageSize: number) => void
-    totalPages?: number;
-    totalAdminCount?: Array<any>
-    pagination?: boolean;
-    style?:any
+  Headers: Array<any>;
+  rowData: Array<any>;
+  currentPage?: number;
+  setCurrentPage?: (page: number) => void;
+  pageSize?: number;
+  setPageSize?: (pageSize: number) => void;
+  totalPages?: number;
+  totalAdminCount?: Array<any>;
+  pagination?: boolean;
+  style?: any;
+  oddRowStyle?: React.CSSProperties;
 }
 
-const TableComponent: React.FC<TableComponentProps> = ({ Headers, rowData, currentPage = 0, setCurrentPage = () => { }, totalPages = 1, pageSize = 10, setPageSize = () => { }, totalAdminCount = [], pagination = true, style={} }) => {
+const TableComponent: React.FC<TableComponentProps> = ({
+  Headers,
+  rowData,
+  currentPage = 0,
+  setCurrentPage = () => {},
+  totalPages = 1,
+  pageSize = 10,
+  setPageSize = () => {},
+  totalAdminCount = [],
+  pagination = true,
+  style = {},
+  oddRowStyle = {},
+}) => {
+  const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
 
-    const rowCount = Array.from({ length: 10 }, (_, index) => index + 1)
+  const totalPage =
+    rowData.length >= pageSize
+      ? Math.ceil(totalAdminCount.length / pageSize)
+      : 1;
 
-    const totalPage = (rowData.length >= pageSize) ? Math.ceil(totalAdminCount.length / pageSize) : 1;
+  const handlePageSizeChange = (value: any) => {
+    setCurrentPage(0);
+    setPageSize(value.target.value);
+  };
 
-    const handlePageSizeChange = (value: any) => {
-        setCurrentPage(0)
-        setPageSize(value.target.value)
-    }
+  const scrollbarStyles: React.CSSProperties = {
+    overflow: "auto", // Enable scrolling
+    scrollbarWidth: "none", // Firefox
+    msOverflowStyle: "none", // IE and Edge
+  };
 
-    const scrollbarStyles: React.CSSProperties = {
-        overflow: 'auto', // Enable scrolling
-        scrollbarWidth: 'none', // Firefox
-        msOverflowStyle: 'none', // IE and Edge
-    };
-
-
-    return (
-        <div className="min-h-screen h-full flex mt-3 pb-14 text-sm"
+  return (
+    <div className="mt-3 flex h-full mb-2 text-sm">
+      <div className="w-full">
+        <div
+          className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg" : "rounded-t-lg"} 2xl:max-w-none mt-2 border border-gray-100 md:overflow-auto`}
+          style={rowData.length ? {} : scrollbarStyles}
         >
-            <div className="w-full  px-2">
-                <div className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg " : "rounded-t-lg"} border border-gray-100  md:overflow-auto  2xl:max-w-none mt-2`}
-                    style={rowData.length ?  {}:scrollbarStyles}
-
+          <table className="font-inter w-full table-auto overflow-scroll border text-left text-sm md:overflow-auto">
+            <thead className="w-full rounded-lg text-base font-semibold text-white">
+              <tr className="bg-[#F3F6F9] text-sm">
+                {Headers.map((item, index) => {
+                  return (
+                    <th
+                      key={index}
+                      className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
+                      style={{
+                        width: "max-content",
+                      }}
+                    >
+                      {item.field}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody className="bg-white text-sm">
+              {rowData?.map((data, index) => (
+                <tr
+                  key={index}
+                  style={(index + 1) % 2 !== 0 ? oddRowStyle : {}}
                 >
-                    <table className="table-auto overflow-scroll md:overflow-auto w-full text-left font-inter border text-sm ">
-                        <thead className="rounded-lg text-base text-white font-semibold w-full">
-                            <tr className="bg-[#F3F6F9] text-sm">
-                                {
-                                    Headers.map((item, index) => {
-                                        return (
-                                            <th key={index} className={`py-3 px-3  text-[#7B7887] font-normal whitespace-nowrap ${style}`}
-                                                style={{
-                                                    width: "max-content"
-                                                }}
-                                            >
-                                                {item.field}
-                                            </th>
-                                        )
-                                    })
-                                }
-                            </tr>
-                        </thead>
-                        <tbody className='bg-white text-sm'>
-                            {rowData?.map((data, index) => (
-                                <tr key={index} >
-                                    {
-                                        Object.entries(data).map(([key], index) => {
-                                            return (
-                                                <td
-                                                    key={index}
-                                                    className={`py-2 px-3 font-normal  whitespace-nowrap text-black`}
-                                                >
-                                                    {data[key]}
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                            ))}
-
-                        </tbody>
-                    </table>
-                </div>
-                {
-                    rowData.length ? null : <div className='flex justify-center h-[100px] align-center border rounded-b-lg bg-white w-full'><div className='my-auto'>Nothing to display</div></div>
-                }
-                {
-                    pagination ?
-                        <div className="w-full  flex justify-center mt-5 sm:justify-between flex-col sm:flex-row gap-5 mt-1.5 px-1 items-center">
-                            <div className='flex  items-center  justify-center'>
-                                <div >Page</div>
-                                <select
-                                    name="example"
-                                    id="example"
-                                    onChange={handlePageSizeChange}
-                                    className='border border-gray-200  h-[30px]  px-5 mx-2 rounded-md'>
-                                    {
-                                        rowCount.map((row) => (
-                                            <option selected={pageSize === row} value={row}>{row}</option>
-                                        ))
-                                    }
-                                </select>
-                                <div>of 10</div>
-                            </div>
-                            <PaginationComponent
-                                currentPage={currentPage}
-                                setCurrentPage={setCurrentPage}
-                                totalPages={totalPages ? totalPages : totalPage}
-                            />
-                        </div> : null
-                }
-            </div>
+                  {Object.entries(data).map(([key], index) => {
+                    return (
+                      <td
+                        key={index}
+                        className={`whitespace-nowrap px-3 py-2 font-normal text-black`}
+                      >
+                        {data[key]}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
-}
+        {rowData.length ? null : (
+          <div className="align-center flex h-[100px] w-full justify-center rounded-b-lg border bg-white">
+            <div className="my-auto">Nothing to display</div>
+          </div>
+        )}
+        {pagination ? (
+          <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
+            <div className="flex items-center justify-center">
+              <div>Page</div>
+              <select
+                name="example"
+                id="example"
+                onChange={handlePageSizeChange}
+                className="mx-2 h-[30px] rounded-md border border-gray-200 px-5"
+              >
+                {rowCount.map((row) => (
+                  <option selected={pageSize === row} value={row}>
+                    {row}
+                  </option>
+                ))}
+              </select>
+              <div>of 10</div>
+            </div>
+            <PaginationComponent
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages ? totalPages : totalPage}
+            />
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+};
 
-export default TableComponent
+export default TableComponent;

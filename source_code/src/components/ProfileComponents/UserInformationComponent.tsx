@@ -42,7 +42,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
 
   return (
     <>
-      <div className=' lg:relative slex mt-16 lg:mt-auto w-[245px] h-[298px]  lg:right-0 bg-[#ffffff99]   rounded-lg mx-auto lg:mx-0  sm:ml-10 p-4'
+      <div className=' lg:relative slex mt-16 w-[245px] h-[298px]  lg:right-0 bg-[#ffffff99]   rounded-lg mx-auto lg:mx-0  sm:ml-10 p-4'
         style={{ height: "max-content" }}
       >
 

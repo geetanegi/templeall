@@ -76,7 +76,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({setDataLengt
         await makeApiCall(API_URL.getAllShotOfTheWeek)
       }
     } catch (error) {
-
+      ToastError("Something went wrong.")
     } finally {
       dispatch(setLoading(false));
       setActiveStatus('')

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import BettingOverview from './BettingOverview'
-import UserinformationComponent from './UserInformationComponent'
 import AdminProfileComponent from './AdminProfileComponent'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
@@ -10,7 +9,7 @@ import { API_URL } from '../../services/enums';
 import { ToastError } from '../Toast';
 import UpdateProfileModal from './UpdateProfileModal';
 import ImageComponent from './ImageComponent';
-import { updateProfileImage } from '../../reducers/Profiler/profiler';
+import { updateProfile, updateProfileImage } from '../../reducers/Profiler/profiler';
 
 
 interface ProfileOverviewSectionProps {
@@ -54,6 +53,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         const profileImage = data?.data?.userProfile?.imageBase64
         if (!userId || (userId == (typeof userInfo === "object" ? userInfo.userId : undefined))) {
           dispatch(updateProfileImage({ profileImage }))
+          dispatch(updateProfile({ profiler: data.data }));
         }
       } else if (data?.error && data.description) {
         ToastError(data.description);
@@ -100,7 +100,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
 
   return (
     <div
-      className={`lg:bg-custom-gradient-1 mt-24 sm:mt-0  flex flex-col-reverse mx-auto lg:mx-0 lg:ml-auto sm:flex-row h-[432px] rounded-lg sm:rounded-l-full justify-between  lg:ml-auto  p-6 sm:shadow-lg
+      className={`lg:bg-custom-gradient-1 mt-24 sm:mt-0 w-full  flex flex-col-reverse mx-auto lg:mx-0 lg:ml-auto sm:flex-row h-[432px] rounded-lg sm:rounded-l-full justify-between  lg:ml-auto  p-6 sm:shadow-lg
               ${(!isCommunitySearch || userId) ? '' : "invisible"}
         `}
     >
@@ -113,10 +113,9 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         userInfo={userInfo}
         userId={userId}
       /> :
-        <div className='h-full ml-0 lg:ml-20'>
-          <div className='flex flex-col-reverse sm:flex-row'>
-            <BettingOverview />
-            <UserinformationComponent
+        <div className='h-full ml-0 lg:ml-20 w-[60%]'>
+          <div className='flex flex-col-reverse w-full justify-between sm:flex-row'>
+            <BettingOverview 
               userinformation={userinformation}
               isModalOpen={isModalOpen}
               fetchUserInformation={fetchUserInformation}

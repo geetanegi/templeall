@@ -12,6 +12,7 @@ import {
 import { ToastError } from "../components/Toast";
 import { useLocation } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
+import PlayerHomePage from "../components/PlayerHomePage/PlayerHomePage";
 
 const Dashboard: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -56,18 +57,18 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const renderAdminPanal = () =>{
-      if(userPermisions?.data?.permission["is_super_admin"]){
-        return <Adminpanel />
-      }else if(userPermisions?.data?.permission["is_course_admin"]){
-        return <Adminpanel isCourseAdmin={true} />
-      }
+
+  if(location.pathname === ROUTES.USERS){
+    if (userPermisions?.data?.permission["is_super_admin"]) {
+      return <Adminpanel />;
+    } else if (userPermisions?.data?.permission["is_course_admin"]) {
+      return <Adminpanel isCourseAdmin={true} />;
+    }
   }
 
   return (
     <div>
-      {location.pathname === ROUTES.USERS && renderAdminPanal()}
-      {userPermisions?.data?.permission["is_player"] && <h1>Player User</h1>}
+      {userPermisions?.data?.permission["is_player"] && <PlayerHomePage />}
       {userPermisions?.data?.permission["is_super_admin"] && (
         <h1>Super Admin</h1>
       )}

@@ -283,12 +283,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     }
   };
 
-  const scrollbarStyles: React.CSSProperties = {
-    overflow: "auto", // Enable scrolling
-    scrollbarWidth: "none", // Firefox
-    msOverflowStyle: "none", // IE and Edge
-  };
-
   const getPlayer = async (searchString: string) => {
     try {
       const payload = {
@@ -368,7 +362,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div
                     className="scrollbar-hidden h-[360px] overflow-auto pt-[6px]"
-                    style={scrollbarStyles}
                   >
                     {!isSoTW ? (
                       <div className="mb-3 px-5">

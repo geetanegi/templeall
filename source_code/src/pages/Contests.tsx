@@ -12,12 +12,15 @@ import { setCourseData } from "../reducers/Courses_data/courses";
 import { ApiResponse } from "../reducers/Courses_data/course";
 import { RootState } from "../store";
 import moment from "moment";
+import momentTz from "moment-timezone";
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
+import { ensureUTC } from "../utils/TimeUtils";
 
 // interface recurrence {
 //   frequency: string;
@@ -145,6 +148,7 @@ const validationSchema = Yup.object({
 
 const Contests: React.FC = () => {
   const dispatch = useDispatch();
+  const tz = momentTz.tz.guess();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -375,22 +379,6 @@ const Contests: React.FC = () => {
     }
   }, [id]);
 
-  const ensureUTC = (date: string | Date): string => {
-    const dateObj = moment(date);
-
-    // Check if the date is valid
-    if (!dateObj.isValid()) {
-      throw new Error("Invalid date provided");
-    }
-
-    // Check if the date is in UTC
-    if (dateObj.utcOffset() === 0) {
-      return dateObj.format(); // Return the original date as it's already in UTC
-    } else {
-      return dateObj.utc().format(); // Convert to UTC and return
-    }
-  };
-
   const handleSubmit = async (
     values: ContestFormValues,
     { setSubmitting }: FormikHelpers<ContestFormValues>,
@@ -404,6 +392,7 @@ const Contests: React.FC = () => {
 
     const obj = {
       data: {
+        timeZone: tz,
         id: id ? id : null,
         name: "Test contest 99",
         contestType: values.contestType,

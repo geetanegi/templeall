@@ -3,10 +3,13 @@ import {
   BookmarkPlus,
   CircleEllipsis,
   Dot,
+  Eye,
   LockKeyholeOpen,
+  MessageCircle,
   Share2,
   ThumbsUp,
   Trash2,
+  Trophy,
   VideoOff,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -16,19 +19,25 @@ import VideoRequestModal from "./VideoRequestModal";
 
 import rejectedVideo from "../../assets/images/rejectedVideo.png";
 import requestvideo from "../../assets/images/requestvideothumbnail.png";
+import videoNotAvailable from "../../assets/images/videoNot_available.png"
 import lockvideo from "../../assets/images/lock.png";
 import ConfirmationModal from "../GenericUIcomponents/ConfirmationModal";
-import { deleteVideos } from "./mediaUtils/mediaUtils";
+import {
+  deleteVideos,
+  formatCount,
+  makeVieoLiked,
+  updateViewCount,
+} from "./mediaUtils/mediaUtils";
 import { ToastError } from "../Toast";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import ShareVideoModal from "./ShareRequestModal";
+import CommentsDrawer from "./CommentsDrawer";
 
 interface VideoCardProps {
   thumbnail?: string;
-  author: string;
   title: string;
   likes?: number;
   views?: string;
@@ -44,20 +53,21 @@ interface VideoCardProps {
   requestVideoPayload: any;
   getAllVideos: () => void;
   setIsVideoPlayerVisible: (flag: boolean) => void;
+  isVideoPlayerVisible: boolean;
   setSelectedVideo: (video: string) => void;
   setRefreshList: (flag: boolean) => void;
   refreshList: boolean;
   isSOTW: boolean;
-  rejectionReason: string;
+  rejectionReason?: string;
+  userInfo: any;
+  width?:string;
+  isEdit?:boolean
 }
 
 const VideoCard: React.FC<VideoCardProps> = ({
   setRefreshList,
   refreshList,
-  author,
   title,
-  likes,
-  views,
   uploadDate,
   isApproved = true,
   isPublished,
@@ -69,9 +79,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
   requestVideoPayload,
   setSelectedVideo,
   setIsVideoPlayerVisible,
+  isVideoPlayerVisible,
   getAllVideos,
   rejectionReason,
-  isSOTW,
+  userInfo,
+  width="280px",
+  isEdit=false
 }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -81,20 +94,33 @@ const VideoCard: React.FC<VideoCardProps> = ({
     useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [like, setlike] = useState<{
+    islike: Boolean;
+    likecount: number | string;
+    click: boolean;
+  }>({
+    islike: requestVideoPayload?.videos?.isUserLiked || false,
+    likecount: requestVideoPayload?.videos?.likes || 0,
+    click: false,
+  });
+  const [videodetails, setVideoDetails] = useState<any>({
+    ...(requestVideoPayload?.videos || {}),
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        dropdownRef?.current &&
+        !dropdownRef?.current?.contains(event?.target as Node)
       ) {
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+    document?.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document?.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
 
@@ -131,43 +157,99 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeCardDetails = () => {
     if (isApproved) {
       return (
-        <div className="p-4">
+        <div className="p-2">
           <div className="mt-2 flex items-center justify-between text-sm text-white">
             <span>
               {/* Author */}
-              <p className="text-sm font-semibold">{author}</p>
+              <p className="text-[16px] font-light">
+                {requestVideoPayload?.videos?.title}
+              </p>
+              <p className="text-[12px] text-sm font-light">
+                {requestVideoPayload?.username || ""}
+              </p>
               {/* Title */}
-              <h5 className="mt-1 text-lg font-bold">{title}</h5>
-            </span>
-            <span className="">
-              {/* Like and Comments Section */}
-              <div className="mt-0 flex h-[16px] w-[44px] items-center justify-between text-sm">
-                {/* Comments */}
-                <div className="flex items-center space-x-5">
-                  <ThumbsUp className="text-blue-500" size={16} />
-                </div>
-
-                {/* Likes */}
-                <div className="flex items-center space-x-2">
-                  <button onClick={() => setIsShareModalOpen(true)}>
-                    <Share2 className="text-gray-300" size={16} />
-                  </button>
-                </div>
-              </div>
-            </span>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-2 flex items-center justify-start text-sm text-gray-400">
-            <span>{views || 0} Views </span>
-            <span>
-              <Dot />
-            </span>
-            <span>{likes || 0} Likes</span>
-            <span>
-              <Dot />
             </span>
             <span>{uploadDate}</span>
+          </div>
+          <div className="mt-1 flex items-center gap-1 text-sm font-light">
+            <Trophy size={13} /> <span className="text-[12px]">{title}</span>{" "}
+          </div>
+          <div className="mt-1 items-center justify-start text-white">
+            <div className="mt-1 flex flex-wrap  text-[14px]">
+              <span className="text-[12px] flex whitespace-nowrap"
+                style={{width:"max-content"}}
+              >
+                {requestVideoPayload?.clubName || ""}
+              <Dot className="mx-[-5px]" />
+              </span>
+              <span className="text-[12px] flex whitespace-nowrap"
+                style={{width:"max-content"}}>
+                Hole#{requestVideoPayload?.holeNumber || ""}
+              <Dot className="mx-[-5px]"  />
+              </span>
+              <span className="text-[12px] flex whitespace-nowrap"
+                style={{width:"max-content"}}>
+                {requestVideoPayload?.teeName || ""}
+              </span>
+            </div>
+          </div>
+          {/* Stats */}
+          <div className={`flex items-center justify-start text-sm ${requestVideoPayload?.videos?.url ? "visible" : "invisible"}`}>
+            <span className="flex items-center justify-center gap-1 text-[12px]">
+              <Eye size={13} /> {videodetails.views ? formatCount(videodetails.views) : 0}
+            </span>
+            <span></span>
+            <div className="n relative ml-auto mr-10 mt-0 flex h-[16px] w-[44px] gap-[12px] text-sm">
+              <div
+                className="flex items-center space-x-5"
+                onClick={() => {
+                  if(requestVideoPayload?.videos?.url){
+                    setIsDrawerOpen(true);
+                  } 
+                }}
+              >
+                <MessageCircle size={16} />
+                <span className="text[#ffffff] absolute right-6 top-0 flex h-[10px] w-[10px] items-center justify-center rounded-full bg-[#FF3B30] text-[8px]">
+                  {videodetails?.commentCount ? formatCount(videodetails.commentCount) : 0}
+                </span>
+              </div>
+              {/* Comments */}
+              <div className="flex gap-1">
+                <ThumbsUp
+                  className={`${like.islike ? "text-blue-500" : ""} `}
+                  size={16}
+                  onClick={() => {
+                    makeVieoLiked(
+                      requestVideoPayload?.videos?.id,
+                      typeof userInfo === "object" ? userInfo.userId : "",
+                      requestVideoPayload?.videos?.isUserLiked,
+                    );
+                    setlike({
+                      ...like,
+                      islike: !like.islike,
+                      likecount: like.islike
+                        ? Number(like.likecount) - 1
+                        : Number(like.likecount) + 1,
+                      click: true,
+                    });
+                  }}
+                />
+                <span className="text-[16px]">
+                  {like.click
+                    ? formatCount(like.likecount)
+                    : requestVideoPayload?.videos?.likes ? formatCount(requestVideoPayload?.videos?.likes) : 0}
+                </span>
+              </div>
+              {/* Likes */}
+              <div className="flex items-center space-x-2">
+                <button onClick={() => setIsShareModalOpen(true)}>
+                  <Share2 className="text-gray-300" size={16} />
+                </button>
+              </div>
+            </div>
+            {/* <span>
+              <Dot />
+            </span> */}
           </div>
         </div>
       );
@@ -201,7 +283,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                   >
                     <LockKeyholeOpen size={12} />
                     <span>
-                      {requestVideoPayload.status === "REJECT"
+                      {requestVideoPayload?.status === "REJECT"
                         ? "Re-Request Video"
                         : "Request Video"}{" "}
                     </span>
@@ -240,10 +322,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeVideoThumbnail = () => {
     if (isApproved) {
       return (
-        <div className="h-full w-full rounded-t-lg object-cover">
+        <div className="h-full w-full rounded-t-lg object-cover bg-gray-100">
           <img
             className="h-full w-full rounded-t-lg object-cover"
-            src={requestVideoPayload?.videos?.thumbnailUrl || ""}
+            src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
             alt=""
           />
         </div>
@@ -280,8 +362,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
       dispatch(setLoading(true));
       let payload = {};
       let endPoint = API_URL.publishVideos;
-
-      if (isSOTW) {
+      if (requestVideoPayload.type === "SOTW") {
         endPoint = API_URL.publishSOTW;
         payload = { sowId: requestVideoPayload.id, isPublished: !isPublished };
       } else {
@@ -309,10 +390,25 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const refreshVideo = () => {
     setRefreshList(!refreshList);
   };
+  const computeCategory = () => {
+    if (requestVideoPayload.type === "SOTW") {
+      return "Shot-of-the-Week";
+    } else {
+      if (requestVideoPayload?.videoCategory === "TOP_SHOT") {
+        return "Top Shot";
+      } else if (requestVideoPayload?.videoCategory === "NOT_TOP_SHOT") {
+        return "Not top shot";
+      } else {
+        return requestVideoPayload?.videoCategory;
+      }
+    }
+  };
 
   return (
     <>
-      <div className="w-[280px] max-w-sm cursor-pointer rounded-lg border border-gray-800 bg-[#1D1A0C] text-white shadow-lg">
+      <div className={`cursor-pointer rounded-lg border border-gray-100 bg-[#1D1A0C] text-white shadow-lg`}
+        style={{width: width}}
+      >
         {/* Thumbnail with duration and overlay icons */}
         <div className="relative h-[175px] overflow-hidden rounded-t-lg bg-[#ffffff]">
           {computeVideoThumbnail()}
@@ -325,7 +421,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                   <div className="rounded-full bg-[#FFFFFF26] p-2">
                     <VideoOff
                       color="#ffffff"
-                      //   strokeWidth={1}
+                      // strokeWidth={1}
                       size={36}
                       className="rounded-full bg-[#FFFFFF59] p-2 font-extralight"
                     />
@@ -338,25 +434,41 @@ const VideoCard: React.FC<VideoCardProps> = ({
             ) : (
               <PiPlayCircleBold
                 style={{ height: "38px", width: "38px" }}
+                className={`${requestVideoPayload?.videos?.url ? "visible" : "invisible"}`}
                 onClick={() => {
                   if (isApproved) {
-                    setSelectedVideo(requestVideoPayload?.videos?.url || "");
-                    setIsVideoPlayerVisible(true);
+                    if (!isVideoPlayerVisible && requestVideoPayload?.videos?.url) {
+                      setSelectedVideo(requestVideoPayload?.videos?.url || "");
+                      setIsVideoPlayerVisible(true);
+                      if (requestVideoPayload?.videos?.url) {
+                        updateViewCount(requestVideoPayload?.videos?.id);
+                        setVideoDetails({
+                          ...videodetails,
+                          views: Number(videodetails.views) + 1,
+                        });
+                      }
+                    }
                   }
                 }}
               />
             )}
           </div>
+          {/* Duration tag */}
           <video
             ref={videoRef}
             src={requestVideoPayload?.videos?.url || ""}
             style={{ display: "none" }}
           />
-          {/* Duration tag */}
           {isApproved ? (
-            <span className="absolute bottom-2 right-2 rounded bg-black px-2 py-1 text-xs font-semibold text-white">
-              {duration ? Math.floor(duration * 100) / 100 : ""}
-            </span>
+            <div className="absolute bottom-0 w-full">
+              <div className="flex h-4 w-full items-center justify-between bg-[black] px-3 text-[10px] opacity-70">
+                <span>{computeCategory()}</span>
+                <span className="ml-auto text-[10px] text-[#FFFFFF]">
+                  <span className="mr-[10px]">|</span>
+                  {duration ? Math.floor(duration * 100) / 100 : ""}
+                </span>
+              </div>
+            </div>
           ) : null}
           {/* Bookmark and more options */}
           <div className="absolute left-2 top-[-2px]">
@@ -369,10 +481,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className="absolute right-2 top-2">
             {isApproved ? (
               <div className="relative inline-block" ref={dropdownRef}>
-                <BsThreeDotsVertical
-                  className="cursor-pointer rounded-full bg-[#1D1A0C99] p-1 text-[24px] text-white"
-                  onClick={() => setIsOpen(!isOpen)}
-                />
+                {isEdit ? (
+                  <BsThreeDotsVertical
+                    className="cursor-pointer rounded-full bg-[#1D1A0C99] p-1 text-[24px] text-white"
+                    onClick={() => setIsOpen(!isOpen)}
+                  />
+                ) : null}
                 {isOpen && (
                   <div
                     className="absolute z-10 rounded border bg-white shadow-lg"
@@ -419,7 +533,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
         onOk={() => {
           setIsConfirmationModalOpen(false);
           deleteVideos(
-            isSOTW ? "SOTW_VIDEO" : "REQUEST_VIDEO",
+            requestVideoPayload?.type === "SOTW"
+              ? "SOTW_VIDEO"
+              : "REQUEST_VIDEO",
             requestVideoPayload?.id,
             refreshVideo,
           );
@@ -435,9 +551,24 @@ const VideoCard: React.FC<VideoCardProps> = ({
             setIsShareModalOpen={() => setIsShareModalOpen(false)}
           />
         </div>
-      ) : (
-        <div></div>
-      )}
+      ) : null}
+      <CommentsDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        videoId={requestVideoPayload?.videos?.id || ""}
+        setVideoDetails={setVideoDetails}
+        videoDetails={videodetails}
+        requestVideoPayload={requestVideoPayload}
+        updateViewCount={()=>{
+            if (requestVideoPayload?.videos?.url) {
+                updateViewCount(requestVideoPayload?.videos?.id);
+                setVideoDetails({
+                  ...videodetails,
+                  views: Number(videodetails.views) + 1,
+                });
+            }
+        }}
+      />
     </>
   );
 };

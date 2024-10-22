@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import aceCampLogo from "./assets/images/aceCamp_logo.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,15 +15,24 @@ import defaultUserImage from "./assets/images/default-user 1.png";
 import BreadCumModal from "./components/Contests/Contest Components/BreadCumModal";
 import { clearAllSelectedContests } from "./reducers/Courses_data/courses";
 import { ToastError } from "./components/Toast";
-import { updateProfile, updateProfileImage } from "./reducers/Profiler/profiler";
+import {
+  updateProfile,
+  updateProfileImage,
+} from "./reducers/Profiler/profiler";
+import { Bell, ChevronDown, Dot } from "lucide-react";
 
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const userPermisions = useSelector(
+    (state: RootState) => state.auth.userPermissions,
+  );
   const profileImage =
     useSelector((state: RootState) => state.profiler.profileImage) || "";
-    const profiledetails =
+  const profiledetails =
     useSelector((state: RootState) => state.profiler.profile) || "";
   const location = useLocation();
   const data = useSelector(
@@ -53,7 +62,7 @@ const Nav: React.FC = () => {
 
   useEffect(() => {
     getUserRole();
-    fetchUserInformation()
+    fetchUserInformation();
   }, []);
   const menuList = data?.data?.menuList;
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -127,6 +136,25 @@ const Nav: React.FC = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside the dropdown
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Clean up the event listener on component unmount
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="w-full border-b border-gray-200 bg-white shadow dark:bg-gray-900">
@@ -215,11 +243,12 @@ const Nav: React.FC = () => {
                             className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                             id="user-dropdown"
                           >
-                            <div className="px-4 py-3 cursor-pointer" >
-                              <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
-                                {profiledetails.firstName} {profiledetails.lastName}
+                            <div className="cursor-pointer px-4 py-3">
+                              <span className="block cursor-pointer text-sm text-gray-900 dark:text-white">
+                                {profiledetails.firstName}{" "}
+                                {profiledetails.lastName}
                               </span>
-                              <span className="block truncate text-sm cursor-pointer text-gray-500 dark:text-gray-400">
+                              <span className="block cursor-pointer truncate text-sm text-gray-500 dark:text-gray-400">
                                 {profiledetails.email}
                               </span>
                             </div>
@@ -273,33 +302,61 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
+            <div className="relative">
+              <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                4
+              </span>
+              <Bell color="#7b7887" strokeWidth={2} />
+            </div>
             <button
               type="button"
-              className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600"
+              className="flex items-center justify-center"
               onClick={toggleDropdown}
+              style={{ width: "max-content" }}
             >
               <span className="sr-only">Open user menu</span>
-              {profileImage ? (
-                <img
-                  className="h-8 w-8 rounded-full"
-                  src={`data:image/png;base64,${profileImage}`}
-                  alt="user photo"
-                />
-              ) : (
-                <img src={defaultUserImage} alt="" className="h-8 w-8" />
-              )}
+              <div className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600">
+                {profileImage ? (
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src={`data:image/png;base64,${profileImage}`}
+                    alt="user photo"
+                  />
+                ) : (
+                  <img src={defaultUserImage} alt="" className="h-10 w-10" />
+                )}
+              </div>
+              <div className="mx-4">
+                <div className="flex">
+                  {profiledetails?.firstName || ""}{" "}
+                  {profiledetails?.lastName || ""}
+                </div>
+                {userPermisions?.data?.permission["is_player"] ? (
+                  <div className="flex text-[#7B7887]">
+                    <span className="text-[12px]">
+                      HDCP: {profiledetails?.userProfile?.handicap}
+                    </span>
+                    <Dot className="mx-[-4px]" />
+                    <span className="text-[12px]">
+                      GHIN: {profiledetails?.userProfile?.ghin}
+                    </span>
+                  </div>
+                ) : null}
+              </div>
+              <ChevronDown size={24} color="#1D1A0C" />
             </button>
 
             {dropdownOpen && (
               <div
+                ref={dropdownRef}
                 className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                 id="user-dropdown"
               >
-                <div className="px-4 py-3 cursor-pointer">
-                  <span className="block text-sm cursor-pointer text-gray-900 dark:text-white">
-                  {profiledetails.firstName} {profiledetails.lastName}
+                <div className="cursor-pointer px-4 py-3">
+                  <span className="block cursor-pointer text-sm text-gray-900 dark:text-white">
+                    {profiledetails.firstName} {profiledetails.lastName}
                   </span>
-                  <span className="block truncate cursor-pointer text-sm text-gray-500 dark:text-gray-400">
+                  <span className="block cursor-pointer truncate text-sm text-gray-500 dark:text-gray-400">
                     {profiledetails.email}
                   </span>
                 </div>

@@ -76,7 +76,7 @@ const ContestManagement = () => {
   const getStatus = (status: string) => {
     if (status == "Active") {
       return (
-        <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#FD8A0233] py-0.5 text-[#FD8A02]">
+        <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#97D0A533] py-0.5 text-[#248A3D]">
           <MdSportsGolf className="size-5" />
           <span className="text-xs">{status}</span>
         </div>
@@ -240,6 +240,8 @@ const ContestManagement = () => {
         <ContestList />
       </div>
     );
+  }else if(!userPermisions?.data?.permission){
+    return <div className="h-[100vh] bg-[#ffffff]"></div>
   }
 
   return (

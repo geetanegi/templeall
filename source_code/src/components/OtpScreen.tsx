@@ -56,7 +56,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       let dataForRegister = {
         tempUserId: localStorage.getItem("tokenRegisterPassword"),
       };
-      const newData = { otp, username };
+      const newData = { username, mode: "WEB" };
       const { data, status } = await apiService.post<any>(urlResend, {
         data: url ? dataForRegister : newData,
       });
@@ -128,9 +128,9 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   return (
     <>
       <div className="flex flex-col items-center space-y-2">
-        <h4 className="text-xs md:text-sm">
+        <h4 className="px-6 text-xs md:text-sm">
           Enter the OTP sent to{" "}
-          <span className="font-semibold text-red-600">
+          <span className="text-[16px] font-bold text-black">
             {email ? email : maskEmail}
           </span>
         </h4>
@@ -142,10 +142,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             <p className="text-xs text-gray-500 md:text-sm">
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold ${timeLeft > 0 && isRunning
-                  ? "cursor-not-allowed opacity-60"
-                  : "cursor-pointer text-red-600"
-                  }`}
+                className={`font-semibold ${
+                  timeLeft > 0 && isRunning
+                    ? "cursor-not-allowed opacity-60"
+                    : "cursor-pointer text-red-600"
+                }`}
                 onClick={handleReset}
                 disabled={timeLeft > 0 && isRunning}
               >
@@ -153,14 +154,16 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
               </button>
             </p>
           </div>
-          <p className="mb-4 text-right text-xs font-semibold text-gray-700 md:text-sm">
-            OTP is valid for 5 minutes
-          </p>
+          <div className="flex w-full flex-col justify-between md:w-auto md:flex-row">
+            <p className="mb-4 pl-6 text-xs font-semibold text-gray-700 sm:text-left md:px-0 md:text-center md:text-sm lg:text-right">
+              OTP is valid for 5 minutes
+            </p>
+          </div>
         </div>
 
         <button
           onClick={handleOTP}
-          className="w-full rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600"
+          className="w-48 rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600 md:w-full"
         >
           Verify
         </button>

@@ -98,6 +98,14 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       }
     }, [pageSize, currentPage, totalAdminCount, searchString]);
 
+    useEffect(()=>{
+      if(selectedUserTab === 3){
+        if(searchString.length){
+          handleUserSearch()
+        }
+      }
+    },[currentPage, pageSize])
+
     const handleActiveDeactiveUser = async (value: boolean, userId: any) => {
       dispatch(setLoading(true));
       try {
@@ -321,6 +329,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setTotalPages(data.data.totalPages);
         } else if (data?.error && data.description) {
           ToastError(data.description);
+          setRowData([])
         }
       } catch (error) {
         ToastError("Something went wrong");
@@ -385,7 +394,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
                     setSearchString(event.target.value)
                 }}
               placeholder={computeSearchPlaceholder()}
-              
+              maxLength={100}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleUserSearch();

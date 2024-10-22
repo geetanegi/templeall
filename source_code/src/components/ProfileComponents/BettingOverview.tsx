@@ -197,7 +197,6 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
             </div> : null
           }
         </div>
-
         <UserinformationComponent
           userinformation={userinformation}
           isModalOpen={isModalOpen}

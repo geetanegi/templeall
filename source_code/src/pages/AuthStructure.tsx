@@ -33,19 +33,19 @@ const AuthStructure: React.FC = () => {
           className={`flex h-full w-full flex-col ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} md:flex-row`}
         >
           {location.pathname === ROUTES.LOGIN && (
-            <div className="mx-auto flex w-full flex-col items-center justify-center overflow-y-auto p-12  md:max-w-3xl md:p-8">
+            <div className="mx-auto flex w-full flex-col items-center justify-center  p-12  md:max-w-3xl md:p-8">
               {location.pathname === ROUTES.LOGIN && <Login />}
             </div>
           )}
           {location.pathname === ROUTES.FORGET_PASSWORD && (
-            <div className="mx-auto flex w-full flex-col items-center justify-center overflow-y-auto p-12 md:max-w-3xl md:p-8">
+            <div className="mx-auto flex w-full flex-col items-center justify-center  p-12 md:max-w-3xl md:p-8">
               {location.pathname === ROUTES.FORGET_PASSWORD && (
                 <ForgetPassword />
               )}
             </div>
           )}
           {location.pathname === ROUTES.RESET_PASSWORD && (
-            <div className="mx-auto flex w-full flex-col items-center justify-center overflow-y-auto p-12 md:max-w-2xl md:p-8">
+            <div className="mx-auto flex w-full flex-col items-center justify-center  p-12 md:max-w-2xl md:p-8">
               {location.pathname === ROUTES.RESET_PASSWORD && <ResetPassword />}
             </div>
           )}
@@ -60,7 +60,7 @@ const AuthStructure: React.FC = () => {
           )}
 
           {location.pathname === ROUTES.STRIPE && (
-            <div className="flex w-full flex-col items-center justify-center overflow-y-auto p-6 pt-[100px] md:w-3/5 md:p-8">
+            <div className="flex w-full flex-col items-center justify-center  p-6 pt-[100px] md:w-3/5 md:p-8">
               <StripeIntegration></StripeIntegration>
             </div>
           )}

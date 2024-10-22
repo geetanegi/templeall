@@ -228,7 +228,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       id: string,
       activeStatus: boolean,
     ) => {
-      console.log("image", image)
       return (
         <div
           className={`flex h-[40px] ${activeStatus ? "cursor-pointer" : "cursor-not-allowed"}`}

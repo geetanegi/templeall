@@ -304,6 +304,8 @@ const ContestList: React.FC = () => {
                           recurringType: contestListItem.recurringType,
                           scheduleContestId: contestListItem.scheduleContestId,
                           selectedTeeType: selectedTeeType,
+                          progressiveContestId:
+                            contestListItem.progressiveContestId,
                         }}
                       />
                     ))}

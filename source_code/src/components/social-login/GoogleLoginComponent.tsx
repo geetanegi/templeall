@@ -7,8 +7,10 @@ import { login } from "../../reducers/login/login";
 import { useNavigate } from "react-router-dom";
 import { ToastError } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
-const LoginButton: React.FC = () => {
 
+import GoogleIcon from "../../assets/images/Google.svg";
+
+const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const handleLoginSuccess = async (response: CredentialResponse) => {
@@ -25,7 +27,6 @@ const LoginButton: React.FC = () => {
   //     console.error("Login failed", error);
   //   }
 
-
   // };
 
   const handleLoginSuccess = async (response: CredentialResponse) => {
@@ -40,11 +41,14 @@ const LoginButton: React.FC = () => {
         dispatch(
           login({
             token: data?.data?.token,
-            userInfo: { username: "", password: "", userId: data?.data?.userId },
+            userInfo: {
+              username: "",
+              password: "",
+              userId: data?.data?.userId,
+            },
           }),
         );
         navigate("/dashboard");
-
       } else if (status === 200 && data?.error && data?.description) {
         ToastError(data?.description);
       } else {
@@ -58,15 +62,18 @@ const LoginButton: React.FC = () => {
   };
 
   return (
-    <GoogleLogin
-      onSuccess={handleLoginSuccess}
-      onError={() => {
-        console.log("Login Failed");
-      }}
-      shape="circle"
-      size="medium"
-      type="icon"
-    />
+    <div>
+      <img src={GoogleIcon} />
+    </div>
+    // <GoogleLogin
+    //   onSuccess={handleLoginSuccess}
+    //   onError={() => {
+    //     console.log("Login Failed");
+    //   }}
+    //   shape="circle"
+    //   size="medium"
+    //   type="icon"
+    // />
   );
 };
 

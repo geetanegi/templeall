@@ -7,6 +7,11 @@ import QRCode from "react-qr-code";
 import { API_URL } from "../../../services/enums.ts";
 import PaginationComponent from "../../PaginationComponent.tsx";
 import Golf from "../../../assets/images/golf_course.png";
+import PageLoader from "../../PageLoader.tsx";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/index.ts";
+import { setLoading } from "../../../reducers/loader/loader.ts";
+import QRModal from "./QRModal.tsx";
 
 interface CourseTableProps {
   selectedHoles?: string[] | null;
@@ -17,6 +22,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
   selectedCourse,
   selectedHoles,
 }) => {
+  const dispatch = useDispatch();
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
+
   const [courseData, setCourseData] = useState<Club[]>([]);
   const qrCodeRefs = useRef<{ [key: string]: SVGSVGElement | null }>({});
   const [filterCourses, setFilterCourses] = useState<Course[] | null>([]);
@@ -24,6 +32,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
   const [pageSize, setPageSize] = useState<number>(5);
   const [dataPerPage, setDataPerPage] = useState<any>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [selectedQR, setSelectedQR] = useState<any | null>(null);
 
   const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -87,6 +97,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
   const fetchCourseData = async () => {
     try {
+      dispatch(setLoading(true));
       const res = await apiService.post<ApiResponse>(API_URL.getCourseData, {
         data: {
           sortDir: "ASC",
@@ -102,6 +113,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
       }
     } catch (error) {
       ToastError("Error fetching course data");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -166,6 +179,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
     }
   };
 
+  const handlePreview = (url: string) => {
+    setOpenModal(true);
+    setSelectedQR(url);
+  };
+
   const renderCourses = (courses: Course[]) => {
     return courses.map((course) => (
       <tr
@@ -179,7 +197,18 @@ const CourseTable: React.FC<CourseTableProps> = ({
               <LandPlot className="h-5 w-5 text-gray-400" />
               <span className="font-semibold">{course?.courseName}</span>
             </span>
-            <div>
+            <div className="flex gap-1">
+              <button
+                onClick={() =>
+                  handlePreview(
+                    `${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`,
+                  )
+                }
+                className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
+              >
+                <QrCode className="mr-1 w-4 text-gray-600" />
+                Preview
+              </button>
               <button
                 onClick={() => downloadQRCode(`course-${course.id}`, "png")}
                 className="font-weight-400 flex justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
@@ -207,7 +236,18 @@ const CourseTable: React.FC<CourseTableProps> = ({
                       Hole #{hole?.holeNumber} - Par {hole?.par}
                     </span>
                   </span>
-                  <div>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() =>
+                        handlePreview(
+                          `${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`,
+                        )
+                      }
+                      className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
+                    >
+                      <QrCode className="mr-1 w-4 text-gray-600" />
+                      Preview
+                    </button>
                     <button
                       onClick={() => downloadQRCode(holeKey, "png")}
                       className="font-weight-400 flex justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
@@ -226,82 +266,91 @@ const CourseTable: React.FC<CourseTableProps> = ({
   };
 
   return (
-    <div className="mt-6 flex h-full min-h-screen pb-14">
-      <div className="2xl:max-w-none mt-2 w-full max-w-7xl overflow-x-scroll md:overflow-auto">
-        <div className="overflow-x-auto">
-          <table className="font-inter w-full table-auto overflow-scroll border text-left md:overflow-auto">
-            <thead className="w-full rounded-lg text-base font-semibold text-white">
-              <tr className="flex justify-between bg-[##ffffff]">
-                <th className="whitespace-nowrap px-11 py-3 font-normal text-[#8d94a1] sm:text-base">
-                  COURSES
-                </th>
-                <th className="whitespace-nowrap px-11 py-3 font-normal text-[#8d94a1] sm:text-base">
-                  DOWNLOAD
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">{renderCourses(dataPerPage)}</tbody>
-          </table>
-        </div>
-        {courseData[0]?.courseList.length > 10 && (
-          <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
-            <div className="align-center flex h-[30px] justify-center">
-              <p>Page</p>
-              <select
-                name="example"
-                id="example"
-                onChange={handlePageSizeChange}
-                className="mx-2 rounded-md border border-gray-200 px-5"
-              >
-                {rowCount.map((row, i) => (
-                  <option key={i} selected={5 === row} value={row}>
-                    {row}
-                  </option>
-                ))}
-              </select>
-              <p>of 10</p>
-            </div>
-            <PaginationComponent
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-            />
+    <PageLoader isActive={loader}>
+      <div className="mt-6 flex h-full min-h-screen pb-14">
+        <div className="2xl:max-w-none mt-2 w-full max-w-7xl overflow-x-scroll md:overflow-auto">
+          <div className="overflow-x-auto">
+            <table className="font-inter w-full table-auto overflow-scroll border text-left md:overflow-auto">
+              <thead className="w-full rounded-lg text-base font-semibold text-white">
+                <tr className="flex justify-between bg-[##ffffff]">
+                  <th className="whitespace-nowrap px-11 py-3 font-normal text-[#8d94a1] sm:text-base">
+                    COURSES
+                  </th>
+                  <th className="whitespace-nowrap px-11 py-3 font-normal text-[#8d94a1] sm:text-base">
+                    DOWNLOAD
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white">{renderCourses(dataPerPage)}</tbody>
+            </table>
           </div>
-        )}
-      </div>
+          {courseData[0]?.courseList.length > 10 && (
+            <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
+              <div className="align-center flex h-[30px] justify-center">
+                <p>Page</p>
+                <select
+                  name="example"
+                  id="example"
+                  onChange={handlePageSizeChange}
+                  className="mx-2 rounded-md border border-gray-200 px-5"
+                >
+                  {rowCount.map((row, i) => (
+                    <option key={i} selected={5 === row} value={row}>
+                      {row}
+                    </option>
+                  ))}
+                </select>
+                <p>of 10</p>
+              </div>
+              <PaginationComponent
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+              />
+            </div>
+          )}
+        </div>
 
-      {/* QR code components rendered off-screen */}
-      <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
-        {courseData[0]?.courseList?.map((course) => (
-          <React.Fragment key={course.id}>
-            <QRCode
-              value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
-              size={500}
-              // level="H"
-              bgColor="#FFFFFF"
-              fgColor="#000000"
-              ref={(el: any) =>
-                (qrCodeRefs.current[`course-${course.id}`] = el)
-              }
-            />
-            {course.holeList?.map((hole) => {
-              const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
-              return (
-                <QRCode
-                  key={holeKey}
-                  value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`}
-                  size={500}
-                  // level="H"
-                  bgColor="#FFFFFF"
-                  fgColor="#000000"
-                  ref={(el: any) => (qrCodeRefs.current[holeKey] = el)}
-                />
-              );
-            })}
-          </React.Fragment>
-        ))}
+        {/* QR code components rendered off-screen */}
+        <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
+          {courseData[0]?.courseList?.map((course) => (
+            <React.Fragment key={course.id}>
+              <QRCode
+                value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
+                size={500}
+                // level="H"
+                bgColor="#FFFFFF"
+                fgColor="#000000"
+                ref={(el: any) =>
+                  (qrCodeRefs.current[`course-${course.id}`] = el)
+                }
+              />
+              {course.holeList?.map((hole) => {
+                const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
+                return (
+                  <QRCode
+                    key={holeKey}
+                    value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`}
+                    size={500}
+                    // level="H"
+                    bgColor="#FFFFFF"
+                    fgColor="#000000"
+                    ref={(el: any) => (qrCodeRefs.current[holeKey] = el)}
+                  />
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
-    </div>
+      {openModal && (
+        <QRModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          course={selectedQR}
+        />
+      )}
+    </PageLoader>
   );
 };
 

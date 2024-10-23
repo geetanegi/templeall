@@ -151,7 +151,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           name: computeUserName(
             item.firstName,
             item.lastName,
-            item.userProfile.imageBase64 || '',
+            item?.userProfile?.imageBase64 || '',
             userRole,
             item.id,
             activeStatus,
@@ -432,6 +432,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
                   ? totalPages
                   : Math.ceil(totalAdminCount.length / Number(pageSize))
             }
+            pagination={(selectedUserTab == 3 || searchString) ? totalPages > 1 : totalAdminCount.length / Number(pageSize) > 1 }
             setCurrentPage={setCurrentPage}
             pageSize={pageSize}
             setPageSize={setPageSize}

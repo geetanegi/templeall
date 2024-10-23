@@ -13,7 +13,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   const [tableData, setTableData] = useState<any>([]);
   const displayedData = tableData?.slice(0, 3);
   const headers = [
-    { id: 1, key: "Pos", field: "Pos" },
+    { id: 1, key: "Pos", field: "Position" },
     { id: 2, key: "Username", field: "Username" },
     { id: 3, key: "Proximity(FEET)", field: "Proximity(FEET)" },
     { id: 4, key: "Prize", field: "Prize" },

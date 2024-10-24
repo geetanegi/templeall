@@ -246,7 +246,7 @@ const ContestManagement = () => {
 
   return (
     <div
-      className="bg-admin-bg-position h-full bg-white bg-contain bg-fixed bg-no-repeat pt-10 md:flex-row"
+      className="bg-admin-bg-position h-[90vh] bg-white bg-contain bg-fixed bg-no-repeat pt-10 md:flex-row"
       style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
     >
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
@@ -287,6 +287,7 @@ const ContestManagement = () => {
             currentPage={currentPage}
             totalPages={Math.ceil(totalAdminCount.length / Number(pageSize))}
             setCurrentPage={setCurrentPage}
+            pagination={Math.ceil(totalAdminCount.length / Number(pageSize)) > 1}
             pageSize={pageSize}
             setPageSize={setPageSize}
             totalAdminCount={totalAdminCount}
@@ -300,7 +301,7 @@ const ContestManagement = () => {
         title="Confirmation"
       >
         <>
-          <div className="mb-6 w-full items-center justify-center rounded-bl-lg rounded-br-lg px-6 text-center md:w-[480px]">
+          <div className="mb-6 w-full  items-center justify-center rounded-bl-lg rounded-br-lg px-6 text-center md:w-[480px]">
             <CircleCheck className="m mx-auto mb-6 h-[38px] w-[38px] rounded-full bg-[#248A3D59] p-2" />
             <p className="text-center">
               Are you sure you want to edit the contest? Editing the contest

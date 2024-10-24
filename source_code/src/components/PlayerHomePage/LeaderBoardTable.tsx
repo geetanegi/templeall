@@ -4,6 +4,7 @@ import Modal from "../Modals/Modal";
 import { LeaderboardEntry } from "./LeaderBoard";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routesPath";
+import { Lock } from "lucide-react";
 
 const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   leaderBoardData,
@@ -13,10 +14,10 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   const [tableData, setTableData] = useState<any>([]);
   const displayedData = tableData?.slice(0, 3);
   const headers = [
-    { id: 1, key: "Pos", field: "Pos" },
+    { id: 1, key: "Pos", field: "Position" },
     { id: 2, key: "Username", field: "Username" },
     { id: 3, key: "Proximity(FEET)", field: "Proximity(FEET)" },
-    { id: 4, key: "Prize", field: "Prize" },
+    { id: 4, key: "price", field: "Price" },
   ];
   const updatedTableData = () => {
     const updatedData = leaderBoardData?.map((row: any, index: number) => ({
@@ -37,8 +38,8 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
           <span>{row.username}</span>
         </div>
       ),
-      "Proximity(FEET)": row.proximity,
-      Prize: row.price,
+      "Proximity(FEET)": row.proximity === null ? "---" : row.proximity,
+      price: row.price === null ? <Lock strokeWidth={1.5} /> : row.price,
     }));
     setTableData(updatedData);
     // return updatedData;
@@ -51,6 +52,10 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   return (
     <div>
       <div className="max-h-44 w-full">
+        {leaderBoardData == null ||
+          (leaderBoardData.length == 0 && (
+            <div>No live data available yet</div>
+          ))}
         <TableComponent
           Headers={headers}
           rowData={displayedData}

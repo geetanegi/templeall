@@ -107,6 +107,7 @@ const Checkout: React.FC = () => {
             ? selectedContests.map((item) => ({
                 scheduleContestId: item.scheduleContestId,
                 amount: item.entryFee,
+                progressiveContestId: item.progressiveContestId,
               }))
             : [],
         payment: {

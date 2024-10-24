@@ -189,7 +189,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         <div className="w-[50%]">
           {computeSubBettingViewSection(userstats)}
           {
-            selectedTab === 1 ? <div className="flex gap-3 items-center">
+            (!userId || (userId == userInfo?.userId)) &&  selectedTab === 1  ? <div className="flex gap-3 items-center">
                 <h3 className="font-bold mt-3">Visibility</h3> 
                 <div className="mt-2">
                 <SwitchComponent isChecked={true} />
@@ -197,7 +197,6 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
             </div> : null
           }
         </div>
-
         <UserinformationComponent
           userinformation={userinformation}
           isModalOpen={isModalOpen}

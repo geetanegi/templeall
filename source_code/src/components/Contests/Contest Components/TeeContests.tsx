@@ -30,6 +30,7 @@ interface TeeContest {
   recurringType: string | null;
   scheduleContestId: number | null;
   selectedTeeType: string | null;
+  progressiveContestId: number | null;
 }
 
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {

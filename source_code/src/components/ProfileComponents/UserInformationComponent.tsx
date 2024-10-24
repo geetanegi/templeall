@@ -6,10 +6,6 @@ import React, { useState } from 'react'
 import golfKitIcon from '../../assets/images/golf-kit.svg';
 import golfCourse from '../../assets/images/golf_course.svg'
 import golfBallIcon from '../../assets/images/sports_golf.svg';
-import faceBookImage from '../../assets/images/Facebook.svg'
-import InstagramImage from '../../assets/images/Instagram.svg'
-import twitterImage from '../../assets/images/Twitter-Logо.png';
-import googleImage from '../../assets/images/Google.svg'
 import UpdatePlayerInformationModal from './UpdatePlayerInformationModal';
 import StripeIntegration from '../../pages/StripeIntegration';
 interface UserinformationComponentProps {
@@ -53,24 +49,17 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
             <img src={golfCourse} alt="Golf Course Icon" />
           </div>
           <div>
-            <div><span className='mr-3'>Age :</span><span >{userinformation?.userProfile?.age || '---'}</span></div>
-            <div><span className='mr-3'>Handicap :</span><span>{userinformation?.userProfile?.handicap || '---'}</span></div>
-            <div><span className='mr-3'>Clubs :</span><span></span>{userinformation?.userProfile?.clubs || '---'}</div>
-            <div><span className='mr-3'>Ball :</span><span>{userinformation?.userProfile?.ball || '---'}</span></div>
-            <div><span className='mr-3'>Course :</span><span>{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</span></div>
+            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Age :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.age || '---'}</span></div>
+            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Handicap :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.handicap || '---'}</span></div>
+            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Clubs :</span><span>{userinformation?.userProfile?.clubs || '---'}</span></div>
+            <div className='whitespace-nowrap' ><span className='mr-3 whitespace-nowrap'>Ball :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.ball || '---'}</span></div>
+            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Course :</span><span className='whitespace-nowrap' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</span></div>
             <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
           </div>
           <div>
           </div>
         </div>
         <div>
-          <div className='w-full flex align-center justify-center gap-4 mt-5' >
-            <img className='h-[18px] cursor-pointer' src={faceBookImage} alt="" />
-            <img className='h-[18px] cursor-pointer' src={twitterImage} alt="" />
-            <img className='h-[18px] cursor-pointer' src={InstagramImage} alt="" />
-            <img className='h-[18px] cursor-pointer' src={googleImage} alt="" />
-
-          </div>
           {
             !userId || (userId == userInfo?.userId) ?
               <button

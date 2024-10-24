@@ -116,6 +116,7 @@ interface TeeListApiRes {
 
 // contest api interface
 export interface contest {
+  progressiveContestId: number | null;
   activeContestDate: null;
   activeStatus: "Active";
   contestId: number;

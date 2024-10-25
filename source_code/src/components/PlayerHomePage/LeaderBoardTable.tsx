@@ -27,7 +27,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
           className="flex cursor-pointer items-center"
           onClick={() => {
             navigate(ROUTES.PROFILE, {
-              state: { id: row.playerId, role: "player" },
+              state: { id: row.playerId, role: "Player" },
             });
           }}
         >
@@ -38,7 +38,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
           <span>{row.username}</span>
         </div>
       ),
-      "Proximity(FEET)": row.proximity === null ? "---" : row.proximity,
+      "Proximity(FEET)": row.proximity === null ? "N/A" : row.proximity,
       price: row.price === null ? <Lock strokeWidth={1.5} /> : row.price,
     }));
     setTableData(updatedData);

@@ -70,4 +70,5 @@ export const API_URL = {
   getLiveLeaderBoard: "/core/leader-board/live",
   getRecent: "/core/leader-board/recent",
   liveleaderBoardDropdown: "/core/leader-board/live-dropdown",
+  jackpot: "/core/leader-board/jackpot",
 };

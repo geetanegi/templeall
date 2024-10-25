@@ -55,7 +55,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
   isRefreshList,
 }) => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
-
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -156,6 +156,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                   videoDescription: values.description,
                   videoTitle: values.title,
                   requestId: selectedReqVideoId,
+                  uploadedBy: typeof userInfo === "object" ? userInfo?.userId : undefined
                 },
               };
 

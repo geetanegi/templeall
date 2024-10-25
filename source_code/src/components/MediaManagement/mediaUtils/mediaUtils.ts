@@ -116,7 +116,8 @@ export const computeFilterDropDown = (
 };
 
 export const createComment = async (
-  id: string | number,
+  id:string | number | null,
+  videoId: string | number,
   userId: string | number,
   commentText: string,
   getComments: () => void,
@@ -124,8 +125,9 @@ export const createComment = async (
   try {   
     const { data, status } = await apiService.post<any>(API_URL.createComment, {
       data: {
-        videoId: id,
-        userId: userId,
+        id:id,
+        videoId: videoId,
+        playerId: userId,
         commentText: commentText,
       },
     });
@@ -175,3 +177,28 @@ export const formatCount = (value: number | string) => {
     return (Number(value) / 1000000).toFixed(1) + "M"; // Format as millions
   }
 };
+
+
+export const deleteComment = async(
+  videoId: string | number,
+  commentId: string | number,
+  userId: string | number,
+  getComments: () => void,
+)=>{
+  try {   
+    const { data, status } = await apiService.post<any>(API_URL.deleteComment, {
+      data: {
+        videoId: videoId,
+        commentId:commentId,
+        playerId: userId,
+      },
+    });
+    if (status === 200 && data?.data != null && !data?.error) {
+      getComments();
+    } else if (data?.error && data.description) {
+      ToastError(data.description);
+    }
+  } catch (error) {
+    ToastError("Something went wrong.") 
+  }
+}

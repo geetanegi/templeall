@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '../ModalComponent'
-import { CircleCheck, Trash2 } from 'lucide-react';
+import { CircleCheck, ClipboardX, Trash2 } from 'lucide-react';
 
 interface ConfirmationModalProps {
     type:string;
@@ -8,10 +8,11 @@ interface ConfirmationModalProps {
     isOpen:boolean;
     onClose:(flag: boolean)=>void
     onOk:()=>void;
+    buttonTxt?:boolean
     
 }
 
-const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, confirmationText, isOpen, onClose, onOk }) => {
+const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, buttonTxt, confirmationText, isOpen, onClose, onOk }) => {
   return (
     <div>
         <Modal
@@ -23,7 +24,8 @@ const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, confirmationT
           <div className="mb-6 w-full items-center justify-center rounded-bl-lg rounded-br-lg px-6 text-center md:w-[480px]">
             {
                 type ==="success" ? 
-                <CircleCheck className="m mx-auto mb-6 h-[38px] w-[38px] rounded-full bg-[#248A3D59] p-2" /> :
+                <CircleCheck className="m mx-auto mb-6 h-[38px] w-[38px] rounded-full bg-[#248A3D59] p-2" /> : 
+                type == "remove" ? <ClipboardX className='m mx-auto mb-6 h-[50px] border-4 border-[#FF3B3026] shadow-lg w-[50px] rounded-full bg-[#FF3B3059] p-2 text-[#FF3B30]' /> :
                 <Trash2 className="m mx-auto mb-6 h-[50px] border-4 border-[#FF3B3026] shadow-lg w-[50px] rounded-full bg-[#FF3B3059] p-2 text-[#FF3B30]"
                 /> 
             }
@@ -37,14 +39,16 @@ const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, confirmationT
               onClick={() => onClose(false)}
               className="mr-5 w-32 rounded-md bg-[#7B7887] py-2 text-white"
             >
-              No
+              {
+                buttonTxt ? "Cancel" : "No"
+              }
             </button>
             <button
               type="submit"
               onClick={() => onOk()}
               className="w-32 rounded-md bg-[#95c11e] py-2 text-white"
             >
-              {"Yes"}
+              {buttonTxt ?  "Delete" : "Yes"}
             </button>
           </div>
         </> 

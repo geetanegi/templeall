@@ -22,7 +22,7 @@ import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import { downloadFile } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
-import { Colors } from "../utils/colorEnum";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -106,13 +106,13 @@ const Login: React.FC = () => {
     downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
   };
 
+  const downloadTermsAndConditionsFunc = () => {
+    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+  };
+
   return (
     <>
-      <div className="flex w-full flex-col gap-2 items-center rounded-xl border p-2 md:mt-10 md:w-full md:p-6"
-       style={{
-        background: Colors.backgroundDark2
-      }}
-      >
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl border p-2 md:mt-10 md:w-full md:p-6">
         <img src={aceCampLogo} alt="" className="h-32 w-32 sm:-mt-20" />
         <div className="flex gap-5">
           <InstagramLoginComponent />
@@ -123,7 +123,7 @@ const Login: React.FC = () => {
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
         </div>
-        <h3 className="py-3 font-semibold my-5 text-[#FFFFFF] md:my-1">-OR-</h3>
+        <h3 className="my-5 py-3 font-semibold text-[#FFFFFF] md:my-1">-OR-</h3>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -176,7 +176,7 @@ const Login: React.FC = () => {
             </div>
             <button
               type="submit"
-              className={`w-full rounded-md bg-buttonPrimary border py-2 text-primaryText hover:bg-lime-600`}
+              className={`w-full rounded-md border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
             >
               Login
             </button>
@@ -200,20 +200,40 @@ const Login: React.FC = () => {
           </Link>
         </div>
         <div>
-          <div className="md:hidden">
-            <p
-              className={`cursor-pointer text-link hover:underline`}
-              onClick={downloadPrivacyPolicyFunc}
-            >
-              Privacy Policy
-            </p>
-          </div>
-          <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] md:absolute">
+          <div className="flex md:hidden">
+          <p
+                onClick={downloadTermsAndConditionsFunc}
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              >
+                Terms and Conditions
+              </p>{" "}
+              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
               <p
-                className={`cursor-pointer p-2 text-link hover:underline`}
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
                 onClick={downloadPrivacyPolicyFunc}
               >
+                {" "}
+                Privacy Policy
+              </p>
+          </div>
+          <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
+            <div className="right-1 top-[1px] flex md:absolute">
+              <p
+                onClick={downloadTermsAndConditionsFunc}
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              >
+                Terms and Conditions
+              </p>{" "}
+              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
+              <p
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                {" "}
                 Privacy Policy
               </p>
             </div>

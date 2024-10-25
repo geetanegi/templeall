@@ -99,9 +99,9 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
   };
 
   return (
-    <div className="relative left- top-[-24px] h-[432px] w-[350px]">
+    <div className="flex flex-col relative left- top-[-24px] h-[432px] w-[350px]">
       <button
-        className={`relative left-[310px] top-[10px] z-10 cursor-pointer rounded-full bg-[#1D1A0C66] p-2  ${!userId || (typeof userInfo === "object" && "userId" in userInfo && userId == userInfo.userId) ? "" : "invisible"} `}
+        className={`ml-auto mt-5 z-10 cursor-pointer w-10 text-center rounded-full bg-[#1D1A0C66] p-2  ${!userId || (typeof userInfo === "object" && "userId" in userInfo && userId == userInfo.userId) ? "" : "invisible"} `}
       >
         <Camera
           onClick={handleButtonClick}
@@ -114,23 +114,23 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           onChange={handleFileChange}
         />
       </button>
-      <div className="relative left-[40px] top-[-45px] border-gray mx-auto h-[103%] w-[100%] border bg-gray-500 p-2  lg:border-0 lg:lg:bg-transparent">
+      <div className="relative left-[40px] top-[-68px] border-gray mx-auto h-[432px] w-[350px] border bg-gray-500 p-2  lg:border-0 lg:lg:bg-transparent">
+        <div className="ml-auto" style={{width: "max-content", height: "max-content"}}>
         {image ? (
           <img
             src={`data:image/png;base64,${image}`}
             alt=""
-            className="h-full w-full"
+            className="h-[432px] max-w-[340px]"
           />
         ) : (
           <img
             src={defaultUserImage}
             alt=""
-            className="h-full w-full sm:h-[432px] sm:w-[312px]"
+            className="h-[432px] max-w-[350px]"
           />
         )}
-      </div>
-      <div className="w-[312px} hidden h-[82px] bg-custom-gradient-2 sm:relative sm:left-[24px] sm:top-[-134px] sm:block">
-        <div className="ml-auto mr-5" style={{ width: "max-content" }}>
+        <div className="pr-5 relative top-[-82px] h-[82px] bg-custom-gradient-2 ">
+        <div className="ml-auto" style={{ width: "max-content" }}>
           <div className="m-0 text-[#F5F6F7]">This is</div>
           <div className="m-0 text-[24px] text-[#F5F6F7]">
             {userDetails?.firstName?.charAt(0).toUpperCase() +
@@ -138,11 +138,14 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
             {userDetails?.lastName?.charAt(0).toUpperCase() +
               userDetails?.lastName?.slice(1)}{" "}
           </div>
-          <div className="m-0 text-right text-[14px] text-[#F5F6F7]">
+          <div className={`m-0 text-right text-[14px] text-[#F5F6F7] ${userDetails.location ? "visible" : "invisible"}`}>
             {" "}
-            {userDetails.location}
+            {userDetails?.location ? userDetails.location : "." }
           </div>
         </div>
+       </div>
+        </div>
+      
       </div>
     </div>
   );

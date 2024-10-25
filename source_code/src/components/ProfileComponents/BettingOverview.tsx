@@ -186,7 +186,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         </button>
       </div>
       <div className="flex h-full justify-between">
-        <div className="w-[50%]">
+        <div className="w-[50%] h-[320px]  overflow-auto">
           {computeSubBettingViewSection(userstats)}
           {
             (!userId || (userId == userInfo?.userId)) &&  selectedTab === 1  ? <div className="flex gap-3 items-center">

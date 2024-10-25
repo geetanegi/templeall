@@ -20,7 +20,7 @@ const Drawer: React.FC<DrawerProps> = ({
 }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 backdrop-blur-sm bg-gray-900 bg-opacity-30 transition-transform ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      className={`fixed inset-0 z-40 backdrop-blur-sm bg-gray-900 bg-opacity-30 transition-transform ${isOpen ? "translate-x-0" : "translate-x-full"}`}
     >
       <div className="fixed inset-0"></div>
       <div

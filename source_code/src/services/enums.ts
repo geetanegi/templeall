@@ -64,6 +64,7 @@ export const API_URL = {
   getComments: "/core/comment/get-comment-by-video-id",
   updatevideoViewCount: "/core/video/update-video-info",
   likeVideo: "/core/video-interaction/create",
+  deleteComment: "/core/comment/delete-comment",
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",
   getLiveLeaderBoard: "/core/leader-board/live",

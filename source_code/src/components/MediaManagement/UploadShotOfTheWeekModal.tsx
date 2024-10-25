@@ -81,6 +81,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
   );
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -241,6 +242,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 videoDescription: values.description,
                 videoTitle: values.title,
                 player: selectedUser?.id || "",
+                uploadedBy: typeof userInfo === "object" ? userInfo?.userId : undefined
               },
             };
             let newBlobData = new Blob([JSON.stringify(data1)], {

@@ -13,8 +13,9 @@ import { setLoading } from "../reducers/loader/loader";
 import { ToastError, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
-import { Colors } from "../utils/colorEnum";
-
+import { downloadFile } from "../utils/downloadUtils";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -93,13 +94,17 @@ const ForgetPassword: React.FC = () => {
     }
   };
 
+  const downloadPrivacyPolicyFunc = () => {
+    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+  };
+  const downloadTermsAndConditionsFunc = () => {
+    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+  };
+
   return (
     <div className="w-full ">
       <div
         className={`flex w-full flex-col items-center rounded-xl pb-28 border ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
-        style={{
-          background: Colors.backgroundDark2
-        }}
       >
         {/* // sm:max-h-56 for mobile but not */}
         <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
@@ -148,6 +153,46 @@ const ForgetPassword: React.FC = () => {
           </>
         )}
         {DisplayScreens()}
+        <div>
+          <div className="flex md:hidden">
+          <p
+                onClick={downloadTermsAndConditionsFunc}
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              >
+                Terms and Conditions
+              </p>{" "}
+              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
+              <p
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                {" "}
+                Privacy Policy
+              </p>
+          </div>
+          <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
+            <div className="right-1 top-[1px] flex md:absolute">
+              <p
+                onClick={downloadTermsAndConditionsFunc}
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              >
+                Terms and Conditions
+              </p>{" "}
+              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
+              <p
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                {" "}
+                Privacy Policy
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

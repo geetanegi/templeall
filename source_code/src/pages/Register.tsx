@@ -33,7 +33,6 @@ import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.p
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
 
 import { downloadFile } from "../utils/downloadUtils";
-import { Colors } from "../utils/colorEnum";
 
 const Register: React.FC = () => {
   const stripe = useStripe();
@@ -225,9 +224,6 @@ const Register: React.FC = () => {
     <>
       {!showOtpScreen && !showSuccessScreen && (
         <div className="bg-back-600 my-10 flex h-auto  w-full flex-col border items-center rounded-xl p-2 md:w-full md:p-8"
-        style={{
-          background: Colors.backgroundDark2
-        }}
         >
           <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
           <div className="flex gap-5">
@@ -534,14 +530,24 @@ const Register: React.FC = () => {
                 Privacy Policy
               </p>
             </div>
-            <div className="fixed bottom-14 right-[70px] hidden h-0.5 w-[17%] items-end md:flex">
-              <div className="right-1 top-[1px] md:absolute">
-                <p
-                  className={`cursor-pointer p-2 text-link hover:underline`}
-                  onClick={downloadPrivacyPolicyFunc}
-                >
-                  Privacy Policy
-                </p>
+            <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
+              <div className="flex right-1 top-[1px] md:absolute">
+              <p
+                onClick={downloadTermsAndConditionsFunc}
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              >
+                Terms and Conditions
+              </p>{" "}
+              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
+              <p
+                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                {" "}
+                Privacy Policy
+              </p>
               </div>
             </div>
           </div>

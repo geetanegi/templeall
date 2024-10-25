@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import SwitchComponent from "../SwitchComponent";
+// import SwitchComponent from "../SwitchComponent";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { ToastError } from "../Toast";
@@ -51,17 +51,21 @@ const ActiveContestAccordion: React.FC = () => {
     setOpenAccordion(openAccordion === id ? -1 : id);
   };
 
-  const handleSwitch = (isChecked: boolean) => {
-    if (isChecked) {
-      // do api call or any other action here shiv
-    }
-    setIsModalOpen(true);
-  };
-
-  console.log("accordionData", data);
+  // const handleSwitch = (isChecked: boolean) => {
+  //   if (isChecked) {
+  //     // do api call or any other action here shiv
+  //   }
+  //   setIsModalOpen(true);
+  // };
 
   return (
     <div className="w-full">
+      {(data.length === 0 || data === undefined) && (
+        <div className="">
+          <p>No Available Active Contest ! </p>
+        </div>
+      )}
+
       {data &&
         data.length > 0 &&
         data.map((item: CourseData, i: number) => (
@@ -176,14 +180,14 @@ const ActiveContestAccordion: React.FC = () => {
                                   </span>{" "}
                                 </p>
                               </div>
-                              <div>
+                              {/* <div>
                                 <SwitchComponent
                                   isChecked={item.activeStatus === "Open"}
                                   onChange={(isChecked) =>
                                     handleSwitch(isChecked)
                                   }
                                 />
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="mt-2">

@@ -1,13 +1,32 @@
 import { Trophy } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ActiveContestAccordion from "./ActiveContestAccordion";
 import LiveLeaderBoard from "./LiveLeaderBoard";
 import MostRecent from "./MostRecent";
 import Award from "../../assets/images/image 55.png";
 import sparklingImg from "../../assets/images/sparkling (1).png";
+import apiService from "../../services/apiService";
+import { API_URL } from "../../services/enums";
+import { timeZone } from "../../utils/TimeUtils";
+import { jackpot } from "./contestdata";
+import JackpotAmount from "./JackpotAmount";
 
 const ContestTabs: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
+  const [jackpotArr, setJackpotArr] = useState<jackpot[] | null>(null);
+
+  const getJackpotAmount = async () => {
+    const res = await apiService.post<any>(API_URL.jackpot, {
+      data: {
+        zoneId: timeZone,
+      },
+    });
+    setJackpotArr(res.data.data);
+  };
+
+  useEffect(() => {
+    getJackpotAmount();
+  }, []);
 
   return (
     <div className="">
@@ -43,35 +62,18 @@ const ContestTabs: React.FC = () => {
           Most Recent
         </button>
       </div>
-      <div className="flex">
+      <div className="relative flex">
         <div className="h-full w-[70%]">
           <div>{selectedTab === 1 && <ActiveContestAccordion />}</div>
           <div>{selectedTab === 2 && <LiveLeaderBoard />}</div>
           <div>{selectedTab === 3 && <MostRecent />}</div>
         </div>
-        <div className="ml-4 h-[250px] w-[30%] rounded-md border-2 bg-[#F9FAFA]">
-          <div className="relative my-12 mt-[80px] flex items-center justify-center">
-            <img src={sparklingImg} alt="" className="absolute" />
-            <div className="h-[100%] w-[300px] rounded-full border-2 border-[#DED8B9] text-center">
-              <div className="relative rounded-full bg-[#1F1F1F] p-2">
-                <div className="absolute bottom-0 left-5">
-                  <img src={Award} alt="" />
-                </div>
-                <div className="pl-10">
-                  <h1 className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] bg-clip-text text-lg text-transparent">
-                    AceCam Jackpot
-                  </h1>
-                  <h1 className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] bg-clip-text text-xl text-transparent">
-                    <span className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] bg-clip-text text-transparent">
-                      $ 103,000
-                    </span>
-                  </h1>
-                </div>
-              </div>
-              {/* <img src={Ribbon} /> */}
-              {/* <h1 className="-mt-3 text-3xl text-[#FD8A02]">$ 103,000</h1> */}
-            </div>
-          </div>
+        {/* jackpot */}
+        <div className="relative w-[30%] overflow-auto">
+          {jackpotArr &&
+            jackpotArr.map((jackpot, index) => (
+              <JackpotAmount key={index} jackpot={jackpot} />
+            ))}
         </div>
       </div>
     </div>

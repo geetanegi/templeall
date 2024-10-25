@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import ActiveContestAccordion from "./ActiveContestAccordion";
 import LiveLeaderBoard from "./LiveLeaderBoard";
 import MostRecent from "./MostRecent";
-import Award from "../../assets/images/image 55.png";
-import sparklingImg from "../../assets/images/sparkling (1).png";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { timeZone } from "../../utils/TimeUtils";

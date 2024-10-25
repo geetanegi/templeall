@@ -42,7 +42,6 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
       price: row.price === null ? <Lock strokeWidth={1.5} /> : row.price,
     }));
     setTableData(updatedData);
-    // return updatedData;
   };
 
   useEffect(() => {

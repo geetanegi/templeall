@@ -81,15 +81,23 @@ const LiveLeaderBoard: React.FC = () => {
 
   return (
     <div>
-      <ClubCard
-        contestInfo={leaderBoardData?.data?.contestInfo}
-        showDropDown={true}
-        dropDownList={
-          dropDownList && dropDownList.length > 0 ? dropDownList : []
-        }
-        selectedValue={selectedValue}
-        setSelectedValue={setSelectedValue}
-      />
+      <div>
+        {dropDownList?.length === 0 ? (
+          <div className="">
+            <p>No Live leaderBoard available yet!!! </p>
+          </div>
+        ) : (
+          <ClubCard
+            contestInfo={leaderBoardData?.data?.contestInfo}
+            showDropDown={true}
+            dropDownList={
+              dropDownList && dropDownList.length > 0 ? dropDownList : []
+            }
+            selectedValue={selectedValue}
+            setSelectedValue={setSelectedValue}
+          />
+        )}
+      </div>
 
       {/* <ClubCard status="open" /> */}
 

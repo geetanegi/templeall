@@ -36,3 +36,15 @@ export interface APIResContestData {
   error: boolean;
   data: CourseData[];
 }
+
+export interface jackpot {
+  contestType: string;
+  jackpotAmount: null;
+  clubName: string;
+  courseName: string;
+  holeNumber: 7;
+  par: 3;
+  yardage: 123000;
+  teeName: string;
+  teePosition: string;
+}

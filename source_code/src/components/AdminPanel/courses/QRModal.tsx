@@ -45,12 +45,15 @@ const QRModal: React.FC<QRModalProps> = ({
               ref={(el: any) => (qrCodeRefs.current[course] = el)}
             />
           </div>
-          <div className="px-28 py-5 text-left">
-            <p>Course: {queryParams.courseName}</p>
-            <p>
-              {queryParams.holeNo && "Hole No: "}
+          <div className="px-5 py-5 text-left">
+            <span>
+              {" "}
+              <strong>Course</strong>: {queryParams.courseName},
+            </span>
+            <span>
+              <strong>{queryParams.holeNo && "  Hole No: "}</strong>
               {queryParams.holeNo}
-            </p>
+            </span>
           </div>
         </div>
       </Modal>

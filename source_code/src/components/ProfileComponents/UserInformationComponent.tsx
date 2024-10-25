@@ -53,7 +53,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
             <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Handicap :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.handicap || '---'}</span></div>
             <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Clubs :</span><span>{userinformation?.userProfile?.clubs || '---'}</span></div>
             <div className='whitespace-nowrap' ><span className='mr-3 whitespace-nowrap'>Ball :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.ball || '---'}</span></div>
-            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Course :</span><span className='whitespace-nowrap' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</span></div>
+            <div className='flex whitespace-nowrap'><div className='mr-3 whitespace-nowrap'>Course :</div><div className='whitespace-normal' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
             <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
           </div>
           <div>

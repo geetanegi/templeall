@@ -52,6 +52,10 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   return (
     <div>
       <div className="max-h-44 w-full">
+        {leaderBoardData == null ||
+          (leaderBoardData.length == 0 && (
+            <div>No live data available yet</div>
+          ))}
         <TableComponent
           Headers={headers}
           rowData={displayedData}

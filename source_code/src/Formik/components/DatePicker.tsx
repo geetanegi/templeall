@@ -116,6 +116,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
                         color: hasError ? "red" : "white",
                       },
                     },
+                    "& .MuiSvgIcon-fontSizeMedium": {
+                      color:"#ffffff"
+                    },
                     "& .MuiFormHelperText-root": {
                       color: "red",
                       marginLeft: "5px",

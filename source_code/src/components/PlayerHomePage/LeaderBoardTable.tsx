@@ -49,7 +49,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   }, [leaderBoardData]);
 
   return (
-    <div>
+    <div className="">
       <div className="max-h-44 w-full">
         <TableComponent
           Headers={headers}

@@ -16,6 +16,7 @@ export interface ContestInfo {
   charityPercentage: number;
   imageBase64: string;
   location: string;
+  payout: string;
 }
 
 export interface LeaderboardEntry {

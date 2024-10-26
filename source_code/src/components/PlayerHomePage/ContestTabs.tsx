@@ -9,7 +9,11 @@ import { timeZone } from "../../utils/TimeUtils";
 import { jackpot } from "./contestdata";
 import JackpotAmount from "./JackpotAmount";
 
-const ContestTabs: React.FC = () => {
+interface contestProps {
+  showMostRecent: boolean;
+}
+
+const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
   const [jackpotArr, setJackpotArr] = useState<jackpot[] | null>(null);
 
@@ -50,15 +54,17 @@ const ContestTabs: React.FC = () => {
           <Trophy strokeWidth={1.25} className={`mr-2 h-[16px] w-[16px]`} />
           Live Leaderboard{" "}
         </button>
-        <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
-          onClick={() => {
-            setSelectedTab(3);
-          }}
-        >
-          <Trophy strokeWidth={1.25} className={`mr-2 h-[16px] w-[16px]`} />
-          Most Recent
-        </button>
+        {showMostRecent && (
+          <button
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+            onClick={() => {
+              setSelectedTab(3);
+            }}
+          >
+            <Trophy strokeWidth={1.25} className={`mr-2 h-[16px] w-[16px]`} />
+            Most Recent
+          </button>
+        )}
       </div>
       <div className="relative flex">
         <div className="h-full w-[70%]">

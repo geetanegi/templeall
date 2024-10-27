@@ -42,16 +42,13 @@ export const validateTokenAPI = async () => {
   try {
     const state = store.getState();
     const token = state?.auth?.token;
-    // console.log("token: ", token);
     const { data, status } = await apiService.post<any>(API_URL.validateToken, {
       data: {
         token: token,
       },
     });
-    // console.log("validateToken", data);
 
     if (status === 200 && data?.data != null && !data?.error) {
-      // console.log("validateToken", data?.data?.isValid);
       if (data?.data?.isValid === true && token) {
         refreshTokenAPI();
       } else {

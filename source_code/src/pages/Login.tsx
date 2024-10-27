@@ -23,6 +23,7 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import { downloadFile } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
+import moment from "moment";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,12 @@ const Login: React.FC = () => {
         data: newData,
       });
       if (status === 200 && data?.data != null && !data?.error) {
+        // Update expiration time
+        const expirationTime = moment()
+          .add(8, "hours")
+          .format("YYYY-MM-DD HH:mm:ss");
+        localStorage.setItem("expirationTime", expirationTime);
+        localStorage.setItem("expirationTime", expirationTime);
         if (rememberme === true) {
           dispatch(
             login({
@@ -201,22 +208,22 @@ const Login: React.FC = () => {
         </div>
         <div>
           <div className="flex md:hidden">
-          <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
+            <p
+              onClick={downloadTermsAndConditionsFunc}
+              className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+            >
+              Terms and Conditions
+            </p>{" "}
+            <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+              |
+            </p>{" "}
+            <p
+              className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              onClick={downloadPrivacyPolicyFunc}
+            >
+              {" "}
+              Privacy Policy
+            </p>
           </div>
           <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
             <div className="right-1 top-[1px] flex md:absolute">

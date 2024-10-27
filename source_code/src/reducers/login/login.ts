@@ -59,6 +59,9 @@ const authSlice = createSlice({
     ) => {
       state.userPermissions = action.payload;
     },
+    saveToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
   },
 });
 

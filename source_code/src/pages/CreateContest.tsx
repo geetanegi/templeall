@@ -53,6 +53,7 @@ interface ContestFormValues {
   waitTimeBetweenEntries: string | number | null;
   entriesPer24Hours: string | number | null;
   queueLimit: number | null;
+  note: string;
 }
 
 // import * as Yup from 'yup';
@@ -142,6 +143,7 @@ const validationSchema = Yup.object({
   }),
 
   queueLimit: Yup.string().required("This field is mandatory."),
+  note: Yup.string().required("This field is mandatory."),
 });
 const CreateContest: React.FC = () => {
   const dispatch = useDispatch();
@@ -170,6 +172,7 @@ const CreateContest: React.FC = () => {
     entriesPer24Hours: editData?.entriesPer24Hours || "",
     waitTimeBetweenEntries: editData?.waitTimeBetweenEntries || "",
     queueLimit: editData?.queueLimit || 4,
+    note: "",
   };
 
   const userPermisions = useSelector(
@@ -418,6 +421,7 @@ const CreateContest: React.FC = () => {
             saveState?.selectedDays?.length > 0 ? selectedDays.join(",") : null,
           endAfterOccurrences: saveState.repeatEvery || 1,
         },
+        note: values.note,
       },
     };
 

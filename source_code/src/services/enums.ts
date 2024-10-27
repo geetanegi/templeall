@@ -72,4 +72,8 @@ export const API_URL = {
   liveleaderBoardDropdown: "/core/leader-board/live-dropdown",
   LiveLeaderBoard_SA: "/core/leader-board/live-sa",
   jackpot: "/core/leader-board/jackpot",
+
+  // refresh token api calls url
+  refreshToken: "/identity/auth/refresh-token",
+  validateToken: "/identity/auth/validate-token",
 };

@@ -306,6 +306,7 @@ const ContestList: React.FC = () => {
                           selectedTeeType: selectedTeeType,
                           progressiveContestId:
                             contestListItem.progressiveContestId,
+                          note: contestListItem.note,
                         }}
                       />
                     ))}

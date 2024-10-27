@@ -133,6 +133,7 @@ export interface contest {
   scheduleContestId: number;
   startTime: string;
   waitTimeBetweenEntries: number;
+  note: string | null;
 }
 
 export interface ContestListApiRes {

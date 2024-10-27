@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import golfStickWithTee from "../../../assets/images/image 8.png";
-import { Plus, Minus, ShoppingCart, Info } from "lucide-react";
+import { Plus, Minus, ShoppingCart, Info, StickyNote } from "lucide-react";
 import GolfTee from "../../../assets/images/sports_golf (1).png";
 import { ROUTES } from "../../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,7 @@ interface TeeContest {
   scheduleContestId: number | null;
   selectedTeeType: string | null;
   progressiveContestId: number | null;
+  note: string | null;
 }
 
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
@@ -145,53 +146,65 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   return (
     <div className="">
       <div className="m-4">
-        <div className="my-2 flex w-full items-center justify-between rounded-xl border p-6 shadow-md">
-          <div className="flex">
-            <img src={golfStickWithTee} alt="" className="h-14 w-14" />
-            <div className="pl-1">
-              <p className="text-sm font-semibold">{teeContest?.contestType}</p>
-              <p className="text-sm font-semibold text-red-600">
-                ${teeContest.entryFee}
-              </p>
+        <div className="rounded-xl border shadow-md">
+          <div className="my-2 flex w-full items-center justify-between px-6 pt-6">
+            <div className="flex">
+              <img src={golfStickWithTee} alt="" className="h-14 w-14" />
+              <div className="pl-1">
+                <p className="text-sm font-semibold">
+                  {teeContest?.contestType}
+                </p>
+                <p className="text-sm font-semibold text-red-600">
+                  ${teeContest.entryFee}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col place-items-end">
+              <p className="text-sm">{`${moment.utc(teeContest.registrationStartTime).local().format("hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("hh:mm A")} `}</p>{" "}
+              <span className="flex items-center rounded-md bg-green-100 px-2">
+                <img src={GolfTee} alt="" className="" />
+                <span className="p-1 text-xs font-semibold text-green-700">
+                  {teeContest.activeStatus}
+                </span>
+              </span>
+            </div>
+            <div>
+              {isRegistrationOpen && (
+                <>
+                  {isSelected ? (
+                    <Minus
+                      size={32}
+                      className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
+                      onClick={handleRemoveContest}
+                    />
+                  ) : (
+                    <span className="flex items-center gap-1">
+                      <Plus
+                        size={32}
+                        className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-[#95c11e] p-1 font-semibold text-white`}
+                        // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
+                        onClick={handleContestSelection}
+                      />
+                      {isContestAlreadySelected && (
+                        <div title="You can only register for contests from one tee at a time">
+                          <Info size={20} className="ml-auto text-blue-700" />
+                        </div>
+                      )}
+                    </span>
+                  )}
+                </>
+              )}
             </div>
           </div>
-
-          <div className="flex flex-col place-items-end">
-            <p className="text-sm">{`${moment.utc(teeContest.registrationStartTime).local().format("hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("hh:mm A")} `}</p>{" "}
-            <span className="flex items-center rounded-md bg-green-100 px-2">
-              <img src={GolfTee} alt="" className="" />
-              <span className="p-1 text-xs font-semibold text-green-700">
-                {teeContest.activeStatus}
-              </span>
-            </span>
-          </div>
-          <div>
-            {isRegistrationOpen && (
-              <>
-                {isSelected ? (
-                  <Minus
-                    size={32}
-                    className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
-                    onClick={handleRemoveContest}
-                  />
-                ) : (
-                  <span className="flex items-center gap-1">
-                    <Plus
-                      size={32}
-                      className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-[#95c11e] p-1 font-semibold text-white`}
-                      // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
-                      onClick={handleContestSelection}
-                    />
-                    {isContestAlreadySelected && (
-                      <div title="You can only register for contests from one tee at a time">
-                        <Info size={20} className="ml-auto text-blue-700" />
-                      </div>
-                    )}
-                  </span>
-                )}
-              </>
-            )}
-          </div>
+          {teeContest.note !== null && (
+            <div className="bg-warning">
+              <p className="text-warningText flex items-center justify-center px-6 py-1 text-xs">
+                <StickyNote color="#FF9800" size={14} className="mx-1 inline" />
+                <b>Eligibility criteria</b> : {teeContest.note}
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
@@ -210,7 +223,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           <span className="absolute right-[6rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
             {Object.values(selectedContests).flat().length}
           </span>
-          <span className="mx-2">Checkout</span>
+          <span className="mx-2">Register</span>
         </button>
       </div>
     </div>

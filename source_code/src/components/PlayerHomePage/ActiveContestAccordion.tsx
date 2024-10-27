@@ -11,6 +11,7 @@ import TooltipSpan from "../Tooltip/TooltipSpan";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import { timeZone } from "../../utils/TimeUtils";
+import ActiveContest from "../../assets/images/active-contest-bg.jpg";
 
 const ActiveContestAccordion: React.FC = () => {
   const dispatch = useDispatch();
@@ -71,24 +72,41 @@ const ActiveContestAccordion: React.FC = () => {
         data.map((item: CourseData, i: number) => (
           <div
             key={i}
-            style={{
-              borderColor: i === openAccordion ? "#95C11E" : "",
-            }}
-            className={`relative my-3 rounded-lg border-2 border-gray-200 shadow-sm`}
+            // style={{
+            //   borderColor: i === openAccordion ? "#95C11E" : "#FFDE59",
+            // }}
+            className={`relative my-3 overflow-hidden rounded-lg border-2 border-yellowText bg-gradient-green shadow-sm`}
           >
+            <img
+              src={ActiveContest}
+              alt=""
+              className="absolute"
+              style={{
+                opacity: 0.1,
+                transform: "translate(0%, -45%)",
+                height: "25vh",
+                width: "100%",
+              }}
+            />
             <button
               onClick={() => handleToggle(i)}
-              className="flex w-[97%] items-center justify-between p-4 text-left font-medium text-gray-800 focus:outline-none"
+              className="flex w-[97%] items-center justify-between p-4 text-left font-medium text-white focus:outline-none"
             >
               <div>
                 {item.clubName}
-                <p className="text-gray-400"> {item.courseName}</p>
+                <p className="text-xs font-thin text-white">
+                  {" "}
+                  {item.courseName}
+                </p>
               </div>
-              <div>
+              <div className="font-sm font-thin text-white">
                 Hole <span className="font-semibold">#{item.holeNumber}</span> -
                 Par {item.par}
-                <p>
-                  Tees: <span className="font-semibold">{item.teeName}</span>
+                <p className="text-xs font-thin text-white">
+                  Tees:{" "}
+                  <span className="text-sm font-semibold text-white">
+                    {item.teeName}
+                  </span>
                 </p>
               </div>
               <span
@@ -106,21 +124,21 @@ const ActiveContestAccordion: React.FC = () => {
               {item.allDailyActiveContestDTOS.length > 0 &&
                 item.allDailyActiveContestDTOS.map((item, index) => (
                   <div key={index}>
-                    <div className="border-t-2 border-[#95C11E] p-4 text-gray-700">
+                    <div className="border-t-2 border-yellowText p-4 text-gray-700">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-bold">
+                          <p className="text-sm font-bold text-white">
                             {item.contestType}
                           </p>
-                          <p className="text-sm">
+                          <p className="text-sm font-thin text-white">
                             Entry Fees:{" "}
-                            <span className="font-semibold text-red-500">
+                            <span className="font-semibold text-white">
                               ${item.entryFee}
                             </span>
                           </p>
-                          <p className="text-sm">
+                          <p className="text-sm font-thin text-white">
                             Payout:{" "}
-                            <span className="text-sm font-bold">
+                            <span className="text-sm font-bold text-white">
                               (
                               <TooltipSpan
                                 text={item.playerPercentage}
@@ -149,7 +167,7 @@ const ActiveContestAccordion: React.FC = () => {
                             </span>
                           </p>
                           <div className="py-2">
-                            <p className="text-sm">
+                            <p className="text-sm font-thin text-white">
                               Reg. start date/time:{" "}
                               <span className="text-sm font-bold">
                                 {moment
@@ -158,7 +176,7 @@ const ActiveContestAccordion: React.FC = () => {
                                   .format("MM/DD/YYYY - hh:mm A")}
                               </span>
                             </p>
-                            <p className="text-sm">
+                            <p className="text-sm font-thin text-white">
                               Contest start date/time:{" "}
                               <span className="text-sm font-bold">
                                 {moment
@@ -173,9 +191,9 @@ const ActiveContestAccordion: React.FC = () => {
                           <div className="flex justify-end">
                             <div className="flex w-[150px] justify-between py-3">
                               <div className="">
-                                <p className="rounded-md bg-[#DCE8DF] p-1 text-sm font-bold shadow-md">
+                                <p className="rounded-md bg-[#97D0A533] p-1 text-sm text-white">
                                   Status:{" "}
-                                  <span className="text-xs font-bold text-[#248A3D]">
+                                  <span className="text-xs font-bold text-yellowText">
                                     {item.activeStatus}
                                   </span>{" "}
                                 </p>
@@ -191,18 +209,18 @@ const ActiveContestAccordion: React.FC = () => {
                             </div>
                           </div>
                           <div className="mt-2">
-                            <p className="text-sm">
+                            <p className="text-sm font-thin text-white">
                               Reg. end date/time :{" "}
-                              <span className="text-sm font-bold">
+                              <span className="text-sm font-bold text-white">
                                 {moment
                                   .utc(item.registrationEndTime)
                                   .local()
                                   .format("MM/DD/YYYY - hh:mm A")}
                               </span>
                             </p>
-                            <p className="text-sm">
+                            <p className="text-sm font-thin text-white">
                               Contest end date/time:{" "}
-                              <span className="text-sm font-bold">
+                              <span className="text-sm font-bold text-white">
                                 {moment
                                   .utc(item.endTime)
                                   .local()

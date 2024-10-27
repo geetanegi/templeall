@@ -33,11 +33,11 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
   return (
     <div className="">
       <div
-        className="flex gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
+        className="flex gap-[16px] rounded-l-full rounded-r-full border bg-gradient-green p-[4px]"
         style={{ width: "max-content" }}
       >
         <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
           onClick={() => {
             setSelectedTab(1);
           }}
@@ -46,7 +46,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
           Active Contest
         </button>
         <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
           onClick={() => {
             setSelectedTab(2);
           }}
@@ -56,7 +56,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
         </button>
         {showMostRecent && (
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
             onClick={() => {
               setSelectedTab(3);
             }}
@@ -73,7 +73,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
           <div>{selectedTab === 3 && <MostRecent />}</div>
         </div>
         {/* jackpot */}
-        <div className="relative w-[30%] overflow-auto">
+        <div className="relative ml-4 w-[30%] overflow-auto bg-gradient-green">
           {jackpotArr &&
             jackpotArr.map((jackpot, index) => (
               <JackpotAmount key={index} jackpot={jackpot} />

@@ -16,6 +16,8 @@ export default {
       backgroundImage: {
         "mobile-background": "url('/src/assets/images/Golf BG.png')",
         "desktop-background": "url('/src/assets/images/AceCam-golf-bg.png')",
+        'gradient-green': 'linear-gradient(180deg, #259965 0%, #046221 100%)',
+
         profilebackground: "url('/src/assets/images/peofile_background.svg')",
         "custom-gradient-1":
           "linear-gradient(90deg, rgba(209, 228, 156, 0.9) 32.85%, rgba(255, 255, 255, 0.6) 67.86%)",
@@ -40,9 +42,12 @@ export default {
           "linear-gradient(180deg, rgba(4, 98, 33, 0.6) 0%, rgba(7, 46, 26, 0.6) 100%)",
         yellowText: "#FFDE59",
         warning: "#FFF3E0",
-        warningText:"#FF9800"
+        warningText:"#FF9800",
+        textColor:"#1D1A0C",
+        
       },
     },
   },
   plugins: [],
 };
+

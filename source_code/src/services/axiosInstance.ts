@@ -1,7 +1,7 @@
 import axios from "axios";
 import { store } from "../store";
 import moment from "moment";
-import { validateTokenAPI } from "./RefreshTokenService";
+import { refreshTokenAPI } from "./RefreshTokenService";
 
 const axiosInstance = axios.create({
   // baseURL: "http://10.95.4.121:9091/", // Test env
@@ -29,7 +29,7 @@ const refreshTokenAPICall = async () => {
     const state = store.getState();
     const token = state?.auth?.token;
     if (token) {
-      await validateTokenAPI(); // Wait for the refresh token call to complete
+      await refreshTokenAPI(); // Wait for the refresh token call to complete
     }
   } finally {
     isRefreshing = false; // Reset the flag after refresh completes

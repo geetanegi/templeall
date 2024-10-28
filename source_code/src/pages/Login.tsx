@@ -84,7 +84,6 @@ const Login: React.FC = () => {
           .add(8, "hours")
           .format("YYYY-MM-DD HH:mm:ss");
         localStorage.setItem("expirationTime", expirationTime);
-        localStorage.setItem("expirationTime", expirationTime);
         if (rememberme === true) {
           dispatch(
             login({

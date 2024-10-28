@@ -341,14 +341,14 @@ const ContestForm: React.FC<ContestProps> = ({
           </div>
           <div>
             <h5 className="text-l mb-2 font-normal text-black">Notes:</h5>
-            <div className="w-[420px]">
+            <div className="w-full">
               <FormikControl
                 control="textarea"
                 label="Add Notes"
                 name="note"
                 className="flex flex-row"
                 maxLength={150}
-                rows={2}
+                rows={4}
               />
             </div>
           </div>

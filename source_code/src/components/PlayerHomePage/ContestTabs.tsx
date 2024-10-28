@@ -10,7 +10,7 @@ import { jackpot } from "./contestdata";
 import JackpotAmount from "./JackpotAmount";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedTab } from "../../reducers/HomePage/Tabs";
-
+import "../../App.css";
 interface contestProps {
   showMostRecent: boolean;
 }
@@ -78,7 +78,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
           <div>{selectedTab === 3 && <MostRecent />}</div>
         </div>
         {/* jackpot */}
-        <div className="bg-gradient-green relative ml-4 w-[30%] overflow-auto rounded-md">
+        <div className="bg-gradient-green box relative ml-4 w-[30%] overflow-auto rounded-md">
           {jackpotArr &&
             jackpotArr.map((jackpot, index) => (
               <JackpotAmount key={index} jackpot={jackpot} />

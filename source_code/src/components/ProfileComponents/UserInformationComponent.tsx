@@ -50,10 +50,10 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
           </div>
           <div>
             <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Age :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.age || '---'}</span></div>
-            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Handicap :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.handicap || '---'}</span></div>
-            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Clubs :</span><span>{userinformation?.userProfile?.clubs || '---'}</span></div>
-            <div className='whitespace-nowrap' ><span className='mr-3 whitespace-nowrap'>Ball :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.ball || '---'}</span></div>
-            <div className='flex whitespace-nowrap'><div className='mr-3 whitespace-nowrap'>Course :</div><div className='whitespace-normal' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
+            <div className='flex'><span className='mr-3 whitespace-nowrap'>Handicap :</span><div className='flex flex-wrap'>{userinformation?.userProfile?.handicap || '---'}</div></div>
+            <div className='flex'><div className='mr-3 whitespace-nowrap'>Clubs :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.clubs || '---'}</div></div>
+            <div className='flex' ><div className='mr-3 whitespace-nowrap'>Ball :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.ball || '---'}</div></div>
+            <div className='flex'><div className='mr-3 whitespace-nowrap'>Course :</div><div className='flex flex-wrap' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
             <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
           </div>
           <div>

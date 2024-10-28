@@ -195,6 +195,7 @@ export const deleteComment = async(
     });
     if (status === 200 && data?.data != null && !data?.error) {
       getComments();
+      ToastSuccess(data.data.message)
     } else if (data?.error && data.description) {
       ToastError(data.description);
     }

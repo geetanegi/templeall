@@ -65,6 +65,9 @@ export const API_URL = {
   updatevideoViewCount: "/core/video/update-video-info",
   likeVideo: "/core/video-interaction/create",
   deleteComment: "/core/comment/delete-comment",
+  getAllNotification: "core/user-notification/all-user-notification",
+  notificationMarkAsRead: "core/user-notification/mark-as-read-notification",
+  clearNotification:"core/user-notification/clear-all",
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",
   getLiveLeaderBoard: "/core/leader-board/live",

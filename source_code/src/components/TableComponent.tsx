@@ -13,6 +13,7 @@ interface TableComponentProps {
   pagination?: boolean;
   style?: any;
   oddRowStyle?: React.CSSProperties;
+  evenRowStyle?: React.CSSProperties;
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
@@ -27,6 +28,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   pagination = true,
   style = {},
   oddRowStyle = {},
+  evenRowStyle = {},
 }) => {
   const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -47,7 +49,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   };
 
   return (
-    <div className="mt-3 flex h-full mb-2 text-sm">
+    <div className="mb-2 mt-3 flex h-full text-sm">
       <div className="w-full">
         <div
           className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg" : "rounded-t-lg"} 2xl:max-w-none mt-2 border border-gray-100 md:overflow-auto`}
@@ -75,7 +77,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
               {rowData?.map((data, index) => (
                 <tr
                   key={index}
-                  style={(index + 1) % 2 !== 0 ? oddRowStyle : {}}
+                  style={(index + 1) % 2 !== 0 ? oddRowStyle : evenRowStyle}
                 >
                   {Object.entries(data).map(([key], index) => {
                     return (

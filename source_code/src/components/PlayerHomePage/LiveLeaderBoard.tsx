@@ -9,6 +9,7 @@ import { APIResLeaderBoardData, leaderBoard } from "./LeaderBoard";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setLoading } from "../../reducers/loader/loader";
+import PageLoader from "../PageLoader";
 
 const LiveLeaderBoard: React.FC = () => {
   const tz = momentTz.tz.guess();
@@ -17,6 +18,8 @@ const LiveLeaderBoard: React.FC = () => {
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
+
   const isSuperAdmin = userPermisions?.data?.permission["is_super_admin"];
 
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -159,14 +162,18 @@ const LiveLeaderBoard: React.FC = () => {
   };
 
   return (
-    <div>
-      {isSuperAdmin ? renderClubCardSuperAdmin() : renderClubCardPlayerUser()}
-      {/* <ClubCard status="open" /> */}
+    <PageLoader isActive={loader}>
+      <div>
+        {isSuperAdmin ? renderClubCardSuperAdmin() : renderClubCardPlayerUser()}
+        {/* <ClubCard status="open" /> */}
 
-      {leaderBoardData?.data?.leaderboard && (
-        <LeaderBoardTable leaderBoardData={leaderBoardData.data.leaderboard} />
-      )}
-    </div>
+        {leaderBoardData?.data?.leaderboard && (
+          <LeaderBoardTable
+            leaderBoardData={leaderBoardData.data.leaderboard}
+          />
+        )}
+      </div>
+    </PageLoader>
   );
 };
 export default LiveLeaderBoard;

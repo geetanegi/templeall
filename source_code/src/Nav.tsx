@@ -303,12 +303,14 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
-            <div className="relative">
-              <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                4
-              </span>
-              <Bell color="#7b7887" strokeWidth={2} />
-            </div>
+            {userPermisions?.data?.permission["is_player"] && (
+              <div className="relative">
+                <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  4
+                </span>
+                <Bell color="#7b7887" strokeWidth={2} />
+              </div>
+            )}
             <button
               type="button"
               className="flex items-center justify-center"

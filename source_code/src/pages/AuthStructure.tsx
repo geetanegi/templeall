@@ -25,7 +25,7 @@ const AuthStructure: React.FC = () => {
       >
         <AceCamUI />
         <div
-          className={`flex h-full w-full flex-col ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} md:flex-row`}
+          className={`align-center flex h-screen w-full bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
         >
           {location.pathname === ROUTES.LOGIN && (
             <div 
@@ -56,13 +56,13 @@ const AuthStructure: React.FC = () => {
             </div>
           )}
 
-          {location.pathname === ROUTES.STRIPE && (
-            <div className="flex w-full flex-col items-center justify-center  p-6 pt-[100px] md:w-3/5 md:p-8">
-              <StripeIntegration></StripeIntegration>
-            </div>
-          )}
+            {location.pathname === ROUTES.STRIPE && (
+              <div className="flex w-full flex-col items-center justify-center p-6 pt-[100px] md:w-3/5 md:p-8">
+                <StripeIntegration></StripeIntegration>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
       </div>
     </PageLoader>
   );

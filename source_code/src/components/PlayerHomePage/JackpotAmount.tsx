@@ -5,12 +5,12 @@ import { jackpot } from "./contestdata";
 
 const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
   return (
-    <div className="ml-4 h-[220px] rounded-md border-2 bg-[#F9FAFA]">
+    <div className="h-[150px] rounded-t-md border-b border-[#046221]">
       <div className="relative my-12 mt-[80px] flex items-center justify-center">
-        <div className="absolute -top-16 left-6 text-black">
+        <div className="absolute -top-16 left-6 text-white">
           <h1 className="text-xl">{jackpot.clubName}</h1>
         </div>
-        <div className="absolute left-6 top-24 text-black">
+        <div className="absolute left-6 top-24 text-white">
           <span className="text-normal">Hole #{jackpot.holeNumber}</span>
           <span className="text-normal">{` ${jackpot.teeName} (${jackpot.yardage})}`}</span>
         </div>

@@ -73,14 +73,14 @@ const PlayerCustomDropdown: React.FC<Props> = ({
   return (
     <div className="relative" ref={dropdownRef}>
       <div
-        className="flex cursor-pointer items-center rounded-md border p-2 shadow-sm"
+        className="flex cursor-pointer items-center rounded-md border border-yellowText p-2 shadow-sm"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="flex-grow">
           {
             <>
               {selectedText ? (
-                <div>
+                <div className="text-white">
                   {selectedText.clubName} Hole{" "}
                   <strong>#{selectedText.holeNumber}</strong> - Par{" "}
                   {selectedText.par}, {selectedText.teeName} (

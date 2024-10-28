@@ -1,7 +1,7 @@
 import React from "react";
 import { CircleCheck, LandPlot } from "lucide-react";
-import Golf from "../../assets/images/golf_course (3).png";
-import GolfTee from "../../assets/images/sports_golf (2).png";
+import whiteGolf from "../../assets/images/golf_course-white.png";
+import GolfTee from "../../assets/images/sports_golf-white.png";
 import orangeGolf from "../../assets/images/sports_golf.png";
 import BGGolfImage from "../../assets/images/bg-img-authflow.jpg";
 import { ContestInfo, leaderBoard } from "./LeaderBoard";
@@ -75,7 +75,7 @@ const ClubCard: React.FC<{
               <div>
                 <div className="flex items-center space-x-2">
                   <img
-                    src={Golf}
+                    src={whiteGolf}
                     alt="golf"
                     className="h-4 w-4 text-gray-600"
                   />

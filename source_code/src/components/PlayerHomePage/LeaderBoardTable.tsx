@@ -21,7 +21,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
   ];
   const updatedTableData = () => {
     const updatedData = leaderBoardData?.map((row: any, index: number) => ({
-      Pos: index + 1,
+      Pos: <span className="text-white">{index + 1}</span>,
       username: (
         <div
           className="flex cursor-pointer items-center"
@@ -35,11 +35,19 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
             src={`data:image/png;base64,${row?.imageBase64}`}
             className="mr-1 h-8 w-8 rounded-full"
           />
-          <span>{row.username}</span>
+          <span className="text-white">{row.username}</span>
         </div>
       ),
-      "Proximity(FEET)": row.proximity === null ? "N/A" : row.proximity,
-      price: row.price === null ? <Lock strokeWidth={1.5} /> : row.price,
+      "Proximity(FEET)": (
+        <span className="text-white">
+          {row.proximity === null ? "N/A" : row.proximity}
+        </span>
+      ),
+      price: (
+        <span className="text-white">
+          {row.price === null ? <Lock strokeWidth={1.5} /> : row.price}
+        </span>
+      ),
     }));
     setTableData(updatedData);
   };
@@ -55,7 +63,8 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
           Headers={headers}
           rowData={displayedData}
           pagination={false}
-          oddRowStyle={{ backgroundColor: "#E6E6E6" }}
+          oddRowStyle={{ backgroundColor: "#4C525E" }}
+          evenRowStyle={{ backgroundColor: "#61656E" }}
         />
         <div className="text-right">
           <button
@@ -86,7 +95,8 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
             Headers={headers}
             rowData={tableData}
             pagination={false}
-            oddRowStyle={{ backgroundColor: "#f0f0f0" }}
+            oddRowStyle={{ backgroundColor: "#4C525E" }}
+            evenRowStyle={{ backgroundColor: "#61656E" }}
           />
         </div>
       </Modal>

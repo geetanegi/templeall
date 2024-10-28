@@ -186,7 +186,7 @@ const Contests: React.FC = () => {
     entriesPer24Hours: editData?.entriesPer24Hours || "",
     waitTimeBetweenEntries: editData?.waitTimeBetweenEntries || "",
     queueLimit: editData?.queueLimit || 4,
-    note: "",
+    note: editData?.note || "",
   };
 
   const userPermisions = useSelector(

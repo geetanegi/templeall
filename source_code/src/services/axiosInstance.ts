@@ -1,12 +1,13 @@
 import axios from "axios";
 import { store } from "../store";
 import moment from "moment";
-import { validateTokenAPI } from "./RefreshTokenService";
+import { refreshTokenAPI } from "./RefreshTokenService";
 
 const axiosInstance = axios.create({
   // baseURL: "http://10.95.4.121:9091/", // Test env
   //  baseURL: "http://10.95.4.121:8081/"    //dev env
   baseURL: "https://dev.acecamgolf.com/api/",
+  // baseURL: "/api/",
 });
 
 const isSessionExpired = (): boolean => {
@@ -29,7 +30,7 @@ const refreshTokenAPICall = async () => {
     const state = store.getState();
     const token = state?.auth?.token;
     if (token) {
-      await validateTokenAPI(); // Wait for the refresh token call to complete
+      await refreshTokenAPI(); // Wait for the refresh token call to complete
     }
   } finally {
     isRefreshing = false; // Reset the flag after refresh completes
@@ -53,6 +54,25 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  },
+);
+
+// Add response interceptor for handling expired tokens
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If error is due to unauthorized (401) and we haven't already retried
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      localStorage.clear();
+      window.location.reload();
+    }
+
     return Promise.reject(error);
   },
 );

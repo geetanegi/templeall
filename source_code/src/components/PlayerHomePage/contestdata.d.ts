@@ -13,6 +13,7 @@ interface Contest {
   charityPercentage: number;
   playerPercentage: number;
   coursePercentage: number;
+  payout: string | null;
 }
 
 export interface CourseData {

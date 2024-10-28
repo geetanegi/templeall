@@ -11,7 +11,7 @@ const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
         </div>
         <div className="absolute left-6 top-24 text-white">
           <span className="text-normal">Hole #{jackpot.holeNumber}</span>
-          <span className="text-normal">{` ${jackpot.teeName} (${jackpot.yardage})}`}</span>
+          <span className="text-normal">{` ${jackpot.teeName} (${jackpot.yardage})`}</span>
         </div>
         {/* <img src={sparklingImg} alt="" className="absolute -top-5" /> */}
         <div className="h-[100%] w-[300px] rounded-full border-2 border-[#DED8B9] text-center">

@@ -7,7 +7,7 @@ import { API_URL } from "../../services/enums";
 import { ToastError } from "../Toast";
 import { APIResContestData, CourseData } from "./contestdata";
 import RegisterConfirmationModal from "./RegisterConfirmationModal";
-import TooltipSpan from "../Tooltip/TooltipSpan";
+// import TooltipSpan from "../Tooltip/TooltipSpan";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import { timeZone } from "../../utils/TimeUtils";
@@ -80,7 +80,7 @@ const ActiveContestAccordion: React.FC = () => {
               // style={{
               //   borderColor: i === openAccordion ? "#95C11E" : "#FFDE59",
               // }}
-              className={`relative my-3 overflow-hidden rounded-lg border-2 border-yellowText bg-gradient-green shadow-sm`}
+              className={`bg-gradient-green relative my-3 overflow-hidden rounded-lg border-2 border-yellowText shadow-sm`}
             >
               <img
                 src={ActiveContest}
@@ -144,7 +144,8 @@ const ActiveContestAccordion: React.FC = () => {
                             <p className="text-sm font-thin text-white">
                               Payout:{" "}
                               <span className="text-sm font-bold text-white">
-                                (
+                                ({item.payout})
+                                {/* (
                                 <TooltipSpan
                                   text={item.playerPercentage}
                                   tooltip="Player Percentage"
@@ -168,7 +169,7 @@ const ActiveContestAccordion: React.FC = () => {
                                   tooltip="Charity Percentage"
                                   needPY={false}
                                 />
-                                )
+                                ) */}
                               </span>
                             </p>
                             <div className="py-2">

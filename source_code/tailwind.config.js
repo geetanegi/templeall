@@ -39,6 +39,7 @@ export default {
       colors: {
         link: "#8DD35F",
         buttonPrimary: "#5FB643",
+        primaryColor:"#046221",
         primaryText: "#FFFFFF",
         backgroundDark2:
           "linear-gradient(180deg, rgba(4, 98, 33, 0.6) 0%, rgba(7, 46, 26, 0.6) 100%)",

@@ -20,6 +20,19 @@ import {
   updateProfileImage,
 } from "./reducers/Profiler/profiler";
 import { Bell, ChevronDown, Dot } from "lucide-react";
+import { Popover } from "./components/GenericUIcomponents/PopoverComponent";
+import NotificationPopoverComponent from "./components/Notification/NotificationComponent";
+import { timeZone } from "./utils/TimeUtils";
+
+
+type Notification = {
+  id: number;
+  userId: number;
+  message: string;
+  isRead: boolean;
+  readAt: string;
+  createdDate: string;
+};
 
 const Nav: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,6 +51,25 @@ const Nav: React.FC = () => {
   const data = useSelector(
     (state: RootState) => state.permissions.userPermissions,
   );
+
+  const menuList = data?.data?.menuList;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [navCollapsed, setNavCollapsed] = useState(true);
+  const [usersSubMenu, setUsersSubMenu] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(
+    null,
+  );
+  const [notficationList, setNotificationList] = useState<Array<any>>([]);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const toggleNav = () => {
+    setNavCollapsed(!navCollapsed);
+  };
 
   const getUserRole = async () => {
     try {
@@ -64,25 +96,6 @@ const Nav: React.FC = () => {
     getUserRole();
     fetchUserInformation();
   }, []);
-  const menuList = data?.data?.menuList;
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [navCollapsed, setNavCollapsed] = useState(true);
-  const [usersSubMenu, setUsersSubMenu] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pendingNavigation, setPendingNavigation] = useState<string | null>(
-    null,
-  );
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const toggleNav = () => {
-    setNavCollapsed(!navCollapsed);
-  };
-
   // const handleMenuClick = (menuName: string) => {
   //   setSelectedMenu(menuName);
   //   setUsersSubMenu(!usersSubMenu);
@@ -155,6 +168,37 @@ const Nav: React.FC = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    getAllNotification();
+  }, [location.pathname]);
+
+  function countUnreadNotifications(notifications: Notification[]): number {
+    return notifications.filter((notification) => !notification.isRead).length;
+  }
+
+  const getAllNotification = async () => {
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.getAllNotification,
+        {
+          data: {
+            playerId:
+              typeof userInfo === "object" ? userInfo.userId : undefined,
+            zoneId: timeZone,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setNotificationList(data?.data);
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong");
+    } finally {
+    }
+  };
 
   return (
     <nav className="w-full border-b border-gray-200 bg-white shadow dark:bg-gray-900">
@@ -279,14 +323,28 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
-            {userPermisions?.data?.permission["is_player"] && (
-              <div className="relative">
-                <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                  4
-                </span>
-                <Bell color="#7b7887" strokeWidth={2} />
-              </div>
-            )}
+            <div className="relative">
+              <Popover
+                content={<NotificationPopoverComponent  
+                  notficationList={notficationList}
+                  getAllNotification={getAllNotification}
+                />}
+                position="bottom-left"
+                className="mt-7 rounded-md border border-[#04622133]"
+              >
+                {
+                  countUnreadNotifications(notficationList || []) ?
+                <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  {countUnreadNotifications(notficationList || [])}
+                </span> : null
+                }
+                <Bell
+                  color="#7b7887"
+                  className="cursor-pointer"
+                  strokeWidth={2}
+                />
+              </Popover>
+            </div>
             <button
               type="button"
               className="flex items-center justify-center"

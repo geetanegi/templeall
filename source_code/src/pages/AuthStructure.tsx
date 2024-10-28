@@ -29,7 +29,7 @@ const AuthStructure: React.FC = () => {
         >
           {location.pathname === ROUTES.LOGIN && (
             <div 
-            className="mx-auto flex w-full flex-col items-center justify-center  py-12 px-1  md:max-w-3xl md:p-16"
+            className="mx-auto flex w-full flex-col items-center justify-center  py-12 px-5  md:max-w-3xl md:p-16"
             >
               {location.pathname === ROUTES.LOGIN && <Login />}
             </div>

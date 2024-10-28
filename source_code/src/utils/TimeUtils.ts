@@ -30,3 +30,33 @@ export const convertToLocalTime = (
   const localTime = moment.utc(utcTimeString).local().format(format);
   return localTime;
 };
+
+
+
+export const  timeAgo =(createdDate: string)=>  {
+ const  format = "MM/DD/YYYY hh:mm:ss A";
+  // Create a Date object from the UTC date string
+  const date = new Date(moment.utc(createdDate).local().format(format));
+  const now = new Date();
+  
+  // Calculate the difference in seconds
+  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  
+  let interval = Math.floor(seconds / 31536000);
+  if (interval >= 1) return `${interval} year${interval > 1 ? 's' : ''} ago`;
+  
+  interval = Math.floor(seconds / 2592000); // 30 days
+  if (interval >= 1) return `${interval} month${interval > 1 ? 's' : ''} ago`;
+  
+  interval = Math.floor(seconds / 86400); // 24 hours
+  if (interval >= 1) return `${interval} day${interval > 1 ? 's' : ''} ago`;
+  
+  interval = Math.floor(seconds / 3600); // 60 minutes
+  if (interval >= 1) return `${interval} hour${interval > 1 ? 's' : ''} ago`;
+  
+  interval = Math.floor(seconds / 60); // 60 seconds
+  if (interval >= 1) return `${interval} minute${interval > 1 ? 's' : ''} ago`;
+  
+  return 'just now';
+}
+

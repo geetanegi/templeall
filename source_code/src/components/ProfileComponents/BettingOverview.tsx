@@ -178,12 +178,6 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         >
           Performance
         </button>
-        <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
-          onClick={() => setSelectedTab(2)}
-        >
-          Betting Overview
-        </button>
       </div>
       <div className="flex h-full justify-between">
         <div className="w-[50%] h-[320px]  overflow-auto">

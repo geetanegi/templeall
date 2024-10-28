@@ -1,6 +1,5 @@
 import React from "react";
 import Award from "../../assets/images/image 55.png";
-import sparklingImg from "../../assets/images/sparkling (1).png";
 import { jackpot } from "./contestdata";
 
 const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
@@ -14,7 +13,7 @@ const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
           <span className="text-normal">Hole #{jackpot.holeNumber}</span>
           <span className="text-normal">{` ${jackpot.teeName} (${jackpot.yardage})}`}</span>
         </div>
-        <img src={sparklingImg} alt="" className="absolute -top-5" />
+        {/* <img src={sparklingImg} alt="" className="absolute -top-5" /> */}
         <div className="h-[100%] w-[300px] rounded-full border-2 border-[#DED8B9] text-center">
           <div className="relative rounded-full bg-[#1F1F1F] p-2">
             <div className="absolute bottom-0 left-5">

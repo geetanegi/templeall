@@ -194,7 +194,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     video.load();
   };
 
-
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     try {
       dispatch(setLoading(true));
@@ -246,7 +245,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 uploadedBy: typeof userInfo === "object" ? userInfo?.userId : undefined
               },
             };
-
             let newBlobData = new Blob([JSON.stringify(data1)], {
               type: "application/json",
             });

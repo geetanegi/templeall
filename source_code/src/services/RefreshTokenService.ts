@@ -33,6 +33,8 @@ export const refreshTokenAPI = async () => {
       ToastError(data?.description);
     }
   } catch (error) {
+    persistor.purge();
+    window.location.reload();
     ToastError("Something went wrong");
   } finally {
   }

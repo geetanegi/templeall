@@ -57,4 +57,23 @@ axiosInstance.interceptors.request.use(
   },
 );
 
+// Add response interceptor for handling expired tokens
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If error is due to unauthorized (401) and we haven't already retried
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      localStorage.clear();
+      window.location.reload();
+    }
+
+    return Promise.reject(error);
+  },
+);
+
 export default axiosInstance;

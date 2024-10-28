@@ -285,6 +285,7 @@ const Nav: React.FC = () => {
                                   onClick={() => {
                                     dispatch(loginUserDetails({}));
                                     dispatch(logout());
+                                    localStorage.clear();
                                   }}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
                                 >
@@ -302,12 +303,14 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
-            <div className="relative">
-              <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                4
-              </span>
-              <Bell color="#7b7887" strokeWidth={2} />
-            </div>
+            {userPermisions?.data?.permission["is_player"] && (
+              <div className="relative">
+                <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  4
+                </span>
+                <Bell color="#7b7887" strokeWidth={2} />
+              </div>
+            )}
             <button
               type="button"
               className="flex items-center justify-center"
@@ -377,8 +380,10 @@ const Nav: React.FC = () => {
                   <li>
                     <a
                       onClick={() => {
-                        dispatch(loginUserDetails({}));
-                        dispatch(logout());
+                        localStorage.clear();
+                        window.location.reload();
+                        // dispatch(loginUserDetails({}));
+                        // dispatch(logout());
                       }}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
                     >

@@ -10,9 +10,10 @@ import {
   updateProfileImage,
 } from "../reducers/Profiler/profiler";
 import { ToastError } from "../components/Toast";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
 import PlayerHomePage from "../components/PlayerHomePage/PlayerHomePage";
+import AdminHomePage from "../components/PlayerHomePage/AdminHomePage";
 
 const Dashboard: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -57,8 +58,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-
-  if(location.pathname === ROUTES.USERS){
+  if (location.pathname === ROUTES.USERS) {
     if (userPermisions?.data?.permission["is_super_admin"]) {
       return <Adminpanel />;
     } else if (userPermisions?.data?.permission["is_course_admin"]) {
@@ -66,15 +66,15 @@ const Dashboard: React.FC = () => {
     }
   }
 
+  if (userPermisions && userPermisions?.data?.permission["is_course_admin"]) {
+    return <Navigate to={ROUTES.CONTESTS} replace />;
+  }
+
   return (
     <div>
       {userPermisions?.data?.permission["is_player"] && <PlayerHomePage />}
-      {userPermisions?.data?.permission["is_super_admin"] && (
-        <h1>Super Admin</h1>
-      )}
-      {userPermisions?.data?.permission["is_course_admin"] && (
-        <h1>Course Admin</h1>
-      )}
+      {userPermisions?.data?.permission["is_super_admin"] && <AdminHomePage />}
+      {userPermisions?.data?.permission["is_course_admin"] && <AdminHomePage />}
     </div>
   );
 };

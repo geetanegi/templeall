@@ -55,6 +55,7 @@ interface ContestFormValues {
   waitTimeBetweenEntries: string | number | null;
   entriesPer24Hours: string | number | null;
   queueLimit: number | null;
+  note: string;
 }
 
 // import * as Yup from 'yup';
@@ -144,6 +145,7 @@ const validationSchema = Yup.object({
   }),
 
   queueLimit: Yup.string().required("This field is mandatory."),
+  note: Yup.string().required("This field is mandatory."),
 });
 
 const Contests: React.FC = () => {
@@ -184,6 +186,7 @@ const Contests: React.FC = () => {
     entriesPer24Hours: editData?.entriesPer24Hours || "",
     waitTimeBetweenEntries: editData?.waitTimeBetweenEntries || "",
     queueLimit: editData?.queueLimit || 4,
+    note: editData?.note || "",
   };
 
   const userPermisions = useSelector(
@@ -424,6 +427,7 @@ const Contests: React.FC = () => {
             saveState?.selectedDays?.length > 0 ? selectedDays.join(",") : null,
           endAfterOccurrences: saveState.repeatEvery,
         },
+        note: values.note,
       },
     };
 
@@ -529,14 +533,14 @@ const Contests: React.FC = () => {
                           {userPermisions.data?.permission[
                             "is_super_admin"
                           ] && (
-                            <button
-                              disabled={isSuperAdmin || isSubmitting}
-                              type="submit"
-                              className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
-                            >
-                              Save
-                            </button>
-                          )}
+                              <button
+                                disabled={isSuperAdmin || isSubmitting}
+                                type="submit"
+                                className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
+                              >
+                                Save
+                              </button>
+                            )}
                         </div>
                       </Form>
                     );

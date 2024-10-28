@@ -285,6 +285,7 @@ const Nav: React.FC = () => {
                                   onClick={() => {
                                     dispatch(loginUserDetails({}));
                                     dispatch(logout());
+                                    localStorage.clear();
                                   }}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
                                 >
@@ -379,8 +380,8 @@ const Nav: React.FC = () => {
                   <li>
                     <a
                       onClick={() => {
-                        dispatch(loginUserDetails({}));
-                        dispatch(logout());
+                        localStorage.clear();
+                        window.location.reload();
                       }}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
                     >

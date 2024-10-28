@@ -154,5 +154,4 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
     </div>
   );
 };
-
 export default ImageComponent;

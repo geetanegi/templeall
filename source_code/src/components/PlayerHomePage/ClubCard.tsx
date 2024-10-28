@@ -5,7 +5,7 @@ import GolfTee from "../../assets/images/sports_golf (2).png";
 import orangeGolf from "../../assets/images/sports_golf-orange.png";
 import BGGolfImage from "../../assets/images/bg-img-authflow.jpg";
 import { ContestInfo, leaderBoard } from "./LeaderBoard";
-import TooltipSpan from "../Tooltip/TooltipSpan";
+// import TooltipSpan from "../Tooltip/TooltipSpan";
 import CustomDropdown from "./CustomDropdown";
 
 const ClubCard: React.FC<{
@@ -117,7 +117,8 @@ const ClubCard: React.FC<{
               <h3 className="text-sm">
                 Payout:{" "}
                 <span className="-mb-2.5">
-                  (
+                  ({contestInfo.payout})
+                  {/* (
                   <TooltipSpan
                     text={contestInfo.playerPercentage}
                     tooltip="Player Percentage"
@@ -141,7 +142,7 @@ const ClubCard: React.FC<{
                     tooltip="Charity Percentage"
                     needPY={false}
                   />
-                  )
+                  ) */}
                 </span>
               </h3>
             </div>

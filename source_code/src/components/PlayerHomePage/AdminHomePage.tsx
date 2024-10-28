@@ -10,7 +10,7 @@ import { RootState } from "../../store";
 import { setLoading } from "../../reducers/loader/loader";
 import PageLoader from "../PageLoader";
 
-const PlayerHomePage: React.FC = () => {
+const AdminHomePage: React.FC = () => {
   const dispatch = useDispatch();
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
@@ -98,7 +98,7 @@ const PlayerHomePage: React.FC = () => {
             {!showAll && (
               <div className="mt-6 px-4">
                 {/* highlights tabs  */}
-                <ContestTabs showMostRecent={true} />
+                <ContestTabs showMostRecent={false} />
               </div>
             )}
           </div>
@@ -113,4 +113,4 @@ const PlayerHomePage: React.FC = () => {
   );
 };
 
-export default PlayerHomePage;
+export default AdminHomePage;

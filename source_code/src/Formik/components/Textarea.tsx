@@ -19,7 +19,6 @@ const MUITextArea: React.FC<TextAreaProps> = ({
   validateRegex,
   rows = 4,
 }) => {
-  // Function to validate input and block special characters and spaces
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const char = String.fromCharCode(event.which);
     if (validateRegex && !validateRegex.test(char)) {
@@ -31,28 +30,45 @@ const MUITextArea: React.FC<TextAreaProps> = ({
     <div className="mb-4 h-full w-full">
       <Field name={name}>
         {({ field, form }: { field: any; form: any }) => (
-          <TextField
-            {...field}
-            label={
-              <span>
-                {label}
-                {required && <span className="ml-1 text-red-500">*</span>}
-              </span>
-            }
-            multiline
-            rows={rows}
-            className={`w-full rounded-lg border px-2 text-gray-500`}
-            helperText={<ErrorMessage name={name} component="span" />}
-            error={Boolean(form.errors[name] && form.touched[name])}
-            inputProps={{ maxLength }}
-            onKeyPress={handleKeyPress} // Add key press handler if needed
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "10px",
-                backgroundColor: "#FAFAFA",
-              },
-            }} // Set width to 100% to fill parent
-          />
+          <>
+            <TextField
+              {...field}
+              label={
+                <span>
+                  {label}
+                  {required && <span className="ml-1 text-red-500">*</span>}
+                </span>
+              }
+              multiline
+              rows={rows}
+              className="w-full rounded-lg border px-2 text-gray-500"
+              error={Boolean(form.errors[name] && form.touched[name])}
+              inputProps={{ maxLength }}
+              onKeyPress={handleKeyPress}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "5px",
+                  backgroundColor: "#FAFAFA",
+                },
+              }}
+            />
+            {/* ErrorMessage with custom styling */}
+            <ErrorMessage name={name}>
+              {(msg) => (
+                <span
+                  style={{
+                    color: "#d32f2f",
+                    fontSize: "0.75rem",
+                    textAlign: "left",
+                    display: "block",
+                    // marginLeft: "-10px", // Adds -10px left margin
+                  }}
+                >
+                  {msg}
+                </span>
+              )}
+            </ErrorMessage>
+          </>
         )}
       </Field>
     </div>

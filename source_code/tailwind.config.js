@@ -39,6 +39,8 @@ export default {
         backgroundDark2:
           "linear-gradient(180deg, rgba(4, 98, 33, 0.6) 0%, rgba(7, 46, 26, 0.6) 100%)",
         yellowText: "#FFDE59",
+        warning: "#FFF3E0",
+        warningText:"#FF9800"
       },
     },
   },

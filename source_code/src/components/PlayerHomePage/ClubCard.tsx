@@ -2,7 +2,7 @@ import React from "react";
 import { CircleCheck, LandPlot } from "lucide-react";
 import Golf from "../../assets/images/golf_course (3).png";
 import GolfTee from "../../assets/images/sports_golf (2).png";
-import orangeGolf from "../../assets/images/sports_golf-orange.png";
+import orangeGolf from "../../assets/images/sports_golf.png";
 import BGGolfImage from "../../assets/images/bg-img-authflow.jpg";
 import { ContestInfo, leaderBoard } from "./LeaderBoard";
 // import TooltipSpan from "../Tooltip/TooltipSpan";
@@ -24,7 +24,7 @@ const ClubCard: React.FC<{
   return (
     <div>
       <div
-        className={`relative my-4 w-full overflow-hidden rounded-lg border border-gray-300`}
+        className={`bg-gradient-green relative my-4 w-full overflow-hidden rounded-lg border border-gray-300`}
       >
         <img
           src={BGGolfImage}
@@ -58,12 +58,18 @@ const ClubCard: React.FC<{
               {/* sub-part 1 */}
               <div className="-mt-5 mb-8">
                 <div className="flex items-center space-x-2">
-                  <LandPlot strokeWidth={1.25} className="h-5 w-5" />
-                  <span className="text-sm font-semibold">
+                  <LandPlot
+                    strokeWidth={1.25}
+                    color="#ffffff"
+                    className="h-5 w-5"
+                  />
+                  <span className="text-sm font-semibold text-white">
                     {contestInfo.clubName}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500">{contestInfo.location}</p>
+                <p className="text-xs font-thin text-gray-500 text-white">
+                  {contestInfo.location}
+                </p>
               </div>
               {/* sub-part 2 */}
               <div>
@@ -73,15 +79,18 @@ const ClubCard: React.FC<{
                     alt="golf"
                     className="h-4 w-4 text-gray-600"
                   />
-                  <span className="text-sm">
+                  <span className="text-sm font-thin text-white">
                     Hole <strong>#{contestInfo.holeNumber}</strong>, Par{" "}
                     {contestInfo.par}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <img src={GolfTee} alt="" className="h-4 w-4" />
-                  <span className="text-sm">
-                    {contestInfo.teeName} ({contestInfo.yardage} yards)
+                  <span className="text-sm text-white">
+                    {contestInfo.teeName}{" "}
+                    <span className="font-thin">
+                      ({contestInfo.yardage} yards)
+                    </span>
                   </span>
                 </div>
               </div>
@@ -89,7 +98,7 @@ const ClubCard: React.FC<{
             {contestInfo.activeStatus === "Open" && (
               <div className="flex items-center space-x-1 rounded-lg bg-[#FD8A0233] p-1 px-2">
                 <img src={orangeGolf} alt="" className="h-4 w-4" />
-                <p className="text-xs text-[#FD8A02]">
+                <p className="text-xs text-yellowText">
                   {contestInfo.activeStatus}
                 </p>
               </div>
@@ -110,14 +119,25 @@ const ClubCard: React.FC<{
 
             {/* part 2 */}
             <div className="space-y-2">
-              <h3 className="text-sm">{contestInfo.contestType}</h3>
-              <h3 className="text-sm">Entry Fee: ${contestInfo.entryFee}</h3>
-              <h3 className="text-sm">Players: {contestInfo.playerCount}</h3>
-              <h3 className="text-sm">Total Prize: {contestInfo.totalPrize}</h3>
-              <h3 className="text-sm">
+              <h3 className="text-sm font-semibold text-white">
+                {contestInfo.contestType}
+              </h3>
+              <h3 className="text-sm font-thin text-white">
+                Entry Fee:{" "}
+                <span className="font-semibold">${contestInfo.entryFee}</span>
+              </h3>
+              <h3 className="text-sm text-white">
+                Players:{" "}
+                <span className="font-semibold">{contestInfo.playerCount}</span>
+              </h3>
+              <h3 className="text-sm text-white">
+                Total Prize:{" "}
+                <span className="font-semibold">{contestInfo.totalPrize}</span>
+              </h3>
+              <h3 className="text-sm text-white">
                 Payout:{" "}
                 <span className="-mb-2.5">
-                  ({contestInfo.payout})
+                  <span className="font-semibold"> ({contestInfo.payout})</span>
                   {/* (
                   <TooltipSpan
                     text={contestInfo.playerPercentage}

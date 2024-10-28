@@ -4,7 +4,7 @@ import { store, persistor } from "../store";
 import { ToastError } from "../components/Toast";
 import moment from "moment";
 
-const refreshTokenAPI = async () => {
+export const refreshTokenAPI = async () => {
   try {
     const state = store.getState();
     const token = state?.auth?.token;
@@ -14,12 +14,10 @@ const refreshTokenAPI = async () => {
       },
     });
 
-    // console.log(data, status);
     if (status === 200 && data?.data != null && !data?.error) {
       const expirationTime = moment()
         .add(8, "hours")
         .format("YYYY-MM-DD HH:mm:ss");
-      localStorage.setItem("expirationTime", expirationTime);
       localStorage.setItem("expirationTime", expirationTime);
       if (data?.data?.token) {
         store.dispatch({
@@ -30,6 +28,8 @@ const refreshTokenAPI = async () => {
         });
       }
     } else {
+      persistor.purge();
+      window.location.reload();
       ToastError(data?.description);
     }
   } catch (error) {

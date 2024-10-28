@@ -67,7 +67,7 @@ const ClubCard: React.FC<{
                     {contestInfo.clubName}
                   </span>
                 </div>
-                <p className="text-xs font-thin text-gray-500 text-white">
+                <p className="text-xs font-thin text-white">
                   {contestInfo.location}
                 </p>
               </div>

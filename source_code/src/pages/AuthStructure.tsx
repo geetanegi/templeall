@@ -17,42 +17,44 @@ const AuthStructure: React.FC = () => {
 
   return (
     <PageLoader isActive={loader}>
-      <div className="bg-backgroundDark">
+      <div
+      className="bg-backgroundDark"
+      >
+      <div
+        className={`align-center bg-backgroundDark flex h-screen w-full ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
+      >
+        <AceCamUI />
         <div
           className={`align-center flex h-screen w-full bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
         >
-          <AceCamUI />
-          <div
-            className={`flex h-full w-full flex-col ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} md:flex-row`}
-          >
-            {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-1 py-12 md:max-w-3xl md:p-16">
-                {location.pathname === ROUTES.LOGIN && <Login />}
-              </div>
-            )}
-            {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:max-w-3xl md:p-8">
-                {location.pathname === ROUTES.FORGET_PASSWORD && (
-                  <ForgetPassword />
-                )}
-              </div>
-            )}
-            {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:max-w-2xl md:p-8">
-                {location.pathname === ROUTES.RESET_PASSWORD && (
-                  <ResetPassword />
-                )}
-              </div>
-            )}
-            {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:max-w-3xl md:p-8">
-                {location.pathname === ROUTES.SIGNUP && (
-                  <StripeIntegration>
-                    <Register />
-                  </StripeIntegration>
-                )}
-              </div>
-            )}
+          {location.pathname === ROUTES.LOGIN && (
+            <div 
+            className="mx-auto flex w-full flex-col items-center justify-center  py-12 px-1  md:max-w-3xl md:p-16"
+            >
+              {location.pathname === ROUTES.LOGIN && <Login />}
+            </div>
+          )}
+          {location.pathname === ROUTES.FORGET_PASSWORD && (
+            <div className="mx-auto flex w-full flex-col items-center justify-center  py-12 px-5 md:max-w-3xl md:p-8">
+              {location.pathname === ROUTES.FORGET_PASSWORD && (
+                <ForgetPassword />
+              )}
+            </div>
+          )}
+          {location.pathname === ROUTES.RESET_PASSWORD && (
+            <div className="mx-auto flex w-full flex-col items-center justify-center  py-12 px-5 md:max-w-2xl md:p-8">
+              {location.pathname === ROUTES.RESET_PASSWORD && <ResetPassword />}
+            </div>
+          )}
+          {location.pathname === ROUTES.SIGNUP && (
+            <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center py-12 px-5 md:max-w-3xl md:p-8">
+              {location.pathname === ROUTES.SIGNUP && (
+                <StripeIntegration>
+                  <Register />
+                </StripeIntegration>
+              )}
+            </div>
+          )}
 
             {location.pathname === ROUTES.STRIPE && (
               <div className="flex w-full flex-col items-center justify-center p-6 pt-[100px] md:w-3/5 md:p-8">

@@ -16,7 +16,9 @@ export default {
       backgroundImage: {
         "mobile-background": "url('/src/assets/images/Golf BG.png')",
         "desktop-background": "url('/src/assets/images/AceCam-golf-bg.png')",
-        'gradient-green': 'linear-gradient(180deg, #259965 0%, #046221 100%)',
+        'gradient-green': 'linear-gradient(180deg, #046221 0%, #072E1A 100%)',
+        'hero-pattern':
+          "linear-gradient(to right bottom, rgba(43, 108, 176, 0.9), rgba(43, 108, 176, 0.9)), url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.eAFxNBriFW8k0jCNOTCe6gHaHs%26pid%3DApi&f=1')",
 
         profilebackground: "url('/src/assets/images/peofile_background.svg')",
         "custom-gradient-1":

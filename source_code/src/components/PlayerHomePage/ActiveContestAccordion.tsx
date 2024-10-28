@@ -144,7 +144,7 @@ const ActiveContestAccordion: React.FC = () => {
                             <p className="text-sm font-thin text-white">
                               Payout:{" "}
                               <span className="text-sm font-bold text-white">
-                                {item.payout}
+                                ({item.payout})
                                 {/* (
                                 <TooltipSpan
                                   text={item.playerPercentage}

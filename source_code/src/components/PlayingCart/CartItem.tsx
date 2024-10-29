@@ -4,7 +4,6 @@ import golfStickWithTee from "../../assets/images/image 8.png";
 import { useDispatch } from "react-redux";
 import { removeSelectedContest } from "../../reducers/Courses_data/courses";
 import moment from "moment";
-import { convertToLocalTime } from "../../utils/TimeUtils";
 
 interface ContestProps {
   contestId: number;
@@ -60,8 +59,6 @@ const CartItem: React.FC<{ contest: ContestProps }> = ({ contest }) => {
     );
     setIsRegistrationOpen(open);
   }, [currentTime, contest.registrationStartTime, contest.registrationEndTime]);
-
-  console.log("convertToLocalTime", convertToLocalTime);
 
   return (
     <div>

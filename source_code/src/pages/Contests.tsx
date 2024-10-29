@@ -393,6 +393,17 @@ const Contests: React.FC = () => {
       return;
     }
 
+    const totalPayout: number =
+      parseInt(values.acecamPercentage) +
+      parseInt(values.charityPercentage) +
+      parseInt(values.coursePercentage) +
+      parseInt(values.playerPercentage);
+
+    if (totalPayout > 100) {
+      ToastError("Total payout percentage should not be greater than 100%");
+      return;
+    }
+
     const obj = {
       data: {
         timeZone: tz,

@@ -544,14 +544,14 @@ const Contests: React.FC = () => {
                           {userPermisions.data?.permission[
                             "is_super_admin"
                           ] && (
-                            <button
-                              disabled={isSuperAdmin || isSubmitting}
-                              type="submit"
-                              className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
-                            >
-                              Save
-                            </button>
-                          )}
+                              <button
+                                disabled={isSuperAdmin || isSubmitting}
+                                type="submit"
+                                className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
+                              >
+                                Save
+                              </button>
+                            )}
                         </div>
                       </Form>
                     );

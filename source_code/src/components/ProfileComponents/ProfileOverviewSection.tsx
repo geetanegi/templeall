@@ -113,7 +113,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         userInfo={userInfo}
         userId={userId}
       /> :
-        <div className='h-full ml-0 lg:ml-20 w-[60%]'>
+        <div className='h-full ml-0 lg:ml-20 w-[70%]'>
           <div className='flex flex-col-reverse w-full justify-between sm:flex-row'>
             <BettingOverview 
               userinformation={userinformation}
@@ -121,6 +121,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
               fetchUserInformation={fetchUserInformation}
               userInfo={userInfo}
               userId={userId}
+              isCommunitySearch={isCommunitySearch}
             />
           </div>
         </div>

@@ -23,7 +23,7 @@ import { Bell, ChevronDown, Dot } from "lucide-react";
 import { Popover } from "./components/GenericUIcomponents/PopoverComponent";
 import NotificationPopoverComponent from "./components/Notification/NotificationComponent";
 import { timeZone } from "./utils/TimeUtils";
-
+import { setPaymentSuccess } from "./reducers/Payment/Payment";
 
 type Notification = {
   id: number;
@@ -38,6 +38,9 @@ const Nav: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const paymentSucess = useSelector(
+    (state: RootState) => state.payment.paymentSuccess,
+  );
 
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const userPermisions = useSelector(
@@ -102,6 +105,10 @@ const Nav: React.FC = () => {
   // };
 
   const handleMenuClick = (menuName: string, routeUrl: string) => {
+    if (paymentSucess) {
+      dispatch(setPaymentSuccess(false));
+    }
+
     // Check if the current path is "/checkout"
     if (location.pathname === ROUTES.CHECKOUT) {
       // If on checkout page, store the pending navigation and show modal
@@ -325,19 +332,20 @@ const Nav: React.FC = () => {
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <div className="relative">
               <Popover
-                content={<NotificationPopoverComponent  
-                  notficationList={notficationList}
-                  getAllNotification={getAllNotification}
-                />}
+                content={
+                  <NotificationPopoverComponent
+                    notficationList={notficationList}
+                    getAllNotification={getAllNotification}
+                  />
+                }
                 position="bottom-left"
                 className="mt-7 rounded-md border border-[#04622133]"
               >
-                {
-                  countUnreadNotifications(notficationList || []) ?
-                <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                  {countUnreadNotifications(notficationList || [])}
-                </span> : null
-                }
+                {countUnreadNotifications(notficationList || []) ? (
+                  <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                    {countUnreadNotifications(notficationList || [])}
+                  </span>
+                ) : null}
                 <Bell
                   color="#7b7887"
                   className="cursor-pointer"

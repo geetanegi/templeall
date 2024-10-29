@@ -340,11 +340,13 @@ const ContestForm: React.FC<ContestProps> = ({
             </div>
           </div>
           <div>
-            <h5 className="text-l mb-2 font-normal text-black">Notes:</h5>
+            <h5 className="text-l mb-2 font-normal text-black">
+              Eligibility Requirements:
+            </h5>
             <div className="w-full">
               <FormikControl
                 control="textarea"
-                label="Add Notes"
+                label="Eligibility Requirements"
                 name="note"
                 className="flex flex-row"
                 maxLength={150}
@@ -354,7 +356,7 @@ const ContestForm: React.FC<ContestProps> = ({
           </div>
           <div>
             <h5 className="text-l font-normal text-black">
-              User Limits Section
+              Limit Entries Per User
             </h5>
             <div>
               <FormikControl

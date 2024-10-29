@@ -61,8 +61,6 @@ const CartItem: React.FC<{ contest: ContestProps }> = ({ contest }) => {
     setIsRegistrationOpen(open);
   }, [currentTime, contest.registrationStartTime, contest.registrationEndTime]);
 
-  console.log("convertToLocalTime", convertToLocalTime);
-
   return (
     <div>
       <div

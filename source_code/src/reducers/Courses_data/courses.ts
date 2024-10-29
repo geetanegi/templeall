@@ -22,6 +22,7 @@ export interface CoursesState {
   holeNumber: number | null;
   par: number | null;
   yardage: number | null;
+  TotalPrice: number | null;
 }
 
 // Define the initial state
@@ -40,6 +41,7 @@ const initialState: CoursesState = {
   holeNumber: null,
   par: null,
   yardage: null,
+  TotalPrice: null,
 };
 
 // Create the slice
@@ -147,6 +149,9 @@ const courseSlice = createSlice({
     setYardage: (state, action: PayloadAction<number | null>) => {
       state.yardage = action.payload;
     },
+    setTotalPrice: (state, action: PayloadAction<number | null>) => {
+      state.TotalPrice = action.payload;
+    },
   },
 });
 
@@ -168,5 +173,6 @@ export const {
   setHoleNumber,
   setPar,
   setYardage,
+  setTotalPrice,
 } = courseSlice.actions;
 export default courseSlice.reducer;

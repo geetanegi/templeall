@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import CartItem from "./CartItem";
+import { setTotalPrice } from "../../reducers/Courses_data/courses";
 
 const PlayingCart: React.FC = () => {
+  const dispatch = useDispatch();
   const selectedContestsList = useSelector(
     (state: RootState) => state.courses.selectedContests,
   );
@@ -27,7 +29,10 @@ const PlayingCart: React.FC = () => {
         )
       : 0;
 
-  // console.log("selectedContestsList", selectedContestsList);
+  useEffect(() => {
+    dispatch(setTotalPrice(totalPrice));
+  }, [totalPrice]);
+
   return (
     <div className="max-w-4xl rounded-lg bg-white shadow-md">
       {/* Contests List */}

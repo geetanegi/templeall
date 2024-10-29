@@ -12,6 +12,10 @@ const PaymentSuccess: React.FC = () => {
     (state: RootState) => state.payment.paymentSuccess,
   );
 
+  const TotalPrice = useSelector(
+    (state: RootState) => state.courses.TotalPrice,
+  );
+
   useEffect(() => {
     if (!paymentSucess) {
       navigate(-1);
@@ -72,7 +76,7 @@ const PaymentSuccess: React.FC = () => {
           <div>
             <div className="flex justify-around text-lg text-gray-600">
               <p>Amount Paid:</p>
-              <p>$15</p>
+              <p>${TotalPrice}</p>
             </div>
             <div className="mt-2 flex justify-around text-lg text-gray-600">
               <p>Payment Method:</p>

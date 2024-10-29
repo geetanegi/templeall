@@ -99,7 +99,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
   };
 
   return (
-    <div className="flex flex-col relative left- top-[-24px] h-[432px] w-[350px]">
+    <div className="flex flex-col relative left- top-[-24px] h-[432px] w-[360px]">
       <button
         className={`ml-auto mt-5 z-10 cursor-pointer w-10 text-center rounded-full bg-[#1D1A0C66] p-2  ${!userId || (typeof userInfo === "object" && "userId" in userInfo && userId == userInfo.userId) ? "" : "invisible"} `}
       >
@@ -114,7 +114,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           onChange={handleFileChange}
         />
       </button>
-      <div className="relative left-[40px] top-[-68px] border-gray mx-auto h-[432px] w-[350px] border bg-gray-500 p-2  lg:border-0 lg:lg:bg-transparent">
+      <div className="relative left-[40px] top-[-68px] border-gray mx-auto h-[432px] w-[360px] border bg-gray-500 p-2  lg:border-0 lg:lg:bg-transparent">
         <div className="ml-auto" style={{width: "max-content", height: "max-content"}}>
         {image ? (
           <img

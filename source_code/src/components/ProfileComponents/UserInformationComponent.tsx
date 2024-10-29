@@ -38,23 +38,18 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
 
   return (
     <>
-      <div className=' lg:relative slex mt-16 w-[245px] h-[298px]  lg:right-0 bg-[#ffffff99]   rounded-lg mx-auto lg:mx-0  sm:ml-10 p-4'
+      <div className='mt-16  w-[245px] h-[298px]  bg-[#ffffff99]  rounded-lg  p-4'
         style={{ height: "max-content" }}
       >
 
         <div className='flex'>
-          <div className='mr-3 my-auto'>
-            <img src={golfKitIcon} alt="Golf Kit Icon" className='my-2' />
-            <img src={golfBallIcon} alt="Golf Ball Icon" className='my-2' />
-            <img src={golfCourse} alt="Golf Course Icon" />
-          </div>
-          <div>
-            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Age :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.age || '---'}</span></div>
-            <div className='flex'><span className='mr-3 whitespace-nowrap'>Handicap :</span><div className='flex flex-wrap'>{userinformation?.userProfile?.handicap || '---'}</div></div>
-            <div className='flex'><div className='mr-3 whitespace-nowrap'>Clubs :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.clubs || '---'}</div></div>
-            <div className='flex' ><div className='mr-3 whitespace-nowrap'>Ball :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.ball || '---'}</div></div>
-            <div className='flex'><div className='mr-3 whitespace-nowrap'>Course :</div><div className='flex flex-wrap' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
-            <div className='whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
+          <div className='flex flex-col gap-1'>
+            <div className='flex items-center  text-[14px] gap-2 whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Age :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.age || '---'}</span></div>
+            <div className='flex items-center  text-[14px] gap-2'><span className='mr-3 whitespace-nowrap'>Handicap :</span><div className='flex flex-wrap'>{userinformation?.userProfile?.handicap || '---'}</div></div>
+            <div className='flex items-center  text-[14px] gap-2'><img src={golfKitIcon} alt="Golf Kit Icon" className='mr-[-7px]' /><div className='whitespace-nowrap'>Clubs :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.clubs || '---'}</div></div>
+            <div className='flex items-center  text-[14px] gap-2' > <img src={golfBallIcon} alt="Golf Ball Icon" className='' /><div className=' whitespace-nowrap'>Ball :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.ball || '---'}</div></div>
+            <div className='flex items-center  text-[14px] gap-2 whitespace-nowrap '><img src={golfCourse} alt="Golf Course Icon" className='-mr-1' /><div className=' whitespace-nowrap'>Course :</div><div className='flex flex-wrap leading-tight  ' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
+            <div className='flex items-center  text-[14px] gap-2 whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
           </div>
           <div>
           </div>
@@ -63,7 +58,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
           {
             !userId || (userId == userInfo?.userId) ?
               <button
-                className='border border-[#95C11E] ml-10 mt-5 text-[#95C11E] w-[138px] h-[30px] rounded-md'
+                className='border border-[#95C11E] ml-10 mt-10 text-[#95C11E] w-[138px] h-[30px] rounded-md'
                 onClick={() => setIsModalOpen(true)}
               >Edit Profile</button> : <div className='ml-10 mt-5  w-[138px] h-[30px]'></div>
           }

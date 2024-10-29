@@ -296,13 +296,16 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                       />
                     </div>
                     <div className="flex gap-5 px-5">
-                      <div className="w-[120px]">
-                        <img
-                          src={thumbnail}
-                          alt=""
-                          className="h-[92px] w-[120px] rounded-md"
-                        />
-                      </div>
+                    <div className="w-[120px] h-[92px] w-[120px] border border-gray-400 rounded-md">
+                          {
+                            thumbnail ? 
+                            <img
+                              src={thumbnail}
+                              alt=""
+                              className="h-[92px] w-[120px] rounded-md"
+                            /> : null
+                          }
+                        </div>
                       <div className="">
                         <div
                           className="ml-auto flex h-[92px] w-[300px] cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-[#7B7887] bg-[#F5F6F7]"

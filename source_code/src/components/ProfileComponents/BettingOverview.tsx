@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import UserinformationComponent from "./UserInformationComponent";
 import SwitchComponent from "../SwitchComponent";
+import apiService from "../../services/apiService";
+import { API_URL } from "../../services/enums";
+import { ToastError, ToastSuccess } from "../Toast";
 
 interface BettingOverviewProps {
   userinformation: any;
@@ -8,188 +11,173 @@ interface BettingOverviewProps {
   fetchUserInformation: () => void;
   userId: string | number;
   userInfo: any;
+  isCommunitySearch:boolean |undefined
 }
 
-const sectionArr = [
-  {
-    style: "",
-    content: [
-      {
-        name: "Total Wager Amount",
-        value: "$1,685.50",
-      },
-      {
-        name: "Total Winnings",
-        value: "$34,560.00",
-      },
-      {
-        name: "Net Earnings",
-        value: "$32,874.50",
-      },
-    ],
-  },
-  {
-    label: "Contest and Competition",
-    style: "",
-    content: [
-      {
-        name: "AceCam Jackpot",
-        value: "$33,420.00",
-      },
-      {
-        name: "Closest-to-Pin",
-        value: "$615.00",
-      },
-      {
-        name: "Hit-the-Green",
-        value: "$380.00",
-      },
-      {
-        name: "Other Chanalenges",
-        value: "$20.00",
-      },
-    ],
-  },
-  {
-    label: "AceCam Tournaments & Events",
-    style: "justify-center",
-    content: [
-      {
-        name: "AceCam Shootouts",
-        value: "$0.00",
-      },
-      {
-        name: "Best Finish",
-        value: "T-11",
-      },
-      {
-        name: "AceCam Outings",
-        value: "$125.00",
-      },
-      {
-        name: "Best Finish",
-        value: "T-4",
-      },
-    ],
-  },
-];
-
-const sectionArr2 = [
-  {
-    label: "Summary",
-    style: "",
-    content: [
-      {
-        name: "Avg. score (Gross)",
-        value: "3.03 (Top 10%)",
-      },
-      {
-        name: "Closest Shot",
-        value: "4.12 feet (Top 3%)",
-      },
-      {
-        name: "Avg. Proximity",
-        value: "32.5 feet (Top 10%)",
-      },
-      {
-        name: "GIR Percentage",
-        value: "66.5% (Top 15%)",
-      },
-      {
-        name: "Avg. Putts",
-        value: "1.88 (Top 15%)",
-      },
-    ],
-  },
-  {
-    label: "Top Performance Metrics",
-    style: "justify-center",
-    content: [
-      {
-        name: "Hole-in-One",
-        value: "1.0 (Top 1%)",
-      },
-      {
-        name: "Birdie Streak",
-        value: "3.00 (Top 1%)",
-      },
-      {
-        name: "Birdie Total",
-        value: "17.0 (Top 15%)",
-      },
-     
-    ],
-  },
-];
 const BettingOverview: React.FC<BettingOverviewProps> = ({
   userinformation,
   isModalOpen,
   fetchUserInformation,
   userId,
   userInfo,
+  isCommunitySearch
 }) => {
-  const [selectedTab, setSelectedTab] = useState<number>(1);
-  const [userstats, setUserStats] = useState<any>([])
+  const [userstats, setUserStats] = useState<any>({});
 
- 
-
-  useEffect(()=>{
-    if(selectedTab === 1){
-      setUserStats(sectionArr2)
-    }else if(selectedTab === 2){
-      setUserStats(sectionArr)
+  useEffect(() => {
+    setUserStats({})
+    if(isCommunitySearch && userId != userInfo?.userId){
+      searchUserPS()
     }else{
-      setUserStats([])
+      getAllPerformanceStates();
     }
-  }, [selectedTab])
+  }, [userId, location.pathname]);
 
-  const computeSubBettingViewSection = (sections: Array<any>) => {
-      return sections.map((item: any) => (
-        <div className={`mt-3`}>
-          {item?.label && (
-            <h3 className="text-[14px] underline">{item?.label || ""}</h3>
-          )}
-          {item?.content?.map((itm: any) => (
-            <div className={`flex ${selectedTab === 1 ? "my-1": ""}`}>
-              <span className="mr-1 text-[14px] text-gray-500">
-                {itm.name}:
-              </span>
+  const searchUserPS = async()=>{
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.searchUserPS,
+        {
+          data: {
+            selectedUserId: userId,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setUserStats(data?.data);
+      } else if (data?.error && data.description) {
+        // ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong.");
+    }
+  }
 
-              <span>{itm.value}</span>
-            </div>
-          ))}
-         
+  const getAllPerformanceStates = async () => {
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.getAllPerFormanceStaics,
+        {
+          data: {
+            loginUserId: userId || userInfo?.userId,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        setUserStats(data?.data);
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong.");
+    }
+  };
+
+  const updateVisibilityOfPS = async (e: any) => {
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.updatePSVisibility,
+        {
+          data: {
+            selectedUserId: userInfo?.userId,
+            showVisibility: e,
+          },
+        },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+          ToastSuccess(data?.data?.message)
+          fetchUserInformation()
+      } else if (data?.error && data.description) {
+        ToastError(data.description);
+      }
+    } catch (error) {
+      ToastError("Something went wrong.");
+    }
+  };
+
+  const computeSubBettingViewSection = () => {
+    return (
+      <div className="flex flex-col gap-5">
+        <div>
+          <h2 className="text-[16px] underline">Summary</h2>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">
+              Avg. Score(Gross):
+            </span>{" "}
+            {userstats?.avgScore || 0}
+          </div>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">
+              Closest Shot:
+            </span>{" "}
+            {userstats?.closestShotFt || 0}
+          </div>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">
+              Avg. Proximity:
+            </span>{" "}
+            {userstats?.avgProximity || 0}
+          </div>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">
+              GIR Percentage:
+            </span>{" "}
+            {userstats?.girPercentage || 0}
+          </div>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">Avg. Putts:</span>{" "}
+            {userstats?.avgPutts || 0}
+          </div>
         </div>
-      ));
+        <div>
+          <h2 className="text-[16px] underline">Top Performance Metrics </h2>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">Hole-in-One:</span>{" "}
+            {userstats?.holeInOnes || 0}
+          </div>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">
+              Birdie Streak:
+            </span>{" "}
+            {userstats?.birdieStreak || 0}
+          </div>
+          <div>
+            <span className="mr-1 text-[14px] text-gray-500">
+              Birdie Total:
+            </span>{" "}
+            {userstats?.birdieTotal || 0}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div
-      className="mb-10 ml-0 mt-40 w-full border border-gray-400 p-2 lg:mb-0 lg:ml-10 lg:mt-0 lg:border-0 lg:p-0"
-      //   style={{ width: "fit-content" }}
-    >
+    <div className="mb-10 ml-0 mt-40 w-full border border-gray-400 p-2 lg:mb-0 lg:ml-5 lg:mt-0 lg:border-0 lg:p-0">
       <div
-        className="flex h-[38px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
+        className={`mt-5 flex h-[38px] gap-[16px] rounded-l-full rounded-r-full p-[1px]
+              ${Object.keys(userstats).length ? 'visible': 'invisible'}
+          `}
         style={{ width: "max-content" }}
       >
-        <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[25px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
-          onClick={() => setSelectedTab(1)}
-        >
-          Performance
-        </button>
+        <h1 className="text-[16px] leading-relaxed">Performance</h1>
       </div>
       <div className="flex h-full justify-between">
-        <div className="w-[50%] h-[320px]  overflow-auto">
-          {computeSubBettingViewSection(userstats)}
-          {
-            (!userId || (userId == userInfo?.userId)) &&  selectedTab === 1  ? <div className="flex gap-3 items-center">
-                <h3 className="font-bold mt-3">Visibility</h3> 
-                <div className="mt-2">
-                <SwitchComponent isChecked={true} />
-                </div>
-            </div> : null
-          }
+        <div className={`h-[320px] w-[50%] overflow-auto
+            ${Object.keys(userstats).length ? 'visible': 'invisible'}
+          `}>
+          {computeSubBettingViewSection()}
+          {!userId || userId == userInfo?.userId ? (
+            <div className="flex items-center gap-3">
+              <h3 className="mt-3 font-bold">Visibility</h3>
+              <div className="mt-2">
+                <SwitchComponent
+                  isChecked={userinformation?.userProfile?.showVisibility}
+                  onChange={(e) => updateVisibilityOfPS(e)}
+                />
+              </div>
+            </div>
+          ) : null}
         </div>
         <UserinformationComponent
           userinformation={userinformation}

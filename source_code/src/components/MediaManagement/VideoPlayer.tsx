@@ -38,6 +38,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           playing={true} // Auto-play is true
           width={width}
           height={height}
+          config={{
+            file: {
+              attributes: {
+                preload: 'auto', // Preloads video for faster playback
+              },
+              hlsOptions: {
+                maxBufferLength: 5, // Adjust buffer length for shorter videos
+              },
+            },
+          }}
           controls
           // onReady={handlePlayerReady}
         />

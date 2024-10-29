@@ -68,6 +68,10 @@ export const API_URL = {
   getAllNotification: "core/user-notification/all-user-notification",
   notificationMarkAsRead: "core/user-notification/mark-as-read-notification",
   clearNotification:"core/user-notification/clear-all",
+  getAllPerFormanceStaics:"core/profile/all-performance-statics",
+  updatePSVisibility: "core/user/update-show-visibility",
+  searchUserPS:"/core/profile/search-user-ps",
+
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",
   getLiveLeaderBoard: "/core/leader-board/live",

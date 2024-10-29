@@ -96,11 +96,11 @@ const validationSchema = Yup.object({
     .min(10, "Please enter valid phone number.")
     .max(10, "Please enter valid phone number."),
   location: Yup.string().matches(
-    /^[A-Za-z]+$/,
+    /^[A-Za-z\s]+$/,
     "Location must contain only alphabetic characters",
   ),
   city: Yup.string().matches(
-    /^[A-Za-z]+$/,
+    /^[A-Za-z\s]+$/,
     "City must contain only alphabetic characters",
   ),
   ghin: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid GHIN Number."),

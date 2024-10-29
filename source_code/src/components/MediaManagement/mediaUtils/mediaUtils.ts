@@ -108,9 +108,10 @@ export const computeFilterDropDown = (
   } else if (renderFor === "Player") {
     return [
       { id: 1, key: "", name: "All" },
-      { id: 2, key: "TOP_SHOT", name: "Top Shot" },
-      { id: 3, key: "NOT_TOP_SHOT", name: "Not Top Shot" },
-      { id: 4, key: "SOTW", name: "Shot Of The Week" },
+      { id: 2, key: "BLOOPERS", name: "Blooper" },
+      { id: 3, key: "TOP_SHOT", name: "Top Shot" },
+      { id: 4, key: "NOT_TOP_SHOT", name: "Not Top Shot" },
+      { id: 5, key: "SOTW", name: "Shot Of The Week" },
     ];
   }
 };

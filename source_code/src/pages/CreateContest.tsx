@@ -19,6 +19,7 @@ import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
+import { parseInt } from "lodash";
 
 // interface recurrence {
 //   frequency: string;
@@ -384,6 +385,17 @@ const CreateContest: React.FC = () => {
     //   ToastError("Please select Make Recurring ");
     //   return;
     // }
+
+    const totalPayout: number =
+      parseInt(values.acecamPercentage) +
+      parseInt(values.charityPercentage) +
+      parseInt(values.coursePercentage) +
+      parseInt(values.playerPercentage);
+
+    if (totalPayout > 100) {
+      ToastError("Total payout percentage should not be greater than 100%");
+      return;
+    }
 
     const obj = {
       data: {

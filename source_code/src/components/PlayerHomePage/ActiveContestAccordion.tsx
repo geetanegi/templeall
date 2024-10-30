@@ -250,7 +250,7 @@ const ActiveContestAccordion: React.FC = () => {
                                 size={14}
                                 className="mx-1 inline"
                               />
-                              <b>Eligibility criteria </b> : {item.note}
+                              <b>Eligibility requirements </b> : {item.note}
                             </p>
                           </div>
                         </div>

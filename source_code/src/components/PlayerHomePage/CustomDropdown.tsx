@@ -87,7 +87,7 @@ const PlayerCustomDropdown: React.FC<Props> = ({
                   {selectedText.yardage})
                 </div>
               ) : (
-                "Select an option"
+                <div className="text-white">Select an option</div>
               )}
             </>
           }

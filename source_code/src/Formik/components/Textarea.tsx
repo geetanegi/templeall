@@ -9,6 +9,7 @@ interface TextAreaProps {
   maxLength?: number;
   validateRegex?: RegExp;
   rows?: number;
+  disabled?: boolean;
 }
 
 const MUITextArea: React.FC<TextAreaProps> = ({
@@ -18,6 +19,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
   maxLength,
   validateRegex,
   rows = 4,
+  disabled = false,
 }) => {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const char = String.fromCharCode(event.which);
@@ -40,6 +42,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
                 </span>
               }
               multiline
+              disabled={disabled}
               rows={rows}
               className="w-full rounded-lg border px-2 text-gray-500"
               error={Boolean(form.errors[name] && form.touched[name])}

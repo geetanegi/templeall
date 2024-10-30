@@ -14,6 +14,7 @@ interface TableComponentProps {
   style?: any;
   oddRowStyle?: React.CSSProperties;
   evenRowStyle?: React.CSSProperties;
+  greenTheme?: boolean;
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
@@ -29,6 +30,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   style = {},
   oddRowStyle = {},
   evenRowStyle = {},
+  greenTheme = false,
 }) => {
   const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -56,23 +58,44 @@ const TableComponent: React.FC<TableComponentProps> = ({
           style={rowData.length ? {} : scrollbarStyles}
         >
           <table className="font-inter w-full table-auto overflow-scroll border text-left text-sm md:overflow-auto">
-            <thead className="w-full rounded-lg text-base font-semibold text-white">
-              <tr className="bg-[#F3F6F9] text-sm">
-                {Headers.map((item, index) => {
-                  return (
-                    <th
-                      key={index}
-                      className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
-                      style={{
-                        width: "max-content",
-                      }}
-                    >
-                      {item.field}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
+            {greenTheme ? (
+              <thead className="w-full rounded-lg text-base font-semibold text-white">
+                <tr className="bg-[#07321B] text-sm">
+                  {Headers.map((item, index) => {
+                    return (
+                      <th
+                        key={index}
+                        className={`whitespace-nowrap px-3 py-3 font-normal text-white ${style}`}
+                        style={{
+                          width: "max-content",
+                        }}
+                      >
+                        {item.field}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+            ) : (
+              <thead className="w-full rounded-lg text-base font-semibold text-white">
+                <tr className="bg-[#F3F6F9] text-sm">
+                  {Headers.map((item, index) => {
+                    return (
+                      <th
+                        key={index}
+                        className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
+                        style={{
+                          width: "max-content",
+                        }}
+                      >
+                        {item.field}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+            )}
+
             <tbody className="bg-white text-sm">
               {rowData?.map((data, index) => (
                 <tr

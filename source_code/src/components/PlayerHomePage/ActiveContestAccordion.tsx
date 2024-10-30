@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, StickyNote } from "lucide-react";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 // import SwitchComponent from "../SwitchComponent";
@@ -63,6 +63,7 @@ const ActiveContestAccordion: React.FC = () => {
   //   setIsModalOpen(true);
   // };
 
+  console.log("data", data);
   return (
     <PageLoader isActive={loader}>
       <div className="w-full">
@@ -80,23 +81,25 @@ const ActiveContestAccordion: React.FC = () => {
               // style={{
               //   borderColor: i === openAccordion ? "#95C11E" : "#FFDE59",
               // }}
-              className={`bg-gradient-green relative my-3 overflow-hidden rounded-lg border-2 border-yellowText shadow-sm`}
+              className={`relative my-3 overflow-hidden rounded-lg border-2 border-yellowText bg-gradient-green shadow-sm`}
             >
-              <img
-                src={ActiveContest}
-                alt=""
-                className="absolute"
-                style={{
-                  opacity: 0.1,
-                  transform: "translate(0%, -45%)",
-                  height: "25vh",
-                  width: "100%",
-                }}
-              />
               <button
                 onClick={() => handleToggle(i)}
-                className="flex w-[97%] items-center justify-between p-4 text-left font-medium text-white focus:outline-none"
+                className="relative flex w-full items-center justify-between overflow-hidden p-4 text-left font-medium text-white focus:outline-none"
               >
+                <img
+                  src={ActiveContest}
+                  alt=""
+                  className="absolute"
+                  style={{
+                    opacity: 0.1,
+                    // transform: "translate(0%, -45%)",
+                    // height: "25vh",
+                    // width: "100%",
+                    left: 0,
+                    right: 0,
+                  }}
+                />
                 <div>
                   {item.clubName}
                   <p className="text-xs font-thin text-white">
@@ -104,7 +107,7 @@ const ActiveContestAccordion: React.FC = () => {
                     {item.courseName}
                   </p>
                 </div>
-                <div className="font-sm font-thin text-white">
+                <div className="font-sm mr-6 font-thin text-white">
                   Hole <span className="font-semibold">#{item.holeNumber}</span>{" "}
                   - Par {item.par}
                   <p className="text-xs font-thin text-white">
@@ -237,6 +240,21 @@ const ActiveContestAccordion: React.FC = () => {
                           </div>
                         </div>
                       </div>
+                      {/* eligibility criteria  */}
+                      {item.note !== null && (
+                        <div>
+                          <div className="bg-[#37704B]">
+                            <p className="px-1 py-1 text-xs text-yellowText">
+                              <StickyNote
+                                color="#FFDE59"
+                                size={14}
+                                className="mx-1 inline"
+                              />
+                              <b>Eligibility criteria </b> : {item.note}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
               </div>

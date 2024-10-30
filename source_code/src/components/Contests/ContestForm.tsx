@@ -348,9 +348,11 @@ const ContestForm: React.FC<ContestProps> = ({
                 control="textarea"
                 label="Eligibility Requirements"
                 name="note"
+                required={true}
                 className="flex flex-row"
                 maxLength={150}
                 rows={4}
+                disabled={isSuperAdmin}
               />
             </div>
           </div>

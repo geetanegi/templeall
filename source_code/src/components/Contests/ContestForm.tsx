@@ -352,6 +352,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 className="flex flex-row"
                 maxLength={150}
                 rows={4}
+                disabled={isSuperAdmin}
               />
             </div>
           </div>

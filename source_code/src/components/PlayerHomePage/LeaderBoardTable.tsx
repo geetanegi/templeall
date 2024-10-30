@@ -69,6 +69,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
           pagination={false}
           oddRowStyle={{ backgroundColor: "#4C525E" }}
           evenRowStyle={{ backgroundColor: "#61656E" }}
+          greenTheme={true}
         />
         <div className="text-right">
           <button
@@ -101,6 +102,7 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
             pagination={false}
             oddRowStyle={{ backgroundColor: "#4C525E" }}
             evenRowStyle={{ backgroundColor: "#61656E" }}
+            greenTheme={true}
           />
         </div>
       </Modal>

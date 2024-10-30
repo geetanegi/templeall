@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, StickyNote } from "lucide-react";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 // import SwitchComponent from "../SwitchComponent";
@@ -63,6 +63,7 @@ const ActiveContestAccordion: React.FC = () => {
   //   setIsModalOpen(true);
   // };
 
+  console.log("data", data);
   return (
     <PageLoader isActive={loader}>
       <div className="w-full">
@@ -239,6 +240,21 @@ const ActiveContestAccordion: React.FC = () => {
                           </div>
                         </div>
                       </div>
+                      {/* eligibility criteria  */}
+                      {item.note !== null && (
+                        <div>
+                          <div className="bg-[#37704B]">
+                            <p className="px-1 py-1 text-xs text-yellowText">
+                              <StickyNote
+                                color="#FFDE59"
+                                size={14}
+                                className="mx-1 inline"
+                              />
+                              <b>Eligibility criteria </b> : {item.note}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
               </div>

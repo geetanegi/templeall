@@ -3,9 +3,9 @@ import { CircleCheck, LandPlot } from "lucide-react";
 import whiteGolf from "../../assets/images/golf_course-white.png";
 import GolfTee from "../../assets/images/sports_golf-white.png";
 import orangeGolf from "../../assets/images/sports_golf.png";
-import BGGolfImage from "../../assets/images/bg-img-authflow.jpg";
 import { ContestInfo, leaderBoard } from "./LeaderBoard";
 // import TooltipSpan from "../Tooltip/TooltipSpan";
+import GolfDrive from "../../assets/images/golfDrive.jpg";
 import CustomDropdown from "./CustomDropdown";
 
 const ClubCard: React.FC<{
@@ -24,14 +24,15 @@ const ClubCard: React.FC<{
   return (
     <div>
       <div
-        className={`bg-gradient-green relative my-4 w-full overflow-hidden rounded-lg border border-gray-300`}
+        className={`relative my-4 w-full overflow-hidden rounded-lg border border-gray-300 bg-gradient-green`}
       >
         <img
-          src={BGGolfImage}
+          src={GolfDrive}
           alt=""
           className="absolute"
           style={{
             opacity: 0.1,
+            transform: `translate(0px, -150px)`,
           }}
         />
         <div className="relative flex flex-col items-center justify-center gap-4 p-4">

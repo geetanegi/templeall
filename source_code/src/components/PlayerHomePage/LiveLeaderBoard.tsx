@@ -26,6 +26,8 @@ const LiveLeaderBoard: React.FC = () => {
   const [dropDownList, setDropDownList] = useState<leaderBoard[] | null>(null);
   const [selectedValue, setSelectedValue] = useState<any>("");
   const [leaderBoardData, setLeaderBoardData] = useState<any>([]);
+
+  // user live leader board
   const getLiveLeaderBoard = async () => {
     try {
       dispatch(setLoading(true));
@@ -77,6 +79,7 @@ const LiveLeaderBoard: React.FC = () => {
     }
   };
 
+  // superadmin liveleaderboard
   const liveLeaderBoard = async () => {
     try {
       dispatch(setLoading(true));
@@ -85,6 +88,7 @@ const LiveLeaderBoard: React.FC = () => {
         {
           data: {
             zoneId: tz,
+            scheduleContestId: selectedValue,
           },
         },
       );
@@ -104,18 +108,22 @@ const LiveLeaderBoard: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedValue) {
+    // call user getlive leaderboard
+    if (selectedValue && !isSuperAdmin) {
       getLiveLeaderBoard();
     }
-  }, [selectedValue]);
+  }, [selectedValue, isSuperAdmin]);
 
   useEffect(() => {
-    if (isSuperAdmin) {
+    // superadmin live leaderboard
+    if (selectedValue && isSuperAdmin) {
       liveLeaderBoard();
-    } else {
-      liveLeaderBoardDropDown();
     }
-  }, [isSuperAdmin]);
+  }, [selectedValue, isSuperAdmin]);
+
+  useEffect(() => {
+    liveLeaderBoardDropDown();
+  }, []);
 
   const renderClubCardSuperAdmin = () => {
     if (leaderBoardData?.data?.contestInfo === null) {
@@ -128,7 +136,7 @@ const LiveLeaderBoard: React.FC = () => {
       return (
         <ClubCard
           contestInfo={leaderBoardData?.data?.contestInfo}
-          showDropDown={false}
+          showDropDown={true}
           dropDownList={
             dropDownList && dropDownList.length > 0 ? dropDownList : []
           }

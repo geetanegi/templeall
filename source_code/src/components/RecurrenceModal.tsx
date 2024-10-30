@@ -113,7 +113,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 onChange={(e) => {
                   setRepeatEvery(Number(e.target.value));
                 }}
-                className="block w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-sm font-semibold text-gray-800 outline-none md:w-[70px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-sm font-semibold text-gray-800 outline-none md:w-[70px]"
               >
                 {Array.from({ length: 31 }, (_, i) => (
                   <option
@@ -131,7 +131,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                 onChange={(e) => {
                   setFrequency(e.target.value);
                 }}
-                className="block w-full rounded border border-gray-300 bg-gray-100 p-2 text-sm font-semibold text-gray-800 outline-none md:w-[140px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded border border-gray-300 bg-gray-100 p-2 text-sm font-semibold text-gray-800 outline-none md:w-[140px]"
               >
                 <option className="font-semibold text-gray-800" value="DAILY">
                   Day

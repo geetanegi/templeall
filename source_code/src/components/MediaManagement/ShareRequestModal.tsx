@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../ModalComponent";
-import { ArrowDownToLine, Instagram, Music } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 
 interface ShareVideoModalProps {

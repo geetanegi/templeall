@@ -9,8 +9,8 @@ import { ToastError, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
 import { downloadFile } from "../utils/downloadUtils";
 
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -139,8 +139,8 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center md:justify-between items-center space-y-2">
-        <h4 className="px-6 text-xs text-center md:text-left text-[#ffffff] md:text-sm">
+      <div className="flex flex-col items-center justify-center space-y-2 md:justify-between">
+        <h4 className="px-6 text-center text-xs text-[#ffffff] md:text-left md:text-sm">
           Enter the OTP sent to{" "}
           <span className={`text-[16px] font-bold text-yellowText`}>
             {email ? email : maskEmail}
@@ -149,8 +149,8 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
         <span className="text-red-600">{otpError}</span>
 
-        <div className="flex w-full justify-center items-center md:justify-between flex-col-reverse justify-between pb-2 md:flex-row md:pb-6">
-          <div className="text-center flex">
+        <div className="flex w-full flex-col-reverse items-center justify-center justify-between pb-2 md:flex-row md:justify-between md:pb-6">
+          <div className="flex text-center">
             <p className={`text-xs text-primaryText md:text-sm`}>
               Didn't you receive the OTP?{" "}
               <button
@@ -166,7 +166,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
               </button>
             </p>
           </div>
-          <div className="flex w-full justify-center items-center md:justify-between flex-col md:w-auto md:flex-row">
+          <div className="flex w-full flex-col items-center justify-center md:w-auto md:flex-row md:justify-between">
             <p className="mb-4 pl-6 text-xs font-semibold text-[#ffffff] sm:text-left md:px-0 md:text-center md:text-sm lg:text-right">
               OTP is valid for 5 minutes
             </p>
@@ -180,10 +180,10 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           Verify
         </button>
 
-        <div className="flex w-full justify-center items-center md:justify-between flex-col md:flex-row  pb-4 md:pb-0">
+        <div className="flex w-full flex-col items-center justify-center pb-4 md:flex-row md:justify-between md:pb-0">
           <p className={`text-xs text-primaryText md:text-sm`}>
-            You can resend OTP in <span className={`text-yellowText`}>{timeLeft}</span>{" "}
-            seconds
+            You can resend OTP in{" "}
+            <span className={`text-yellowText`}>{timeLeft}</span> seconds
           </p>
           <Link
             to={ROUTES.LOGIN}
@@ -194,7 +194,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           </Link>
         </div>
         <div>
-          <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex invisible md:visible">
+          <div className="invisible fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:visible md:flex">
             <div className="right-1 top-[1px] flex md:absolute">
               <p
                 onClick={downloadTermsAndConditionsFunc}

@@ -29,8 +29,8 @@ import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
 
 import { downloadFile } from "../utils/downloadUtils";
 
@@ -223,8 +223,7 @@ const Register: React.FC = () => {
   return (
     <>
       {!showOtpScreen && !showSuccessScreen && (
-        <div className="bg-back-600 my-10 flex h-auto  w-full flex-col border items-center rounded-xl p-2 md:w-full md:p-8"
-        >
+        <div className="bg-back-600 my-10 flex h-auto w-full flex-col items-center rounded-xl border p-2 md:w-full md:p-8">
           <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
           <div className="flex gap-5">
             <InstagramLoginComponent />
@@ -233,9 +232,11 @@ const Register: React.FC = () => {
               redirectUri={API_URL.fbRedirectUI}
             />
             <img src={TikTok} alt="" />
-            <GoogleLoginComponent  />
+            <GoogleLoginComponent />
           </div>
-          <h2 className={`my py-2 my-8 font-semibold text-primaryText`}>-OR-</h2>
+          <h2 className={`my my-8 py-2 font-semibold text-primaryText`}>
+            -OR-
+          </h2>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -356,7 +357,7 @@ const Register: React.FC = () => {
                   />
                 </div>
                 <div className="mx-auto max-w-md">
-                  <h2 className={`mb-4 text-xl text-primaryText font-semibold `}>
+                  <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
                     Card Information
                   </h2>
                   <div className="mb-4 flex flex-col">
@@ -502,13 +503,15 @@ const Register: React.FC = () => {
 
                 <button
                   type="submit"
-                  className={`w-full rounded-md bg-buttonPrimary border py-2 text-white hover:bg-lime-600`}
+                  className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
                   disabled={isSubmitting}
                 >
                   Create Account
                 </button>
 
-                <p className={`mb-6 mt-2 text-center text-primaryText md:text-left`}>
+                <p
+                  className={`mb-6 mt-2 text-center text-primaryText md:text-left`}
+                >
                   Already have an account?{" "}
                   <Link
                     to={ROUTES.LOGIN}
@@ -531,23 +534,23 @@ const Register: React.FC = () => {
               </p>
             </div>
             <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
-              <div className="flex right-1 top-[1px] md:absolute">
-              <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
+              <div className="right-1 top-[1px] flex md:absolute">
+                <p
+                  onClick={downloadTermsAndConditionsFunc}
+                  className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                >
+                  Terms and Conditions
+                </p>{" "}
+                <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                  |
+                </p>{" "}
+                <p
+                  className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                  onClick={downloadPrivacyPolicyFunc}
+                >
+                  {" "}
+                  Privacy Policy
+                </p>
               </div>
             </div>
           </div>

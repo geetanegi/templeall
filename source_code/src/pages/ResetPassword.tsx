@@ -13,8 +13,8 @@ import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { downloadFile } from "../utils/downloadUtils";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
 
 const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -90,8 +90,7 @@ const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center border rounded-lg p-2 md:mt-10 md:w-full md:p-6"
-    >
+    <div className="flex w-full flex-col items-center rounded-lg border p-2 md:mt-10 md:w-full md:p-6">
       {/* // sm:max-h-56 for mobile but not */}
       <img src={aceCampLogo} alt="" className="-mt-20 h-32 w-32" />
 
@@ -101,7 +100,9 @@ const ResetPassword: React.FC = () => {
         </div>
       ) : (
         <>
-          <h1 className={`py-2 text-xl font-semibold text-primaryText md:py-5 md:text-2xl`}>
+          <h1
+            className={`py-2 text-xl font-semibold text-primaryText md:py-5 md:text-2xl`}
+          >
             Reset Your Password
           </h1>
           <Formik
@@ -133,7 +134,7 @@ const ResetPassword: React.FC = () => {
 
               <button
                 type="submit"
-                className={`w-full rounded-md bg-buttonPrimary border py-2 text-white hover:bg-lime-600`}
+                className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
               >
                 Reset Password
               </button>
@@ -147,45 +148,45 @@ const ResetPassword: React.FC = () => {
         </>
       )}
       <div>
-          <div className="flex md:hidden">
+        <div className="flex md:hidden">
           <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
-          </div>
-          <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] flex md:absolute">
-              <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
-            </div>
+            onClick={downloadTermsAndConditionsFunc}
+            className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+          >
+            Terms and Conditions
+          </p>{" "}
+          <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+            |
+          </p>{" "}
+          <p
+            className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+            onClick={downloadPrivacyPolicyFunc}
+          >
+            {" "}
+            Privacy Policy
+          </p>
+        </div>
+        <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
+          <div className="right-1 top-[1px] flex md:absolute">
+            <p
+              onClick={downloadTermsAndConditionsFunc}
+              className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+            >
+              Terms and Conditions
+            </p>{" "}
+            <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+              |
+            </p>{" "}
+            <p
+              className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              onClick={downloadPrivacyPolicyFunc}
+            >
+              {" "}
+              Privacy Policy
+            </p>
           </div>
         </div>
+      </div>
     </div>
   );
 };

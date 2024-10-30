@@ -40,7 +40,6 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
       );
       if (status === 200 && data?.data != null && !data?.error) {
         getAllNotification()
-        ToastSuccess(data.data.message)
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
@@ -51,7 +50,7 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
 
   }
 
-  const clearNotification = async(notificationId:number | string)=>{
+  const clearNotification = async(notificationId:number | string, toastFlag:boolean)=>{
     try {
       dispatch(setLoading(true));
       const { data, status } = await apiService.post<any>(
@@ -64,7 +63,9 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
       );
       if (status === 200 && data?.data != null && !data?.error) {
         getAllNotification()
-        ToastSuccess(data.data.message)
+        if(toastFlag){
+          ToastSuccess(data.data.message)
+        }
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
@@ -94,7 +95,7 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
                   </span>
                   <span className="text-gray-500 text-[12px]">{timeAgo(notification.createdDate)}</span>
                 </div>
-                <Trash2 size={14} className="text-primaryColor" onClick={()=>clearNotification(notification.id)} />
+                <Trash2 size={14} className="text-primaryColor" onClick={()=>clearNotification(notification.id, true)} />
               </div>
               <div className="h-[1px] bg-[#04622133]"></div>
             </>
@@ -103,7 +104,7 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
       <div className="pt-auto mt-auto flex min-h-[46px] justify-end gap-4 border-t px-5">
         <button className="flex items-center justify-center gap-2 text-[14px] text-primaryColor"
           onClick={()=>{
-            clearNotification(notficationList.map(notification => notification.id).join(','))
+            clearNotification(notficationList.map(notification => notification.id).join(','),false)
           }}
         >
           <CopyX size={14} /> Clear All{" "}

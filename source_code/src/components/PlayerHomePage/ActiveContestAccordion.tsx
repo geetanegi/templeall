@@ -80,23 +80,25 @@ const ActiveContestAccordion: React.FC = () => {
               // style={{
               //   borderColor: i === openAccordion ? "#95C11E" : "#FFDE59",
               // }}
-              className={`bg-gradient-green relative my-3 overflow-hidden rounded-lg border-2 border-yellowText shadow-sm`}
+              className={`relative my-3 overflow-hidden rounded-lg border-2 border-yellowText bg-gradient-green shadow-sm`}
             >
-              <img
-                src={ActiveContest}
-                alt=""
-                className="absolute"
-                style={{
-                  opacity: 0.1,
-                  transform: "translate(0%, -45%)",
-                  height: "25vh",
-                  width: "100%",
-                }}
-              />
               <button
                 onClick={() => handleToggle(i)}
-                className="flex w-[97%] items-center justify-between p-4 text-left font-medium text-white focus:outline-none"
+                className="relative flex w-full items-center justify-between overflow-hidden p-4 text-left font-medium text-white focus:outline-none"
               >
+                <img
+                  src={ActiveContest}
+                  alt=""
+                  className="absolute"
+                  style={{
+                    opacity: 0.1,
+                    // transform: "translate(0%, -45%)",
+                    // height: "25vh",
+                    // width: "100%",
+                    left: 0,
+                    right: 0,
+                  }}
+                />
                 <div>
                   {item.clubName}
                   <p className="text-xs font-thin text-white">
@@ -104,7 +106,7 @@ const ActiveContestAccordion: React.FC = () => {
                     {item.courseName}
                   </p>
                 </div>
-                <div className="font-sm font-thin text-white">
+                <div className="font-sm mr-6 font-thin text-white">
                   Hole <span className="font-semibold">#{item.holeNumber}</span>{" "}
                   - Par {item.par}
                   <p className="text-xs font-thin text-white">

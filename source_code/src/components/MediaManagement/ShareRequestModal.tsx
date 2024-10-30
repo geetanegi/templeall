@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../ModalComponent";
-import { ArrowDownToLine, Instagram, Music } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 
 interface ShareVideoModalProps {
@@ -47,7 +47,7 @@ const ShareVideoModal: React.FC<ShareVideoModalProps> = ({
                 download
                 className="flex items-center justify-center rounded-full bg-gray-200 text-[gray] hover:bg-blue-700"
               >
-                <ArrowDownToLine className="text-2xl hover:text-[#fff] p-3 h-full w-full" />
+                <ArrowDownToLine className="h-full w-full p-3 text-2xl hover:text-[#fff]" />
               </a>
               <span className="mt-2 text-xs text-gray-600">Download</span>
             </div>

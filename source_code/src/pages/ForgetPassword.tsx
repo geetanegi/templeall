@@ -14,8 +14,8 @@ import { ToastError, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { downloadFile } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolf_PrivacyPolicy.pdf";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolf_TermsAndConditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.pdf";
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -102,9 +102,9 @@ const ForgetPassword: React.FC = () => {
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div
-        className={`flex w-full flex-col items-center rounded-xl pb-28 border ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+        className={`flex w-full flex-col items-center rounded-xl border pb-28 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
       >
         {/* // sm:max-h-56 for mobile but not */}
         <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
@@ -136,17 +136,14 @@ const ForgetPassword: React.FC = () => {
 
                 <button
                   type="submit"
-                  className={`w-full rounded-md bg-buttonPrimary border py-2 text-white hover:bg-lime-600`}
+                  className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
                 >
                   Send OTP
                 </button>
               </Form>
             </Formik>
             <p className="mt-4 text-center">
-              <Link
-                to={ROUTES.LOGIN}
-                className={`text-link hover:underline`}
-              >
+              <Link to={ROUTES.LOGIN} className={`text-link hover:underline`}>
                 Back to login
               </Link>
             </p>
@@ -155,22 +152,22 @@ const ForgetPassword: React.FC = () => {
         {DisplayScreens()}
         <div>
           <div className="flex md:hidden">
-          <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
+            <p
+              onClick={downloadTermsAndConditionsFunc}
+              className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+            >
+              Terms and Conditions
+            </p>{" "}
+            <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+              |
+            </p>{" "}
+            <p
+              className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+              onClick={downloadPrivacyPolicyFunc}
+            >
+              {" "}
+              Privacy Policy
+            </p>
           </div>
           <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
             <div className="right-1 top-[1px] flex md:absolute">

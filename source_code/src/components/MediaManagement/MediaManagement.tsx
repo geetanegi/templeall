@@ -41,6 +41,10 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [mediaCounts, setMediaCounts] = useState<any>({});
   const [isStatusChange, setIsStatusChange] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(0);
+  const [uploadProgressArr, setUploadProgressArr] = useState<Array<any>>([]);
+  const [uploadSotwProgressArr, setUploadSotwProgressArr] = useState<
+    Array<any>
+  >([]);
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
@@ -51,7 +55,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     setIsSoTW(false);
     getAllMediaCounts();
     setFilterValue("");
-  }, [selectedTab, isRefreshList]);
+  }, [selectedTab, isRefreshList, uploadProgressArr, uploadSotwProgressArr]);
 
   useEffect(() => {
     fetchCourseData();
@@ -71,7 +75,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.")
+      ToastError("Something went wrong.");
     }
   };
 
@@ -131,7 +135,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.")
+      ToastError("Something went wrong.");
     }
   };
 
@@ -139,15 +143,56 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     setFilterValue(event.target.value); // Update the state with the selected value
   };
 
+  const handleInprogressVideoList = (data: any, action: string) => {
+    if (action === "add") {
+      setUploadSotwProgressArr((prevArr) => {
+        const videoIndex = prevArr.findIndex((item) => item.vidId === data.vidId);
+  
+        if (videoIndex !== -1) {
+          const updatedArr = [...prevArr];
+          updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };
+          return updatedArr;
+        } else {
+          return [{ ...data }, ...prevArr];
+        }
+      });
+    } else if (action === "remove") {
+      setUploadSotwProgressArr((prevArr) =>
+        prevArr.filter((item) => item.vidId !== data.vidId)
+      );
+    }
+  }
+
+  const handleReqVideoInprogressList = (data: any, action: string) =>{
+    if (action === "add") {
+      setUploadProgressArr((prevArr) => {
+        const videoIndex = prevArr.findIndex((item) => item.id === data.id);
+  
+        if (videoIndex !== -1) {
+          const updatedArr = [...prevArr];
+          updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };
+          return updatedArr;
+        } else {
+          return [{ ...data }, ...prevArr];
+        }
+      });
+    } else if (action === "remove") {
+      setUploadProgressArr((prevArr) =>
+        prevArr.filter((item) => item.id !== data.id)
+      );
+    }
+  }
+
   if (userPermisions?.data?.permission["is_player"]) {
     return <PlayerMediaPage />;
-  }else if(!userPermisions?.data?.permission){
-    return <div className="h-[100vh] bg-[#ffffff]"></div>
+  } else if (!userPermisions?.data?.permission) {
+    return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
   return (
-    <div className=" min-h-[88vh] bg-fixed w-full bg-[#ffffff]" 
-      style={{height:"max-content"}}
+    <div
+      className="min-h-[88vh] w-full bg-[#ffffff] bg-fixed"
+      style={{ height: "max-content" }}
     >
       <div className="flex justify-between px-10 pt-10">
         {userPermisions?.data?.permission["is_super_admin"] ? (
@@ -192,7 +237,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               />
               Shot of the Week
               <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-                {mediaCounts.Shot_Of_The_Week || 0}
+                {Number(mediaCounts.Shot_Of_The_Week) + uploadSotwProgressArr.length || 0}
               </span>
             </button>
           </div>
@@ -239,6 +284,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsVideoPlayerVisible={setIsVideoPlayerVisible}
         selectedTab={selectedTab}
         setIsModalOpen={setIsModalOpen}
+        isModalOpen={isModalOpen}
         setVideoCategory={setVideoCategory}
         setSelectedReqVideoId={setSelectedReqVideoId}
         setSelectedVideo={setSelectedVideo}
@@ -251,8 +297,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsStatusChange={setIsStatusChange}
         isStatusChange={isStatusChange}
         setDataLength={setDataLength}
+        uploadProgressArr={uploadProgressArr}
+        isSOTWModalOpen={isSOTWModalOpen}
+        uploadSotwProgressArr={uploadSotwProgressArr}
       />
-      
+
       <UploadVideoModal
         isModalOpen={isModalOpen}
         selectedTab={selectedTab}
@@ -262,6 +311,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         selectedReqVideoId={selectedReqVideoId}
         setIsRefreshList={setIsRefreshList}
         isRefreshList={isRefreshList}
+        handleReqVideoInprogressList={handleReqVideoInprogressList}
       />
       <UploadShotOfTheWeekModal
         isModalOpen={isSOTWModalOpen}
@@ -271,6 +321,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         selectedReqVideoId={selectedReqVideoId}
         setIsRefreshList={setIsRefreshList}
         isRefreshList={isRefreshList}
+        // setUploadProgressArr={setUploadSotwProgressArr}
+        // uploadSotwProgressArr={uploadSotwProgressArr}
+        handleInprogressVideoList={handleInprogressVideoList}
       />
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}

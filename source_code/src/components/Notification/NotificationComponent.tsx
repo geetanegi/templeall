@@ -90,7 +90,7 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
                 onClick={()=>markNotiicationAsRead(notification.id)}
               >
                 <div className="flex w-[90%] flex-col">
-                  <span className="text-justify text-sm">
+                  <span className="text-sm">
                     {notification.message}
                   </span>
                   <span className="text-gray-500 text-[12px]">{timeAgo(notification.createdDate)}</span>

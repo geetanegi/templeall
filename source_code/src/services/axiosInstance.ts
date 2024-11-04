@@ -2,6 +2,7 @@ import axios from "axios";
 import { store } from "../store";
 import moment from "moment";
 import { refreshTokenAPI } from "./RefreshTokenService";
+import { logout } from "../reducers/login/login";
 
 const axiosInstance = axios.create({
   // baseURL: "http://10.95.4.121:9091/", // Test env
@@ -65,12 +66,14 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    const dispatch = store.dispatch;
 
     // If error is due to unauthorized (401) and we haven't already retried
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      localStorage.clear();
-      window.location.reload();
+      // localStorage.clear();
+      // window.location.reload();
+      dispatch(logout());
     }
 
     return Promise.reject(error);

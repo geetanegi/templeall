@@ -90,7 +90,7 @@ const ClubCard: React.FC<{
                   <span className="text-sm text-white">
                     {contestInfo.teeName}{" "}
                     <span className="font-thin">
-                      ({contestInfo.yardage} yards)
+                      ({contestInfo.teeYardage} yards)
                     </span>
                   </span>
                 </div>
@@ -129,7 +129,9 @@ const ClubCard: React.FC<{
               </h3>
               <h3 className="text-sm text-white">
                 Players:{" "}
-                <span className="font-semibold">{contestInfo.playerCount}</span>
+                <span className="font-semibold">
+                  {contestInfo.totalRegistrationCount}
+                </span>
               </h3>
               <h3 className="text-sm text-white">
                 Total Price:{" "}

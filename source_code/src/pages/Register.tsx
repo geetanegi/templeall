@@ -349,7 +349,7 @@ const Register: React.FC = () => {
                 </div>
                 <div className="mb-4">
                   <FormikControl
-                    label="GHIN"
+                    label="GHIN (Optional)"
                     name="ghin"
                     control="number"
                     className="w-full"

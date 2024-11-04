@@ -49,4 +49,5 @@ export interface jackpot {
   yardage: 123000;
   teeName: string;
   teePosition: string;
+  teeYardage: number;
 }

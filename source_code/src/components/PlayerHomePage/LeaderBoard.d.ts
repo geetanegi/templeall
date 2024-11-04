@@ -17,6 +17,8 @@ export interface ContestInfo {
   imageBase64: string;
   location: string;
   payout: string;
+  totalRegistrationCount: number;
+  teeYardage: number;
 }
 
 export interface LeaderboardEntry {

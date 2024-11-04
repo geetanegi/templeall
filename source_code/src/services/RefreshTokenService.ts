@@ -3,8 +3,10 @@ import { API_URL } from "./enums";
 import { store, persistor } from "../store";
 import { ToastError } from "../components/Toast";
 import moment from "moment";
+import { logout } from "../reducers/login/login";
 
 export const refreshTokenAPI = async () => {
+  const dispatch = store.dispatch;
   try {
     const state = store.getState();
     const token = state?.auth?.token;
@@ -22,19 +24,15 @@ export const refreshTokenAPI = async () => {
       if (data?.data?.token) {
         store.dispatch({
           type: "auth/saveToken",
-          payload: {
-            token: data?.data?.token,
-          },
+          payload: data?.data?.token,
         });
       }
     } else {
-      persistor.purge();
-      window.location.reload();
+      dispatch(logout());
       ToastError(data?.description);
     }
   } catch (error) {
-    persistor.purge();
-    window.location.reload();
+    dispatch(logout());
     ToastError("Something went wrong");
   } finally {
   }

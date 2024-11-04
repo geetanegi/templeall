@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
 import moment from "moment";
 import uuid from "react-uuid";
+
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -23,6 +24,7 @@ interface UploadVideoModalProps {
   selectedReqVideoId: number | string;
   setIsRefreshList: (flag: boolean) => void;
   isRefreshList: boolean;
+  handleInprogressVideoList: (data: any, action: string) => void;
 }
 
 const initialValue = {
@@ -70,13 +72,17 @@ const ensureUTC = (date: string | Date): string => {
   }
 };
 
+interface Option {
+  key: string;
+  value: number | string;
+}
+
 const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   isModalOpen,
   setIsModalOpen,
-  isSoTW = false,
-  videoCategory,
   setIsRefreshList,
   isRefreshList,
+  handleInprogressVideoList,
 }) => {
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -93,11 +99,11 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [selectedClub, setSelectedClub] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | "">("");
-  const [courseOptions, setCourseOptions] = useState<[]>([]);
-  const [holeOptions, setHoleOptions] = useState<[]>([]);
+  const [courseOptions, setCourseOptions] = useState<Array<Option>>([]);
+  const [holeOptions, setHoleOptions] = useState<Array<Option>>([]);
   const [selectedCourse, setSelectedCourse] = useState("");
   const [selectedHole, setSelectedHole] = useState("");
-  const [teeOptions, setTeeOptions] = useState<[] | null>(null);
+  const [teeOptions, setTeeOptions] = useState<Array<Option> | null>(null);
   const [, setCheckVideo] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<any>({ username: "" });
   const [usersList, setUsersList] = useState<any>(null);
@@ -148,7 +154,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     setVideoFile(null);
-    setThumbnail('');
+    setThumbnail("");
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -196,16 +202,18 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     try {
-      dispatch(setLoading(true));
       if (videoFile) {
-        const name =  videoFile.name + uuid();
+        dispatch(setLoading(true));
+        const name = videoFile.name + uuid();
         let fileName = new Blob([name], {
           type: "application/json",
         });
-        let vidthumbnail =  new Blob([thumbnail], {
+        let vidthumbnail = new Blob([thumbnail], {
           type: "application/json",
         });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
+        let vidId = uuid();
+        const user = selectedUser;
         for (let i = 0; i < totalChunks; i++) {
           const start = i * CHUNK_SIZE;
           const end = Math.min(start + CHUNK_SIZE, videoFile.size);
@@ -226,14 +234,14 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             },
           );
           formData.append("totalChunks", fdTOtalChunk);
-          if(totalChunks === i+1){
-            formData.append("thumbnail", vidthumbnail)
+          if (totalChunks === i + 1) {
+            formData.append("thumbnail", vidthumbnail);
           }
 
           if (videoFile.type === "video/mp4") {
             const data1 = {
               data: {
-                dateTime: ensureUTC(values.dateTime || ''),
+                dateTime: ensureUTC(values.dateTime || ""),
                 contestType: values.contestName,
                 club: values.club,
                 course: values.course,
@@ -241,8 +249,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 tee: values.tee,
                 videoDescription: values.description,
                 videoTitle: values.title,
-                player: selectedUser?.id || "",
-                uploadedBy: typeof userInfo === "object" ? userInfo?.userId : undefined
+                player: user?.id || "",
+                uploadedBy:
+                  typeof userInfo === "object" ? userInfo?.userId : undefined,
               },
             };
             let newBlobData = new Blob([JSON.stringify(data1)], {
@@ -255,7 +264,43 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               formData,
             );
             if (status === 200 && data?.data != null && !data?.error) {
-              if(totalChunks === i+1){
+              if (i === 0) {
+                setIsModalOpen(false);
+                dispatch(setLoading(false));
+                setSelectedUser({ username: "" });
+              }
+              handleInprogressVideoList(
+                {
+                  ...data1.data,
+                  vidId: vidId,
+                  firstName: user?.firstName || "",
+                  lastName: user?.lastName || "",
+                  username: user?.username || "",
+                  isPublished: false,
+                  clubName: clubOptions.filter(
+                    (item: any) => item.value === values.club,
+                  )?.[0]?.key,
+                  courseName: courseOptions.filter(
+                    (item: { key: string; value: number | string }) =>
+                      item.value === values.course,
+                  )?.[0]?.key,
+                  holeNumber: holeOptions.filter(
+                    (item: { key: string; value: number | string }) =>
+                      item.value === values.hole,
+                  )?.[0]?.key,
+                  teeName: teeOptions?.filter(
+                    (item: { key: string; value: number | string }) =>
+                      item.value === values.tee,
+                  )?.[0]?.key,
+                  type: "SOTW",
+                  chunkNo: i + 1,
+                  totalchunk: totalChunks,
+                },
+                "add",
+              );
+
+              if (totalChunks === i + 1) {
+                handleInprogressVideoList({ vidId }, "remove");
                 ToastSuccess(data?.data?.message);
                 setIsRefreshList(!isRefreshList);
               }
@@ -276,12 +321,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     } catch (error) {
       ToastError("Video Upload Failed");
     } finally {
-      setIsModalOpen(false);
-      dispatch(setLoading(false));
-      setIsModalOpen(false);
-      dispatch(setLoading(false));
       setSelectedUser({ username: "" });
       setUserSearchVisible(false);
+      setIsRefreshList(!isRefreshList);
     }
   };
 
@@ -362,92 +404,71 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               }, [values.username]);
               return (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div
-                    className="scrollbar-hidden h-[360px] overflow-auto pt-[6px]"
-                  >
-                    {!isSoTW ? (
+                  <div className="scrollbar-hidden h-[360px] overflow-auto pt-[6px]">
+                    <div
+                      className="pb-5"
+                      onClick={() => {
+                        setUserSearchVisible(false);
+                      }}
+                    >
                       <div className="mb-3 px-5">
-                        <span className="text-[gray]">Video Category :</span>
-                        <span className="font-semibold text-[#000000]">
-                          {" "}
-                          {videoCategory}
-                        </span>
+                        <MUISelect
+                          label="Club"
+                          name="club"
+                          required={true}
+                          options={clubOptions}
+                        />
                       </div>
-                    ) : (
-                      <div
-                        className="pb-5"
-                        onClick={() => {
-                          setUserSearchVisible(false);
-                        }}
-                      >
-                        <div className="mb-3 px-5">
-                          <MUISelect
-                            label="Club"
-                            name="club"
-                            required={true}
-                            options={clubOptions}
-                          />
-                        </div>
-                        <div className="mb-3 px-5">
-                          <MUISelect
-                            label="Course"
-                            name="course"
-                            required={true}
-                            options={courseOptions || []}
-                          />
-                        </div>
-                        <div className="mb-3 px-5">
-                          <MUISelect
-                            label="Hole"
-                            name="hole"
-                            required={true}
-                            options={holeOptions || []}
-                          />
-                        </div>
-                        <div className="mb-3 px-5">
-                          <MUISelect
-                            label="Tee"
-                            name="tee"
-                            required={true}
-                            options={teeOptions || []}
-                          />
-                        </div>
+                      <div className="mb-3 px-5">
+                        <MUISelect
+                          label="Course"
+                          name="course"
+                          required={true}
+                          options={courseOptions || []}
+                        />
+                      </div>
+                      <div className="mb-3 px-5">
+                        <MUISelect
+                          label="Hole"
+                          name="hole"
+                          required={true}
+                          options={holeOptions || []}
+                        />
+                      </div>
+                      <div className="mb-3 px-5">
+                        <MUISelect
+                          label="Tee"
+                          name="tee"
+                          required={true}
+                          options={teeOptions || []}
+                        />
+                      </div>
 
-                        <div className="mb-3 px-5">
-                          <MUISelect
-                            label="Contest Name"
-                            name="contestName"
-                            required={true}
-                            options={[
-                              {
-                                key: "AceCam-Jackpot",
-                                value: "ACE_CAM_JACKPOT",
-                              },
-                              {
-                                key: "Closest-to-the-Pin",
-                                value: "CLOSEST_TO_THE_PIN",
-                              },
-                            ]}
-                          />
-                          {/* <div className="ml-6 w-[450px]">
-                            {touched.contestName &&
-                              errors.contestName &&
-                              typeof errors.contestName === "string" && (
-                                <span className="text-red-600">
-                                  {errors.dateTime}
-                                </span>
-                              )}
-                          </div> */}
-                        </div>
-                        <div className="px-5">
-                          <CustomDatePicker
-                            name="dateTime"
-                            label="Date/Time"
-                            required={true}
-                          />
-                        </div>
+                      <div className="mb-3 px-5">
+                        <MUISelect
+                          label="Contest Name"
+                          name="contestName"
+                          required={true}
+                          options={[
+                            {
+                              key: "AceCam-Jackpot",
+                              value: "ACE_CAM_JACKPOT",
+                            },
+                            {
+                              key: "Closest-to-the-Pin",
+                              value: "CLOSEST_TO_THE_PIN",
+                            },
+                          ]}
+                        />
                       </div>
-                    )}
+                      <div className="px-5">
+                        <CustomDatePicker
+                          name="dateTime"
+                          label="Date/Time"
+                          required={true}
+                        />
+                      </div>
+                    </div>
                     <div className="relative px-5">
                       <FormikControl
                         label="Player Username"

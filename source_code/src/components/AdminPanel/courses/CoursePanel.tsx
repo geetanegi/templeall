@@ -82,7 +82,7 @@ const CoursePanel: React.FC = () => {
               <select
                 id="courses"
                 onChange={handleCoursesChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px]"
               >
                 <option value="">Filter by Courses</option>
                 {courses?.data.map((course) => (
@@ -102,7 +102,7 @@ const CoursePanel: React.FC = () => {
                 label="Filter by Holes"
                 disabled={selectedCourse ? false : true}
                 onChange={handleSelectedValuesChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px] dark:text-white dark:placeholder-gray-400"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px]"
               />
             </div>
             <CourseTable

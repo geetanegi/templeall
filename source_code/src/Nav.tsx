@@ -208,7 +208,7 @@ const Nav: React.FC = () => {
   };
 
   return (
-    <nav className="w-full border-b border-gray-200 bg-white shadow dark:bg-gray-900">
+    <nav className="w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex w-full items-center justify-between px-2 pt-1">
         <div className="align-center flex h-full justify-center">
           <a
@@ -225,7 +225,7 @@ const Nav: React.FC = () => {
             } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:justify-center`}
             id="navbar-user"
           >
-            <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:dark:bg-gray-900">
+            <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               {menuList?.map((menu: any) => (
                 <li
                   key={menu.name}
@@ -253,8 +253,8 @@ const Nav: React.FC = () => {
                         to={menu.routeUrl}
                         className={`flex items-center rounded px-3 py-2 text-center md:flex-col md:p-0 ${
                           selectedMenu === menu.name
-                            ? "bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white" // Background unchanged
-                            : "hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                            ? "bg-transparent hover:bg-gray-100" // Background unchanged
+                            : "hover:bg-gray-100"
                         }`}
                         // onClick={() => handleMenuClick(menu.name)}
                         onClick={(e) => {
@@ -291,15 +291,15 @@ const Nav: React.FC = () => {
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
                           <div
-                            className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+                            className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow"
                             id="user-dropdown"
                           >
                             <div className="cursor-pointer px-4 py-3">
-                              <span className="block cursor-pointer text-sm text-gray-900 dark:text-white">
+                              <span className="block cursor-pointer text-sm text-gray-900">
                                 {profiledetails.firstName}{" "}
                                 {profiledetails.lastName}
                               </span>
-                              <span className="block cursor-pointer truncate text-sm text-gray-500 dark:text-gray-400">
+                              <span className="block cursor-pointer truncate text-sm text-gray-500">
                                 {profiledetails.email}
                               </span>
                             </div>
@@ -310,11 +310,11 @@ const Nav: React.FC = () => {
                               <li>
                                 <a
                                   onClick={() => {
-                                    dispatch(loginUserDetails({}));
+                                    // dispatch(loginUserDetails({}));
                                     dispatch(logout());
-                                    localStorage.clear();
+                                    // localStorage.clear();
                                   }}
-                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
                                   Sign out
                                 </a>
@@ -360,7 +360,7 @@ const Nav: React.FC = () => {
               style={{ width: "max-content" }}
             >
               <span className="sr-only">Open user menu</span>
-              <div className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0 dark:focus:ring-gray-600">
+              <div className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0">
                 {profileImage ? (
                   <img
                     className="h-10 w-10 rounded-full"
@@ -394,14 +394,14 @@ const Nav: React.FC = () => {
             {dropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+                className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow"
                 id="user-dropdown"
               >
                 <div className="cursor-pointer px-4 py-3">
-                  <span className="block cursor-pointer text-sm text-gray-900 dark:text-white">
+                  <span className="block cursor-pointer text-sm text-gray-900">
                     {profiledetails.firstName} {profiledetails.lastName}
                   </span>
-                  <span className="block cursor-pointer truncate text-sm text-gray-500 dark:text-gray-400">
+                  <span className="block cursor-pointer truncate text-sm text-gray-500">
                     {profiledetails.email}
                   </span>
                 </div>
@@ -413,7 +413,7 @@ const Nav: React.FC = () => {
                         setDropdownOpen(false);
                       }}
                       to={ROUTES.PROFILE}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Profile
                     </Link>
@@ -422,12 +422,12 @@ const Nav: React.FC = () => {
                   <li>
                     <a
                       onClick={() => {
-                        localStorage.clear();
-                        window.location.reload();
+                        // localStorage.clear();
+                        // window.location.reload();
                         // dispatch(loginUserDetails({}));
-                        // dispatch(logout());
+                        dispatch(logout());
                       }}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Sign out
                     </a>

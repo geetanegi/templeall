@@ -22,6 +22,7 @@ interface UploadVideoModalProps {
   setIsRefreshList: (flag: boolean) => void;
   isRefreshList: boolean;
   selectedTab: number;
+  handleReqVideoInprogressList: (data: any, action: string) => void;
 }
 
 const initialValue = {
@@ -48,11 +49,11 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
   selectedTab,
   isModalOpen,
   setIsModalOpen,
-  isSoTW = false,
   videoCategory,
   selectedReqVideoId,
   setIsRefreshList,
   isRefreshList,
+  handleReqVideoInprogressList,
 }) => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -68,7 +69,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
 
   useEffect(() => {
     setVideoFile(null);
-    setThumbnail('');
+    setThumbnail("");
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -118,13 +119,15 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
     try {
       dispatch(setLoading(true));
       if (videoFile) {
-        const name = uuid() +  videoFile.name ;
+        const name = uuid() + videoFile.name;
         let fileName = new Blob([name], {
           type: "application/json",
         });
-        let vidthumbnail = thumbnail && new Blob([thumbnail], {
-          type: "application/json",
-        });
+        let vidthumbnail =
+          thumbnail &&
+          new Blob([thumbnail], {
+            type: "application/json",
+          });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
         for (let i = 0; i < totalChunks; i++) {
           const start = i * CHUNK_SIZE;
@@ -133,82 +136,66 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
           let formData = new FormData();
           formData.append("file", chunk);
           let chunkNo = i + 1;
-          formData.append("fileName",fileName);
+          formData.append("fileName", fileName);
           let chunkNumber = new Blob([JSON.stringify(chunkNo)], {
             type: "application/json",
           });
-          formData.append("chunkNumber",chunkNumber);
-          let fdTOtalChunk = new Blob([JSON.stringify( totalChunks.toString())], {
-            type: "application/json",
-          });
+          formData.append("chunkNumber", chunkNumber);
+          let fdTOtalChunk = new Blob(
+            [JSON.stringify(totalChunks.toString())],
+            {
+              type: "application/json",
+            },
+          );
 
           formData.append("totalChunks", fdTOtalChunk);
-          if(totalChunks === i+1){
-            vidthumbnail &&  formData.append("thumbnail", vidthumbnail)
+          if (totalChunks === i + 1) {
+            vidthumbnail && formData.append("thumbnail", vidthumbnail);
           }
           if (videoFile.type === "video/mp4") {
-            if (!isSoTW) {
-              const data1 = {
-                data: {
-                  requestType:
-                    selectedTab === 1 ? "WINNER_VIDEO" : "REQUEST_VIDEO",
-                  videoCategory: "TOP_SHOT",
-                  videoDescription: values.description,
-                  videoTitle: values.title,
-                  requestId: selectedReqVideoId,
-                  uploadedBy: typeof userInfo === "object" ? userInfo?.userId : undefined
-                },
-              };
+            const data1 = {
+              data: {
+                requestType:
+                  selectedTab === 1 ? "WINNER_VIDEO" : "REQUEST_VIDEO",
+                videoCategory: "TOP_SHOT",
+                videoDescription: values.description,
+                videoTitle: values.title,
+                requestId: selectedReqVideoId,
+                uploadedBy:
+                  typeof userInfo === "object" ? userInfo?.userId : undefined,
+              },
+            };
 
-              let newBlobData = new Blob([JSON.stringify(data1)], {
-                type: "application/json",
-              });
-              formData.append("data", newBlobData);
+            let newBlobData = new Blob([JSON.stringify(data1)], {
+              type: "application/json",
+            });
+            formData.append("data", newBlobData);
 
-              const { data, status } = await apiService.post<any>(
-                API_URL.uploadVideoInChunks,
-                formData,
-              );
-              if (status === 200 && data?.data != null && !data?.error) {
-                if(totalChunks === i+1){
-                  ToastSuccess(data?.data?.message);
-                  setIsRefreshList(!isRefreshList);
-                }
-              } else if (data?.error && data.description) {
-                ToastError(data.description);
+            const { data, status } = await apiService.post<any>(
+              API_URL.uploadVideoInChunks,
+              formData,
+            );
+            if (status === 200 && data?.data != null && !data?.error) {
+              if (i === 0) {
+                setIsModalOpen(false);
+                dispatch(setLoading(false));
               }
-            } else if (isSoTW) {
-              const data1 = {
-                data: {
-                  dateTime: values.dateTime,
-                  contestType: values.contestName,
-                  club: 1,
-                  course: 1,
-                  hole: 1,
-                  tee: "1",
-                  videoDescription: values.description,
-                  videoTitle: values.title,
-                  player: "2",
+              handleReqVideoInprogressList(
+                {
+                  id: selectedReqVideoId,
+                  chunkNo: i + 1,
+                  totalchunk: totalChunks,
                 },
-              };
+                "add",
+              )
 
-              let newBlobData = new Blob([JSON.stringify(data1)], {
-                type: "application/json",
-              });
-              formData.append("data", newBlobData);
-
-              const { data, status } = await apiService.post<any>(
-                API_URL.uploadShotOfTheWeek,
-                formData,
-              );
-              if (status === 200 && data?.data != null && !data?.error) {
+              if (totalChunks === i + 1) {
+                handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
                 ToastSuccess(data?.data?.message);
                 setIsRefreshList(!isRefreshList);
-              } else if (data?.error && data.description) {
-                ToastError(data.description);
               }
-            } else {
-              //do nothing
+            } else if (data?.error && data.description) {
+              ToastError(data.description);
             }
           } else {
             ToastError(
@@ -227,7 +214,6 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
       setIsModalOpen(false);
       dispatch(setLoading(false));
     }
-
   };
 
   const scrollbarStyles: React.CSSProperties = {

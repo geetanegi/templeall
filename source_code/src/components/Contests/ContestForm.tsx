@@ -391,7 +391,7 @@ const ContestForm: React.FC<ContestProps> = ({
             </div>
             <div className="">
               <MUINumber
-                label="Wait Time in Between Entries"
+                label="Wait Time in Between Entries Hours"
                 name="waitTimeBetweenEntries"
                 className="w-full"
                 type="text"

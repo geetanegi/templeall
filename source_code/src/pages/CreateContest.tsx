@@ -444,7 +444,7 @@ const CreateContest: React.FC = () => {
         ToastSuccess(res.data.data.message);
         navigate("/contests");
       } else if (res.data.error) {
-        res.data.description || "Error creating contest";
+        ToastError(res.data.description || "Error creating contest");
       }
     } catch (error) {
       ToastError("Something went wrong");

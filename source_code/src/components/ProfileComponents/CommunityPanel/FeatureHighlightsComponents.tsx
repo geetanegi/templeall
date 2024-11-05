@@ -69,30 +69,33 @@ const FeatureHighlightsComponents: React.FC<
           style={{}}
         >
           {allVideos.map((videoData) => {
-            return <VideoCard
-            key={videoData.id}
-            uploadDate={moment(videoData?.startTime)
-              .utc()
-              .format("DD/MM/YYYY")}
-            title={videoData?.contestType}
-            status={videoData?.status}
-            clubName={videoData?.club?.name || ""}
-            tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
-            holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
-            requestVideoPayload={{ ...videoData }}
-            isApproved={true}
-            isPublished={videoData.isPublished}
-            getAllVideos={getAllPublishVideo}
-            setSelectedVideo={setSelectedVideo}
-            setIsVideoPlayerVisible={setIsVideoPlayerVisible}
-            isVideoPlayerVisible={isVideoPlayerVisible}
-            setRefreshList={setRefreshList}
-            refreshList={refreshList}
-            isSOTW={videoData.type === "SOTW"}
-            rejectionReason={videoData?.rejectionReason || ""}
-            userInfo={userInfo}
-            width="216px"
-          />
+            return <div className="w-[25%] px-2">
+              <VideoCard
+              key={videoData.id}
+              uploadDate={moment
+                .utc(videoData?.startTime).local()
+                .format("DD/MM/YYYY")}
+              title={videoData?.contestType}
+              status={videoData?.status}
+              clubName={videoData?.club?.name || ""}
+              tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
+              holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
+              requestVideoPayload={{ ...videoData }}
+              isApproved={true}
+              isPublished={videoData.isPublished}
+              getAllVideos={getAllPublishVideo}
+              setSelectedVideo={setSelectedVideo}
+              setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+              isVideoPlayerVisible={isVideoPlayerVisible}
+              setRefreshList={setRefreshList}
+              refreshList={refreshList}
+              isSOTW={videoData.type === "SOTW"}
+              rejectionReason={videoData?.rejectionReason || ""}
+              userInfo={userInfo}
+              width="100%"
+            />
+            </div>
+
           })
           }
         </div>

@@ -141,27 +141,27 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               )}
               <div className="h-[64px] w-full bg-[#1D1A0C] p-1 px-2">
                 <div className="flex text-[#fff]">
-                  <span>{requestVideoPayload?.videos?.title || ""}</span>
-                  <Dot />
+                  <span className="flex items-center ">{requestVideoPayload?.videos?.title || ""}</span>
+                  <Dot size={24} />
                   <span>{requestVideoPayload?.username || ""}</span>
                 </div>
                 <div className="mt-1 items-center justify-start text-white">
-                  <div className="mt-1 flex whitespace-nowrap text-[14px]">
+                  <div className="mt-1 flex items-center whitespace-nowrap text-[14px]">
                     <div className="items.center flex gap-1 text-sm font-light">
                       <Trophy size={12} className="mt-1" />{" "}
                       <span className="text-[12px]">
                         {requestVideoPayload?.contestType || ""}
                       </span>{" "}
                     </div>
-                    <Dot />
+                    <Dot size={24} />
                     <span className="text-[12px]">
                       {requestVideoPayload?.clubName || ""}
                     </span>
-                    <Dot />
+                    <Dot size={24} />
                     <span className="text-[12px]">
                       Hole#{requestVideoPayload?.holeNumber || ""}
                     </span>
-                    <Dot />
+                    <Dot size={24} />
                     <span className="text-[12px]">
                       {requestVideoPayload?.teeName || ""}
                     </span>

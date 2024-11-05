@@ -266,7 +266,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     playvideo: () => void,
   ) => {
     if (status === "REJECT") {
-      return <div className="p-1 text-[gray]">No video</div>;
+      return <div className="p-1 text-[gray] py-4">No video</div>;
     } else if (videos) {
       return (
         <div className="flex gap-2 py-4">
@@ -295,7 +295,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     } else {
       return (
         <button
-          className={`flex gap-2 py-4 ${activeStatus === "Approved" || status === "APPROVED" ? "cursor-pointer" : "cursor-default"} `}
+          className={`flex gap-2 py-4 ${activeStatus === "Approved" || status === "APPROVED" ? "cursor-pointer" : "cursor-default"}  `}
           onClick={() => {
             if (activeStatus === "Approved" || status === "APPROVED") {
               setVideoCategory(videoCategory);

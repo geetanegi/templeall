@@ -46,4 +46,5 @@ export interface leaderBoard {
   teeName: string;
   yardage: number;
   par: number;
+  teeYardage: number;
 }

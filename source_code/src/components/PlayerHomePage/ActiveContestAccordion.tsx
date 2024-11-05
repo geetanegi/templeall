@@ -219,7 +219,7 @@ const ActiveContestAccordion: React.FC = () => {
                             <div className="mt-2">
                               <p className="flex items-center justify-end text-[13px] font-thin text-white">
                                 Reg. end date/time :{" "}
-                                <span className="px-1 text-xs font-bold text-white">
+                                <span className="pl-1 text-xs font-bold text-white">
                                   {moment
                                     .utc(item.registrationEndTime)
                                     .local()
@@ -228,7 +228,7 @@ const ActiveContestAccordion: React.FC = () => {
                               </p>
                               <p className="flex items-center justify-end text-[13px] font-thin text-white">
                                 Contest end date/time:{" "}
-                                <span className="px-1 text-xs font-bold text-white">
+                                <span className="pl-1 text-xs font-bold text-white">
                                   {moment
                                     .utc(item.endTime)
                                     .local()

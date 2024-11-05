@@ -63,7 +63,6 @@ const ActiveContestAccordion: React.FC = () => {
   //   setIsModalOpen(true);
   // };
 
-  console.log("data", data);
   return (
     <PageLoader isActive={loader}>
       <div className="w-full">

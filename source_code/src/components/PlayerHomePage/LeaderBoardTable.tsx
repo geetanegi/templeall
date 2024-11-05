@@ -33,18 +33,18 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
         >
           <img
             src={`data:image/png;base64,${row?.imageBase64}`}
-            className="mr-1 h-8 w-8 rounded-full"
+            className="mr-[8px] h-5 w-5 rounded-full border border-[#FFDE59]"
           />
-          <span className="text-white">{row.username}</span>
+          <span className="text-[13px] text-white">{row.username}</span>
         </div>
       ),
       "Proximity(FEET)": (
-        <span className="text-white">
+        <span className="text-[13px] text-white">
           {row.proximity === null ? "N/A" : row.proximity}
         </span>
       ),
       price: (
-        <span className="text-white">
+        <span className="text-[13px] text-white">
           {row.price === null ? <Lock strokeWidth={1.5} /> : row.price}
         </span>
       ),

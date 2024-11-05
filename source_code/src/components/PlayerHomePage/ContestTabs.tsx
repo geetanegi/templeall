@@ -42,7 +42,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
         style={{ width: "max-content" }}
       >
         <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
+          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 1 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
           onClick={() => {
             dispatch(setSelectedTab(1));
           }}
@@ -51,7 +51,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
           Active Contest
         </button>
         <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
+          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 2 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
           onClick={() => {
             dispatch(setSelectedTab(2));
           }}
@@ -61,7 +61,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
         </button>
         {showMostRecent && (
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 3 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
             onClick={() => {
               dispatch(setSelectedTab(3));
             }}
@@ -78,7 +78,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
           <div>{selectedTab === 3 && <MostRecent />}</div>
         </div>
         {/* jackpot */}
-        <div className="box relative ml-4 h-full w-[30%] overflow-auto rounded-md bg-gradient-green">
+        <div className="box relative ml-4 mt-3 h-full w-[30%] overflow-auto rounded-md bg-gradient-green">
           {jackpotArr &&
             jackpotArr.map((jackpot, index) => (
               <JackpotAmount key={index} jackpot={jackpot} />

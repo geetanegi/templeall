@@ -302,33 +302,37 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       </div>
       <PageLoader isActive={loader}>
         {allVideos.length ? (
-          <div className="mt-3 flex w-full flex-wrap gap-2">
+          <div className="mt-3 flex w-full flex-wrap">
             {allVideos?.map((videoData) => {
+              console.log("videoData", videoData)
               return (
-                <VideoCard
-                  key={videoData.id}
-                  uploadDate={moment(videoData?.startTime)
-                    .utc()
-                    .format("DD/MM/YYYY")}
-                  title={videoData?.contestType}
-                  status={videoData?.status}
-                  clubName={videoData?.club?.name || ""}
-                  tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
-                  holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
-                  requestVideoPayload={{ ...videoData }}
-                  isApproved={selectedTab != 2}
-                  isPublished={videoData.isPublished}
-                  getAllVideos={getAllVideos}
-                  setSelectedVideo={setSelectedVideo}
-                  setIsVideoPlayerVisible={setIsVideoPlayerVisible}
-                  isVideoPlayerVisible={isVideoPlayerVisible}
-                  setRefreshList={setRefreshList}
-                  refreshList={refreshList}
-                  isSOTW={filterValue === "SOTW"}
-                  rejectionReason={videoData?.rejectionReason || ""}
-                  userInfo={userInfo}
-                  isEdit={videoData?.videos?.url ? true : false}
-                />
+                <div className="w-[25%] px-2">
+                  <VideoCard
+                    key={videoData.id}
+                    uploadDate={moment
+                      .utc(videoData?.startTime).local()
+                      .format("DD/MM/YYYY")}
+                    title={videoData?.contestType}
+                    status={videoData?.status}
+                    clubName={videoData?.club?.name || ""}
+                    tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
+                    holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
+                    requestVideoPayload={{ ...videoData }}
+                    isApproved={selectedTab != 2}
+                    isPublished={videoData.isPublished}
+                    getAllVideos={getAllVideos}
+                    setSelectedVideo={setSelectedVideo}
+                    setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+                    isVideoPlayerVisible={isVideoPlayerVisible}
+                    setRefreshList={setRefreshList}
+                    refreshList={refreshList}
+                    isSOTW={filterValue === "SOTW"}
+                    rejectionReason={videoData?.rejectionReason || ""}
+                    userInfo={userInfo}
+                    isEdit={videoData?.videos?.url ? true : false}
+                    width="100%"
+                  />
+                </div>
               );
             })}
           </div>

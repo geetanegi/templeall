@@ -196,11 +196,13 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
               }
             } else if (data?.error && data.description) {
               ToastError(data.description);
+              handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
             }
           } else {
             ToastError(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
+            handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
           }
         }
       } else {

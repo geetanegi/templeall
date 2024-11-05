@@ -18,15 +18,15 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
   const filterValue = "SOTW";
 
   return (
-    <div className="flex flex-wrap justify-start gap-1">
+    <div className="flex flex-wrap justify-start">
       {data?.map((videoData: any, i: number) => {
         return (
-          <div className="space-y-4 pl-5" key={i}>
+          <div className="w-[25%] px-2" key={i}>
             <VideoCard
               isVideoPlayerVisible={isVideoPlayerVisible}
               userInfo={userInfo}
-              uploadDate={moment(videoData?.startTime)
-                .utc()
+              uploadDate={moment
+                .utc(videoData?.startTime).local()
                 .format("DD/MM/YYYY")}
               title={videoData?.contestType}
               status={videoData?.status}
@@ -43,6 +43,7 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
               refreshList={refreshList}
               isSOTW={filterValue === "SOTW"}
               rejectionReason={videoData?.rejectionReason || ""}
+              width="100%"
             />
           </div>
         );

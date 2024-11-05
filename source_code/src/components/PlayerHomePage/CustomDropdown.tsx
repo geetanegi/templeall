@@ -80,20 +80,21 @@ const PlayerCustomDropdown: React.FC<Props> = ({
           {
             <>
               {selectedText ? (
-                <div className="text-white">
+                <div className="w-[300px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] text-white">
                   {selectedText.clubName} Hole{" "}
                   <strong>#{selectedText.holeNumber}</strong> - Par{" "}
                   {selectedText.par}, {selectedText.teeName} (
                   {selectedText.teeYardage})
                 </div>
               ) : (
-                <div className="text-white">Select an option</div>
+                <div className="text-[13px] text-white">Select an option</div>
               )}
             </>
           }
         </span>{" "}
         {/* Display full text here */}
-        <ChevronDown className="ml-2 h-4 w-4" /> {/* Add dropdown icon */}
+        <ChevronDown className="ml-2 h-4 w-4" color="#ffffff" />{" "}
+        {/* Add dropdown icon */}
       </div>
       {isOpen && (
         <div className="absolute z-10 mt-2 max-h-36 w-full overflow-y-auto rounded-md border bg-white shadow-md">
@@ -103,11 +104,13 @@ const PlayerCustomDropdown: React.FC<Props> = ({
               return (
                 <div
                   key={item.scheduleContestId}
-                  className="cursor-pointer p-2 hover:bg-[#a5e99f]"
+                  className="cursor-pointer p-2 hover:bg-[#04622133]"
                   onClick={() => handleSelect(item)} // Pass the whole item to handleSelect
                 >
-                  <p>{optionText.split(" ").slice(0, 9).join(" ")}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="px-2 text-[14px]">
+                    {optionText.split(" ").slice(0, 9).join(" ")}
+                  </p>
+                  <p className="px-2 text-[14px] text-gray-500">
                     {optionText.split(" ").slice(9).join(" ")}
                   </p>
                 </div>

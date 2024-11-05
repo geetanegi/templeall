@@ -14,6 +14,7 @@ const ClubCard: React.FC<{
   dropDownList?: leaderBoard[];
   setSelectedValue?: (value: string) => void;
   selectedValue?: string;
+  check?: string;
 }> = ({
   contestInfo,
   showDropDown = false,
@@ -35,23 +36,25 @@ const ClubCard: React.FC<{
             transform: `translate(0px, -150px)`,
           }}
         />
-        <div className="relative flex flex-col items-center justify-center gap-4 p-4">
-          {showDropDown && (
-            <div>
-              <CustomDropdown
-                dropDownList={
-                  dropDownList && dropDownList?.length > 0 ? dropDownList : []
-                }
-                setSelectedValue={(value: string | number) => {
-                  if (setSelectedValue) {
-                    setSelectedValue(value.toString());
+        {showDropDown && (
+          <div className="relative flex flex-col items-center justify-center gap-4 p-4">
+            {showDropDown && (
+              <div>
+                <CustomDropdown
+                  dropDownList={
+                    dropDownList && dropDownList?.length > 0 ? dropDownList : []
                   }
-                }}
-                selectedValue={selectedValue}
-              />
-            </div>
-          )}
-        </div>
+                  setSelectedValue={(value: string | number) => {
+                    if (setSelectedValue) {
+                      setSelectedValue(value.toString());
+                    }
+                  }}
+                  selectedValue={selectedValue}
+                />
+              </div>
+            )}
+          </div>
+        )}
         {contestInfo && (
           <div className="flex items-center justify-between p-2">
             {/* part 1 */}
@@ -64,30 +67,30 @@ const ClubCard: React.FC<{
                     color="#ffffff"
                     className="h-5 w-5"
                   />
-                  <span className="text-sm font-semibold text-white">
+                  <span className="text-[14px] font-semibold text-white">
                     {contestInfo.clubName}
                   </span>
                 </div>
-                <p className="text-xs font-thin text-white">
+                <p className="text-[12px] font-thin text-white">
                   {contestInfo.location}
                 </p>
               </div>
               {/* sub-part 2 */}
-              <div>
+              <div className="space-y-2 text-left">
                 <div className="flex items-center space-x-2">
                   <img
                     src={whiteGolf}
                     alt="golf"
                     className="h-4 w-4 text-gray-600"
                   />
-                  <span className="text-sm font-thin text-white">
-                    Hole <strong>#{contestInfo.holeNumber}</strong>, Par{" "}
+                  <span className="text-[13px] font-thin text-white">
+                    Hole <strong>#{contestInfo.holeNumber}</strong> - Par{" "}
                     {contestInfo.par}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <img src={GolfTee} alt="" className="h-4 w-4" />
-                  <span className="text-sm text-white">
+                  <span className="text-[13px] text-white">
                     {contestInfo.teeName}{" "}
                     <span className="font-thin">
                       ({contestInfo.teeYardage} yards)
@@ -98,46 +101,46 @@ const ClubCard: React.FC<{
             </div>
             {contestInfo.activeStatus === "Open" && (
               <div className="flex items-center space-x-1 rounded-lg bg-[#FD8A0233] p-1 px-2">
-                <img src={orangeGolf} alt="" className="h-4 w-4" />
-                <p className="text-xs text-yellowText">
+                <img src={orangeGolf} alt="" className="w-4" />
+                <p className="text-[14px] text-yellowText">
                   {contestInfo.activeStatus}
                 </p>
               </div>
             )}
             {contestInfo.activeStatus === "Completed" && (
-              <div className="flex items-center space-x-1 rounded-lg bg-[#defceb] p-1 px-2">
+              <div className="flex items-center space-x-1 rounded-lg bg-[#0C6431] p-1 px-2 font-[600]">
                 <CircleCheck
                   color="#07ce6f"
                   strokeWidth={1.25}
                   className="h-5 w-5"
                   // size={18}
                 />
-                <p className="text-xs text-[#07CE6F]">
+                <p className="text-[14px] text-[#07CE6F]">
                   {contestInfo.activeStatus}
                 </p>
               </div>
             )}
 
             {/* part 2 */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-white">
+            <div className="space-y-2 text-right">
+              <h3 className="text-[14px] font-semibold text-white">
                 {contestInfo.contestType}
               </h3>
-              <h3 className="text-sm font-thin text-white">
+              <h3 className="text-[13px] font-thin text-white">
                 Entry Fee:{" "}
                 <span className="font-semibold">${contestInfo.entryFee}</span>
               </h3>
-              <h3 className="text-sm text-white">
+              <h3 className="text-[13px] text-white">
                 Players:{" "}
-                <span className="font-semibold">
+                <span className="text-[13px] font-semibold">
                   {contestInfo.totalRegistrationCount}
                 </span>
               </h3>
-              <h3 className="text-sm text-white">
+              <h3 className="text-[13px] text-white">
                 Total Price:{" "}
                 <span className="font-semibold">{contestInfo.totalPrize}</span>
               </h3>
-              <h3 className="text-sm text-white">
+              <h3 className="text-[13px] text-white">
                 Payout:{" "}
                 <span className="-mb-2.5">
                   <span className="font-semibold"> ({contestInfo.payout})</span>

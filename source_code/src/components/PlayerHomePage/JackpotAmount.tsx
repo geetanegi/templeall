@@ -4,17 +4,18 @@ import { jackpot } from "./contestdata";
 
 const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
   return (
-    <div className="h-[150px] rounded-t-md border-b border-[#046221]">
+    <div className="rounded-t-md border-b border-[#046221]">
       <div className="relative my-12 mt-[80px] flex items-center justify-center">
         <div className="absolute -top-16 left-6 text-white">
-          <h1 className="text-xl">{jackpot.clubName}</h1>
+          <p className="text-[18px] font-[600]">{jackpot.clubName}</p>
         </div>
-        <div className="absolute left-6 top-24 text-white">
-          <span className="text-normal">Hole #{jackpot.holeNumber}</span>
-          <span className="text-normal">
-            {jackpot.teeName}{" "}
-            <span className="mx-1 inline-block h-2 w-2 rounded-full bg-white"></span>
-            {`(Yards ${jackpot.teeYardage})`}
+        <div className="absolute left-8 top-[90px] flex text-white">
+          <span className="flex items-center text-[13px]">
+            Hole #{jackpot.holeNumber} - Par {jackpot.par}
+            <span className="mx-2 h-[6px] w-[6px] rounded-full bg-white"></span>
+          </span>
+          <span className="text-[13px]">
+            {jackpot.teeName} {`(Yards ${jackpot.teeYardage})`}
           </span>
         </div>
         {/* <img src={sparklingImg} alt="" className="absolute -top-5" /> */}
@@ -28,7 +29,7 @@ const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
                 {jackpot.contestType}
               </h1>
               <h1 className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] bg-clip-text text-xl text-transparent">
-                <span className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] bg-clip-text text-[18px] text-transparent">
                   ${jackpot.jackpotAmount}
                 </span>
               </h1>

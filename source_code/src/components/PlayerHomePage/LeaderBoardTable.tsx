@@ -19,6 +19,19 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
     { id: 3, key: "Proximity(FEET)", field: "Proximity(FEET)" },
     { id: 4, key: "price", field: "Price" },
   ];
+
+  const showPrice = (row: LeaderboardEntry) => {
+    if (row.price) {
+      return row.price;
+    }
+    if (row.price === null && row.showLock === true) {
+      return <Lock strokeWidth={1.5} />;
+    }
+    if (row.price === null && row.showLock === false) {
+      return "N/A";
+    }
+  };
+
   const updatedTableData = () => {
     const updatedData = leaderBoardData?.map((row: any, index: number) => ({
       Pos: <span className="text-white">{index + 1}</span>,
@@ -45,7 +58,8 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
       ),
       price: (
         <span className="text-[13px] text-white">
-          {row.price === null ? <Lock strokeWidth={1.5} /> : row.price}
+          {showPrice(row)}
+          {/* {row.price === null ? <Lock strokeWidth={1.5} /> : row.price} */}
         </span>
       ),
     }));

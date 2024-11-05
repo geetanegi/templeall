@@ -7,8 +7,8 @@ import { logout } from "../reducers/login/login";
 const axiosInstance = axios.create({
   // baseURL: "http://10.95.4.121:9091/", // Test env
   //  baseURL: "http://10.95.4.121:8081/"    //dev env
-  // baseURL: "https://dev.acecamgolf.com/api/",
-  baseURL: "/api/",
+  baseURL: "https://dev.acecamgolf.com/api/",
+  // baseURL: "/api/",
 });
 
 const isSessionExpired = (): boolean => {

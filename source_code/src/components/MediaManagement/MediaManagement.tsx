@@ -157,9 +157,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         }
       });
     } else if (action === "remove") {
-      setUploadSotwProgressArr((prevArr) =>
-        prevArr.filter((item) => item.vidId !== data.vidId)
-      );
+        setUploadSotwProgressArr((prevArr) =>
+          prevArr.filter((item) => item.vidId !== data.vidId)
+        );
     }
   }
 
@@ -325,12 +325,14 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         // uploadSotwProgressArr={uploadSotwProgressArr}
         handleInprogressVideoList={handleInprogressVideoList}
       />
+      <div className="fixed bottom-1 right-0 z-50">
       <VideoPlayer
         isVideoPlayerVisible={isVideoPlayerVisible}
         setIsVideoPlayerVisible={setIsVideoPlayerVisible}
         selectedVideo={selectedVideo}
         setSelectedVideo={setSelectedVideo}
       />
+      </div>
       <RejectConfirmationModal
         isRejectModalOpen={isRejectModalOpen}
         setIsRejectModalOpen={setIsRejectModalOpen}

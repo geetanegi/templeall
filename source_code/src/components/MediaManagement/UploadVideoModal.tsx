@@ -187,23 +187,22 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                   totalchunk: totalChunks,
                 },
                 "add",
-              );
+              )
 
               if (totalChunks === i + 1) {
-                handleReqVideoInprogressList(
-                  { id: selectedReqVideoId },
-                  "remove",
-                );
+                handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
                 ToastSuccess(data?.data?.message);
                 setIsRefreshList(!isRefreshList);
               }
             } else if (data?.error && data.description) {
               ToastError(data.description);
+              handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
             }
           } else {
             ToastError(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
+            handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
           }
         }
       } else {

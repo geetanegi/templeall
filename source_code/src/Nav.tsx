@@ -254,7 +254,7 @@ const Nav: React.FC = () => {
                         className={`flex items-center rounded px-3 py-2 text-center md:flex-col md:p-0 ${
                           selectedMenu === menu.name
                             ? "bg-transparent hover:bg-gray-100" // Background unchanged
-                            : "hover:bg-gray-100"
+                            : ""
                         }`}
                         // onClick={() => handleMenuClick(menu.name)}
                         onClick={(e) => {
@@ -269,7 +269,7 @@ const Nav: React.FC = () => {
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
-                                "#95c11e"
+                                "#046221"
                               : "#7b7887", // Change icon color
                         })}
                         <span
@@ -277,7 +277,7 @@ const Nav: React.FC = () => {
                             color:
                               menu.routeUrl === location.pathname
                                 ? // || selectedMenu === menu.name
-                                  "#95c11e"
+                                  "#046221"
                                 : "#7b7887",
                           }}
                           className={`px-2 pb-2 md:px-0`}
@@ -286,7 +286,7 @@ const Nav: React.FC = () => {
                         </span>
                         {menu.routeUrl === location.pathname && (
                           //  ||  selectedMenu === menu.name
-                          <div className="w-full border-b-2 border-[#95c11e]" />
+                          <div className="w-[110%] border-b-2 border-primaryColor" />
                         )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
@@ -331,6 +331,8 @@ const Nav: React.FC = () => {
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <div className="relative">
+              {
+                userPermisions?.data?.permission["is_player"] ? 
               <Popover
                 content={
                   <NotificationPopoverComponent
@@ -351,7 +353,8 @@ const Nav: React.FC = () => {
                   className="cursor-pointer"
                   strokeWidth={2}
                 />
-              </Popover>
+              </Popover> : null
+              }
             </div>
             <button
               type="button"
@@ -377,8 +380,8 @@ const Nav: React.FC = () => {
                   {profiledetails?.lastName || ""}
                 </div>
                 {userPermisions?.data?.permission["is_player"] ? (
-                  <div className="flex text-[#7B7887]">
-                    <span className="text-[12px]">
+                  <div className="flex items-center justify-center text-[#7B7887]">
+                    <span className="text-[12px] ">
                       HDCP: {profiledetails?.userProfile?.handicap}
                     </span>
                     <Dot className="mx-[-4px]" />

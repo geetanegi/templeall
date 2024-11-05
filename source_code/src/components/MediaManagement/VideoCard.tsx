@@ -1,5 +1,4 @@
 import {
-  Bookmark,
   BookmarkPlus,
   CircleEllipsis,
   Dot,
@@ -35,6 +34,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import ShareVideoModal from "./ShareRequestModal";
 import CommentsDrawer from "./CommentsDrawer";
+import bookmarkImg from "../../assets/images/bookmark.png"
 
 interface VideoCardProps {
   thumbnail?: string;
@@ -175,23 +175,23 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <Trophy size={13} /> <span className="text-[12px]">{title}</span>{" "}
           </div>
           <div className="mt-1 items-center justify-start text-white">
-            <div className="mt-1 flex flex-wrap text-[14px]">
+            <div className="mt-1 flex items-center flex-wrap text-[14px]">
               <span
-                className="flex whitespace-nowrap text-[12px]"
+                className="flex items-center justify-center whitespace-nowrap text-[11px]"
                 style={{ width: "max-content" }}
               >
                 {requestVideoPayload?.clubName || ""}
-                <Dot className="mx-[-5px]" />
+                <Dot className="mx-[-5px]" size={24} />
               </span>
               <span
-                className="flex whitespace-nowrap text-[12px]"
+                className="flex items-center justify-center whitespace-nowrap text-[11px]"
                 style={{ width: "max-content" }}
               >
                 Hole#{requestVideoPayload?.holeNumber || ""}
-                <Dot className="mx-[-5px]" />
+                <Dot className="mx-[-5px]" size={24}  />
               </span>
               <span
-                className="flex whitespace-nowrap text-[12px]"
+                className="flex items-center justify-center whitespace-nowrap text-[11px]"
                 style={{ width: "max-content" }}
               >
                 {requestVideoPayload?.teeName || ""}
@@ -477,7 +477,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           />
           {isApproved ? (
             <div className="absolute bottom-0 w-full">
-              <div className="flex h-4 w-full items-center justify-between bg-[black] px-3 text-[10px] opacity-70">
+              <div className="flex h-4 w-full items-center justify-between bg-[#0000009D] px-3 text-[10px]">
                 <span>{computeCategory()}</span>
                 <span className="ml-auto text-[10px] text-[#FFFFFF]">
                   <span className="mr-[10px]">|</span>
@@ -489,8 +489,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
           {/* Bookmark and more options */}
           <div className="absolute left-2 top-[-2px]">
             {isPublished ? (
-              <span className="text-[#FD8A02]">
-                <Bookmark fill="#FD8A02" size={18} />
+              <span className="text-[#FFDE59] w-[16px] h-[20px]">
+                <img src={bookmarkImg} alt="" />
               </span>
             ) : null}
           </div>

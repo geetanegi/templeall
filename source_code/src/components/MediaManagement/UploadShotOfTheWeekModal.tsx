@@ -306,11 +306,13 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               }
             } else if (data?.error && data.description) {
               ToastError(data.description);
+              handleInprogressVideoList({ vidId }, "remove");
             }
           } else {
             ToastError(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
+            handleInprogressVideoList({ vidId }, "remove");
           }
         }
       } else {

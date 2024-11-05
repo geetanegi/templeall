@@ -26,6 +26,8 @@ export interface LeaderboardEntry {
   username: string;
   proximity: number;
   prize: number;
+  price: number;
+  showLock: boolean | null;
 }
 
 export interface APIResLeaderBoardData {

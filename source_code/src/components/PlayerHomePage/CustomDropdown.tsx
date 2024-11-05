@@ -20,7 +20,7 @@ const PlayerCustomDropdown: React.FC<Props> = ({
     holeNumber: number;
     par: number;
     teeName: string;
-    yardage: number;
+    teeYardage: number;
   } | null>(null);
 
   // Set default selected text based on selectedValue
@@ -34,7 +34,7 @@ const PlayerCustomDropdown: React.FC<Props> = ({
         holeNumber: selectedItem.holeNumber,
         par: selectedItem.par,
         teeName: selectedItem.teeName,
-        yardage: selectedItem.yardage,
+        teeYardage: selectedItem.teeYardage,
       });
     } else {
       setSelectedText(null); // Clear if no match found
@@ -48,7 +48,7 @@ const PlayerCustomDropdown: React.FC<Props> = ({
       holeNumber: item.holeNumber,
       par: item.par,
       teeName: item.teeName,
-      yardage: item.yardage,
+      teeYardage: item.teeYardage,
     }); // Store full option text
     setIsOpen(false); // Close the dropdown after selecting an option
   };
@@ -84,7 +84,7 @@ const PlayerCustomDropdown: React.FC<Props> = ({
                   {selectedText.clubName} Hole{" "}
                   <strong>#{selectedText.holeNumber}</strong> - Par{" "}
                   {selectedText.par}, {selectedText.teeName} (
-                  {selectedText.yardage})
+                  {selectedText.teeYardage})
                 </div>
               ) : (
                 <div className="text-white">Select an option</div>
@@ -99,7 +99,7 @@ const PlayerCustomDropdown: React.FC<Props> = ({
         <div className="absolute z-10 mt-2 max-h-36 w-full overflow-y-auto rounded-md border bg-white shadow-md">
           {dropDownList &&
             dropDownList.map((item) => {
-              const optionText = `${item.clubName} Hole #${item.holeNumber} - Par ${item.par}, ${item.teeName} (${item.yardage})`;
+              const optionText = `${item.clubName} Hole #${item.holeNumber} - Par ${item.par}, ${item.teeName} (${item.teeYardage})`;
               return (
                 <div
                   key={item.scheduleContestId}

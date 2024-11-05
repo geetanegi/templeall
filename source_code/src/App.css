@@ -1,7 +1,7 @@
 .box {
   /* height: 200px; */
   background-color: red;
-  background-image: linear-gradient(0deg, #046221, #072e1a);
+  /* background-image: linear-gradient(0deg, #046221, #072e1a); */
   position: relative;
 }
 

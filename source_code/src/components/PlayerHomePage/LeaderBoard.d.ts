@@ -28,6 +28,9 @@ export interface LeaderboardEntry {
   prize: number;
   price: number;
   showLock: boolean | null;
+  imageBase64: string | null;
+  playerId: number;
+  imageUrl: string | null;
 }
 
 export interface APIResLeaderBoardData {

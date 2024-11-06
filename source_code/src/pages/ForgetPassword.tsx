@@ -104,7 +104,7 @@ const ForgetPassword: React.FC = () => {
   return (
     <div className="w-full">
       <div
-        className={`flex w-full flex-col items-center rounded-xl border pb-28 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+        className={`flex w-full flex-col items-center rounded-xl border pb-10 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
       >
         {/* // sm:max-h-56 for mobile but not */}
         <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />

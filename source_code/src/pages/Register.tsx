@@ -557,7 +557,7 @@ const Register: React.FC = () => {
         </div>
       )}
       {showOtpScreen && (
-        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl bg-[#ffffff] bg-opacity-50 p-6 md:w-full md:p-8">
+        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl border border-white bg-opacity-50 p-6 md:w-full md:p-8">
           {DisplayScreens()}
         </div>
       )}

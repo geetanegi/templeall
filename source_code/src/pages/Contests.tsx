@@ -399,8 +399,8 @@ const Contests: React.FC = () => {
       parseInt(values.coursePercentage) +
       parseInt(values.playerPercentage);
 
-    if (totalPayout > 100) {
-      ToastError("Total payout percentage should not be greater than 100%");
+    if (totalPayout !== 100) {
+      ToastError("Total Payout percentage should be 100%");
       return;
     }
 
@@ -544,14 +544,14 @@ const Contests: React.FC = () => {
                           {userPermisions.data?.permission[
                             "is_super_admin"
                           ] && (
-                              <button
-                                disabled={isSuperAdmin || isSubmitting}
-                                type="submit"
-                                className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
-                              >
-                                Save
-                              </button>
-                            )}
+                            <button
+                              disabled={isSuperAdmin || isSubmitting}
+                              type="submit"
+                              className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
+                            >
+                              Save
+                            </button>
+                          )}
                         </div>
                       </Form>
                     );

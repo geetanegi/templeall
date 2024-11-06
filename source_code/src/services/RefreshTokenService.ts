@@ -4,6 +4,7 @@ import { store, persistor } from "../store";
 import { ToastError } from "../components/Toast";
 import moment from "moment";
 import { logout } from "../reducers/login/login";
+import { resetCourseState } from "../reducers/Courses_data/courses";
 
 export const refreshTokenAPI = async () => {
   const dispatch = store.dispatch;
@@ -29,10 +30,12 @@ export const refreshTokenAPI = async () => {
       }
     } else {
       dispatch(logout());
+      dispatch(resetCourseState());
       ToastError(data?.description);
     }
   } catch (error) {
     dispatch(logout());
+    dispatch(resetCourseState());
     ToastError("Something went wrong");
   } finally {
   }

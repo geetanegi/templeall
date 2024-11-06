@@ -63,7 +63,6 @@ const ActiveContestAccordion: React.FC = () => {
   //   setIsModalOpen(true);
   // };
 
-  console.log("data", data);
   return (
     <PageLoader isActive={loader}>
       <div className="w-full">
@@ -250,7 +249,7 @@ const ActiveContestAccordion: React.FC = () => {
                                 size={14}
                                 className="mx-1 inline"
                               />
-                              <b>Eligibility requirements </b> : {item.note}
+                              <b>Eligibility criteria </b> : {item.note}
                             </p>
                           </div>
                         </div>

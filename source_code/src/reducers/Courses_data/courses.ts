@@ -152,6 +152,7 @@ const courseSlice = createSlice({
     setTotalPrice: (state, action: PayloadAction<number | null>) => {
       state.TotalPrice = action.payload;
     },
+    resetCourseState: () => initialState,
   },
 });
 
@@ -174,5 +175,6 @@ export const {
   setPar,
   setYardage,
   setTotalPrice,
+  resetCourseState,
 } = courseSlice.actions;
 export default courseSlice.reducer;

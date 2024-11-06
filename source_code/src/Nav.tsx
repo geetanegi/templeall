@@ -13,7 +13,10 @@ import { loginUserDetails } from "./reducers/permissions/permissions";
 import { setLoading } from "./reducers/loader/loader";
 import defaultUserImage from "./assets/images/default-user 1.png";
 import BreadCumModal from "./components/Contests/Contest Components/BreadCumModal";
-import { clearAllSelectedContests } from "./reducers/Courses_data/courses";
+import {
+  clearAllSelectedContests,
+  resetCourseState,
+} from "./reducers/Courses_data/courses";
 import { ToastError } from "./components/Toast";
 import {
   updateProfile,
@@ -311,6 +314,7 @@ const Nav: React.FC = () => {
                                 <a
                                   onClick={() => {
                                     // dispatch(loginUserDetails({}));
+                                    dispatch(resetCourseState());
                                     dispatch(logout());
                                     // localStorage.clear();
                                   }}
@@ -331,30 +335,29 @@ const Nav: React.FC = () => {
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <div className="relative">
-              {
-                userPermisions?.data?.permission["is_player"] ? 
-              <Popover
-                content={
-                  <NotificationPopoverComponent
-                    notficationList={notficationList}
-                    getAllNotification={getAllNotification}
+              {userPermisions?.data?.permission["is_player"] ? (
+                <Popover
+                  content={
+                    <NotificationPopoverComponent
+                      notficationList={notficationList}
+                      getAllNotification={getAllNotification}
+                    />
+                  }
+                  position="bottom-left"
+                  className="mt-7 rounded-md border border-[#04622133]"
+                >
+                  {countUnreadNotifications(notficationList || []) ? (
+                    <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                      {countUnreadNotifications(notficationList || [])}
+                    </span>
+                  ) : null}
+                  <Bell
+                    color="#7b7887"
+                    className="cursor-pointer"
+                    strokeWidth={2}
                   />
-                }
-                position="bottom-left"
-                className="mt-7 rounded-md border border-[#04622133]"
-              >
-                {countUnreadNotifications(notficationList || []) ? (
-                  <span className="absolute -right-[2px] -top-[4px] flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                    {countUnreadNotifications(notficationList || [])}
-                  </span>
-                ) : null}
-                <Bell
-                  color="#7b7887"
-                  className="cursor-pointer"
-                  strokeWidth={2}
-                />
-              </Popover> : null
-              }
+                </Popover>
+              ) : null}
             </div>
             <button
               type="button"
@@ -381,7 +384,7 @@ const Nav: React.FC = () => {
                 </div>
                 {userPermisions?.data?.permission["is_player"] ? (
                   <div className="flex items-center justify-center text-[#7B7887]">
-                    <span className="text-[12px] ">
+                    <span className="text-[12px]">
                       HDCP: {profiledetails?.userProfile?.handicap}
                     </span>
                     <Dot className="mx-[-4px]" />
@@ -428,6 +431,7 @@ const Nav: React.FC = () => {
                         // localStorage.clear();
                         // window.location.reload();
                         // dispatch(loginUserDetails({}));
+                        dispatch(resetCourseState());
                         dispatch(logout());
                       }}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

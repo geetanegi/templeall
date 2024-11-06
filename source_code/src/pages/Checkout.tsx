@@ -117,7 +117,6 @@ const Checkout: React.FC = () => {
         },
       },
     };
-
     try {
       const res = await apiService.post<any>(
         API_URL.contestCheckoutCoreRegistrationSave,

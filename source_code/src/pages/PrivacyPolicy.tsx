@@ -1,5 +1,5 @@
 import React from "react";
-import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 
 const PrivacyPolicy: React.FC = () => {
   return (

@@ -21,8 +21,8 @@ import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import { downloadFile } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import moment from "moment";
 
 const Login: React.FC = () => {
@@ -241,6 +241,13 @@ const Login: React.FC = () => {
               >
                 {" "}
                 Privacy Policy
+              </p>
+            </div>
+          </div>
+          <div className="fixed bottom-14 left-[70px] hidden h-0.5 w-[17%] items-end md:flex">
+            <div className="right-1 top-[1px] flex md:absolute">
+              <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
+                © 2024 AceCam Golf, LLC. All rights reserved.
               </p>
             </div>
           </div>

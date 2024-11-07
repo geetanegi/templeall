@@ -211,6 +211,13 @@ const ForgetPassword: React.FC = () => {
               </p>
             </div>
           </div>
+          <div className="fixed bottom-14 left-[70px] hidden h-0.5 w-[17%] items-end md:flex">
+            <div className="right-1 top-[1px] flex md:absolute">
+              <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
+                © 2024 AceCam Golf, LLC. All rights reserved.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

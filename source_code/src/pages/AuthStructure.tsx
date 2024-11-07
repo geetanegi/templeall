@@ -26,26 +26,26 @@ const AuthStructure: React.FC = () => {
             className={`align-center flex h-screen w-full bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
           >
             {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:max-w-3xl md:p-16">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[590px]">
                 {location.pathname === ROUTES.LOGIN && <Login />}
               </div>
             )}
             {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:max-w-3xl md:p-8">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[590px]">
                 {location.pathname === ROUTES.FORGET_PASSWORD && (
                   <ForgetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:max-w-2xl md:p-8">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[590px]">
                 {location.pathname === ROUTES.RESET_PASSWORD && (
                   <ResetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:max-w-3xl md:p-8">
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:w-[590px]">
                 {location.pathname === ROUTES.SIGNUP && (
                   <StripeIntegration>
                     <Register />

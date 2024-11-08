@@ -196,11 +196,13 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
               }
             } else if (data?.error && data.description) {
               ToastError(data.description);
+              handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
             }
           } else {
             ToastError(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
+            handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
           }
         }
       } else {
@@ -282,16 +284,15 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                       />
                     </div>
                     <div className="flex gap-5 px-5">
-                    <div className="w-[120px] h-[92px] w-[120px] border border-gray-400 rounded-md">
-                          {
-                            thumbnail ? 
-                            <img
-                              src={thumbnail}
-                              alt=""
-                              className="h-[92px] w-[120px] rounded-md"
-                            /> : null
-                          }
-                        </div>
+                      <div className="h-[92px] w-[120px] rounded-md border border-gray-400">
+                        {thumbnail ? (
+                          <img
+                            src={thumbnail}
+                            alt=""
+                            className="h-[92px] w-[120px] rounded-md"
+                          />
+                        ) : null}
+                      </div>
                       <div className="">
                         <div
                           className="ml-auto flex h-[92px] w-[300px] cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-[#7B7887] bg-[#F5F6F7]"

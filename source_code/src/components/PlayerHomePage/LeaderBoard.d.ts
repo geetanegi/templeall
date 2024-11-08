@@ -26,6 +26,11 @@ export interface LeaderboardEntry {
   username: string;
   proximity: number;
   prize: number;
+  price: number;
+  showLock: boolean | null;
+  imageBase64: string | null;
+  playerId: number;
+  imageUrl: string | null;
 }
 
 export interface APIResLeaderBoardData {
@@ -46,4 +51,5 @@ export interface leaderBoard {
   teeName: string;
   yardage: number;
   par: number;
+  teeYardage: number;
 }

@@ -19,6 +19,19 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
     { id: 3, key: "Proximity(FEET)", field: "Proximity(FEET)" },
     { id: 4, key: "price", field: "Price" },
   ];
+
+  const showPrice = (row: LeaderboardEntry) => {
+    if (row.price) {
+      return row.price;
+    }
+    if (row.price === null && row.showLock === true) {
+      return <Lock strokeWidth={1.5} />;
+    }
+    if (row.price === null && row.showLock === false) {
+      return "N/A";
+    }
+  };
+
   const updatedTableData = () => {
     const updatedData = leaderBoardData?.map((row: any, index: number) => ({
       Pos: <span className="text-white">{index + 1}</span>,
@@ -33,19 +46,20 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
         >
           <img
             src={`data:image/png;base64,${row?.imageBase64}`}
-            className="mr-1 h-8 w-8 rounded-full"
+            className="mr-[8px] h-5 w-5 rounded-full border border-[#FFDE59]"
           />
-          <span className="text-white">{row.username}</span>
+          <span className="text-[13px] text-white">{row.username}</span>
         </div>
       ),
       "Proximity(FEET)": (
-        <span className="text-white">
+        <span className="text-[13px] text-white">
           {row.proximity === null ? "N/A" : row.proximity}
         </span>
       ),
       price: (
-        <span className="text-white">
-          {row.price === null ? <Lock strokeWidth={1.5} /> : row.price}
+        <span className="text-[13px] text-white">
+          {showPrice(row)}
+          {/* {row.price === null ? <Lock strokeWidth={1.5} /> : row.price} */}
         </span>
       ),
     }));

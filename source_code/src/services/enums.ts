@@ -71,6 +71,8 @@ export const API_URL = {
   getAllPerFormanceStaics:"core/profile/all-performance-statics",
   updatePSVisibility: "core/user/update-show-visibility",
   searchUserPS:"/core/profile/search-user-ps",
+  getAllPlayerWinnerVideos: "/core/winner-video/player-winner-videos",
+  publishWinnerVideos: "/core/winner-video/published",
 
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",

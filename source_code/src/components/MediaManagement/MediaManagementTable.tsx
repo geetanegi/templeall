@@ -44,9 +44,9 @@ interface MediaManagementTableProps {
   setIsStatusChange: (flag: boolean) => void;
   setDataLength: (dataLength: number) => void;
   uploadProgressArr: any;
-  isModalOpen:boolean,
-  isSOTWModalOpen:boolean,
-  uploadSotwProgressArr:Array<any>
+  isModalOpen: boolean;
+  isSOTWModalOpen: boolean;
+  uploadSotwProgressArr: Array<any>;
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -68,7 +68,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   uploadProgressArr,
   isModalOpen,
   isSOTWModalOpen,
-  uploadSotwProgressArr
+  uploadSotwProgressArr,
 }) => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -103,30 +103,28 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       } else {
         computeRowData(fetchedData);
       }
-    }else{
+    } else {
       getVideosList();
     }
   }, [uploadSotwProgressArr]);
 
-  useEffect(()=>{
-    if(uploadProgressArr && selectedTab !== 3){
-     computeRowData(fetchedData);
-    }else{
+  useEffect(() => {
+    if (uploadProgressArr && selectedTab !== 3) {
+      computeRowData(fetchedData);
+    } else {
       getVideosList();
     }
-
-  }, [uploadProgressArr])
+  }, [uploadProgressArr]);
 
   useEffect(() => {
     if (rowData.length) {
       computeRowData(fetchedData);
     }
-    
   }, [activeStatus, isVisible]);
 
   const getVideosList = async () => {
-    try { 
-      if(!isModalOpen && !isSOTWModalOpen){
+    try {
+      if (!isModalOpen && !isSOTWModalOpen) {
         dispatch(setLoading(true));
       }
       if (isCourseAdmin) {
@@ -195,10 +193,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       data: payload,
     });
     if (status === 200 && data?.data != null && !data?.error) {
-      if(selectedTab === 3 && uploadSotwProgressArr.length){
-        computeRowData([...uploadSotwProgressArr,...data?.data]);
-      }else{
-        computeRowData(data?.data)
+      if (selectedTab === 3 && uploadSotwProgressArr.length) {
+        computeRowData([...uploadSotwProgressArr, ...data?.data]);
+      } else {
+        computeRowData(data?.data);
       }
       setFetchedData(data?.data);
       setDataLength(data?.data?.length);
@@ -266,7 +264,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     playvideo: () => void,
   ) => {
     if (status === "REJECT") {
-      return <div className="p-1 text-[gray]">No video</div>;
+      return <div className="p-1 py-4 text-[gray]">No video</div>;
     } else if (videos) {
       return (
         <div className="flex gap-2 py-4">
@@ -332,7 +330,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             reuestDate: moment()
               .utc(data?.requestTime)
               .local()
-              .format("YYYY-MM-DD"),
+              .format("MM-DD-YYYY-"),
             time: moment.utc(data?.requestTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">
@@ -355,15 +353,23 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.requestTime).local().format("YYYY-MM-DD"),
-            time: moment().utc(data?.requestTime).local().format("hh:mm A"),
-            upload:uploadProgressArr?.find(
+            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
+            time: moment.utc(data?.startTime).local().format("hh:mm A"),
+            upload: uploadProgressArr?.find(
               (vid: any) => vid.id === data.id,
             ) ? (
               <ProgressBar
                 progress={Math.floor(
-                  (Number(uploadProgressArr?.filter((vid: any) => vid.id === data.id)?.[0].chunkNo) /
-                    Number(uploadProgressArr?.filter((vid: any) => vid.id === data.id)?.[0].totalchunk)) *
+                  (Number(
+                    uploadProgressArr?.filter(
+                      (vid: any) => vid.id === data.id,
+                    )?.[0].chunkNo,
+                  ) /
+                    Number(
+                      uploadProgressArr?.filter(
+                        (vid: any) => vid.id === data.id,
+                      )?.[0].totalchunk,
+                    )) *
                     100,
                 )}
               />
@@ -415,7 +421,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             reuestDate: moment
               .utc(data?.requestTime)
               .local()
-              .format("YYYY-MM-DD"),
+              .format("MM-DD-YYYY"),
             contestName: data?.contestType || "",
             club: data?.clubName || "",
             course: data?.courseName || "",
@@ -456,13 +462,20 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             ) ? (
               <ProgressBar
                 progress={Math.floor(
-                  (Number(uploadProgressArr?.filter((vid: any) => vid.id === data.id)?.[0].chunkNo) /
-                    Number(uploadProgressArr?.filter((vid: any) => vid.id === data.id)?.[0].totalchunk)) *
+                  (Number(
+                    uploadProgressArr?.filter(
+                      (vid: any) => vid.id === data.id,
+                    )?.[0].chunkNo,
+                  ) /
+                    Number(
+                      uploadProgressArr?.filter(
+                        (vid: any) => vid.id === data.id,
+                      )?.[0].totalchunk,
+                    )) *
                     100,
                 )}
               />
-            ) :
-             (
+            ) : (
               computeUploadColumn(
                 data.videos,
                 data.status,
@@ -480,14 +493,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.dateTime).local().format("YYYY-MM-DD"),
-            time: moment.utc(data?.dateTime).local().format("h:mm A"),
+            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
+            time: moment.utc(data?.startTime).local().format("h:mm A"),
             upload: data.chunkNo ? (
               <div className="w-full py-4">
                 <ProgressBar
-                progress={Math.floor((data.chunkNo / data.totalchunk) * 100)}
+                  progress={Math.floor((data.chunkNo / data.totalchunk) * 100)}
                 />
-
               </div>
             ) : (
               <div className="flex items-center gap-2 py-4">

@@ -1,4 +1,5 @@
 import React from "react";
+import { SelectChangeEvent } from "@mui/material";
 import MUISelect from "../../Formik/components/MUISelect";
 import CustomDatePicker from "../../Formik/components/CustomDatePicker";
 import MUINumber from "../../Formik/components/MUINumber";
@@ -43,7 +44,7 @@ const ContestForm: React.FC<ContestProps> = ({
   const { setFieldValue } = useFormikContext(); // To access Formik's setFieldValue
 
   // Handle change for clubName
-  const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleClubChange = (event: SelectChangeEvent<string>) => {
     const clubValue = event.target.value;
 
     // Update clubName and reset dependent fields
@@ -54,7 +55,7 @@ const ContestForm: React.FC<ContestProps> = ({
   };
 
   // Handle change for courseName
-  const handleCourseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCourseChange = (event: SelectChangeEvent<string>) => {
     const courseValue = event.target.value;
 
     // Update courseName and reset dependent fields
@@ -64,7 +65,7 @@ const ContestForm: React.FC<ContestProps> = ({
   };
 
   // Handle change for holeName
-  const handleHoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleHoleChange = (event: SelectChangeEvent<string>) => {
     const holeValue = event.target.value;
 
     // Update courseName and reset dependent fields
@@ -73,7 +74,7 @@ const ContestForm: React.FC<ContestProps> = ({
   };
 
   // Handle change for holeName
-  // const handleRadioChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  // const handleRadioChange = (event: SelectChangeEvent<string>) => {
   //   const holeValue = event.target.value;
 
   //   // Update courseName and reset dependent fields
@@ -81,7 +82,7 @@ const ContestForm: React.FC<ContestProps> = ({
   //   setFieldValue("Tee", ""); // Reset teeName
   // };
 
-  const handleRadioChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleRadioChange = (event: SelectChangeEvent<string>) => {
     const radioValue = event.target.value;
 
     if (radioValue === "no") {
@@ -252,7 +253,7 @@ const ContestForm: React.FC<ContestProps> = ({
                     {" "}
                     Occurs every{" "}
                     {saveState?.selectedDays?.length < 7
-                      ? saveState.selectedDays.join(" ,")
+                      ? saveState.selectedDays.join(", ")
                       : "day"}{" "}
                     until{" "}
                     <span className="text-xs font-semibold text-gray-500">
@@ -269,7 +270,7 @@ const ContestForm: React.FC<ContestProps> = ({
                       : ` every ${getOrdinal(saveState.repeatEvery)} `}
                     day until{" "}
                     <span className="text-xs font-semibold text-gray-500">
-                      {moment.utc(endDate).format("DD/MM/YYYY")}
+                      {moment.utc(endDate).format("MM/DD/YYYY")}
                     </span>
                   </span>
                 )}

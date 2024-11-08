@@ -16,7 +16,8 @@ export default {
       backgroundImage: {
         "mobile-background": "url('/src/assets/images/Golf BG.png')",
         "desktop-background": "url('/src/assets/images/AceCam-golf-bg.png')",
-        'gradient-green': 'linear-gradient(180deg, #046221 0%, #072E1A 100%)',
+        'gradient-green': 'linear-gradient(180deg, #046221  0%, #072E1A 100%)',
+        "reverse-graident-green": 'linear-gradient(180deg, #072E1A   0%, #046221 100%)',
         'hero-pattern':
           "linear-gradient(to right bottom, rgba(43, 108, 176, 0.9), rgba(43, 108, 176, 0.9)), url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.eAFxNBriFW8k0jCNOTCe6gHaHs%26pid%3DApi&f=1')",
 
@@ -47,6 +48,10 @@ export default {
         warning: "#FFF3E0",
         warningText:"#FF9800",
         textColor:"#1D1A0C",
+       borderColor:"#E6E6E6",
+       disabledFontColor:"#CACACA",
+       tableHeadingTextColor:"#1D1A0C"
+       
         
       },
     },

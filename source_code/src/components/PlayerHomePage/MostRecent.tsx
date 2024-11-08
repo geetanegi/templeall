@@ -60,9 +60,10 @@ const MostRecent: React.FC = () => {
         <ClubCard contestInfo={recentData.data.contestInfo} />
       )}
 
-      {recentData?.data?.leaderboard && (
-        <LeaderBoardTable leaderBoardData={recentData.data.leaderboard} />
-      )}
+      {recentData?.data?.leaderboard &&
+        recentData?.data?.contestInfo?.contestType === "Closest-to-the-Pin" && (
+          <LeaderBoardTable leaderBoardData={recentData.data.leaderboard} />
+        )}
     </div>
   );
 };

@@ -50,6 +50,7 @@ const Input: React.FC<InputProps> = ({
             }
             variant="filled"
             fullWidth
+            InputLabelProps={{ shrink: true }}
             helperText={<ErrorMessage name={name} component="span" />}
             error={Boolean(form.errors[name] && form.touched[name])}
             inputProps={{ maxLength }}
@@ -96,18 +97,15 @@ const Input: React.FC<InputProps> = ({
                 color: "white",
                 // Autofill styles to maintain color consistency
                 "&:-webkit-autofill": {
-                  WebkitBoxShadow:
-                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency
+                  WebkitBoxShadow: "0 0 0 100px #00000099 inset !important", // Ensures background color consistency
                   WebkitTextFillColor: "white !important", // Ensures text color consistency
                 },
                 "&:-webkit-autofill:hover": {
-                  WebkitBoxShadow:
-                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on hover
+                  WebkitBoxShadow: "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on hover
                   WebkitTextFillColor: "white !important", // Ensures text color consistency on hover
                 },
                 "&:-webkit-autofill:focus": {
-                  WebkitBoxShadow:
-                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on focus
+                  WebkitBoxShadow: "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on focus
                   WebkitTextFillColor: "white !important", // Ensures text color consistency on focus
                 },
               },

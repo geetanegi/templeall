@@ -141,27 +141,27 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               )}
               <div className="h-[64px] w-full bg-[#1D1A0C] p-1 px-2">
                 <div className="flex text-[#fff]">
-                  <span>{requestVideoPayload?.videos?.title || ""}</span>
-                  <Dot />
+                  <span className="flex items-center ">{requestVideoPayload?.videos?.title || ""}</span>
+                  <Dot size={24} />
                   <span>{requestVideoPayload?.username || ""}</span>
                 </div>
                 <div className="mt-1 items-center justify-start text-white">
-                  <div className="mt-1 flex whitespace-nowrap text-[14px]">
+                  <div className="mt-1 flex items-center whitespace-nowrap text-[14px]">
                     <div className="items.center flex gap-1 text-sm font-light">
                       <Trophy size={12} className="mt-1" />{" "}
                       <span className="text-[12px]">
                         {requestVideoPayload?.contestType || ""}
                       </span>{" "}
                     </div>
-                    <Dot />
+                    <Dot size={24} />
                     <span className="text-[12px]">
                       {requestVideoPayload?.clubName || ""}
                     </span>
-                    <Dot />
+                    <Dot size={24} />
                     <span className="text-[12px]">
                       Hole#{requestVideoPayload?.holeNumber || ""}
                     </span>
-                    <Dot />
+                    <Dot size={24} />
                     <span className="text-[12px]">
                       {requestVideoPayload?.teeName || ""}
                     </span>
@@ -219,7 +219,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                       </div>
                     ) : (
                       <div className="ml-2 w-full">
-                        <div className="flex w-full justify-between">
+                        <div className="flex items-center w-full justify-between">
                           <div className="flex gap-1">
                             <span className="text-black-800 text-[14px] font-bold">
                               {commentObj.firstName}
@@ -243,7 +243,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                           Number(userInfo.userId) ===
                             Number(commentObj.userId) ? (
                             <SquarePen
-                              size={16}
+                              size={14}
                               className="cursor-pointer text-buttonPrimary"
                               onClick={() => {
                                 setComment(commentObj.commentText);
@@ -259,7 +259,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                             Number(userInfo.userId) ===
                               Number(commentObj.userId)) ? (
                             <Trash2
-                              size={16}
+                              size={14}
                               className="cursor-pointer text-buttonPrimary"
                               onClick={() => {
                                 setConfirmationVisible(true)

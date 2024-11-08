@@ -1,5 +1,5 @@
-import React from "react";
-import { Field, ErrorMessage, FieldAttributes, FieldProps } from "formik";
+import React, { useCallback, useMemo } from "react";
+import { Field, ErrorMessage, FieldProps } from "formik";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,14 +13,40 @@ interface Option {
   code?: string | null;
 }
 
-interface SelectProps extends FieldAttributes<any> {
+interface SelectProps {
   label: string;
   name: string;
   options: Option[];
   skipCode?: boolean;
   required?: boolean;
   disabled?: boolean;
+  onChange?: (event: SelectChangeEvent<string>) => void;
 }
+
+const formControlStyles = {
+  width: "100%",
+  minWidth: "150px",
+  "& .MuiInputBase-root": { padding: "4px" },
+};
+
+const inputLabelStyles = {
+  fontSize: "14px",
+  paddingLeft: "10px",
+  transform: "translate(0, 12px) scale(1)",
+  "&.MuiFormLabel-filled, &.Mui-focused": {
+    transform: "translate(0, -6px) scale(0.75)",
+    paddingLeft: "15px",
+  },
+};
+
+const selectStyles = {
+  backgroundColor: "#FAFAFA",
+  padding: "6px",
+  borderRadius: "6px",
+  fontSize: "14px",
+  "& .MuiSelect-select": { padding: "8px 12px" },
+  "&:hover": { backgroundColor: "#f0f0f0" },
+};
 
 const MUISelect: React.FC<SelectProps> = ({
   label,
@@ -29,94 +55,69 @@ const MUISelect: React.FC<SelectProps> = ({
   skipCode,
   required = false,
   disabled = false,
-  ...rest
+  onChange,
 }) => {
+  const renderedOptions = useMemo(
+    () =>
+      options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.key} {skipCode ? "" : (option.code ?? "")}
+        </MenuItem>
+      )),
+    [options, skipCode],
+  );
+
   return (
     <Field name={name}>
-      {({ field, form }: FieldProps) => (
-        <Box sx={{ minWidth: "200px" }}>
-          {" "}
-          {/* Define the minimum width */}
-          <FormControl
-            fullWidth
-            variant="outlined"
-            error={Boolean(form.errors[name] && form.touched[name])}
-            sx={{
-              // Control the overall width of the select component
-              width: "100%", // This ensures it adapts to parent width or can be set explicitly like '300px'
-              minWidth: "150px", // Reduce default width
-              "& .MuiInputBase-root": {
-                padding: "4px", // Reduce default padding inside the Select
-              },
-            }}
-          >
-            <InputLabel
-              id={`${name}-label`}
-              sx={{
-                fontSize: "14px", // Reduce label font size
-                paddingLeft: "4px", // Reduce label padding
-              }}
-            >
-              <span style={{ display: "flex", alignItems: "center" }}>
-                {label}
-                {required && (
-                  <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
-                )}
-              </span>
-            </InputLabel>
-            <Select
-              labelId={`${name}-label`}
-              id={name}
-              {...field}
-              {...rest}
-              value={field.value || ""}
-              onChange={(event: SelectChangeEvent<string>) => {
-                // Ensure form value is updated
-                form.setFieldValue(name, event.target.value);
+      {({ field, form }: FieldProps) => {
+        const handleSelectChange = useCallback(
+          (event: SelectChangeEvent<string>) => {
+            form.setFieldValue(name, event.target.value);
+            onChange?.(event);
+          },
+          [form, name, onChange],
+        );
 
-                // If additional logic is needed when changing the value (e.g., reset dependent fields), it can be added here.
-                if (rest.onChange) {
-                  rest.onChange(event); // Call any additional onChange logic passed via props
-                }
-              }}
-              disabled={disabled}
-              label={label}
-              sx={{
-                backgroundColor: "#FAFAFA",
-                padding: "6px", // Reduce the padding inside the select
-                borderRadius: "6px", // Reduce border radius
-                fontSize: "14px", // Adjust font size to make it smaller
-                "& .MuiSelect-select": {
-                  padding: "8px 12px", // Reduce the internal padding of the text inside the select
-                },
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  // borderColor: "blue", // Custom focus border color
-                },
-              }}
+        return (
+          <Box sx={{ minWidth: "200px" }}>
+            <FormControl
+              fullWidth
+              variant="outlined"
+              error={Boolean(form.errors[name] && form.touched[name])}
+              sx={formControlStyles}
             >
-              <MenuItem value="">
-                <em>Select</em>
-              </MenuItem>
-              {options.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.key} {skipCode ? "" : (option.code ?? "")}
+              <InputLabel id={`${name}-label`} sx={inputLabelStyles}>
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  {label}
+                  {required && (
+                    <span style={{ color: "red", marginLeft: "0.25rem" }}>
+                      *
+                    </span>
+                  )}
+                </span>
+              </InputLabel>
+              <Select
+                labelId={`${name}-label`}
+                id={name}
+                {...field}
+                value={field.value || ""}
+                onChange={handleSelectChange}
+                disabled={disabled}
+                label={label}
+                sx={selectStyles}
+              >
+                <MenuItem value="">
+                  <em>Select</em>
                 </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText
-              sx={{
-                paddingLeft: "4px", // Reduce padding for helper text
-                fontSize: "12px", // Reduce font size for helper text
-              }}
-            >
-              <ErrorMessage name={name} />
-            </FormHelperText>
-          </FormControl>
-        </Box>
-      )}
+                {renderedOptions}
+              </Select>
+              <FormHelperText sx={{ fontSize: "12px", paddingRight: "0px" }}>
+                <ErrorMessage name={name} />
+              </FormHelperText>
+            </FormControl>
+          </Box>
+        );
+      }}
     </Field>
   );
 };

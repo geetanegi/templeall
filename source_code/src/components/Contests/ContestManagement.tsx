@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TableComponent from "../TableComponent";
 import { Ban, CircleCheck, Eye, Plus, SquarePen } from "lucide-react";
 import PageLoader from "../PageLoader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 import SwitchComponent from "../SwitchComponent";
@@ -16,6 +16,12 @@ import Modal from "../ModalComponent";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import ContestList from "../../pages/ContestList";
+import CheckboxDropdown from "../CheckboxDropdown";
+import {
+  CourseApiResponse,
+  HoleListResponse,
+} from "../AdminPanel/courses/courses.interface";
+import { setLoading } from "../../reducers/loader/loader";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -36,6 +42,7 @@ const ContestManagement = () => {
   );
 
   const isCourseAdmin = userPermisions.data?.permission["is_course_admin"];
+  const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
 
@@ -44,8 +51,76 @@ const ContestManagement = () => {
   const [currentStatus, setCurrentStatus] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedId, setSetselectedId] = useState<number | null>(null);
+  const [selectedContestType, setSelectedContestType] = useState<string | null>(
+    null,
+  );
+  const [courses, setCourses] = useState<CourseApiResponse | null>(null);
+  const [holesList, setHolesList] = useState<HoleListResponse | null>(null);
+  const [selectedHoles, setSelectedHoles] = useState<string[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
 
-  const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const dispatch = useDispatch();
+
+  const fetchCourseList = async () => {
+    try {
+      const res = await apiService.post<CourseApiResponse>(
+        API_URL.getCourseList,
+        {
+          data: {},
+        },
+      );
+      if (res.status === 200 && !res.data.error) {
+        setCourses(res.data);
+      } else if (res.data.error) {
+        ToastError(res.data.description || "Error fetching course data");
+      }
+    } catch (error) {
+      ToastError("Error fetching course data");
+    }
+  };
+
+  const fetchHoleList = async (selectedCourseId: number) => {
+    try {
+      const res = await apiService.post<HoleListResponse>(
+        API_URL.getHoleByCourseId,
+        {
+          data: {
+            courseId: selectedCourseId,
+          },
+        },
+      );
+      if (res.status === 200 && !res.data.error) {
+        setHolesList(res.data);
+      } else if (res.data.error) {
+        ToastError(res.data.description || "Error fetching hole data");
+      }
+    } catch (error) {
+      ToastError("Error fetching hole data");
+    }
+  };
+
+  useEffect(() => {
+    fetchCourseList();
+  }, []);
+
+  useEffect(() => {
+    if (selectedCourse) {
+      fetchHoleList(selectedCourse);
+    } else {
+      setHolesList(null);
+    }
+  }, [selectedCourse]);
+
+  const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCourseId = parseInt(event.target.value);
+    setSelectedCourse(selectedCourseId);
+    setHolesList(null); // Reset holesList to null when course changes
+    setSelectedHoles([]); // Reset selectedHoles to an empty array
+  };
+
+  const handleSelectedValuesChange = (selectedValues: string[]) => {
+    setSelectedHoles(selectedValues);
+  };
 
   interface ContestApiResponse {
     description: string | null;
@@ -56,11 +131,31 @@ const ContestManagement = () => {
 
   useEffect(() => {
     fetchContestList(currentStatus);
-  }, [currentStatus]);
+  }, [currentStatus, selectedContestType, selectedCourse, selectedHoles]);
 
   useEffect(() => {
     computePagination();
   }, [pageSize, currentPage, totalAdminCount]);
+
+  const computeFiter = (data: any) => {
+    let filteredData = data;
+    if (selectedContestType) {
+      filteredData = filteredData?.filter(
+        (item: any) => item.contestType === selectedContestType,
+      );
+    }
+    if (selectedCourse) {
+      filteredData = filteredData?.filter(
+        (item: any) => item.course.id === selectedCourse,
+      );
+    }
+    if (selectedHoles.length) {
+      filteredData = filteredData?.filter(
+        (item: any) => selectedHoles.includes(item.hole.id.toString()),
+      );
+    }
+    return filteredData;
+  };
 
   const computePagination = async () => {
     const startIndex = (await currentPage) * pageSize;
@@ -175,6 +270,7 @@ const ContestManagement = () => {
 
   const fetchContestList = async (status: any) => {
     try {
+      dispatch(setLoading(true));
       var res = null;
       if (status == "All Contests") {
         res = await apiService.post<ContestApiResponse>(
@@ -189,13 +285,17 @@ const ContestManagement = () => {
       }
 
       if (res.status === 200 && !res.data.error) {
-        setTotalAdminCount(res.data.data);
+        const filteredData = await computeFiter(res.data.data);
+        setTotalAdminCount(filteredData);
         computePagination();
+        dispatch(setLoading(false));
       } else {
         ToastError(res.data.description || "Error fetching contest data");
+        dispatch(setLoading(false));
       }
     } catch (error) {
       ToastError("Error fetching contest data");
+      dispatch(setLoading(false));
     }
   };
 
@@ -240,34 +340,73 @@ const ContestManagement = () => {
         <ContestList />
       </div>
     );
-  }else if(!userPermisions?.data?.permission){
-    return <div className="h-[100vh] bg-[#ffffff]"></div>
+  } else if (!userPermisions?.data?.permission) {
+    return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
   return (
     <div
-      className="bg-admin-bg-position h-[90vh] bg-white bg-contain bg-fixed bg-no-repeat pt-10 md:flex-row"
+      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat pb-10 pt-10 md:flex-row"
       style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
     >
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
-          <div className="align-center flex justify-between">
+          <div className="align-center flex justify-between gap-2">
             <select
               id="courses"
               style={{ marginLeft: "5px" }}
-              className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
+              className="align-center mt-5 flex w-full justify-between text-sm rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
                 setCurrentStatus(e.target.value);
               }} // Update selected status
             >
               <option value="All Contests" selected>
-                All Contests
+                Filter by Status
               </option>
               <option value="DE">Inactive</option>
               <option value="AC">Active</option>
               <option value="CP">Completed</option>
             </select>
+            <select
+              id="courses"
+              className="align-center mt-5 flex w-full justify-between text-sm rounded-md border border-gray-300 bg-gray-100 px-4 py-2  md:mt-0 md:w-[200px]"
+              onChange={(e) => {
+                setCurrentPage(0);
+                setSelectedContestType(e.target.value);
+              }} // Update selected status
+            >
+              <option value="" selected>
+                Filter by Contests
+              </option>
+              <option value="ACE_CAM_JACKPOT">AceCam-Jackpot</option>
+              <option value="CLOSEST_TO_THE_PIN">Closest-to-the-Pin</option>
+            </select>
+            <select
+              id="courses"
+              onChange={handleCoursesChange}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[200px]"
+            >
+              <option value="">Filter by Courses</option>
+              {courses?.data.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+            <CheckboxDropdown
+              options={
+                holesList?.data.map((hole) => ({
+                  value: hole.id.toString(),
+                  label: hole.holeNumber.toString(),
+                })) || []
+              }
+              maxDisplayCount={2}
+              label="Filter by Holes"
+              disabled={selectedCourse ? false : true}
+              onChange={handleSelectedValuesChange}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-100 flex pl-2 py-auto text-sm text-gray-900 outline-none md:w-[200px]"
+            />
           </div>
           {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (
             <button
@@ -287,7 +426,9 @@ const ContestManagement = () => {
             currentPage={currentPage}
             totalPages={Math.ceil(totalAdminCount.length / Number(pageSize))}
             setCurrentPage={setCurrentPage}
-            pagination={Math.ceil(totalAdminCount.length / Number(pageSize)) > 1}
+            pagination={
+              Math.ceil(totalAdminCount.length / Number(pageSize)) > 1
+            }
             pageSize={pageSize}
             setPageSize={setPageSize}
             totalAdminCount={totalAdminCount}
@@ -301,7 +442,7 @@ const ContestManagement = () => {
         title="Confirmation"
       >
         <>
-          <div className="mb-6 w-full  items-center justify-center rounded-bl-lg rounded-br-lg px-6 text-center md:w-[480px]">
+          <div className="mb-6 w-full items-center justify-center rounded-bl-lg rounded-br-lg px-6 text-center md:w-[480px]">
             <CircleCheck className="m mx-auto mb-6 h-[38px] w-[38px] rounded-full bg-[#248A3D59] p-2" />
             <p className="text-center">
               Are you sure you want to edit the contest? Editing the contest

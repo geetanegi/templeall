@@ -29,8 +29,8 @@ import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 
 import { downloadFile } from "../utils/downloadUtils";
 
@@ -145,6 +145,7 @@ const Register: React.FC = () => {
         dateOfBirth,
         countryCode,
         phone,
+        ghin,
       } = values;
 
       const newData = {
@@ -154,6 +155,7 @@ const Register: React.FC = () => {
         lastName: lastName,
         emailId: email,
         countryCode: countryCode,
+        ghin: ghin,
         ...(phone && phone.toString().length >= 2
           ? { mobile: `${phone}` }
           : {}),
@@ -223,7 +225,7 @@ const Register: React.FC = () => {
   return (
     <>
       {!showOtpScreen && !showSuccessScreen && (
-        <div className="bg-back-600 my-10 flex h-auto w-full flex-col items-center rounded-xl border p-2 md:w-full md:p-8">
+        <div className="bg-back-600 my-10 flex h-auto w-full flex-col items-center rounded-xl border p-2 md:w-full md:p-4">
           <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
           <div className="flex gap-5">
             <InstagramLoginComponent />
@@ -234,7 +236,9 @@ const Register: React.FC = () => {
             <img src={TikTok} alt="" />
             <GoogleLoginComponent />
           </div>
-          <h2 className={`my my-8 py-2 font-semibold text-primaryText`}>
+          <h2
+            className={`my my-5 py-2 text-[13px] font-semibold text-primaryText`}
+          >
             -OR-
           </h2>
           <Formik
@@ -525,31 +529,41 @@ const Register: React.FC = () => {
           </Formik>
 
           <div>
-            <div className="-mt-5 md:hidden">
-              <p
-                className={`cursor-pointer text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                Privacy Policy
-              </p>
-            </div>
-            <div className="fixed bottom-14 right-[40px] hidden h-0.5 w-[17%] items-end md:flex">
-              <div className="right-1 top-[1px] flex md:absolute">
+            <div className="fixed bottom-14 right-[20px] hidden h-0.5 w-[17%] items-end md:flex">
+              <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">
                 <p
                   onClick={downloadTermsAndConditionsFunc}
-                  className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                  className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
                 >
                   Terms and Conditions
                 </p>{" "}
-                <p className="cursor-pointer whitespace-nowrap p-2 text-[13px] text-[#FFFFFF] hover:underline">
+                <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
                   |
                 </p>{" "}
                 <p
-                  className={`cursor-pointer whitespace-nowrap p-2 text-[13px] text-link hover:underline`}
+                  className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
                   onClick={downloadPrivacyPolicyFunc}
                 >
                   {" "}
                   Privacy Policy
+                </p>
+                <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
+                  |
+                </p>{" "}
+                <p
+                  className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
+                >
+                  <a href="mailto:support@acecamgolf.com">Contact Us</a>
+                </p>
+              </div>
+            </div>
+            <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
+              <div className="right-1 top-[1px] flex md:absolute">
+                <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
+                  © 2024 AceCam
+                  <sup className="text-[8px]">TM&nbsp;</sup>{" "}
+                  {/* <span className="align-super text-xs">™&nbsp;</span> */}
+                  Golf, LLC. All rights reserved.
                 </p>
               </div>
             </div>
@@ -557,7 +571,7 @@ const Register: React.FC = () => {
         </div>
       )}
       {showOtpScreen && (
-        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl bg-[#ffffff] bg-opacity-50 p-6 md:w-full md:p-8">
+        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl border border-white bg-opacity-50 p-6 md:w-full md:p-8">
           {DisplayScreens()}
         </div>
       )}

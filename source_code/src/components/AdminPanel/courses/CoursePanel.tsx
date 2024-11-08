@@ -82,11 +82,17 @@ const CoursePanel: React.FC = () => {
               <select
                 id="courses"
                 onChange={handleCoursesChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px]"
+                className="border-borderColor block w-full rounded-lg border bg-[#FAFAFA] p-2 text-[14px] text-gray-900 outline-none md:w-[320px]"
               >
-                <option value="">Filter by Courses</option>
+                <option value="" className="text-[14px]">
+                  Filter by Courses
+                </option>
                 {courses?.data.map((course) => (
-                  <option key={course.id} value={course.id}>
+                  <option
+                    key={course.id}
+                    value={course.id}
+                    className="text-[14px]"
+                  >
                     {course.courseName}
                   </option>
                 ))}
@@ -102,7 +108,7 @@ const CoursePanel: React.FC = () => {
                 label="Filter by Holes"
                 disabled={selectedCourse ? false : true}
                 onChange={handleSelectedValuesChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[320px]"
+                className={`border-borderColor block w-full rounded-lg border bg-[#FAFAFA] p-2 text-[14px] text-sm ${selectedCourse ? "text-gray-900" : "text-disabledFontColor"} outline-none md:w-[320px]`}
               />
             </div>
             <CourseTable

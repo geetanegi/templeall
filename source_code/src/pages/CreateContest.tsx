@@ -392,8 +392,8 @@ const CreateContest: React.FC = () => {
       parseInt(values.coursePercentage) +
       parseInt(values.playerPercentage);
 
-    if (totalPayout > 100) {
-      ToastError("Total payout percentage should not be greater than 100%");
+    if (totalPayout !== 100) {
+      ToastError("Total Payout percentage should be 100%");
       return;
     }
 

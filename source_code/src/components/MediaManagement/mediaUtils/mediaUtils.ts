@@ -95,8 +95,8 @@ export const computeFilterDropDown = (
   if (selectedTab === 1 && renderFor === "SuperAdmin") {
     return [
       { id: 1, key: "", name: "All Videos" },
-      { id: 2, key: "ACE_CAM_JACKPOT", name: "AceCam Jackpot" },
-      { id: 2, key: "CLOSEST_TO_THE_PIN", name: "Closest to the Pin" },
+      { id: 2, key: "AceCam-Jackpot", name: "AceCam Jackpot" },
+      { id: 2, key: "Closest-to-the-Pin", name: "Closest to the Pin" },
     ];
   } else if (selectedTab === 2 && renderFor === "SuperAdmin") {
     return [
@@ -112,6 +112,7 @@ export const computeFilterDropDown = (
       { id: 3, key: "TOP_SHOT", name: "Top Shot" },
       { id: 4, key: "NOT_TOP_SHOT", name: "Not Top Shot" },
       { id: 5, key: "SOTW", name: "Shot Of The Week" },
+      { id: 5, key: "WIN", name: "Winning Shot" },
     ];
   }
 };

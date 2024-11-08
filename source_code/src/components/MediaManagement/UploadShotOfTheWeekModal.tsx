@@ -306,11 +306,13 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               }
             } else if (data?.error && data.description) {
               ToastError(data.description);
+              handleInprogressVideoList({ vidId }, "remove");
             }
           } else {
             ToastError(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
+            handleInprogressVideoList({ vidId }, "remove");
           }
         }
       } else {
@@ -540,15 +542,14 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         />
                       </div>
                       <div className="flex gap-5 px-5">
-                        <div className="w-[120px] h-[92px] w-[120px] border border-gray-400 rounded-md">
-                          {
-                            thumbnail ? 
+                        <div className="h-[92px] w-[120px] rounded-md border border-gray-400">
+                          {thumbnail ? (
                             <img
                               src={thumbnail}
                               alt=""
                               className="h-[92px] w-[120px] rounded-md"
-                            /> : null
-                          }
+                            />
+                          ) : null}
                         </div>
                         <div className="">
                           <div

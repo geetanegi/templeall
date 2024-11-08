@@ -105,7 +105,7 @@ const CheckboxDropdown: React.FC<DropdownProps> = ({
       <button
         className={`${
           disabled ? "cursor-not-allowed" : ""
-        } flex w-full items-center justify-between rounded-lg text-left transition duration-150 ease-in-out`}
+        } flex w-full items-center justify-between rounded-lg text-left text-[14px] transition duration-150 ease-in-out`}
         onClick={toggleDropdown}
         disabled={disabled}
       >
@@ -127,14 +127,14 @@ const CheckboxDropdown: React.FC<DropdownProps> = ({
                 type="checkbox"
                 checked={isAllSelected}
                 onChange={handleSelectAll}
-                className="mr-2 h-5 w-5"
+                className="mr-2 h-5 w-5 text-[14px]"
               />
               Select All
             </label>
             {options.map((option) => (
               <label
                 key={option.value}
-                className={`mb-2 flex cursor-pointer items-center rounded-lg p-1 transition duration-150 ease-in-out ${
+                className={`mb-2 flex cursor-pointer items-center rounded-lg p-1 text-[14px] transition duration-150 ease-in-out ${
                   selectedOptions.includes(option.value)
                     ? "bg-blue-500 text-white"
                     : "hover:bg-gray-50 focus:bg-gray-50"
@@ -144,7 +144,7 @@ const CheckboxDropdown: React.FC<DropdownProps> = ({
                   type="checkbox"
                   checked={selectedOptions.includes(option.value)}
                   onChange={() => handleCheckboxChange(option.value)}
-                  className="mr-2 h-5 w-5"
+                  className="mr-2 h-5 w-5 text-[14px]"
                 />
                 {option.label}
               </label>

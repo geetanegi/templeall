@@ -75,7 +75,6 @@ const MUINumber: React.FC<InputProps> = ({
             }
             inputProps={{ maxLength }}
             sx={{
-
               "& .MuiInputBase-root": {
                 borderRadius: "5px",
                 backgroundColor: "#FAFAFA",
@@ -85,7 +84,7 @@ const MUINumber: React.FC<InputProps> = ({
               },
               "& .MuiInputBase-input": {
                 padding: "6px",
-                fontSize: "14px" // Adjust input padding to align with your design
+                fontSize: "14px", // Adjust input padding to align with your design
               },
               "& .MuiFormHelperText-root": {
                 margin: 0, // Remove margin from helper text
@@ -99,9 +98,21 @@ const MUINumber: React.FC<InputProps> = ({
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 // borderColor: "#CACACA", // Adjust border color when focused
               },
+              // "& .MuiInputLabel-root": {
+              //   fontSize: "14px",
+              // },
+              // Label styles for centering and floating
               "& .MuiInputLabel-root": {
-                fontSize: '14px',
-              }
+                fontSize: "14px", // Reduce label font size
+                paddingLeft: "10px", // Reduce label padding
+                transform: "translate(0, 12px) scale(1)",
+              },
+              // Label position when field is focused or filled
+              "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-root.MuiFormLabel-filled":
+                {
+                  transform: "translate(0, -6px) scale(0.75)", // Move label up and scale down
+                  paddingLeft: "15px", // Optional: adjust padding when focused
+                },
             }}
           />
         )}

@@ -211,28 +211,28 @@ const Nav: React.FC = () => {
   };
 
   return (
-    <nav className="w-full border-b border-gray-200 bg-white shadow">
-      <div className="relative flex w-full items-center justify-between px-2 pt-1">
+    <nav className="w-full h-[56px] border-b  border-gray-200 bg-white shadow">
+      <div className="relative flex w-full h-full items-center justify-between px-2 pt-1">
         <div className="align-center flex h-full justify-center">
           <a
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src={aceCampLogo} alt="Ace Camp Logo" className="h-16 w-16" />
+            <img src={aceCampLogo} alt="Ace Camp Logo" className="h-[56px] w-[56px]" />
           </a>
         </div>
-        <div className="flex items-center justify-between md:w-full">
+        <div className="flex items-center justify-between md:h-full md:w-full">
           <div
             className={`${
               navCollapsed ? "hidden" : ""
-            } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:justify-center`}
+            } absolute right-0 top-12 w-full items-center justify-end md:h-full md:static md:order-2 md:flex md:justify-center`}
             id="navbar-user"
           >
-            <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
+            <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:h-full md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               {menuList?.map((menu: any) => (
                 <li
                   key={menu.name}
-                  className={`w-15 ${
+                  className={`w-15 h-full px-2 ${
                     selectedMenu === menu.name
                       ? "text-grayu-600" // Keep background unchanged
                       : "text-gray-600"
@@ -254,9 +254,9 @@ const Nav: React.FC = () => {
                     <>
                       <Link
                         to={menu.routeUrl}
-                        className={`flex items-center rounded px-3 py-2 text-center md:flex-col md:p-0 ${
+                        className={`flex items-center justify-center h-full rounded px-3  md:justify-end md:flex-col md:p-0 ${
                           selectedMenu === menu.name
-                            ? "bg-transparent hover:bg-gray-100" // Background unchanged
+                            ? "" // Background unchanged
                             : ""
                         }`}
                         // onClick={() => handleMenuClick(menu.name)}
@@ -268,12 +268,12 @@ const Nav: React.FC = () => {
                         {getIconComponent({
                           strokeWidth: 1,
                           name: menu.name,
-                          size: 32,
+                          size: 18,
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
                                 "#046221"
-                              : "#7b7887", // Change icon color
+                              : "#1D1A0C", // Change icon color
                         })}
                         <span
                           style={{
@@ -281,15 +281,15 @@ const Nav: React.FC = () => {
                               menu.routeUrl === location.pathname
                                 ? // || selectedMenu === menu.name
                                   "#046221"
-                                : "#7b7887",
+                                : "#1D1A0C",
                           }}
-                          className={`px-2 pb-2 md:px-0`}
+                          className={`px-2 md:mb-[6px] md:mt-[5px] text-[12px] md:px-0`}
                         >
                           {menu.name}
                         </span>
                         {menu.routeUrl === location.pathname && (
                           //  ||  selectedMenu === menu.name
-                          <div className="w-[110%] border-b-2 border-primaryColor" />
+                          <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (

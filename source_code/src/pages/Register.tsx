@@ -145,6 +145,7 @@ const Register: React.FC = () => {
         dateOfBirth,
         countryCode,
         phone,
+        ghin,
       } = values;
 
       const newData = {
@@ -154,6 +155,7 @@ const Register: React.FC = () => {
         lastName: lastName,
         emailId: email,
         countryCode: countryCode,
+        ghin: ghin,
         ...(phone && phone.toString().length >= 2
           ? { mobile: `${phone}` }
           : {}),

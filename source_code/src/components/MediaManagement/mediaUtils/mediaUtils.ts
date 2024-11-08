@@ -83,7 +83,7 @@ export const deleteVideos = async (
       ToastError(res.data.description || "");
     }
   } catch (error) {
-    ToastError("Something went wrong.")
+    console.error(error);
   }
  
 };
@@ -139,7 +139,7 @@ export const createComment = async (
       ToastError(data.description);
     }
   } catch (error) {
-    ToastError("Something went wrong.") 
+    console.error(error); 
   }
 };
 
@@ -166,7 +166,7 @@ export const makeVieoLiked = async (
       },
     });
   } catch (error) {
-    ToastError("Something went wrong.")
+    console.error(error);
   }
 };
 
@@ -202,6 +202,6 @@ export const deleteComment = async(
       ToastError(data.description);
     }
   } catch (error) {
-    ToastError("Something went wrong.") 
+    console.error(error);
   }
 }

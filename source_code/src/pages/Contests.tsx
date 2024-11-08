@@ -331,7 +331,7 @@ const Contests: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error)
     } finally {
       dispatch(setLoading(false));
     }
@@ -370,7 +370,7 @@ const Contests: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error)
     } finally {
       dispatch(setLoading(false));
     }
@@ -452,7 +452,7 @@ const Contests: React.FC = () => {
         ToastError(res.data.description || "Error creating contest");
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

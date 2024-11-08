@@ -131,7 +131,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           ToastError(data.description);
         }
       } catch (error) {
-        ToastError("Something went wrong");
       } finally {
         dispatch(setLoading(false));
       }
@@ -214,7 +213,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           ToastError(data.description);
         }
       } catch (error) {
-        ToastError("Something went wrong");
+        console.error(error);
       } finally {
         dispatch(setLoading(false));
         setFetchingUserData(true);
@@ -339,7 +338,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setRowData([]);
         }
       } catch (error) {
-        ToastError("Something went wrong");
+        console.error(error);
       } finally {
         dispatch(setLoading(false));
       }

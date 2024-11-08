@@ -222,10 +222,13 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
               </p>
             </div>
           </div>
-          <div className="fixed bottom-14 left-[70px] hidden h-0.5 w-[17%] items-end md:flex">
+          <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
             <div className="right-1 top-[1px] flex md:absolute">
               <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                © 2024 AceCam Golf, LLC. All rights reserved.
+                © 2024 AceCam
+                <sup className="text-[8px]">TM&nbsp;</sup>
+                {/* <span className="align-super text-xs">™&nbsp;</span> */}
+                Golf, LLC. All rights reserved.
               </p>
             </div>
           </div>

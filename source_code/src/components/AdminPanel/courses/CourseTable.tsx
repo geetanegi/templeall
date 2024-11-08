@@ -195,7 +195,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
           <div className="flex items-center justify-between px-5 py-5 pl-10">
             <span className="flex items-center justify-between space-x-2">
               <LandPlot className="h-5 w-5 text-gray-400" />
-              <span className="font-semibold">{course?.courseName}</span>
+              <span className="text-[14px] font-semibold">
+                {course?.courseName}
+              </span>
             </span>
             <div className="flex gap-1">
               <button
@@ -204,14 +206,14 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     `${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`,
                   )
                 }
-                className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
+                className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
               >
                 <QrCode className="mr-1 w-4 text-gray-600" />
                 Preview
               </button>
               <button
                 onClick={() => downloadQRCode(`course-${course.id}`, "png")}
-                className="font-weight-400 flex justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
+                className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
               >
                 <QrCode className="mr-1 w-4 text-gray-600" />
                 Download
@@ -232,7 +234,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                       alt="golf"
                       className="mr-1 w-4 text-gray-600"
                     />
-                    <span>
+                    <span className="text-[14px]">
                       Hole #{hole?.holeNumber} - Par {hole?.par}
                     </span>
                   </span>
@@ -243,14 +245,14 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           `${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`,
                         )
                       }
-                      className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
+                      className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
                     >
                       <QrCode className="mr-1 w-4 text-gray-600" />
                       Preview
                     </button>
                     <button
                       onClick={() => downloadQRCode(holeKey, "png")}
-                      className="font-weight-400 flex justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-sm text-gray-400"
+                      className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
                     >
                       <QrCode className="mr-1 w-4 text-gray-600" />
                       Download
@@ -269,14 +271,14 @@ const CourseTable: React.FC<CourseTableProps> = ({
     <PageLoader isActive={loader}>
       <div className="mt-6 flex h-full min-h-screen pb-14">
         <div className="2xl:max-w-none mt-2 w-full max-w-7xl overflow-x-scroll md:overflow-auto">
-          <div className="overflow-x-auto">
-            <table className="font-inter w-full table-auto overflow-scroll border text-left md:overflow-auto">
+          <div className="overflow-x-auto rounded-md border">
+            <table className="font-inter w-full table-auto overflow-scroll text-left md:overflow-auto">
               <thead className="w-full rounded-lg text-base font-semibold text-white">
-                <tr className="flex justify-between bg-[##ffffff]">
-                  <th className="whitespace-nowrap px-11 py-3 font-normal text-[#8d94a1] sm:text-base">
+                <tr className="flex justify-between bg-[#ffffff]">
+                  <th className="whitespace-nowrap px-11 py-3 text-[11px] font-normal leading-4 text-[#8d94a1]">
                     COURSES
                   </th>
-                  <th className="whitespace-nowrap px-11 py-3 font-normal text-[#8d94a1] sm:text-base">
+                  <th className="whitespace-nowrap px-11 py-3 text-[11px] font-normal leading-4 text-[#8d94a1]">
                     DOWNLOAD
                   </th>
                 </tr>

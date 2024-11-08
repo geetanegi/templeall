@@ -31,7 +31,7 @@ const PlayingCart: React.FC = () => {
 
   useEffect(() => {
     dispatch(setTotalPrice(totalPrice));
-  }, [totalPrice]);
+  }, []);
 
   return (
     <div className="max-w-4xl rounded-lg bg-white shadow-md">

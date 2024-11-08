@@ -44,7 +44,7 @@ export const getIconComponent = ({
       size={size}
       color={color}
       strokeWidth={strokeWidth}
-      className="p-[5px]"
+      className=""
     />
   );
 };

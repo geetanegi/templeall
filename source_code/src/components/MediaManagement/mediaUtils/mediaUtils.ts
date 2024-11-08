@@ -112,6 +112,7 @@ export const computeFilterDropDown = (
       { id: 3, key: "TOP_SHOT", name: "Top Shot" },
       { id: 4, key: "NOT_TOP_SHOT", name: "Not Top Shot" },
       { id: 5, key: "SOTW", name: "Shot Of The Week" },
+      { id: 5, key: "WIN", name: "Winning Shot" },
     ];
   }
 };

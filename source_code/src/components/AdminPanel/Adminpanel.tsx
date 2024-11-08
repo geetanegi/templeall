@@ -56,25 +56,10 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
   };
 
   let usersCount = [
-    {
-      roleIds: 3,
-      key: "Player User",
-      role: "Players",
-      icon: <Users size={16} />,
-    },
-    {
-      roleIds: 2,
-      key: "Course Admin",
-      role: "Course Admin",
-      icon: <LandPlot size={16} />,
-    },
-    {
-      roleIds: 1,
-      key: "Super Admin",
-      role: "Super Admin",
-      icon: <UserCog size={16} />,
-    },
-  ];
+    { roleIds: 3, key: "Player User", role: "Players", icon: <Users size={16} /> },
+    { roleIds: 2, key: "Course Admin", role: "Course Admin", icon: <LandPlot size={16} /> },
+    { roleIds: 1, key: "Super Admin", role: "Super Admin", icon: <UserCog size={16} /> }
+]
   if (isCourseAdmin) {
     usersCount = [];
     usersCount = [
@@ -86,6 +71,8 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
       },
     ];
   }
+
+ 
 
   return (
     <PageLoader isActive={loader}>

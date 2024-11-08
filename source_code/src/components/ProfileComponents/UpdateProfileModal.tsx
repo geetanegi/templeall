@@ -92,7 +92,7 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({ isModalOpen, se
                 ToastError(data.description);
             }
         } catch (error) {
-            ToastError("Something went wrong");
+            console.error(error);
         } finally {
             setSubmitting(false);
             dispatch(setLoading(false));

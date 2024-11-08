@@ -75,7 +75,7 @@ const ContestManagement = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error)
     }
   };
 

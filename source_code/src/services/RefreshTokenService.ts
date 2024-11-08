@@ -36,7 +36,7 @@ export const refreshTokenAPI = async () => {
   } catch (error) {
     dispatch(logout());
     dispatch(resetCourseState());
-    ToastError("Something went wrong");
+    console.error(error);
   } finally {
   }
 };
@@ -62,7 +62,7 @@ export const validateTokenAPI = async () => {
       ToastError(data?.description);
     }
   } catch (error) {
-    ToastError("Something went wrong");
+    console.error(error);
   } finally {
   }
 };

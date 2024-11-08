@@ -75,7 +75,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.");
+      console.error(error);
     }
   };
 
@@ -96,7 +96,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error)
     } finally {
       dispatch(setLoading(false));
     }
@@ -135,7 +135,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.");
+      console.error(error);
     }
   };
 

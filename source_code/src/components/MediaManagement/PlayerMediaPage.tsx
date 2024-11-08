@@ -110,7 +110,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         }
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -308,7 +308,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         {allVideos.length ? (
           <div className="mt-3 flex w-full flex-wrap">
             {allVideos?.map((videoData) => {
-              console.log("videoData", videoData)
               return (
                 <div className="w-[25%] px-2">
                   <VideoCard

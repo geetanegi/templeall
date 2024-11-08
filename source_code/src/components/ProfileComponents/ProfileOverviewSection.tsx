@@ -59,7 +59,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({ userId,
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError('Something went wrong')
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

@@ -74,8 +74,7 @@ const ForgetPassword: React.FC = () => {
         ToastError(data?.description);
       }
     } catch (error) {
-      console.error("Error posting data:", error);
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

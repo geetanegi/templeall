@@ -222,18 +222,20 @@ const Nav: React.FC = () => {
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
           <div
-            className={`${navCollapsed ? "hidden" : ""
-              } absolute right-0 top-12 w-full items-center justify-end md:h-full md:static md:order-2 md:flex md:justify-center`}
+            className={`${
+              navCollapsed ? "hidden" : ""
+            } absolute right-0 top-12 w-full items-center justify-end md:h-full md:static md:order-2 md:flex md:justify-center`}
             id="navbar-user"
           >
             <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:h-full md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               {menuList?.map((menu: any) => (
                 <li
                   key={menu.name}
-                  className={`w-15 h-full px-2 ${selectedMenu === menu.name
-                    ? "text-grayu-600" // Keep background unchanged
-                    : "text-gray-600"
-                    }`}
+                  className={`w-15 h-full px-2 ${
+                    selectedMenu === menu.name
+                      ? "text-grayu-600" // Keep background unchanged
+                      : "text-gray-600"
+                  }`}
                 >
                   {menu.subMenus !== null ? (
                     <div className="relative">
@@ -251,10 +253,11 @@ const Nav: React.FC = () => {
                     <>
                       <Link
                         to={menu.routeUrl}
-                        className={`flex items-center justify-center h-full rounded px-3  md:justify-end md:flex-col md:p-0 ${selectedMenu === menu.name
-                          ? "" // Background unchanged
-                          : ""
-                          }`}
+                        className={`flex items-center justify-center h-full rounded px-3  md:justify-end md:flex-col md:p-0 ${
+                          selectedMenu === menu.name
+                            ? "" // Background unchanged
+                            : ""
+                        }`}
                         // onClick={() => handleMenuClick(menu.name)}
                         onClick={(e) => {
                           e.preventDefault(); // Prevent immediate navigation
@@ -268,7 +271,7 @@ const Nav: React.FC = () => {
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
-                              "#046221"
+                                "#046221"
                               : "#1D1A0C", // Change icon color
                         })}
                         <span
@@ -276,7 +279,7 @@ const Nav: React.FC = () => {
                             color:
                               menu.routeUrl === location.pathname
                                 ? // || selectedMenu === menu.name
-                                "#046221"
+                                  "#046221"
                                 : "#1D1A0C",
                           }}
                           className={`px-2 md:mb-[6px] md:mt-[5px] text-[12px] md:px-0`}

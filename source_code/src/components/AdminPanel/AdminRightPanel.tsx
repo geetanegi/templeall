@@ -80,7 +80,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     }, [selectedUserTab]);
 
     useEffect(() => {
-      if(searchString.length === 0) {
+      if (searchString.length === 0) {
         if (selectedUserTab === 2 || selectedUserTab === 1) {
           setTotalPages(0);
           const startIndex = currentPage * pageSize;
@@ -91,20 +91,20 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ) || [];
           setRowData(computeTableData(currentItems, selectedUserTab));
         } else {
-          if(searchString.length === 0){
+          if (searchString.length === 0) {
             getUserData();
           }
         }
       }
     }, [pageSize, currentPage, totalAdminCount, searchString]);
 
-    useEffect(()=>{
-      if(selectedUserTab === 3){
-        if(searchString.length){
-          handleUserSearch()
+    useEffect(() => {
+      if (selectedUserTab === 3) {
+        if (searchString.length) {
+          handleUserSearch();
         }
       }
-    },[currentPage, pageSize])
+    }, [currentPage, pageSize]);
 
     const handleActiveDeactiveUser = async (value: boolean, userId: any) => {
       dispatch(setLoading(true));
@@ -151,7 +151,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           name: computeUserName(
             item.firstName,
             item.lastName,
-            item?.userProfile?.imageBase64 || '',
+            item?.userProfile?.imageBase64 || "",
             userRole,
             item.id,
             activeStatus,
@@ -238,9 +238,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           }}
         >
           <div className="mr-5 w-10 rounded-md border bg-[#ebf0fa]">
-          {
-            image ? <img src={`data:image/png;base64,${image}`} alt="" className="rounded-md w-10 h-10 " /> : null
-          }  
+            {image ? (
+              <img
+                src={`data:image/png;base64,${image}`}
+                alt=""
+                className="h-10 w-10 rounded-md"
+              />
+            ) : null}
           </div>
           <div className="flex flex-col text-sm text-gray-500">
             <div
@@ -331,7 +335,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setTotalPages(data.data.totalPages);
         } else if (data?.error && data.description) {
           ToastError(data.description);
-          setRowData([])
+          setRowData([]);
         }
       } catch (error) {
         ToastError("Something went wrong");
@@ -368,13 +372,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               ) || [];
             setTotalPages(Math.ceil(searchedData.length / pageSize));
             setRowData(computeTableData(currentItems, selectedUserTab));
-          }else{
-            if(selectedUserTab === 2){
-              setRowData([])
-              ToastError("Sorry, no course admin matches your search criteria")
-            }else if(selectedUserTab === 1){
-              setRowData([])
-              ToastError("Sorry, no super admin matches your search criteria")
+          } else {
+            if (selectedUserTab === 2) {
+              setRowData([]);
+              ToastError("Sorry, no course admin matches your search criteria");
+            } else if (selectedUserTab === 1) {
+              setRowData([]);
+              ToastError("Sorry, no super admin matches your search criteria");
             }
           }
         } catch (error) {
@@ -392,9 +396,9 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
               value={searchString}
-              onChange={(event) =>{
-                    setSearchString(event.target.value)
-                }}
+              onChange={(event) => {
+                setSearchString(event.target.value);
+              }}
               placeholder={computeSearchPlaceholder()}
               maxLength={100}
               onKeyDown={(e) => {
@@ -420,25 +424,29 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             </button>
           )}
         </div>
-        <PageLoader isActive={loader}>
-          <TableComponent
-            Headers={tableHeaders}
-            rowData={rowData}
-            currentPage={currentPage}
-            totalPages={
-              selectedUserTab == 3
+        {/* <PageLoader isActive={loader}> */}
+        <TableComponent
+          Headers={tableHeaders}
+          rowData={rowData}
+          currentPage={currentPage}
+          totalPages={
+            selectedUserTab == 3
+              ? totalPages
+              : searchString
                 ? totalPages
-                : searchString
-                  ? totalPages
-                  : Math.ceil(totalAdminCount.length / Number(pageSize))
-            }
-            pagination={(selectedUserTab == 3 || searchString) ? totalPages > 1 : totalAdminCount.length / Number(pageSize) > 1 }
-            setCurrentPage={setCurrentPage}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            totalAdminCount={totalAdminCount}
-          />
-        </PageLoader>
+                : Math.ceil(totalAdminCount.length / Number(pageSize))
+          }
+          pagination={
+            selectedUserTab == 3 || searchString
+              ? totalPages > 1
+              : totalAdminCount.length / Number(pageSize) > 1
+          }
+          setCurrentPage={setCurrentPage}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          totalAdminCount={totalAdminCount}
+        />
+        {/* </PageLoader> */}
       </div>
     );
   },

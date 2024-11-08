@@ -48,6 +48,10 @@ export default {
         warning: "#FFF3E0",
         warningText:"#FF9800",
         textColor:"#1D1A0C",
+       borderColor:"#E6E6E6",
+       disabledFontColor:"#CACACA",
+       tableHeadingTextColor:"#1D1A0C"
+       
         
       },
     },

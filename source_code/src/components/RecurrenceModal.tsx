@@ -155,7 +155,7 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                   {" "}
                   Occurs every{" "}
                   {selectedDays?.length < 7
-                    ? selectedDays?.join(" ,")
+                    ? selectedDays?.join(", ")
                     : "day"}{" "}
                   until
                 </span>

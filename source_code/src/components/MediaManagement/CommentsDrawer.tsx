@@ -219,7 +219,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                       </div>
                     ) : (
                       <div className="ml-2 w-full">
-                        <div className="flex w-full justify-between">
+                        <div className="flex items-center w-full justify-between">
                           <div className="flex gap-1">
                             <span className="text-black-800 text-[14px] font-bold">
                               {commentObj.firstName}
@@ -243,7 +243,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                           Number(userInfo.userId) ===
                             Number(commentObj.userId) ? (
                             <SquarePen
-                              size={16}
+                              size={14}
                               className="cursor-pointer text-buttonPrimary"
                               onClick={() => {
                                 setComment(commentObj.commentText);
@@ -259,7 +259,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                             Number(userInfo.userId) ===
                               Number(commentObj.userId)) ? (
                             <Trash2
-                              size={16}
+                              size={14}
                               className="cursor-pointer text-buttonPrimary"
                               onClick={() => {
                                 setConfirmationVisible(true)

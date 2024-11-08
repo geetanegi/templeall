@@ -57,6 +57,10 @@ const FeatureHighlightsComponents: React.FC<
     }
   };
 
+  if(!selectedUser){
+    return <></>
+  }
+
   return (
     <PageLoader isActive={loader}>
     <div className="my-5 w-[95%] rounded-[8px] bg-[#1D1A0C99] p-3">

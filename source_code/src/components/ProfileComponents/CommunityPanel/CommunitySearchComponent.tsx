@@ -3,9 +3,11 @@ import React, { useState } from 'react'
 import { setLoading } from '../../../reducers/loader/loader';
 import apiService from '../../../services/apiService';
 import { API_URL } from '../../../services/enums';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastError } from '../../Toast';
 import PlayerCard from './PlayerCard';
+import PageLoader from '../../PageLoader';
+import { RootState } from '../../../store';
 
 interface CommunitySearchComponentProps {
     selectedUser: string | number;
@@ -14,6 +16,7 @@ interface CommunitySearchComponentProps {
 
 const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({ selectedUser, setSelectedUser }) => {
 
+    const loader = useSelector((state: RootState) => state.loader.isLoading);
     const dispatch = useDispatch();
     const [searchString, setSearchString] = useState<string>('')
     const [playersList, setPlayerList] = useState<any>()
@@ -61,12 +64,13 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({ sel
     };
 
     return (
+        
         <div className='ml-5 h-[90vh] w-[25%] overflow-auto'
             style={scrollbarStyles}
         >
-            <div className="flex align-center  mt-5 bg-gray-100 w-full justify-between rounded-md border border-gray-300 py-2 px-4 md:mt-0 md:w-[242px]">
+            <div className="flex align-center justify-center  mt-5 bg-gray-100 w-full justify-between rounded-md border border-gray-300 py-2 px-4 md:mt-0 md:w-[242px]">
                 <input
-                    className="pl-2 focus:outline-none bg-gray-100 w-full"
+                    className=" focus:outline-none bg-gray-100 w-full"
                     type="text"
                     placeholder="Search Player"
                     onChange={handleInputChange}
@@ -76,9 +80,10 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({ sel
                         }
                     }}
                 />
-                <Search size={20} color="gray" className='cursor-pointer' onClick={getPlayer} />
+                <Search size={20} color="gray" className='cursor-pointer my-auto' onClick={getPlayer} />
             </div>
             <div className='text-[20px] tracking-wide font-semibold my-3'>Community</div>
+            <PageLoader isActive={loader}>
             <div>
                 {
                     playersList?.map((profile: any) => (
@@ -90,8 +95,9 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({ sel
                     ))
                 }
             </div>
-
+            </PageLoader>
         </div>
+       
     )
 }
 

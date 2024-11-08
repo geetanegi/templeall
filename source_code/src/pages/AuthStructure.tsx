@@ -11,19 +11,31 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import AceCamUI from "../components/AceCamUI";
 
+import { downloadFile } from "../utils/downloadUtils";
+import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
+
 const AuthStructure: React.FC = () => {
   const location = useLocation();
   const loader = useSelector((state: RootState) => state.loader.isLoading);
+
+  const downloadPrivacyPolicyFunc = () => {
+    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+  };
+
+  const downloadTermsAndConditionsFunc = () => {
+    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+  };
 
   return (
     <PageLoader isActive={loader}>
       <div className="bg-backgroundDark">
         <div
-          className={`align-center flex h-screen w-full bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
+          className={`align-center flex h-screen w-full flex-col bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
         >
           <AceCamUI />
           <div
-            className={`align-center flex h-screen w-full bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
+            className={`align-center flex h-screen w-full flex-col bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
           >
             {location.pathname === ROUTES.LOGIN && (
               <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[590px]">
@@ -59,6 +71,33 @@ const AuthStructure: React.FC = () => {
                 <StripeIntegration></StripeIntegration>
               </div>
             )}
+
+            <div className="-mt-10 flex items-center justify-center gap-2 md:hidden">
+              <p
+                onClick={downloadTermsAndConditionsFunc}
+                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
+              >
+                Terms and Conditions
+              </p>{" "}
+              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
+              <p
+                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
+                onClick={downloadPrivacyPolicyFunc}
+              >
+                {" "}
+                Privacy Policy
+              </p>
+              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
+                |
+              </p>{" "}
+              <p
+                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
+              >
+                <a href="mailto:support@acecamgolf.com">Contact Us</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

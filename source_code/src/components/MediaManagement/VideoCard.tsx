@@ -34,7 +34,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import ShareVideoModal from "./ShareRequestModal";
 import CommentsDrawer from "./CommentsDrawer";
-import bookmarkImg from "../../assets/images/bookmark.png"
+import bookmarkImg from "../../assets/images/bookmark.png";
 
 interface VideoCardProps {
   thumbnail?: string;
@@ -161,8 +161,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className="mt-2 flex items-center justify-between text-sm text-white">
             <span>
               {/* Author */}
-              <p className={`text-[16px] font-light ${requestVideoPayload?.videos?.title ? "visible" : "invisible"}`}>
-                {requestVideoPayload?.videos?.title || 'Winning Shot' }
+              <p
+                className={`text-[16px] font-light ${requestVideoPayload?.videos?.title ? "visible" : "invisible"}`}
+              >
+                {requestVideoPayload?.videos?.title || "Winning Shot"}
               </p>
               <p className="text-[12px] text-sm font-light">
                 {requestVideoPayload?.username || ""}
@@ -174,7 +176,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <Trophy size={13} /> <span className="text-[12px]">{title}</span>{" "}
           </div>
           <div className="mt-1 items-center justify-start text-white">
-            <div className="mt-1 flex items-center flex-wrap text-[14px]">
+            <div className="mt-1 flex flex-wrap items-center text-[14px]">
               <span
                 className="flex items-center justify-center whitespace-nowrap text-[11px]"
                 style={{ width: "max-content" }}
@@ -187,7 +189,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 style={{ width: "max-content" }}
               >
                 Hole#{requestVideoPayload?.holeNumber || ""}
-                <Dot className="mx-[-5px]" size={24}  />
+                <Dot className="mx-[-5px]" size={24} />
               </span>
               <span
                 className="flex items-center justify-center whitespace-nowrap text-[11px]"
@@ -376,9 +378,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
       if (requestVideoPayload.type === "SOTW") {
         endPoint = API_URL.publishSOTW;
         payload = { sowId: requestVideoPayload.id, isPublished: !isPublished };
-      }else if(requestVideoPayload.type === 'WIN'){
-        endPoint = API_URL.publishWinnerVideos
-        payload = {requestVideoId: requestVideoPayload.id, isPublished: !isPublished}
+      } else if (requestVideoPayload.type === "WIN") {
+        endPoint = API_URL.publishWinnerVideos;
+        payload = {
+          requestVideoId: requestVideoPayload.id,
+          isPublished: !isPublished,
+        };
       } else {
         payload = {
           requestVideoId: requestVideoPayload.id,
@@ -407,8 +412,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeCategory = () => {
     if (requestVideoPayload.type === "SOTW") {
       return "Shot-of-the-Week";
-    }else if(requestVideoPayload?.type === 'WIN'){
-      return "Winning Shot"
+    } else if (requestVideoPayload?.type === "WIN") {
+      return "Winning Shot";
     } else {
       if (requestVideoPayload?.videoCategory === "TOP_SHOT") {
         return "Top Shot";
@@ -423,7 +428,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <>
       <div
-        className={`bg-gradient-green cursor-pointer rounded-lg border border-gray-100 text-white shadow-lg`}
+        className={`cursor-pointer rounded-lg border border-gray-100 bg-gradient-green text-white shadow-lg`}
         style={{ width: width }}
       >
         {/* Thumbnail with duration and overlay icons */}
@@ -493,7 +498,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           {/* Bookmark and more options */}
           <div className="absolute left-2 top-[-2px]">
             {isPublished ? (
-              <span className="text-[#FFDE59] w-[16px] h-[20px]">
+              <span className="h-[20px] w-[16px] text-[#FFDE59]">
                 <img src={bookmarkImg} alt="" />
               </span>
             ) : null}
@@ -555,7 +560,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
           deleteVideos(
             requestVideoPayload?.type === "SOTW"
               ? "SOTW_VIDEO"
-              : "REQUEST_VIDEO",
+              : requestVideoPayload?.type === "WIN"
+                ? "WINNER_VIDEO"
+                : "REQUEST_VIDEO",
             requestVideoPayload?.id,
             refreshVideo,
           );

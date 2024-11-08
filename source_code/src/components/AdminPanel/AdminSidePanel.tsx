@@ -2,8 +2,7 @@ import { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import apiService from '../../services/apiService';
 import { ToastError } from '../Toast';
 import { API_URL } from '../../services/enums';
-import { setLoading } from '../../reducers/loader/loader';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 interface AdminSidePanelProps {
@@ -27,7 +26,6 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
         const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
 
-        const dispatch = useDispatch();
 
         useImperativeHandle(ref, () => ({
             getUserCount
@@ -38,7 +36,6 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
         }, []);
 
         const getUserCount = async () => {
-            dispatch(setLoading(true));
             let url = API_URL.getAllCount
             let payload: Record<string, unknown> = {};
             if (isCourseAdmin && userPermisions.data?.permission['is_course_admin']) {
@@ -60,7 +57,6 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
             } catch (error) {
                 ToastError("Something went wrong");
             } finally {
-                dispatch(setLoading(false));
             }
 
         };
@@ -75,11 +71,11 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
                     usersCount.map((itm: any) => (
                         <button
                             key={itm.roleIds}
-                            className={`flex justify-between mb-5 px-2 gap-2 rounded-md py-2 
+                            className={`flex items-center justify-between mb-5 px-2 gap-2 rounded-md py-2 tect-[14px] 
                                 ${selectedUserTab === itm.roleIds ? 'bg-lime-500 text-white' : 'text-[#7B7887]'}`}
                             onClick={() => handleChangePage(itm.roleIds)}
                         >
-                            <div className='flex gap-2'>{itm.icon} {itm.role}</div>
+                            <div className='flex gap-2 text-[14px]'>{itm.icon} {itm.role}</div>
                             <span className='bg-[#E9ECF1] text-black rounded-2xl w-6 text-sm'>
                                 {usersCounts.length && usersCounts.find((count) => count[itm.key])?.[itm.key]}
                             </span>

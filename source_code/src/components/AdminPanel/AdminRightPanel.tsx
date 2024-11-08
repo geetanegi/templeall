@@ -66,6 +66,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
     const [searchString, setSearchString] = useState<string>("");
+    const [fetchingUserData, setFetchingUserData] = useState<boolean>(true)
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -91,7 +92,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ) || [];
           setRowData(computeTableData(currentItems, selectedUserTab));
         } else {
-          if (searchString.length === 0) {
+          if(searchString.length === 0 && !fetchingUserData){
             getUserData();
           }
         }
@@ -165,6 +166,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     const getUserData = async () => {
       dispatch(setLoading(true));
+      setFetchingUserData(false)
       try {
         let payload: PayloadTypes = {};
         let listingEndPoint = API_URL.getAllPlayer;
@@ -217,6 +219,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         ToastError("Something went wrong");
       } finally {
         dispatch(setLoading(false));
+        setFetchingUserData(true)
       }
     };
 

@@ -98,6 +98,16 @@ const AuthStructure: React.FC = () => {
                 <a href="mailto:support@acecamgolf.com">Contact Us</a>
               </p>
             </div>
+            <div className="-mt-0 mb-10 flex items-center justify-center gap-2 md:hidden">
+              <div className="right-1 top-[1px] flex md:absolute">
+                <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
+                  © 2024 AceCam
+                  <sup className="text-[8px]">TM&nbsp;</sup>{" "}
+                  {/* <span className="align-super text-xs">™&nbsp;</span> */}
+                  Golf, LLC. All rights reserved.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -561,7 +561,7 @@ const Register: React.FC = () => {
               <div className="right-1 top-[1px] flex md:absolute">
                 <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                   © 2024 AceCam
-                  <sup className="text-[8px]">TM&nbsp;</sup>
+                  <sup className="text-[8px]">TM&nbsp;</sup>{" "}
                   {/* <span className="align-super text-xs">™&nbsp;</span> */}
                   Golf, LLC. All rights reserved.
                 </p>

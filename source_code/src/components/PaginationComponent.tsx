@@ -74,7 +74,7 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
             <button
                 key={index}
                 onClick={() => page !== '...' && handlePageChange(page)}
-                className={`flex text-center py-1 px-3 justify-center rounded-[6px]  border-[1px] border-solid border-[#E4E4EB] ${page == (currentPage + 1) ? 'bg-[#95c11e] text-white' : 'text-black'} `}
+                className={`flex items-center w-[32px] h-[32px] justify-center rounded-[8px]  border-[1px] border-solid border-[#E4E4EB] ${page == (currentPage + 1) ? 'bg-[#95c11e] text-white' : 'text-black'} `}
 
             >
                 {page}
@@ -90,7 +90,7 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
                 aria-label="Pagination"
             >
                 <li
-                    className={` prev-btn flex cursor-pointer items-center bg-transparent justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] disabled]
+                    className={`prev-btn flex cursor-pointer items-center bg-transparent justify-center w-[32px] rounded-[8px] h-[32px] border-[1px] border-solid border-[#E4E4EB] disabled]
                                     ${currentPage == 0
                             ? "bg-[#cccccc] pointer-events-none"
                             : " cursor-pointer"
@@ -98,38 +98,38 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
                                   `}
                     onClick={() => setCurrentPage(0)}
                 >
-                    <ChevronsLeft />
+                    <ChevronsLeft size={16} />
                 </li>
                 <li
-                    className={` prev-btn flex bg-transparent items-center justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] disabled] 
+                    className={` prev-btn flex bg-transparent items-center justify-center w-[32px] rounded-[8px] h-[32px] border-[1px] border-solid border-[#E4E4EB] disabled] 
                         ${currentPage === 0 ? "bg-[#cccccc] pointer-events-none" : "cursor-pointer"
                         } `}
                     style={currentPage === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }}
                     onClick={previousPage}
                 >
-                    <ChevronLeft style={currentPage === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }} />
+                    <ChevronLeft size={16} style={currentPage === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }} />
                 </li>
                 {
                     renderPageNumbers()
                 }
                 <li
-                    className={`flex items-center bg-transparent cursor-pointer justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] ${currentPage == totalPages - 1
+                    className={`flex items-center bg-transparent cursor-pointer justify-center w-[32px] rounded-[8px] h-[32px] border-[1px] border-solid border-[#E4E4EB] ${currentPage == totalPages - 1
                         ? "bg-[#cccccc] pointer-events-none"
                         : " cursor-pointer"
                         }`}
                     onClick={nextPage}
                 >
-                    <ChevronRight />
+                    <ChevronRight size={16} />
                 </li>
                 <li
-                    className={` prev-btn flex cursor-pointer bg-transparent items-center justify-center w-[36px] rounded-[6px] h-[36px] border-[1px] border-solid border-[#E4E4EB] disabled] ${(currentPage + 1) === totalPages
+                    className={` prev-btn flex cursor-pointer bg-transparent items-center justify-center w-[32px] rounded-[8px] h-[32px] border-[1px] border-solid border-[#E4E4EB] disabled] ${(currentPage + 1) === totalPages
                         ? "bg-[#cccccc] pointer-events-none"
                         : " cursor-pointer"
                         }
     `}
                     onClick={() => setCurrentPage(totalPages - 1)}
                 >
-                    <ChevronsRight />
+                    <ChevronsRight size={16} />
                 </li>
             </ul>
         </div>

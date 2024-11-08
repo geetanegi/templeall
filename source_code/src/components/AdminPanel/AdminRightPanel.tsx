@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import { computeTableHeaders } from "./AddpanalUtils/AddPanelUtils";
 import { RootState } from "../../store";
-import PageLoader from "../PageLoader";
 import { ToastError, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { ROUTES } from "../../utils/routesPath";
@@ -55,7 +54,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     },
     ref: ForwardedRef<AdminRightPanelHandle>,
   ) => {
-    const loader = useSelector((state: RootState) => state.loader.isLoading);
     const userInfo = useSelector((state: RootState) => state.auth.userInfo);
     const userPermisions = useSelector(
       (state: RootState) => state.auth.userPermissions,
@@ -66,7 +64,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
     const [searchString, setSearchString] = useState<string>("");
-    const [fetchingUserData, setFetchingUserData] = useState<boolean>(true)
+    const [fetchingUserData, setFetchingUserData] = useState<boolean>(true);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -92,7 +90,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ) || [];
           setRowData(computeTableData(currentItems, selectedUserTab));
         } else {
-          if(searchString.length === 0 && !fetchingUserData){
+          if (searchString.length === 0 && !fetchingUserData) {
             getUserData();
           }
         }
@@ -166,7 +164,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     const getUserData = async () => {
       dispatch(setLoading(true));
-      setFetchingUserData(false)
+      setFetchingUserData(false);
       try {
         let payload: PayloadTypes = {};
         let listingEndPoint = API_URL.getAllPlayer;
@@ -219,7 +217,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         ToastError("Something went wrong");
       } finally {
         dispatch(setLoading(false));
-        setFetchingUserData(true)
+        setFetchingUserData(true);
       }
     };
 

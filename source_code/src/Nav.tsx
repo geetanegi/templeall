@@ -154,7 +154,6 @@ const Nav: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
     } finally {
       dispatch(setLoading(false));
     }
@@ -205,7 +204,7 @@ const Nav: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
     }
   };

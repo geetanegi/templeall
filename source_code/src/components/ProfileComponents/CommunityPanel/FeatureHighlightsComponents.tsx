@@ -53,7 +53,7 @@ const FeatureHighlightsComponents: React.FC<
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     }
   };
 

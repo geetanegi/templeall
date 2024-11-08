@@ -11,7 +11,7 @@ interface BettingOverviewProps {
   fetchUserInformation: () => void;
   userId: string | number;
   userInfo: any;
-  isCommunitySearch:boolean |undefined
+  isCommunitySearch: boolean | undefined
 }
 
 const BettingOverview: React.FC<BettingOverviewProps> = ({
@@ -26,14 +26,14 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
 
   useEffect(() => {
     setUserStats({})
-    if(isCommunitySearch && userId != userInfo?.userId){
+    if (isCommunitySearch && userId != userInfo?.userId) {
       searchUserPS()
-    }else{
+    } else {
       getAllPerformanceStates();
     }
   }, [userId, location.pathname]);
 
-  const searchUserPS = async()=>{
+  const searchUserPS = async () => {
     try {
       const { data, status } = await apiService.post<any>(
         API_URL.searchUserPS,
@@ -49,7 +49,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         // ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.");
+      console.error(error);
     }
   }
 
@@ -69,7 +69,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.");
+      console.error(error);
     }
   };
 
@@ -85,13 +85,13 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-          ToastSuccess(data?.data?.message)
-          fetchUserInformation()
+        ToastSuccess(data?.data?.message)
+        fetchUserInformation()
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong.");
+      console.error(error);
     }
   };
 
@@ -156,7 +156,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
     <div className="mb-10 ml-0 mt-40 w-full border border-gray-400 p-2 lg:mb-0 lg:ml-5 lg:mt-0 lg:border-0 lg:p-0">
       <div
         className={`mt-5 flex h-[38px] gap-[16px] rounded-l-full rounded-r-full p-[1px]
-              ${Object.keys(userstats).length ? 'visible': 'invisible'}
+              ${Object.keys(userstats).length ? 'visible' : 'invisible'}
           `}
         style={{ width: "max-content" }}
       >
@@ -164,7 +164,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
       </div>
       <div className="flex h-full justify-between">
         <div className={`h-[320px] w-[50%] overflow-auto
-            ${Object.keys(userstats).length ? 'visible': 'invisible'}
+            ${Object.keys(userstats).length ? 'visible' : 'invisible'}
           `}>
           {computeSubBettingViewSection()}
           {!userId || userId == userInfo?.userId ? (

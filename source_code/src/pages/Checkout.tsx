@@ -123,14 +123,13 @@ const Checkout: React.FC = () => {
         obj,
       );
       if (res.status === 200 && !res.data.error) {
-        console.log(res.data.data);
         dispatch(setPaymentSuccess(true));
         dispatch(clearAllSelectedContests());
       } else if (res.data.error) {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.log(error)
     }
   };
 

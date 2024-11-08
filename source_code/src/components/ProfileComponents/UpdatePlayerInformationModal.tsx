@@ -140,7 +140,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error)
     }
   };
 
@@ -183,7 +183,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       setSubmitting(false);
       dispatch(setLoading(false));

@@ -61,7 +61,7 @@ const MostRecent: React.FC = () => {
       )}
 
       {recentData?.data?.leaderboard &&
-        recentData?.data?.contestInfo?.contestType !== "Closest-to-the-Pin" && (
+        recentData?.data?.contestInfo?.contestType === "Closest-to-the-Pin" && (
           <LeaderBoardTable leaderBoardData={recentData.data.leaderboard} />
         )}
     </div>

@@ -125,7 +125,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
         {pagination ? (
           <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
             <div className="flex items-center justify-center">
-              <div>Page</div>
+              <div>Rows</div>
               <select
                 name="example"
                 id="example"

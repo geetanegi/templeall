@@ -161,13 +161,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className="mt-2 flex items-center justify-between text-sm text-white">
             <span>
               {/* Author */}
-              <p className="text-[16px] font-light">
-                {requestVideoPayload?.videos?.title}
+              <p className={`text-[16px] font-light ${requestVideoPayload?.videos?.title ? "visible" : "invisible"}`}>
+                {requestVideoPayload?.videos?.title || 'Winning Shot' }
               </p>
               <p className="text-[12px] text-sm font-light">
                 {requestVideoPayload?.username || ""}
               </p>
-              {/* Title */}
             </span>
             <span>{uploadDate}</span>
           </div>
@@ -377,6 +376,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
       if (requestVideoPayload.type === "SOTW") {
         endPoint = API_URL.publishSOTW;
         payload = { sowId: requestVideoPayload.id, isPublished: !isPublished };
+      }else if(requestVideoPayload.type === 'WIN'){
+        endPoint = API_URL.publishWinnerVideos
+        payload = {requestVideoId: requestVideoPayload.id, isPublished: !isPublished}
       } else {
         payload = {
           requestVideoId: requestVideoPayload.id,
@@ -405,6 +407,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeCategory = () => {
     if (requestVideoPayload.type === "SOTW") {
       return "Shot-of-the-Week";
+    }else if(requestVideoPayload?.type === 'WIN'){
+      return "Winning Shot"
     } else {
       if (requestVideoPayload?.videoCategory === "TOP_SHOT") {
         return "Top Shot";

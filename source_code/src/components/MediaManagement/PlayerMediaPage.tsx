@@ -49,7 +49,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     setAllVideos([]);
     if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
-    } else {
+    }else if(filterValue === 'WIN'){
+      makeApiCall(API_URL.getAllPlayerWinnerVideos);
+    }else {
       getAllVideos();
     }
     setSelectedValue("");
@@ -80,6 +82,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   useEffect(() => {
     if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
+    }else if(filterValue === "WIN"){
+      makeApiCall(API_URL.getAllPlayerWinnerVideos)
     } else {
       getAllVideos();
     }
@@ -184,7 +188,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       }
     }
 
-    if (filterValue === "SOTW") {
+    if (filterValue === "SOTW" || filterValue === "WIN") {
       payload = {
         searchParams: {
           "player.id":

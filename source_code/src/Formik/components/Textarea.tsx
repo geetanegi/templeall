@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 interface TextAreaProps {
   label: string;
   name: string;
+  placeholder?: string; // Add placeholder prop
   required?: boolean;
   maxLength?: number;
   validateRegex?: RegExp;
@@ -15,6 +16,7 @@ interface TextAreaProps {
 const MUITextArea: React.FC<TextAreaProps> = ({
   label,
   name,
+  placeholder = "", // Default placeholder value if not provided
   required = false,
   maxLength,
   validateRegex,
@@ -43,7 +45,9 @@ const MUITextArea: React.FC<TextAreaProps> = ({
               }
               multiline
               disabled={disabled}
+              placeholder={placeholder} // Use the placeholder prop here
               rows={rows}
+              InputLabelProps={{ shrink: true }}
               className="w-full rounded-lg border px-2 text-gray-500"
               error={Boolean(form.errors[name] && form.touched[name])}
               inputProps={{ maxLength }}
@@ -64,7 +68,6 @@ const MUITextArea: React.FC<TextAreaProps> = ({
                     fontSize: "0.75rem",
                     textAlign: "left",
                     display: "block",
-                    // marginLeft: "-10px", // Adds -10px left margin
                   }}
                 >
                   {msg}

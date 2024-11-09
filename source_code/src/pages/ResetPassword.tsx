@@ -120,6 +120,7 @@ const ResetPassword: React.FC = () => {
                   placeholder="Password"
                   type="password"
                   required={true}
+                  authFlow={true}
                 />
                 <FormikControl
                   label="Confirm Password"
@@ -129,6 +130,7 @@ const ResetPassword: React.FC = () => {
                   placeholder="Confirm Password"
                   type="password"
                   required={true}
+                  authFlow={true}
                 />
               </div>
 

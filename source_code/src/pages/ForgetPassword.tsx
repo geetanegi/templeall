@@ -130,6 +130,7 @@ const ForgetPassword: React.FC = () => {
                     type="text"
                     required={true}
                     maxLength={25}
+                    authFlow={true}
                   />
                 </div>
 

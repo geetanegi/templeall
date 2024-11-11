@@ -145,7 +145,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           </span>
         </h4>
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
-        <span className="text-red-600">{otpError}</span>
+        <span className="text-[#FFDE59]">{otpError}</span>
 
         <div className="flex w-full flex-col-reverse items-center justify-center justify-between pb-2 md:flex-row md:justify-between md:pb-6">
           <div className="flex text-center">

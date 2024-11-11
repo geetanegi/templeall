@@ -148,6 +148,7 @@ const Login: React.FC = () => {
                 required={true}
                 maxLength={25}
                 validateRegex={ALPHANUMERIC_REGEX}
+                authFlow={true}
               />
             </div>
             <div className="mb-4">
@@ -160,6 +161,7 @@ const Login: React.FC = () => {
                 type="password"
                 required={true}
                 maxLength={25}
+                authFlow={true}
               />
             </div>
             <div className="mb-4"></div>

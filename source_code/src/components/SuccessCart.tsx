@@ -27,8 +27,9 @@ const PaymentSuccess: React.FC = () => {
     <div
       className="relative bg-[#ffffff] bg-contain bg-fixed bg-no-repeat"
       // style={{ backgroundImage: `url(${BG})` }}
+      style={{ backgroundImage: `url(${BG})`, height: "max-content" }}
     >
-      <img src={BG} alt="" className="absolute -top-16 left-20 h-screen" />
+      {/* <img src={BG} alt="" className="absolute left-20 h-screen" /> */}
       <div className="flex h-screen justify-center border-2 pt-10">
         <div className="relative h-[75%] w-[700px] space-y-2 rounded-2xl border-2 bg-white p-8 shadow-lg">
           {/* Ticket-style cutout */}

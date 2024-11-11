@@ -258,6 +258,7 @@ const Register: React.FC = () => {
                       placeholder=" Your First Name"
                       type="text"
                       required={true}
+                      authFlow={true}
                     />
                   </div>
                   <div className="flex w-1/2 flex-col pl-2">
@@ -269,6 +270,7 @@ const Register: React.FC = () => {
                       placeholder=" Your Last Name"
                       type="text"
                       required={true}
+                      authFlow={true}
                     />
                   </div>
                 </div>
@@ -283,6 +285,7 @@ const Register: React.FC = () => {
                     required={true}
                     maxLength={25}
                     validateRegex={ALPHANUMERIC_REGEX}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -295,6 +298,7 @@ const Register: React.FC = () => {
                     type="password"
                     required={true}
                     maxLength={25}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -307,6 +311,7 @@ const Register: React.FC = () => {
                     type="password"
                     required={true}
                     maxLength={25}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -318,6 +323,7 @@ const Register: React.FC = () => {
                     placeholder="Date of Birth"
                     type="date"
                     maxDate={dayjs()}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -329,6 +335,7 @@ const Register: React.FC = () => {
                     placeholder="Email"
                     type="text"
                     required={true}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4 flex">
@@ -348,6 +355,7 @@ const Register: React.FC = () => {
                       className="w-full"
                       placeholder="Phone"
                       required={true}
+                      authFlow={true}
                     />
                   </div>
                 </div>
@@ -479,11 +487,14 @@ const Register: React.FC = () => {
                         of the contest
                       </span>
                     </label>
-                    <ErrorMessage
-                      name="acceptTerms"
-                      component="span"
-                      className="block text-sm text-red-600"
-                    />
+                    <span
+                      style={{
+                        color: "#FFDE59",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      <ErrorMessage name="acceptTerms" component="span" />
+                    </span>
                   </div>
                   {/* 
                   <div className="mb-4">

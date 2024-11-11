@@ -347,7 +347,7 @@ const Register: React.FC = () => {
                       type="text"
                     />
                   </div>
-                  <div className="flex w-full pl-2">
+                  <div className="flex w-full flex-col pl-2">
                     <FormikControl
                       label="Phone"
                       name="phone"
@@ -357,6 +357,11 @@ const Register: React.FC = () => {
                       required={true}
                       authFlow={true}
                     />
+                    <p className="-mt-4 w-full px-1 text-[12px] font-semibold text-yellowText">
+                      (By proving your phone number, you agree to receive text
+                      messages from AceCam Golf LLC. Message and data rates may
+                      apply.)
+                    </p>
                   </div>
                 </div>
                 <div className="mb-4">

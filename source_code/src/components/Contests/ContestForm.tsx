@@ -257,7 +257,7 @@ const ContestForm: React.FC<ContestProps> = ({
                       : "day"}{" "}
                     until{" "}
                     <span className="text-xs font-semibold text-gray-500">
-                      {moment.utc(endDate).format("DD/MM/YYYY")}
+                      {moment.utc(endDate).format("MM/DD/YYYY")}
                     </span>
                   </span>
                 )}

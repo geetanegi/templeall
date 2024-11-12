@@ -20,6 +20,7 @@ import Checkout from "./pages/Checkout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditons from "./pages/TermsAndConditons";
 import PaymentSuccessCard from "./components/SuccessCart";
+import Footer from "./Footer";
 
 // Lazy load components
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -164,7 +165,7 @@ function AppRoutes() {
       ),
     },
     {
-      path: "*",
+      path: ROUTES.NOT_FOUND,
       element: <NoFound />,
     },
   ]);
@@ -201,6 +202,13 @@ function App() {
           position="top-right"
           theme="light"
         />
+        {[
+          ROUTES.LOGIN,
+          ROUTES.SIGNUP,
+          ROUTES.FORGET_PASSWORD,
+          ROUTES.RESET_PASSWORD,
+        ].includes(location.pathname) ||
+          (isLogin && <Footer />)}
       </Suspense>
     </>
   );

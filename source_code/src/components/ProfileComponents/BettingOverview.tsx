@@ -11,7 +11,7 @@ interface BettingOverviewProps {
   fetchUserInformation: () => void;
   userId: string | number;
   userInfo: any;
-  isCommunitySearch: boolean | undefined
+  isCommunitySearch: boolean | undefined;
 }
 
 const BettingOverview: React.FC<BettingOverviewProps> = ({
@@ -20,14 +20,14 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
   fetchUserInformation,
   userId,
   userInfo,
-  isCommunitySearch
+  isCommunitySearch,
 }) => {
   const [userstats, setUserStats] = useState<any>({});
 
   useEffect(() => {
-    setUserStats({})
+    setUserStats({});
     if (isCommunitySearch && userId != userInfo?.userId) {
-      searchUserPS()
+      searchUserPS();
     } else {
       getAllPerformanceStates();
     }
@@ -51,7 +51,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const getAllPerformanceStates = async () => {
     try {
@@ -85,8 +85,8 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        ToastSuccess(data?.data?.message)
-        fetchUserInformation()
+        ToastSuccess(data?.data?.message);
+        fetchUserInformation();
       } else if (data?.error && data.description) {
         ToastError(data.description);
       }
@@ -155,17 +155,17 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
   return (
     <div className="mb-10 ml-0 mt-40 w-full border border-gray-400 p-2 lg:mb-0 lg:ml-5 lg:mt-0 lg:border-0 lg:p-0">
       <div
-        className={`mt-5 flex h-[38px] gap-[16px] rounded-l-full rounded-r-full p-[1px]
-              ${Object.keys(userstats).length ? 'visible' : 'invisible'}
-          `}
+        className={`mt-5 flex h-[38px] gap-[16px] rounded-l-full rounded-r-full p-[1px] ${Object.keys(userstats).length ? "visible" : "invisible"} `}
         style={{ width: "max-content" }}
       >
-        <h1 className="text-[16px] leading-relaxed">Performance</h1>
+        <h1 className="text-[16px] font-semibold leading-relaxed">
+          Performance
+        </h1>
       </div>
       <div className="flex h-full justify-between">
-        <div className={`h-[320px] w-[50%] overflow-auto
-            ${Object.keys(userstats).length ? 'visible' : 'invisible'}
-          `}>
+        <div
+          className={`h-[320px] w-[50%] overflow-auto ${Object.keys(userstats).length ? "visible" : "invisible"} `}
+        >
           {computeSubBettingViewSection()}
           {!userId || userId == userInfo?.userId ? (
             <div className="flex items-center gap-3">

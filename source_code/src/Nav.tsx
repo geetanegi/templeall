@@ -319,6 +319,7 @@ const Nav: React.FC = () => {
                                     // dispatch(loginUserDetails({}));
                                     dispatch(resetCourseState());
                                     dispatch(logout());
+                                    navigate(ROUTES.LOGIN, { replace: true });
                                     // localStorage.clear();
                                   }}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -436,6 +437,7 @@ const Nav: React.FC = () => {
                         // dispatch(loginUserDetails({}));
                         dispatch(resetCourseState());
                         dispatch(logout());
+                        navigate(ROUTES.LOGIN, { replace: true });
                       }}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >

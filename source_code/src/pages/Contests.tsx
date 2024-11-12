@@ -196,7 +196,7 @@ const Contests: React.FC = () => {
 
   const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
 
-  const { state, pathname } = useLocation();
+  const { pathname } = useLocation();
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,

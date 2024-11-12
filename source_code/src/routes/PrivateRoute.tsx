@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store"; // Import RootState
 import { ROUTES } from "../utils/routesPath";

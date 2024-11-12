@@ -448,7 +448,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
 
                       <div className="mb-3 px-5">
                         <MUISelect
-                          label="Contest Name"
+                          label="Contest Type"
                           name="contestName"
                           required={true}
                           options={[

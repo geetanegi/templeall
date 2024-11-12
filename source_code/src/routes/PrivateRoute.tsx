@@ -13,9 +13,9 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
-  const menuList = useSelector(
-    (state: RootState) => state?.auth?.userPermissions?.data?.menuList,
-  );
+  // const menuList = useSelector(
+  //   (state: RootState) => state?.auth?.userPermissions?.data?.menuList,
+  // );
   const location = useLocation();
 
   // Define routes to be excluded from permission checks
@@ -33,14 +33,14 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   }
 
   // Check if the current path exists in the menuList for permitted routes
-  const isRouteAllowed = menuList?.some(
-    (menu: { routeUrl: string }) => menu.routeUrl === currentPath,
-  );
+  // const isRouteAllowed = menuList?.some(
+  //   (menu: { routeUrl: string }) => menu.routeUrl === currentPath,
+  // );
 
-  if (menuList?.length > 0 && !isRouteAllowed) {
-    // Redirect to Not Found page if the route is not allowed
-    return <Navigate to={ROUTES.NOT_FOUND} replace />;
-  }
+  // if (menuList?.length > 0 && !isRouteAllowed) {
+  //   // Redirect to Not Found page if the route is not allowed
+  //   return <Navigate to={ROUTES.NOT_FOUND} replace />;
+  // }
 
   return <>{children}</>; // Wrap children in a React fragment
 };

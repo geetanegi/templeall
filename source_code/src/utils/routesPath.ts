@@ -19,4 +19,5 @@ export const ROUTES = {
   TERMS_AND_CONDITIONS: "/terms-and-conditions",
   USERS: "/users",
   PAYMENT_SUCCESS: "/payment-success",
+  NOT_FOUND: "/not-found", // Change '*' to a specific path
 };

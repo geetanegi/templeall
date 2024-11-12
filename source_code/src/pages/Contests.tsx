@@ -177,14 +177,26 @@ const Contests: React.FC = () => {
       .utc(editData?.registrationEndTime)
       .local()
       .format("YYYY-MM-DD HH:mm:ss"),
-    entryFee: editData?.entryFee,
-    playerPercentage: editData?.payoutStructure?.playerPercentage,
-    acecamPercentage: editData?.payoutStructure?.acecamPercentage,
-    coursePercentage: editData?.payoutStructure?.coursePercentage,
-    charityPercentage: editData?.payoutStructure?.charityPercentage,
+    entryFee: editData?.entryFee ? editData?.entryFee : "0",
+    playerPercentage: editData?.payoutStructure?.playerPercentage
+      ? editData?.payoutStructure?.playerPercentage
+      : "0",
+    acecamPercentage: editData?.payoutStructure?.acecamPercentage
+      ? editData?.payoutStructure?.acecamPercentage
+      : "0",
+    coursePercentage: editData?.payoutStructure?.coursePercentage
+      ? editData?.payoutStructure?.coursePercentage
+      : "0",
+    charityPercentage: editData?.payoutStructure?.charityPercentage
+      ? editData?.payoutStructure?.charityPercentage
+      : "0",
     limitSection: editData?.limitSection === false ? "no" : "yes",
-    entriesPer24Hours: editData?.entriesPer24Hours,
-    waitTimeBetweenEntries: editData?.waitTimeBetweenEntries,
+    entriesPer24Hours: editData?.entriesPer24Hours
+      ? editData?.entriesPer24Hours
+      : "0",
+    waitTimeBetweenEntries: editData?.waitTimeBetweenEntries
+      ? editData?.waitTimeBetweenEntries
+      : "0",
     queueLimit: editData?.queueLimit || 4,
     note: editData?.note,
   };

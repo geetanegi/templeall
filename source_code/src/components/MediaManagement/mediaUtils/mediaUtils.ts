@@ -43,7 +43,7 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
     ];
   } else if (tab === 3) {
     return [
-      { id: 1, key: "contestName", field: "Contest Name" },
+      { id: 1, key: "contestName", field: "Contest Type" },
       { id: 2, key: "club", field: "Club" },
       { id: 3, key: "course", field: "Course" },
       { id: 4, key: "hole", field: "Hole" },
@@ -65,7 +65,7 @@ export const deleteVideos = async (
   userRole?: string,
 ) => {
   try {
-     let endPoint = API_URL.deleteVideo;
+    let endPoint = API_URL.deleteVideo;
 
     if (type === "REQUEST_VIDEO" && userRole === "superAdmin") {
       endPoint = API_URL.deleteRequestVideo;
@@ -85,7 +85,6 @@ export const deleteVideos = async (
   } catch (error) {
     console.error(error);
   }
- 
 };
 
 export const computeFilterDropDown = (
@@ -118,16 +117,16 @@ export const computeFilterDropDown = (
 };
 
 export const createComment = async (
-  id:string | number | null,
+  id: string | number | null,
   videoId: string | number,
   userId: string | number,
   commentText: string,
   getComments: () => void,
 ) => {
-  try {   
+  try {
     const { data, status } = await apiService.post<any>(API_URL.createComment, {
       data: {
-        id:id,
+        id: id,
         videoId: videoId,
         playerId: userId,
         commentText: commentText,
@@ -139,7 +138,7 @@ export const createComment = async (
       ToastError(data.description);
     }
   } catch (error) {
-    console.error(error); 
+    console.error(error);
   }
 };
 
@@ -180,28 +179,27 @@ export const formatCount = (value: number | string) => {
   }
 };
 
-
-export const deleteComment = async(
+export const deleteComment = async (
   videoId: string | number,
   commentId: string | number,
   userId: string | number,
   getComments: () => void,
-)=>{
-  try {   
+) => {
+  try {
     const { data, status } = await apiService.post<any>(API_URL.deleteComment, {
       data: {
         videoId: videoId,
-        commentId:commentId,
+        commentId: commentId,
         playerId: userId,
       },
     });
     if (status === 200 && data?.data != null && !data?.error) {
       getComments();
-      ToastSuccess(data.data.message)
+      ToastSuccess(data.data.message);
     } else if (data?.error && data.description) {
       ToastError(data.description);
     }
   } catch (error) {
     console.error(error);
   }
-}
+};

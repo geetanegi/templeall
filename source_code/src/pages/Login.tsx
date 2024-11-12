@@ -129,7 +129,9 @@ const Login: React.FC = () => {
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
         </div>
-        <h3 className="my-5 py-3 font-semibold text-[#FFFFFF] md:my-1">-OR-</h3>
+        <h3 className="my-5 py-3 text-[14px] font-semibold text-[#FFFFFF] md:my-1">
+          -OR-
+        </h3>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -171,9 +173,11 @@ const Login: React.FC = () => {
                   <Field
                     type="checkbox"
                     name="rememberme"
-                    className="form-checkbox h-4 w-4 leading-tight text-blue-400"
+                    className="form-checkbox h-4 w-4 border border-[#0077B6] accent-[#0077B6]"
                   />
-                  <span className="ml-2 text-[#FFFFFF]">Remember me ?</span>
+                  <span className="ml-2 text-[14px] text-[#FFFFFF]">
+                    Remember me ?
+                  </span>
                 </label>
                 <ErrorMessage
                   name="rememberme"
@@ -190,19 +194,19 @@ const Login: React.FC = () => {
             </button>
           </Form>
         </Formik>
-        <div className="f mt-2 flex w-full max-w-sm gap-1 text-sm sm:justify-between md:max-w-md">
-          <p className={`text-primaryText`}>
+        <div className="f mt-2 flex w-full max-w-sm gap-1 text-[14px] sm:justify-between md:max-w-md">
+          <p className={`text-[14px] text-primaryText`}>
             Don't have an account?{" "}
             <Link
               to={ROUTES.SIGNUP}
-              className={`text-sm text-link hover:underline`}
+              className={`text-[14px] text-link hover:underline`}
             >
               Sign Up
             </Link>
           </p>
           <Link
             to={ROUTES.FORGET_PASSWORD}
-            className={`text-sm text-link hover:underline`}
+            className={`text-[14px] text-link hover:underline`}
           >
             Forgot Password?
           </Link>

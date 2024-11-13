@@ -20,6 +20,7 @@ import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
 import { parseInt } from "lodash";
+import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 
 // interface recurrence {
 //   frequency: string;
@@ -153,6 +154,9 @@ const CreateContest: React.FC = () => {
   const navigate = useNavigate();
 
   const [editData, setEditData] = useState<any>(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
     contestType: editData?.contestType || "",
@@ -321,7 +325,7 @@ const CreateContest: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       dispatch(setLoading(false));
       // setIsLoading(false);
@@ -362,7 +366,7 @@ const CreateContest: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
       // setIsLoading(false);
@@ -453,6 +457,18 @@ const CreateContest: React.FC = () => {
     }
   };
 
+  const handleBack = (dirtyCheck: boolean) => {
+    if (dirtyCheck) {
+      setIsOpenModal(true);
+      return;
+    }
+    navigate(-1);
+  };
+
+  const handleDiscard = () => {
+    navigate(-1);
+  };
+
   return (
     <PageLoader isActive={loader}>
       <div className="bg-gray-100">
@@ -479,7 +495,7 @@ const CreateContest: React.FC = () => {
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
-                  {({ isSubmitting, values, setFieldValue }) => {
+                  {({ isSubmitting, values, setFieldValue, dirty }) => {
                     handleValues(values);
 
                     useEffect(() => {
@@ -550,7 +566,7 @@ const CreateContest: React.FC = () => {
                         <div className="flex justify-end gap-4">
                           <button
                             type="button"
-                            onClick={() => navigate(-1)}
+                            onClick={() => handleBack(dirty)}
                             className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
                           >
                             Back
@@ -588,6 +604,11 @@ const CreateContest: React.FC = () => {
           setSelectedDays={setSelectedDays}
           handleEndDateChange={handleEndDateChange}
           setFrequency={setFrequency}
+        />
+        <UnsavedModal
+          isOpenModal={isOpenModal}
+          onClose={onClose}
+          handleDiscard={handleDiscard}
         />
       </div>
     </PageLoader>

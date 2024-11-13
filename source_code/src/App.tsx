@@ -168,6 +168,10 @@ function AppRoutes() {
       path: ROUTES.NOT_FOUND,
       element: <NoFound />,
     },
+    {
+      path: "*",
+      element: <NoFound />,
+    },
   ]);
 
   return routes;

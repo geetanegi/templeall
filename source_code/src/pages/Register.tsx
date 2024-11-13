@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Formik, Form, FormikHelpers, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import {
   useStripe,
   useElements,
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
+  // CardNumberElement,
+  // CardExpiryElement,
+  // CardCvcElement,
 } from "@stripe/react-stripe-js";
 // assets import
 import TikTok from "../assets/images/TikTok.svg";
@@ -120,9 +120,9 @@ const Register: React.FC = () => {
       ),
   });
 
-  const [cardError, setCardError] = useState<string | null>(null);
-  const [isCardEmpty, setIsCardEmpty] = useState(true); // Track if CardElement is empty
-  const [cardTouched, setCardTouched] = useState(false);
+  // const [cardError, setCardError] = useState<string | null>(null);
+  // const [isCardEmpty, setIsCardEmpty] = useState(true); // Track if CardElement is empty
+  // const [cardTouched, setCardTouched] = useState(false);
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [usernameValue, setUsernameValue] = useState<string>("");
@@ -130,11 +130,11 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (
     values: RegisterFormValues,
-    { setSubmitting }: FormikHelpers<RegisterFormValues>,
+    // { setSubmitting }: FormikHelpers<RegisterFormValues>,
   ) => {
     setEmail(values.email);
     dispatch(setLoading(true));
-    setCardTouched(false);
+    // setCardTouched(false);
     try {
       const {
         firstName,
@@ -189,13 +189,13 @@ const Register: React.FC = () => {
       // Stripe.js has not loaded yet
       return;
     }
-    const cardNumberElement = elements.getElement(CardNumberElement);
-    if ((cardTouched && !cardNumberElement) || isCardEmpty) {
-      setCardError("Card details are required");
-      setSubmitting(false);
-      setIsCardEmpty(true);
-      return;
-    }
+    // const cardNumberElement = elements.getElement(CardNumberElement);
+    // if ((cardTouched && !cardNumberElement) || isCardEmpty) {
+    //   setCardError("Card details are required");
+    //   setSubmitting(false);
+    //   setIsCardEmpty(true);
+    //   return;
+    // }
   };
 
   const DisplayScreens = () => {
@@ -373,8 +373,9 @@ const Register: React.FC = () => {
                     placeholder="GHIN"
                   />
                 </div>
+
                 <div className="mx-auto max-w-md">
-                  <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
+                  {/* <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
                     Card Information
                   </h2>
                   <div className="mb-4 flex flex-col">
@@ -472,7 +473,7 @@ const Register: React.FC = () => {
                       placeholder="Enter Your Name"
                       type="text"
                     />
-                  </div>
+                  </div> */}
                   <div className="mb-6 flex flex-col">
                     <label className="inline-flex items-center">
                       <Field
@@ -501,24 +502,6 @@ const Register: React.FC = () => {
                       <ErrorMessage name="acceptTerms" component="span" />
                     </span>
                   </div>
-                  {/* 
-                  <div className="mb-4">
-                    <label className="inline-flex items-center">
-                      <Field
-                        type="checkbox"
-                        name="acceptTerms"
-                        className="form-checkbox h-4 w-4 text-[#1E95C1]"
-                      />
-                      <span className="ml-2 text-gray-700">
-                        I agree to Terms & Conditions and Privacy Policy
-                      </span>
-                    </label>
-                    <ErrorMessage
-                      name="acceptTerms"
-                      component="span"
-                      className="text-sm text-red-600"
-                    />
-                  </div> */}
                 </div>
 
                 <button

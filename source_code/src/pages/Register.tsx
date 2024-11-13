@@ -180,7 +180,7 @@ const Register: React.FC = () => {
         ToastError(data?.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -258,6 +258,7 @@ const Register: React.FC = () => {
                       placeholder=" Your First Name"
                       type="text"
                       required={true}
+                      authFlow={true}
                     />
                   </div>
                   <div className="flex w-1/2 flex-col pl-2">
@@ -269,6 +270,7 @@ const Register: React.FC = () => {
                       placeholder=" Your Last Name"
                       type="text"
                       required={true}
+                      authFlow={true}
                     />
                   </div>
                 </div>
@@ -283,6 +285,7 @@ const Register: React.FC = () => {
                     required={true}
                     maxLength={25}
                     validateRegex={ALPHANUMERIC_REGEX}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -295,6 +298,7 @@ const Register: React.FC = () => {
                     type="password"
                     required={true}
                     maxLength={25}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -307,6 +311,7 @@ const Register: React.FC = () => {
                     type="password"
                     required={true}
                     maxLength={25}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -318,6 +323,7 @@ const Register: React.FC = () => {
                     placeholder="Date of Birth"
                     type="date"
                     maxDate={dayjs()}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4">
@@ -329,6 +335,7 @@ const Register: React.FC = () => {
                     placeholder="Email"
                     type="text"
                     required={true}
+                    authFlow={true}
                   />
                 </div>
                 <div className="mb-4 flex">
@@ -340,7 +347,7 @@ const Register: React.FC = () => {
                       type="text"
                     />
                   </div>
-                  <div className="flex w-full pl-2">
+                  <div className="flex w-full flex-col pl-2">
                     <FormikControl
                       label="Phone"
                       name="phone"
@@ -348,7 +355,13 @@ const Register: React.FC = () => {
                       className="w-full"
                       placeholder="Phone"
                       required={true}
+                      authFlow={true}
                     />
+                    <p className="-mt-4 w-full px-1 text-[12px] font-semibold text-yellowText">
+                      (By proving your phone number, you agree to receive text
+                      messages from AceCam Golf LLC. Message and data rates may
+                      apply.)
+                    </p>
                   </div>
                 </div>
                 <div className="mb-4">
@@ -479,11 +492,14 @@ const Register: React.FC = () => {
                         of the contest
                       </span>
                     </label>
-                    <ErrorMessage
-                      name="acceptTerms"
-                      component="span"
-                      className="block text-sm text-red-600"
-                    />
+                    <span
+                      style={{
+                        color: "#FFDE59",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      <ErrorMessage name="acceptTerms" component="span" />
+                    </span>
                   </div>
                   {/* 
                   <div className="mb-4">
@@ -561,7 +577,7 @@ const Register: React.FC = () => {
               <div className="right-1 top-[1px] flex md:absolute">
                 <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                   © 2024 AceCam
-                  <sup className="text-[8px]">TM&nbsp;</sup>
+                  <sup className="text-[8px]">TM&nbsp;</sup>{" "}
                   {/* <span className="align-super text-xs">™&nbsp;</span> */}
                   Golf, LLC. All rights reserved.
                 </p>

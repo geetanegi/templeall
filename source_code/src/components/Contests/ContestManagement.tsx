@@ -75,7 +75,7 @@ const ContestManagement = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error);
     }
   };
 
@@ -150,8 +150,8 @@ const ContestManagement = () => {
       );
     }
     if (selectedHoles.length) {
-      filteredData = filteredData?.filter(
-        (item: any) => selectedHoles.includes(item.hole.id.toString()),
+      filteredData = filteredData?.filter((item: any) =>
+        selectedHoles.includes(item.hole.id.toString()),
       );
     }
     return filteredData;
@@ -294,7 +294,7 @@ const ContestManagement = () => {
         dispatch(setLoading(false));
       }
     } catch (error) {
-      ToastError("Error fetching contest data");
+      console.error("Error fetching contest data");
       dispatch(setLoading(false));
     }
   };
@@ -355,7 +355,7 @@ const ContestManagement = () => {
             <select
               id="courses"
               style={{ marginLeft: "5px" }}
-              className="align-center mt-5 flex w-full justify-between text-sm rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[200px]"
+              className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:ml-2 md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
                 setCurrentStatus(e.target.value);
@@ -370,7 +370,7 @@ const ContestManagement = () => {
             </select>
             <select
               id="courses"
-              className="align-center mt-5 flex w-full justify-between text-sm rounded-md border border-gray-300 bg-gray-100 px-4 py-2  md:mt-0 md:w-[200px]"
+              className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
                 setSelectedContestType(e.target.value);
@@ -405,7 +405,7 @@ const ContestManagement = () => {
               label="Filter by Holes"
               disabled={selectedCourse ? false : true}
               onChange={handleSelectedValuesChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-100 flex pl-2 py-auto text-sm text-gray-900 outline-none md:w-[200px]"
+              className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
           </div>
           {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (

@@ -157,36 +157,48 @@ const Contests: React.FC = () => {
   const [editData, setEditData] = useState<any>(null);
 
   const initialValues: ContestFormValues = {
-    contestType: editData?.contestType || "",
-    clubName: editData?.club.id || "",
-    courseName: editData?.course?.id || "",
-    holesName: editData?.hole?.id || "",
-    Tee: editData?.tee?.id || "",
+    contestType: editData?.contestType,
+    clubName: editData?.club.id,
+    courseName: editData?.course?.id,
+    holesName: editData?.hole?.id,
+    Tee: editData?.tee?.id,
     startDate:
       moment.utc(editData?.startTime).local().format("YYYY-MM-DD HH:mm:ss") ||
       "",
-    endDate:
-      moment.utc(editData?.endTime).local().format("YYYY-MM-DD HH:mm:ss") || "",
-    registrationStartTime:
-      moment
-        .utc(editData?.registrationStartTime)
-        .local()
-        .format("YYYY-MM-DD HH:mm:ss") || "",
-    registrationEndTime:
-      moment
-        .utc(editData?.registrationEndTime)
-        .local()
-        .format("YYYY-MM-DD HH:mm:ss") || "",
-    entryFee: editData?.entryFee || "",
-    playerPercentage: editData?.payoutStructure?.playerPercentage || "",
-    acecamPercentage: editData?.payoutStructure?.acecamPercentage || "",
-    coursePercentage: editData?.payoutStructure?.coursePercentage || "",
-    charityPercentage: editData?.payoutStructure?.charityPercentage || "",
+    endDate: moment
+      .utc(editData?.endTime)
+      .local()
+      .format("YYYY-MM-DD HH:mm:ss"),
+    registrationStartTime: moment
+      .utc(editData?.registrationStartTime)
+      .local()
+      .format("YYYY-MM-DD HH:mm:ss"),
+    registrationEndTime: moment
+      .utc(editData?.registrationEndTime)
+      .local()
+      .format("YYYY-MM-DD HH:mm:ss"),
+    entryFee: editData?.entryFee ? editData?.entryFee : "0",
+    playerPercentage: editData?.payoutStructure?.playerPercentage
+      ? editData?.payoutStructure?.playerPercentage
+      : "0",
+    acecamPercentage: editData?.payoutStructure?.acecamPercentage
+      ? editData?.payoutStructure?.acecamPercentage
+      : "0",
+    coursePercentage: editData?.payoutStructure?.coursePercentage
+      ? editData?.payoutStructure?.coursePercentage
+      : "0",
+    charityPercentage: editData?.payoutStructure?.charityPercentage
+      ? editData?.payoutStructure?.charityPercentage
+      : "0",
     limitSection: editData?.limitSection === false ? "no" : "yes",
-    entriesPer24Hours: editData?.entriesPer24Hours || "",
-    waitTimeBetweenEntries: editData?.waitTimeBetweenEntries || "",
+    entriesPer24Hours: editData?.entriesPer24Hours
+      ? editData?.entriesPer24Hours
+      : "0",
+    waitTimeBetweenEntries: editData?.waitTimeBetweenEntries
+      ? editData?.waitTimeBetweenEntries
+      : "0",
     queueLimit: editData?.queueLimit || 4,
-    note: editData?.note || "",
+    note: editData?.note,
   };
 
   const userPermisions = useSelector(
@@ -196,8 +208,7 @@ const Contests: React.FC = () => {
 
   const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
 
-  const { state, pathname } = useLocation();
-  console.log("state", state); // will be removed later
+  const { pathname } = useLocation();
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -331,7 +342,7 @@ const Contests: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -370,7 +381,7 @@ const Contests: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      ToastError("Error fetching course data");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -452,7 +463,7 @@ const Contests: React.FC = () => {
         ToastError(res.data.description || "Error creating contest");
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

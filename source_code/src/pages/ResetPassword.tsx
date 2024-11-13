@@ -15,6 +15,7 @@ import { PasswordRegex } from "../utils/passwordValidation";
 import { downloadFile } from "../utils/downloadUtils";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import { encryptData, secretKey } from "../utils/encrypt";
 
 const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -54,12 +55,17 @@ const ResetPassword: React.FC = () => {
       dispatch(setLoading(true));
 
       const token = localStorage.getItem("tokenForgetPassword");
+      const payloadData = {
+        password: values.password,
+      }
+      const encreptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
       const newData = {
         data: {
           token,
-          password: values.password,
+          payload: encreptedpayload,
+          mode:"WEB"
         },
-      };
+      }; 
       const { data, status } = await apiService.post<any>(
         API_URL.resetPassword,
         newData,
@@ -120,6 +126,7 @@ const ResetPassword: React.FC = () => {
                   placeholder="Password"
                   type="password"
                   required={true}
+                  authFlow={true}
                 />
                 <FormikControl
                   label="Confirm Password"
@@ -129,6 +136,7 @@ const ResetPassword: React.FC = () => {
                   placeholder="Confirm Password"
                   type="password"
                   required={true}
+                  authFlow={true}
                 />
               </div>
 
@@ -180,7 +188,7 @@ const ResetPassword: React.FC = () => {
           <div className="right-1 top-[1px] flex md:absolute">
             <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
               © 2024 AceCam
-              <sup className="text-[8px]">TM&nbsp;</sup>
+              <sup className="text-[8px]">TM&nbsp;</sup>{" "}
               {/* <span className="align-super text-xs">™&nbsp;</span> */}
               Golf, LLC. All rights reserved.
             </p>

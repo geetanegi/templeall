@@ -74,8 +74,7 @@ const ForgetPassword: React.FC = () => {
         ToastError(data?.description);
       }
     } catch (error) {
-      console.error("Error posting data:", error);
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -131,6 +130,7 @@ const ForgetPassword: React.FC = () => {
                     type="text"
                     required={true}
                     maxLength={25}
+                    authFlow={true}
                   />
                 </div>
 
@@ -183,7 +183,7 @@ const ForgetPassword: React.FC = () => {
             <div className="right-1 top-[1px] flex md:absolute">
               <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                 © 2024 AceCam
-                <sup className="text-[8px]">TM&nbsp;</sup>
+                <sup className="text-[8px]">TM&nbsp;</sup>{" "}
                 {/* <span className="align-super text-xs">™&nbsp;</span> */}
                 Golf, LLC. All rights reserved.
               </p>

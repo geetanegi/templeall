@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import aceCampLogo from "./assets/images/aceCamp_logo.png";
+import aceCampLogo from "./assets/images/AceCam-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./reducers/login/login";
 import { RootState } from "./store";
@@ -154,7 +154,6 @@ const Nav: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
     } finally {
       dispatch(setLoading(false));
     }
@@ -205,30 +204,34 @@ const Nav: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
     }
   };
 
   return (
-    <nav className="w-full h-[56px] border-b  border-gray-200 bg-white shadow">
-      <div className="relative flex w-full h-full items-center justify-between px-2 pt-1">
+    <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
+      <div className="relative flex h-full w-full items-center justify-between px-2 pt-1">
         <div className="align-center flex h-full justify-center">
           <a
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src={aceCampLogo} alt="Ace Camp Logo" className="h-[56px] w-[56px]" />
+            <img
+              src={aceCampLogo}
+              alt="Ace Camp Logo"
+              className="h-[56px] w-[56px]"
+            />
           </a>
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
           <div
             className={`${
               navCollapsed ? "hidden" : ""
-            } absolute right-0 top-12 w-full items-center justify-end md:h-full md:static md:order-2 md:flex md:justify-center`}
+            } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:h-full md:justify-center`}
             id="navbar-user"
           >
-            <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:h-full md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
+            <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:mt-0 md:h-full md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               {menuList?.map((menu: any) => (
                 <li
                   key={menu.name}
@@ -254,7 +257,7 @@ const Nav: React.FC = () => {
                     <>
                       <Link
                         to={menu.routeUrl}
-                        className={`flex items-center justify-center h-full rounded px-3  md:justify-end md:flex-col md:p-0 ${
+                        className={`flex h-full items-center justify-center rounded px-3 md:flex-col md:justify-end md:p-0 ${
                           selectedMenu === menu.name
                             ? "" // Background unchanged
                             : ""
@@ -283,7 +286,7 @@ const Nav: React.FC = () => {
                                   "#046221"
                                 : "#1D1A0C",
                           }}
-                          className={`px-2 md:mb-[6px] md:mt-[5px] text-[12px] md:px-0`}
+                          className={`px-2 text-[12px] md:mb-[6px] md:mt-[5px] md:px-0`}
                         >
                           {menu.name}
                         </span>
@@ -316,6 +319,7 @@ const Nav: React.FC = () => {
                                     // dispatch(loginUserDetails({}));
                                     dispatch(resetCourseState());
                                     dispatch(logout());
+                                    navigate(ROUTES.LOGIN, { replace: true });
                                     // localStorage.clear();
                                   }}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -433,6 +437,7 @@ const Nav: React.FC = () => {
                         // dispatch(loginUserDetails({}));
                         dispatch(resetCourseState());
                         dispatch(logout());
+                        navigate(ROUTES.LOGIN, { replace: true });
                       }}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >

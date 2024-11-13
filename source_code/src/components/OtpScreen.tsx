@@ -75,8 +75,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         ToastError(data?.description);
       }
     } catch (error) {
-      console.error("Error posting data:", error);
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -117,8 +116,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         ToastError(data?.description);
       }
     } catch (error) {
-      console.error("Error posting data:", error);
-      ToastError("Something went wrong");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -147,18 +145,17 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           </span>
         </h4>
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
-        <span className="text-red-600">{otpError}</span>
+        <span className="text-[#FFDE59]">{otpError}</span>
 
         <div className="flex w-full flex-col-reverse items-center justify-center justify-between pb-2 md:flex-row md:justify-between md:pb-6">
           <div className="flex text-center">
             <p className={`text-xs text-primaryText md:text-sm`}>
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold text-link ${
-                  timeLeft > 0 && isRunning
-                    ? "cursor-not-allowed opacity-60"
-                    : "cursor-pointer text-red-600"
-                }`}
+                className={`font-semibold text-link ${timeLeft > 0 && isRunning
+                  ? "cursor-not-allowed opacity-60"
+                  : "cursor-pointer text-red-600"
+                  }`}
                 onClick={handleReset}
                 disabled={timeLeft > 0 && isRunning}
               >
@@ -226,7 +223,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             <div className="right-1 top-[1px] flex md:absolute">
               <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                 © 2024 AceCam
-                <sup className="text-[8px]">TM&nbsp;</sup>
+                <sup className="text-[8px]">TM&nbsp;</sup>{" "}
                 {/* <span className="align-super text-xs">™&nbsp;</span> */}
                 Golf, LLC. All rights reserved.
               </p>

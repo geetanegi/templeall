@@ -55,7 +55,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
                     ToastError(data.description);
                 } 
             } catch (error) {
-                ToastError("Something went wrong");
+                console.error(error);
             } finally {
             }
 

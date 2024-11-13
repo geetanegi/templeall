@@ -52,7 +52,6 @@ const Dashboard: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
     } finally {
       dispatch(setLoading(false));
     }
@@ -69,6 +68,8 @@ const Dashboard: React.FC = () => {
   if (userPermisions && userPermisions?.data?.permission["is_course_admin"]) {
     return <Navigate to={ROUTES.CONTESTS} replace />;
   }
+
+  console.log("userPermisions", userPermisions);
 
   return (
     <div>

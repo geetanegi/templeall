@@ -419,8 +419,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
         return "Top Shot";
       } else if (requestVideoPayload?.videoCategory === "NOT_TOP_SHOT") {
         return "Not top shot";
-      } else {
-        return requestVideoPayload?.videoCategory;
+      } else if(requestVideoPayload?.videoCategory === "BLOOPERS") {
+        return "Bloopers"
+      }else {
+        // do nothing
       }
     }
   };

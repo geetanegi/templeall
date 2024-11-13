@@ -35,7 +35,6 @@ const PlayerHomePage: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      ToastError("Something went wrong");
     } finally {
       dispatch(setLoading(false));
     }

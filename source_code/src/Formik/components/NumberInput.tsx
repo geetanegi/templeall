@@ -7,6 +7,7 @@ interface NumberInputProps {
   name: string;
   className?: string;
   required?: boolean;
+  authFlow?: boolean;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
@@ -14,6 +15,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   name,
   className = "",
   required = false,
+  authFlow = false,
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const allowedKeys = [
@@ -61,7 +63,14 @@ const NumberInput: React.FC<NumberInputProps> = ({
               <span style={{ display: "flex", alignItems: "center" }}>
                 {label}
                 {required && (
-                  <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
+                  <span
+                    style={{
+                      color: authFlow ? "#FFDE59" : "red",
+                      marginLeft: "0.25rem",
+                    }}
+                  >
+                    *
+                  </span>
                 )}
               </span>
             }
@@ -90,15 +99,15 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 },
                 "&.Mui-error": {
                   backgroundColor: "#00000099 !important", // Ensure consistency on error
-                  border: "1.5px solid red !important",
+                  border: `1.5px solid  ${authFlow ? "#FFDE59" : "red"} !important`,
                 },
                 "&.Mui-error:hover": {
                   backgroundColor: "#00000099 !important", // Ensure consistency on error hover
-                  border: "1.5px solid red !important",
+                  border: `1.5px solid  ${authFlow ? "#FFDE59" : "red"} !important`,
                 },
                 "&.Mui-error.Mui-focused": {
                   backgroundColor: "#00000099 !important", // Ensure consistency on error focus
-                  border: "1.5px solid red !important",
+                  border: `1.5px solid  ${authFlow ? "#FFDE59" : "red"} !important`,
                 },
               },
               "& .MuiInputLabel-root": {
@@ -107,6 +116,9 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 alignItems: "center",
                 "&.Mui-focused": {
                   color: "white",
+                },
+                "&.Mui-error": {
+                  color: `${authFlow ? "#FFDE59" : "red"}`, // Custom color for error label
                 },
                 // Hide default asterisk
                 "& .MuiInputLabel-asterisk": {
@@ -117,23 +129,20 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 color: "white",
                 // Autofill styles to maintain color consistency
                 "&:-webkit-autofill": {
-                  WebkitBoxShadow:
-                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency
+                  WebkitBoxShadow: "0 0 0 100px #00000099 inset !important", // Ensures background color consistency
                   WebkitTextFillColor: "white !important", // Ensures text color consistency
                 },
                 "&:-webkit-autofill:hover": {
-                  WebkitBoxShadow:
-                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on hover
+                  WebkitBoxShadow: "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on hover
                   WebkitTextFillColor: "white !important", // Ensures text color consistency on hover
                 },
                 "&:-webkit-autofill:focus": {
-                  WebkitBoxShadow:
-                    "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on focus
+                  WebkitBoxShadow: "0 0 0 100px #00000099 inset !important", // Ensures background color consistency on focus
                   WebkitTextFillColor: "white !important", // Ensures text color consistency on focus
                 },
               },
               "& .MuiFormHelperText-root": {
-                color: "red",
+                color: `${authFlow ? "#FFDE59" : "red"}`,
                 marginLeft: "5px",
               },
             }}

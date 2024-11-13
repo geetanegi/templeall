@@ -257,7 +257,7 @@ const ContestForm: React.FC<ContestProps> = ({
                       : "day"}{" "}
                     until{" "}
                     <span className="text-xs font-semibold text-gray-500">
-                      {moment.utc(endDate).format("DD/MM/YYYY")}
+                      {moment.utc(endDate).format("MM/DD/YYYY")}
                     </span>
                   </span>
                 )}
@@ -348,6 +348,7 @@ const ContestForm: React.FC<ContestProps> = ({
               <FormikControl
                 control="textarea"
                 label="Eligibility Requirements"
+                placeholder={`For example : Your HDCP must be no less than 7.0 to be eligible for participation, unless you are woman, or older than 70 years of age. `}
                 name="note"
                 required={true}
                 className="flex flex-row"

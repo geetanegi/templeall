@@ -42,7 +42,7 @@ const ActiveContestAccordion: React.FC = () => {
         ToastError(res.data.description || "Error fetching contest data");
       }
     } catch (error) {
-      ToastError("Error fetching contest data");
+      console.error("Error fetching contest data");
     } finally {
       dispatch(setLoading(false));
     }
@@ -80,7 +80,7 @@ const ActiveContestAccordion: React.FC = () => {
               // style={{
               //   borderColor: i === openAccordion ? "#95C11E" : "#FFDE59",
               // }}
-              className={`bg-reverse-graident-green relative my-3 overflow-hidden rounded-lg border-[1px] border-yellowText shadow-sm`}
+              className={`relative my-3 overflow-hidden rounded-lg border-[1px] border-yellowText bg-reverse-graident-green shadow-sm`}
             >
               <button
                 onClick={() => handleToggle(i)}

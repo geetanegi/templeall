@@ -24,7 +24,7 @@ import { downloadFile } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import moment from "moment";
-import { encryptData, secretKey } from "../utils/encrypt";
+import { decryptData, encryptData, secretKey } from "../utils/encrypt";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
         : "",
     password:
       typeof userInfo === "object" && userInfo !== null
-        ? userInfo.password || ""
+        ? decryptData(userInfo.password, secretKey) || ""
         : "",
     rememberme: userInfo !== null,
   };
@@ -76,7 +76,8 @@ const Login: React.FC = () => {
     try {
       const { username, password, rememberme } = values;
       const payloadData = {username, password}
-      const loginObj = {username, password , mode:"WEB"}
+      const encryptedPasword:string = await encryptData(password, secretKey)
+      const loginObj = {username, password:encryptedPasword, mode:"WEB" }
       const encryptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
       const newData = { payload:encryptedpayload, mode: "WEB" };
       const { data, status } = await apiService.post<any>(API_URL.login, {

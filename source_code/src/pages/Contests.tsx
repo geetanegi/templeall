@@ -21,6 +21,7 @@ import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
 import { ensureUTC } from "../utils/TimeUtils";
+import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 
 // interface recurrence {
 //   frequency: string;
@@ -155,6 +156,10 @@ const Contests: React.FC = () => {
   const navigate = useNavigate();
 
   const [editData, setEditData] = useState<any>(null);
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
     contestType: editData?.contestType,
@@ -469,6 +474,18 @@ const Contests: React.FC = () => {
     }
   };
 
+  const handleBack = (dirtyCheck: boolean) => {
+    if (dirtyCheck) {
+      setIsOpenModal(true);
+      return;
+    }
+    navigate(-1);
+  };
+
+  const handleDiscard = () => {
+    navigate(-1);
+  };
+
   return (
     <PageLoader isActive={loader}>
       <div className="bg-gray-100">
@@ -495,7 +512,7 @@ const Contests: React.FC = () => {
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
-                  {({ isSubmitting, values, setFieldValue }) => {
+                  {({ isSubmitting, values, setFieldValue, dirty }) => {
                     handleValues(values);
                     useEffect(() => {
                       if (
@@ -546,7 +563,7 @@ const Contests: React.FC = () => {
                         <div className="flex justify-end gap-4">
                           <button
                             type="button"
-                            onClick={() => navigate(-1)}
+                            onClick={() => handleBack(dirty)}
                             className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
                           >
                             Back
@@ -588,6 +605,12 @@ const Contests: React.FC = () => {
           setSelectedDays={setSelectedDays}
           handleEndDateChange={handleEndDateChange}
           setFrequency={setFrequency}
+        />
+
+        <UnsavedModal
+          isOpenModal={isOpenModal}
+          onClose={onClose}
+          handleDiscard={handleDiscard}
         />
       </div>
     </PageLoader>

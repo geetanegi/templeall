@@ -358,7 +358,7 @@ const Register: React.FC = () => {
                       authFlow={true}
                     />
                     <p className="-mt-4 w-full px-1 text-[12px] font-semibold text-yellowText">
-                      (By proving your phone number, you agree to receive text
+                      (By providing your phone number, you agree to receive text
                       messages from AceCam Golf LLC. Message and data rates may
                       apply.)
                     </p>

@@ -15,6 +15,7 @@ import { PasswordRegex } from "../utils/passwordValidation";
 import { downloadFile } from "../utils/downloadUtils";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import { encryptData, secretKey } from "../utils/encrypt";
 
 const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -54,12 +55,17 @@ const ResetPassword: React.FC = () => {
       dispatch(setLoading(true));
 
       const token = localStorage.getItem("tokenForgetPassword");
+      const payloadData = {
+        password: values.password,
+      }
+      const encreptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
       const newData = {
         data: {
           token,
-          password: values.password,
+          payload: encreptedpayload,
+          mode:"WEB"
         },
-      };
+      }; 
       const { data, status } = await apiService.post<any>(
         API_URL.resetPassword,
         newData,

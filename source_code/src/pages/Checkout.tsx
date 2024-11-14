@@ -11,7 +11,7 @@ import { RootState } from "../store";
 import BreadCumModal from "../components/Contests/Contest Components/BreadCumModal";
 import { API_URL } from "../services/enums";
 import apiService from "../services/apiService";
-import { ToastError } from "../components/Toast";
+import { ToastError, ToastInfo } from "../components/Toast";
 
 import BG from "../assets/images/dashboardBG.svg";
 import { useNavigate } from "react-router-dom";
@@ -126,10 +126,10 @@ const Checkout: React.FC = () => {
         dispatch(setPaymentSuccess(true));
         dispatch(clearAllSelectedContests());
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 

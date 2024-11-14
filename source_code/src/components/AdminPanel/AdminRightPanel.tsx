@@ -58,13 +58,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const userPermisions = useSelector(
       (state: RootState) => state.auth.userPermissions,
     );
+    const loader = useSelector((state: RootState) => state.loader.isLoading);
     const [tableHeaders, setTableHeaders] = useState<any>([]);
     const [rowData, setRowData] = useState<Array<any>>([]);
     const [pageSize, setPageSize] = useState<number>(10);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
     const [searchString, setSearchString] = useState<string>("");
-    const [fetchingUserData, setFetchingUserData] = useState<boolean>(true);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -90,7 +90,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ) || [];
           setRowData(computeTableData(currentItems, selectedUserTab));
         } else {
-          if (searchString.length === 0 && !fetchingUserData) {
+          if (searchString.length === 0 && !loader) {
             getUserData();
           }
         }
@@ -163,7 +163,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     const getUserData = async () => {
       dispatch(setLoading(true));
-      setFetchingUserData(false);
       try {
         let payload: PayloadTypes = {};
         let listingEndPoint = API_URL.getAllPlayer;
@@ -216,7 +215,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         console.error(error);
       } finally {
         dispatch(setLoading(false));
-        setFetchingUserData(true);
       }
     };
 

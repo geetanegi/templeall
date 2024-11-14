@@ -82,7 +82,37 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     requestId: "",
   });
   const [isVisible, setIsVisible] = useState<any>("");
+
+  //  pagination implemented
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<any[]>([]);
+
   const dispatch = useDispatch();
+
+  const filterByContestType = () => {
+    const filterData = rowData.filter((video) => {
+      return video.contestName == filterValue;
+    });
+    setDataLength(filterData.length);
+    return filterData || [];
+  };
+
+  //  total number of rows getting
+  const calculatedRowData =
+    filterValue && selectedTab === 1 ? filterByContestType() : rowData;
+
+  //  useEffect  calcualted no. of rows data based on pagination num ber selected and updated on table
+  useEffect(() => {
+    const startIndex = currentPage * pageSize;
+    const currentItems: any =
+      calculatedRowData?.slice(
+        startIndex,
+        Number(startIndex) + Number(pageSize),
+      ) || [];
+
+    setTotalPages(currentItems);
+  }, [pageSize, currentPage, calculatedRowData]);
 
   useEffect(() => {
     getVideosList();
@@ -143,14 +173,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setActiveStatus("");
       setIsStatusChange(false);
     }
-  };
-
-  const filterByContestType = () => {
-    const filterData = rowData.filter((video) => {
-      return video.contestName == filterValue;
-    });
-    setDataLength(filterData.length);
-    return filterData || [];
   };
 
   const makeApiCall = async (endPoint: string) => {
@@ -535,24 +557,21 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setRowData([]);
     }
   };
-
   return (
     <div className="px-10">
       <PageLoader isActive={loader}>
         <TableComponent
-          rowData={
-            filterValue && selectedTab === 1 ? filterByContestType() : rowData
-          }
+          rowData={totalPages}
           Headers={computeMediaHeaders(
             selectedTab,
             isCourseAdmin ? "courseAdmin" : "",
           )}
-          currentPage={0}
-          pageSize={10}
-          setCurrentPage={() => {}}
-          setPageSize={() => {}}
-          totalPages={1}
-          pagination={false}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          totalPages={Math.ceil(calculatedRowData.length / Number(pageSize))}
+          setCurrentPage={setCurrentPage}
+          setPageSize={setPageSize}
+          pagination={calculatedRowData?.length > 10 ? true : false}
           style="min-w-[150px]"
         />
       </PageLoader>

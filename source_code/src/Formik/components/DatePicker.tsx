@@ -3,7 +3,7 @@ import { Field, ErrorMessage, FieldProps } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker as MUIDatePicker } from "@mui/x-date-pickers/DatePicker";
-import TextError from "./TextError"; // Ensure you have this component for error messages
+// import TextError from "./TextError"; // Ensure you have this component for error messages
 import dayjs, { Dayjs } from "dayjs";
 
 interface DatePickerProps {
@@ -94,33 +94,34 @@ const DatePicker: React.FC<DatePickerProps> = ({
                       color: "white",
                       borderRadius: "5px",
                       border: "1.5px solid",
-                      borderColor: hasError || isIncomplete ? "red" : "white",
+                      borderColor:
+                        hasError || isIncomplete ? "#ffde59" : "white",
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: hasError ? "red" : "lightgray",
+                        borderColor: hasError ? "#ffde59" : "lightgray",
                       },
                       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: hasError ? "red" : "white",
+                        borderColor: hasError ? "#ffde59" : "white",
                         borderWidth: "0",
                       },
                       "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "red !important",
+                        borderColor: "#ffde59 !important",
                       },
                     },
                     "& .MuiInputLabel-root": {
-                      color: hasError || isIncomplete ? "red" : "white",
+                      color: hasError || isIncomplete ? "#ffde59" : "white",
                       position: "absolute",
                       pointerEvents: "none",
                       marginTop: error ? "12px" : marginTop(),
                       "&.Mui-focused": {
                         marginTop: "12px",
-                        color: hasError ? "red" : "white",
+                        color: hasError ? "#ffde59" : "white",
                       },
                     },
                     "& .MuiSvgIcon-fontSizeMedium": {
-                      color:"#ffffff"
+                      color: "#ffffff",
                     },
                     "& .MuiFormHelperText-root": {
-                      color: "red",
+                      color: "#ffde59",
                       marginLeft: "5px",
                     },
                   }}
@@ -130,10 +131,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
           );
         }}
       </Field>
-      <ErrorMessage
-        name={name}
-        component={TextError as React.ComponentType<{}>}
-      />
+      <span
+        style={{
+          color: "#FFDE59",
+          fontSize: "0.875rem",
+        }}
+      >
+        <ErrorMessage name={name} component="span" />
+      </span>
     </div>
   );
 };

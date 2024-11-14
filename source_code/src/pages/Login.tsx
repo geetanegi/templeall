@@ -24,6 +24,7 @@ import { downloadFile } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import moment from "moment";
+import { decryptData, encryptData, secretKey } from "../utils/encrypt";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const Login: React.FC = () => {
         : "",
     password:
       typeof userInfo === "object" && userInfo !== null
-        ? userInfo.password || ""
+        ? decryptData(userInfo.password, secretKey) || ""
         : "",
     rememberme: userInfo !== null,
   };
@@ -74,7 +75,11 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const { username, password, rememberme } = values;
-      const newData = { username, password, mode: "WEB" };
+      const payloadData = {username, password}
+      const encryptedPasword:string = await encryptData(password, secretKey)
+      const loginObj = {username, password:encryptedPasword, mode:"WEB" }
+      const encryptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
+      const newData = { payload:encryptedpayload, mode: "WEB" };
       const { data, status } = await apiService.post<any>(API_URL.login, {
         data: newData,
       });
@@ -88,7 +93,7 @@ const Login: React.FC = () => {
           dispatch(
             login({
               token: data?.data?.token,
-              userInfo: { ...newData, userId: data?.data?.userId },
+              userInfo: { ...loginObj, userId: data?.data?.userId },
             }),
           );
           navigate("/dashboard");
@@ -129,7 +134,9 @@ const Login: React.FC = () => {
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
         </div>
-        <h3 className="my-5 py-3 font-semibold text-[#FFFFFF] md:my-1">-OR-</h3>
+        <h3 className="my-5 py-3 text-[14px] font-semibold text-[#FFFFFF] md:my-1">
+          -OR-
+        </h3>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -148,6 +155,7 @@ const Login: React.FC = () => {
                 required={true}
                 maxLength={25}
                 validateRegex={ALPHANUMERIC_REGEX}
+                authFlow={true}
               />
             </div>
             <div className="mb-4">
@@ -160,6 +168,7 @@ const Login: React.FC = () => {
                 type="password"
                 required={true}
                 maxLength={25}
+                authFlow={true}
               />
             </div>
             <div className="mb-4"></div>
@@ -169,9 +178,11 @@ const Login: React.FC = () => {
                   <Field
                     type="checkbox"
                     name="rememberme"
-                    className="form-checkbox h-4 w-4 leading-tight text-blue-400"
+                    className="form-checkbox h-4 w-4 border border-[#0077B6] accent-[#0077B6]"
                   />
-                  <span className="ml-2 text-[#FFFFFF]">Remember me ?</span>
+                  <span className="ml-2 text-[14px] text-[#FFFFFF]">
+                    Remember me ?
+                  </span>
                 </label>
                 <ErrorMessage
                   name="rememberme"
@@ -188,19 +199,19 @@ const Login: React.FC = () => {
             </button>
           </Form>
         </Formik>
-        <div className="f mt-2 flex w-full max-w-sm gap-1 text-sm sm:justify-between md:max-w-md">
-          <p className={`text-primaryText`}>
+        <div className="f mt-2 flex w-full max-w-sm gap-1 text-[14px] sm:justify-between md:max-w-md">
+          <p className={`text-[14px] text-primaryText`}>
             Don't have an account?{" "}
             <Link
               to={ROUTES.SIGNUP}
-              className={`text-sm text-link hover:underline`}
+              className={`text-[14px] text-link hover:underline`}
             >
               Sign Up
             </Link>
           </p>
           <Link
             to={ROUTES.FORGET_PASSWORD}
-            className={`text-sm text-link hover:underline`}
+            className={`text-[14px] text-link hover:underline`}
           >
             Forgot Password?
           </Link>

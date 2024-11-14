@@ -11,6 +11,7 @@ interface InputProps {
   required?: boolean;
   maxLength?: number;
   validateRegex?: RegExp;
+  authFlow?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
   required = false,
   maxLength,
   validateRegex,
+  authFlow,
 }) => {
   // Function to validate input and block special characters and spaces
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -44,14 +46,30 @@ const Input: React.FC<InputProps> = ({
               <span style={{ display: "flex", alignItems: "center" }}>
                 {label}
                 {required && (
-                  <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
+                  <span
+                    style={{
+                      color: authFlow ? "#FFDE59" : "red",
+                      marginLeft: "0.25rem",
+                    }}
+                  >
+                    *
+                  </span>
                 )}
               </span>
             }
             variant="filled"
             fullWidth
             InputLabelProps={{ shrink: true }}
-            helperText={<ErrorMessage name={name} component="span" />}
+            helperText={
+              <span
+                style={{
+                  color: authFlow ? "#FFDE59" : "red",
+                  fontSize: "0.875rem",
+                }}
+              >
+                <ErrorMessage name={name} component="span" />
+              </span>
+            }
             error={Boolean(form.errors[name] && form.touched[name])}
             inputProps={{ maxLength }}
             onKeyPress={handleKeyPress} // Attach the key press handler
@@ -70,15 +88,15 @@ const Input: React.FC<InputProps> = ({
                 },
                 "&.Mui-error": {
                   backgroundColor: "#00000099 !important", // Ensure consistency on error
-                  border: "1.5px solid red !important",
+                  border: `1.5px solid ${authFlow ? "#FFDE59" : "red"} !important`,
                 },
                 "&.Mui-error:hover": {
                   backgroundColor: "#00000099 !important", // Ensure consistency on error hover
-                  border: "1.5px solid red !important",
+                  border: `1.5px solid ${authFlow ? "#FFDE59" : "red"} !important`,
                 },
                 "&.Mui-error.Mui-focused": {
                   backgroundColor: "#00000099 !important", // Ensure consistency on error focus
-                  border: "1.5px solid red !important",
+                  border: `1.5px solid ${authFlow ? "#FFDE59" : "red"} !important`,
                 },
               },
               "& .MuiInputLabel-root": {
@@ -87,6 +105,9 @@ const Input: React.FC<InputProps> = ({
                 alignItems: "center",
                 "&.Mui-focused": {
                   color: "white",
+                },
+                "&.Mui-error": {
+                  color: `${authFlow ? "#FFDE59" : "red"}`, // Custom color for error label
                 },
                 // Hide default asterisk
                 "& .MuiInputLabel-asterisk": {
@@ -110,7 +131,7 @@ const Input: React.FC<InputProps> = ({
                 },
               },
               "& .MuiFormHelperText-root": {
-                color: "red",
+                color: `${authFlow ? "#FFDE59" : "red"}`,
                 marginLeft: "5px",
               },
             }}

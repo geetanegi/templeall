@@ -11,15 +11,15 @@ import MUIInput from "./MUIInput";
 
 interface FormikControlProps {
   control:
-  | "input"
-  | "textarea"
-  | "select"
-  | "radio"
-  | "checkbox"
-  | "customCheckbox"
-  | "number"
-  | "date"
-  | "customInput";
+    | "input"
+    | "textarea"
+    | "select"
+    | "radio"
+    | "checkbox"
+    | "customCheckbox"
+    | "number"
+    | "date"
+    | "customInput";
 
   [key: string]: any;
 }
@@ -33,17 +33,20 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
           name={rest.name}
           maxLength={rest.maxLength}
           validateRegex={rest.validateRegex}
+          authFlow={rest.authFlow}
           {...rest}
         />
       );
-    case 'customInput':
-      return <MUIInput
-        label={rest.label}
-        name={rest.name}
-        maxLength={rest.maxLength}
-        validateRegex={rest.validateRegex}
-        {...rest}
-      />
+    case "customInput":
+      return (
+        <MUIInput
+          label={rest.label}
+          name={rest.name}
+          maxLength={rest.maxLength}
+          validateRegex={rest.validateRegex}
+          {...rest}
+        />
+      );
     case "textarea":
       return (
         <Textarea

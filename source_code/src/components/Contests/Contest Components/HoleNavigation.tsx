@@ -1,5 +1,4 @@
 import React from "react";
-import { Info } from "lucide-react";
 import Golf from "../../../assets/images/golf_course.png";
 import WhiteGolf from "../../../assets/images/golf_course (1).png";
 import {

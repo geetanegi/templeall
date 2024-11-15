@@ -49,7 +49,7 @@ const LiveLeaderBoard: React.FC = () => {
         ToastError(data.description);
       }
     } catch (error) {
-      console.error(error);;
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -178,6 +178,7 @@ const LiveLeaderBoard: React.FC = () => {
         {leaderBoardData?.data?.leaderboard && (
           <LeaderBoardTable
             leaderBoardData={leaderBoardData.data.leaderboard}
+            registered={leaderBoardData?.data.contestInfo?.registered}
           />
         )}
       </div>

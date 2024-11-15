@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routesPath";
 import { Lock } from "lucide-react";
 
-const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
-  leaderBoardData,
-}) => {
+const LeaderBoardTable: React.FC<{
+  leaderBoardData: LeaderboardEntry[];
+  registered: Boolean;
+}> = ({ leaderBoardData, registered = true }) => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
@@ -82,12 +83,14 @@ const LeaderBoardTable: React.FC<{ leaderBoardData: LeaderboardEntry[] }> = ({
           greenTheme={true}
         />
         <div className="text-right">
-          <button
-            className="text-[14px] font-semibold text-[#95C11E] underline"
-            onClick={() => setOpenModal(true)}
-          >
-            See full leaderboard
-          </button>
+          {registered && (
+            <button
+              className="text-[14px] font-semibold text-[#95C11E] underline"
+              onClick={() => setOpenModal(true)}
+            >
+              See full leaderboard
+            </button>
+          )}
         </div>
       </div>
       <Modal

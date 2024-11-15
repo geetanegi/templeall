@@ -9,7 +9,7 @@ import { Lock } from "lucide-react";
 const LeaderBoardTable: React.FC<{
   leaderBoardData: LeaderboardEntry[];
   registered: Boolean;
-}> = ({ leaderBoardData, registered = true }) => {
+}> = ({ leaderBoardData, registered }) => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [tableData, setTableData] = useState<any>([]);

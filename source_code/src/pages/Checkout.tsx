@@ -11,7 +11,7 @@ import { RootState } from "../store";
 import BreadCumModal from "../components/Contests/Contest Components/BreadCumModal";
 import { API_URL } from "../services/enums";
 import apiService from "../services/apiService";
-import { ToastError, ToastInfo } from "../components/Toast";
+import { ToastInfo } from "../components/Toast";
 
 import BG from "../assets/images/dashboardBG.svg";
 import { useNavigate } from "react-router-dom";

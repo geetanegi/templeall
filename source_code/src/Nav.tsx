@@ -379,7 +379,7 @@ const Nav: React.FC = () => {
                   />
                 ) : (
                   <div className="w-10">
-                    <img src={defaultUserImage} alt="" className="w-fulll" />
+                    <img src={defaultUserImage} alt="" className="w-full" />
                   </div>
                 )}
               </div>

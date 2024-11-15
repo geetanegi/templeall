@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import aceCampLogo from "./assets/images/AceCam-logo.png";
+import aceCampLogo from "./assets/images/Branding.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./reducers/login/login";
 import { RootState } from "./store";

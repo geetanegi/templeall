@@ -378,7 +378,7 @@ const Nav: React.FC = () => {
                     alt="user photo"
                   />
                 ) : (
-                  <img src={defaultUserImage} alt="" className="h-10 w-10" />
+                  <img src={defaultUserImage} alt="" className="w-fulll" />
                 )}
               </div>
               <div className="mx-4">

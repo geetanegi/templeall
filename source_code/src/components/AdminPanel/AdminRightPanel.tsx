@@ -5,6 +5,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
   ForwardedRef,
+  useCallback,
 } from "react";
 import TableComponent from "../TableComponent";
 import apiService from "../../services/apiService";
@@ -17,6 +18,7 @@ import { ToastError, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
+import { debounceFunc } from "../../utils/debounce-utils";
 
 interface AdminRightPanelProps {
   selectedUserTab: number;
@@ -36,6 +38,7 @@ interface PageSortingParam {
 
 interface PayloadTypes {
   pageSortingParam?: PageSortingParam;
+  searchParams?: any;
 }
 
 export interface AdminRightPanelHandle {
@@ -58,14 +61,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const userPermisions = useSelector(
       (state: RootState) => state.auth.userPermissions,
     );
-    const loader = useSelector((state: RootState) => state.loader.isLoading);
     const [tableHeaders, setTableHeaders] = useState<any>([]);
     const [rowData, setRowData] = useState<Array<any>>([]);
     const [pageSize, setPageSize] = useState<number>(10);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
     const [searchString, setSearchString] = useState<string>("");
-    const [fetchingUserData, setFetchingUserData] = useState<boolean>(true);
+    const [totalElement, setTotalElement] = useState<number>(10)
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -80,28 +81,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     }, [selectedUserTab]);
 
     useEffect(() => {
-      if (searchString.length === 0) {
-        if (selectedUserTab === 2 || selectedUserTab === 1) {
-          setTotalPages(0);
-          const startIndex = currentPage * pageSize;
-          const currentItems =
-            totalAdminCount?.slice(
-              startIndex,
-              Number(startIndex) + Number(pageSize),
-            ) || [];
-          setRowData(computeTableData(currentItems, selectedUserTab));
-        } else {
-          if (searchString.length === 0 && !loader) {
-            getUserData();
-          }
-        }
-      }
-    }, [pageSize, currentPage, totalAdminCount, searchString]);
+      getUserData();
+    }, [pageSize, currentPage,]);
 
     useEffect(() => {
       if (selectedUserTab === 3) {
         if (searchString.length) {
-          handleUserSearch();
+          getUserData(searchString);
         }
       }
     }, [currentPage, pageSize]);
@@ -162,9 +148,8 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       });
     };
 
-    const getUserData = async () => {
+    const getUserData = async (searchValue?: string) => {
       dispatch(setLoading(true));
-      setFetchingUserData(false);
       try {
         let payload: PayloadTypes = {};
         let listingEndPoint = API_URL.getAllPlayer;
@@ -177,6 +162,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageNumber: currentPage,
             pageSize: pageSize,
           };
+          if (searchValue) {
+            payload.searchParams = {
+              username: searchValue,
+              firstName: searchValue,
+              lastName: searchValue,
+            };
+          }
         } else if (selectedUserTab === 2) {
           if (
             isCourseAdmin &&
@@ -189,13 +181,53 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
                   ? userInfo.userId
                   : undefined,
             } as PayloadTypes;
+            payload.pageSortingParam = {
+              sortDir: "ASC",
+              sortBy: "username",
+              pageNumber: currentPage,
+              pageSize: 2,
+            };
+            payload.searchParams = {}
+            if (searchValue) {
+              payload.searchParams = {
+                username: searchValue,
+                firstName: searchValue,
+                lastName: searchValue,
+              };
+            }
           } else {
             listingEndPoint = API_URL.getAllCourseAdmin;
+            payload.pageSortingParam = {
+              sortDir: "ASC",
+              sortBy: "username",
+              pageNumber: currentPage,
+              pageSize: pageSize,
+            };
+            if (searchValue) {
+              payload.searchParams = {
+                username: searchValue,
+                firstName: searchValue,
+                lastName: searchValue,
+              };
+            }
           }
           setTableHeaders(computeTableHeaders("courseAdmin"));
         } else if (selectedUserTab === 1) {
           listingEndPoint = API_URL.getAllSuperAdmin;
           setTableHeaders(computeTableHeaders("superAdmin"));
+          payload.pageSortingParam = {
+            sortDir: "ASC",
+            sortBy: "username",
+            pageNumber: currentPage,
+            pageSize: pageSize,
+          };
+          if (searchValue) {
+            payload.searchParams = {
+              username: searchValue,
+              firstName: searchValue,
+              lastName: searchValue,
+            };
+          }
         }
 
         const { data, status } = await apiService.post<any>(listingEndPoint, {
@@ -204,11 +236,8 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
         if (status === 200 && data?.data != null && !data?.error) {
           setTotalPages(data.data.totalPages);
-          if (selectedUserTab === 3) {
-            setRowData(computeTableData(data.data.content, selectedUserTab));
-          } else {
-            setTotalAdminCount(data.data.content);
-          }
+          setTotalElement(data.data.totalElements)
+          setRowData(computeTableData(data.data.content, selectedUserTab));
           handleRefreshUserCount();
         } else if (data?.error && data.description) {
           ToastError(data.description);
@@ -217,7 +246,6 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         console.error(error);
       } finally {
         dispatch(setLoading(false));
-        setFetchingUserData(true);
       }
     };
 
@@ -306,88 +334,18 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       }
     };
 
-    const getPlayer = async () => {
-      dispatch(setLoading(true));
-      try {
-        const payload = {
-          username: searchString,
-          firstName: searchString,
-          lastName: searchString,
-        };
-
-        const { data, status } = await apiService.post<any>(
-          API_URL.searchAllPlayer,
-          {
-            data: {
-              searchParams: payload,
-              pageSortingParam: {
-                sortDir: "ASC",
-                sortBy: "username",
-                pageNumber: currentPage,
-                pageSize: pageSize,
-              },
-            },
-          },
-        );
-        if (status === 200 && data?.data != null && !data?.error) {
-          setRowData(
-            computeTableData(data?.data?.content || [], selectedUserTab),
-          );
-          setTotalPages(data.data.totalPages);
-        } else if (data?.error && data.description) {
-          ToastError(data.description);
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        dispatch(setLoading(false));
-      }
-      if (!searchString) {
-      }
+    const handleUserSearch = (value: string) => {
+      getUserData(value);
     };
 
-    const handleUserSearch = () => {
-      if (selectedUserTab === 3) {
-        if (searchString) {
-          getPlayer();
-        } else {
-          getUserData();
-        }
-      } else {
-        try {
-          dispatch(setLoading(true));
-          const lowercasedTerm = searchString.toLowerCase();
-          const searchedData = totalAdminCount.filter(
-            (user: any) =>
-              user.firstName?.toLowerCase().includes(lowercasedTerm) ||
-              user.lastName?.toLowerCase().includes(lowercasedTerm) ||
-              user.username?.toLowerCase().includes(lowercasedTerm),
-          );
-          if (searchedData && searchedData.length) {
-            const startIndex = currentPage * pageSize;
-            const currentItems =
-              searchedData?.slice(
-                startIndex,
-                Number(startIndex) + Number(pageSize),
-              ) || [];
-            setTotalPages(Math.ceil(searchedData.length / pageSize));
-            setRowData(computeTableData(currentItems, selectedUserTab));
-          } else {
-            if (selectedUserTab === 2) {
-              setRowData([]);
-              ToastError("Sorry, no course admin matches your search criteria");
-            } else if (selectedUserTab === 1) {
-              setRowData([]);
-              ToastError("Sorry, no super admin matches your search criteria");
-            }
-          }
-        } catch (error) {
-        } finally {
-          dispatch(setLoading(false));
-        }
-      }
-    };
+    const debouncedGetPlayer = useCallback(
+      debounceFunc(
+        (value: React.ChangeEvent<HTMLInputElement>) =>
+          handleUserSearch(value.target.value),
+        1000,
+      ),
+      [],
+    );
 
     return (
       <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
@@ -397,14 +355,15 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
               value={searchString}
-              onChange={(event) => {
-                setSearchString(event.target.value);
+              onChange={(e) => {
+                debouncedGetPlayer(e);
+                setSearchString(e.target.value);
               }}
               placeholder={computeSearchPlaceholder()}
               maxLength={100}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleUserSearch();
+                  handleUserSearch(searchString);
                 }
               }}
             />
@@ -412,7 +371,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               size={20}
               color="gray"
               onClick={() => {
-                handleUserSearch();
+                handleUserSearch(searchString);
               }}
             />
           </div>
@@ -425,29 +384,18 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             </button>
           )}
         </div>
-        {/* <PageLoader isActive={loader}> */}
         <TableComponent
           Headers={tableHeaders}
           rowData={rowData}
           currentPage={currentPage}
-          totalPages={
-            selectedUserTab == 3
-              ? totalPages
-              : searchString
-                ? totalPages
-                : Math.ceil(totalAdminCount.length / Number(pageSize))
-          }
-          pagination={
-            selectedUserTab == 3 || searchString
-              ? totalPages > 1
-              : totalAdminCount.length / Number(pageSize) > 1
-          }
+          totalPages={totalPages}
+          pagination={totalPages > 1}
           setCurrentPage={setCurrentPage}
           pageSize={pageSize}
           setPageSize={setPageSize}
-          totalAdminCount={totalAdminCount}
+          totalElement={totalElement}
+          elementPerPage={rowData.length}
         />
-        {/* </PageLoader> */}
       </div>
     );
   },

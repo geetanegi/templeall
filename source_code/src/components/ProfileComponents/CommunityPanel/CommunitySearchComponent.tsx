@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { setLoading } from "../../../reducers/loader/loader";
 import apiService from "../../../services/apiService";
 import { API_URL } from "../../../services/enums";
@@ -24,19 +24,37 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
   const [searchString, setSearchString] = useState<string>("");
   const [playersList, setPlayerList] = useState<any>();
 
+  useEffect(()=>{
+    getPlayer(searchString)
+  },[])
+
   const getPlayer = async (value?: string) => {
     dispatch(setLoading(true));
     setPlayerList([]);
     try {
       const payload = {
-        username: searchString || value,
-        firstName: searchString || value,
-        lastName: searchString || value,
-        email: searchString || value,
+        username: value || searchString,
+        firstName: value || searchString,
+        lastName: value || searchString,
       };
+      let payloadData = {};
+      if (value) {
+        payloadData = { data: { searchParams: payload } };
+      } else {
+        payloadData = {
+          data: {
+            pageSortingParam: {
+              sortDir: "DESC",
+              sortBy: "createdDate",
+              pageNumber: "0",
+              pageSize: "10",
+            },
+          },
+        };
+      }
       const { data, status } = await apiService.post<any>(
         API_URL.searchPlayer,
-        { data: { searchParams: payload } },
+        payloadData,
       );
       if (status === 200 && data?.data != null && !data?.error) {
         setPlayerList(data?.data?.content || []);
@@ -57,13 +75,18 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
   // Debounce the getPlayer function
   // Debounce function, make sure it's created once
   const debouncedGetPlayer = useCallback(
-    debounceFunc((value: string) => getPlayer(value), 1000),
+    debounceFunc(
+      (value: React.ChangeEvent<HTMLInputElement>) =>
+        handleInputChange(value.target.value),
+      1000,
+    ),
     [],
   );
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+  const handleInputChange = (event: string) => {
+    const value = event;
     setSearchString(value);
-    debouncedGetPlayer(value);
+    getPlayer(value);
+
   };
   const scrollbarStyles: React.CSSProperties = {
     overflow: "auto", // Enable scrolling
@@ -81,7 +104,7 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
           className="w-full bg-gray-100 focus:outline-none"
           type="text"
           placeholder="Search Player"
-          onChange={handleInputChange}
+          onChange={debouncedGetPlayer}
         />
         <Search
           size={20}

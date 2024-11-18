@@ -38,7 +38,7 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
         dispatch(setSelectedCourseId(course.id));
         dispatch(setCourseName(course.courseName));
       }}
-      className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-md ${course.id === selectedCourseId ? "border-2 border-[#95c11e]" : ""} `}
+      className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-md ${course.id === selectedCourseId ? "border-2 border-primaryColor" : ""} `}
     >
       <img
         src={

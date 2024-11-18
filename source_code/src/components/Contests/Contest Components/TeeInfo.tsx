@@ -1,5 +1,6 @@
 import React from "react";
 import GolfGreenTee from "../../../assets/images/sports_golf_active.svg";
+
 import GolfTee from "../../../assets/images/sports_golf_default.svg";
 import {
   setSelectedTeeId,
@@ -48,7 +49,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
               <img src={GolfTee} alt="" className="h-6 w-6" />
             )}
             <span
-              className={`text-sm ${tee.id === selectedTeeId ? "text-[#95c11e]" : "text-gray-500"}`}
+              className={`text-sm ${tee.id === selectedTeeId ? "text-primaryColor" : "text-gray-500"}`}
             >{`${tee.teeName} (${tee.yardage} yards) `}</span>
           </div>
           <div>

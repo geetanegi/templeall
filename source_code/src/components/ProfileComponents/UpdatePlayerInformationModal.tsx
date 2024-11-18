@@ -4,7 +4,7 @@ import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
@@ -12,8 +12,8 @@ import { CourseApiResponse } from "../AdminPanel/courses/courses.interface";
 import { ChevronDown } from "lucide-react";
 import moment from "moment";
 import {
-  CardCvcElement,
-  CardExpiryElement,
+  // CardCvcElement,
+  // CardExpiryElement,
   CardNumberElement,
   useElements,
   useStripe,
@@ -124,7 +124,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
   const [maxDate, setMaxDate] = useState("");
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
   const [cardTouched, setCardTouched] = useState(false);
-  const [cardError, setCardError] = useState<string | null>(null);
+  const [_cardError, setCardError] = useState<string | null>(null);
   const [isCardEmpty, setIsCardEmpty] = useState(true);
   const fetchCourseList = async () => {
     try {
@@ -137,10 +137,10 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
       if (res.status === 200 && !res.data.error) {
         setCourses(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -180,7 +180,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
         fetchUserInformation();
         setIsModalOpen(false);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -398,10 +398,11 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                     <div className="mb-4 flex w-[100%] gap-4 lg:w-auto">
                       <input
                         name="countryCode"
-                        className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-4 py-3"
+                        className="ml-5 w-[15%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 px-4 py-3 text-[#7B7887]"
                         value={values.countryCode}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        disabled
                         type="text"
                       />
                       <input
@@ -417,8 +418,9 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                           }
                         }}
                         onBlur={handleBlur}
+                        disabled
                         maxLength={10}
-                        className="w-[71%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
+                        className="w-[71%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500"
                       />
                     </div>
                     <div className="mb-5 ml-6">
@@ -582,7 +584,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                   </div>
 
                   {/* Card Inforemation */}
-                  <div className="mb-3 ml-5 text-[20px] font-semibold">
+                  {/* <div className="mb-3 ml-5 text-[20px] font-semibold">
                     Card Information
                   </div>
                   <div className="flex flex-col">
@@ -675,7 +677,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                       onBlur={handleBlur}
                       className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-[#6B7280] md:w-[430px]"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6">

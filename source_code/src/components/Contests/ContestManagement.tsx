@@ -9,7 +9,7 @@ import SwitchComponent from "../SwitchComponent";
 import BG from "../../assets/images/dashboardBG.svg";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { MdSportsGolf } from "react-icons/md";
 
 import Modal from "../ModalComponent";
@@ -45,7 +45,8 @@ const ContestManagement = () => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
-
+  const [totalPages, setTotalPages] = useState<number>(0)
+  const [totalElement, setTotalElement] = useState<number>(10)
   const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<any>(0);
   const [currentStatus, setCurrentStatus] = useState<any>(null);
@@ -56,8 +57,8 @@ const ContestManagement = () => {
   );
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
   const [holesList, setHolesList] = useState<HoleListResponse | null>(null);
-  const [selectedHoles, setSelectedHoles] = useState<string[]>([]);
-  const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [selectedHoles, setSelectedHoles] = useState<string >('');
+  const [selectedCourse, setSelectedCourse] = useState<{name:string, id:number}>({name:"", id:1});
 
   const dispatch = useDispatch();
 
@@ -72,14 +73,14 @@ const ContestManagement = () => {
       if (res.status === 200 && !res.data.error) {
         setCourses(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const fetchHoleList = async (selectedCourseId: number) => {
+  const fetchHoleList = async (selectedCourseId: string | number) => {
     try {
       const res = await apiService.post<HoleListResponse>(
         API_URL.getHoleByCourseId,
@@ -92,34 +93,40 @@ const ContestManagement = () => {
       if (res.status === 200 && !res.data.error) {
         setHolesList(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching hole data");
+        ToastInfo(res.data.description || "Error fetching hole data");
       }
     } catch (error) {
-      ToastError("Error fetching hole data");
+      ToastInfo("Error fetching hole data");
     }
   };
 
   useEffect(() => {
     fetchCourseList();
-  }, []);
+  }, [selectedHoles, selectedCourse, currentStatus, selectedContestType]);
 
   useEffect(() => {
     if (selectedCourse) {
-      fetchHoleList(selectedCourse);
+      fetchHoleList(selectedCourse.id);
     } else {
       setHolesList(null);
     }
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCourseId = parseInt(event.target.value);
-    setSelectedCourse(selectedCourseId);
+    setSelectedCourse({name: event.target.value, id:1});
     setHolesList(null); // Reset holesList to null when course changes
-    setSelectedHoles([]); // Reset selectedHoles to an empty array
+    setSelectedHoles(''); // Reset selectedHoles to an empty array
   };
 
   const handleSelectedValuesChange = (selectedValues: string[]) => {
-    setSelectedHoles(selectedValues);
+    let selectedHolesData = "";
+    selectedValues.forEach((item, index)=>{
+      selectedHolesData= selectedHolesData + item
+      if(index < selectedValues.length - 1){
+        selectedHolesData = selectedHolesData + ","
+      }
+    })
+    setSelectedHoles(selectedHolesData);
   };
 
   interface ContestApiResponse {
@@ -130,43 +137,17 @@ const ContestManagement = () => {
   }
 
   useEffect(() => {
-    fetchContestList(currentStatus);
+    fetchContestList();
   }, [currentStatus, selectedContestType, selectedCourse, selectedHoles]);
 
   useEffect(() => {
-    computePagination();
-  }, [pageSize, currentPage, totalAdminCount]);
+    fetchContestList();
+  }, [pageSize, currentPage]);
 
-  const computeFiter = (data: any) => {
-    let filteredData = data;
-    if (selectedContestType) {
-      filteredData = filteredData?.filter(
-        (item: any) => item.contestType === selectedContestType,
-      );
-    }
-    if (selectedCourse) {
-      filteredData = filteredData?.filter(
-        (item: any) => item.course.id === selectedCourse,
-      );
-    }
-    if (selectedHoles.length) {
-      filteredData = filteredData?.filter((item: any) =>
-        selectedHoles.includes(item.hole.id.toString()),
-      );
-    }
-    return filteredData;
-  };
+  useEffect(()=>{
+    setRowData(computeTableData(totalAdminCount));
+  },[totalAdminCount])
 
-  const computePagination = async () => {
-    const startIndex = (await currentPage) * pageSize;
-    const currentItems =
-      (await totalAdminCount?.slice(
-        startIndex,
-        Number(startIndex) + Number(pageSize),
-      )) || [];
-    const tableData = await computeTableData(currentItems);
-    setRowData(tableData);
-  };
 
   const getStatus = (status: string) => {
     if (status == "Active") {
@@ -197,11 +178,11 @@ const ContestManagement = () => {
 
   const computeTableData = (fetchedData: any) => {
     const data = fetchedData?.map((contest: any) => ({
-      "Contest Type": getContestType(contest.contestType),
-      "Club name": contest.club.name || "N/A",
-      "Course Name": contest.course.courseName || "N/A",
-      "Hole number": contest.hole.holeNumber || "N/A",
-      Tee: contest.tee.teeName || "N/A",
+      "Contest Type": contest.contestType,
+      "Club name": contest.clubName || "N/A",
+      "Course Name": contest.courseName || "N/A",
+      "Hole number": contest.holeNumber || "N/A",
+      Tee: contest.teeName || "N/A",
       "Entry fee": "$" + contest.entryFee || "N/A",
       Status: getStatus(contest.activeStatus),
       Actions: isCourseAdmin ? (
@@ -245,15 +226,6 @@ const ContestManagement = () => {
     );
   };
 
-  const getContestType = (contest: string) => {
-    if (contest == "ACE_CAM_JACKPOT") {
-      return "AceCam-Jackpot";
-    }
-    if (contest == "CLOSEST_TO_THE_PIN") {
-      return "Closest-to-the-Pin";
-    }
-  };
-
   const updateActiveStatus = (id: number | string, newStatus: string) => {
     const status = newStatus === "AC" ? "Active" : "Inactive";
     const newData = totalAdminCount.map((contest: any) => {
@@ -268,29 +240,38 @@ const ContestManagement = () => {
     setTotalAdminCount(newData);
   };
 
-  const fetchContestList = async (status: any) => {
+  const fetchContestList = async () => {
     try {
       dispatch(setLoading(true));
       var res = null;
-      if (status == "All Contests") {
         res = await apiService.post<ContestApiResponse>(
           API_URL.getAllContests,
-          { data: { activeStatus: null } },
+          {
+            data: {
+              searchParams: {
+                contestType: selectedContestType || null,
+                activeStatus: currentStatus || null,
+                courseName: selectedCourse.name || null,
+                holeNumbers: selectedHoles.length ? selectedHoles : null,
+              },
+              pageSortingParam: {
+                sortDir: "DESC",
+                sortBy: "createdDate",
+                pageNumber: currentPage,
+                pageSize: pageSize,
+              },
+            },
+          },
         );
-      } else {
-        res = await apiService.post<ContestApiResponse>(
-          API_URL.getAllContests,
-          { data: { activeStatus: status } },
-        );
-      }
+      
 
       if (res.status === 200 && !res.data.error) {
-        const filteredData = await computeFiter(res.data.data);
-        setTotalAdminCount(filteredData);
-        computePagination();
+        setTotalAdminCount(res.data.data.content);
+        setTotalPages(res.data.data.totalPages)
+        setTotalElement(res.data.data.totalElements)
         dispatch(setLoading(false));
       } else {
-        ToastError(res.data.description || "Error fetching contest data");
+        ToastInfo(res.data.description || "Error fetching contest data");
         dispatch(setLoading(false));
       }
     } catch (error) {
@@ -328,10 +309,10 @@ const ContestManagement = () => {
         ToastSuccess(res.data.data.message);
         updateActiveStatus(id, newStatus);
       } else if (res?.data.error && res.data.description) {
-        ToastError(res.data.description || "Error updating contest status");
+        ToastInfo(res.data.description || "Error updating contest status");
       }
     } catch (error) {
-      ToastError("Error updating contest status");
+      ToastInfo("Error updating contest status");
     }
   };
   if (userPermisions?.data?.permission["is_player"]) {
@@ -361,12 +342,12 @@ const ContestManagement = () => {
                 setCurrentStatus(e.target.value);
               }} // Update selected status
             >
-              <option value="All Contests" selected>
+              <option value="" selected>
                 Filter by Status
               </option>
-              <option value="DE">Inactive</option>
-              <option value="AC">Active</option>
-              <option value="CP">Completed</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Active">Active</option>
+              <option value="Completed">Completed</option>
             </select>
             <select
               id="courses"
@@ -379,8 +360,8 @@ const ContestManagement = () => {
               <option value="" selected>
                 Filter by Contests
               </option>
-              <option value="ACE_CAM_JACKPOT">AceCam-Jackpot</option>
-              <option value="CLOSEST_TO_THE_PIN">Closest-to-the-Pin</option>
+              <option value="AceCam-Jackpot">AceCam-Jackpot</option>
+              <option value="Closest-to-the-Pin">Closest-to-the-Pin</option>
             </select>
             <select
               id="courses"
@@ -389,7 +370,7 @@ const ContestManagement = () => {
             >
               <option value="">Filter by Courses</option>
               {courses?.data.map((course) => (
-                <option key={course.id} value={course.id}>
+                <option key={course.id} value={course.courseName}>
                   {course.courseName}
                 </option>
               ))}
@@ -397,13 +378,13 @@ const ContestManagement = () => {
             <CheckboxDropdown
               options={
                 holesList?.data.map((hole) => ({
-                  value: hole.id.toString(),
+                  value: hole.holeNumber.toString(),
                   label: hole.holeNumber.toString(),
                 })) || []
               }
               maxDisplayCount={2}
               label="Filter by Holes"
-              disabled={selectedCourse ? false : true}
+              // disabled={selectedCourse ? false : true}
               onChange={handleSelectedValuesChange}
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
@@ -424,14 +405,14 @@ const ContestManagement = () => {
             Headers={tableHeaders}
             rowData={rowData}
             currentPage={currentPage}
-            totalPages={Math.ceil(totalAdminCount.length / Number(pageSize))}
+            totalPages={totalPages}
             setCurrentPage={setCurrentPage}
-            pagination={
-              Math.ceil(totalAdminCount.length / Number(pageSize)) > 1
-            }
+            pagination={totalPages > 1}
             pageSize={pageSize}
             setPageSize={setPageSize}
             totalAdminCount={totalAdminCount}
+            totalElement={totalElement}
+            elementPerPage={rowData.length}
           />
         </PageLoader>
       </div>

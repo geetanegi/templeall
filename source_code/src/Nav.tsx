@@ -17,7 +17,7 @@ import {
   clearAllSelectedContests,
   resetCourseState,
 } from "./reducers/Courses_data/courses";
-import { ToastError } from "./components/Toast";
+import { ToastInfo } from "./components/Toast";
 import {
   updateProfile,
   updateProfileImage,
@@ -151,7 +151,7 @@ const Nav: React.FC = () => {
         dispatch(updateProfileImage({ profileImage }));
         dispatch(updateProfile({ profiler: data.data }));
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
     } finally {
@@ -201,7 +201,7 @@ const Nav: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         setNotificationList(data?.data);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);

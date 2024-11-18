@@ -10,10 +10,10 @@ import OtpScreen from "../components/OtpScreen";
 import apiService from "../services/apiService";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 const ForgetPassword: React.FC = () => {
@@ -69,9 +69,9 @@ const ForgetPassword: React.FC = () => {
         ToastSuccess(data?.data?.message);
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);
@@ -94,10 +94,10 @@ const ForgetPassword: React.FC = () => {
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   return (

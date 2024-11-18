@@ -20,7 +20,7 @@ import SuccessScreen from "../components/SuccessScreen";
 import apiService from "../services/apiService";
 import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import InstagramLoginComponent from "../components/social-login/InstagramLoginComponent";
 import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
@@ -32,7 +32,7 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 
 const Register: React.FC = () => {
   const stripe = useStripe();
@@ -175,9 +175,9 @@ const Register: React.FC = () => {
         setUsernameValue(username);
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);
@@ -215,11 +215,11 @@ const Register: React.FC = () => {
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   return (

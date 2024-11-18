@@ -4,7 +4,7 @@ import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
@@ -12,8 +12,8 @@ import { CourseApiResponse } from "../AdminPanel/courses/courses.interface";
 import { ChevronDown } from "lucide-react";
 import moment from "moment";
 import {
-  CardCvcElement,
-  CardExpiryElement,
+  // CardCvcElement,
+  // CardExpiryElement,
   CardNumberElement,
   useElements,
   useStripe,
@@ -124,7 +124,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
   const [maxDate, setMaxDate] = useState("");
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
   const [cardTouched, setCardTouched] = useState(false);
-  const [cardError, setCardError] = useState<string | null>(null);
+  const [_cardError, setCardError] = useState<string | null>(null);
   const [isCardEmpty, setIsCardEmpty] = useState(true);
   const fetchCourseList = async () => {
     try {
@@ -137,10 +137,10 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
       if (res.status === 200 && !res.data.error) {
         setCourses(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -180,7 +180,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
         fetchUserInformation();
         setIsModalOpen(false);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -398,7 +398,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                     <div className="mb-4 flex w-[100%] gap-4 lg:w-auto">
                       <input
                         name="countryCode"
-                        className="ml-5 w-[15%] rounded-lg cursor-not-allowed border border-gray-200 border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] px-4 py-3"
+                        className="ml-5 w-[15%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 px-4 py-3 text-[#7B7887]"
                         value={values.countryCode}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -420,7 +420,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         onBlur={handleBlur}
                         disabled
                         maxLength={10}
-                        className="w-[71%] rounded-lg border cursor-not-allowed border-gray-200 border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] px-2 py-3 text-gray-500"
+                        className="w-[71%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500"
                       />
                     </div>
                     <div className="mb-5 ml-6">

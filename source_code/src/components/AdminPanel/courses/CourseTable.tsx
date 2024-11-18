@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { LandPlot, QrCode } from "lucide-react";
 import apiService from "../../../services/apiService";
-import { ToastError, ToastSuccess } from "../../Toast";
+import { ToastInfo, ToastSuccess } from "../../Toast";
 import { Club, ApiResponse, Course } from "./courses.interface.ts";
 import QRCode from "react-qr-code";
 import { API_URL } from "../../../services/enums.ts";
@@ -109,10 +109,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       if (res.status === 200 && !res.data.error) {
         setCourseData(res.data.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -172,10 +172,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
         link.click();
         ToastSuccess("QR Code generated successfully");
       } catch (error) {
-        ToastError("Failed to generate QR Code. Please try again later.");
+        ToastInfo("Failed to generate QR Code. Please try again later.");
       }
     } else {
-      ToastError("Failed to generate QR Code. Please try again later.");
+      ToastInfo("Failed to generate QR Code. Please try again later.");
     }
   };
 

@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import moment from "moment";
 import defaultuserimag from "../../assets/images/default-user 1.png";
 import ReactPlayer from "react-player";
@@ -83,7 +83,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
           commentCount: data?.data?.length || 0,
         });
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       // Handle error
@@ -141,7 +141,9 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               )}
               <div className="h-[64px] w-full bg-[#1D1A0C] p-1 px-2">
                 <div className="flex text-[#fff]">
-                  <span className="flex items-center ">{requestVideoPayload?.videos?.title || ""}</span>
+                  <span className="flex items-center">
+                    {requestVideoPayload?.videos?.title || ""}
+                  </span>
                   <Dot size={24} />
                   <span>{requestVideoPayload?.username || ""}</span>
                 </div>
@@ -219,7 +221,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                       </div>
                     ) : (
                       <div className="ml-2 w-full">
-                        <div className="flex items-center w-full justify-between">
+                        <div className="flex w-full items-center justify-between">
                           <div className="flex gap-1">
                             <span className="text-black-800 text-[14px] font-bold">
                               {commentObj.firstName}
@@ -262,8 +264,8 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                               size={14}
                               className="cursor-pointer text-buttonPrimary"
                               onClick={() => {
-                                setConfirmationVisible(true)
-                                setConfirmationFor("delete")
+                                setConfirmationVisible(true);
+                                setConfirmationFor("delete");
                                 setCommentDetails(commentObj);
                               }}
                             />
@@ -318,7 +320,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               getComments,
             );
           }
-          setConfirmationVisible(false)
+          setConfirmationVisible(false);
         }}
         buttonTxt={confirmationFor !== "remove"}
         confirmationText={

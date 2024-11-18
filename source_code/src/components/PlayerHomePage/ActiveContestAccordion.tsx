@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // import SwitchComponent from "../SwitchComponent";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import { APIResContestData, CourseData } from "./contestdata";
 import RegisterConfirmationModal from "./RegisterConfirmationModal";
 // import TooltipSpan from "../Tooltip/TooltipSpan";
@@ -39,7 +39,7 @@ const ActiveContestAccordion: React.FC = () => {
         // setCourseData(res.data.data);
         setData(res.data.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching contest data");
+        ToastInfo(res.data.description || "Error fetching contest data");
       }
     } catch (error) {
       console.error("Error fetching contest data");

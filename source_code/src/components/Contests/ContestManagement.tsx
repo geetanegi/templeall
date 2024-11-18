@@ -9,7 +9,7 @@ import SwitchComponent from "../SwitchComponent";
 import BG from "../../assets/images/dashboardBG.svg";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { MdSportsGolf } from "react-icons/md";
 
 import Modal from "../ModalComponent";
@@ -73,7 +73,7 @@ const ContestManagement = () => {
       if (res.status === 200 && !res.data.error) {
         setCourses(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -93,10 +93,10 @@ const ContestManagement = () => {
       if (res.status === 200 && !res.data.error) {
         setHolesList(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching hole data");
+        ToastInfo(res.data.description || "Error fetching hole data");
       }
     } catch (error) {
-      ToastError("Error fetching hole data");
+      ToastInfo("Error fetching hole data");
     }
   };
 
@@ -271,7 +271,7 @@ const ContestManagement = () => {
         setTotalElement(res.data.data.totalElements)
         dispatch(setLoading(false));
       } else {
-        ToastError(res.data.description || "Error fetching contest data");
+        ToastInfo(res.data.description || "Error fetching contest data");
         dispatch(setLoading(false));
       }
     } catch (error) {
@@ -309,10 +309,10 @@ const ContestManagement = () => {
         ToastSuccess(res.data.data.message);
         updateActiveStatus(id, newStatus);
       } else if (res?.data.error && res.data.description) {
-        ToastError(res.data.description || "Error updating contest status");
+        ToastInfo(res.data.description || "Error updating contest status");
       }
     } catch (error) {
-      ToastError("Error updating contest status");
+      ToastInfo("Error updating contest status");
     }
   };
   if (userPermisions?.data?.permission["is_player"]) {

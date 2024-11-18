@@ -36,12 +36,17 @@ const ContestForm: React.FC<ContestProps> = ({
   saveState,
   endDate,
   toggleModal,
-
   isSuperAdmin,
 }) => {
   const today = moment();
   const location = useLocation();
-  const { setFieldValue } = useFormikContext(); // To access Formik's setFieldValue
+  const { setFieldValue, errors, touched } = useFormikContext<{
+    playerPercentage: string;
+    acecamPercentage: string;
+    coursePercentage: string;
+    charityPercentage: string;
+    totalPercentage: string;
+  }>(); // To access Formik's setFieldValue
 
   // Handle change for clubName
   const handleClubChange = (event: SelectChangeEvent<string>) => {
@@ -73,15 +78,6 @@ const ContestForm: React.FC<ContestProps> = ({
     setFieldValue("Tee", ""); // Reset teeName
   };
 
-  // Handle change for holeName
-  // const handleRadioChange = (event: SelectChangeEvent<string>) => {
-  //   const holeValue = event.target.value;
-
-  //   // Update courseName and reset dependent fields
-  //   setFieldValue("holesName", holeValue);
-  //   setFieldValue("Tee", ""); // Reset teeName
-  // };
-
   const handleRadioChange = (event: SelectChangeEvent<string>) => {
     const radioValue = event.target.value;
 
@@ -112,7 +108,6 @@ const ContestForm: React.FC<ContestProps> = ({
             label="Contest Type"
             name="contestType"
             required={true}
-            // disabled={isSuperAdmin}
             options={[
               {
                 key: "AceCam-Jackpot",
@@ -291,7 +286,23 @@ const ContestForm: React.FC<ContestProps> = ({
           </div>
           <div className="mb-4 space-y-4">
             <h5 className="text-l -mb-1 -mt-2 font-normal text-black">
-              Payout
+              Payout{" "}
+              {location.pathname === ROUTES.CREATE_CONTEST &&
+                touched?.playerPercentage &&
+                touched?.acecamPercentage &&
+                touched?.coursePercentage &&
+                touched?.charityPercentage &&
+                errors.totalPercentage && (
+                  <span className="text-[12px] font-semibold text-[#d32f2f]">
+                    {errors.totalPercentage}
+                  </span>
+                )}
+              {location.pathname.startsWith("/update-contest") &&
+                errors.totalPercentage && (
+                  <span className="text-[12px] font-semibold text-[#d32f2f]">
+                    {errors.totalPercentage}
+                  </span>
+                )}
             </h5>
             <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-3 lg:grid-cols-4">
               <div className="">

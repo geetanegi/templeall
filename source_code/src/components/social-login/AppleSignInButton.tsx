@@ -36,7 +36,7 @@ const AppleSignInButton: React.FC = () => {
 
   return (
     <AppleLogin
-      clientId="com.acecamgolf.services" // Your Service ID as Client ID
+      clientId="com.acecamgolf.web" // Your Service ID as Client ID
       redirectURI="https://dev.acecamgolf.com/dashboard" // Your redirect URL
       responseType="code id_token"
       responseMode="form_post"

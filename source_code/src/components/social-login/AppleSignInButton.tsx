@@ -37,11 +37,12 @@ const AppleSignInButton: React.FC = () => {
 
   return (
     <AppleLogin
-      clientId="com.acecamgolf.web" // Your Service ID as Client ID
-      redirectURI="https://dev.acecamgolf.com" // Your redirect URL
+      clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
+      redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"
       responseMode="form_post"
       scope="name email"
+      usePopup={true}
       callback={handleAppleResponse} // Handle both success and failure here
       render={(renderProps: any) => (
         <button onClick={renderProps.onClick} className="apple-signin-button">

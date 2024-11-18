@@ -6,6 +6,7 @@ const AppleSignInButton: React.FC = () => {
   // Handle the success response from Apple (callback for both success and failure)
   const handleAppleResponse = (response: any) => {
     console.log("Apple response:", response);
+    alert("Apple response");
     if (response.error) {
       console.error("Apple login failed:", response.error);
       alert("Apple login failed. Please try again later.");

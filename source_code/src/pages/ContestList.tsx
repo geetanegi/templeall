@@ -320,7 +320,7 @@ const ContestList: React.FC = () => {
                       <div className="flex h-full items-center justify-center">
                         <div className="text-center">
                           <p className="text-gray-500">
-                            No active contests available.
+                            We do not have any contest running here today!!!
                           </p>
                         </div>
                       </div>

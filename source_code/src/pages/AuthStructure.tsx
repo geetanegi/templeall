@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import AceCamUI from "../components/AceCamUI";
 
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 
@@ -20,11 +20,11 @@ const AuthStructure: React.FC = () => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   return (

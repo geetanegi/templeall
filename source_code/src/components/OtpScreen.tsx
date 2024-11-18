@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastError, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
@@ -128,11 +128,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   return (
@@ -152,10 +152,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             <p className={`text-xs text-primaryText md:text-sm`}>
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold text-link ${timeLeft > 0 && isRunning
-                  ? "cursor-not-allowed opacity-60"
-                  : "cursor-pointer text-red-600"
-                  }`}
+                className={`font-semibold text-link ${
+                  timeLeft > 0 && isRunning
+                    ? "cursor-not-allowed opacity-60"
+                    : "cursor-pointer text-red-600"
+                }`}
                 onClick={handleReset}
                 disabled={timeLeft > 0 && isRunning}
               >

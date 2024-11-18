@@ -12,7 +12,7 @@ import { ToastError, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import { encryptData, secretKey } from "../utils/encrypt";
@@ -57,15 +57,18 @@ const ResetPassword: React.FC = () => {
       const token = localStorage.getItem("tokenForgetPassword");
       const payloadData = {
         password: values.password,
-      }
-      const encreptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
+      };
+      const encreptedpayload = await encryptData(
+        JSON.stringify(payloadData),
+        secretKey,
+      );
       const newData = {
         data: {
           token,
           payload: encreptedpayload,
-          mode:"WEB"
+          mode: "WEB",
         },
-      }; 
+      };
       const { data, status } = await apiService.post<any>(
         API_URL.resetPassword,
         newData,
@@ -88,11 +91,11 @@ const ResetPassword: React.FC = () => {
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   return (

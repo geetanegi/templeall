@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
 import TikTok from "../assets/images/TikTok.svg";
-import aceCampLogo from "../assets/images/aceCamp_logo.png";
+import aceCampLogo from "../assets/images/logo (1).png";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
 import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
@@ -75,11 +75,14 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const { username, password, rememberme } = values;
-      const payloadData = {username, password}
-      const encryptedPasword:string = await encryptData(password, secretKey)
-      const loginObj = {username, password:encryptedPasword, mode:"WEB" }
-      const encryptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
-      const newData = { payload:encryptedpayload, mode: "WEB" };
+      const payloadData = { username, password };
+      const encryptedPasword: string = await encryptData(password, secretKey);
+      const loginObj = { username, password: encryptedPasword, mode: "WEB" };
+      const encryptedpayload = await encryptData(
+        JSON.stringify(payloadData),
+        secretKey,
+      );
+      const newData = { payload: encryptedpayload, mode: "WEB" };
       const { data, status } = await apiService.post<any>(API_URL.login, {
         data: newData,
       });
@@ -218,7 +221,7 @@ const Login: React.FC = () => {
         </div>
         <div>
           <div className="fixed bottom-14 right-[5px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">
+            <div className="right-4 top-[1px] mt-2 flex gap-2 md:absolute">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
@@ -246,7 +249,7 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] flex md:absolute">
+            <div className="right-0 top-[1px] flex md:absolute">
               <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                 © 2024 AceCam
                 <sup className="text-[8px]">TM&nbsp;</sup>{" "}

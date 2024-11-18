@@ -334,6 +334,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                     userInfo={userInfo}
                     isEdit={videoData?.videos?.url ? true : false}
                     width="100%"
+                    onTeeTime={moment.utc(videoData?.startTime).local().format("hh:mm:ss A")}
                   />
                 </div>
               );

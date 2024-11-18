@@ -93,7 +93,7 @@ const ContestList: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -119,7 +119,7 @@ const ContestList: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -148,7 +148,7 @@ const ContestList: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -176,7 +176,7 @@ const ContestList: React.FC = () => {
         ToastError(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -226,7 +226,7 @@ const ContestList: React.FC = () => {
         style={{ backgroundImage: `url(${BG})` }}
       >
         <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden px-2">
-          <div className="h-screen overflow-auto p-1">
+          <div className="h-screen overflow-auto p-1 pt-3">
             {/* First column content (20% width) */}
             {courseList?.data.map((course) => (
               <div key={course.id} className="col-span-4">

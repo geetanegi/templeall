@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import aceCampLogo from "./assets/images/AceCam-logo.png";
+import aceCampLogo from "./assets/images/Branding.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./reducers/login/login";
 import { RootState } from "./store";
@@ -378,7 +378,9 @@ const Nav: React.FC = () => {
                     alt="user photo"
                   />
                 ) : (
-                  <img src={defaultUserImage} alt="" className="h-10 w-10" />
+                  <div className="w-10">
+                    <img src={defaultUserImage} alt="" className="w-full" />
+                  </div>
                 )}
               </div>
               <div className="mx-4">

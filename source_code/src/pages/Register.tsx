@@ -219,7 +219,7 @@ const Register: React.FC = () => {
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
+    viewPdf(privacyPolicyPdf);
   };
 
   return (

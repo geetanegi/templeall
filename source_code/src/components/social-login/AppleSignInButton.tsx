@@ -7,13 +7,24 @@ const AppleSignInButton: React.FC = () => {
     alert("yes");
     console.log("Apple login successful:", response);
     // Send the response to the backend for validation
+
+    // Send the response to your backend for validation
     fetch("/api/apple-auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ token: response.authorization.id_token }),
-    });
+    })
+      .then((res) => res.json()) // Parse JSON response from backend
+      .then((data) => {
+        console.log("Backend response:", data);
+        // Handle the backend response here (e.g., set user data, redirect, etc.)
+      })
+      .catch((error) => {
+        console.error("Error sending token to backend:", error);
+        alert("Failed to sign in. Please try again later.");
+      });
   };
 
   return (

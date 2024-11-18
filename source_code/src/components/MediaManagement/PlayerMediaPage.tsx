@@ -226,7 +226,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           style={{ width: "max-content" }}
         >
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(1);
@@ -243,7 +243,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             </span>
           </button>
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(2);
@@ -258,7 +258,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             </span>
           </button>
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(3);
@@ -306,7 +306,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       </div>
       <PageLoader isActive={loader}>
         {allVideos.length ? (
-          <div className="mt-3 flex w-full flex-wrap">
+          <div className="mt-3 flex w-full flex-wrap mb-3">
             {allVideos?.map((videoData) => {
               return (
                 <div className="w-[25%] px-2">

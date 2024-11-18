@@ -19,7 +19,8 @@ interface FormikControlProps {
     | "customCheckbox"
     | "number"
     | "date"
-    | "customInput";
+    | "customInput"
+    | "searchInput",
 
   [key: string]: any;
 }

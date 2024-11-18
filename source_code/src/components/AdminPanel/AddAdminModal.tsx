@@ -342,7 +342,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-32 rounded-md bg-lime-500 py-2 text-white"
+                className="w-32 rounded-md bg-primaryColor py-2 text-white"
               >
                 {userData ? "Edit User" : "Add User"}
               </button>

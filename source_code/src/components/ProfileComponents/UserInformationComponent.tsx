@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 
 // image imports 
 
-import golfKitIcon from '../../assets/images/golf-kit.svg';
-import golfCourse from '../../assets/images/golf_course.svg'
-import golfBallIcon from '../../assets/images/sports_golf.svg';
+import golfKitIcon from '../../assets/images/clubs.png';
+import golfBallIcon from '../../assets/images/sports_golf_ball.png';
 import UpdatePlayerInformationModal from './UpdatePlayerInformationModal';
 import StripeIntegration from '../../pages/StripeIntegration';
+import {LandPlot} from "lucide-react"
 interface UserinformationComponentProps {
   userinformation: any;
   isModalOpen: boolean;
@@ -38,18 +38,18 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({ use
 
   return (
     <>
-      <div className='mt-16  w-[245px] h-[298px]  bg-[#ffffff99]  rounded-lg  p-4'
+      <div className='mt-16  w-[245px] h-[298px]  bg-[#FFFFFF4D]  rounded-lg  p-4'
         style={{ height: "max-content" }}
       >
 
         <div className='flex'>
           <div className='flex flex-col gap-1'>
-            <div className='flex items-center  text-[14px] gap-2 whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Age :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.age || '---'}</span></div>
-            <div className='flex items-center  text-[14px] gap-2'><span className='mr-3 whitespace-nowrap'>Handicap :</span><div className='flex flex-wrap'>{userinformation?.userProfile?.handicap || '---'}</div></div>
-            <div className='flex items-center  text-[14px] gap-2'><img src={golfKitIcon} alt="Golf Kit Icon" className='mr-[-7px]' /><div className='whitespace-nowrap'>Clubs :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.clubs || '---'}</div></div>
-            <div className='flex items-center  text-[14px] gap-2' > <img src={golfBallIcon} alt="Golf Ball Icon" className='' /><div className=' whitespace-nowrap'>Ball :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.ball || '---'}</div></div>
-            <div className='flex items-center  text-[14px] gap-2 whitespace-nowrap '><img src={golfCourse} alt="Golf Course Icon" className='-mr-1' /><div className=' whitespace-nowrap'>Course :</div><div className='flex flex-wrap leading-tight  ' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
-            <div className='flex items-center  text-[14px] gap-2 whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
+            <div className='flex items-center text-primaryText  text-[14px] gap-2 whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Age :</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.age || '---'}</span></div>
+            <div className='flex items-center text-primaryText text-[14px] gap-2'><span className='mr-3 whitespace-nowrap'>Handicap :</span><div className='flex flex-wrap'>{userinformation?.userProfile?.handicap || '---'}</div></div>
+            <div className='flex items-center text-primaryText text-[14px] gap-2'><img src={golfKitIcon} alt="Golf Kit Icon" className='ml-1' /><div className='whitespace-nowrap'>Clubs :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.clubs || '---'}</div></div>
+            <div className='flex items-center text-primaryText text-[14px] gap-2' > <img src={golfBallIcon} alt="Golf Ball Icon" className='' /><div className=' whitespace-nowrap'>Ball :</div><div className='flex flex-wrap'>{userinformation?.userProfile?.ball || '---'}</div></div>
+            <div className='flex items-center text-primaryText text-[14px] gap-2 whitespace-nowrap '><LandPlot size={16} className='text-primaryText'  /><div className=' whitespace-nowrap'>Course :</div><div className='flex flex-wrap leading-tight  ' >{userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map((course: any) => course.courseName + " ") || '---'}</div></div>
+            <div className='flex items-center text-primaryText text-[14px] gap-2 whitespace-nowrap'><span className='mr-3 whitespace-nowrap'>Member Since:</span><span className='whitespace-nowrap'>{userinformation?.userProfile?.memberSince ? formatDate(userinformation?.userProfile?.memberSince) : '---'}</span></div>
           </div>
           <div>
           </div>

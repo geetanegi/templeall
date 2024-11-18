@@ -188,7 +188,6 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
     }
   };
 
-  // console.log("croppedImageBlob", croppedImageBlob);
 
   return (
     <PageLoader isActive={loader}>
@@ -236,7 +235,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
                     userDetails?.lastName?.slice(1)}{" "}
                 </div>
                 <div
-                  className={`m-0 text-right text-[14px] text-[#F5F6F7] ${userDetails.location ? "visible" : "invisible"}`}
+                  className={`m-0 text-right text-[14px] text-[#F5F6F7] ${userDetails.location ? "visible" : "invisible" }`}
                 >
                   {" "}
                   {userDetails?.location ? userDetails.location : "."}

@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import BettingOverview from "./BettingOverview";
-import AdminProfileComponent from "./AdminProfileComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { setLoading } from "../../reducers/loader/loader";
-import apiService from "../../services/apiService";
-import { API_URL } from "../../services/enums";
-import { ToastInfo } from "../Toast";
-import UpdateProfileModal from "./UpdateProfileModal";
-import ImageComponent from "./ImageComponent";
-import {
-  updateProfile,
-  updateProfileImage,
-} from "../../reducers/Profiler/profiler";
+import React, { useEffect, useState } from 'react'
+import BettingOverview from './BettingOverview'
+import AdminProfileComponent from './AdminProfileComponent'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { setLoading } from '../../reducers/loader/loader';
+import apiService from '../../services/apiService';
+import { API_URL } from '../../services/enums';
+import UpdateProfileModal from './UpdateProfileModal';
+import ImageComponent from './ImageComponent';
+import { updateProfile, updateProfileImage } from '../../reducers/Profiler/profiler';
+import { useLocation } from 'react-router-dom';
+import { ToastInfo } from '../Toast';
+
 
 interface ProfileOverviewSectionProps {
   userId: string | number;
@@ -29,15 +28,25 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
     (state: RootState) => state.auth.userPermissions,
   );
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-
-  const [userinformation, setUserInformation] = useState<any>();
+  const location = useLocation();
+  const [userinformation, setUserInformation] = useState<any>()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchUserInformation();
-  }, [userId]);
+    if(isCommunitySearch && userId){
+      fetchUserInformation()
+    }else if(location.pathname === "/profile"){
+      fetchUserInformation()
+    }
+  }, [userId])
+
+  useEffect(()=>{
+    setUserInformation({})
+  },[location.pathname ])
+
+
 
   const fetchUserInformation = async () => {
     try {
@@ -46,11 +55,8 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
         API_URL.fetchUserProfile,
         {
           data: {
-            loginUserId: userId
-              ? userId
-              : typeof userInfo === "object"
-                ? userInfo.userId
-                : undefined,
+            loginUserId: isCommunitySearch ?  userId ? userId :
+              "" : typeof userInfo === "object" ? userInfo.userId : undefined,
           },
         },
       );
@@ -139,9 +145,9 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
       <ImageComponent
         image={userinformation?.userProfile?.imageBase64}
         userDetails={{
-          firstName: userinformation?.firstName || "",
-          lastName: userinformation?.lastName || "",
-          location: userinformation?.userProfile?.location || "",
+          firstName: userinformation?.firstName || '',
+          lastName: userinformation?.lastName || '',
+          location: (!isCommunitySearch || userId) ? userinformation?.userProfile?.location :  ''
         }}
         userCourseAndClubInfo={userinformation?.userCourseAndClubInfo || {}}
         fetchUserInformation={fetchUserInformation}

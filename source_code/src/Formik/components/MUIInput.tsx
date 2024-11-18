@@ -52,6 +52,7 @@ const MUIInput: React.FC<InputProps> = ({
             error={Boolean(form.errors[name] && form.touched[name])}
             inputProps={{ maxLength }}
             onKeyPress={handleKeyPress} // Add key press handler if needed
+            InputLabelProps={{ shrink: true }}
             sx={{
               "& .MuiInputBase-root": {
                 borderRadius: "10px",

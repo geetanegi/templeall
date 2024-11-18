@@ -30,5 +30,5 @@ export function ToastWarning(message: string) {
 }
 
 export function ToastInfo(message: string) {
-  toast.info(<Msg message={message} subtitle="Information." />);
+  toast.info(<Msg message={message} subtitle="" />);
 }

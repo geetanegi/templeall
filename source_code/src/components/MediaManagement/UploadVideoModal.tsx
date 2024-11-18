@@ -4,7 +4,7 @@ import { Formik, FormikHelpers } from "formik";
 import { MonitorUp } from "lucide-react";
 import FormikControl from "../../Formik/components/FormikControl";
 
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import apiService from "../../services/apiService";
 import { useDispatch, useSelector } from "react-redux";
@@ -187,31 +187,37 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                   totalchunk: totalChunks,
                 },
                 "add",
-              )
+              );
 
               if (totalChunks === i + 1) {
-                handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
+                handleReqVideoInprogressList(
+                  { id: selectedReqVideoId },
+                  "remove",
+                );
                 ToastSuccess(data?.data?.message);
                 setIsRefreshList(!isRefreshList);
               }
             } else if (data?.error && data.description) {
-              ToastError(data.description);
-              handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
+              ToastInfo(data.description);
+              handleReqVideoInprogressList(
+                { id: selectedReqVideoId },
+                "remove",
+              );
             }
           } else {
-            ToastError(
+            ToastInfo(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
             handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
           }
         }
       } else {
-        ToastError(
+        ToastInfo(
           "No video has been uploaded. Please upload an MP4 video under 250MB.",
         );
       }
     } catch (error) {
-      ToastError("Video Upload Failed");
+      ToastInfo("Video Upload Failed");
     } finally {
       setIsModalOpen(false);
       dispatch(setLoading(false));

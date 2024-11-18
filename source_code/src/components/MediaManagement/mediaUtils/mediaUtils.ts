@@ -1,6 +1,6 @@
 import apiService from "../../../services/apiService";
 import { API_URL } from "../../../services/enums";
-import { ToastError, ToastSuccess } from "../../Toast";
+import { ToastInfo, ToastSuccess } from "../../Toast";
 
 export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   if (renderFor === "courseAdmin") {
@@ -80,7 +80,7 @@ export const deleteVideos = async (
       ToastSuccess(res.data.data.message);
       getVideosList?.();
     } else if (res.data.error) {
-      ToastError(res.data.description || "");
+      ToastInfo(res.data.description || "");
     }
   } catch (error) {
     console.error(error);
@@ -135,7 +135,7 @@ export const createComment = async (
     if (status === 200 && data?.data != null && !data?.error) {
       getComments();
     } else if (data?.error && data.description) {
-      ToastError(data.description);
+      ToastInfo(data.description);
     }
   } catch (error) {
     console.error(error);
@@ -197,7 +197,7 @@ export const deleteComment = async (
       getComments();
       ToastSuccess(data.data.message);
     } else if (data?.error && data.description) {
-      ToastError(data.description);
+      ToastInfo(data.description);
     }
   } catch (error) {
     console.error(error);

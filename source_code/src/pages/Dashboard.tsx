@@ -9,7 +9,7 @@ import {
   updateProfile,
   updateProfileImage,
 } from "../reducers/Profiler/profiler";
-import { ToastError } from "../components/Toast";
+import { ToastInfo } from "../components/Toast";
 import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
 import PlayerHomePage from "../components/PlayerHomePage/PlayerHomePage";
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
         dispatch(updateProfileImage({ profileImage }));
         dispatch(updateProfile({ profiler: data.data }));
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
     } finally {

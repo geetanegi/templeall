@@ -5,7 +5,7 @@ import { MonitorUp } from "lucide-react";
 import FormikControl from "../../Formik/components/FormikControl";
 import MUISelect from "../../Formik/components/MUISelect";
 import CustomDatePicker from "../../Formik/components/CustomDatePicker";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import apiService from "../../services/apiService";
 import { useDispatch, useSelector } from "react-redux";
@@ -305,23 +305,23 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 setIsRefreshList(!isRefreshList);
               }
             } else if (data?.error && data.description) {
-              ToastError(data.description);
+              ToastInfo(data.description);
               handleInprogressVideoList({ vidId }, "remove");
             }
           } else {
-            ToastError(
+            ToastInfo(
               "The uploaded video is not in MP4 format. Please upload a valid MP4 file",
             );
             handleInprogressVideoList({ vidId }, "remove");
           }
         }
       } else {
-        ToastError(
+        ToastInfo(
           "No video has been uploaded. Please upload an MP4 video under 250MB.",
         );
       }
     } catch (error) {
-      ToastError("Video Upload Failed");
+      ToastInfo("Video Upload Failed");
     } finally {
       setSelectedUser({ username: "" });
       setUserSearchVisible(false);

@@ -110,7 +110,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const handleContestSelection = () => {
     if (Object.keys(selectedContestObj)[0] !== selectedTeeType) {
       if (selectedContestsList[selectedContestTee]?.length > 0) {
-        // ToastError("You can only register for contests from one tee at a time");
+        // ToastInfo("You can only register for contests from one tee at a time");
         return;
       }
     }

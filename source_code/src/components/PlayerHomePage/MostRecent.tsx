@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import { APIResLeaderBoardData } from "./LeaderBoard";
 import { setLoading } from "../../reducers/loader/loader";
 
@@ -35,7 +35,7 @@ const MostRecent: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         setRecentData(data);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);

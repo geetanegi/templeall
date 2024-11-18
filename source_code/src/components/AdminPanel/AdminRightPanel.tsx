@@ -11,6 +11,7 @@ import TableComponent from "../TableComponent";
 import apiService from "../../services/apiService";
 import SwitchComponent from "../SwitchComponent";
 import { useDispatch, useSelector } from "react-redux";
+
 import { setLoading } from "../../reducers/loader/loader";
 import { computeTableHeaders } from "./AddpanalUtils/AddPanelUtils";
 import { RootState } from "../../store";
@@ -66,7 +67,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [pageSize, setPageSize] = useState<number>(10);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [searchString, setSearchString] = useState<string>("");
-    const [totalElement, setTotalElement] = useState<number>(10)
+    const [totalElement, setTotalElement] = useState<number>(10);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -82,7 +83,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     useEffect(() => {
       getUserData();
-    }, [pageSize, currentPage,]);
+    }, [pageSize, currentPage]);
 
     useEffect(() => {
       if (selectedUserTab === 3) {
@@ -187,7 +188,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageNumber: currentPage,
               pageSize: 2,
             };
-            payload.searchParams = {}
+            payload.searchParams = {};
             if (searchValue) {
               payload.searchParams = {
                 username: searchValue,
@@ -236,7 +237,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
         if (status === 200 && data?.data != null && !data?.error) {
           setTotalPages(data.data.totalPages);
-          setTotalElement(data.data.totalElements)
+          setTotalElement(data.data.totalElements);
           setRowData(computeTableData(data.data.content, selectedUserTab));
           handleRefreshUserCount();
         } else if (data?.error && data.description) {

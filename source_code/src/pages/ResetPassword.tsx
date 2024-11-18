@@ -8,11 +8,11 @@ import apiService from "../services/apiService";
 import SuccessScreen from "../components/SuccessScreen";
 import { setLoading } from "../reducers/loader/loader";
 import { useDispatch } from "react-redux";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import { encryptData, secretKey } from "../utils/encrypt";
@@ -57,13 +57,16 @@ const ResetPassword: React.FC = () => {
       const token = localStorage.getItem("tokenForgetPassword");
       const payloadData = {
         password: values.password,
-      }
-      const encreptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
+      };
+      const encreptedpayload = await encryptData(
+        JSON.stringify(payloadData),
+        secretKey,
+      );
       const newData = {
         data: {
           token,
           payload: encreptedpayload,
-          mode:"WEB"
+          mode: "WEB",
         },
       }; 
       const { data, status } = await apiService.post<any>(
@@ -75,24 +78,24 @@ const ResetPassword: React.FC = () => {
         ToastSuccess(data?.data?.message);
         setShowSuccessScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error: string | any) {
       console.error("Error posting data:", error);
-      ToastError(error);
+      ToastInfo(error);
     } finally {
       dispatch(setLoading(false));
     }
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   return (

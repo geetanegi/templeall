@@ -6,7 +6,7 @@ import { setLoading } from "../../reducers/loader/loader";
 import apiService from "../../services/apiService";
 import { login } from "../../reducers/login/login";
 import { useNavigate } from "react-router-dom";
-import { ToastError } from "../../components/Toast";
+import { ToastInfo } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
 
 interface FacebookLoginComponentProps {
@@ -19,8 +19,6 @@ const FacebookLoginComponent: React.FC<FacebookLoginComponentProps> = ({
   redirectUri,
   appId,
 }) => {
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const responseFacebook = async (response: any) => {
@@ -44,19 +42,16 @@ const FacebookLoginComponent: React.FC<FacebookLoginComponentProps> = ({
   //   }
   // };
 
-
-
   const responseFacebook = async (response: any) => {
     dispatch(setLoading(true));
     try {
-
-
       const newData = {
         userID: response.userID,
         accessToken: response.accessToken,
         email: response.email,
         userName: response.name,
-        token: response.credential, mode: "WEB"
+        token: response.credential,
+        mode: "WEB",
       };
       const { data, status } = await apiService.post<any>(
         API_URL.verifyFbToken,
@@ -66,15 +61,18 @@ const FacebookLoginComponent: React.FC<FacebookLoginComponentProps> = ({
         dispatch(
           login({
             token: data?.data?.token,
-            userInfo: { username: "", password: "", userId: data?.data?.userId },
+            userInfo: {
+              username: "",
+              password: "",
+              userId: data?.data?.userId,
+            },
           }),
         );
         navigate("/dashboard");
-
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);
@@ -83,8 +81,7 @@ const FacebookLoginComponent: React.FC<FacebookLoginComponentProps> = ({
     }
   };
 
-  const componentClicked = () => {
-  };
+  const componentClicked = () => {};
 
   return (
     <FacebookLogin

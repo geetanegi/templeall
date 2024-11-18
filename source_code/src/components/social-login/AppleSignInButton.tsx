@@ -8,7 +8,6 @@ const AppleSignInButton: React.FC = () => {
     console.log("Apple response:", response);
     if (response.error) {
       console.error("Apple login failed:", response.error);
-      alert("Apple login failed. Please try again later.");
       return;
     }
 

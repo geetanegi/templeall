@@ -71,6 +71,7 @@ const ContestList: React.FC = () => {
     (state: RootState) => state.courses.selectedTeeType,
   );
   const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   // const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   // const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
@@ -168,6 +169,7 @@ const ContestList: React.FC = () => {
           teeId: selectedTeeId,
           date: moment().utc().format(),
           zoneId: timeZone,
+          playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
         },
       });
       if (res.status === 200 && !res.data.error) {

@@ -5,7 +5,7 @@ import TeeInfo from "../components/Contests/Contest Components/TeeInfo";
 import TeeContests from "../components/Contests/Contest Components/TeeContests";
 import apiService from "../services/apiService";
 import { API_URL } from "../services/enums";
-import { ToastError } from "../components/Toast";
+import { ToastInfo } from "../components/Toast";
 import {
   setContestList,
   setCourseList,
@@ -91,7 +91,7 @@ const ContestList: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setCourseList(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -117,7 +117,7 @@ const ContestList: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setHoleList(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -146,7 +146,7 @@ const ContestList: React.FC = () => {
         dispatch(setContestList(null));
         dispatch(setSelectedTeeId(null));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -175,7 +175,7 @@ const ContestList: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setContestList(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.log(error);

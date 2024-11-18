@@ -20,7 +20,7 @@ import SuccessScreen from "../components/SuccessScreen";
 import apiService from "../services/apiService";
 import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import InstagramLoginComponent from "../components/social-login/InstagramLoginComponent";
 import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
@@ -175,9 +175,9 @@ const Register: React.FC = () => {
         setUsernameValue(username);
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);

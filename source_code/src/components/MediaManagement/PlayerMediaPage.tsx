@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import VideoCard from "./VideoCard";
 import { FileVideo2, VideoOff } from "lucide-react";
 import apiService from "../../services/apiService";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import { setLoading } from "../../reducers/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "../../services/enums";
@@ -49,9 +49,9 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     setAllVideos([]);
     if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
-    }else if(filterValue === 'WIN'){
+    } else if (filterValue === "WIN") {
       makeApiCall(API_URL.getAllPlayerWinnerVideos);
-    }else {
+    } else {
       getAllVideos();
     }
     setSelectedValue("");
@@ -74,7 +74,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         setHighlightsCounts(data.data);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {}
   };
@@ -82,8 +82,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   useEffect(() => {
     if (filterValue === "SOTW") {
       makeApiCall(API_URL.getAllShotOfTheWeek);
-    }else if(filterValue === "WIN"){
-      makeApiCall(API_URL.getAllPlayerWinnerVideos)
+    } else if (filterValue === "WIN") {
+      makeApiCall(API_URL.getAllPlayerWinnerVideos);
     } else {
       getAllVideos();
     }
@@ -214,7 +214,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     if (status === 200 && data?.data != null && !data?.error) {
       setAllVideos(data?.data);
     } else if (data?.error && data.description) {
-      ToastError(data.description);
+      ToastInfo(data.description);
     }
   };
 
@@ -313,12 +313,15 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                   <VideoCard
                     key={videoData.id}
                     uploadDate={moment
-                      .utc(videoData?.startTime).local()
+                      .utc(videoData?.startTime)
+                      .local()
                       .format("DD/MM/YYYY")}
                     title={videoData?.contestType}
                     status={videoData?.status}
                     clubName={videoData?.club?.name || ""}
-                    tee={videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`}
+                    tee={
+                      videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`
+                    }
                     holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
                     requestVideoPayload={{ ...videoData }}
                     isApproved={selectedTab != 2}

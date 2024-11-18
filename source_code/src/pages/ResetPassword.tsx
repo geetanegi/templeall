@@ -8,7 +8,7 @@ import apiService from "../services/apiService";
 import SuccessScreen from "../components/SuccessScreen";
 import { setLoading } from "../reducers/loader/loader";
 import { useDispatch } from "react-redux";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
@@ -78,13 +78,13 @@ const ResetPassword: React.FC = () => {
         ToastSuccess(data?.data?.message);
         setShowSuccessScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error: string | any) {
       console.error("Error posting data:", error);
-      ToastError(error);
+      ToastInfo(error);
     } finally {
       dispatch(setLoading(false));
     }

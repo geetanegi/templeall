@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup"; // Import Yup for validation
 import Golf_BG from "../assets/images/Golf-BG.png";
 
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import apiService from "../services/apiService";
 import { API_URL } from "../services/enums";
 import { setCourseData } from "../reducers/Courses_data/courses";
@@ -382,7 +382,7 @@ const Contests: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setCourseData(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -421,7 +421,7 @@ const Contests: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         setEditData(res.data.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -443,7 +443,7 @@ const Contests: React.FC = () => {
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
     if (saveState.repeatEvery === 0 || saveState.frequency === "") {
-      ToastError("Please select Make Recurring ");
+      ToastInfo("Please select Make Recurring ");
       return;
     }
 
@@ -454,7 +454,7 @@ const Contests: React.FC = () => {
       parseInt(values.playerPercentage);
 
     if (totalPayout !== 100) {
-      ToastError("Total Payout percentage should be 100%");
+      ToastInfo("Total Payout percentage should be 100%");
       return;
     }
 
@@ -503,7 +503,7 @@ const Contests: React.FC = () => {
         ToastSuccess(res.data.data.message);
         navigate("/contests");
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error creating contest");
+        ToastInfo(res.data.description || "Error creating contest");
       }
     } catch (error) {
       console.error(error);

@@ -3,7 +3,7 @@ import UserinformationComponent from "./UserInformationComponent";
 import SwitchComponent from "../SwitchComponent";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 
 interface BettingOverviewProps {
   userinformation: any;
@@ -46,7 +46,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         setUserStats(data?.data);
       } else if (data?.error && data.description) {
-        // ToastError(data.description);
+        // ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -66,7 +66,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         setUserStats(data?.data);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -88,7 +88,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         ToastSuccess(data?.data?.message);
         fetchUserInformation();
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);

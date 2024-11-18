@@ -5,7 +5,7 @@ import React from "react";
 // import apiService from "../../services/apiService";
 // import { login } from "../../reducers/login/login";
 // import { useNavigate } from "react-router-dom";
-// import { ToastError } from "../../components/Toast";
+// import { ToastInfo } from "../../components/Toast";
 // import { API_URL } from "../../services/enums";
 
 import GoogleIcon from "../../assets/images/Google.svg";
@@ -50,9 +50,9 @@ const LoginButton: React.FC = () => {
   //       );
   //       navigate("/dashboard");
   //     } else if (status === 200 && data?.error && data?.description) {
-  //       ToastError(data?.description);
+  //       ToastInfo(data?.description);
   //     } else {
-  //       ToastError(data?.description);
+  //       ToastInfo(data?.description);
   //     }
   //   } catch (error) {
   //     console.error(error);

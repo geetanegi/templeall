@@ -10,7 +10,7 @@ import OtpScreen from "../components/OtpScreen";
 import apiService from "../services/apiService";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { viewPdf } from "../utils/downloadUtils";
@@ -69,9 +69,9 @@ const ForgetPassword: React.FC = () => {
         ToastSuccess(data?.data?.message);
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);

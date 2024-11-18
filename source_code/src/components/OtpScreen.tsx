@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import apiService from "../services/apiService";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "./Toast";
+import { ToastInfo, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
 import { viewPdf } from "../utils/downloadUtils";
 
@@ -70,9 +70,9 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         setTimeLeft(60);
         setIsRunning(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);
@@ -111,9 +111,9 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           navigate(ROUTES.RESET_PASSWORD);
         }
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);

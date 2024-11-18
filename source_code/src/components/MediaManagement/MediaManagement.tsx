@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PlayerMediaPage from "./PlayerMediaPage";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { setCourseData } from "../../reducers/Courses_data/courses";
 import { setLoading } from "../../reducers/loader/loader";
 import RejectConfirmationModal from "./RejectConfirmationModal";
@@ -72,7 +72,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         setMediaCounts(data.data);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -93,10 +93,10 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setCourseData(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -132,7 +132,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         ToastSuccess(data?.data?.message);
         setIsRefreshList(!isRefreshList);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -146,8 +146,10 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleInprogressVideoList = (data: any, action: string) => {
     if (action === "add") {
       setUploadSotwProgressArr((prevArr) => {
-        const videoIndex = prevArr.findIndex((item) => item.vidId === data.vidId);
-  
+        const videoIndex = prevArr.findIndex(
+          (item) => item.vidId === data.vidId,
+        );
+
         if (videoIndex !== -1) {
           const updatedArr = [...prevArr];
           updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };
@@ -157,17 +159,17 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         }
       });
     } else if (action === "remove") {
-        setUploadSotwProgressArr((prevArr) =>
-          prevArr.filter((item) => item.vidId !== data.vidId)
-        );
+      setUploadSotwProgressArr((prevArr) =>
+        prevArr.filter((item) => item.vidId !== data.vidId),
+      );
     }
-  }
+  };
 
-  const handleReqVideoInprogressList = (data: any, action: string) =>{
+  const handleReqVideoInprogressList = (data: any, action: string) => {
     if (action === "add") {
       setUploadProgressArr((prevArr) => {
         const videoIndex = prevArr.findIndex((item) => item.id === data.id);
-  
+
         if (videoIndex !== -1) {
           const updatedArr = [...prevArr];
           updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };
@@ -178,10 +180,10 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       });
     } else if (action === "remove") {
       setUploadProgressArr((prevArr) =>
-        prevArr.filter((item) => item.id !== data.id)
+        prevArr.filter((item) => item.id !== data.id),
       );
     }
-  }
+  };
 
   if (userPermisions?.data?.permission["is_player"]) {
     return <PlayerMediaPage />;
@@ -237,7 +239,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               />
               Shot of the Week
               <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-                {Number(mediaCounts.Shot_Of_The_Week) + uploadSotwProgressArr.length || 0}
+                {Number(mediaCounts.Shot_Of_The_Week) +
+                  uploadSotwProgressArr.length || 0}
               </span>
             </button>
           </div>
@@ -326,12 +329,12 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         handleInprogressVideoList={handleInprogressVideoList}
       />
       <div className="fixed bottom-1 right-0 z-50">
-      <VideoPlayer
-        isVideoPlayerVisible={isVideoPlayerVisible}
-        setIsVideoPlayerVisible={setIsVideoPlayerVisible}
-        selectedVideo={selectedVideo}
-        setSelectedVideo={setSelectedVideo}
-      />
+        <VideoPlayer
+          isVideoPlayerVisible={isVideoPlayerVisible}
+          setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+          selectedVideo={selectedVideo}
+          setSelectedVideo={setSelectedVideo}
+        />
       </div>
       <RejectConfirmationModal
         isRejectModalOpen={isRejectModalOpen}

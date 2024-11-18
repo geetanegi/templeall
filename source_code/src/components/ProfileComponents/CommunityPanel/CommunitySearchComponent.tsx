@@ -4,7 +4,7 @@ import { setLoading } from "../../../reducers/loader/loader";
 import apiService from "../../../services/apiService";
 import { API_URL } from "../../../services/enums";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastError } from "../../Toast";
+import { ToastInfo } from "../../Toast";
 import PlayerCard from "./PlayerCard";
 import PageLoader from "../../PageLoader";
 import { RootState } from "../../../store";
@@ -60,7 +60,7 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
         setPlayerList(data?.data?.content || []);
       } else if (data?.error && data.description) {
         setSelectedUser("");
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);

@@ -4,7 +4,7 @@ import LeaderBoardTable from "./LeaderBoardTable";
 import ClubCard from "./ClubCard";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import { APIResLeaderBoardData, leaderBoard } from "./LeaderBoard";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -46,7 +46,7 @@ const LiveLeaderBoard: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         setLeaderBoardData(data);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -70,7 +70,7 @@ const LiveLeaderBoard: React.FC = () => {
         setDropDownList(data?.data);
         setSelectedValue(data?.data[0]?.scheduleContestId);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -98,7 +98,7 @@ const LiveLeaderBoard: React.FC = () => {
         // setDropDownList(data?.data);
         // setSelectedValue(data?.data[0]?.scheduleContestId);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);

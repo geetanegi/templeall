@@ -16,7 +16,7 @@ import StatusDropdown from "./StatusDropdown";
 import moment from "moment";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import PageLoader from "../PageLoader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -226,7 +226,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setDataLength(data?.data?.totalElements);
       setTotalPages(data.data.totalPages)
     } else if (data?.error && data.description) {
-      ToastError(data.description);
+      ToastInfo(data.description);
     }
   };
 

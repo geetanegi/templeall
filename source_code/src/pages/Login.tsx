@@ -15,7 +15,7 @@ import InstagramLoginComponent from "../components/social-login/InstagramLoginCo
 import apiService from "../services/apiService";
 import { RootState } from "../store";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError } from "../components/Toast";
+import { ToastInfo } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
@@ -105,9 +105,9 @@ const Login: React.FC = () => {
           navigate("/dashboard");
         }
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);

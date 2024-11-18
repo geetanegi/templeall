@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CourseTable from "./CourseTable";
-import { ToastError } from "../../Toast";
+import { ToastInfo } from "../../Toast";
 import apiService from "../../../services/apiService";
 import { CourseApiResponse, HoleListResponse } from "./courses.interface";
 import CheckboxDropdown from "../../CheckboxDropdown";
@@ -23,10 +23,10 @@ const CoursePanel: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         setCourses(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -43,10 +43,10 @@ const CoursePanel: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         setHolesList(res.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching hole data");
+        ToastInfo(res.data.description || "Error fetching hole data");
       }
     } catch (error) {
-      ToastError("Error fetching hole data");
+      ToastInfo("Error fetching hole data");
     }
   };
 
@@ -82,7 +82,7 @@ const CoursePanel: React.FC = () => {
               <select
                 id="courses"
                 onChange={handleCoursesChange}
-                className="border-borderColor block w-full rounded-lg border bg-[#FAFAFA] p-2 text-[14px] text-gray-900 outline-none md:w-[320px]"
+                className="block w-full rounded-lg border border-borderColor bg-[#FAFAFA] p-2 text-[14px] text-gray-900 outline-none md:w-[320px]"
               >
                 <option value="" className="text-[14px]">
                   Filter by Courses
@@ -108,7 +108,7 @@ const CoursePanel: React.FC = () => {
                 label="Filter by Holes"
                 disabled={selectedCourse ? false : true}
                 onChange={handleSelectedValuesChange}
-                className={`border-borderColor block w-full rounded-lg border bg-[#FAFAFA] p-2 text-[14px] text-sm ${selectedCourse ? "text-gray-900" : "text-disabledFontColor"} outline-none md:w-[320px]`}
+                className={`block w-full rounded-lg border border-borderColor bg-[#FAFAFA] p-2 text-[14px] text-sm ${selectedCourse ? "text-gray-900" : "text-disabledFontColor"} outline-none md:w-[320px]`}
               />
             </div>
             <CourseTable

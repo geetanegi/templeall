@@ -24,6 +24,7 @@ import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import moment from "moment";
+import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { decryptData, encryptData, secretKey } from "../utils/encrypt";
 
 const Login: React.FC = () => {
@@ -130,7 +131,7 @@ const Login: React.FC = () => {
     <>
       <div className="flex w-full flex-col items-center gap-2 rounded-xl border p-2 md:mt-10 md:w-full">
         <img src={aceCampLogo} alt="" className="h-32 w-32 sm:-mt-20" />
-        <div className="flex gap-5">
+        <div className="flex items-center justify-center gap-5">
           <InstagramLoginComponent />
           <FacebookLoginComponent
             appId="490090883627586"
@@ -138,6 +139,7 @@ const Login: React.FC = () => {
           />
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
+          <AppleSignInButton />
         </div>
         <h3 className="my-5 py-3 text-[14px] font-semibold text-[#FFFFFF] md:my-1">
           -OR-

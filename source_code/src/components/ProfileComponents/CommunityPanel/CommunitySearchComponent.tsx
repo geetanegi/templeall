@@ -1,35 +1,37 @@
 import { Search } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
-import { setLoading } from "../../../reducers/loader/loader";
 import apiService from "../../../services/apiService";
 import { API_URL } from "../../../services/enums";
-import { useDispatch, useSelector } from "react-redux";
-import { ToastInfo } from "../../Toast";
 import PlayerCard from "./PlayerCard";
-import PageLoader from "../../PageLoader";
-import { RootState } from "../../../store";
 import { debounceFunc } from "../../../utils/debounce-utils";
 
 interface CommunitySearchComponentProps {
   selectedUser: string | number;
   setSelectedUser: (userid: string | number) => void;
+  setShowUserNotFound: (flag: boolean) => void;
 }
 
 const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
   selectedUser,
   setSelectedUser,
+  setShowUserNotFound,
 }) => {
-  const loader = useSelector((state: RootState) => state.loader.isLoading);
-  const dispatch = useDispatch();
   const [searchString, setSearchString] = useState<string>("");
-  const [playersList, setPlayerList] = useState<any>();
+  const [playersList, setPlayerList] = useState<any>([]);
 
-  useEffect(()=>{
-    getPlayer(searchString)
-  },[])
+  useEffect(() => {
+    getPlayer(searchString);
+  }, []);
+
+  useEffect(() => {
+    if (playersList.length) {
+      setSelectedUser(playersList?.[0].id);
+    } else {
+      setSelectedUser("");
+    }
+  }, [playersList]);
 
   const getPlayer = async (value?: string) => {
-    dispatch(setLoading(true));
     setPlayerList([]);
     try {
       const payload = {
@@ -58,14 +60,14 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
       );
       if (status === 200 && data?.data != null && !data?.error) {
         setPlayerList(data?.data?.content || []);
+        setShowUserNotFound(false);
       } else if (data?.error && data.description) {
         setSelectedUser("");
-        ToastInfo(data.description);
+        setShowUserNotFound(true);
       }
     } catch (error) {
       console.error(error);
     } finally {
-      dispatch(setLoading(false));
     }
     if (!searchString) {
       setSelectedUser("");
@@ -86,7 +88,6 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
     const value = event;
     setSearchString(value);
     getPlayer(value);
-
   };
   const scrollbarStyles: React.CSSProperties = {
     overflow: "auto", // Enable scrolling
@@ -95,10 +96,7 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
   };
 
   return (
-    <div
-      className="ml-5 h-[90vh] w-[25%] overflow-auto"
-      style={scrollbarStyles}
-    >
+    <div className="ml-5 h-[90vh] w-[25%]">
       <div className="align-center mt-5 flex w-full justify-center justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[242px]">
         <input
           className="w-full bg-gray-100 focus:outline-none"
@@ -113,20 +111,18 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
           //   onClick={getPlayer}
         />
       </div>
-      <div className="my-3 text-[20px] font-semibold tracking-wide">
-        Community
+      <div className="my-3 text-[20px] font-semibold tracking-wide text-primaryText">
+        Communities
       </div>
-      <PageLoader isActive={loader}>
-        <div>
-          {playersList?.map((profile: any) => (
-            <PlayerCard
-              profile={profile}
-              isSelected={selectedUser == profile.id}
-              setSelectedUser={setSelectedUser}
-            />
-          ))}
-        </div>
-      </PageLoader>
+      <div className="h-[90vh]" style={scrollbarStyles}>
+        {playersList?.map((profile: any) => (
+          <PlayerCard
+            profile={profile}
+            isSelected={selectedUser == profile.id}
+            setSelectedUser={setSelectedUser}
+          />
+        ))}
+      </div>
     </div>
   );
 };

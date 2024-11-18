@@ -186,7 +186,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               sortDir: "ASC",
               sortBy: "username",
               pageNumber: currentPage,
-              pageSize: 2,
+              pageSize: pageSize,
             };
             payload.searchParams = {};
             if (searchValue) {
@@ -358,6 +358,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               value={searchString}
               onChange={(e) => {
                 debouncedGetPlayer(e);
+                setCurrentPage(0)
                 setSearchString(e.target.value);
               }}
               placeholder={computeSearchPlaceholder()}
@@ -378,7 +379,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           </div>
           {!isCourseAdmin && selectedUserTab != 3 && (
             <button
-              className="mt-4 flex gap-2 rounded-md bg-lime-500 px-4 py-2 text-white md:mr-2 md:mt-0 md:px-6"
+              className="mt-4 flex gap-2 rounded-md bg-primaryColor px-4 py-2 text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => openModal("", 0)}
             >
               <Plus /> {selectedUserTab === 2 ? "Course Admin" : "Super Admin"}

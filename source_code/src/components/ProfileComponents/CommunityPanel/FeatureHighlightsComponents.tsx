@@ -8,7 +8,6 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import VideoPlayer from "../../MediaManagement/VideoPlayer";
-import PageLoader from "../../PageLoader";
 
 interface FeatureHighlightsComponentsprops {
   selectedUser: string | number;
@@ -17,7 +16,6 @@ interface FeatureHighlightsComponentsprops {
 const FeatureHighlightsComponents: React.FC<
   FeatureHighlightsComponentsprops
 > = ({ selectedUser }) => {
-  const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [allVideos, setAllVideos] = useState<Array<any>>([]);
   const [refreshList, setRefreshList] = useState<boolean>(false);
@@ -59,7 +57,6 @@ const FeatureHighlightsComponents: React.FC<
   }
 
   return (
-    <PageLoader isActive={loader}>
       <div className="my-5 w-[95%] rounded-[8px] bg-[#1D1A0C99] p-3">
         <div className="flex items-center justify-between">
           <span className="text-[16px] text-[#ffffff]">
@@ -120,7 +117,6 @@ const FeatureHighlightsComponents: React.FC<
           />
         </div>
       </div>
-    </PageLoader>
   );
 };
 

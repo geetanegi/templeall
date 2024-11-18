@@ -114,12 +114,14 @@ const ContestManagement = () => {
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCourse({name: event.target.value, id:1});
+    setCurrentPage(0)
     setHolesList(null); // Reset holesList to null when course changes
     setSelectedHoles(''); // Reset selectedHoles to an empty array
   };
 
   const handleSelectedValuesChange = (selectedValues: string[]) => {
     let selectedHolesData = "";
+    setCurrentPage(0)
     selectedValues.forEach((item, index)=>{
       selectedHolesData= selectedHolesData + item
       if(index < selectedValues.length - 1){
@@ -391,7 +393,7 @@ const ContestManagement = () => {
           </div>
           {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (
             <button
-              className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-[#95c11e] px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
+              className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
                 navigate(ROUTES.CREATE_CONTEST);
               }}
@@ -450,7 +452,7 @@ const ContestManagement = () => {
                   );
                 }
               }}
-              className="w-32 rounded-md bg-[#95c11e] py-2 text-white"
+              className="w-32 rounded-md bg-primaryColor py-2 text-white"
             >
               {"OK"}
             </button>

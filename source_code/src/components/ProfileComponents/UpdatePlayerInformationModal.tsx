@@ -398,10 +398,11 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                     <div className="mb-4 flex w-[100%] gap-4 lg:w-auto">
                       <input
                         name="countryCode"
-                        className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-4 py-3"
+                        className="ml-5 w-[15%] rounded-lg cursor-not-allowed border border-gray-200 border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] px-4 py-3"
                         value={values.countryCode}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        disabled
                         type="text"
                       />
                       <input
@@ -417,8 +418,9 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                           }
                         }}
                         onBlur={handleBlur}
+                        disabled
                         maxLength={10}
-                        className="w-[71%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
+                        className="w-[71%] rounded-lg border cursor-not-allowed border-gray-200 border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] px-2 py-3 text-gray-500"
                       />
                     </div>
                     <div className="mb-5 ml-6">
@@ -582,7 +584,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                   </div>
 
                   {/* Card Inforemation */}
-                  <div className="mb-3 ml-5 text-[20px] font-semibold">
+                  {/* <div className="mb-3 ml-5 text-[20px] font-semibold">
                     Card Information
                   </div>
                   <div className="flex flex-col">
@@ -675,7 +677,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                       onBlur={handleBlur}
                       className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-[#6B7280] md:w-[430px]"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6">

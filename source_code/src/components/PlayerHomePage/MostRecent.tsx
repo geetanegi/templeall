@@ -62,7 +62,10 @@ const MostRecent: React.FC = () => {
 
       {recentData?.data?.leaderboard &&
         recentData?.data?.contestInfo?.contestType === "Closest-to-the-Pin" && (
-          <LeaderBoardTable leaderBoardData={recentData.data.leaderboard} />
+          <LeaderBoardTable
+            leaderBoardData={recentData.data.leaderboard}
+            registered={true} // passing true as show btn of  show full leaderboard
+          />
         )}
     </div>
   );

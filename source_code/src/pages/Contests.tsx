@@ -127,12 +127,50 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .min(5, "Value should be between 5 and 100")
     .max(100, "Value should be between 5 and 100"),
+  playerPercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
 
-  playerPercentage: Yup.string().required("This field is mandatory."),
-  acecamPercentage: Yup.string().required("This field is mandatory."),
-  coursePercentage: Yup.string().required("This field is mandatory."),
-  charityPercentage: Yup.string().required("This field is mandatory."),
+  acecamPercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
 
+  coursePercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
+
+  charityPercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
+
+  // Custom validation for the sum of percentages
+  totalPercentage: Yup.number().test(
+    "sum",
+    "Total Payout percentage should be 100%",
+    function () {
+      const {
+        playerPercentage,
+        acecamPercentage,
+        charityPercentage,
+        coursePercentage,
+      } = this.parent;
+      const player = Number(playerPercentage || 0);
+      const acecam = Number(acecamPercentage || 0);
+      const course = Number(coursePercentage || 0);
+      const charity = Number(charityPercentage || 0);
+
+      const total = player + acecam + course + charity;
+      return total === 100;
+    },
+  ),
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
     then: Yup.string().required("This field is mandatory."),

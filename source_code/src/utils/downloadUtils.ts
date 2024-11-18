@@ -6,3 +6,7 @@ export const downloadFile = (filePath: string, fileName: string) => {
   link.click();
   document.body.removeChild(link);
 };
+
+export const viewPdf = (pdfUrl: string) => {
+  window.open(pdfUrl, "_blank");
+};

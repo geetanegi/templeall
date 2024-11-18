@@ -17,14 +17,14 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ profile, isSelected, setSelecte
             >
                 <div className='border border-gray-300 rounded-md h-[48px] w-[48px]  overflow-hidden'>
                     {
-                        profile?.userProfile?.imageBase64 ? 
-                        <img src={`data:image/png;base64,${profile?.userProfile?.imageBase64}`} alt="" className='h-[48px] mx-auto' /> :
+                        profile?.imageBase64 ? 
+                        <img src={`data:image/png;base64,${profile?.imageBase64}`} alt="" className='h-[48px] mx-auto' /> :
                         <img src={defaultUserImage} alt="" className='h-[48px] mx-auto' />
                     }
                 </div>
                 <div className='flex justify-center flex-col ml-3 h-full text-gray-500 text-sm'>
                     <span className={`text-[16px]  font-semibold ${isSelected ? "text-[#ffffff]" : "text-[#1D1A0CB2]"}`}>{profile.firstName} {profile.lastName}</span>
-                    <span className={`text-[14px] tracking-[0.25px] ${isSelected ? "text-[#F5F6F7]" : "text-[#7B7887]" } ${profile.userProfile.location ? "visible": "invisible"} `}>{profile.userProfile.location || "location"}</span>
+                    <span className={`text-[14px] tracking-[0.25px] ${isSelected ? "text-[#F5F6F7]" : "text-[#7B7887]" } ${profile?.username ? "visible": "invisible"} `}>{profile.username || "location"}</span>
                 </div>
             </div>
             <div className={isSelected ? 'bg-custom-gradient-3 h-[4px]' : ''} ></div>

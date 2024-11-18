@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
 import TikTok from "../assets/images/TikTok.svg";
-import aceCampLogo from "../assets/images/aceCamp_logo.png";
+import aceCampLogo from "../assets/images/logo (1).png";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
 import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
@@ -15,16 +15,17 @@ import InstagramLoginComponent from "../components/social-login/InstagramLoginCo
 import apiService from "../services/apiService";
 import { RootState } from "../store";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError } from "../components/Toast";
+import { ToastInfo } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import moment from "moment";
-import { encryptData, secretKey } from "../utils/encrypt";
+import AppleSignInButton from "../components/social-login/AppleSignInButton";
+import { decryptData, encryptData, secretKey } from "../utils/encrypt";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const Login: React.FC = () => {
         : "",
     password:
       typeof userInfo === "object" && userInfo !== null
-        ? userInfo.password || ""
+        ? decryptData(userInfo.password, secretKey) || ""
         : "",
     rememberme: userInfo !== null,
   };
@@ -75,10 +76,14 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const { username, password, rememberme } = values;
-      const payloadData = {username, password}
-      const loginObj = {username, password , mode:"WEB"}
-      const encryptedpayload = await encryptData(JSON.stringify(payloadData), secretKey)
-      const newData = { payload:encryptedpayload, mode: "WEB" };
+      const payloadData = { username, password };
+      const encryptedPasword: string = await encryptData(password, secretKey);
+      const loginObj = { username, password: encryptedPasword, mode: "WEB" };
+      const encryptedpayload = await encryptData(
+        JSON.stringify(payloadData),
+        secretKey,
+      );
+      const newData = { payload: encryptedpayload, mode: "WEB" };
       const { data, status } = await apiService.post<any>(API_URL.login, {
         data: newData,
       });
@@ -101,9 +106,9 @@ const Login: React.FC = () => {
           navigate("/dashboard");
         }
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);
@@ -113,18 +118,20 @@ const Login: React.FC = () => {
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
+    // const pdfUrl = TermsAndConditionsPdf; // URL of your PDF
+    // window.open(pdfUrl, "_blank");
   };
 
   return (
     <>
       <div className="flex w-full flex-col items-center gap-2 rounded-xl border p-2 md:mt-10 md:w-full">
         <img src={aceCampLogo} alt="" className="h-32 w-32 sm:-mt-20" />
-        <div className="flex gap-5">
+        <div className="flex items-center justify-center gap-5">
           <InstagramLoginComponent />
           <FacebookLoginComponent
             appId="490090883627586"
@@ -132,6 +139,7 @@ const Login: React.FC = () => {
           />
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
+          <AppleSignInButton />
         </div>
         <h3 className="my-5 py-3 text-[14px] font-semibold text-[#FFFFFF] md:my-1">
           -OR-
@@ -217,7 +225,7 @@ const Login: React.FC = () => {
         </div>
         <div>
           <div className="fixed bottom-14 right-[5px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">
+            <div className="right-4 top-[1px] mt-2 flex gap-2 md:absolute">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
@@ -245,7 +253,7 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] flex md:absolute">
+            <div className="right-0 top-[1px] flex md:absolute">
               <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                 © 2024 AceCam
                 <sup className="text-[8px]">TM&nbsp;</sup>{" "}

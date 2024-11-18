@@ -15,6 +15,8 @@ interface TableComponentProps {
   oddRowStyle?: React.CSSProperties;
   evenRowStyle?: React.CSSProperties;
   greenTheme?: boolean;
+  totalElement?:number;
+  elementPerPage?:number
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
@@ -23,26 +25,14 @@ const TableComponent: React.FC<TableComponentProps> = ({
   currentPage = 0,
   setCurrentPage = () => {},
   totalPages = 1,
-  pageSize = 10,
-  setPageSize = () => {},
-  totalAdminCount = [],
   pagination = true,
   style = {},
   oddRowStyle = {},
   evenRowStyle = {},
   greenTheme = false,
+  totalElement = 10,
+  elementPerPage=10
 }) => {
-  const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
-
-  const totalPage =
-    rowData.length >= pageSize
-      ? Math.ceil(totalAdminCount.length / pageSize)
-      : 1;
-
-  const handlePageSizeChange = (value: any) => {
-    setCurrentPage(0);
-    setPageSize(value.target.value);
-  };
 
   const scrollbarStyles: React.CSSProperties = {
     overflow: "auto", // Enable scrolling
@@ -125,7 +115,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
         {pagination ? (
           <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
             <div className="flex items-center justify-center">
-              <div>Rows</div>
+              {/* <div>Rows</div>
               <select
                 name="example"
                 id="example"
@@ -137,13 +127,13 @@ const TableComponent: React.FC<TableComponentProps> = ({
                     {row}
                   </option>
                 ))}
-              </select>
-              <div>of 10</div>
+              </select> */}
+              <div>Showing result {currentPage * 10 +1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
             </div>
             <PaginationComponent
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              totalPages={totalPages ? totalPages : totalPage}
+              totalPages={totalPages}
             />
           </div>
         ) : null}

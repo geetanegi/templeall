@@ -5,7 +5,7 @@ import TeeInfo from "../components/Contests/Contest Components/TeeInfo";
 import TeeContests from "../components/Contests/Contest Components/TeeContests";
 import apiService from "../services/apiService";
 import { API_URL } from "../services/enums";
-import { ToastError } from "../components/Toast";
+import { ToastInfo } from "../components/Toast";
 import {
   setContestList,
   setCourseList,
@@ -71,6 +71,7 @@ const ContestList: React.FC = () => {
     (state: RootState) => state.courses.selectedTeeType,
   );
   const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   // const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   // const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
@@ -90,10 +91,10 @@ const ContestList: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setCourseList(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -116,10 +117,10 @@ const ContestList: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setHoleList(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -145,10 +146,10 @@ const ContestList: React.FC = () => {
         dispatch(setContestList(null));
         dispatch(setSelectedTeeId(null));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -168,15 +169,16 @@ const ContestList: React.FC = () => {
           teeId: selectedTeeId,
           date: moment().utc().format(),
           zoneId: timeZone,
+          playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
         },
       });
       if (res.status === 200 && !res.data.error) {
         dispatch(setContestList(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -226,7 +228,7 @@ const ContestList: React.FC = () => {
         style={{ backgroundImage: `url(${BG})` }}
       >
         <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden px-2">
-          <div className="h-screen overflow-auto p-1">
+          <div className="h-screen overflow-auto p-1 pt-3">
             {/* First column content (20% width) */}
             {courseList?.data.map((course) => (
               <div key={course.id} className="col-span-4">
@@ -318,7 +320,7 @@ const ContestList: React.FC = () => {
                       <div className="flex h-full items-center justify-center">
                         <div className="text-center">
                           <p className="text-gray-500">
-                            No active contests available.
+                            We do not have any contest running here today!!!
                           </p>
                         </div>
                       </div>

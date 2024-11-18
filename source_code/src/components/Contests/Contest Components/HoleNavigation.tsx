@@ -1,5 +1,4 @@
 import React from "react";
-import { Info } from "lucide-react";
 import Golf from "../../../assets/images/golf_course.png";
 import WhiteGolf from "../../../assets/images/golf_course (1).png";
 import {
@@ -33,7 +32,7 @@ const HoleNavigation: React.FC<{ hole: hole }> = ({ hole }) => {
     <div
       className={`flex cursor-pointer items-center gap-2 rounded-full border px-3 py-2 shadow-sm ${
         hole.id === selectedHoleId
-          ? "bg-[#95c11e] text-white"
+          ? "bg-primaryColor text-white"
           : "border-gray-400 bg-white hover:bg-gray-100"
       }`}
       onClick={() => {
@@ -54,9 +53,9 @@ const HoleNavigation: React.FC<{ hole: hole }> = ({ hole }) => {
       >
         Hole #{hole.holeNumber}- Par {hole.par}
       </span>
-      <Info
+      {/* <Info
         className={`h-4 w-4 ${hole.id === selectedHoleId ? "text-white" : "text-blue-700"}`}
-      />
+      /> */}
     </div>
   );
 };

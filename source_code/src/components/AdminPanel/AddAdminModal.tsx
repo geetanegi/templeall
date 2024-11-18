@@ -3,7 +3,7 @@ import Modal from "../ModalComponent";
 import apiService from "../../services/apiService";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { setLoading } from "../../reducers/loader/loader";
 import { useDispatch } from "react-redux";
@@ -26,7 +26,7 @@ interface AddAdminModalProps {
   closeModal: () => void;
   handleRefreshUserCount: () => void;
   refreashUserData: () => void;
-  selectedUserTab:number | string
+  selectedUserTab: number | string;
 }
 
 const validationSchema = Yup.object({
@@ -93,12 +93,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         const adminRoles = data?.data.filter((item: any) => item.roleId !== 3);
         setRoles(adminRoles);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       } else if (data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
-      ToastError("Error fetching roles");
+      ToastInfo("Error fetching roles");
     }
   };
 
@@ -115,7 +115,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
             ...values,
             password: null,
             selectedUserId: userData ? userData.id : null,
-            roleIds: selectedUserTab === 1 ? 1 : 2
+            roleIds: selectedUserTab === 1 ? 1 : 2,
           },
         };
       }
@@ -123,7 +123,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         data: {
           ...values,
           selectedUserId: userData ? userData.id : null,
-          roleIds: selectedUserTab === 1 ? 1 : 2
+          roleIds: selectedUserTab === 1 ? 1 : 2,
         },
       };
       const { data, status } = await apiService.post<any>(
@@ -131,12 +131,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         payload,
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        ToastSuccess(data.data.message || '');
+        ToastSuccess(data.data.message || "");
         handleRefreshUserCount();
         refreashUserData();
         setIsModalOpen(false);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error(error);
@@ -177,12 +177,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
             onSubmit={handleSubmit}
             className="w-full overflow-hidden rounded-lg md:w-[480px]"
           >
-            <div className="relative ml-5 mb-5 mr-7">
+            <div className="relative mb-5 ml-5 mr-7">
               <input
                 type="text"
                 value={selectedUserTab === 2 ? "Course Admin" : "Super Admin"}
                 disabled
-                className={`rounded-lg w-full border bg-[#E6E6E6] px-2 py-3 text-gray-500  `}
+                className={`w-full rounded-lg border bg-[#E6E6E6] px-2 py-3 text-gray-500`}
               />
               {/* Asterisk styled to appear as if inside the select */}
             </div>

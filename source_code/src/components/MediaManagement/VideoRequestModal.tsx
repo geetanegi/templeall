@@ -6,7 +6,7 @@ import { API_URL } from "../../services/enums";
 import moment from "moment";
 import { RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastInfo, ToastSuccess } from "../Toast";
 import { setLoading } from "../../reducers/loader/loader";
 import * as Yup from "yup";
 import FormikControl from "../../Formik/components/FormikControl";
@@ -19,7 +19,7 @@ interface UploadVideoModalProps {
 }
 
 const initialValue = {
-videoCategory: "",
+  videoCategory: "",
   description: "",
 };
 
@@ -68,7 +68,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
           setIsModalOpen(false);
           getAllVideos();
         } else if (data.description) {
-          ToastError(data.description);
+          ToastInfo(data.description);
         }
       } catch (error) {
         console.error(error);
@@ -102,97 +102,97 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
           onSubmit={handleSubmit}
         >
           {({ handleSubmit, touched, isSubmitting }) => {
-            return(
-            
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                
-              <div className="relative mt-[-15px] px-5">
-                <span className="mb-0 text-[13px] text-black">
-                  Select your video category
+            return (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div className="relative mt-[-15px] px-5">
+                  <span className="mb-0 text-[13px] text-black">
+                    Select your video category
+                  </span>
+                  <span
+                    className={`pointer-events-none absolute left-[42%] top-1 text-[14px] text-red-500`}
+                  >
+                    *
+                  </span>
+
+                  <div className="flex space-x-4">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="videoCategory"
+                        value="TOP_SHOT"
+                        checked={selectedOption === "TOP_SHOT"}
+                        onChange={handleTagChange}
+                        className="form-radio text-blue-600"
+                      />
+                      <span className="ml-2 text-[14px]">Top Shot</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="videoCategory"
+                        value="NOT_TOP_SHOT"
+                        checked={selectedOption === "NOT_TOP_SHOT"}
+                        onChange={handleTagChange}
+                        className="form-radio text-blue-600"
+                      />
+                      <span className="ml-2 text-[14px]">Not Top Shot</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="videoCategory"
+                        value="BLOOPERS"
+                        checked={selectedOption === "BLOOPERS"}
+                        onChange={handleTagChange}
+                        className="form-radio text-blue-600"
+                      />
+                      <span className="ml-2 text-[14px]">Blooper</span>
+                    </label>
+                  </div>
+
+                  <div>
+                    {!selectedOption && touched.videoCategory ? (
+                      <span className="ml-4 text-[13px] text-[#d32f2f]">
+                        {" "}
+                        Please select category.
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+
+                <span className="mb-0 px-5 text-[13px] text-black">
+                  Describe your video
                 </span>
-                <span
-                className={`pointer-events-none absolute left-[42%] top-1 text-[14px] text-red-500`}
-              >
-                *
-              </span>
-
-                <div className="flex space-x-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="videoCategory"
-                      value="TOP_SHOT"
-                      checked={selectedOption === "TOP_SHOT"}
-                      onChange={handleTagChange}
-                      className="form-radio text-blue-600"
-                    />
-                    <span className="ml-2 text-[14px]">Top Shot</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="videoCategory"
-                      value="NOT_TOP_SHOT"
-                      checked={selectedOption === "NOT_TOP_SHOT"}
-                      onChange={handleTagChange}
-                      className="form-radio text-blue-600"
-                    />
-                    <span className="ml-2 text-[14px]">Not Top Shot</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="videoCategory"
-                      value="BLOOPERS"
-                      checked={selectedOption === "BLOOPERS"}
-                      onChange={handleTagChange}
-                      className="form-radio text-blue-600"
-                    />
-                    <span className="ml-2 text-[14px]">Blooper</span>
-                  </label>
+                <div className="flex px-5">
+                  <FormikControl
+                    label="Video Description"
+                    name="description"
+                    control="textarea"
+                    placeholder="Video Description"
+                    type="text"
+                    required={true}
+                  />
                 </div>
-                
-                <div>
-                    {
-                        !selectedOption && touched.videoCategory ?
-                        <span className="text-[#d32f2f] ml-4 text-[13px]"> Please select category.</span> :null 
-                    }
-                    
+
+                <div className="mt-[20px] flex h-[70px] w-[420px] items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="mr-5 h-[40px] w-[76px] rounded-md bg-[#7B7887] py-2 text-[14px] text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="h-[40px] w-[76px] rounded-md bg-lime-500 py-2 text-[14px] text-white"
+                  >
+                    Request
+                  </button>
                 </div>
-              </div>
-
-              <span className="mb-0 px-5 text-[13px] text-black">
-                Describe your video
-              </span>
-              <div className="flex px-5">
-                <FormikControl
-                  label="Video Description"
-                  name="description"
-                  control="textarea"
-                  placeholder="Video Description"
-                  type="text"
-                  required={true}
-                />
-              </div>
-
-              <div className="mt-[20px] flex h-[70px] w-[420px] items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="mr-5 h-[40px] w-[76px] rounded-md bg-[#7B7887] py-2 text-[14px] text-white"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-[40px] w-[76px] rounded-md bg-lime-500 py-2 text-[14px] text-white"
-                >
-                  Request
-                </button>
-              </div>
-            </form>
-          )}}
+              </form>
+            );
+          }}
         </Formik>
       </Modal>
     </div>

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Formik, Form, FormikHelpers, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import {
   useStripe,
   useElements,
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
+  // CardNumberElement,
+  // CardExpiryElement,
+  // CardCvcElement,
 } from "@stripe/react-stripe-js";
 // assets import
 import TikTok from "../assets/images/TikTok.svg";
@@ -20,7 +20,7 @@ import SuccessScreen from "../components/SuccessScreen";
 import apiService from "../services/apiService";
 import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import InstagramLoginComponent from "../components/social-login/InstagramLoginComponent";
 import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
@@ -32,7 +32,7 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
 import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
 
-import { downloadFile } from "../utils/downloadUtils";
+import { viewPdf } from "../utils/downloadUtils";
 
 const Register: React.FC = () => {
   const stripe = useStripe();
@@ -120,9 +120,9 @@ const Register: React.FC = () => {
       ),
   });
 
-  const [cardError, setCardError] = useState<string | null>(null);
-  const [isCardEmpty, setIsCardEmpty] = useState(true); // Track if CardElement is empty
-  const [cardTouched, setCardTouched] = useState(false);
+  // const [cardError, setCardError] = useState<string | null>(null);
+  // const [isCardEmpty, setIsCardEmpty] = useState(true); // Track if CardElement is empty
+  // const [cardTouched, setCardTouched] = useState(false);
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [usernameValue, setUsernameValue] = useState<string>("");
@@ -130,11 +130,11 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (
     values: RegisterFormValues,
-    { setSubmitting }: FormikHelpers<RegisterFormValues>,
+    // { setSubmitting }: FormikHelpers<RegisterFormValues>,
   ) => {
     setEmail(values.email);
     dispatch(setLoading(true));
-    setCardTouched(false);
+    // setCardTouched(false);
     try {
       const {
         firstName,
@@ -175,9 +175,9 @@ const Register: React.FC = () => {
         setUsernameValue(username);
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       } else {
-        ToastError(data?.description);
+        ToastInfo(data?.description);
       }
     } catch (error) {
       console.error(error);
@@ -189,13 +189,13 @@ const Register: React.FC = () => {
       // Stripe.js has not loaded yet
       return;
     }
-    const cardNumberElement = elements.getElement(CardNumberElement);
-    if ((cardTouched && !cardNumberElement) || isCardEmpty) {
-      setCardError("Card details are required");
-      setSubmitting(false);
-      setIsCardEmpty(true);
-      return;
-    }
+    // const cardNumberElement = elements.getElement(CardNumberElement);
+    // if ((cardTouched && !cardNumberElement) || isCardEmpty) {
+    //   setCardError("Card details are required");
+    //   setSubmitting(false);
+    //   setIsCardEmpty(true);
+    //   return;
+    // }
   };
 
   const DisplayScreens = () => {
@@ -215,11 +215,11 @@ const Register: React.FC = () => {
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    downloadFile(TermsAndConditionsPdf, "terms-and-conditions.pdf");
+    viewPdf(TermsAndConditionsPdf);
   };
 
   const downloadPrivacyPolicyFunc = () => {
-    downloadFile(privacyPolicyPdf, "privacy-policy.pdf");
+    viewPdf(privacyPolicyPdf);
   };
 
   return (
@@ -358,7 +358,7 @@ const Register: React.FC = () => {
                       authFlow={true}
                     />
                     <p className="-mt-4 w-full px-1 text-[12px] font-semibold text-yellowText">
-                      (By proving your phone number, you agree to receive text
+                      (By providing your phone number, you agree to receive text
                       messages from AceCam Golf LLC. Message and data rates may
                       apply.)
                     </p>
@@ -373,8 +373,9 @@ const Register: React.FC = () => {
                     placeholder="GHIN"
                   />
                 </div>
+
                 <div className="mx-auto max-w-md">
-                  <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
+                  {/* <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
                     Card Information
                   </h2>
                   <div className="mb-4 flex flex-col">
@@ -472,7 +473,7 @@ const Register: React.FC = () => {
                       placeholder="Enter Your Name"
                       type="text"
                     />
-                  </div>
+                  </div> */}
                   <div className="mb-6 flex flex-col">
                     <label className="inline-flex items-center">
                       <Field
@@ -501,24 +502,6 @@ const Register: React.FC = () => {
                       <ErrorMessage name="acceptTerms" component="span" />
                     </span>
                   </div>
-                  {/* 
-                  <div className="mb-4">
-                    <label className="inline-flex items-center">
-                      <Field
-                        type="checkbox"
-                        name="acceptTerms"
-                        className="form-checkbox h-4 w-4 text-[#1E95C1]"
-                      />
-                      <span className="ml-2 text-gray-700">
-                        I agree to Terms & Conditions and Privacy Policy
-                      </span>
-                    </label>
-                    <ErrorMessage
-                      name="acceptTerms"
-                      component="span"
-                      className="text-sm text-red-600"
-                    />
-                  </div> */}
                 </div>
 
                 <button

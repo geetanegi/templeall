@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError, ToastSuccess } from "../Toast";
+import { ToastError, ToastInfo, ToastSuccess } from "../Toast";
 import defaultUserImage from "../../assets/images/default-user 1.png";
 import ImageCropperModal from "./CommunityPanel/ImageCropperModal";
 import { setLoading } from "../../reducers/loader/loader";
@@ -106,7 +106,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
         setModalOpen(false);
         ToastSuccess(data.data.message);
       } else if (data?.error && data.description) {
-        ToastError(data.description);
+        ToastInfo(data.description);
       }
     } catch (error) {
       console.error("Error uploading the cropped image:", error);
@@ -135,7 +135,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           reader.readAsDataURL(file);
           setModalOpen(true);
         } else {
-          ToastError("Upload failed");
+          ToastInfo("Upload failed");
         }
       }
 
@@ -177,10 +177,10 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
       //       fetchUserInformation();
       //       ToastSuccess(data.data.message);
       //     } else if (data?.error && data.description) {
-      //       ToastError(data.description);
+      //       ToastInfo(data.description);
       //     }
       //   } else {
-      //     ToastError("Upload failed");
+      //     ToastInfo("Upload failed");
       //   }
       // }
     } catch (error) {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup"; // Import Yup for validation
 import Golf_BG from "../assets/images/Golf-BG.png";
 
-import { ToastError, ToastSuccess } from "../components/Toast";
+import { ToastInfo, ToastSuccess } from "../components/Toast";
 import apiService from "../services/apiService";
 import { API_URL } from "../services/enums";
 import { setCourseData } from "../reducers/Courses_data/courses";
@@ -21,6 +21,7 @@ import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
 import { ensureUTC } from "../utils/TimeUtils";
+import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 
 // interface recurrence {
 //   frequency: string;
@@ -126,12 +127,50 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .min(5, "Value should be between 5 and 100")
     .max(100, "Value should be between 5 and 100"),
+  playerPercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
 
-  playerPercentage: Yup.string().required("This field is mandatory."),
-  acecamPercentage: Yup.string().required("This field is mandatory."),
-  coursePercentage: Yup.string().required("This field is mandatory."),
-  charityPercentage: Yup.string().required("This field is mandatory."),
+  acecamPercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
 
+  coursePercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
+
+  charityPercentage: Yup.number()
+    .required("This field is mandatory.")
+    .min(0, "Percentage must be at least 0.")
+    .max(100, "Percentage cannot exceed 100.")
+    .typeError("Please enter a valid number."),
+
+  // Custom validation for the sum of percentages
+  totalPercentage: Yup.number().test(
+    "sum",
+    "Total Payout percentage should be 100%",
+    function () {
+      const {
+        playerPercentage,
+        acecamPercentage,
+        charityPercentage,
+        coursePercentage,
+      } = this.parent;
+      const player = Number(playerPercentage || 0);
+      const acecam = Number(acecamPercentage || 0);
+      const course = Number(coursePercentage || 0);
+      const charity = Number(charityPercentage || 0);
+
+      const total = player + acecam + course + charity;
+      return total === 100;
+    },
+  ),
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
     then: Yup.string().required("This field is mandatory."),
@@ -155,6 +194,10 @@ const Contests: React.FC = () => {
   const navigate = useNavigate();
 
   const [editData, setEditData] = useState<any>(null);
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
     contestType: editData?.contestType,
@@ -339,7 +382,7 @@ const Contests: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         dispatch(setCourseData(res.data));
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -378,7 +421,7 @@ const Contests: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         setEditData(res.data.data);
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error fetching course data");
+        ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -400,7 +443,7 @@ const Contests: React.FC = () => {
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
     if (saveState.repeatEvery === 0 || saveState.frequency === "") {
-      ToastError("Please select Make Recurring ");
+      ToastInfo("Please select Make Recurring ");
       return;
     }
 
@@ -411,7 +454,7 @@ const Contests: React.FC = () => {
       parseInt(values.playerPercentage);
 
     if (totalPayout !== 100) {
-      ToastError("Total Payout percentage should be 100%");
+      ToastInfo("Total Payout percentage should be 100%");
       return;
     }
 
@@ -460,13 +503,25 @@ const Contests: React.FC = () => {
         ToastSuccess(res.data.data.message);
         navigate("/contests");
       } else if (res.data.error) {
-        ToastError(res.data.description || "Error creating contest");
+        ToastInfo(res.data.description || "Error creating contest");
       }
     } catch (error) {
       console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
+  };
+
+  const handleBack = (dirtyCheck: boolean) => {
+    if (dirtyCheck) {
+      setIsOpenModal(true);
+      return;
+    }
+    navigate(-1);
+  };
+
+  const handleDiscard = () => {
+    navigate(-1);
   };
 
   return (
@@ -495,7 +550,7 @@ const Contests: React.FC = () => {
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
-                  {({ isSubmitting, values, setFieldValue }) => {
+                  {({ isSubmitting, values, setFieldValue, dirty }) => {
                     handleValues(values);
                     useEffect(() => {
                       if (
@@ -546,7 +601,7 @@ const Contests: React.FC = () => {
                         <div className="flex justify-end gap-4">
                           <button
                             type="button"
-                            onClick={() => navigate(-1)}
+                            onClick={() => handleBack(dirty)}
                             className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
                           >
                             Back
@@ -588,6 +643,12 @@ const Contests: React.FC = () => {
           setSelectedDays={setSelectedDays}
           handleEndDateChange={handleEndDateChange}
           setFrequency={setFrequency}
+        />
+
+        <UnsavedModal
+          isOpenModal={isOpenModal}
+          onClose={onClose}
+          handleDiscard={handleDiscard}
         />
       </div>
     </PageLoader>

@@ -110,7 +110,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const handleContestSelection = () => {
     if (Object.keys(selectedContestObj)[0] !== selectedTeeType) {
       if (selectedContestsList[selectedContestTee]?.length > 0) {
-        // ToastError("You can only register for contests from one tee at a time");
+        // ToastInfo("You can only register for contests from one tee at a time");
         return;
       }
     }
@@ -182,7 +182,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
                     <span className="flex items-center gap-1">
                       <Plus
                         size={32}
-                        className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-[#95c11e] p-1 font-semibold text-white`}
+                        className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-primaryColor p-1 font-semibold text-white`}
                         // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
                         onClick={handleContestSelection}
                       />
@@ -209,7 +209,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className={`relative flex gap-1 rounded-md bg-[#95c11e] px-3 py-2 text-white ${
+          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-2 text-white ${
             Object.values(selectedContests).flat().length === 0
               ? "cursor-not-allowed"
               : ""
@@ -220,7 +220,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           disabled={Object.values(selectedContests).flat().length === 0}
         >
           <ShoppingCart className="relative" />
-          <span className="absolute right-[6rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+          <span className="absolute right-[5.3rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
             {Object.values(selectedContests).flat().length}
           </span>
           <span className="mx-2">Register</span>

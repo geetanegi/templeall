@@ -16,7 +16,7 @@ import StatusDropdown from "./StatusDropdown";
 import moment from "moment";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import PageLoader from "../PageLoader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -82,13 +82,27 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     requestId: "",
   });
   const [isVisible, setIsVisible] = useState<any>("");
+
+  //  pagination implemented
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalElement, setTotalElement] = useState<number>(10)
   const dispatch = useDispatch();
+
+
+
+  //  useEffect  calcualted no. of rows data based on pagination num ber selected and updated on table
+  useEffect(() => {
+    getVideosList();
+  }, [pageSize, currentPage]);
 
   useEffect(() => {
     getVideosList();
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
+    setTotalPages(0);
   }, [selectedTab, isRefreshList, filterValue]);
 
   useEffect(() => {
@@ -134,7 +148,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       } else if (selectedTab === 2) {
         await makeApiCall(API_URL.getAllReqVideos);
       } else if (selectedTab === 3) {
-        await makeApiCall(API_URL.getAllShotOfTheWeek);
+        await makeApiCall(API_URL.getAllShotOfTheWeekSA);
       }
     } catch (error) {
       console.error(error);
@@ -145,47 +159,56 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   };
 
-  const filterByContestType = () => {
-    const filterData = rowData.filter((video) => {
-      return video.contestName == filterValue;
-    });
-    setDataLength(filterData.length);
-    return filterData || [];
-  };
-
   const makeApiCall = async (endPoint: string) => {
-    let payload = {};
+    let payload: any = {};
 
     if (selectedTab === 3) {
-      payload = {
-        ...payload,
-        searchParams: {},
+      payload.pageSortingParam = {
+        sortDir: "DESC",
+        sortBy: "createdDate",
+        pageNumber: currentPage,
+        pageSize: pageSize,
       };
     } else if (selectedTab === 1) {
+      payload.pageSortingParam = {
+        sortDir: "DESC",
+        sortBy: "createdDate",
+        pageNumber: currentPage,
+        pageSize: pageSize,
+      };
       if (filterValue) {
-        return;
+        payload.searchParams = {
+          "scheduleContest.contest.contestType": filterValue,
+        };
       }
     } else if (selectedTab === 2) {
+      payload.pageSortingParam = {
+        sortDir: "DESC",
+        sortBy: "createdDate",
+        pageNumber: currentPage,
+        pageSize: pageSize,
+      };
       if (filterValue) {
-        payload = {
-          searchParams: {
+        payload.searchParams = {
             status: filterValue,
-          },
-        };
+          }  
       }
     }
 
     if (isCourseAdmin) {
-      payload = {
-        loginUserId: typeof userInfo === "object" ? userInfo.userId : null,
-        contestType: null,
+      payload = {}
+      payload.loginUserId = typeof userInfo === "object" ? userInfo.userId : null,
+      payload.contestType = null,
+      
+      payload.pageSortingParam = {
+        sortDir: "DESC",
+        sortBy: "createdDate",
+        pageNumber: currentPage,
+        pageSize: pageSize,
       };
+      
       if (filterValue) {
-        payload = {
-          ...payload,
-          loginUserId: typeof userInfo === "object" ? userInfo.userId : null,
-          contestType: filterValue,
-        };
+        payload.contestType = filterValue === 'ACE_CAM_JACKPOT' ? "AceCam-Jackpot": "Closest-to-the-Pin"
       }
     }
 
@@ -194,14 +217,16 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     });
     if (status === 200 && data?.data != null && !data?.error) {
       if (selectedTab === 3 && uploadSotwProgressArr.length) {
-        computeRowData([...uploadSotwProgressArr, ...data?.data]);
+        computeRowData([...uploadSotwProgressArr, ...data?.data.content]);
       } else {
-        computeRowData(data?.data);
+        computeRowData(data?.data.content);
       }
-      setFetchedData(data?.data);
-      setDataLength(data?.data?.length);
+      setFetchedData(data?.data.content);
+      setTotalElement(data.data.totalElements)
+      setDataLength(data?.data?.totalElements);
+      setTotalPages(data.data.totalPages)
     } else if (data?.error && data.description) {
-      ToastError(data.description);
+      ToastInfo(data.description);
     }
   };
 
@@ -535,25 +560,24 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setRowData([]);
     }
   };
-
   return (
     <div className="px-10">
       <PageLoader isActive={loader}>
         <TableComponent
-          rowData={
-            filterValue && selectedTab === 1 ? filterByContestType() : rowData
-          }
+          rowData={rowData}
           Headers={computeMediaHeaders(
             selectedTab,
             isCourseAdmin ? "courseAdmin" : "",
           )}
-          currentPage={0}
-          pageSize={10}
-          setCurrentPage={() => {}}
-          setPageSize={() => {}}
-          totalPages={1}
-          pagination={false}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+          setPageSize={setPageSize}
+          pagination={totalPages > 1}
           style="min-w-[150px]"
+          totalElement={totalElement}
+          elementPerPage={rowData.length}
         />
       </PageLoader>
       <ConfirmationModal

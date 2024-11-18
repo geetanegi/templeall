@@ -27,7 +27,7 @@ import {
   makeVieoLiked,
   updateViewCount,
 } from "./mediaUtils/mediaUtils";
-import { ToastError } from "../Toast";
+import { ToastInfo } from "../Toast";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { useDispatch } from "react-redux";
@@ -398,7 +398,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
       if (res.status === 200 && !res.data.error) {
         setRefreshList(!refreshList);
       } else if (res.data.error) {
-        ToastError(res.data.description || "");
+        ToastInfo(res.data.description || "");
       }
     } catch (error) {
     } finally {
@@ -419,9 +419,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
         return "Top Shot";
       } else if (requestVideoPayload?.videoCategory === "NOT_TOP_SHOT") {
         return "Not top shot";
-      } else if(requestVideoPayload?.videoCategory === "BLOOPERS") {
-        return "Bloopers"
-      }else {
+      } else if (requestVideoPayload?.videoCategory === "BLOOPERS") {
+        return "Bloopers";
+      } else {
         // do nothing
       }
     }

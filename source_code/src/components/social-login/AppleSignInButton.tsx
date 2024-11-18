@@ -3,10 +3,17 @@ import AppleLogin from "react-apple-login";
 import AppleIcon from "../../assets/images/apple-1.png";
 
 const AppleSignInButton: React.FC = () => {
-  const handleSuccess = (response: any) => {
-    alert("yes");
+  // Handle the success response from Apple (callback for both success and failure)
+  const handleAppleResponse = (response: any) => {
+    console.log("Apple response:", response);
+    if (response.error) {
+      console.error("Apple login failed:", response.error);
+      alert("Apple login failed. Please try again later.");
+      return;
+    }
+
+    // If login is successful, proceed with the token
     console.log("Apple login successful:", response);
-    // Send the response to the backend for validation
 
     // Send the response to your backend for validation
     fetch("/api/apple-auth", {
@@ -30,21 +37,23 @@ const AppleSignInButton: React.FC = () => {
   return (
     <AppleLogin
       clientId="com.acecamgolf.services" // Your Service ID as Client ID
-      redirectURI="https://dev.acecamgolf.com/dashboard" // Your redirect URL
+      redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"
       responseMode="form_post"
       scope="name email"
-      callback={handleSuccess}
+      callback={handleAppleResponse} // Handle both success and failure here
       render={(renderProps: any) => (
-        <button onClick={renderProps.onClick}>
+        <button onClick={renderProps.onClick} className="apple-signin-button">
           <img
             src={AppleIcon}
-            alt=""
+            alt="Sign in with Apple"
             className="h-10 w-10 rounded-full bg-white"
           />
+          <span>Sign in with Apple</span>
         </button>
       )}
     />
   );
 };
+
 export default AppleSignInButton;

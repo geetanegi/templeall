@@ -313,6 +313,10 @@ const ContestList: React.FC = () => {
                           progressiveContestId:
                             contestListItem.progressiveContestId,
                           note: contestListItem.note,
+                          eligibleForRegistration:
+                            contestListItem.eligibleForRegistration,
+                          eligibleRegistrationTime:
+                            contestListItem.eligibleRegistrationTime,
                         }}
                       />
                     ))}

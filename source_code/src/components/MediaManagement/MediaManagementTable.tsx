@@ -379,9 +379,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.requestTime).local().format("YYYY-MM-DD"),
-            time: moment().utc(data?.requestTime).local().format("hh:mm A"),
-            upload:uploadProgressArr?.find(
+            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
+            time: moment.utc(data?.startTime).local().format("hh:mm A"),
+            upload: uploadProgressArr?.find(
               (vid: any) => vid.id === data.id,
             ) ? (
               <ProgressBar
@@ -519,8 +519,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.dateTime).local().format("YYYY-MM-DD"),
-            time: moment.utc(data?.dateTime).local().format("h:mm A"),
+            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
+            time: moment.utc(data?.startTime).local().format("h:mm A"),
             upload: data.chunkNo ? (
               <div className="w-full py-4">
                 <ProgressBar

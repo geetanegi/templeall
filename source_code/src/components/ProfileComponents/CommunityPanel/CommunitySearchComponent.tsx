@@ -112,9 +112,9 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
         />
       </div>
       <div className="my-3 text-[20px] font-semibold tracking-wide text-primaryText">
-        Communities
+        Community
       </div>
-      <div className="h-[90vh]" style={scrollbarStyles}>
+      <div className="h-[85vh]" style={scrollbarStyles}>
         {playersList?.map((profile: any) => (
           <PlayerCard
             profile={profile}

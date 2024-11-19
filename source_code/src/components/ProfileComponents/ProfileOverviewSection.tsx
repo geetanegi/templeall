@@ -142,7 +142,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
         </div>
       </div>
       <ImageComponent
-        image={userinformation?.userProfile?.imageBase64}
+        image={userinformation?.userProfile?.imageUrl}
         userDetails={{
           firstName: userinformation?.firstName || '',
           lastName: userinformation?.lastName || '',

@@ -214,7 +214,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           >
             {image ? (
               <img
-                src={`data:image/png;base64,${image}`}
+                src={image}
                 alt=""
                 className="h-[432px] max-w-[340px]"
               />

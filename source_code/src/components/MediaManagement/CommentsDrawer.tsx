@@ -116,7 +116,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                 url={isDrawerOpen ? requestVideoPayload?.videos?.url : ""}
                 playing={isVideoPlaying} // Auto-play is true
                 width={"510px"}
-                height={"100%"}
+                height={"288px"}
                 onProgress={handleProgress}
                 onPlay={() => setISVideoPlaying(true)}
                 onPause={() => setISVideoPlaying(false)}
@@ -175,7 +175,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
 
           <div
             ref={commentRef}
-            className="absolute bottom-12 top-[345px] mt-[20px] flex flex-col overflow-y-auto"
+            className="absolute bottom-12 top-[325px] mt-[20px] flex flex-col overflow-y-auto"
           >
             <div className="mt-auto">
               {allComment.map((commentObj) => (
@@ -185,8 +185,8 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                   <div className="flex w-[496px]">
                     <img
                       src={
-                        commentObj.imageBase64
-                          ? `data:image/png;base64,${commentObj.imageBase64}`
+                        commentObj.imageUrl
+                          ? commentObj.imageUrl
                           : defaultuserimag
                       }
                       alt=""

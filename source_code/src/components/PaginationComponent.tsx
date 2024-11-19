@@ -74,7 +74,7 @@ const PaginationComponent: React.FC<PaginationConponentProps> = ({ currentPage, 
             <button
                 key={index}
                 onClick={() => page !== '...' && handlePageChange(page)}
-                className={`flex items-center w-[32px] h-[32px] justify-center rounded-[8px]  border-[1px] border-solid border-[#E4E4EB] ${page == (currentPage + 1) ? 'bg-[#95c11e] text-white' : 'text-black'} `}
+                className={`flex items-center w-[32px] h-[32px] justify-center rounded-[8px]  border-[1px] border-solid border-[#E4E4EB] ${page == (currentPage + 1) ? 'bg-primaryColor text-white' : 'text-black'} `}
 
             >
                 {page}

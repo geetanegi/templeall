@@ -193,7 +193,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
   return (
     <div
-      className="min-h-[88vh] w-full bg-[#ffffff] bg-fixed"
+      className="min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5"
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between px-10 pt-10">
@@ -203,7 +203,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             style={{ width: "max-content" }}
           >
             <button
-              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 1 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 1 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
               onClick={() => setSelectedTab(1)}
             >
               <FileVideo2
@@ -217,7 +217,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               </span>
             </button>
             <button
-              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 2 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
               onClick={() => setSelectedTab(2)}
             >
               <FileVideo2
@@ -231,7 +231,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               </span>
             </button>
             <button
-              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-[#95C11E] text-[#ffffff]" : "text-[#7B7887]"} `}
+              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
               onClick={() => setSelectedTab(3)}
             >
               <FileVideo2
@@ -271,7 +271,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
           {selectedTab === 3 &&
           userPermisions?.data?.permission["is_super_admin"] ? (
             <button
-              className="flex items-center justify-center whitespace-nowrap rounded-md bg-[#95C11E] px-6 font-[14px] text-[#ffffff]"
+              className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {
                 setIsSoTW(true);
                 setIsSOTWModalOpen(true);

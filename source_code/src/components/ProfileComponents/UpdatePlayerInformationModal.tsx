@@ -11,13 +11,13 @@ import apiService from "../../services/apiService";
 import { CourseApiResponse } from "../AdminPanel/courses/courses.interface";
 import { ChevronDown } from "lucide-react";
 import moment from "moment";
-import {
-  // CardCvcElement,
-  // CardExpiryElement,
-  CardNumberElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
+// import {
+//   // CardCvcElement,
+//   // CardExpiryElement,
+//   CardNumberElement,
+//   useElements,
+//   useStripe,
+// } from "@stripe/react-stripe-js";
 import PageLoader from "../PageLoader";
 interface userProfileType {
   contactNumber?: string;
@@ -117,15 +117,15 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
   fetchUserInformation,
   userData,
 }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [maxDate, setMaxDate] = useState("");
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
-  const [cardTouched, setCardTouched] = useState(false);
-  const [_cardError, setCardError] = useState<string | null>(null);
-  const [isCardEmpty, setIsCardEmpty] = useState(true);
+  // const [cardTouched, setCardTouched] = useState(false);
+  // const [_cardError, setCardError] = useState<string | null>(null);
+  // const [isCardEmpty, setIsCardEmpty] = useState(true);
   const fetchCourseList = async () => {
     try {
       const res = await apiService.post<CourseApiResponse>(
@@ -161,7 +161,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
     values: any,
     { setSubmitting }: FormikHelpers<any>,
   ) => {
-    setCardTouched(false);
+    // setCardTouched(false);
     dispatch(setLoading(true));
     try {
       const payload = {
@@ -189,17 +189,17 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
       dispatch(setLoading(false));
     }
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet
-      return;
-    }
-    const cardNumberElement = elements?.getElement(CardNumberElement);
-    if ((cardTouched && !cardNumberElement) || isCardEmpty) {
-      setCardError("Card details are required");
-      setSubmitting(false);
-      setIsCardEmpty(true);
-      return;
-    }
+    // if (!stripe || !elements) {
+    //   // Stripe.js has not loaded yet
+    //   return;
+    // }
+    // const cardNumberElement = elements?.getElement(CardNumberElement);
+    // if ((cardTouched && !cardNumberElement) || isCardEmpty) {
+    //   setCardError("Card details are required");
+    //   setSubmitting(false);
+    //   setIsCardEmpty(true);
+    //   return;
+    // }
   };
 
   return (

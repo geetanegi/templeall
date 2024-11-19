@@ -41,7 +41,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   };
 
   return (
-    <div className="mb-2 mt-3 flex h-full text-sm">
+    <div className="mb-2 mt-3 flex h-full text-sm mb-5">
       <div className="w-full">
         <div
           className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg" : "rounded-t-lg"} 2xl:max-w-none mt-2 border border-gray-100 md:overflow-auto`}
@@ -128,7 +128,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
                   </option>
                 ))}
               </select> */}
-              <div>Showing result {currentPage * 10 +1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
+              <div>Showing results {currentPage * 10 +1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
             </div>
             <PaginationComponent
               currentPage={currentPage}

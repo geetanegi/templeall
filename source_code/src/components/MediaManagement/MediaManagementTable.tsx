@@ -98,6 +98,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   }, [pageSize, currentPage]);
 
   useEffect(() => {
+    setCurrentPage(0);
     getVideosList();
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);

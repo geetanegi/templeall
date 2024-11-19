@@ -32,11 +32,23 @@ interface TeeContest {
   selectedTeeType: string | null;
   progressiveContestId: number | null;
   note: string | null;
+  eligibleForRegistration: boolean;
+  eligibleRegistrationTime: string | null;
 }
 
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentTime = moment.utc();
+
+  // console.log("teeContest info", teeContest);
+
+  // Parse eligibleRegistrationTime as UTC
+  const eligibleTimeUTC = moment.utc(teeContest?.eligibleRegistrationTime);
+
+  const isCrossed = currentTime.isAfter(eligibleTimeUTC);
+
+  // console.log("isCrossed", isCrossed);
 
   const [isContestAlreadySelected, setIsContestAlreadySelected] =
     useState(false);
@@ -57,7 +69,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     (state: RootState) => state.courses.yardage,
   );
 
-  const currentTime = moment.utc(); // Get the current time in UTC as
+  // Get the current time in UTC as
   // Function to check if the date string is in UTC
   const isUtcDate = (dateString: any) => {
     // Check for 'Z' at the end or a timezone offset
@@ -170,31 +182,37 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
               </span>
             </div>
             <div>
-              {isRegistrationOpen && (
-                <>
-                  {isSelected ? (
-                    <Minus
-                      size={32}
-                      className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
-                      onClick={handleRemoveContest}
-                    />
-                  ) : (
-                    <span className="flex items-center gap-1">
-                      <Plus
+              {/* 
+               check 1. check registration is (status) open/close  
+               check 2.check if eligibleForRegistration  
+              check 3. check time is crossed or not based on eligibleRegistrationTime */}
+              {isRegistrationOpen &&
+                teeContest?.eligibleForRegistration &&
+                isCrossed && (
+                  <>
+                    {isSelected ? (
+                      <Minus
                         size={32}
-                        className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-primaryColor p-1 font-semibold text-white`}
-                        // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
-                        onClick={handleContestSelection}
+                        className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
+                        onClick={handleRemoveContest}
                       />
-                      {isContestAlreadySelected && (
-                        <div title="You can only register for contests from one tee at a time">
-                          <Info size={20} className="ml-auto text-blue-700" />
-                        </div>
-                      )}
-                    </span>
-                  )}
-                </>
-              )}
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        <Plus
+                          size={32}
+                          className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-primaryColor p-1 font-semibold text-white`}
+                          // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
+                          onClick={handleContestSelection}
+                        />
+                        {isContestAlreadySelected && (
+                          <div title="You can only register for contests from one tee at a time">
+                            <Info size={20} className="ml-auto text-blue-700" />
+                          </div>
+                        )}
+                      </span>
+                    )}
+                  </>
+                )}
             </div>
           </div>
           {teeContest.note !== null && (

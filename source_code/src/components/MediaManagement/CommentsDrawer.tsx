@@ -116,7 +116,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                 url={isDrawerOpen ? requestVideoPayload?.videos?.url : ""}
                 playing={isVideoPlaying} // Auto-play is true
                 width={"510px"}
-                height={"100%"}
+                height={"288px"}
                 onProgress={handleProgress}
                 onPlay={() => setISVideoPlaying(true)}
                 onPause={() => setISVideoPlaying(false)}

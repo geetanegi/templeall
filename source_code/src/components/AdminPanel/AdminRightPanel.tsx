@@ -81,16 +81,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       setSearchString("");
     }, [selectedUserTab]);
 
-    useEffect(() => {
-      getUserData();
-    }, [pageSize, currentPage]);
 
     useEffect(() => {
-      if (selectedUserTab === 3) {
         if (searchString.length) {
           getUserData(searchString);
+        }else{
+          getUserData();
         }
-      }
     }, [currentPage, pageSize]);
 
     const handleActiveDeactiveUser = async (value: boolean, userId: any) => {
@@ -149,7 +146,10 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       });
     };
 
-    const getUserData = async (searchValue?: string) => {
+
+    
+    const getUserData =useCallback( 
+      async (searchValue?: string) => {
       dispatch(setLoading(true));
       try {
         let payload: PayloadTypes = {};
@@ -164,11 +164,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageSize: pageSize,
           };
           
-          if (searchString || searchValue) {
+          if (searchValue) {
             payload.searchParams = {
-              username: searchValue || searchString,
-              firstName: searchValue || searchString,
-              lastName: searchValue || searchString,
+              username: searchValue,
+              firstName: searchValue,
+              lastName: searchValue,
             };
           }
         } else if (selectedUserTab === 2) {
@@ -190,11 +190,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageSize: pageSize,
             };
             payload.searchParams = {};
-            if (searchString || searchValue) {
+            if (searchValue) {
               payload.searchParams = {
-                username: searchValue || searchString,
-                firstName: searchValue || searchString,
-                lastName: searchValue || searchString,
+                username: searchValue,
+                firstName: searchValue,
+                lastName: searchValue,
               };
             }
           } else {
@@ -205,11 +205,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageNumber: currentPage,
               pageSize: pageSize,
             };
-            if (searchString || searchValue) {
+            if (searchValue) {
               payload.searchParams = {
-                username: searchValue || searchString,
-                firstName: searchValue || searchString,
-                lastName: searchValue || searchString,
+                username: searchValue,
+                firstName: searchValue,
+                lastName: searchValue,
               };
             }
           }
@@ -223,11 +223,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageNumber: currentPage,
             pageSize: pageSize,
           };
-          if (searchString || searchValue) {
+          if (searchValue) {
             payload.searchParams = {
-              username: searchValue || searchString,
-              firstName: searchValue || searchString,
-              lastName: searchValue || searchString,
+              username: searchValue,
+              firstName: searchValue,
+              lastName: searchValue,
             };
           }
         }
@@ -249,7 +249,8 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       } finally {
         dispatch(setLoading(false));
       }
-    };
+    }, [selectedUserTab, currentPage, pageSize, handleRefreshUserCount, dispatch]
+  );
 
     const computeUserName = (
       firstName: string,
@@ -343,10 +344,10 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const debouncedGetPlayer = useCallback(
       debounceFunc(
         (value: React.ChangeEvent<HTMLInputElement>) =>
-          handleUserSearch(value.target.value),
+          getUserData(value.target.value),
         1000,
       ),
-      [],
+      [selectedUserTab],
     );
 
     return (

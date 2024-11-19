@@ -137,7 +137,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           name: computeUserName(
             item.firstName,
             item.lastName,
-            item?.userProfile?.imageBase64 || "",
+            item?.imageUrl || "",
             userRole,
             item.id,
             activeStatus,
@@ -271,7 +271,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           <div className="mr-5 w-10 rounded-md border bg-[#ebf0fa]">
             {image ? (
               <img
-                src={`data:image/png;base64,${image}`}
+                src={image}
                 alt=""
                 className="h-10 w-10 rounded-md"
               />

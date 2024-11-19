@@ -17,8 +17,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ profile, isSelected, setSelecte
             >
                 <div className='border border-gray-300 rounded-md h-[48px] w-[48px]  overflow-hidden'>
                     {
-                        profile?.imageBase64 ? 
-                        <img src={`data:image/png;base64,${profile?.imageBase64}`} alt="" className='h-[48px] mx-auto' /> :
+                        profile?.imageUrl ? 
+                        <img src={profile?.imageUrl} alt="" className='h-[48px] mx-auto' /> :
                         <img src={defaultUserImage} alt="" className='h-[48px] mx-auto' />
                     }
                 </div>

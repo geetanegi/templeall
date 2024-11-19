@@ -335,6 +335,8 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       try {
         const payload = {
           username: searchString,
+          firstName:searchString,
+          lastName:searchString
         };
         const { data, status } = await apiService.post<any>(
           API_URL.searchPlayer,
@@ -365,7 +367,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     };
   };
 
-  const debouncFunction = useCallback(handleUserSearch(getPlayer, 300), []);
+  const debouncFunction = useCallback(handleUserSearch(getPlayer, 250), []);
 
   const handleValues = useCallback((values: any) => {
     setSelectedClub(values.club);
@@ -495,6 +497,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         }}
           
                         onFocus={() => {
+                          setUsersList([])
                         }}
                         type="text"
                         required={true}

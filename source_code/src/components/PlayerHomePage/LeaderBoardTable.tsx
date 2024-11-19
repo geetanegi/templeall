@@ -46,7 +46,7 @@ const LeaderBoardTable: React.FC<{
           }}
         >
           <img
-            src={`data:image/png;base64,${row?.imageBase64}`}
+            src={row?.imageUrl}
             className="mr-[8px] h-5 w-5 rounded-full border border-[#FFDE59]"
           />
           <span className="text-[13px] text-white">{row.username}</span>

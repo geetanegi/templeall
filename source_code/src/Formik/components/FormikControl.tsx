@@ -8,6 +8,7 @@ import Select from "./MUISelect";
 import Textarea from "./Textarea";
 import NumberInput from "./NumberInput";
 import MUIInput from "./MUIInput";
+import SearchInput from "./SearchInput";
 
 interface FormikControlProps {
   control:
@@ -101,6 +102,8 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
       return <DatePicker label={rest.label} name={rest.name} {...rest} />;
     case "number":
       return <NumberInput label={rest.label} name={rest.name} {...rest} />;
+    case "searchInput":
+       return <SearchInput label={rest.label} onSelect={rest.onSelect} value={rest.value} options={rest.options} name={rest.name} {...rest} />
     default:
       return null;
   }

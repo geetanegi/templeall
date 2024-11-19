@@ -279,7 +279,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           </div>
           <div className="flex flex-col text-sm text-gray-500">
             <div
-              className={`text-md text-lime-500 ${firstName && lastName ? "visible" : "invisible"}`}
+              className={`text-md text-primaryColor ${firstName && lastName ? "visible" : "invisible"}`}
             >
               {firstName || "dsds"} {lastName || "sdd"}
             </div>

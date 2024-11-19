@@ -56,7 +56,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
               </p>
             </div>
               :  <ProfileOverviewSection
-              userId={selectedUser || id}
+              userId={id || selectedUser}
               isCommunitySearch={isCommunitySearch}
               role={role}
             />

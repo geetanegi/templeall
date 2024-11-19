@@ -1,5 +1,5 @@
 import React from "react";
-import { CredentialResponse } from "@react-oauth/google";
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../reducers/loader/loader";
 import apiService from "../../services/apiService";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastInfo } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
 
-import GoogleIcon from "../../assets/images/Google.svg";
+// import GoogleIcon from "../../assets/images/Google.svg";
 
 const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
@@ -62,18 +62,15 @@ const LoginButton: React.FC = () => {
   };
 
   return (
-    <div>
-      <img src={GoogleIcon} />
-    </div>
-    // <GoogleLogin
-    //   onSuccess={handleLoginSuccess}
-    //   onError={() => {
-    //     console.log("Login Failed");
-    //   }}
-    //   shape="circle"
-    //   size="medium"
-    //   type="icon"
-    // />
+    <GoogleLogin
+      onSuccess={handleLoginSuccess}
+      onError={() => {
+        console.log("Login Failed");
+      }}
+      shape="circle"
+      size="medium"
+      type="icon"
+    />
   );
 };
 

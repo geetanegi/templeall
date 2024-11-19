@@ -163,11 +163,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageNumber: currentPage,
             pageSize: pageSize,
           };
-          if (searchValue) {
+          
+          if (searchString || searchValue) {
             payload.searchParams = {
-              username: searchValue,
-              firstName: searchValue,
-              lastName: searchValue,
+              username: searchValue || searchString,
+              firstName: searchValue || searchString,
+              lastName: searchValue || searchString,
             };
           }
         } else if (selectedUserTab === 2) {
@@ -189,11 +190,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageSize: pageSize,
             };
             payload.searchParams = {};
-            if (searchValue) {
+            if (searchString || searchValue) {
               payload.searchParams = {
-                username: searchValue,
-                firstName: searchValue,
-                lastName: searchValue,
+                username: searchValue || searchString,
+                firstName: searchValue || searchString,
+                lastName: searchValue || searchString,
               };
             }
           } else {
@@ -204,11 +205,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageNumber: currentPage,
               pageSize: pageSize,
             };
-            if (searchValue) {
+            if (searchString || searchValue) {
               payload.searchParams = {
-                username: searchValue,
-                firstName: searchValue,
-                lastName: searchValue,
+                username: searchValue || searchString,
+                firstName: searchValue || searchString,
+                lastName: searchValue || searchString,
               };
             }
           }
@@ -222,11 +223,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageNumber: currentPage,
             pageSize: pageSize,
           };
-          if (searchValue) {
+          if (searchString || searchValue) {
             payload.searchParams = {
-              username: searchValue,
-              firstName: searchValue,
-              lastName: searchValue,
+              username: searchValue || searchString,
+              firstName: searchValue || searchString,
+              lastName: searchValue || searchString,
             };
           }
         }
@@ -278,7 +279,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           </div>
           <div className="flex flex-col text-sm text-gray-500">
             <div
-              className={`text-md text-lime-500 ${firstName && lastName ? "visible" : "invisible"}`}
+              className={`text-md text-primaryColor ${firstName && lastName ? "visible" : "invisible"}`}
             >
               {firstName || "dsds"} {lastName || "sdd"}
             </div>

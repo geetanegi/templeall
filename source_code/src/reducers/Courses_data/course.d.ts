@@ -134,6 +134,8 @@ export interface contest {
   startTime: string;
   waitTimeBetweenEntries: number;
   note: string | null;
+  eligibleForRegistration: boolean;
+  eligibleRegistrationTime: string | null;
 }
 
 export interface ContestListApiRes {

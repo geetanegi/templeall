@@ -55,8 +55,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
         API_URL.fetchUserProfile,
         {
           data: {
-            loginUserId: isCommunitySearch ?  userId ? userId :
-              "" : typeof userInfo === "object" ? userInfo.userId : undefined,
+            loginUserId: userId ? userId : typeof userInfo === "object" ? userInfo.userId : ""
           },
         },
       );

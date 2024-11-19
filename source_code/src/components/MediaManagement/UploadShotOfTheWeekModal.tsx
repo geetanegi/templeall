@@ -499,40 +499,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         type="text"
                         required={true}
                       />
-                      {/* <div
-                        className="absolute z-10 ml-3 mt-[-55px] max-h-[150px] bg-[#FAFAFA]"
-                        style={{ width: "max-content" }}
-                        onClick={() => {
-                          setUserSearchVisible(true);
-                        }}
-                      >
-                        {selectedUser.username}
-                      </div>
-                      {isUserSearchVisible ? (
-                        <ul
-                          className="absolute z-10 mt-[-15px] max-h-[150px] w-[490px] rounded border bg-white shadow-lg"
-                          style={{ height: "max-content" }}
-                        >
-                          {usersList?.map((user: any) => (
-                            <li
-                              className={`h-[35px] w-full cursor-pointer p-2 pl-4 hover:bg-gray-200`}
-                              onClick={() => {
-                                setUserSearchVisible(false);
-                                setSelectedUser(user);
-                              }}
-                            >
-                              {" "}
-                              {user.username}
-                            </li>
-                          ))}
-                          {!usersList.length ? (
-                            <div className="absolute z-10 mt-[-25px] flex min-h-[150px] w-[490px] items-center justify-center rounded border bg-white shadow-lg">
-                              {" "}
-                              {userNotFound ? "User not Found" : "Search User"}
-                            </div>
-                          ) : null}
-                        </ul>
-                      ) : null} */}
                     </div>
                     <div >
                       <div className="flex px-5">

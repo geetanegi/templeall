@@ -163,11 +163,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageNumber: currentPage,
             pageSize: pageSize,
           };
-          if (searchValue) {
+          
+          if (searchString || searchValue) {
             payload.searchParams = {
-              username: searchValue,
-              firstName: searchValue,
-              lastName: searchValue,
+              username: searchValue || searchString,
+              firstName: searchValue || searchString,
+              lastName: searchValue || searchString,
             };
           }
         } else if (selectedUserTab === 2) {
@@ -189,11 +190,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageSize: pageSize,
             };
             payload.searchParams = {};
-            if (searchValue) {
+            if (searchString || searchValue) {
               payload.searchParams = {
-                username: searchValue,
-                firstName: searchValue,
-                lastName: searchValue,
+                username: searchValue || searchString,
+                firstName: searchValue || searchString,
+                lastName: searchValue || searchString,
               };
             }
           } else {
@@ -204,11 +205,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               pageNumber: currentPage,
               pageSize: pageSize,
             };
-            if (searchValue) {
+            if (searchString || searchValue) {
               payload.searchParams = {
-                username: searchValue,
-                firstName: searchValue,
-                lastName: searchValue,
+                username: searchValue || searchString,
+                firstName: searchValue || searchString,
+                lastName: searchValue || searchString,
               };
             }
           }
@@ -222,11 +223,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             pageNumber: currentPage,
             pageSize: pageSize,
           };
-          if (searchValue) {
+          if (searchString || searchValue) {
             payload.searchParams = {
-              username: searchValue,
-              firstName: searchValue,
-              lastName: searchValue,
+              username: searchValue || searchString,
+              firstName: searchValue || searchString,
+              lastName: searchValue || searchString,
             };
           }
         }

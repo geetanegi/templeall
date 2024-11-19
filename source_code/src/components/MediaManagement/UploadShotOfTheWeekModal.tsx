@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
 import moment from "moment";
 import uuid from "react-uuid";
+import { AnyMessageParams } from "yup/lib/types";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -106,9 +107,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [teeOptions, setTeeOptions] = useState<Array<Option> | null>(null);
   const [, setCheckVideo] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<any>({ username: "" });
-  const [usersList, setUsersList] = useState<any>(null);
-  const [isUserSearchVisible, setUserSearchVisible] = useState<boolean>(false);
-  const [userNotFound, setUserNotFound] = useState<string>("");
+  const [usersList, setUsersList] = useState<any>([]);
   const dispatch = useDispatch();
 
   const CHUNK_SIZE = 0.5 * 1024 * 1024;
@@ -118,7 +117,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         ?.courseList || [];
     if (courseList.length > 0) {
       const courseListOptions =
-        courseList?.map((course) => ({
+        courseList?.map((course:any) => ({
           value: course.id,
           key: course.courseName,
         })) || [];
@@ -249,7 +248,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 tee: values.tee,
                 videoDescription: values.description,
                 videoTitle: values.title,
-                player: user?.id || "",
+                player: user?.[0]?.id || "",
                 uploadedBy:
                   typeof userInfo === "object" ? userInfo?.userId : undefined,
               },
@@ -307,6 +306,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             } else if (data?.error && data.description) {
               ToastInfo(data.description);
               handleInprogressVideoList({ vidId }, "remove");
+              setUsersList([])
             }
           } else {
             ToastInfo(
@@ -324,26 +324,29 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       ToastInfo("Video Upload Failed");
     } finally {
       setSelectedUser({ username: "" });
-      setUserSearchVisible(false);
       setIsRefreshList(!isRefreshList);
+      setUsersList([])
     }
   };
 
   const getPlayer = async (searchString: string) => {
-    try {
-      const payload = {
-        username: searchString,
-      };
-      const { data, status } = await apiService.post<any>(
-        API_URL.searchPlayer,
-        { data: { searchParams: payload } },
-      );
-      if (status === 200 && data?.data != null && !data?.error) {
-        setUsersList(data.data.content);
-      } else if (data?.error && data.description) {
-        setUserNotFound(data.description);
-      }
-    } catch (error) {}
+    if(searchString?.trim().length){
+      try {
+        const payload = {
+          username: searchString,
+        };
+        const { data, status } = await apiService.post<any>(
+          API_URL.searchPlayer,
+          { data: { searchParams: payload } },
+        );
+        if (status === 200 && data?.data != null && !data?.error) {
+          setUsersList(data.data.content);
+        } else if (data?.error && data.description) {
+        }
+      } catch (error) {}
+    }else{
+      setUsersList([])
+    }
   };
 
   const handleUserSearch = function (
@@ -370,13 +373,17 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   }, []);
 
   const handleUserSearch2 = useCallback((values: any) => {
-    if (values?.username?.length > 2) {
-      debouncFunction(values.username);
-    }
-    if (!values.username) {
-      setUsersList([]);
-    }
+    debouncFunction(values);
   }, []);
+
+
+  const getUsernameList = (usersList:any) =>{
+    const arr:Array<AnyMessageParams> = []
+    usersList.forEach((element:any) => {
+      arr.push(element.username)
+    });
+     return arr
+  }
   return (
     <div>
       <PageLoader isActive={loader}>
@@ -384,7 +391,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           isOpen={isModalOpen}
           onClose={() => {
             setSelectedUser({ username: "" });
-            setUserSearchVisible(false);
             setCheckVideo(false);
             setIsModalOpen(false);
           }}
@@ -410,7 +416,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                     <div
                       className="pb-5"
                       onClick={() => {
-                        setUserSearchVisible(false);
                       }}
                     >
                       <div className="mb-3 px-5">
@@ -471,20 +476,29 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         />
                       </div>
                     </div>
-                    <div className="relative px-5">
+                    <div className="relative px-5 mb-5">
                       <FormikControl
                         label="Player Username"
                         name="username"
-                        control="customInput"
-                        className="w-full"
+                        control="searchInput"
+                        className="w-full "
+                        options={usersList.length ? getUsernameList(usersList) : [] }
+                        value={values.username}
                         placeholder="Player Username"
+                        onSelect={(user:any)=>{
+                         const a = usersList.filter((item:any)=> item.username === user)
+                          setSelectedUser(a)
+                        }}
+                        onInputChange={(event:any, value:any) => {  
+                            handleUserSearch2(event?.target?.value)
+                        }}
+          
                         onFocus={() => {
-                          setUserSearchVisible(true);
                         }}
                         type="text"
                         required={true}
                       />
-                      <div
+                      {/* <div
                         className="absolute z-10 ml-3 mt-[-55px] max-h-[150px] bg-[#FAFAFA]"
                         style={{ width: "max-content" }}
                         onClick={() => {
@@ -517,9 +531,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                             </div>
                           ) : null}
                         </ul>
-                      ) : null}
+                      ) : null} */}
                     </div>
-                    <div onClick={() => setUserSearchVisible(false)}>
+                    <div >
                       <div className="flex px-5">
                         <FormikControl
                           label="Video Title"
@@ -579,7 +593,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         setCheckVideo(false);
                         setIsModalOpen(false);
                         setSelectedUser({ username: "" });
-                        setUserSearchVisible(false);
                       }}
                       className="mr-5 w-32 rounded-md bg-[#7B7887] py-2 text-white"
                     >

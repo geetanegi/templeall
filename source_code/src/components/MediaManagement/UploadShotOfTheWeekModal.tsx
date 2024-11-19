@@ -154,6 +154,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   useEffect(() => {
     setVideoFile(null);
     setThumbnail("");
+    setUsersList([])
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -272,9 +273,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 {
                   ...data1.data,
                   vidId: vidId,
-                  firstName: user?.firstName || "",
-                  lastName: user?.lastName || "",
-                  username: user?.username || "",
+                  firstName: user?.[0]?.firstName || "",
+                  lastName: user?.[0]?.lastName || "",
+                  username: user?.[0]?.username || "",
                   isPublished: false,
                   clubName: clubOptions.filter(
                     (item: any) => item.value === values.club,
@@ -489,7 +490,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                          const a = usersList.filter((item:any)=> item.username === user)
                           setSelectedUser(a)
                         }}
-                        onInputChange={(event:any, value:any) => {  
+                        onInputChange={(event:any) => {  
                             handleUserSearch2(event?.target?.value)
                         }}
           

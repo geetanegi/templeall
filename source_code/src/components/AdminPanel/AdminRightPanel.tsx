@@ -90,7 +90,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         }
     }, [currentPage, pageSize]);
 
-    const handleActiveDeactiveUser = async (value: boolean, userId: any) => {
+    const handleActiveDeactiveUser = async (value: boolean, userId: any, revert: () => void) => {
       dispatch(setLoading(true));
       try {
         let payload = {};
@@ -114,8 +114,10 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           ToastSuccess(data.data.message);
         } else if (data?.error && data.description) {
           ToastError(data.description);
+          revert()
         }
       } catch (error) {
+        revert()
       } finally {
         dispatch(setLoading(false));
       }
@@ -301,7 +303,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               <SwitchComponent
                 isChecked={activeStatus}
                 id={item.id}
-                onChange={(value) => handleActiveDeactiveUser(value, item.id)}
+                onChange={(value, revert:any) => handleActiveDeactiveUser(value, item.id, revert)}
               />
             </div>
           )}

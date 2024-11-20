@@ -44,9 +44,13 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   // console.log("teeContest info", teeContest);
 
   // Parse eligibleRegistrationTime as UTC
-  const eligibleTimeUTC = moment.utc(teeContest?.eligibleRegistrationTime);
+  const eligibleTimeUTC = teeContest?.eligibleRegistrationTime
+    ? moment.utc(teeContest.eligibleRegistrationTime)
+    : null;
 
-  const isCrossed = currentTime.isAfter(eligibleTimeUTC);
+  const isCrossed = eligibleTimeUTC
+    ? currentTime.isAfter(eligibleTimeUTC)
+    : true;
 
   // console.log("isCrossed", isCrossed);
 
@@ -185,7 +189,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
               {/* 
                check 1. check registration is (status) open/close  
                check 2.check if eligibleForRegistration  
-              check 3. check time is crossed or not based on eligibleRegistrationTime */}
+              check 3. check time is crossed or  based on eligibleRegistrationTime 
+              */}
               {isRegistrationOpen &&
                 teeContest?.eligibleForRegistration &&
                 isCrossed && (
@@ -214,6 +219,13 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
                   </>
                 )}
             </div>
+          </div>
+          <div>
+            check :{" "}
+            <p>
+              {!teeContest?.eligibleForRegistration &&
+                "You completed your today limit"}
+            </p>
           </div>
           {teeContest.note !== null && (
             <div className="bg-warning">

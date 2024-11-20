@@ -209,6 +209,11 @@ const Nav: React.FC = () => {
     }
   };
 
+  const isContestsRoute = (pathname: string): boolean => {
+    const contestsRegex = /^\/contests\/\d+$/;
+    return contestsRegex.test(pathname);
+  };
+
   return (
     <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex h-full w-full items-center justify-between px-2 pt-1">
@@ -275,15 +280,17 @@ const Nav: React.FC = () => {
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
-                                "#046221"
+                               "#046221" : location.pathname.startsWith(menu.routeUrl) &&
+                                    isContestsRoute(location.pathname) ? "#046221"
                               : "#1D1A0C", // Change icon color
                         })}
                         <span
                           style={{
                             color:
                               menu.routeUrl === location.pathname
-                                ? // || selectedMenu === menu.name
-                                  "#046221"
+                                ? // || selectedMenu === menu.name 
+                                  "#046221" : location.pathname.startsWith(menu.routeUrl) &&
+                                    isContestsRoute(location.pathname) ? "#046221" 
                                 : "#1D1A0C",
                           }}
                           className={`px-2 text-[12px] md:mb-[6px] md:mt-[5px] md:px-0`}
@@ -294,6 +301,10 @@ const Nav: React.FC = () => {
                           //  ||  selectedMenu === menu.name
                           <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
+                        {location.pathname.startsWith(menu.routeUrl) &&
+                          isContestsRoute(location.pathname) && (
+                            <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                          )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
                           <div

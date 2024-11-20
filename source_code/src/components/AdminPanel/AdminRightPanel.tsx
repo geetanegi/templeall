@@ -242,6 +242,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setRowData(computeTableData(data.data.content, selectedUserTab));
           handleRefreshUserCount();
         } else if (data?.error && data.description) {
+          setRowData([])
           ToastError(data.description);
         }
       } catch (error) {

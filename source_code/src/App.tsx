@@ -21,6 +21,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditons from "./pages/TermsAndConditons";
 import PaymentSuccessCard from "./components/SuccessCart";
 import Footer from "./Footer";
+import ContestsWrapper from "./pages/ContestsWrapper";
 
 // Lazy load components
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -88,7 +89,7 @@ function AppRoutes() {
       path: ROUTES.CONTESTS,
       element: (
         <PrivateRoute>
-          <ContestManagement />
+          <ContestsWrapper />
         </PrivateRoute>
       ),
     },

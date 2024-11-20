@@ -45,8 +45,8 @@ const ContestManagement = () => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [totalPages, setTotalPages] = useState<number>(0)
-  const [totalElement, setTotalElement] = useState<number>(10)
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalElement, setTotalElement] = useState<number>(10);
   const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<any>(0);
   const [currentStatus, setCurrentStatus] = useState<any>(null);
@@ -57,8 +57,11 @@ const ContestManagement = () => {
   );
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
   const [holesList, setHolesList] = useState<HoleListResponse | null>(null);
-  const [selectedHoles, setSelectedHoles] = useState<string >('');
-  const [selectedCourse, setSelectedCourse] = useState<{name:string, id:number}>({name:"", id:1});
+  const [selectedHoles, setSelectedHoles] = useState<string>("");
+  const [selectedCourse, setSelectedCourse] = useState<{
+    name: string;
+    id: number;
+  }>({ name: "", id: 1 });
 
   const dispatch = useDispatch();
 
@@ -113,21 +116,21 @@ const ContestManagement = () => {
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCourse({name: event.target.value, id:1});
-    setCurrentPage(0)
+    setSelectedCourse({ name: event.target.value, id: 1 });
+    setCurrentPage(0);
     setHolesList(null); // Reset holesList to null when course changes
-    setSelectedHoles(''); // Reset selectedHoles to an empty array
+    setSelectedHoles(""); // Reset selectedHoles to an empty array
   };
 
   const handleSelectedValuesChange = (selectedValues: string[]) => {
     let selectedHolesData = "";
-    setCurrentPage(0)
-    selectedValues.forEach((item, index)=>{
-      selectedHolesData= selectedHolesData + item
-      if(index < selectedValues.length - 1){
-        selectedHolesData = selectedHolesData + ","
+    setCurrentPage(0);
+    selectedValues.forEach((item, index) => {
+      selectedHolesData = selectedHolesData + item;
+      if (index < selectedValues.length - 1) {
+        selectedHolesData = selectedHolesData + ",";
       }
-    })
+    });
     setSelectedHoles(selectedHolesData);
   };
 
@@ -146,10 +149,9 @@ const ContestManagement = () => {
     fetchContestList();
   }, [pageSize, currentPage]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setRowData(computeTableData(totalAdminCount));
-  },[totalAdminCount])
-
+  }, [totalAdminCount]);
 
   const getStatus = (status: string) => {
     if (status == "Active") {
@@ -246,31 +248,27 @@ const ContestManagement = () => {
     try {
       dispatch(setLoading(true));
       var res = null;
-        res = await apiService.post<ContestApiResponse>(
-          API_URL.getAllContests,
-          {
-            data: {
-              searchParams: {
-                contestType: selectedContestType || null,
-                activeStatus: currentStatus || null,
-                courseName: selectedCourse.name || null,
-                holeNumbers: selectedHoles.length ? selectedHoles : null,
-              },
-              pageSortingParam: {
-                sortDir: "DESC",
-                sortBy: "createdDate",
-                pageNumber: currentPage,
-                pageSize: pageSize,
-              },
-            },
+      res = await apiService.post<ContestApiResponse>(API_URL.getAllContests, {
+        data: {
+          searchParams: {
+            contestType: selectedContestType || null,
+            activeStatus: currentStatus || null,
+            courseName: selectedCourse.name || null,
+            holeNumbers: selectedHoles.length ? selectedHoles : null,
           },
-        );
-      
+          pageSortingParam: {
+            sortDir: "DESC",
+            sortBy: "createdDate",
+            pageNumber: currentPage,
+            pageSize: pageSize,
+          },
+        },
+      });
 
       if (res.status === 200 && !res.data.error) {
         setTotalAdminCount(res.data.data.content);
-        setTotalPages(res.data.data.totalPages)
-        setTotalElement(res.data.data.totalElements)
+        setTotalPages(res.data.data.totalPages);
+        setTotalElement(res.data.data.totalElements);
         dispatch(setLoading(false));
       } else {
         ToastInfo(res.data.description || "Error fetching contest data");
@@ -395,7 +393,8 @@ const ContestManagement = () => {
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
-                navigate(ROUTES.CREATE_CONTEST);
+                alert("create contest");
+                navigate(ROUTES.CONTESTS, { state: "CREATE_CONTEST" });
               }}
             >
               <Plus height={18} width={18} /> Create Contest
@@ -448,7 +447,13 @@ const ContestManagement = () => {
                 // do here
                 if (selectedId) {
                   navigate(
-                    `${ROUTES.UPDFATE_CONTEST.replace(":id", selectedId?.toString())}`,
+                    ROUTES.UPDFATE_CONTEST.replace(
+                      ":id",
+                      selectedId.toString(),
+                    ),
+                    {
+                      state: { action: "UPDATE_CONTEST", id: selectedId },
+                    },
                   );
                 }
               }}

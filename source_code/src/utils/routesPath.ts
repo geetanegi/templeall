@@ -8,7 +8,7 @@ export const ROUTES = {
   RESET_PASSWORD: "/reset-password",
   CONTESTS: "/contests",
   CREATE_CONTEST: "/create-contest",
-  UPDFATE_CONTEST: "/update-contest/:id",
+  UPDFATE_CONTEST: "/contests/:id",
   PROFILE: "/profile",
   GENERATE_QR: "/generate-qr",
   CONTEST_LIST: "/contest-list",

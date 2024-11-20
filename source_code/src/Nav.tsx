@@ -209,6 +209,11 @@ const Nav: React.FC = () => {
     }
   };
 
+  const isContestsRoute = (pathname: string): boolean => {
+    const contestsRegex = /^\/contests\/\d+$/;
+    return contestsRegex.test(pathname);
+  };
+
   return (
     <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex h-full w-full items-center justify-between px-2 pt-1">
@@ -294,6 +299,10 @@ const Nav: React.FC = () => {
                           //  ||  selectedMenu === menu.name
                           <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
+                        {location.pathname.startsWith(menu.routeUrl) &&
+                          isContestsRoute(location.pathname) && (
+                            <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                          )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
                           <div

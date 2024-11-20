@@ -108,6 +108,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [, setCheckVideo] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<any>({ username: "" });
   const [usersList, setUsersList] = useState<any>([]);
+  const [searchUserFlag, setSearchUserFlag] = useState<boolean>(false)
   const dispatch = useDispatch();
 
   const CHUNK_SIZE = 0.5 * 1024 * 1024;
@@ -344,7 +345,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         );
         if (status === 200 && data?.data != null && !data?.error) {
           setUsersList(data.data.content);
+          setSearchUserFlag(false)
         } else if (data?.error && data.description) {
+          setSearchUserFlag(true)
         }
       } catch (error) {}
     }else{
@@ -367,7 +370,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     };
   };
 
-  const debouncFunction = useCallback(handleUserSearch(getPlayer, 250), []);
+  const debouncFunction = useCallback(handleUserSearch(getPlayer, 1000), []);
 
   const handleValues = useCallback((values: any) => {
     setSelectedClub(values.club);
@@ -375,9 +378,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     setSelectedHole(values.hole);
   }, []);
 
-  const handleUserSearch2 = useCallback((values: any) => {
-    debouncFunction(values);
-  }, []);
 
 
   const getUsernameList = (usersList:any) =>{
@@ -410,9 +410,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           >
             {({ values, handleSubmit, isSubmitting }) => {
               handleValues(values);
-              useEffect(() => {
-                handleUserSearch2(values);
-              }, [values.username]);
               return (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="scrollbar-hidden h-[360px] overflow-auto pt-[6px]">
@@ -485,6 +482,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         name="username"
                         control="searchInput"
                         className="w-full "
+                        noOptionsText={searchUserFlag ? "No player available" : "Search player"}
                         options={usersList.length ? getUsernameList(usersList) : [] }
                         value={values.username}
                         placeholder="Player Username"
@@ -493,11 +491,17 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                           setSelectedUser(a)
                         }}
                         onInputChange={(event:any) => {  
-                            handleUserSearch2(event?.target?.value)
+                          debouncFunction(event?.target?.value)
+                          if(!event?.target?.value.length){
+                            setUsersList([])
+                          }
+
                         }}
           
                         onFocus={() => {
                           setUsersList([])
+                          setSearchUserFlag(false)
+                          
                         }}
                         type="text"
                         required={true}

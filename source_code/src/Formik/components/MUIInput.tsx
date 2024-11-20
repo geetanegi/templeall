@@ -55,8 +55,9 @@ const MUIInput: React.FC<InputProps> = ({
             InputLabelProps={{ shrink: true }}
             sx={{
               "& .MuiInputBase-root": {
-                borderRadius: "10px",
+                borderRadius: "5px",
                 backgroundColor: "#FAFAFA",
+                height:"50px"
               },
               // width: "100%",
               // borderRadius: "10px",

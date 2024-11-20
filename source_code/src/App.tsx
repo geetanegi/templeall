@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import Nav from "./Nav";
 import NoFound from "./pages/NoFound";
-import ContestManagement from "./components/Contests/ContestManagement";
 import CoursePanel from "./components/AdminPanel/courses/CoursePanel";
 import ProfileComponent from "./components/ProfileComponents/ProfileComponent";
 import Contests from "./pages/Contests";

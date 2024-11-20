@@ -16,6 +16,7 @@ import { setLoading } from "../../reducers/loader/loader";
 import moment from "moment";
 import uuid from "react-uuid";
 import { AnyMessageParams } from "yup/lib/types";
+import { formatDuration } from "./mediaUtils/mediaUtils";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -108,7 +109,8 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [, setCheckVideo] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<any>({ username: "" });
   const [usersList, setUsersList] = useState<any>([]);
-  const [searchUserFlag, setSearchUserFlag] = useState<boolean>(false)
+  const [searchUserFlag, setSearchUserFlag] = useState<boolean>(false);
+  const [videoDuration, setVideoDuration] = useState<string>("00:00");
   const dispatch = useDispatch();
 
   const CHUNK_SIZE = 0.5 * 1024 * 1024;
@@ -118,7 +120,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         ?.courseList || [];
     if (courseList.length > 0) {
       const courseListOptions =
-        courseList?.map((course:any) => ({
+        courseList?.map((course: any) => ({
           value: course.id,
           key: course.courseName,
         })) || [];
@@ -155,7 +157,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   useEffect(() => {
     setVideoFile(null);
     setThumbnail("");
-    setUsersList([])
+    setUsersList([]);
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -179,13 +181,14 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     const videoURL = URL.createObjectURL(file);
     const video = document.createElement("video");
     video.src = videoURL;
-
+  
     video.addEventListener("loadeddata", () => {
       if (video.readyState >= 2) {
         video.currentTime = 2; // Set the time to capture the thumbnail (in seconds)
+        setVideoDuration(formatDuration(video.duration)); // Format and store duration
       }
     });
-
+  
     video.addEventListener("seeked", () => {
       const canvas = document.createElement("canvas");
       canvas.width = 160; // Set the desired width for the thumbnail
@@ -197,7 +200,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         setThumbnail(dataURL); // Set the generated thumbnail URL
       }
     });
-
+  
     video.load();
   };
 
@@ -226,6 +229,10 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           let chunkNumber = new Blob([JSON.stringify(chunkNo)], {
             type: "application/json",
           });
+          let videoLength = new Blob([JSON.stringify(videoDuration)], {
+            type: "application/json",
+          });
+          
 
           formData.append("chunkNumber", chunkNumber);
           let fdTOtalChunk = new Blob(
@@ -238,6 +245,10 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           if (totalChunks === i + 1) {
             formData.append("thumbnail", vidthumbnail);
           }
+          if (totalChunks === i + 1) {
+            formData.append("videoLength", videoLength);
+          }
+          
 
           if (videoFile.type === "video/mp4") {
             const data1 = {
@@ -308,7 +319,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             } else if (data?.error && data.description) {
               ToastInfo(data.description);
               handleInprogressVideoList({ vidId }, "remove");
-              setUsersList([])
+              setUsersList([]);
             }
           } else {
             ToastInfo(
@@ -327,17 +338,17 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     } finally {
       setSelectedUser({ username: "" });
       setIsRefreshList(!isRefreshList);
-      setUsersList([])
+      setUsersList([]);
     }
   };
 
   const getPlayer = async (searchString: string) => {
-    if(searchString?.trim().length){
+    if (searchString?.trim().length) {
       try {
         const payload = {
           username: searchString,
-          firstName:searchString,
-          lastName:searchString
+          firstName: searchString,
+          lastName: searchString,
         };
         const { data, status } = await apiService.post<any>(
           API_URL.searchPlayer,
@@ -345,13 +356,13 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         );
         if (status === 200 && data?.data != null && !data?.error) {
           setUsersList(data.data.content);
-          setSearchUserFlag(false)
+          setSearchUserFlag(false);
         } else if (data?.error && data.description) {
-          setSearchUserFlag(true)
+          setSearchUserFlag(true);
         }
       } catch (error) {}
-    }else{
-      setUsersList([])
+    } else {
+      setUsersList([]);
     }
   };
 
@@ -378,15 +389,13 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     setSelectedHole(values.hole);
   }, []);
 
-
-
-  const getUsernameList = (usersList:any) =>{
-    const arr:Array<AnyMessageParams> = []
-    usersList.forEach((element:any) => {
-      arr.push(element.username)
+  const getUsernameList = (usersList: any) => {
+    const arr: Array<AnyMessageParams> = [];
+    usersList.forEach((element: any) => {
+      arr.push(element.username);
     });
-     return arr
-  }
+    return arr;
+  };
   return (
     <div>
       <PageLoader isActive={loader}>
@@ -413,11 +422,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               return (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="scrollbar-hidden h-[360px] overflow-auto pt-[6px]">
-                    <div
-                      className="pb-5"
-                      onClick={() => {
-                      }}
-                    >
+                    <div className="pb-5" onClick={() => {}}>
                       <div className="mb-3 px-5">
                         <MUISelect
                           label="Club"
@@ -476,38 +481,43 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         />
                       </div>
                     </div>
-                    <div className="relative px-5 mb-5">
+                    <div className="relative mb-5 px-5">
                       <FormikControl
                         label="Player Username"
                         name="username"
                         control="searchInput"
-                        className="w-full "
-                        noOptionsText={searchUserFlag ? "No player available" : "Search player"}
-                        options={usersList.length ? getUsernameList(usersList) : [] }
+                        className="w-full"
+                        noOptionsText={
+                          searchUserFlag
+                            ? "No player available"
+                            : "Search player"
+                        }
+                        options={
+                          usersList.length ? getUsernameList(usersList) : []
+                        }
                         value={values.username}
                         placeholder="Player Username"
-                        onSelect={(user:any)=>{
-                         const a = usersList.filter((item:any)=> item.username === user)
-                          setSelectedUser(a)
+                        onSelect={(user: any) => {
+                          const a = usersList.filter(
+                            (item: any) => item.username === user,
+                          );
+                          setSelectedUser(a);
                         }}
-                        onInputChange={(event:any) => {  
-                          debouncFunction(event?.target?.value)
-                          if(!event?.target?.value.length){
-                            setUsersList([])
+                        onInputChange={(event: any) => {
+                          debouncFunction(event?.target?.value);
+                          if (!event?.target?.value.length) {
+                            setUsersList([]);
                           }
-
                         }}
-          
                         onFocus={() => {
-                          setUsersList([])
-                          setSearchUserFlag(false)
-                          
+                          setUsersList([]);
+                          setSearchUserFlag(false);
                         }}
                         type="text"
                         required={true}
                       />
                     </div>
-                    <div >
+                    <div>
                       <div className="flex px-5">
                         <FormikControl
                           label="Video Title"

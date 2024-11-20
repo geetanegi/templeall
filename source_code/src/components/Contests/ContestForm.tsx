@@ -100,6 +100,7 @@ const ContestForm: React.FC<ContestProps> = ({
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -287,7 +288,7 @@ const ContestForm: React.FC<ContestProps> = ({
           <div className="mb-4 space-y-4">
             <h5 className="text-l -mb-1 -mt-2 font-normal text-black">
               Payout{" "}
-              {location.pathname === ROUTES.CREATE_CONTEST &&
+              {location.pathname === ROUTES.CONTESTS &&
                 touched?.playerPercentage &&
                 touched?.acecamPercentage &&
                 touched?.coursePercentage &&
@@ -297,7 +298,7 @@ const ContestForm: React.FC<ContestProps> = ({
                     {errors.totalPercentage}
                   </span>
                 )}
-              {location.pathname.startsWith("/update-contest") &&
+              {location?.state?.action === "UPDATE_CONTEST" &&
                 errors.totalPercentage && (
                   <span className="text-[12px] font-semibold text-[#d32f2f]">
                     {errors.totalPercentage}

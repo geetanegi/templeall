@@ -15,6 +15,7 @@ interface SearchInputProps {
   onFocus?: () => void;
   onInputChange?:(a:any, b:any) => void;
   onSelect:(value:any)=>void
+  noOptionsText?:string
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -28,7 +29,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
   value,
   onFocus = () => {},
   onInputChange=() =>{},
-  onSelect=()=>{}
+  onSelect=()=>{},
+  noOptionsText="No options available"
 }) => {
   const { errors, touched, setFieldValue  } = useFormikContext<any>(); // Access Formik context
 
@@ -58,10 +60,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
       disablePortal
       options={options}
       onChange={handleSelectionChange}
+      noOptionsText={noOptionsText} 
       sx={{
         "& .MuiInputBase-root": {
-          borderRadius: "10px",
+          borderRadius: "5px",
           backgroundColor: "#FAFAFA",
+          height: "48px",
         },
       }}
       renderInput={(params) => (

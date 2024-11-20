@@ -393,7 +393,6 @@ const ContestManagement = () => {
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
-                alert("create contest");
                 navigate(ROUTES.CONTESTS, { state: "CREATE_CONTEST" });
               }}
             >

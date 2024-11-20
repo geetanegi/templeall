@@ -101,8 +101,6 @@ const ContestForm: React.FC<ContestProps> = ({
     (state: RootState) => state.auth.userPermissions,
   );
 
-  console.log("location", location);
-
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

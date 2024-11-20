@@ -229,9 +229,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           let chunkNumber = new Blob([JSON.stringify(chunkNo)], {
             type: "application/json",
           });
-          let videoLength = new Blob([JSON.stringify(videoDuration)], {
-            type: "application/json",
-          });
           
 
           formData.append("chunkNumber", chunkNumber);
@@ -244,9 +241,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           formData.append("totalChunks", fdTOtalChunk);
           if (totalChunks === i + 1) {
             formData.append("thumbnail", vidthumbnail);
-          }
-          if (totalChunks === i + 1) {
-            formData.append("videoLength", videoLength);
           }
           
 
@@ -262,6 +256,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                 videoDescription: values.description,
                 videoTitle: values.title,
                 player: user?.[0]?.id || "",
+                videoLength:videoDuration,
                 uploadedBy:
                   typeof userInfo === "object" ? userInfo?.userId : undefined,
               },
@@ -585,7 +580,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-32 rounded-md bg-lime-500 py-2 text-white"
+                      className="w-32 rounded-md bg-primaryColor py-2 text-white"
                     >
                       Save
                     </button>

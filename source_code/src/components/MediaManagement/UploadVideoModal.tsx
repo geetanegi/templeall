@@ -13,6 +13,7 @@ import PageLoader from "../PageLoader";
 import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
 import uuid from "react-uuid";
+import { formatDuration } from "./mediaUtils/mediaUtils";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -62,7 +63,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | "">("");
   const [checkvideo, setCheckVideo] = useState<boolean>(false);
-
+  const [videoDuration, setVideoDuration] = useState<string>("00:00");
   const dispatch = useDispatch();
 
   const CHUNK_SIZE = 0.5 * 1024 * 1024;
@@ -93,13 +94,14 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
     const videoURL = URL.createObjectURL(file);
     const video = document.createElement("video");
     video.src = videoURL;
-
+  
     video.addEventListener("loadeddata", () => {
       if (video.readyState >= 2) {
         video.currentTime = 2; // Set the time to capture the thumbnail (in seconds)
+        setVideoDuration(formatDuration(video.duration)); // Format and store duration
       }
     });
-
+  
     video.addEventListener("seeked", () => {
       const canvas = document.createElement("canvas");
       canvas.width = 160; // Set the desired width for the thumbnail
@@ -111,7 +113,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
         setThumbnail(dataURL); // Set the generated thumbnail URL
       }
     });
-
+  
     video.load();
   };
 
@@ -161,6 +163,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                 videoDescription: values.description,
                 videoTitle: values.title,
                 requestId: selectedReqVideoId,
+                videoLength:videoDuration,
                 uploadedBy:
                   typeof userInfo === "object" ? userInfo?.userId : undefined,
               },
@@ -343,7 +346,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-32 rounded-md bg-lime-500 py-2 text-white"
+                      className="w-32 rounded-md bg-primaryColor py-2 text-white"
                     >
                       Save
                     </button>

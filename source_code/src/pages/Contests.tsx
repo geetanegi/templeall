@@ -537,11 +537,12 @@ const Contests: React.FC = () => {
             <div className="rounded-md border bg-white shadow md:max-w-4xl">
               <div className="p-4">
                 <h3 className="mb-2 text-xl font-bold">
-                  {pathname === ROUTES.CREATE_CONTEST
+                  {/* {pathname === ROUTES.CREATE_CONTEST
                     ? " Create Contest"
                     : userPermisions.data?.permission["is_course_admin"]
                       ? "Contest Details"
-                      : "Edit Contest"}
+                      : "Edit Contest"} */}
+                  Edit Contest
                 </h3>
 
                 <Formik

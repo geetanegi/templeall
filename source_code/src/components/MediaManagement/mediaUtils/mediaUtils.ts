@@ -67,8 +67,8 @@ export const deleteVideos = async (
   try {
     let endPoint = API_URL.deleteVideo;
 
-    if (type === "REQUEST_VIDEO" && userRole === "superAdmin") {
-      endPoint = API_URL.deleteRequestVideo;
+    if (userRole === "superAdmin") {
+      endPoint = API_URL.deleteSaVideo;
     }
     const res = await apiService.post<any>(endPoint, {
       data: {

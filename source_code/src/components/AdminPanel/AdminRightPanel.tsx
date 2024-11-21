@@ -6,6 +6,7 @@ import React, {
   useImperativeHandle,
   ForwardedRef,
   useCallback,
+  useRef,
 } from "react";
 import TableComponent from "../TableComponent";
 import apiService from "../../services/apiService";
@@ -70,6 +71,8 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [totalElement, setTotalElement] = useState<number>(10);
     const navigate = useNavigate();
 
+    const isMounted = useRef<boolean>(false); 
+
     const dispatch = useDispatch();
 
     useImperativeHandle(ref, () => ({
@@ -77,18 +80,23 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     }));
 
     useEffect(() => {
-      getUserData();
+      if(isMounted.current){
+        getUserData();
+      }else{
+        isMounted.current = true;
+      }
       setSearchString("");
     }, [selectedUserTab]);
+
 
 
     useEffect(() => {
         if (searchString.length) {
           getUserData(searchString);
         }else{
-          getUserData();
+            getUserData();
         }
-    }, [currentPage, pageSize]);
+    }, [currentPage]);
 
     const handleActiveDeactiveUser = async (value: boolean, userId: any, revert: () => void) => {
       dispatch(setLoading(true));
@@ -258,7 +266,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       } finally {
         dispatch(setLoading(false));
       }
-    }, [selectedUserTab, currentPage, pageSize, handleRefreshUserCount, dispatch]
+    }, [selectedUserTab, currentPage, pageSize,  handleRefreshUserCount, dispatch]
   );
 
     const computeUserName = (

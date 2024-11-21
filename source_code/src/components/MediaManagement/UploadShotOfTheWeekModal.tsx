@@ -205,6 +205,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   };
 
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
+    let vidId = uuid();
     try {
       if (videoFile) {
         dispatch(setLoading(true));
@@ -216,7 +217,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
           type: "application/json",
         });
         const totalChunks = Math.ceil(videoFile.size / CHUNK_SIZE);
-        let vidId = uuid();
+        
         const user = selectedUser;
         for (let i = 0; i < totalChunks; i++) {
           const start = i * CHUNK_SIZE;
@@ -330,9 +331,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       }
     } catch (error) {
       ToastInfo("Video Upload Failed");
+      handleInprogressVideoList({ vidId }, "remove");
     } finally {
       setSelectedUser({ username: "" });
-      setIsRefreshList(!isRefreshList);
       setUsersList([]);
     }
   };

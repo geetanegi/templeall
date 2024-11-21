@@ -5,6 +5,7 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { ToastInfo, ToastSuccess } from "../Toast";
 
+
 interface BettingOverviewProps {
   userinformation: any;
   isModalOpen: boolean;
@@ -99,29 +100,24 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
     return (
       <div className="flex flex-col gap-5 text-primaryText">
         <div>
-          <h2 className="text-[16px] text-primaryText underline">Summary</h2>
+          <p className="text-[16px] font-semibold text-primaryText">
+            Summary
+            <div className="relative -top-[6px] h-[0.2px] w-[70px] bg-white"></div>
+          </p>
           <div className="text-[#F5F6F7]">
-            <span className="mr-1 text-[14px]">
-              Avg. Score(Gross):
-            </span>{" "}
+            <span className="mr-1 text-[14px]">Avg. Score (Gross):</span>{" "}
             {userstats?.avgScore || 0}
           </div>
           <div className="text-[#F5F6F7]">
-            <span className="mr-1 text-[14px]">
-              Closest Shot:
-            </span>{" "}
+            <span className="mr-1 text-[14px]">Closest Shot:</span>{" "}
             {userstats?.closestShotFt || 0}
           </div>
           <div className="text-[#F5F6F7]">
-            <span className="mr-1 text-[14px]">
-              Avg. Proximity:
-            </span>{" "}
+            <span className="mr-1 text-[14px]">Avg. Proximity:</span>{" "}
             {userstats?.avgProximity || 0}
           </div>
           <div className="text-[#F5F6F7]">
-            <span className="mr-1 text-[14px] ">
-              GIR Percentage:
-            </span>{" "}
+            <span className="mr-1 text-[14px]">GIR Percentage:</span>{" "}
             {userstats?.girPercentage || 0}
           </div>
           <div className="text-[#F5F6F7]">
@@ -130,21 +126,20 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
           </div>
         </div>
         <div className="text-[#F5F6F7]">
-          <h2 className="text-[16px] underline">Top Performance Metrics </h2>
+          <h2 className="text-[16px]">
+            Top Performance Metrics
+            <div className="relative -top-[6px] h-[0.2px] w-[178px] bg-white"></div>
+          </h2>
           <div>
             <span className="mr-1 text-[14px]">Hole-in-One:</span>{" "}
             {userstats?.holeInOnes || 0}
           </div>
           <div>
-            <span className="mr-1 text-[14px]">
-              Birdie Streak:
-            </span>{" "}
+            <span className="mr-1 text-[14px]">Birdie Streak:</span>{" "}
             {userstats?.birdieStreak || 0}
           </div>
           <div>
-            <span className="mr-1 text-[14px]">
-              Birdie Total:
-            </span>{" "}
+            <span className="mr-1 text-[14px]">Birdie Total:</span>{" "}
             {userstats?.birdieTotal || 0}
           </div>
         </div>
@@ -158,7 +153,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
         className={`mt-5 flex h-[38px] gap-[16px] rounded-l-full rounded-r-full p-[1px] ${Object.keys(userstats).length ? "visible" : "invisible"} `}
         style={{ width: "max-content" }}
       >
-        <h1 className="text-[16px] text-primaryText font-semibold leading-relaxed">
+        <h1 className="text-[16px] font-semibold leading-relaxed text-primaryText">
           Performance
         </h1>
       </div>

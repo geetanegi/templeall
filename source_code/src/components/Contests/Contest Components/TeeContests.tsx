@@ -159,6 +159,18 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     }
   };
 
+  const showMessageDialogFunc = () => {
+    if (!isRegistrationOpen) {
+      return "The registration window for the contest has closed.";
+    } else if (!teeContest?.eligibleForRegistration) {
+      return "You have reached today's playing limit for this contest.";
+    } else if (!isCrossed) {
+      //  eligibleRegistrationTime is greater than current time
+      return "You recently took part in the contest. Registration will reopen after 12:00 PM.";
+    }
+  };
+ 
+
   return (
     <div className="">
       <div className="m-4">
@@ -220,12 +232,10 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
                 )}
             </div>
           </div>
-          <div>
-            check :{" "}
-            <p>
-              {!teeContest?.eligibleForRegistration &&
-                "You completed your today limit"}
-            </p>
+          <div className="px-2 text-right text-xs text-red-500">
+            {/* {!teeContest?.eligibleForRegistration && ( */}
+              <span className="text-xs">{showMessageDialogFunc()}</span>
+            {/* )} */}
           </div>
           {teeContest.note !== null && (
             <div className="bg-warning">
@@ -239,7 +249,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-2 text-white ${
+          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${
             Object.values(selectedContests).flat().length === 0
               ? "cursor-not-allowed"
               : ""
@@ -250,10 +260,10 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           disabled={Object.values(selectedContests).flat().length === 0}
         >
           <ShoppingCart className="relative" />
-          <span className="absolute right-[5.3rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+          <span className="absolute right-[5rem] top-[1px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
             {Object.values(selectedContests).flat().length}
           </span>
-          <span className="mx-2">Register</span>
+          <span className="mx-2 text-[14px]">Register</span>
         </button>
       </div>
     </div>

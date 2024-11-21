@@ -7,6 +7,7 @@ import { login } from "../../reducers/login/login";
 import { useNavigate } from "react-router-dom";
 import { ToastInfo } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
+import "../../App.css";
 
 // import GoogleIcon from "../../assets/images/Google.svg";
 
@@ -62,15 +63,17 @@ const LoginButton: React.FC = () => {
   };
 
   return (
-    <GoogleLogin
-      onSuccess={handleLoginSuccess}
-      onError={() => {
-        console.log("Login Failed");
-      }}
-      shape="circle"
-      size="medium"
-      type="icon"
-    />
+    <div className="google-login-button-check">
+      <GoogleLogin
+        onSuccess={handleLoginSuccess}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+        shape="circle"
+        size="medium"
+        type="icon"
+      />
+    </div>
   );
 };
 

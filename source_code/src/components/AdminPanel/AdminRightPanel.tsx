@@ -26,7 +26,7 @@ interface AdminRightPanelProps {
   currentPage: number;
   setCurrentPage: (page: number) => void;
   openModal: (item: any, roleIds: number) => void;
-  handleRefreshUserCount: () => void;
+  handleRefreshUserCount: (count?:number, searchFlag?:boolean) => void;
   isCourseAdmin?: boolean;
 }
 
@@ -242,10 +242,15 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setTotalPages(data.data.totalPages);
           setTotalElement(data.data.totalElements);
           setRowData(computeTableData(data.data.content, selectedUserTab));
-          handleRefreshUserCount();
+          if(searchValue){
+            handleRefreshUserCount(data.data.totalElements, true);
+          }else{
+            handleRefreshUserCount()
+          }
         } else if (data?.error && data.description) {
           setRowData([])
           ToastError(data.description);
+          handleRefreshUserCount(0, true);
         }
       } catch (error) {
         console.error(error);

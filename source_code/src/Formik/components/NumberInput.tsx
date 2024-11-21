@@ -8,6 +8,7 @@ interface NumberInputProps {
   className?: string;
   required?: boolean;
   authFlow?: boolean;
+  maxLength?: number; 
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
@@ -16,6 +17,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   className = "",
   required = false,
   authFlow = false,
+  maxLength
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const allowedKeys = [
@@ -47,7 +49,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   ) => {
     const { value } = event.target;
     // Only allow numeric values
-    if (/^\d*$/.test(value)) {
+    if (/^\d*$/.test(value) && (!maxLength || value.length <= maxLength)) {
       form.setFieldValue(name, value);
     }
   };

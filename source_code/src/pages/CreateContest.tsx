@@ -77,7 +77,7 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .test(
       "is-greater-than-start-date",
-      "End date must be later than start date",
+      "End date must be later than start date/time",
       function (value) {
         const { startDate } = this.parent;
         if (!value || !startDate) return true; // Skip validation if either date is missing

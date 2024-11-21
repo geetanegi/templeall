@@ -10,7 +10,7 @@ const iconMap = {
   "Highlight Hub": Icons.Calendar,
   Courses: Icons.LandPlot,
   Reports: Icons.Calendar,
-  "Bet Central": Icons.MonitorPlay,
+  "Bet Central": Icons.CircleDollarSign,
   "Generate QR Code": Icons.QrCode,
 };
 

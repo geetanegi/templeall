@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../Formik/components/FormikControl";
 import { Link } from "react-router-dom";
-import aceCampLogo from "../assets/images/aceCamp_logo.png";
+import aceCampLogo from "../assets/images/logo (1).png";
 
 import OtpScreen from "../components/OtpScreen";
 import apiService from "../services/apiService";

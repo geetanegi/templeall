@@ -207,7 +207,6 @@ const ContestManagement = () => {
   };
 
   const isCompleted = (status: string, id: number) => {
-    
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
         <button style={{ color: "#95c11e" }}>
@@ -222,9 +221,11 @@ const ContestManagement = () => {
           />
         </button>
         <SwitchComponent
-          isChecked={status === "Active" ? true :false}
+          isChecked={status === "Active" ? true : false}
           id={id}
-          onChange={(newStatus:any, revert:any) => updateContestStatus(id, newStatus, revert)} // Update status on switch change
+          onChange={(newStatus: any, revert: any) =>
+            updateContestStatus(id, newStatus, revert)
+          } // Update status on switch change
         />
       </div>
     );
@@ -288,18 +289,22 @@ const ContestManagement = () => {
     }
   };
 
-  const updateContestStatus = async (id: number, status: boolean, revert: () => void) => {
+  const updateContestStatus = async (
+    id: number,
+    status: boolean,
+    revert: () => void,
+  ) => {
     try {
       dispatch(setLoading(true));
       const newStatus = mapStatusToBackend(status);
-  
+
       const res = await apiService.post<any>(API_URL.updateStatusContest, {
         data: {
           contestId: id,
           activeStatus: newStatus,
         },
       });
-  
+
       if (res.status === 200 && res.data && !res.data.error) {
         ToastSuccess(res.data.data.message);
         updateActiveStatus(id, newStatus);
@@ -314,8 +319,6 @@ const ContestManagement = () => {
       dispatch(setLoading(false));
     }
   };
-
-
 
   if (userPermisions?.data?.permission["is_player"]) {
     return (

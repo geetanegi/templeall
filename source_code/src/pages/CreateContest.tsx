@@ -77,7 +77,7 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .test(
       "is-greater-than-start-date",
-      "End date must be later than start date",
+      "End date must be later than start date/time",
       function (value) {
         const { startDate } = this.parent;
         if (!value || !startDate) return true; // Skip validation if either date is missing
@@ -521,11 +521,12 @@ const CreateContest: React.FC = () => {
             <div className="rounded-md border bg-white shadow md:max-w-4xl">
               <div className="p-4">
                 <h3 className="mb-2 text-2xl font-medium">
-                  {pathname === ROUTES.CREATE_CONTEST
+                  {/* {pathname === ROUTES.CREATE_CONTEST
                     ? " Create Contest"
                     : userPermisions.data?.permission["is_course_admin"]
                       ? "Contest Details"
-                      : "Edit Contest"}
+                      : "Edit Contest"} */}
+                  Create Contest
                 </h3>
 
                 <Formik

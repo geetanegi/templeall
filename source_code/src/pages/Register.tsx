@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 // } from "@stripe/react-stripe-js";
 // assets import
 import TikTok from "../assets/images/TikTok.svg";
-import aceCampLogo from "../assets/images/aceCamp_logo.png";
+import aceCampLogo from "../assets/images/logo (1).png";
 
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";

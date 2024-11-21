@@ -46,7 +46,6 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
 
     const getUserCount = async (count?:number, searchFlag?:boolean) => {
       if(searchFlag){
-        console.log(count, "countcount")
         setUpdatedCount(count || 0)
         setIsSearch(true)
         return

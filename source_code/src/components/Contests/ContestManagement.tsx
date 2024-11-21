@@ -207,7 +207,7 @@ const ContestManagement = () => {
   };
 
   const isCompleted = (status: string, id: number) => {
-    debugger
+    
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
         <button style={{ color: "#95c11e" }}>

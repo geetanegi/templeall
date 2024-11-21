@@ -110,10 +110,12 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
   };
 
   return (
+    <div className='lg:bg-custom-gradient-1 rounded-lg sm:rounded-l-full'>
     <div
-      className={`mx-auto mt-24 flex h-[432px] w-full flex-col-reverse justify-between rounded-lg p-6 sm:mt-0 sm:flex-row sm:rounded-l-full sm:shadow-lg lg:mx-0 lg:ml-auto lg:bg-custom-gradient-1 ${!isCommunitySearch || userId ? "" : "invisible"} `}
+      className={`mx-auto mt-24 flex h-[432px] w-full flex-col-reverse justify-between bg-center rounded-lg p-6 sm:mt-0 sm:flex-row sm:rounded-l-full sm:shadow-lg bg-contain bg-no-repeat lg:mx-0 lg:ml-auto lg:bg-golfballBg ${!isCommunitySearch || userId ? "" : "invisible"} `}
+      style={{ backgroundPosition: '30% center' }}
     >
-      {isAdmin() ? (
+      {isAdmin() ? (  
         <AdminProfileComponent
           userinformation={userinformation}
           isModalOpen={isModalOpen}
@@ -159,6 +161,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
         fetchUserInformation={fetchUserInformation}
         userData={computeUserData()}
       />
+    </div>
     </div>
   );
 };

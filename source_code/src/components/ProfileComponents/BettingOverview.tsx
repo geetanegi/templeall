@@ -5,6 +5,7 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { ToastInfo, ToastSuccess } from "../Toast";
 
+
 interface BettingOverviewProps {
   userinformation: any;
   isModalOpen: boolean;

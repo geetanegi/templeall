@@ -17,6 +17,7 @@ export default {
       backgroundImage: {
         "mobile-background": "url('/src/assets/images/Golf BG.png')",
         "desktop-background": "url('/src/assets/images/AceCam-golf-bg.png')",
+        "golfballBg": "url('/src/assets/images/GolfBallBg.png')",
         "profile_gradient_bg": "linear-gradient(174.16deg, #072E1A 3.87%, #006633 51.67%, #000000 99.48%)",
         'gradient-green': 'linear-gradient(180deg, #046221  0%, #072E1A 100%)',
         "reverse-graident-green": 'linear-gradient(180deg, #072E1A   0%, #046221 100%)',

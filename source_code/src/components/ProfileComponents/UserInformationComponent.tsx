@@ -39,8 +39,8 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
   return (
     <>
       <div
-        className="mt-16 h-[298px] w-[245px] rounded-lg bg-[#FFFFFF4D] p-4"
-        style={{ height: "max-content" }}
+        className="mt-10  h-[290px] w-[245px] rounded-lg bg-[#FFFFFF4D] p-4"
+        // style={{ height: "max-content" }}
       >
         <div className="flex">
           <div className="flex flex-col gap-1">
@@ -72,7 +72,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
               </div>
             </div>
             <div className="flex items-center gap-1 whitespace-nowrap text-[14px] text-primaryText">
-              <LandPlot size={16} className="text-primaryText" />
+              <LandPlot size={16} className="text-primaryText ml-[2px]"/>
               <div className="whitespace-nowrap font-thin">Course :</div>
               <div className="flex flex-wrap leading-tight">
                 {userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map(

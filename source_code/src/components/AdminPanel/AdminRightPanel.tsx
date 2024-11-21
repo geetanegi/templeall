@@ -249,6 +249,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           }
         } else if (data?.error && data.description) {
           setRowData([])
+          setTotalPages(0)
           ToastError(data.description);
           handleRefreshUserCount(0, true);
         }

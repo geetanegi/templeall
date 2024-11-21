@@ -222,11 +222,7 @@ const Nav: React.FC = () => {
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img
-              src={aceCampLogo}
-              alt="Ace Camp Logo"
-              className="h-[56px] w-[56px]"
-            />
+            <img src={aceCampLogo} alt="Ace Camp Logo" className="" />
           </a>
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
@@ -280,18 +276,22 @@ const Nav: React.FC = () => {
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
-                               "#046221" : location.pathname.startsWith(menu.routeUrl) &&
-                                    isContestsRoute(location.pathname) ? "#046221"
-                              : "#1D1A0C", // Change icon color
+                                "#046221"
+                              : location.pathname.startsWith(menu.routeUrl) &&
+                                  isContestsRoute(location.pathname)
+                                ? "#046221"
+                                : "#1D1A0C", // Change icon color
                         })}
                         <span
                           style={{
                             color:
                               menu.routeUrl === location.pathname
-                                ? // || selectedMenu === menu.name 
-                                  "#046221" : location.pathname.startsWith(menu.routeUrl) &&
-                                    isContestsRoute(location.pathname) ? "#046221" 
-                                : "#1D1A0C",
+                                ? // || selectedMenu === menu.name
+                                  "#046221"
+                                : location.pathname.startsWith(menu.routeUrl) &&
+                                    isContestsRoute(location.pathname)
+                                  ? "#046221"
+                                  : "#1D1A0C",
                           }}
                           className={`px-2 text-[12px] md:mb-[6px] md:mt-[5px] md:px-0`}
                         >
@@ -383,11 +383,13 @@ const Nav: React.FC = () => {
               <span className="sr-only">Open user menu</span>
               <div className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0">
                 {profileImage ? (
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src={`data:image/png;base64,${profileImage}`}
-                    alt="user photo"
-                  />
+                  <div className="h-10 w-10 object-contain">
+                    <img
+                      className="w-full rounded-full"
+                      src={`data:image/png;base64,${profileImage}`}
+                      alt="user photo"
+                    />
+                  </div>
                 ) : (
                   <div className="w-10">
                     <img src={defaultUserImage} alt="" className="w-full" />

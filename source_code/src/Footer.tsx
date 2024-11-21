@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-[#F5F6F7]">
+    <div className="fixed bottom-0 w-full bg-[#F5F6F7]">
       <div className="flex justify-between pr-2">
         <div className="flex items-center justify-center gap-2">
           <p className={`whitespace-nowrap p-2 text-[13px] text-textColor`}>

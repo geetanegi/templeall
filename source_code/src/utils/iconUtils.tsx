@@ -4,7 +4,7 @@ import * as Icons from "lucide-react";
 
 // Define the mapping of icon names to icon components
 const iconMap = {
-  Communities: Icons.UsersRound,
+  Community: Icons.UsersRound,
   Home: Icons.Home,
   Users: Icons.Users,
   "Highlight Hub": Icons.Calendar,
@@ -35,7 +35,7 @@ export const getIconComponent = ({
   const IconComponent = iconMap[name as keyof typeof iconMap];
 
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found. Returning null.`);
+    console.log(`Icon "${name}" not found. Returning null.`);
     return null; // Or return a default icon component
   }
 

@@ -44,36 +44,36 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
       >
         <div className="flex">
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2 whitespace-nowrap text-[14px] text-primaryText">
-              <span className="mr-3 whitespace-nowrap">Age :</span>
+            <div className="flex items-center gap-1 whitespace-nowrap text-[14px] text-primaryText">
+              <span className="whitespace-nowrap font-thin">Age:</span>
               <span className="whitespace-nowrap">
                 {userinformation?.userProfile?.age || "---"}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-[14px] text-primaryText">
-              <span className="mr-3 whitespace-nowrap">Handicap :</span>
+            <div className="flex items-center gap-1 text-[14px] text-primaryText">
+              <span className="whitespace-nowrap font-thin">Handicap:</span>
               <div className="flex flex-wrap">
                 {userinformation?.userProfile?.handicap || "---"}
               </div>
             </div>
-            <div className="flex items-center gap-2 text-[14px] text-primaryText">
+            <div className="flex items-center gap-1 text-[14px] text-primaryText">
               <img src={golfKitIcon} alt="Golf Kit Icon" className="ml-1" />
-              <div className="whitespace-nowrap">Clubs :</div>
+              <div className="whitespace-nowrap font-thin">Clubs:</div>
               <div className="flex flex-wrap">
                 {userinformation?.userProfile?.clubs || "---"}
               </div>
             </div>
-            <div className="flex items-center gap-2 text-[14px] text-primaryText">
+            <div className="flex items-center gap-1 text-[14px] text-primaryText">
               {" "}
-              <img src={golfBallIcon} alt="Golf Ball Icon" className="" />
-              <div className="whitespace-nowrap">Ball :</div>
+              <img src={golfBallIcon} alt="Golf Ball Icon" />
+              <div className="whitespace-nowrap font-thin">Ball:</div>
               <div className="flex flex-wrap">
                 {userinformation?.userProfile?.ball || "---"}
               </div>
             </div>
-            <div className="flex items-center gap-2 whitespace-nowrap text-[14px] text-primaryText">
+            <div className="flex items-center gap-1 whitespace-nowrap text-[14px] text-primaryText">
               <LandPlot size={16} className="text-primaryText" />
-              <div className="whitespace-nowrap">Course :</div>
+              <div className="whitespace-nowrap font-thin">Course :</div>
               <div className="flex flex-wrap leading-tight">
                 {userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map(
                   (course: any) => course.courseName + " ",
@@ -81,7 +81,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
               </div>
             </div>
             <div className="flex items-center gap-2 whitespace-nowrap text-[14px] text-primaryText">
-              <span className="mr-3 whitespace-nowrap">Member Since:</span>
+              <span className="whitespace-nowrap font-thin">Member Since:</span>
               <span className="whitespace-nowrap">
                 {userinformation?.userProfile?.memberSince
                   ? formatDate(userinformation?.userProfile?.memberSince)
@@ -91,10 +91,10 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
           </div>
           <div></div>
         </div>
-        <div>
+        <div className="flex justify-center">
           {!userId || userId == userInfo?.userId ? (
             <button
-              className="ml-10 mt-10 h-[30px] w-[138px] rounded-md border border-[#95C11E] text-[#95C11E]"
+              className="mt-20 h-[30px] w-[138px] rounded-md border border-[#95C11E] text-[#95C11E]"
               onClick={() => setIsModalOpen(true)}
             >
               Edit Profile

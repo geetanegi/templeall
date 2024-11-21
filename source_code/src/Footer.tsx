@@ -1,6 +1,19 @@
 import React from "react";
+import privacyPolicyPdf from "./assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import TermsAndConditionsPdf from "./assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
+import { viewPdf } from "./utils/downloadUtils";
 
 const Footer: React.FC = () => {
+  const downloadPrivacyPolicyFunc = () => {
+    viewPdf(privacyPolicyPdf);
+  };
+
+  const downloadTermsAndConditionsFunc = () => {
+    viewPdf(TermsAndConditionsPdf);
+    // const pdfUrl = TermsAndConditionsPdf; // URL of your PDF
+    // window.open(pdfUrl, "_blank");
+  };
+
   return (
     <div className="fixed bottom-0 w-full bg-[#F5F6F7]">
       <div className="flex justify-between pr-2">
@@ -14,7 +27,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="flex items-center justify-center gap-2">
           <p
-            // onClick={downloadTermsAndConditionsFunc}
+            onClick={downloadTermsAndConditionsFunc}
             className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
           >
             Terms and Conditions
@@ -24,7 +37,7 @@ const Footer: React.FC = () => {
           </p>{" "}
           <p
             className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-            // onClick={downloadPrivacyPolicyFunc}
+            onClick={downloadPrivacyPolicyFunc}
           >
             {" "}
             Privacy Policy

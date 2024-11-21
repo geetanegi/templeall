@@ -14,7 +14,7 @@ interface AdminSidePanelProps {
 }
 
 export interface AdminSidePanelHandle {
-  getUserCount: () => void;
+  getUserCount: (count?:number, searchFlag?:boolean) => void;
 }
 
 const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
@@ -29,6 +29,8 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
     ref,
   ) => {
     const [usersCounts, setUsersCounts] = useState<Array<any>>([]);
+    const [updatedCount, setUpdatedCount] = useState<number>(0)
+    const [isSearch, setIsSearch] = useState<boolean>(false)
     const userPermisions = useSelector(
       (state: RootState) => state.auth.userPermissions,
     );
@@ -42,7 +44,13 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
       getUserCount();
     }, []);
 
-    const getUserCount = async () => {
+    const getUserCount = async (count?:number, searchFlag?:boolean) => {
+      if(searchFlag){
+        setUpdatedCount(count || 0)
+        setIsSearch(true)
+        return
+      }
+      setIsSearch(false)
       let url = API_URL.getAllCount;
       let payload: Record<string, unknown> = {};
       if (isCourseAdmin && userPermisions.data?.permission["is_course_admin"]) {
@@ -85,7 +93,8 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
                         >
                             <div className='flex gap-2 text-[14px]'>{itm.icon} {itm.role}</div>
                             <span className='bg-[#E9ECF1] text-black rounded-2xl w-6 text-sm'>
-                                {usersCounts.length && usersCounts.find((count) => count[itm.key])?.[itm.key]}
+                                {selectedUserTab === itm.roleIds && isSearch ? updatedCount : usersCounts.length && usersCounts.find((count) => count[itm.key])?.[itm.key]}
+
                             </span>
                         </button>
                     ))

@@ -356,6 +356,7 @@ const Register: React.FC = () => {
                       placeholder="Phone"
                       required={true}
                       authFlow={true}
+                      maxLength={10}
                     />
                     <p className="-mt-4 w-full px-1 text-[12px] font-semibold text-yellowText">
                       (By providing your phone number, you agree to receive text

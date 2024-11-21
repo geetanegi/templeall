@@ -303,6 +303,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         uploadProgressArr={uploadProgressArr}
         isSOTWModalOpen={isSOTWModalOpen}
         uploadSotwProgressArr={uploadSotwProgressArr}
+        getAllMediaCounts={getAllMediaCounts}
       />
 
       <UploadVideoModal

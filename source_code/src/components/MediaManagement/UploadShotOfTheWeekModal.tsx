@@ -334,7 +334,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       handleInprogressVideoList({ vidId }, "remove");
     } finally {
       setSelectedUser({ username: "" });
-      setIsRefreshList(!isRefreshList);
       setUsersList([]);
     }
   };

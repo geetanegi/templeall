@@ -18,7 +18,6 @@ import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
-import { ROUTES } from "../utils/routesPath";
 import { parseInt } from "lodash";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 
@@ -226,7 +225,7 @@ const CreateContest: React.FC = () => {
 
   const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
 
-  const { state, pathname } = useLocation();
+  const { state } = useLocation();
   console.log("state", state); // to be removed later
 
   const courseData = useSelector(

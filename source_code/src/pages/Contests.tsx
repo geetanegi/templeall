@@ -14,7 +14,7 @@ import { RootState } from "../store";
 import moment from "moment";
 import momentTz from "moment-timezone";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
@@ -250,8 +250,6 @@ const Contests: React.FC = () => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
-
-  const { pathname } = useLocation();
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,

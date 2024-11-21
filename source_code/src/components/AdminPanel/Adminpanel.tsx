@@ -33,9 +33,9 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
   const adminSidePanelRef = useRef<AdminSidePanelHandle>(null);
   const adminRightPanelRef = useRef<AdminRightPanelHandle>(null);
 
-  const handleRefreshUserCount = () => {
+  const handleRefreshUserCount = (count?:number, searchFlag?:boolean) => {
     if (adminSidePanelRef.current) {
-      adminSidePanelRef.current.getUserCount(); // Call the method exposed by the child component
+      adminSidePanelRef.current.getUserCount(count || 0, searchFlag || false); // Call the method exposed by the child component
     }
   };
 

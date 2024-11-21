@@ -159,6 +159,18 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     }
   };
 
+  const showMessageDialogFunc = () => {
+    if (!isRegistrationOpen) {
+      return "The registration window for the contest has closed.";
+    } else if (!teeContest?.eligibleForRegistration) {
+      return "You have reached today's playing limit for this contest.";
+    } else if (!isCrossed) {
+      //  eligibleRegistrationTime is greater than current time
+      return "You recently took part in the contest. Registration will reopen after 12:00 PM.";
+    }
+  };
+ 
+
   return (
     <div className="">
       <div className="m-4">
@@ -221,9 +233,9 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             </div>
           </div>
           <div className="px-2 text-right text-xs text-red-500">
-            {!teeContest?.eligibleForRegistration && (
-              <span className="text-xs">You completed your today limit</span>
-            )}
+            {/* {!teeContest?.eligibleForRegistration && ( */}
+              <span className="text-xs">{showMessageDialogFunc()}</span>
+            {/* )} */}
           </div>
           {teeContest.note !== null && (
             <div className="bg-warning">

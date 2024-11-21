@@ -178,7 +178,7 @@ const LiveLeaderBoard: React.FC = () => {
         {leaderBoardData?.data?.leaderboard && (
           <LeaderBoardTable
             leaderBoardData={leaderBoardData.data.leaderboard}
-            registered={leaderBoardData?.data.contestInfo?.registered}
+            registered={isSuperAdmin || leaderBoardData?.data.contestInfo?.registered}
           />
         )}
       </div>

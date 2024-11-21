@@ -149,7 +149,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         const videoIndex = prevArr.findIndex(
           (item) => item.vidId === data.vidId,
         );
-
+        
         if (videoIndex !== -1) {
           const updatedArr = [...prevArr];
           updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };

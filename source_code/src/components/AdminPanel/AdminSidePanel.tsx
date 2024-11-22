@@ -14,7 +14,7 @@ interface AdminSidePanelProps {
 }
 
 export interface AdminSidePanelHandle {
-  getUserCount: () => void;
+  getUserCount: (count?:number, searchFlag?:boolean) => void;
 }
 
 const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
@@ -29,6 +29,8 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
     ref,
   ) => {
     const [usersCounts, setUsersCounts] = useState<Array<any>>([]);
+    const [updatedCount, setUpdatedCount] = useState<number>(0)
+    const [isSearch, setIsSearch] = useState<boolean>(false)
     const userPermisions = useSelector(
       (state: RootState) => state.auth.userPermissions,
     );
@@ -42,7 +44,13 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
       getUserCount();
     }, []);
 
-    const getUserCount = async () => {
+    const getUserCount = async (count?:number, searchFlag?:boolean) => {
+      if(searchFlag){
+        setUpdatedCount(count || 0)
+        setIsSearch(true)
+        return
+      }
+      setIsSearch(false)
       let url = API_URL.getAllCount;
       let payload: Record<string, unknown> = {};
       if (isCourseAdmin && userPermisions.data?.permission["is_course_admin"]) {
@@ -73,24 +81,25 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
       setCurrentPage(0);
     };
 
-    return (
-      <div className="flex flex-col rounded-md bg-[#F3F6F9] p-2">
-        {usersCount.map((itm: any) => (
-          <button
-            key={itm.roleIds}
-            className={`tect-[14px] mb-5 flex items-center justify-between gap-2 rounded-md px-2 py-2 ${selectedUserTab === itm.roleIds ? "bg-lime-500 text-white" : "text-[#7B7887]"}`}
-            onClick={() => handleChangePage(itm.roleIds)}
-          >
-            <div className="flex gap-2 text-[14px]">
-              {itm.icon} {itm.role}
+        return (
+            <div className='flex flex-col rounded-md p-2 bg-[#F3F6F9] '>
+                {
+                    usersCount.map((itm: any) => (
+                        <button
+                            key={itm.roleIds}
+                            className={`flex items-center justify-between mb-5 px-2 gap-2 rounded-md py-2 tect-[14px] 
+                                ${selectedUserTab === itm.roleIds ? 'bg-primaryColor text-white' : 'text-[#7B7887]'}`}
+                            onClick={() => handleChangePage(itm.roleIds)}
+                        >
+                            <div className='flex gap-2 text-[14px]'>{itm.icon} {itm.role}</div>
+                            <span className='bg-[#E9ECF1] text-black rounded-2xl w-6 text-sm'>
+                                {selectedUserTab === itm.roleIds && isSearch ? updatedCount : usersCounts.length && usersCounts.find((count) => count[itm.key])?.[itm.key]}
+
+                            </span>
+                        </button>
+                    ))
+                }
             </div>
-            <span className="w-6 rounded-2xl bg-[#E9ECF1] text-sm text-black">
-              {usersCounts.length &&
-                usersCounts.find((count) => count[itm.key])?.[itm.key]}
-            </span>
-          </button>
-        ))}
-      </div>
     );
   },
 );

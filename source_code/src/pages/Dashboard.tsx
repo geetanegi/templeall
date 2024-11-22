@@ -69,8 +69,6 @@ const Dashboard: React.FC = () => {
     return <Navigate to={ROUTES.CONTESTS} replace />;
   }
 
-  console.log("userPermisions", userPermisions);
-
   return (
     <div>
       {userPermisions?.data?.permission["is_player"] && <PlayerHomePage />}

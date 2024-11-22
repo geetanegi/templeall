@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import aceCampLogo from "./assets/images/Branding.png";
+import aceCampLogo from "./assets/images/Logo_new.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./reducers/login/login";
 import { RootState } from "./store";
@@ -209,6 +209,11 @@ const Nav: React.FC = () => {
     }
   };
 
+  const isContestsRoute = (pathname: string): boolean => {
+    const contestsRegex = /^\/contests\/\d+$/;
+    return contestsRegex.test(pathname);
+  };
+
   return (
     <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex h-full w-full items-center justify-between px-2 pt-1">
@@ -217,29 +222,23 @@ const Nav: React.FC = () => {
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img
-              src={aceCampLogo}
-              alt="Ace Camp Logo"
-              className="h-[56px] w-[56px]"
-            />
+            <img src={aceCampLogo} alt="Ace Camp Logo" className="h-[56px] w-[82px]" />
           </a>
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
           <div
-            className={`${
-              navCollapsed ? "hidden" : ""
-            } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:h-full md:justify-center`}
+            className={`${navCollapsed ? "hidden" : ""
+              } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:h-full md:justify-center`}
             id="navbar-user"
           >
             <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:mt-0 md:h-full md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               {menuList?.map((menu: any) => (
                 <li
                   key={menu.name}
-                  className={`w-15 h-full px-2 ${
-                    selectedMenu === menu.name
-                      ? "text-grayu-600" // Keep background unchanged
-                      : "text-gray-600"
-                  }`}
+                  className={`w-15 h-full px-2 ${selectedMenu === menu.name
+                    ? "text-grayu-600" // Keep background unchanged
+                    : "text-gray-600"
+                    }`}
                 >
                   {menu.subMenus !== null ? (
                     <div className="relative">
@@ -257,11 +256,10 @@ const Nav: React.FC = () => {
                     <>
                       <Link
                         to={menu.routeUrl}
-                        className={`flex h-full items-center justify-center rounded px-3 md:flex-col md:justify-end md:p-0 ${
-                          selectedMenu === menu.name
-                            ? "" // Background unchanged
-                            : ""
-                        }`}
+                        className={`flex h-full items-center justify-center rounded px-3 md:flex-col md:justify-end md:p-0 ${selectedMenu === menu.name
+                          ? "" // Background unchanged
+                          : ""
+                          }`}
                         // onClick={() => handleMenuClick(menu.name)}
                         onClick={(e) => {
                           e.preventDefault(); // Prevent immediate navigation
@@ -275,16 +273,22 @@ const Nav: React.FC = () => {
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
-                                "#046221"
-                              : "#1D1A0C", // Change icon color
+                              "#046221"
+                              : location.pathname.startsWith(menu.routeUrl) &&
+                                isContestsRoute(location.pathname)
+                                ? "#046221"
+                                : "#1D1A0C", // Change icon color
                         })}
                         <span
                           style={{
                             color:
                               menu.routeUrl === location.pathname
                                 ? // || selectedMenu === menu.name
-                                  "#046221"
-                                : "#1D1A0C",
+                                "#046221"
+                                : location.pathname.startsWith(menu.routeUrl) &&
+                                  isContestsRoute(location.pathname)
+                                  ? "#046221"
+                                  : "#1D1A0C",
                           }}
                           className={`px-2 text-[12px] md:mb-[6px] md:mt-[5px] md:px-0`}
                         >
@@ -294,6 +298,10 @@ const Nav: React.FC = () => {
                           //  ||  selectedMenu === menu.name
                           <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
+                        {location.pathname.startsWith(menu.routeUrl) &&
+                          isContestsRoute(location.pathname) && (
+                            <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                          )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
                           <div
@@ -338,7 +346,7 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
-            <div className="relative">
+            <div className="relative mt-[7px]">
               {userPermisions?.data?.permission["is_player"] ? (
                 <Popover
                   content={
@@ -365,18 +373,20 @@ const Nav: React.FC = () => {
             </div>
             <button
               type="button"
-              className="flex items-center justify-center"
+              className="flex items-center justify-center "
               onClick={toggleDropdown}
               style={{ width: "max-content" }}
             >
               <span className="sr-only">Open user menu</span>
               <div className="flex overflow-hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 md:me-0">
                 {profileImage ? (
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src={`data:image/png;base64,${profileImage}`}
-                    alt="user photo"
-                  />
+                  <div className="h-10 w-10 object-contain">
+                    <img
+                      className="w-full rounded-full"
+                      src={`data:image/png;base64,${profileImage}`}
+                      alt="user photo"
+                    />
+                  </div>
                 ) : (
                   <div className="w-10">
                     <img src={defaultUserImage} alt="" className="w-full" />

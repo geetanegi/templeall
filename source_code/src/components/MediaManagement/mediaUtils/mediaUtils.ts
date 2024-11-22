@@ -67,8 +67,8 @@ export const deleteVideos = async (
   try {
     let endPoint = API_URL.deleteVideo;
 
-    if (type === "REQUEST_VIDEO" && userRole === "superAdmin") {
-      endPoint = API_URL.deleteRequestVideo;
+    if (userRole === "superAdmin") {
+      endPoint = API_URL.deleteSaVideo;
     }
     const res = await apiService.post<any>(endPoint, {
       data: {
@@ -201,5 +201,18 @@ export const deleteComment = async (
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+
+export const formatDuration = (duration: number): string => {
+  const hours = Math.floor(duration / 3600);
+  const minutes = Math.floor((duration % 3600) / 60);
+  const seconds = Math.floor(duration % 60);
+
+  if (hours > 0) {
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  } else {
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 };

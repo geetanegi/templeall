@@ -57,14 +57,6 @@ const validationSchema = Yup.object({
     ),
 });
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  username: "",
-  emailId: "",
-  password: "",
-  roleIds: "",
-};
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
   isModalOpen,
@@ -150,16 +142,14 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
     <Modal isOpen={isModalOpen} onClose={() => closeModal()} title="Add User">
       <Formik
         initialValues={
-          userData
-            ? {
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                username: userData.username,
-                emailId: userData.email,
-                password: "",
-                roleIds: userData.roleIds,
-              }
-            : initialValues
+          {
+            firstName: '',
+            lastName: '',
+            username: '',
+            emailId: '',
+            password: "",
+            roleIds: '',
+          }
         }
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -199,13 +189,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                      touched.firstName &&
+                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.firstName &&
                       errors.firstName &&
                       typeof errors.firstName === "string"
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    } `}
+                      ? "border-red-500"
+                      : "border-gray-200"
+                      } `}
                   />
                   <span
                     className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.firstName ? "hidden" : ""}`}
@@ -233,13 +222,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                      touched.lastName &&
+                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.lastName &&
                       errors.lastName &&
                       typeof errors.lastName === "string"
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    } `}
+                      ? "border-red-500"
+                      : "border-gray-200"
+                      } `}
                   />
                   <span
                     className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.lastName ? "hidden" : ""}`}
@@ -342,7 +330,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-32 rounded-md bg-lime-500 py-2 text-white"
+                className="w-32 rounded-md bg-primaryColor py-2 text-white"
               >
                 {userData ? "Edit User" : "Add User"}
               </button>

@@ -32,11 +32,27 @@ interface TeeContest {
   selectedTeeType: string | null;
   progressiveContestId: number | null;
   note: string | null;
+  eligibleForRegistration: boolean;
+  eligibleRegistrationTime: string | null;
 }
 
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentTime = moment.utc();
+
+  // console.log("teeContest info", teeContest);
+
+  // Parse eligibleRegistrationTime as UTC
+  const eligibleTimeUTC = teeContest?.eligibleRegistrationTime
+    ? moment.utc(teeContest.eligibleRegistrationTime)
+    : null;
+
+  const isCrossed = eligibleTimeUTC
+    ? currentTime.isAfter(eligibleTimeUTC)
+    : true;
+
+  // console.log("isCrossed", isCrossed);
 
   const [isContestAlreadySelected, setIsContestAlreadySelected] =
     useState(false);
@@ -57,7 +73,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     (state: RootState) => state.courses.yardage,
   );
 
-  const currentTime = moment.utc(); // Get the current time in UTC as
+  // Get the current time in UTC as
   // Function to check if the date string is in UTC
   const isUtcDate = (dateString: any) => {
     // Check for 'Z' at the end or a timezone offset
@@ -143,6 +159,17 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     }
   };
 
+  const showMessageDialogFunc = () => {
+    if (!isRegistrationOpen) {
+      return "The registration window for the contest has closed.";
+    } else if (!teeContest?.eligibleForRegistration) {
+      return "You have reached today's playing limit for this contest.";
+    } else if (!isCrossed) {
+      //  eligibleRegistrationTime is greater than current time
+      return "You recently took part in the contest. Registration will reopen after 12:00 PM.";
+    }
+  };
+
   return (
     <div className="">
       <div className="m-4">
@@ -162,7 +189,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
 
             <div className="flex flex-col place-items-end">
               <p className="text-sm">{`${moment.utc(teeContest.registrationStartTime).local().format("hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("hh:mm A")} `}</p>{" "}
-              <span className="flex items-center rounded-md bg-green-100 px-2">
+              <span className="flex items-center rounded-md bg-green-100 px-2 mt-[4px]">
                 <img src={GolfTee} alt="" className="" />
                 <span className="p-1 text-xs font-semibold text-green-700">
                   {teeContest.activeStatus}
@@ -170,32 +197,44 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
               </span>
             </div>
             <div>
-              {isRegistrationOpen && (
-                <>
-                  {isSelected ? (
-                    <Minus
-                      size={32}
-                      className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
-                      onClick={handleRemoveContest}
-                    />
-                  ) : (
-                    <span className="flex items-center gap-1">
-                      <Plus
+              {/* 
+               check 1. check registration is (status) open/close  
+               check 2.check if eligibleForRegistration  
+              check 3. check time is crossed or  based on eligibleRegistrationTime 
+              */}
+              {isRegistrationOpen &&
+                teeContest?.eligibleForRegistration &&
+                isCrossed && (
+                  <>
+                    {isSelected ? (
+                      <Minus
                         size={32}
-                        className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-primaryColor p-1 font-semibold text-white`}
-                        // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
-                        onClick={handleContestSelection}
+                        className="cursor-pointer rounded-full bg-red-600 p-1 font-semibold text-white"
+                        onClick={handleRemoveContest}
                       />
-                      {isContestAlreadySelected && (
-                        <div title="You can only register for contests from one tee at a time">
-                          <Info size={20} className="ml-auto text-blue-700" />
-                        </div>
-                      )}
-                    </span>
-                  )}
-                </>
-              )}
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        <Plus
+                          size={32}
+                          className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-primaryColor p-1 font-semibold text-white`}
+                          // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
+                          onClick={handleContestSelection}
+                        />
+                        {isContestAlreadySelected && (
+                          <div title="You can only register for contests from one tee at a time">
+                            <Info size={20} className="ml-auto text-blue-700" />
+                          </div>
+                        )}
+                      </span>
+                    )}
+                  </>
+                )}
             </div>
+          </div>
+          <div className="px-2 text-right text-xs text-red-500">
+            {/* {!teeContest?.eligibleForRegistration && ( */}
+            <span className="text-xs">{showMessageDialogFunc()}</span>
+            {/* )} */}
           </div>
           {teeContest.note !== null && (
             <div className="bg-warning">
@@ -209,21 +248,20 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-2 text-white ${
-            Object.values(selectedContests).flat().length === 0
+          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${Object.values(selectedContests).flat().length === 0
               ? "cursor-not-allowed"
               : ""
-          }`}
+            }`}
           onClick={() => {
             navigate(ROUTES.CHECKOUT);
           }}
           disabled={Object.values(selectedContests).flat().length === 0}
         >
           <ShoppingCart className="relative" />
-          <span className="absolute right-[5.3rem] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+          <span className="absolute right-[5rem] top-[1px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
             {Object.values(selectedContests).flat().length}
           </span>
-          <span className="mx-2">Register</span>
+          <span className="mx-2 text-[14px]">Register</span>
         </button>
       </div>
     </div>

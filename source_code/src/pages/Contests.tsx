@@ -14,7 +14,7 @@ import { RootState } from "../store";
 import moment from "moment";
 import momentTz from "moment-timezone";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
@@ -251,7 +251,6 @@ const Contests: React.FC = () => {
 
   const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
 
-  const { pathname } = useLocation();
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -533,15 +532,16 @@ const Contests: React.FC = () => {
           className="fixed h-[80%] bg-white bg-contain bg-fixed bg-no-repeat pt-10 opacity-20"
         />
         <div className="w-full pt-4">
-          <div className="flex justify-center pb-6">
+          <div className="flex justify-center pb-6 mb-10">
             <div className="rounded-md border bg-white shadow md:max-w-4xl">
               <div className="p-4">
                 <h3 className="mb-2 text-xl font-bold">
-                  {pathname === ROUTES.CREATE_CONTEST
+                  {/* {pathname === ROUTES.CREATE_CONTEST
                     ? " Create Contest"
                     : userPermisions.data?.permission["is_course_admin"]
                       ? "Contest Details"
-                      : "Edit Contest"}
+                      : "Edit Contest"} */}
+                  Edit Contest
                 </h3>
 
                 <Formik
@@ -610,14 +610,14 @@ const Contests: React.FC = () => {
                           {userPermisions.data?.permission[
                             "is_super_admin"
                           ] && (
-                            <button
-                              disabled={isSuperAdmin || isSubmitting}
-                              type="submit"
-                              className="rounded-lg bg-[#95c11b] px-8 py-2 text-white"
-                            >
-                              Save
-                            </button>
-                          )}
+                              <button
+                                disabled={isSuperAdmin || isSubmitting}
+                                type="submit"
+                                className="rounded-lg bg-primaryColor px-8 py-2 text-white"
+                              >
+                                Save
+                              </button>
+                            )}
                         </div>
                       </Form>
                     );

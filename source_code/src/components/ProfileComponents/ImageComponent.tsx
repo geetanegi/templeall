@@ -188,7 +188,6 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
     }
   };
 
-  // console.log("croppedImageBlob", croppedImageBlob);
 
   return (
     <PageLoader isActive={loader}>
@@ -215,7 +214,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           >
             {image ? (
               <img
-                src={`data:image/png;base64,${image}`}
+                src={image}
                 alt=""
                 className="h-[432px] max-w-[340px]"
               />
@@ -227,16 +226,18 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
               />
             )}
             <div className="relative top-[-82px] h-[82px] bg-custom-gradient-2 pr-10">
-              <div className="ml-auto" style={{ width: "max-content" }}>
-                <div className="m-0 text-[#F5F6F7]">This is</div>
-                <div className="m-0 text-[24px] text-[#F5F6F7]">
+              <div className="ml-auto leading-6" style={{ width: "max-content" }}>
+                {userDetails?.firstName && (
+                  <div className="m-0 text-[#F5F6F7] text-[13px] font-normal pt-[6px]">This is</div>
+                )}
+                <div className="m-0 text-[24px] text-[#F5F6F7] font-medium">
                   {userDetails?.firstName?.charAt(0).toUpperCase() +
                     userDetails?.firstName?.slice(1) || ""}{" "}
                   {userDetails?.lastName?.charAt(0).toUpperCase() +
                     userDetails?.lastName?.slice(1)}{" "}
                 </div>
                 <div
-                  className={`m-0 text-right text-[14px] text-[#F5F6F7] ${userDetails.location ? "visible" : "invisible"}`}
+                  className={`m-0 text-right text-[14px] font-normal text-[#F5F6F7] ${userDetails.location ? "visible" : "invisible"}`}
                 >
                   {" "}
                   {userDetails?.location ? userDetails.location : "."}

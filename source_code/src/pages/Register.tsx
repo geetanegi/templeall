@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import {
-  useStripe,
-  useElements,
-  // CardNumberElement,
-  // CardExpiryElement,
-  // CardCvcElement,
-} from "@stripe/react-stripe-js";
+// import {
+//   useStripe,
+//   useElements,
+//   // CardNumberElement,
+//   // CardExpiryElement,
+//   // CardCvcElement,
+// } from "@stripe/react-stripe-js";
 // assets import
 import TikTok from "../assets/images/TikTok.svg";
-import aceCampLogo from "../assets/images/aceCamp_logo.png";
+import aceCampLogo from "../assets/images/logo (1).png";
 
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
@@ -35,8 +35,8 @@ import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf"
 import { viewPdf } from "../utils/downloadUtils";
 
 const Register: React.FC = () => {
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
   const dispatch = useDispatch();
 
   interface RegisterFormValues {
@@ -185,10 +185,10 @@ const Register: React.FC = () => {
       dispatch(setLoading(false));
     }
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet
-      return;
-    }
+    // if (!stripe || !elements) {
+    //   // Stripe.js has not loaded yet
+    //   return;
+    // }
     // const cardNumberElement = elements.getElement(CardNumberElement);
     // if ((cardTouched && !cardNumberElement) || isCardEmpty) {
     //   setCardError("Card details are required");
@@ -356,8 +356,9 @@ const Register: React.FC = () => {
                       placeholder="Phone"
                       required={true}
                       authFlow={true}
+                      maxLength={10}
                     />
-                    <p className="-mt-4 w-full px-1 text-[12px] font-semibold text-yellowText">
+                    <p className="-mt-4 w-full text-[11px] font-semibold text-yellowText">
                       (By providing your phone number, you agree to receive text
                       messages from AceCam Golf LLC. Message and data rates may
                       apply.)

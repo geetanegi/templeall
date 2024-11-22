@@ -151,7 +151,7 @@ const LiveLeaderBoard: React.FC = () => {
     if (dropDownList?.length === 0) {
       return (
         <div className="">
-          <p>No Live leaderBoard available yet!!! </p>
+          <p className="text-[14px] p-5">No Live leaderBoard available yet!!! </p>
         </div>
       );
     } else {
@@ -178,7 +178,7 @@ const LiveLeaderBoard: React.FC = () => {
         {leaderBoardData?.data?.leaderboard && (
           <LeaderBoardTable
             leaderBoardData={leaderBoardData.data.leaderboard}
-            registered={leaderBoardData?.data.contestInfo?.registered}
+            registered={isSuperAdmin || leaderBoardData?.data.contestInfo?.registered}
           />
         )}
       </div>

@@ -38,7 +38,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
   return (
     <div className="">
       <div
-        className="flex gap-[16px] rounded-l-full rounded-r-full border bg-gradient-green p-[4px]"
+        className="flex gap-[16px] rounded-l-full rounded-r-full border bg-gradient-green-tab p-[4px]"
         style={{ width: "max-content" }}
       >
         <button

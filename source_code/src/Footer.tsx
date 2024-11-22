@@ -1,39 +1,52 @@
 import React from "react";
+import privacyPolicyPdf from "./assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import TermsAndConditionsPdf from "./assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
+import { viewPdf } from "./utils/downloadUtils";
 
 const Footer: React.FC = () => {
+  const downloadPrivacyPolicyFunc = () => {
+    viewPdf(privacyPolicyPdf);
+  };
+
+  const downloadTermsAndConditionsFunc = () => {
+    viewPdf(TermsAndConditionsPdf);
+    // const pdfUrl = TermsAndConditionsPdf; // URL of your PDF
+    // window.open(pdfUrl, "_blank");
+  };
+
   return (
-    <div className="bg-[#F5F6F7]">
+    <div className="fixed bottom-0 w-full bg-[#F5F6F7] shadow-custom-shadow p-2">
       <div className="flex justify-between pr-2">
         <div className="flex items-center justify-center gap-2">
-          <p className={`whitespace-nowrap p-2 text-[13px] text-textColor`}>
+          <p className={`whitespace-nowrap p-2 text-[13px] text-textColor font-medium`}>
             © 2024 AceCam
-            <sup className="text-[8px]">TM&nbsp;</sup>{" "}
+            <sup className="text-[8px] font-medium">TM&nbsp;</sup>{" "}
             {/* <span className="align-super text-xs">™&nbsp;</span> */}
             Golf, LLC. All rights reserved.
           </p>
         </div>
         <div className="flex items-center justify-center gap-2">
           <p
-            // onClick={downloadTermsAndConditionsFunc}
-            className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
+            onClick={downloadTermsAndConditionsFunc}
+            className={`cursor-pointer whitespace-nowrap text-[13px] text-buttonPrimary hover:underline font-medium`}
           >
             Terms and Conditions
           </p>{" "}
-          <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
+          <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#7B7887] hover:underline">
             |
           </p>{" "}
           <p
-            className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-            // onClick={downloadPrivacyPolicyFunc}
+            className={`cursor-pointer whitespace-nowrap text-[13px] text-buttonPrimary hover:underline font-medium`}
+            onClick={downloadPrivacyPolicyFunc}
           >
             {" "}
             Privacy Policy
           </p>
-          <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
+          <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#7B7887] hover:underline">
             |
           </p>{" "}
           <p
-            className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
+            className={`cursor-pointer whitespace-nowrap text-[13px] text-buttonPrimary hover:underline font-medium`}
           >
             <a href="mailto:support@acecamgolf.com">Contact Us</a>
           </p>

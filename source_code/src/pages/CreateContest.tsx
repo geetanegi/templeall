@@ -18,7 +18,6 @@ import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
-import { ROUTES } from "../utils/routesPath";
 import { parseInt } from "lodash";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 
@@ -77,7 +76,7 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .test(
       "is-greater-than-start-date",
-      "End date must be later than start date",
+      "End date must be later than start date/time",
       function (value) {
         const { startDate } = this.parent;
         if (!value || !startDate) return true; // Skip validation if either date is missing
@@ -226,7 +225,7 @@ const CreateContest: React.FC = () => {
 
   const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
 
-  const { state, pathname } = useLocation();
+  const { state } = useLocation();
   console.log("state", state); // to be removed later
 
   const courseData = useSelector(
@@ -517,15 +516,11 @@ const CreateContest: React.FC = () => {
           className="fixed h-[80%] bg-white bg-contain bg-fixed bg-no-repeat pt-10 opacity-20"
         />
         <div className="w-full pt-4">
-          <div className="flex justify-center pb-6">
+          <div className="flex justify-center pb-6 mb-10">
             <div className="rounded-md border bg-white shadow md:max-w-4xl">
               <div className="p-4">
                 <h3 className="mb-2 text-2xl font-medium">
-                  {pathname === ROUTES.CREATE_CONTEST
-                    ? " Create Contest"
-                    : userPermisions.data?.permission["is_course_admin"]
-                      ? "Contest Details"
-                      : "Edit Contest"}
+                  Create Contest
                 </h3>
 
                 <Formik
@@ -613,7 +608,7 @@ const CreateContest: React.FC = () => {
                           <button
                             disabled={isSuperAdmin || isSubmitting}
                             type="submit"
-                            className="rounded-lg bg-lime-500 px-8 py-2 text-white"
+                            className="rounded-lg bg-primaryColor px-8 py-2 text-white"
                           >
                             Save
                           </button>

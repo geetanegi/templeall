@@ -47,6 +47,7 @@ interface MediaManagementTableProps {
   isModalOpen: boolean;
   isSOTWModalOpen: boolean;
   uploadSotwProgressArr: Array<any>;
+  getAllMediaCounts:()=>{}
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -69,6 +70,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   isModalOpen,
   isSOTWModalOpen,
   uploadSotwProgressArr,
+  getAllMediaCounts
 }) => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -98,6 +100,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   }, [pageSize, currentPage]);
 
   useEffect(() => {
+    setCurrentPage(0);
     getVideosList();
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
@@ -225,6 +228,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setTotalElement(data.data.totalElements)
       setDataLength(data?.data?.totalElements);
       setTotalPages(data.data.totalPages)
+      getAllMediaCounts()
     } else if (data?.error && data.description) {
       ToastInfo(data.description);
     }

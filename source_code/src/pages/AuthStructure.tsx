@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ForgetPassword from "./ForgetPassword";
-import StripeIntegration from "./StripeIntegration";
+// import StripeIntegration from "./StripeIntegration";
 import ResetPassword from "./ResetPassword";
 import { ROUTES } from "../utils/routesPath";
 import PageLoader from "../components/PageLoader";
@@ -59,16 +59,16 @@ const AuthStructure: React.FC = () => {
             {location.pathname === ROUTES.SIGNUP && (
               <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:w-[590px]">
                 {location.pathname === ROUTES.SIGNUP && (
-                  <StripeIntegration>
-                    <Register />
-                  </StripeIntegration>
+                  // <StripeIntegration>
+                  <Register />
+                  // </StripeIntegration>
                 )}
               </div>
             )}
 
             {location.pathname === ROUTES.STRIPE && (
               <div className="flex w-full flex-col items-center justify-center p-6 pt-[100px] md:w-3/5 md:p-8">
-                <StripeIntegration></StripeIntegration>
+                {/* <StripeIntegration></StripeIntegration> */}
               </div>
             )}
 

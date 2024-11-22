@@ -8,7 +8,6 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import VideoPlayer from "../../MediaManagement/VideoPlayer";
-import PageLoader from "../../PageLoader";
 
 interface FeatureHighlightsComponentsprops {
   selectedUser: string | number;
@@ -17,7 +16,6 @@ interface FeatureHighlightsComponentsprops {
 const FeatureHighlightsComponents: React.FC<
   FeatureHighlightsComponentsprops
 > = ({ selectedUser }) => {
-  const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [allVideos, setAllVideos] = useState<Array<any>>([]);
   const [refreshList, setRefreshList] = useState<boolean>(false);
@@ -59,68 +57,66 @@ const FeatureHighlightsComponents: React.FC<
   }
 
   return (
-    <PageLoader isActive={loader}>
-      <div className="my-5 w-[95%] rounded-[8px] bg-[#1D1A0C99] p-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[16px] text-[#ffffff]">
-            Featured Highlights
+    <div className="my-5 w-[95%] rounded-[8px] bg-[#1D1A0C99] p-3 mb-16 pb-5">
+      <div className="flex items-center justify-between">
+        <span className="text-[16px] text-[#ffffff]">
+          Featured Highlights
+        </span>
+      </div>
+
+      {allVideos.length ? (
+        <div className="mt-5 flex flex-wrap gap-y-4" style={{}}>
+          {allVideos.map((videoData) => {
+            return (
+              <div className="w-[25%] px-2 ">
+                <VideoCard
+                  key={videoData.id}
+                  uploadDate={moment
+                    .utc(videoData?.startTime)
+                    .local()
+                    .format("DD/MM/YYYY")}
+                  title={videoData?.contestType}
+                  status={videoData?.status}
+                  clubName={videoData?.club?.name || ""}
+                  tee={
+                    videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`
+                  }
+                  holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
+                  requestVideoPayload={{ ...videoData }}
+                  isApproved={true}
+                  isPublished={videoData.isPublished}
+                  getAllVideos={getAllPublishVideo}
+                  setSelectedVideo={setSelectedVideo}
+                  setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+                  isVideoPlayerVisible={isVideoPlayerVisible}
+                  setRefreshList={setRefreshList}
+                  refreshList={refreshList}
+                  isSOTW={videoData.type === "SOTW"}
+                  rejectionReason={videoData?.rejectionReason || ""}
+                  userInfo={userInfo}
+                  width="100%"
+                />
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A] mb-4">
+          <VideoOff color="#ffffff" size={84} className="font-extralight" />
+          <span className="text-[#F5F6F7]">
+            No videos are available to watch
           </span>
         </div>
-
-        {allVideos.length ? (
-          <div className="mt-5 flex flex-wrap gap-1 gap-y-4" style={{}}>
-            {allVideos.map((videoData) => {
-              return (
-                <div className="w-[25%] px-2">
-                  <VideoCard
-                    key={videoData.id}
-                    uploadDate={moment
-                      .utc(videoData?.startTime)
-                      .local()
-                      .format("DD/MM/YYYY")}
-                    title={videoData?.contestType}
-                    status={videoData?.status}
-                    clubName={videoData?.club?.name || ""}
-                    tee={
-                      videoData?.tee?.teeName + `(${videoData?.tee?.yardage})`
-                    }
-                    holeName={`Hole #${videoData?.hole?.holeNumber} - Par ${videoData?.hole?.par}`}
-                    requestVideoPayload={{ ...videoData }}
-                    isApproved={true}
-                    isPublished={videoData.isPublished}
-                    getAllVideos={getAllPublishVideo}
-                    setSelectedVideo={setSelectedVideo}
-                    setIsVideoPlayerVisible={setIsVideoPlayerVisible}
-                    isVideoPlayerVisible={isVideoPlayerVisible}
-                    setRefreshList={setRefreshList}
-                    refreshList={refreshList}
-                    isSOTW={videoData.type === "SOTW"}
-                    rejectionReason={videoData?.rejectionReason || ""}
-                    userInfo={userInfo}
-                    width="100%"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
-            <VideoOff color="#ffffff" size={84} className="font-extralight" />
-            <span className="text-[#F5F6F7]">
-              No videos are available to watch
-            </span>
-          </div>
-        )}
-        <div className="fixed bottom-1 right-0 z-50">
-          <VideoPlayer
-            isVideoPlayerVisible={isVideoPlayerVisible}
-            setIsVideoPlayerVisible={setIsVideoPlayerVisible}
-            selectedVideo={selectedVideo}
-            setSelectedVideo={setSelectedVideo}
-          />
-        </div>
+      )}
+      <div className="fixed bottom-1 right-0 z-50">
+        <VideoPlayer
+          isVideoPlayerVisible={isVideoPlayerVisible}
+          setIsVideoPlayerVisible={setIsVideoPlayerVisible}
+          selectedVideo={selectedVideo}
+          setSelectedVideo={setSelectedVideo}
+        />
       </div>
-    </PageLoader>
+    </div>
   );
 };
 

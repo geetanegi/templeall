@@ -52,8 +52,8 @@ const AdminHomePage: React.FC = () => {
   return (
     <PageLoader isActive={loader}>
       <div className="flex">
-        <div className="w-full">
-          <div className="bg-[#ffffff] bg-fixed px-4 pb-10">
+        <div className="w-full bg-[#ffffff]">
+          <div className="bg-[#ffffff] bg-fixed px-4 pb-10 mb-10">
             <div className="flex items-center justify-between px-4 py-4">
               <p className="flex text-[18px] font-semibold">
                 {showAll && (
@@ -69,7 +69,8 @@ const AdminHomePage: React.FC = () => {
               {!showAll && videosData.length > 4 && (
                 <button
                   onClick={() => setShowAll(true)}
-                  className="text-[14px] font-semibold text-[#95C11E]"
+                  className="text-[14px] font-semibold text-[#046221
+]"
                 >
                   View All
                 </button>

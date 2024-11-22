@@ -18,3 +18,12 @@
   background-position: center;
   opacity: 0.1;
 }
+
+/*  google logo css of social login */
+.google-login-button-check > div > div > div > div > div > div {
+  padding: 0 !important;
+  width: 20px !important;
+  top: -3px !important;
+  position: relative !important;
+  right: -4px !important;
+}

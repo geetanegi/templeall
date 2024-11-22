@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 // image imports
 
-import golfKitIcon from "../../assets/images/clubs.png";
-import golfBallIcon from "../../assets/images/sports_golf_ball.png";
+import golfKitIcon from "../../assets/images/club_icon.svg";
+import golfBallIcon from "../../assets/images/sports_golf 1.svg";
 import UpdatePlayerInformationModal from "./UpdatePlayerInformationModal";
 // import StripeIntegration from '../../pages/StripeIntegration';
 import { LandPlot } from "lucide-react";
@@ -72,7 +72,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
               </div>
             </div>
             <div className="flex items-center gap-1 whitespace-nowrap text-[14px] text-primaryText">
-              <LandPlot size={16} className="text-primaryText ml-[2px]"/>
+              <LandPlot size={16} className=" ml-[2px]"/>
               <div className="whitespace-nowrap font-thin">Course :</div>
               <div className="flex flex-wrap leading-tight">
                 {userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.map(

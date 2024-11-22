@@ -213,29 +213,29 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
           initialValues={
             userData
               ? {
-                firstName: userData?.firstName,
-                lastName: userData?.lastName,
-                email: userData?.email,
-                contactNumber: userData?.userProfile?.contactNumber || "",
-                ghin: userData?.userProfile?.ghin || "",
-                location: userData?.userProfile?.location || "",
-                city: userData?.userProfile?.city || "",
-                alternateEmail: userData?.userProfile?.alternateEmail || "",
-                dateOfBirth: userData?.userProfile?.dateOfBirth || "",
-                cardDetails: "",
-                fullNameOnCard: "",
-                expirationDate: "",
-                username: userData?.username || "",
-                ball: userData?.userProfile?.ball || "",
-                clubId: "1",
-                courseIds:
-                  userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
-                    .id,
-                clubs: userData?.userProfile?.clubs || "",
-                cvv: "",
-                countryCode: userData?.userProfile?.countryCode || "+1",
-                handicap: userData?.userProfile?.handicap || "",
-              }
+                  firstName: userData?.firstName,
+                  lastName: userData?.lastName,
+                  email: userData?.email,
+                  contactNumber: userData?.userProfile?.contactNumber || "",
+                  ghin: userData?.userProfile?.ghin || "",
+                  location: userData?.userProfile?.location || "",
+                  city: userData?.userProfile?.city || "",
+                  alternateEmail: userData?.userProfile?.alternateEmail || "",
+                  dateOfBirth: userData?.userProfile?.dateOfBirth || "",
+                  cardDetails: "",
+                  fullNameOnCard: "",
+                  expirationDate: "",
+                  username: userData?.username || "",
+                  ball: userData?.userProfile?.ball || "",
+                  clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || '',
+                  courseIds:
+                    userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
+                      .id,
+                  clubs: userData?.userProfile?.clubs || "",
+                  cvv: "",
+                  countryCode: userData?.userProfile?.countryCode || "+1",
+                  handicap: userData?.userProfile?.handicap || "",
+                }
               : initialValues
           }
           validationSchema={validationSchema}

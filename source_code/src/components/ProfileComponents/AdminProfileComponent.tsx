@@ -43,7 +43,7 @@ const AdminProfileComponent: React.FC<AdminProfileComponentProps> = ({ userinfor
                 <div className='flex gap-2' ><Phone className='h-[18px] w-[18px] text-[#F5F6F7]' />
                         {
                             userinformation?.userProfile?.contactNumber ?
-                            <div className='text-[#F5F6F7]'>{"+1" + userinformation?.userProfile?.contactNumber}</div>:
+                            <div className='text-[#F5F6F7]'>{userinformation?.userProfile?.countryCode + userinformation?.userProfile?.contactNumber}</div>:
                             '---'
                         }
                 </div>

@@ -16,6 +16,7 @@ interface userDataTypes {
   contactNumber: string;
   courseId: number | null;
   clubId:number | null;
+  countryCode: string | null
 
 }
 
@@ -31,7 +32,7 @@ const initialValues = {
   lastName: "",
   email: "",
   contactNumber: "",
-  countryCode: "+1",
+  countryCode: "",
 };
 
 const validationSchema = Yup.object({
@@ -113,7 +114,7 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
                 lastName: userData?.lastName || '',
                 email: userData?.email || '',
                 contactNumber: userData.contactNumber || '',
-                countryCode: "+1",
+                countryCode: userData.countryCode || '',
               }
             : initialValues
         }

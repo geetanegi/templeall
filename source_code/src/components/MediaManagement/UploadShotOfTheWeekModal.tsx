@@ -491,7 +491,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         options={
                           usersList.length ? getUsernameList(usersList) : []
                         }
-                        value={values.username}
+                        value={values.username || ''}
                         placeholder="Player Username"
                         onSelect={(user: any) => {
                           const a = usersList.filter(

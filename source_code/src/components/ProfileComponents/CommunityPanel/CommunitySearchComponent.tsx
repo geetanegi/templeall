@@ -23,14 +23,6 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
     getPlayer(searchString);
   }, []);
 
-  useEffect(() => {
-    if (playersList.length) {
-      setSelectedUser(playersList?.[0].id);
-    } else {
-      setSelectedUser("");
-    }
-  }, [playersList]);
-
   const getPlayer = async (value?: string) => {
     setPlayerList([]);
     try {
@@ -68,6 +60,7 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
     } catch (error) {
       console.error(error);
     } finally {
+      dispatch(setLoading(false));
     }
     if (!searchString) {
       setSelectedUser("");

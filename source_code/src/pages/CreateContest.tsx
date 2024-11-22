@@ -516,15 +516,10 @@ const CreateContest: React.FC = () => {
           className="fixed h-[80%] bg-white bg-contain bg-fixed bg-no-repeat pt-10 opacity-20"
         />
         <div className="w-full pt-4">
-          <div className="flex justify-center pb-6 mb-6">
+          <div className="flex justify-center pb-6 mb-10">
             <div className="rounded-md border bg-white shadow md:max-w-4xl">
               <div className="p-4">
                 <h3 className="mb-2 text-2xl font-medium">
-                  {/* {pathname === ROUTES.CREATE_CONTEST
-                    ? " Create Contest"
-                    : userPermisions.data?.permission["is_course_admin"]
-                      ? "Contest Details"
-                      : "Edit Contest"} */}
                   Create Contest
                 </h3>
 
@@ -613,7 +608,7 @@ const CreateContest: React.FC = () => {
                           <button
                             disabled={isSuperAdmin || isSubmitting}
                             type="submit"
-                            className="rounded-lg bg-lime-500 px-8 py-2 text-white"
+                            className="rounded-lg bg-primaryColor px-8 py-2 text-white"
                           >
                             Save
                           </button>

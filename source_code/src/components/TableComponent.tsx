@@ -15,15 +15,15 @@ interface TableComponentProps {
   oddRowStyle?: React.CSSProperties;
   evenRowStyle?: React.CSSProperties;
   greenTheme?: boolean;
-  totalElement?:number;
-  elementPerPage?:number
+  totalElement?: number;
+  elementPerPage?: number
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
   Headers,
   rowData,
   currentPage = 0,
-  setCurrentPage = () => {},
+  setCurrentPage = () => { },
   totalPages = 1,
   pagination = true,
   style = {},
@@ -31,7 +31,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   evenRowStyle = {},
   greenTheme = false,
   totalElement = 10,
-  elementPerPage=10
+  elementPerPage = 10
 }) => {
 
   const scrollbarStyles: React.CSSProperties = {
@@ -128,7 +128,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
                   </option>
                 ))}
               </select> */}
-              <div>Showing results {currentPage * 10 +1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
+              <div>Showing results {currentPage * 10 + 1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
             </div>
             <PaginationComponent
               currentPage={currentPage}

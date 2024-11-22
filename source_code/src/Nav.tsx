@@ -346,7 +346,7 @@ const Nav: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
-            <div className="relative">
+            <div className="relative mt-[7px]">
               {userPermisions?.data?.permission["is_player"] ? (
                 <Popover
                   content={
@@ -373,7 +373,7 @@ const Nav: React.FC = () => {
             </div>
             <button
               type="button"
-              className="flex items-center justify-center"
+              className="flex items-center justify-center "
               onClick={toggleDropdown}
               style={{ width: "max-content" }}
             >

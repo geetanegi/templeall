@@ -68,7 +68,7 @@ const PlayerHomePage: React.FC = () => {
               {!showAll && videosData.length > 4 && (
                 <button
                   onClick={() => setShowAll(true)}
-                  className="text-[14px] font-semibold text-[#95C11E]"
+                  className="text-[14px] font-semibold text-[#046221]"
                 >
                   View All
                 </button>

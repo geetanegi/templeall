@@ -35,7 +35,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
       (state: RootState) => state.auth.userPermissions,
     );
     const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-
+console.log(setUpdatedCount,setIsSearch)
     useImperativeHandle(ref, () => ({
       getUserCount,
     }));

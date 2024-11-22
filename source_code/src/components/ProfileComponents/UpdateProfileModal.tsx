@@ -14,6 +14,10 @@ interface userDataTypes {
   lastName: string;
   email: string;
   contactNumber: string;
+  courseId: number | null;
+  clubId:number | null;
+  countryCode: string | null
+
 }
 
 interface updateProfileModalprops {
@@ -28,7 +32,7 @@ const initialValues = {
   lastName: "",
   email: "",
   contactNumber: "",
-  countryCode: "+1",
+  countryCode: "",
 };
 
 const validationSchema = Yup.object({
@@ -73,6 +77,8 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
           ...values,
           selectedUserId:
             typeof userInfo === "object" ? userInfo.userId : undefined,
+            clubId: userData?.clubId,
+            courseIds: userData.courseId
         },
       };
       const { data, status } = await apiService.post<any>(
@@ -104,11 +110,11 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
         initialValues={
           userData
             ? {
-                firstName: userData?.firstName,
-                lastName: userData?.lastName,
-                email: userData?.email,
-                contactNumber: userData.contactNumber,
-                countryCode: "+1",
+                firstName: userData?.firstName || '',
+                lastName: userData?.lastName || '',
+                email: userData?.email || '',
+                contactNumber: userData.contactNumber || '',
+                countryCode: userData.countryCode || '',
               }
             : initialValues
         }

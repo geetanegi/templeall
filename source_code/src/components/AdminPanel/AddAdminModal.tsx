@@ -57,14 +57,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  username: "",
-  emailId: "",
-  password: "",
-  roleIds: "",
-};
+
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
   isModalOpen,
@@ -150,16 +143,14 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
     <Modal isOpen={isModalOpen} onClose={() => closeModal()} title="Add User">
       <Formik
         initialValues={
-          userData
-            ? {
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                username: userData.username,
-                emailId: userData.email,
+           {
+                firstName: '',
+                lastName: '',
+                username: '',
+                emailId: '',
                 password: "",
-                roleIds: userData.roleIds,
+                roleIds: '',
               }
-            : initialValues
         }
         validationSchema={validationSchema}
         onSubmit={handleSubmit}

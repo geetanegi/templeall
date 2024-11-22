@@ -27,7 +27,7 @@ interface AdminRightPanelProps {
   currentPage: number;
   setCurrentPage: (page: number) => void;
   openModal: (item: any, roleIds: number) => void;
-  handleRefreshUserCount: (count?:number, searchFlag?:boolean) => void;
+  handleRefreshUserCount: (count?: number, searchFlag?: boolean) => void;
   isCourseAdmin?: boolean;
 }
 
@@ -71,7 +71,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     const [totalElement, setTotalElement] = useState<number>(10);
     const navigate = useNavigate();
 
-    const isMounted = useRef<boolean>(false); 
+    const isMounted = useRef<boolean>(false);
 
     const dispatch = useDispatch();
 
@@ -80,25 +80,27 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     }));
 
     useEffect(() => {
-      if(isMounted.current){
+      if (isMounted.current) {
         getUserData();
-      }else{
+      } else {
         isMounted.current = true;
       }
       setSearchString("");
     }, [selectedUserTab]);
 
-
-
     useEffect(() => {
-        if (searchString.length) {
-          getUserData(searchString);
-        }else{
-            getUserData();
-        }
+      if (searchString.length) {
+        getUserData(searchString);
+      } else {
+        getUserData();
+      }
     }, [currentPage]);
 
-    const handleActiveDeactiveUser = async (value: boolean, userId: any, revert: () => void) => {
+    const handleActiveDeactiveUser = async (
+      value: boolean,
+      userId: any,
+      revert: () => void,
+    ) => {
       dispatch(setLoading(true));
       try {
         let payload = {};
@@ -122,10 +124,10 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           ToastSuccess(data.data.message);
         } else if (data?.error && data.description) {
           ToastError(data.description);
-          revert()
+          revert();
         }
       } catch (error) {
-        revert()
+        revert();
       } finally {
         dispatch(setLoading(false));
       }
@@ -156,50 +158,22 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
       });
     };
 
-
-    
-    const getUserData =useCallback( 
+    const getUserData = useCallback(
       async (searchValue?: string) => {
-      dispatch(setLoading(true));
-      try {
-        let payload: PayloadTypes = {};
-        let listingEndPoint = API_URL.getAllPlayer;
-        if (selectedUserTab === 3) {
-          listingEndPoint = API_URL.getAllPlayer;
-          setTableHeaders(computeTableHeaders("player"));
-          payload.pageSortingParam = {
-            sortDir: "ASC",
-            sortBy: "username",
-            pageNumber: currentPage,
-            pageSize: pageSize,
-          };
-          
-          if (searchValue) {
-            payload.searchParams = {
-              username: searchValue,
-              firstName: searchValue,
-              lastName: searchValue,
-            };
-          }
-        } else if (selectedUserTab === 2) {
-          if (
-            isCourseAdmin &&
-            userPermisions.data?.permission["is_course_admin"]
-          ) {
-            listingEndPoint = API_URL.getClubCourseAdmin;
-            payload = {
-              loginUserId:
-                typeof userInfo === "object" && "userId" in userInfo
-                  ? userInfo.userId
-                  : undefined,
-            } as PayloadTypes;
+        dispatch(setLoading(true));
+        try {
+          let payload: PayloadTypes = {};
+          let listingEndPoint = API_URL.getAllPlayer;
+          if (selectedUserTab === 3) {
+            listingEndPoint = API_URL.getAllPlayer;
+            setTableHeaders(computeTableHeaders("player"));
             payload.pageSortingParam = {
-              sortDir: "ASC",
-              sortBy: "username",
+              sortDir: "DESC",
+              sortBy: "createdDate",
               pageNumber: currentPage,
               pageSize: pageSize,
             };
-            payload.searchParams = {};
+
             if (searchValue) {
               payload.searchParams = {
                 username: searchValue,
@@ -207,11 +181,55 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
                 lastName: searchValue,
               };
             }
-          } else {
-            listingEndPoint = API_URL.getAllCourseAdmin;
+          } else if (selectedUserTab === 2) {
+            if (
+              isCourseAdmin &&
+              userPermisions.data?.permission["is_course_admin"]
+            ) {
+              listingEndPoint = API_URL.getClubCourseAdmin;
+              payload = {
+                loginUserId:
+                  typeof userInfo === "object" && "userId" in userInfo
+                    ? userInfo.userId
+                    : undefined,
+              } as PayloadTypes;
+              payload.pageSortingParam = {
+                sortDir: "DESC",
+                sortBy: "createdDate",
+                pageNumber: currentPage,
+                pageSize: pageSize,
+              };
+              payload.searchParams = {};
+              if (searchValue) {
+                payload.searchParams = {
+                  username: searchValue,
+                  firstName: searchValue,
+                  lastName: searchValue,
+                };
+              }
+            } else {
+              listingEndPoint = API_URL.getAllCourseAdmin;
+              payload.pageSortingParam = {
+                sortDir: "DESC",
+                sortBy: "createdDate",
+                pageNumber: currentPage,
+                pageSize: pageSize,
+              };
+              if (searchValue) {
+                payload.searchParams = {
+                  username: searchValue,
+                  firstName: searchValue,
+                  lastName: searchValue,
+                };
+              }
+            }
+            setTableHeaders(computeTableHeaders("courseAdmin"));
+          } else if (selectedUserTab === 1) {
+            listingEndPoint = API_URL.getAllSuperAdmin;
+            setTableHeaders(computeTableHeaders("superAdmin"));
             payload.pageSortingParam = {
-              sortDir: "ASC",
-              sortBy: "username",
+              sortDir: "DESC",
+              sortBy: "createdDate",
               pageNumber: currentPage,
               pageSize: pageSize,
             };
@@ -223,51 +241,40 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               };
             }
           }
-          setTableHeaders(computeTableHeaders("courseAdmin"));
-        } else if (selectedUserTab === 1) {
-          listingEndPoint = API_URL.getAllSuperAdmin;
-          setTableHeaders(computeTableHeaders("superAdmin"));
-          payload.pageSortingParam = {
-            sortDir: "ASC",
-            sortBy: "username",
-            pageNumber: currentPage,
-            pageSize: pageSize,
-          };
-          if (searchValue) {
-            payload.searchParams = {
-              username: searchValue,
-              firstName: searchValue,
-              lastName: searchValue,
-            };
-          }
-        }
 
-        const { data, status } = await apiService.post<any>(listingEndPoint, {
-          data: payload,
-        });
+          const { data, status } = await apiService.post<any>(listingEndPoint, {
+            data: payload,
+          });
 
-        if (status === 200 && data?.data != null && !data?.error) {
-          setTotalPages(data.data.totalPages);
-          setTotalElement(data.data.totalElements);
-          setRowData(computeTableData(data.data.content, selectedUserTab));
-          if(searchValue){
-            handleRefreshUserCount(data.data.totalElements, true);
-          }else{
-            handleRefreshUserCount()
+          if (status === 200 && data?.data != null && !data?.error) {
+            setTotalPages(data.data.totalPages);
+            setTotalElement(data.data.totalElements);
+            setRowData(computeTableData(data.data.content, selectedUserTab));
+            if (searchValue) {
+              handleRefreshUserCount(data.data.totalElements, true);
+            } else {
+              handleRefreshUserCount();
+            }
+          } else if (data?.error && data.description) {
+            setRowData([]);
+            setTotalPages(0);
+            ToastError(data.description);
+            handleRefreshUserCount(0, true);
           }
-        } else if (data?.error && data.description) {
-          setRowData([])
-          setTotalPages(0)
-          ToastError(data.description);
-          handleRefreshUserCount(0, true);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          dispatch(setLoading(false));
         }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    }, [selectedUserTab, currentPage, pageSize,  handleRefreshUserCount, dispatch]
-  );
+      },
+      [
+        selectedUserTab,
+        currentPage,
+        pageSize,
+        handleRefreshUserCount,
+        dispatch,
+      ],
+    );
 
     const computeUserName = (
       firstName: string,
@@ -288,11 +295,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         >
           <div className="mr-5 w-10 rounded-md border bg-[#ebf0fa]">
             {image ? (
-              <img
-                src={image}
-                alt=""
-                className="h-10 w-10 rounded-md"
-              />
+              <img src={image} alt="" className="h-10 w-10 rounded-md" />
             ) : null}
           </div>
           <div className="flex flex-col text-sm text-gray-500">
@@ -317,7 +320,9 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               <SwitchComponent
                 isChecked={activeStatus}
                 id={item.id}
-                onChange={(value, revert:any) => handleActiveDeactiveUser(value, item.id, revert)}
+                onChange={(value, revert: any) =>
+                  handleActiveDeactiveUser(value, item.id, revert)
+                }
               />
             </div>
           )}
@@ -377,7 +382,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
               value={searchString}
               onChange={(e) => {
                 debouncedGetPlayer(e);
-                setCurrentPage(0)
+                setCurrentPage(0);
                 setSearchString(e.target.value);
               }}
               placeholder={computeSearchPlaceholder()}

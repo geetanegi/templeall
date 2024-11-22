@@ -86,6 +86,8 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
         lastName: userinformation?.lastName,
         email: userinformation?.email,
         contactNumber: userinformation?.userProfile?.contactNumber,
+        clubId: userinformation?.userCourseAndClubInfo?.[0]?.club?.id || null,
+        courseId:  userinformation?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]?.id || null,
       };
     } else {
       return {
@@ -93,6 +95,8 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
         lastName: "",
         email: "",
         contactNumber: "",
+        clubId: null,
+        courseId:null,
       };
     }
   };

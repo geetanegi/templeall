@@ -227,7 +227,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                   expirationDate: "",
                   username: userData?.username || "",
                   ball: userData?.userProfile?.ball || "",
-                  clubId: "1",
+                  clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || '',
                   courseIds:
                     userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
                       .id,

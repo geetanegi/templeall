@@ -14,6 +14,9 @@ interface userDataTypes {
   lastName: string;
   email: string;
   contactNumber: string;
+  courseId: number | null;
+  clubId:number | null;
+
 }
 
 interface updateProfileModalprops {
@@ -73,6 +76,8 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
           ...values,
           selectedUserId:
             typeof userInfo === "object" ? userInfo.userId : undefined,
+            clubId: userData?.clubId,
+            courseIds: userData.courseId
         },
       };
       const { data, status } = await apiService.post<any>(
@@ -104,10 +109,10 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
         initialValues={
           userData
             ? {
-                firstName: userData?.firstName,
-                lastName: userData?.lastName,
-                email: userData?.email,
-                contactNumber: userData.contactNumber,
+                firstName: userData?.firstName || '',
+                lastName: userData?.lastName || '',
+                email: userData?.email || '',
+                contactNumber: userData.contactNumber || '',
                 countryCode: "+1",
               }
             : initialValues

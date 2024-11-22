@@ -28,41 +28,41 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
     setSelectedUser("");
   }, [isCommunitySearch]);
 
-  
+
   return (
     <div className="min-h-[90vh] bg-profile_gradient_bg">
       <div className="bg-white-700 h-full min-h-[90vh] w-full overflow-auto bg-contain bg-cover bg-fixed bg-no-repeat sm:flex-row sm:bg-profilebackground md:flex-row lg:overflow-hidden">
         <div className="flex w-full pt-6">
-          
+
           {userPermisions?.data?.permission["is_player"] &&
-          isCommunitySearch ? (
+            isCommunitySearch ? (
             <CommunitySearchComponent
               selectedUser={selectedUser}
               setSelectedUser={setSelectedUser}
               setShowUserNotFound={setShowUserNotFound}
             />
           ) : null}
-          
+
           <div className=" ml-auto w-[90%] lg:w-[75%]">
             {
               (isCommunitySearch && showUserNotFound) ?
-              <div className="flex h-64 mr-20 flex-col items-center justify-center rounded-lg bg-[#FFFFFF1A] p-6">
-                
-              <h2 className="text-xl font-semibold text-yellowText">
-                
-              </h2>
-              <p className="mt-2 text-center text-yellowText">
-                Sorry, No players match your search criteria. 
-              </p>
-            </div>
-              :  <ProfileOverviewSection
-              userId={id || selectedUser}
-              isCommunitySearch={isCommunitySearch}
-              role={role}
-            />
+                <div className="flex h-64 mr-20 flex-col items-center justify-center rounded-lg bg-[#FFFFFF1A] p-6">
+
+                  <h2 className="text-xl font-semibold text-yellowText">
+
+                  </h2>
+                  <p className="mt-2 text-center text-yellowText">
+                    Sorry, No players match your search criteria.
+                  </p>
+                </div>
+                : <ProfileOverviewSection
+                  userId={id || selectedUser}
+                  isCommunitySearch={isCommunitySearch}
+                  role={role}
+                />
             }
-          
-           
+
+
             {isCommunitySearch ? (
               <FeatureHighlightsComponents selectedUser={selectedUser} />
             ) : null}

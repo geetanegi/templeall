@@ -17,7 +17,7 @@ import RejectConfirmationModal from "./RejectConfirmationModal";
 import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 
-interface MediaManagementProps {}
+interface MediaManagementProps { }
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -193,7 +193,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
 
   return (
     <div
-      className="min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5"
+      className="min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5 mb-[30px]"
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between px-10 pt-10">
@@ -269,7 +269,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             </div>
           ) : null}
           {selectedTab === 3 &&
-          userPermisions?.data?.permission["is_super_admin"] ? (
+            userPermisions?.data?.permission["is_super_admin"] ? (
             <button
               className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {

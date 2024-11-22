@@ -137,7 +137,7 @@ const ClubCard: React.FC<{
                 </span>
               </h3>
               <h3 className="text-[13px] text-white">
-                Total Price:{" "}
+                Total Prize:{" "}
                 <span className="font-semibold">
                   $ {contestInfo.totalPrize}
                 </span>

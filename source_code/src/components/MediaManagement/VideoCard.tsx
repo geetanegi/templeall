@@ -159,24 +159,25 @@ const VideoCard: React.FC<VideoCardProps> = ({
       return (
         <div className="p-2">
           <div className="mt-2 flex items-center justify-between text-sm text-white">
-            <span>
-              {/* Author */}
-              <p
-                className={`text-[16px] font-light ${requestVideoPayload?.videos?.title ? "visible" : "invisible"}`}
-              >
-                {requestVideoPayload?.videos?.title || "Winning Shot"}
-              </p>
-              <p className="text-[12px] text-sm font-light">
-                {requestVideoPayload?.username || ""}
-              </p>
-            </span>
-            <span>{uploadDate}</span>
+            {/* Author */}
+            <p
+              className={`text-[16px] font-medium truncate mb-[5px]  ${requestVideoPayload?.videos?.title ? "visible" : "invisible"}`}
+            >
+              {requestVideoPayload?.videos?.title || "Winning Shot"}
+            </p>
+
           </div>
-          <div className="mt-1 flex items-center gap-1 text-sm font-light">
+          <div className="flex justify-between align-center">
+            <p className="text-[13px] text-sm font-medium">
+              {requestVideoPayload?.username || ""}
+            </p>
+            <p className="text-[12px]">{uploadDate}</p>
+          </div>
+          <div className="mt-[10px] flex items-center gap-1 text-sm font-light">
             <Trophy size={13} /> <span className="text-[12px]">{title}</span>{" "}
           </div>
           <div className="mt-1 items-center justify-start text-white">
-            <div className="mt-1 flex flex-wrap items-center text-[14px]">
+            <div className="-mt-[6px] flex flex-wrap items-center text-[14px]">
               <span
                 className="flex items-center justify-center whitespace-nowrap text-[11px]"
                 style={{ width: "max-content" }}
@@ -227,7 +228,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
               {/* Comments */}
               <div className="flex gap-1">
                 <ThumbsUp
-                  className={`${like.islike ? "text-blue-500" : ""} `}
+                  className={`${like.islike ? "text-buttonPrimary" : ""} `}
                   size={16}
                   onClick={() => {
                     makeVieoLiked(
@@ -245,7 +246,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                     });
                   }}
                 />
-                <span className="text-[16px]">
+                <span className="text-[11px] font-medium">
                   {like.click
                     ? formatCount(like.likecount)
                     : requestVideoPayload?.videos?.likes
@@ -430,7 +431,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <>
       <div
-        className={`cursor-pointer rounded-lg border border-gray-100 bg-gradient-green text-white shadow-lg`}
+        className={`cursor-pointer rounded-lg   bg-gradient-green text-white shadow-lg max-h-[330px]`}
         style={{ width: width }}
       >
         {/* Thumbnail with duration and overlay icons */}

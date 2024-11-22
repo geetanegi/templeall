@@ -169,7 +169,6 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       return "You recently took part in the contest. Registration will reopen after 12:00 PM.";
     }
   };
- 
 
   return (
     <div className="">
@@ -190,7 +189,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
 
             <div className="flex flex-col place-items-end">
               <p className="text-sm">{`${moment.utc(teeContest.registrationStartTime).local().format("hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("hh:mm A")} `}</p>{" "}
-              <span className="flex items-center rounded-md bg-green-100 px-2">
+              <span className="flex items-center rounded-md bg-green-100 px-2 mt-[4px]">
                 <img src={GolfTee} alt="" className="" />
                 <span className="p-1 text-xs font-semibold text-green-700">
                   {teeContest.activeStatus}
@@ -234,7 +233,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           </div>
           <div className="px-2 text-right text-xs text-red-500">
             {/* {!teeContest?.eligibleForRegistration && ( */}
-              <span className="text-xs">{showMessageDialogFunc()}</span>
+            <span className="text-xs">{showMessageDialogFunc()}</span>
             {/* )} */}
           </div>
           {teeContest.note !== null && (
@@ -249,11 +248,10 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${
-            Object.values(selectedContests).flat().length === 0
+          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${Object.values(selectedContests).flat().length === 0
               ? "cursor-not-allowed"
               : ""
-          }`}
+            }`}
           onClick={() => {
             navigate(ROUTES.CHECKOUT);
           }}

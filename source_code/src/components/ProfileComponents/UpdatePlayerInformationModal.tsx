@@ -254,7 +254,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
               <form onSubmit={handleSubmit}>
                 <div
                   className="scrollbar-hidden h-[340px] overflow-auto"
-                  // style={scrollbarStyles}
+                // style={scrollbarStyles}
                 >
                   <div className="flex w-[90%] gap-4 md:w-[430px]">
                     <div className="w-1/2">
@@ -544,6 +544,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         value={values.clubs}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={25}
                         className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
                       />
                     </div>
@@ -554,6 +555,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         name="ball"
                         placeholder="Ball"
                         id="ball"
+                        maxLength={25}
                         value={values.ball}
                         onChange={handleChange}
                         onBlur={handleBlur}

@@ -209,7 +209,7 @@ const ContestManagement = () => {
   const isCompleted = (status: string, id: number) => {
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
-        <button style={{ color: "#95c11e" }}>
+        <button style={{ color: "rgb(4, 98, 33)" }}>
           <SquarePen
             strokeWidth={1}
             onClick={() => {

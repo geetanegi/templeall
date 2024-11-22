@@ -58,7 +58,6 @@ const validationSchema = Yup.object({
 });
 
 
-
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
   isModalOpen,
   setIsModalOpen,
@@ -143,14 +142,14 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
     <Modal isOpen={isModalOpen} onClose={() => closeModal()} title="Add User">
       <Formik
         initialValues={
-           {
-                firstName: '',
-                lastName: '',
-                username: '',
-                emailId: '',
-                password: "",
-                roleIds: '',
-              }
+          {
+            firstName: '',
+            lastName: '',
+            username: '',
+            emailId: '',
+            password: "",
+            roleIds: '',
+          }
         }
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -190,13 +189,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                      touched.firstName &&
+                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.firstName &&
                       errors.firstName &&
                       typeof errors.firstName === "string"
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    } `}
+                      ? "border-red-500"
+                      : "border-gray-200"
+                      } `}
                   />
                   <span
                     className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.firstName ? "hidden" : ""}`}
@@ -224,13 +222,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                      touched.lastName &&
+                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.lastName &&
                       errors.lastName &&
                       typeof errors.lastName === "string"
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    } `}
+                      ? "border-red-500"
+                      : "border-gray-200"
+                      } `}
                   />
                   <span
                     className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.lastName ? "hidden" : ""}`}

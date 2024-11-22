@@ -148,7 +148,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
   };
 
   return (
-    <div className="mb-10 ml-0 mt-40 w-full border border-gray-400 p-2 lg:mb-0 lg:ml-5 lg:mt-0 lg:border-0 lg:p-0">
+    <div className="mb-10 ml-0 mt-40 w-full border border-gray-400 p-2 lg:mb-0  lg:mt-0 lg:border-0 lg:p-0">
       <div
         className={`mt-5 flex h-[38px] gap-[16px] rounded-l-full rounded-r-full p-[1px] ${Object.keys(userstats).length ? "visible" : "invisible"} `}
         style={{ width: "max-content" }}
@@ -159,7 +159,7 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
       </div>
       <div className="flex h-full justify-between">
         <div
-          className={`h-[320px] w-[50%] overflow-auto ${Object.keys(userstats).length ? "visible" : "invisible"} `}
+          className={`h-[320px]   overflow-auto ${Object.keys(userstats).length ? "visible" : "invisible"} `}
         >
           {computeSubBettingViewSection()}
           {!userId || userId == userInfo?.userId ? (

@@ -52,7 +52,7 @@ const MostRecent: React.FC = () => {
     <div>
       {recentData?.data?.message && (
         <div>
-          <span>{recentData?.data?.message}</span>
+          <p className="text-[14px] p-5">{recentData?.data?.message}</p>
         </div>
       )}
 

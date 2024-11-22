@@ -8,12 +8,12 @@ import { RootState } from "../../store";
 const PlayerSOTW: React.FC<any> = ({ data }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
-  const getAllVideos = () => {};
+  const getAllVideos = () => { };
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] =
     useState<boolean>(false);
 
   const [selectedVideo, setSelectedVideo] = useState<string>("");
-  const setRefreshList = () => {};
+  const setRefreshList = () => { };
   const refreshList = true;
   const filterValue = "SOTW";
 
@@ -21,7 +21,7 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
     <div className="flex flex-wrap justify-start">
       {data?.map((videoData: any, i: number) => {
         return (
-          <div className="w-[25%] px-2" key={i}>
+          <div className="w-[25%] px-2 mb-4" key={i}>
             <VideoCard
               isVideoPlayerVisible={isVideoPlayerVisible}
               userInfo={userInfo}
@@ -56,8 +56,8 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
             setIsVideoPlayerVisible={setIsVideoPlayerVisible}
             selectedVideo={selectedVideo}
             setSelectedVideo={setSelectedVideo}
-            // height="100vh"
-            // width="100vw"
+          // height="100vh"
+          // width="100vw"
           />
         </div>
       )}

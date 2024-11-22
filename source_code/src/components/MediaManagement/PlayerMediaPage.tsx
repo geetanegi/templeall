@@ -13,7 +13,7 @@ import VideoPlayer from "./VideoPlayer";
 import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import { timeZone } from "../../utils/TimeUtils";
 
-interface PlayerMediaPageProps {}
+interface PlayerMediaPageProps { }
 
 interface getVideosListPayloadType {
   playerId?: number | string | undefined;
@@ -76,7 +76,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       } else if (data?.error && data.description) {
         ToastInfo(data.description);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -309,7 +309,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           <div className="mt-3 flex w-full flex-wrap mb-3">
             {allVideos?.map((videoData) => {
               return (
-                <div className="w-[25%] px-2">
+                <div className="w-[25%] px-2 mb-4">
                   <VideoCard
                     key={videoData.id}
                     uploadDate={moment

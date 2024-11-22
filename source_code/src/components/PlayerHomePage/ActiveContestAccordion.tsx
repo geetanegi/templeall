@@ -68,7 +68,7 @@ const ActiveContestAccordion: React.FC = () => {
       <div className="w-full">
         {(data.length === 0 || data === undefined) && (
           <div className="">
-            <p>No Available Active Contest ! </p>
+            <p className="text-[14px] p-5">No Available Active Contest ! </p>
           </div>
         )}
 
@@ -123,9 +123,8 @@ const ActiveContestAccordion: React.FC = () => {
                 </span>
               </button>
               <div
-                className={`transition-max-height overflow-auto duration-300 ${
-                  openAccordion === i ? "max-h-96" : "max-h-0"
-                }`}
+                className={`transition-max-height overflow-auto duration-300 ${openAccordion === i ? "max-h-96" : "max-h-0"
+                  }`}
               >
                 {/* content  */}
                 {item.allDailyActiveContestDTOS.length > 0 &&

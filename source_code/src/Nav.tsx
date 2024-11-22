@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import aceCampLogo from "./assets/images/Branding.png";
+import aceCampLogo from "./assets/images/Logo_new.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./reducers/login/login";
 import { RootState } from "./store";
@@ -222,25 +222,23 @@ const Nav: React.FC = () => {
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src={aceCampLogo} alt="Ace Camp Logo" className="" />
+            <img src={aceCampLogo} alt="Ace Camp Logo" className="h-[56px] w-[82px]" />
           </a>
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
           <div
-            className={`${
-              navCollapsed ? "hidden" : ""
-            } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:h-full md:justify-center`}
+            className={`${navCollapsed ? "hidden" : ""
+              } absolute right-0 top-12 w-full items-center justify-end md:static md:order-2 md:flex md:h-full md:justify-center`}
             id="navbar-user"
           >
             <ul className="mt-8 flex flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-xs font-medium md:mt-0 md:h-full md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
               {menuList?.map((menu: any) => (
                 <li
                   key={menu.name}
-                  className={`w-15 h-full px-2 ${
-                    selectedMenu === menu.name
-                      ? "text-grayu-600" // Keep background unchanged
-                      : "text-gray-600"
-                  }`}
+                  className={`w-15 h-full px-2 ${selectedMenu === menu.name
+                    ? "text-grayu-600" // Keep background unchanged
+                    : "text-gray-600"
+                    }`}
                 >
                   {menu.subMenus !== null ? (
                     <div className="relative">
@@ -258,11 +256,10 @@ const Nav: React.FC = () => {
                     <>
                       <Link
                         to={menu.routeUrl}
-                        className={`flex h-full items-center justify-center rounded px-3 md:flex-col md:justify-end md:p-0 ${
-                          selectedMenu === menu.name
-                            ? "" // Background unchanged
-                            : ""
-                        }`}
+                        className={`flex h-full items-center justify-center rounded px-3 md:flex-col md:justify-end md:p-0 ${selectedMenu === menu.name
+                          ? "" // Background unchanged
+                          : ""
+                          }`}
                         // onClick={() => handleMenuClick(menu.name)}
                         onClick={(e) => {
                           e.preventDefault(); // Prevent immediate navigation
@@ -276,9 +273,9 @@ const Nav: React.FC = () => {
                           color:
                             menu.routeUrl === location.pathname
                               ? // ||selectedMenu === menu.name
-                                "#046221"
+                              "#046221"
                               : location.pathname.startsWith(menu.routeUrl) &&
-                                  isContestsRoute(location.pathname)
+                                isContestsRoute(location.pathname)
                                 ? "#046221"
                                 : "#1D1A0C", // Change icon color
                         })}
@@ -287,9 +284,9 @@ const Nav: React.FC = () => {
                             color:
                               menu.routeUrl === location.pathname
                                 ? // || selectedMenu === menu.name
-                                  "#046221"
+                                "#046221"
                                 : location.pathname.startsWith(menu.routeUrl) &&
-                                    isContestsRoute(location.pathname)
+                                  isContestsRoute(location.pathname)
                                   ? "#046221"
                                   : "#1D1A0C",
                           }}

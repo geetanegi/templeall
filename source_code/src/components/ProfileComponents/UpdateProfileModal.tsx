@@ -230,7 +230,7 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-32 rounded-md bg-lime-500 py-2 text-white"
+                className="w-32 rounded-md bg-primaryColor py-2 text-white"
               >
                 Save
               </button>

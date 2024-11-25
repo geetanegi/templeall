@@ -42,7 +42,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
         <div >
 
           <div
-            className="mt-10  h-auto w-[100%] rounded-lg bg-[#FFFFFF4D] p-4"
+            className="mt-10  h-auto w-[100%] rounded-lg bg-[#FFFFFF4D] p-4 min-w-[200px]"
           // style={{ height: "max-content" }}
           >
             <div className="flex">
@@ -68,7 +68,7 @@ const UserinformationComponent: React.FC<UserinformationComponentProps> = ({
                 </div>
                 <div className="flex items-center gap-1 text-[14px] text-primaryText">
                   <img src={golfBallIcon} alt="Golf Ball Icon" className="-ml-[4px]" />
-                  <div className="whitespace-nowrap font-light text-[14px]">Ball:</div>
+                  <div className="whitespace-nowrap font-light text-[14px] ml-[2px]">Ball:</div>
                   <div className="flex flex-wrap font-light text-[14px]  truncate">
                     {userinformation?.userProfile?.ball || "---"}
                   </div>

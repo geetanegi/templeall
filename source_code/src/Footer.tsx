@@ -1,6 +1,6 @@
 import React from "react";
-import privacyPolicyPdf from "./assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
-import TermsAndConditionsPdf from "./assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
+import privacyPolicyPdf from "./assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
+import TermsAndConditionsPdf from "./assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
 import { viewPdf } from "./utils/downloadUtils";
 
 const Footer: React.FC = () => {
@@ -10,13 +10,11 @@ const Footer: React.FC = () => {
 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
-    // const pdfUrl = TermsAndConditionsPdf; // URL of your PDF
-    // window.open(pdfUrl, "_blank");
   };
 
   return (
-    <div className="fixed bottom-0 w-full bg-[#F5F6F7] shadow-custom-shadow p-2">
-      <div className="flex justify-between pr-2">
+    <div className="fixed bottom-0 w-full bg-[#F5F6F7] shadow-custom-shadow">
+      <div className="flex justify-between py-1 px-2">
         <div className="flex items-center justify-center gap-2">
           <p className={`whitespace-nowrap p-2 text-[13px] text-textColor font-medium`}>
             © 2024 AceCam

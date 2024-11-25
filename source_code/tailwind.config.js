@@ -33,6 +33,9 @@ export default {
         "custom-gradient-3":
           "linear-gradient(90deg, #95C11E 66.59%, rgba(255, 255, 255, 0) 100%)",
         "backgroundDark": "linear-gradient(180deg, #072E1A 0%, #006633 50%, #000000 100%)",
+        "backgroundActive": " linear-gradient(180deg, #FFDE59 0%, #FFC234 100%)"
+
+
       },
       height: {
         "max-content": "max-content",
@@ -57,6 +60,8 @@ export default {
       },
       boxShadow: {
         'custom-shadow': '0px -1px 1px 0px rgba(0, 0, 0, 0.1)',
+        'custom-shadow-2':'0px 0px 3px 0px #00000040'
+
       },
     },
   },

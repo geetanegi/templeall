@@ -76,7 +76,7 @@ const AdminHomePage: React.FC = () => {
                 </button>
               )}
             </div>
-            <div className="">
+            <div className="px-2">
               {videosData.length === 0 ? (
                 <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3">
                   <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">

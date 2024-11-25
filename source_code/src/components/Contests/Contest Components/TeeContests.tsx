@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import golfStickWithTee from "../../../assets/images/image 8.png";
 import { Plus, Minus, ShoppingCart, Info, StickyNote } from "lucide-react";
-import GolfTee from "../../../assets/images/sports_golf (1).png";
+import GolfTee from "../../../assets/images/sp-golf.svg";
 import { ROUTES } from "../../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -174,7 +174,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   return (
     <div className="">
       <div className="m-4">
-        <div className="rounded-xl border shadow-md">
+        <div className="rounded-[6px] border shadow-md">
           <div className="my-2 flex w-full items-center justify-between px-6 pt-6">
             <div className="flex">
               <img src={golfStickWithTee} alt="" className="h-14 w-14" />
@@ -189,7 +189,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             </div>
 
             <div className="flex flex-col place-items-end">
-              <p className="text-sm">{`${moment.utc(teeContest.registrationStartTime).local().format("hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("hh:mm A")} `}</p>{" "}
+              <p className="text-xs font-normal text-[#3C3C4399]">{`${moment.utc(teeContest.registrationStartTime).local().format("hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("hh:mm A")} `}</p>{" "}
               <span className="flex items-center rounded-md bg-green-100 px-2 mt-[4px]">
                 <img src={GolfTee} alt="" className="" />
                 <span className="p-1 text-xs font-semibold text-green-700">
@@ -238,8 +238,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             {/* )} */}
           </div>
           {teeContest.note !== null && (
-            <div className="bg-warning">
-              <p className="px-1 py-1 text-xs text-warningText">
+            <div className="bg-warning rounded-b-[6px]">
+              <p className="px-1 py-1 text-[11px] text-warningText">
                 <StickyNote color="#FF9800" size={14} className="mx-1 inline" />
                 <b>Eligibility criteria</b> : {teeContest.note}
               </p>
@@ -250,8 +250,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
           className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${Object.values(selectedContests).flat().length === 0
-              ? "cursor-not-allowed"
-              : ""
+            ? "cursor-not-allowed"
+            : ""
             }`}
           onClick={() => {
             navigate(ROUTES.CHECKOUT);

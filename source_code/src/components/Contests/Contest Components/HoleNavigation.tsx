@@ -1,6 +1,6 @@
 import React from "react";
-import Golf from "../../../assets/images/golf_course.png";
-import WhiteGolf from "../../../assets/images/golf_course (1).png";
+import Golf from "../../../assets/images/golf_course.svg";
+import WhiteGolf from "../../../assets/images/golf_course_active.svg";
 import {
   clearAllSelectedContests,
   setHoleNumber,
@@ -30,11 +30,10 @@ const HoleNavigation: React.FC<{ hole: hole }> = ({ hole }) => {
 
   return (
     <div
-      className={`flex cursor-pointer items-center gap-2 rounded-full border px-3 py-2 shadow-sm ${
-        hole.id === selectedHoleId
-          ? "bg-primaryColor text-white"
-          : "border-gray-400 bg-white hover:bg-gray-100"
-      }`}
+      className={`flex cursor-pointer items-center gap-2 rounded-full border px-3 py-2 shadow-sm ${hole.id === selectedHoleId
+        ? "bg-primaryColor text-white"
+        : "border-gray-400 bg-white hover:bg-gray-100"
+        }`}
       onClick={() => {
         hole.onSelectHoleId(hole.id);
         dispatch(setSelectedHoleId(hole.id));

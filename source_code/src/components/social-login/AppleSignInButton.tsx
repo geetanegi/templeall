@@ -1,41 +1,59 @@
 import React from "react";
 import AppleLogin from "react-apple-login";
+import { setLoading } from "../../reducers/loader/loader";
 import AppleIcon from "../../assets/images/apple-1.png";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import apiService from "../../services/apiService";
+import { API_URL } from "../../services/enums";
+import { login } from "../../reducers/login/login";
+import { ToastInfo } from "../Toast";
 
 const AppleSignInButton: React.FC = () => {
-  // Handle the success response from Apple (callback for both success and failure)
-  const handleAppleResponse = (response: any) => {
-    console.log("Apple response:", response);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleAppleResponse = async (response: any) => {
+
     if (response.error) {
       console.error("Apple login failed:", response.error);
       return;
     }
-
-    // If login is successful, proceed with the token
-    console.log("Apple login successful:", response);
-
-    // Send the response to your backend for validation
-    // fetch("/api/apple-auth", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ token: response.authorization.id_token }),
-    // })
-    //   .then((res) => res.json()) // Parse JSON response from backend
-    //   .then((data) => {
-    //     console.log("Backend response:", data);
-    //     // Handle the backend response here (e.g., set user data, redirect, etc.)
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error sending token to backend:", error);
-    //     alert("Failed to sign in. Please try again later.");
-    //   });
+    if (response.authorization) {
+      handleLoginSuccess(response);
+    }
   };
 
-  return (
-    <AppleLogin
-      clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
+  const handleLoginSuccess = async (response: any) => {
+    dispatch(setLoading(true));
+    try {
+      const { data, status } = await apiService.post<any>(
+        API_URL.verifyAppleeToken,
+        { data: { "code": response.authorization.code } },
+      );
+      if (status === 200 && data?.data != null && !data?.error) {
+        dispatch(
+          login({
+            token: data?.data?.token,
+            userInfo: {
+              username: "",
+              password: "",
+              userId: data?.data?.userId,
+            },
+          }),
+        );
+        navigate("/dashboard");
+      } else if (status === 200 && data?.error && data?.description) {
+        ToastInfo(data?.description);
+      } else {
+        ToastInfo(data?.description);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };  return (
+    <AppleLogin clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
       redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"
       responseMode="form_post"

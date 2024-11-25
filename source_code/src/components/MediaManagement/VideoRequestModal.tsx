@@ -185,7 +185,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="h-[40px] w-[76px] rounded-md bg-lime-500 py-2 text-[14px] text-white"
+                    className="h-[40px] w-[76px] rounded-md bg-primaryColor py-2 text-[14px] text-white"
                   >
                     Request
                   </button>

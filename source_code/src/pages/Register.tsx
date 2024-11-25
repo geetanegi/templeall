@@ -29,8 +29,8 @@ import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
 
 import { viewPdf } from "../utils/downloadUtils";
 
@@ -336,6 +336,7 @@ const Register: React.FC = () => {
                     type="text"
                     required={true}
                     authFlow={true}
+                    maxLength={256}
                   />
                 </div>
                 <div className="mb-4 flex">

@@ -29,8 +29,8 @@ import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 
 import { viewPdf } from "../utils/downloadUtils";
 

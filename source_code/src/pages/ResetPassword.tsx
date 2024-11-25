@@ -13,8 +13,8 @@ import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { viewPdf } from "../utils/downloadUtils";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 import { encryptData, secretKey } from "../utils/encrypt";
 
 const ResetPassword: React.FC = () => {
@@ -68,7 +68,7 @@ const ResetPassword: React.FC = () => {
           payload: encreptedpayload,
           mode: "WEB",
         },
-      }; 
+      };
       const { data, status } = await apiService.post<any>(
         API_URL.resetPassword,
         newData,

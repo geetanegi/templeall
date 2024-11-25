@@ -176,7 +176,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       <div className="m-4">
         <div className="rounded-[6px] border shadow-md">
           <div className="my-2 flex w-full items-center justify-between px-6 pt-6">
-            <div className="flex">
+            <div className="flex items-center">
               <img src={golfStickWithTee} alt="" className="h-14 w-14" />
               <div className="pl-1">
                 <p className="text-sm font-semibold">
@@ -249,7 +249,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${Object.values(selectedContests).flat().length === 0
+          className={`relative flex gap-1 rounded-md bg-primaryColor px-3 py-1 text-white flex h-[38px] w-[132px] flex items-center justify-evenly ${Object.values(selectedContests).flat().length === 0
             ? "cursor-not-allowed"
             : ""
             }`}
@@ -258,8 +258,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           }}
           disabled={Object.values(selectedContests).flat().length === 0}
         >
-          <ShoppingCart className="relative" />
-          <span className="absolute right-[5rem] top-[1px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+          <ShoppingCart className="relative" height={21} width={21} />
+          <span className="absolute right-[5.9rem] top-[5px] flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
             {Object.values(selectedContests).flat().length}
           </span>
           <span className="mx-2 text-[14px]">Register</span>

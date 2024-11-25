@@ -42,7 +42,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
         style={{ width: "max-content" }}
       >
         <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 1 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
+          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 1 ? "bg-backgroundActive text-textColor" : "text-[#ffffff]"} `}
           onClick={() => {
             dispatch(setSelectedTab(1));
           }}
@@ -51,7 +51,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
           Active Contest
         </button>
         <button
-          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 2 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
+          className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 2 ? "bg-backgroundActive text-textColor" : "text-[#ffffff]"} `}
           onClick={() => {
             dispatch(setSelectedTab(2));
           }}
@@ -61,7 +61,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
         </button>
         {showMostRecent && (
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 3 ? "bg-yellowText text-textColor" : "text-[#ffffff]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 3 ? "bg-backgroundActive text-textColor" : "text-[#ffffff]"} `}
             onClick={() => {
               dispatch(setSelectedTab(3));
             }}

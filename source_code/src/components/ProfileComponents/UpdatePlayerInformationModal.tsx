@@ -96,7 +96,7 @@ const validationSchema = Yup.object({
     .min(10, "Please enter valid phone number.")
     .max(10, "Please enter valid phone number."),
   location: Yup.string().matches(
-    /^[A-Za-z\s]+$/,
+    /^[A-Za-z0-9\s]+$/,
     "Location must contain only alphabetic characters",
   ),
   city: Yup.string().matches(
@@ -120,6 +120,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
   // const stripe = useStripe();
   // const elements = useElements();
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [maxDate, setMaxDate] = useState("");
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
@@ -213,29 +214,29 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
           initialValues={
             userData
               ? {
-                  firstName: userData?.firstName,
-                  lastName: userData?.lastName,
-                  email: userData?.email,
-                  contactNumber: userData?.userProfile?.contactNumber || "",
-                  ghin: userData?.userProfile?.ghin || "",
-                  location: userData?.userProfile?.location || "",
-                  city: userData?.userProfile?.city || "",
-                  alternateEmail: userData?.userProfile?.alternateEmail || "",
-                  dateOfBirth: userData?.userProfile?.dateOfBirth || "",
-                  cardDetails: "",
-                  fullNameOnCard: "",
-                  expirationDate: "",
-                  username: userData?.username || "",
-                  ball: userData?.userProfile?.ball || "",
-                  clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || '',
-                  courseIds:
-                    userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
-                      .id,
-                  clubs: userData?.userProfile?.clubs || "",
-                  cvv: "",
-                  countryCode: userData?.userProfile?.countryCode || "+1",
-                  handicap: userData?.userProfile?.handicap || "",
-                }
+                firstName: userData?.firstName,
+                lastName: userData?.lastName,
+                email: userData?.email,
+                contactNumber: userData?.userProfile?.contactNumber || "",
+                ghin: userData?.userProfile?.ghin || "",
+                location: userData?.userProfile?.location || "",
+                city: userData?.userProfile?.city || "",
+                alternateEmail: userData?.userProfile?.alternateEmail || "",
+                dateOfBirth: userData?.userProfile?.dateOfBirth || "",
+                cardDetails: "",
+                fullNameOnCard: "",
+                expirationDate: "",
+                username: userData?.username || "",
+                ball: userData?.userProfile?.ball || "",
+                clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || '',
+                courseIds:
+                  userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
+                    .id,
+                clubs: userData?.userProfile?.clubs || "",
+                cvv: "",
+                countryCode: userData?.userProfile?.countryCode || "+1",
+                handicap: userData?.userProfile?.handicap || "",
+              }
               : initialValues
           }
           validationSchema={validationSchema}
@@ -354,6 +355,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
+                        maxLength={25}
                       />
                       <div className="mx-5">
                         {touched.location &&
@@ -384,6 +386,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                         }}
                         onBlur={handleBlur}
                         className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
+                        maxLength={25}
                       />
                       <div className="mx-5">
                         {touched.city &&
@@ -464,6 +467,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 md:w-[430px]"
+                      maxLength={256}
                     />
                     <div className="mb-5 ml-6">
                       {touched.alternateEmail &&
@@ -693,7 +697,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-32 rounded-md bg-lime-500 py-2 text-white"
+                    className="w-32 rounded-md bg-primaryColor py-2 text-white"
                   >
                     Save
                   </button>

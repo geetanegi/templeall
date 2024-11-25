@@ -21,6 +21,7 @@ export const API_URL = {
   qrCodeByHoldId: "/api/contests",
   fbRedirectUI: "http://localhost:8080/aceCamDev/abcd",
   verigyGoogleToken: "identity/auth/verifyGoogleToken",
+  verifyAppleeToken: "identity/auth/apple",
   verifyFbToken: "identity/auth/verifyFacebookToken",
   getAllContests: "core/contest/all-contests",
   updateStatusContest: "core/contest/update-status",

@@ -12,6 +12,7 @@ import BreadCumModal from "../components/Contests/Contest Components/BreadCumMod
 import { API_URL } from "../services/enums";
 import apiService from "../services/apiService";
 import { ToastInfo } from "../components/Toast";
+import momentTz from "moment-timezone";
 
 import BG from "../assets/images/dashboardBG.svg";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +24,8 @@ import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 
 const Checkout: React.FC = () => {
+  const tz = momentTz.tz.guess();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loader = useSelector((state: RootState) => state.loader.isLoading);
@@ -80,11 +83,11 @@ const Checkout: React.FC = () => {
 
   const totalPrice =
     selectedContestTee !== null &&
-    selectedContestsList[selectedContestTee]?.length > 0
+      selectedContestsList[selectedContestTee]?.length > 0
       ? selectedContestsList[selectedContestTee].reduce(
-          (acc, contest) => acc + contest.entryFee,
-          0,
-        )
+        (acc, contest) => acc + contest.entryFee,
+        0,
+      )
       : 0;
 
   const paymentSucess = useSelector(
@@ -105,13 +108,14 @@ const Checkout: React.FC = () => {
         totalAmount: totalPrice,
         holeId: selectedContests && selectedContests[0]?.holeId,
         teeId: selectedContests && selectedContests[0]?.teeId,
+        zoneId: tz,
         cartInfo:
           selectedContests && Array.isArray(selectedContests)
             ? selectedContests.map((item) => ({
-                scheduleContestId: item.scheduleContestId,
-                amount: item.entryFee,
-                progressiveContestId: item.progressiveContestId,
-              }))
+              scheduleContestId: item.scheduleContestId,
+              amount: item.entryFee,
+              progressiveContestId: item.progressiveContestId,
+            }))
             : [],
         payment: {
           paymentMethod: "CARD",

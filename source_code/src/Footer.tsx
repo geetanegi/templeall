@@ -1,6 +1,6 @@
 import React from "react";
-import privacyPolicyPdf from "./assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
-import TermsAndConditionsPdf from "./assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
+import privacyPolicyPdf from "./assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
+import TermsAndConditionsPdf from "./assets/Pdf/AceCamGolfTermsandConditions.pdf";
 import { viewPdf } from "./utils/downloadUtils";
 
 const Footer: React.FC = () => {

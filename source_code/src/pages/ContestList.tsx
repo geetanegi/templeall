@@ -227,11 +227,11 @@ const ContestList: React.FC = () => {
         className="bg-[#ffffff] bg-contain bg-fixed bg-no-repeat"
         style={{ backgroundImage: `url(${BG})` }}
       >
-        <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden px-2">
-          <div className="h-screen overflow-auto p-1 pt-3">
+        <div className="grid min-h-screen w-full grid-cols-[25%_75%] overflow-x-hidden px-4 py-4">
+          <div className="h-screen overflow-auto  pt-3">
             {/* First column content (20% width) */}
             {courseList?.data.map((course) => (
-              <div key={course.id} className="col-span-4">
+              <div key={course.id} className="col-span-4 ">
                 <GolfClubInfo
                   course={course}
                   onSelectCourseId={setSelectedCourseId}
@@ -240,9 +240,9 @@ const ContestList: React.FC = () => {
             ))}
           </div>
 
-          <div className="">
+          <div className="pl-2">
             {/* Hole Navigation  Section */}
-            <div className="flex space-x-6 px-3 py-3">
+            <div className="flex space-x-6 px-2 py-3">
               {HoleList?.data.map((hole) => (
                 <HoleNavigation
                   key={hole.id}
@@ -261,8 +261,8 @@ const ContestList: React.FC = () => {
             </div>
 
             {/* GolfTeeSelection Section */}
-            <div className="relative px-3">
-              <div className="my-4 overflow-auto rounded-lg border border-gray-200 bg-[#ffffff] shadow-sm">
+            <div className="relative px-2 pr-0">
+              <div className="my-2 overflow-auto rounded-lg border border-gray-200 bg-[#ffffff] shadow-sm">
                 <div className="flex">
                   <div className="h-auto w-[30%] border-r border-gray-400">
                     {TeeList?.data.map((tee) => (

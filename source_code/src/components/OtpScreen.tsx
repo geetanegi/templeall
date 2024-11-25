@@ -9,8 +9,8 @@ import { ToastInfo, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
 import { viewPdf } from "../utils/downloadUtils";
 
-import TermsAndConditionsPdf from "../assets/Pdf/AceCam Golf Terms and Conditions.docx.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCam Golf Privacy Policy.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;

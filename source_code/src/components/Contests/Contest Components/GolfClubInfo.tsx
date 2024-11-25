@@ -38,7 +38,7 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
         dispatch(setSelectedCourseId(course.id));
         dispatch(setCourseName(course.courseName));
       }}
-      className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-md ${course.id === selectedCourseId ? "border-2 border-primaryColor" : ""} `}
+      className={`mb-4 max-w-sm cursor-pointer rounded-lg border bg-[#ffffff] shadow-custom-shadow-2 ${course.id === selectedCourseId ? "border-1 border-primaryColor" : ""} `}
     >
       <img
         src={
@@ -49,11 +49,11 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
         alt={course.courseName}
         className="rounded-t-lg"
       />
-      <div className="p-4">
+      <div className="p-2">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <h3 className="text-sm font-semibold">{course.courseName}</h3>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 flex ml-[-2px]">
               <MapPin size={16} className="inline-block" />
               <span className="pl-1">{course.location}</span>
             </p>

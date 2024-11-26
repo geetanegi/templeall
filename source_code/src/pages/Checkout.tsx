@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PlayingCart from "../components/PlayingCart/PlayingCart";
-import Golf from "../assets/images/golf_course.png";
-import GolfTee from "../assets/images/sports_golf.png";
+import Golf from "../assets/images/golf_course_green.svg";
+import GolfTee from "../assets/images/sp-golf.svg";
 // import cardType from "../assets/images/Card Type.png";
 
 import { LandPlot, ShoppingCart, Trophy } from "lucide-react";
@@ -156,35 +156,35 @@ const Checkout: React.FC = () => {
         <div className="grid min-h-screen w-full grid-cols-[65%_35%] overflow-x-hidden px-2">
           <div className="pl-10 pt-1">
             {/* Header Section */}
-            <h1 className="py-3 text-xl">Player Cart</h1>
+            <h1 className="pb-1 text-[18px] font-normal pt-3">Playing Cart</h1>
             {/* Breadcrumb Section */}
-            <div className="mb-4 flex items-center space-x-2 text-sm text-gray-500">
+            <div className="mb-4 flex items-center space-x-2 text-sm text-gray-500 font-normal"  >
               <span
-                className="flex cursor-pointer gap-1"
+                className="flex cursor-pointer gap-1 text-primaryColor items-center"
                 onClick={() => setModalOpen(true)}
               >
-                <LandPlot className="h-4 w-4" /> {selectedCourseName}
+                <LandPlot className="h-3 w-3" /> {selectedCourseName}
               </span>
               <span>&gt;</span>
               <span
-                className="flex cursor-pointer gap-1"
+                className="flex cursor-pointer gap-1 text-primaryColor items-center"
                 onClick={() => setModalOpen(true)}
               >
-                <img src={Golf} className="h-4 w-4" />
+                <img src={Golf} className="h-3 w-3" />
                 Hole #{selectedHoleNumber} - Par {selectedPar}
               </span>
               <span>&gt;</span>
               <span
-                className="flex cursor-pointer gap-1"
+                className="flex cursor-pointer gap-1 text-primaryColor  items-center"
                 onClick={() => setModalOpen(true)}
               >
-                <img src={GolfTee} className="h-4 w-4" />
+                <img src={GolfTee} className="h-3 w-3" color="#7B7887" />
                 {selectedContestTee}(
                 {selectedContests && selectedContests[0]?.yardage} yards)
               </span>
               <span>&gt;</span>
-              <span className="flex gap-1 text-[#afd156]">
-                <Trophy color="#afd156" strokeWidth={1} className="h-4 w-4" />
+              <span className="flex gap-1 text-[#7B7887] items-center text-[12px]">
+                <Trophy color="#7B7887" strokeWidth={1} className="h-3 w-3" />
                 Contests
               </span>
             </div>
@@ -238,9 +238,8 @@ const Checkout: React.FC = () => {
               {selectedPaymentMethod === "credit_card" && <CheckoutCard />}
               <button
                 onClick={handleCheckoutCart}
-                className="relative mx-auto flex w-full items-center justify-center gap-1 rounded-md bg-[#95c11e] py-2 text-white"
+                className="relative mx-auto flex w-full items-center justify-center gap-1 rounded-md bg-primaryColor py-2 mt-12 text-white"
               >
-                <ShoppingCart className="relative" />
                 <span className="mx-2">Register</span>
               </button>
             </div>

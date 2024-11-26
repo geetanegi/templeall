@@ -26,7 +26,7 @@ const LeaderBoardTable: React.FC<{
       return row.price;
     }
     if (row.price === null && row.showLock === true) {
-      return <Lock strokeWidth={1.5} />;
+      return <Lock strokeWidth={1.5} height={14} width={14} />;
     }
     if (row.price === null && row.showLock === false) {
       return "N/A";
@@ -35,10 +35,12 @@ const LeaderBoardTable: React.FC<{
 
   const updatedTableData = () => {
     const updatedData = leaderBoardData?.map((row: any, index: number) => ({
-      Pos: <span className="text-white">{index + 1}</span>,
+
+      Pos: <span style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>{index + 1}</span>,
       username: (
         <div
           className="flex cursor-pointer items-center"
+          style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}
           onClick={() => {
             navigate(ROUTES.PROFILE, {
               state: { id: row.playerId, role: "Player" },
@@ -47,20 +49,21 @@ const LeaderBoardTable: React.FC<{
         >
           <img
             src={row?.imageUrl}
+            style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}
             className="mr-[8px] h-5 w-5 rounded-full border border-[#FFDE59]"
           />
-          <span className="text-[13px] text-white">{row.username}</span>
+          <span className="text-[13px]" style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>{row.username}</span>
         </div>
       ),
       "Proximity(FEET)": (
-        <span className="text-[13px] text-white">
+        <span className="text-[13px] " style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>
           {row.proximity === null ? "N/A" : row.proximity}
         </span>
       ),
       price: (
-        <span className="text-[13px] text-white">
+        <span className="text-[13px]"
+          style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>
           {showPrice(row)}
-          {/* {row.price === null ? <Lock strokeWidth={1.5} /> : row.price} */}
         </span>
       ),
     }));
@@ -78,8 +81,16 @@ const LeaderBoardTable: React.FC<{
           Headers={headers}
           rowData={displayedData}
           pagination={false}
-          oddRowStyle={{ backgroundColor: "#4C525E" }}
-          evenRowStyle={{ backgroundColor: "#61656E" }}
+          oddRowStyle={{
+            background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
+          }}
+          evenRowStyle={{
+            background: 'linear-gradient(180deg, #BABABA 16.67%, #DFDFDF 52.17%, #A5A5A5 82.67%, #BCBCBC 100%)'
+          }}
+          thirdRowStyle={{
+            background: 'linear-gradient(180deg, #907B4B 0%, #B09659 11%, #865F1C 52%, #8A6629 75%, #B38531 100%)'
+
+          }}
           greenTheme={true}
         />
         <div className="text-right">
@@ -101,7 +112,7 @@ const LeaderBoardTable: React.FC<{
           <div className="-mt-4 bg-[#F5F6F7] px-3 py-2 text-right">
             <button
               onClick={() => setOpenModal(false)}
-              className="rounded-md bg-[#95C11E] px-5 py-2 text-white"
+              className="rounded-md bg-[#95C11E] px-5 py-2 text-black"
             >
               Ok
             </button>
@@ -113,8 +124,16 @@ const LeaderBoardTable: React.FC<{
             Headers={headers}
             rowData={tableData}
             pagination={false}
-            oddRowStyle={{ backgroundColor: "#4C525E" }}
-            evenRowStyle={{ backgroundColor: "#61656E" }}
+            oddRowStyle={{
+              background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
+            }}
+            evenRowStyle={{
+              background: 'linear-gradient(180deg, #BABABA 16.67%, #DFDFDF 52.17%, #A5A5A5 82.67%, #BCBCBC 100%)'
+            }}
+            thirdRowStyle={{
+              background: 'linear-gradient(180deg, #907B4B 0%, #B09659 11%, #865F1C 52%, #8A6629 75%, #B38531 100%)'
+
+            }}
             greenTheme={true}
           />
         </div>

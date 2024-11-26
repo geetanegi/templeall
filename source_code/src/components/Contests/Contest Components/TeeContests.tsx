@@ -166,7 +166,8 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       return "You have reached today's playing limit for this contest.";
     } else if (!isCrossed) {
       //  eligibleRegistrationTime is greater than current time
-      return "You recently took part in the contest. Registration will reopen after 12:00 PM.";
+
+      return `You recently took part in the contest. Registration will reopen after ${moment.utc(teeContest.eligibleRegistrationTime).local().format("hh:mm A")}`;
     }
   };
 
@@ -217,7 +218,6 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
                         <Plus
                           size={32}
                           className={`${isContestAlreadySelected ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} rounded-full bg-primaryColor p-1 font-semibold text-white`}
-                          // className="cursor-pointer rounded-full bg-[#95c11e] p-1 font-semibold text-white"
                           onClick={handleContestSelection}
                         />
                         {isContestAlreadySelected && (
@@ -232,9 +232,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             </div>
           </div>
           <div className="px-2 text-right text-xs text-red-500">
-            {/* {!teeContest?.eligibleForRegistration && ( */}
             <span className="text-xs">{showMessageDialogFunc()}</span>
-            {/* )} */}
           </div>
           {teeContest.note !== null && (
             <div className="bg-warning rounded-b-[6px]">

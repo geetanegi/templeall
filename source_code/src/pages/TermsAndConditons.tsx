@@ -1,5 +1,5 @@
 import React from "react";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
 
 const TermsAndConditons: React.FC = () => {
   return (

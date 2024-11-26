@@ -12,8 +12,8 @@ import { RootState } from "../store";
 import AceCamUI from "../components/AceCamUI";
 
 import { viewPdf } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.docx.pdf";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.docx.pdf";
+import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
+import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
 
 const AuthStructure: React.FC = () => {
   const location = useLocation();

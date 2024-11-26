@@ -99,7 +99,6 @@ const TableComponent: React.FC<TableComponentProps> = ({
                       <td
                         key={index}
                         className={`whitespace-nowrap px-3 py-2 font-normal text-black`}
-                        style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}
                       >
                         {data[key]}
                       </td>

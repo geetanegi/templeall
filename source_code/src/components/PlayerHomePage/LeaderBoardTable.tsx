@@ -101,7 +101,7 @@ const LeaderBoardTable: React.FC<{
           greenTheme={true}
         />
         <div className="text-right">
-          {registered && leaderBoardData?.length && (
+          {registered && leaderBoardData?.length > 0 && (
             <button
               className="text-[14px] font-semibold text-[#95C11E] underline"
               onClick={() => setOpenModal(true)}

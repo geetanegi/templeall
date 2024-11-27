@@ -37,7 +37,7 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
     >
       <div className="my-3">
         <div className="j flex items-center justify-between px-3">
-          <div className="flex items-center space-x-3 py-2">
+          <div className="flex items-center space-x-1 py-2">
             {tee.id === selectedTeeId ? (
               <img
                 src={GolfGreenTee}
@@ -49,8 +49,10 @@ const TeeInfo: React.FC<{ tee: tee }> = ({ tee }) => {
               <img src={GolfTee} alt="" className="h-6 w-6" />
             )}
             <span
-              className={`text-sm ${tee.id === selectedTeeId ? "text-primaryColor" : "text-gray-500"}`}
-            >{`${tee.teeName} (${tee.yardage} yards) `}</span>
+              className={`text-sm w-[72px] ${tee.id === selectedTeeId ? "text-primaryColor" : "text-gray-500"}`}
+            >{tee?.teeName}</span>
+            <span className={`text-sm  ${tee.id === selectedTeeId ? "text-primaryColor" : "text-gray-500"}`}
+            >({tee.yardage}  yards)</span>
           </div>
           <div>
             {/* <Info size={20} className="ml-auto text-blue-700" /> */}

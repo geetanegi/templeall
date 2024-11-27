@@ -93,7 +93,6 @@ const LiveLeaderBoard: React.FC = () => {
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        console.log("data", data);
         setLeaderBoardData(data);
         // setDropDownList(data?.data);
         // setSelectedValue(data?.data[0]?.scheduleContestId);

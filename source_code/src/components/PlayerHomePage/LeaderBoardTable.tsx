@@ -18,7 +18,7 @@ const LeaderBoardTable: React.FC<{
     { id: 1, key: "Pos", field: "Position" },
     { id: 2, key: "Username", field: "Username" },
     { id: 3, key: "Proximity(FEET)", field: "Proximity(FEET)" },
-    { id: 4, key: "price", field: "Price" },
+    { id: 4, key: "price", field: "Prize" },
   ];
 
   const showPrice = (row: LeaderboardEntry) => {
@@ -33,14 +33,16 @@ const LeaderBoardTable: React.FC<{
     }
   };
 
+
+
   const updatedTableData = () => {
     const updatedData = leaderBoardData?.map((row: any, index: number) => ({
 
-      Pos: <span style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>{index + 1}</span>,
+      Pos: <span style={index > 1 ? { color: '#fff' } : { color: '#000' }}>{index + 1}</span>,
       username: (
         <div
           className="flex cursor-pointer items-center"
-          style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}
+          style={index > 1 ? { color: '#fff' } : { color: '#000' }}
           onClick={() => {
             navigate(ROUTES.PROFILE, {
               state: { id: row.playerId, role: "Player" },
@@ -49,20 +51,20 @@ const LeaderBoardTable: React.FC<{
         >
           <img
             src={row?.imageUrl}
-            style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}
+            style={index > 2 ? { color: '#fff' } : { color: '#000' }}
             className="mr-[8px] h-5 w-5 rounded-full border border-[#FFDE59]"
           />
-          <span className="text-[13px]" style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>{row.username}</span>
+          <span className="text-[13px]" style={index > 1 ? { color: '#fff' } : { color: '#000' }}>{row.username}</span>
         </div>
       ),
       "Proximity(FEET)": (
-        <span className="text-[13px] " style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>
+        <span className="text-[13px] " style={index > 1 ? { color: '#fff' } : { color: '#000' }}>
           {row.proximity === null ? "N/A" : row.proximity}
         </span>
       ),
       price: (
         <span className="text-[13px]"
-          style={(index + 1) % 3 === 0 ? { color: '#fff' } : { color: '#000' }}>
+          style={index > 1 ? { color: '#fff' } : { color: '#000' }}>
           {showPrice(row)}
         </span>
       ),
@@ -82,19 +84,24 @@ const LeaderBoardTable: React.FC<{
           rowData={displayedData}
           pagination={false}
           oddRowStyle={{
+            background: '#284226',
+            borderBottom: '1px solid #FFDE59'
+          }}
+          firstRowStyle={{
             background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
           }}
-          evenRowStyle={{
+          secondRowStyle={{
             background: 'linear-gradient(180deg, #BABABA 16.67%, #DFDFDF 52.17%, #A5A5A5 82.67%, #BCBCBC 100%)'
           }}
           thirdRowStyle={{
             background: 'linear-gradient(180deg, #907B4B 0%, #B09659 11%, #865F1C 52%, #8A6629 75%, #B38531 100%)'
 
           }}
+
           greenTheme={true}
         />
         <div className="text-right">
-          {registered && (
+          {registered && leaderBoardData?.length > 0 && (
             <button
               className="text-[14px] font-semibold text-[#95C11E] underline"
               onClick={() => setOpenModal(true)}
@@ -112,7 +119,7 @@ const LeaderBoardTable: React.FC<{
           <div className="-mt-4 bg-[#F5F6F7] px-3 py-2 text-right">
             <button
               onClick={() => setOpenModal(false)}
-              className="rounded-md bg-[#95C11E] px-5 py-2 text-black"
+              className="rounded-md bg-primaryColor px-5 py-2 text-white"
             >
               Ok
             </button>
@@ -125,13 +132,21 @@ const LeaderBoardTable: React.FC<{
             rowData={tableData}
             pagination={false}
             oddRowStyle={{
-              background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
+              background: '#284226',
+              borderBottom: '1px solid #FFDE59'
             }}
-            evenRowStyle={{
-              background: 'linear-gradient(180deg, #BABABA 16.67%, #DFDFDF 52.17%, #A5A5A5 82.67%, #BCBCBC 100%)'
+
+            firstRowStyle={{
+              background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
+              borderBottom: '1px solid #FFDE59'
+            }}
+            secondRowStyle={{
+              background: 'linear-gradient(180deg, #BABABA 16.67%, #DFDFDF 52.17%, #A5A5A5 82.67%, #BCBCBC 100%)',
+              borderBottom: '1px solid #FFDE59'
             }}
             thirdRowStyle={{
-              background: 'linear-gradient(180deg, #907B4B 0%, #B09659 11%, #865F1C 52%, #8A6629 75%, #B38531 100%)'
+              background: 'linear-gradient(180deg, #907B4B 0%, #B09659 11%, #865F1C 52%, #8A6629 75%, #B38531 100%)',
+              borderBottom: '1px solid #FFDE59'
 
             }}
             greenTheme={true}

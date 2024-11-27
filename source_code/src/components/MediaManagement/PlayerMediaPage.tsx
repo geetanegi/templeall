@@ -315,7 +315,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                     uploadDate={moment
                       .utc(videoData?.startTime)
                       .local()
-                      .format("DD/MM/YYYY")}
+                      .format("MM/DD/YYYY")}
                     title={videoData?.contestType}
                     status={videoData?.status}
                     clubName={videoData?.club?.name || ""}

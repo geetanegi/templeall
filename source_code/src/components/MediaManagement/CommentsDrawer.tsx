@@ -151,7 +151,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                       moment
                         .utc(requestVideoPayload?.startTime)
                         .local()
-                        .format("DD/MM/YYYY")
+                        .format("MM/DD/YYYY")
                     }</div>
                   )}
                 </div>

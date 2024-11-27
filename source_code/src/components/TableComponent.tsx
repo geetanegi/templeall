@@ -13,8 +13,9 @@ interface TableComponentProps {
   pagination?: boolean;
   style?: any;
   oddRowStyle?: React.CSSProperties;
-  evenRowStyle?: React.CSSProperties;
   thirdRowStyle?: React.CSSProperties;
+  secondRowStyle?: React.CSSProperties;
+  firstRowStyle?: React.CSSProperties;
   greenTheme?: boolean;
   totalElement?: number;
   elementPerPage?: number
@@ -29,7 +30,8 @@ const TableComponent: React.FC<TableComponentProps> = ({
   pagination = true,
   style = {},
   oddRowStyle = {},
-  evenRowStyle = {},
+  firstRowStyle = {},
+  secondRowStyle = {},
   thirdRowStyle = {},
   greenTheme = false,
   totalElement = 10,
@@ -41,6 +43,19 @@ const TableComponent: React.FC<TableComponentProps> = ({
     scrollbarWidth: "none", // Firefox
     msOverflowStyle: "none", // IE and Edge
   };
+
+  const styleForRow = (index: number) => {
+    if (index === 0) {
+      return firstRowStyle;
+    } else if (index === 1) {
+      return secondRowStyle;
+    } else if (index === 2) {
+      return thirdRowStyle;
+    }
+    else if (index > 2) {
+      return oddRowStyle
+    }
+  }
 
   return (
     <div className="mb-2 mt-3 flex h-full text-sm mb-1">
@@ -92,7 +107,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
               {rowData?.map((data, index) => (
                 <tr
                   key={index}
-                  style={(index + 1) % 3 === 0 ? thirdRowStyle : (index + 1) % 3 === 1 ? oddRowStyle : evenRowStyle}
+                  style={styleForRow(index)}
                 >
                   {Object.entries(data).map(([key], index) => {
                     return (

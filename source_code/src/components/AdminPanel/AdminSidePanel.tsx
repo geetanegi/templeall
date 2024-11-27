@@ -35,7 +35,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
       (state: RootState) => state.auth.userPermissions,
     );
     const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-
+console.log(setUpdatedCount,setIsSearch)
     useImperativeHandle(ref, () => ({
       getUserCount,
     }));
@@ -44,13 +44,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
       getUserCount();
     }, []);
 
-    const getUserCount = async (count?:number, searchFlag?:boolean) => {
-      if(searchFlag){
-        setUpdatedCount(count || 0)
-        setIsSearch(true)
-        return
-      }
-      setIsSearch(false)
+    const getUserCount = async () => {
       let url = API_URL.getAllCount;
       let payload: Record<string, unknown> = {};
       if (isCourseAdmin && userPermisions.data?.permission["is_course_admin"]) {

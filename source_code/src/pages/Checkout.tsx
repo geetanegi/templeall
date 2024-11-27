@@ -4,7 +4,7 @@ import Golf from "../assets/images/golf_course_green.svg";
 import GolfTee from "../assets/images/sp-golf.svg";
 // import cardType from "../assets/images/Card Type.png";
 
-import { LandPlot, ShoppingCart, Trophy } from "lucide-react";
+import { LandPlot, Trophy } from "lucide-react";
 import CheckoutCard from "../components/Checkout/Checkout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";

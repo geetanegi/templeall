@@ -24,7 +24,7 @@ import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
 import moment from "moment";
-import AppleSignInButton from "../components/social-login/AppleSignInButton";
+// import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { decryptData, encryptData, secretKey } from "../utils/encrypt";
 
 const Login: React.FC = () => {
@@ -139,7 +139,7 @@ const Login: React.FC = () => {
           />
           <img src={TikTok} alt="" />
           <GoogleLoginComponent />
-          <AppleSignInButton />
+          {/* <AppleSignInButton /> */}
         </div>
         <h3 className="my-5 py-3 text-[14px] font-semibold text-[#FFFFFF] md:my-1">
           -OR-

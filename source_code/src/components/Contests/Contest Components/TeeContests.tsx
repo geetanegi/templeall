@@ -171,7 +171,6 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     }
   };
 
-
   return (
     <div className="">
       <div className="m-4">

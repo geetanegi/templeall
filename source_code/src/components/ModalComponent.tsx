@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
 
     const handleClose = () => {
         document.body.classList.remove('overflow-hidden');
-        onClose(); 
+        onClose();
     };
 
     if (!isOpen) return null;
@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className='flex m-4 align-center justify-between mb-5'>
-                    <h2 className="text-lg font-bold mb-4">{title}</h2>
+                    <h2 className="text-[18px] font-normal mb-4">{title}</h2>
                     <X className='bg-gray-400 text-white rounded-2xl p-1 cursor-pointer' onClick={handleClose} />
                 </div>
                 <div className="">{children}</div>

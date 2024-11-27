@@ -140,13 +140,22 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                 </div>
               )}
               <div className="h-[64px] w-full bg-[#1D1A0C] p-1 px-2">
-                <div className="flex text-[#fff]">
-                  <span className="flex items-center">
-                    {requestVideoPayload?.videos?.title || ""}
+                <div className="flex text-[#fff] justify-between  item-center">
+                  <span className="flex items-center  ">
+                    {requestVideoPayload?.videos?.title || ""} <Dot size={28} />{requestVideoPayload?.username || ""}
                   </span>
-                  <Dot size={24} />
-                  <span>{requestVideoPayload?.username || ""}</span>
+
+
+                  {requestVideoPayload?.startTime && (
+                    <div className="text-[#fff] text-[11px]  font-normal flex item-center mt-[4px]">{
+                      moment
+                        .utc(requestVideoPayload?.startTime)
+                        .local()
+                        .format("DD/MM/YYYY")
+                    }</div>
+                  )}
                 </div>
+
                 <div className="mt-1 items-center justify-start text-white">
                   <div className="mt-1 flex items-center whitespace-nowrap text-[14px]">
                     <div className="items.center flex gap-1 text-sm font-light">
@@ -198,7 +207,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                           type="text"
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
-                          className="h-[36px] w-full rounded-[4px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3"
+                          className="h-[36px] w-full rounded-[4px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3 text-[13px]"
                         />
                         <div className="mt-3 flex justify-end gap-2">
                           <X
@@ -242,7 +251,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                         </div>
                         <div className="flex justify-end gap-3">
                           {typeof userInfo === "object" &&
-                          Number(userInfo.userId) ===
+                            Number(userInfo.userId) ===
                             Number(commentObj.userId) ? (
                             <SquarePen
                               size={14}
@@ -256,9 +265,9 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                             />
                           ) : null}
                           {typeof userInfo === "object" &&
-                          (Number(userInfo.userId) ===
-                            Number(requestVideoPayload.playerId) ||
-                            Number(userInfo.userId) ===
+                            (Number(userInfo.userId) ===
+                              Number(requestVideoPayload.playerId) ||
+                              Number(userInfo.userId) ===
                               Number(commentObj.userId)) ? (
                             <Trash2
                               size={14}
@@ -279,7 +288,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               ))}
             </div>
           </div>
-          <div className="absolute bottom-0 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7]">
+          <div className="absolute bottom-0 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7] text-[13px]">
             <input
               type="text"
               placeholder="Comments"
@@ -293,6 +302,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
                   setComment("");
                 }
               }}
+              disabled={editComment ? true : false}
             />
             <SendHorizonal
               color="#7B7887"

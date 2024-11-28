@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
 import TikTok from "../assets/images/TikTok.svg";
-import aceCampLogo from "../assets/images/logo (1).png";
+import aceCampLogo from "../assets/images/Logo_png with heading.png";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
 import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
@@ -26,6 +26,8 @@ import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pd
 import moment from "moment";
 // import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { decryptData, encryptData, secretKey } from "../utils/encrypt";
+import { ClassNames } from "@emotion/react";
+import AppleSignInButton from "../components/social-login/AppleSignInButton";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -117,33 +119,11 @@ const Login: React.FC = () => {
     }
   };
 
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
-
-  const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
-    // const pdfUrl = TermsAndConditionsPdf; // URL of your PDF
-    // window.open(pdfUrl, "_blank");
-  };
-
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl border p-2 md:mt-10 md:w-full">
-        <img src={aceCampLogo} alt="" className="h-32 w-32 sm:-mt-20" />
-        <div className="flex items-center justify-center gap-5">
-          <InstagramLoginComponent />
-          <FacebookLoginComponent
-            appId="490090883627586"
-            redirectUri={API_URL.fbRedirectUI}
-          />
-          <img src={TikTok} alt="" />
-          <GoogleLoginComponent />
-          {/* <AppleSignInButton /> */}
-        </div>
-        <h3 className="my-5 py-3 text-[14px] font-semibold text-[#FFFFFF] md:my-1">
-          -OR-
-        </h3>
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:mt-20 md:w-full">
+        <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -179,35 +159,45 @@ const Login: React.FC = () => {
               />
             </div>
             <div className="mb-4"></div>
-            <div className="mb-3 flex items-center justify-between">
+            <div className="-mt-[8px] mb-3 flex items-center justify-between">
               <div className="">
-                <label className="inline-flex items-center">
+                <label className="flex items-center">
                   <Field
                     type="checkbox"
                     name="rememberme"
                     className="form-checkbox h-4 w-4 border border-[#0077B6] accent-[#0077B6]"
                   />
-                  <span className="ml-2 text-[14px] text-[#FFFFFF]">
-                    Remember me ?
+                  <span className="ml-2 text-[13px] text-[#FFFFFF]">
+                    Remember Me?
                   </span>
                 </label>
                 <ErrorMessage
                   name="rememberme"
-                  component="span"
+                  component="div"
                   className="block text-sm"
                 />
               </div>
+              <div>
+                <Link
+                  to={ROUTES.FORGET_PASSWORD}
+                  className={`text-[13px] text-link hover:underline`}
+                >
+                  Forgot Password?
+                </Link>
+              </div>
             </div>
-            <button
-              type="submit"
-              className={`w-full rounded-md border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
-            >
-              Login
-            </button>
+            <div className="text-center">
+              <button
+                type="submit"
+                className={`h-[36px] w-[200px] rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+              >
+                Login
+              </button>
+            </div>
           </Form>
         </Formik>
-        <div className="f mt-2 flex w-full max-w-sm gap-1 text-[14px] sm:justify-between md:max-w-md">
-          <p className={`text-[14px] text-primaryText`}>
+        <div className="mt-[40px] flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
+          <p className={`text-center text-[14px] text-primaryText`}>
             Don't have an account?{" "}
             <Link
               to={ROUTES.SIGNUP}
@@ -216,51 +206,18 @@ const Login: React.FC = () => {
               Sign Up
             </Link>
           </p>
-          <Link
-            to={ROUTES.FORGET_PASSWORD}
-            className={`text-[14px] text-link hover:underline`}
-          >
-            Forgot Password?
-          </Link>
-        </div>
-        <div>
-          <div className="fixed bottom-14 right-[5px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-4 top-[1px] mt-2 flex gap-2 md:absolute">
-              <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
-              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-              >
-                <a href="mailto:support@acecamgolf.com">Contact Us</a>
-              </p>
-            </div>
-          </div>
-          <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-0 top-[1px] flex md:absolute">
-              <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                © 2024 AceCam
-                <sup className="text-[8px]">TM&nbsp;</sup>{" "}
-                {/* <span className="align-super text-xs">™&nbsp;</span> */}
-                Golf, LLC. All rights reserved.
-              </p>
-            </div>
+          <p className="mt-[10px] text-center text-[14px] text-white">
+            - or sign in using -{" "}
+          </p>
+          <div className="mt-[10px] flex items-center justify-between">
+            <InstagramLoginComponent />
+            <FacebookLoginComponent
+              appId="490090883627586"
+              redirectUri={API_URL.fbRedirectUI}
+            />
+            <img src={TikTok} alt="" />
+            <GoogleLoginComponent />
+            <AppleSignInButton />
           </div>
         </div>
       </div>

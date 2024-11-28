@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Field, ErrorMessage, FieldProps } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker as MUIDatePicker } from "@mui/x-date-pickers/DatePicker";
-// import TextError from "./TextError"; // Ensure you have this component for error messages
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs, { Dayjs } from "dayjs";
 
 interface DatePickerProps {
   label: string;
   name: string;
   placeholder?: string;
-  [key: string]: any;
   maxDate?: Dayjs | string;
+  required?: boolean;
+  authFlow?: boolean;
+  [key: string]: any;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -19,6 +20,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   name,
   placeholder,
   maxDate,
+  required = false,
+  authFlow,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -26,10 +29,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const [error, setError] = useState<boolean | string | null>(false);
 
   return (
-    <div>
+    <div className="mb-[20px]">
       <Field name={name}>
         {({ form, field }: FieldProps) => {
-          const { setFieldValue, errors, touched } = form;
+          const { setFieldValue, setTouched, errors, touched } = form;
           const { value } = field;
           const hasError = Boolean(touched[name] && errors[name]);
           const isDateTyped = Boolean(value);
@@ -45,7 +48,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             }
           }, [value]);
 
-          const marginTop = () => {
+          const labelMarginTop = () => {
             if (isFocused || isDateTyped || hasError || isIncomplete) {
               return "12px"; // Label should be up for focused, typed, error, or incomplete state
             }
@@ -57,21 +60,35 @@ const DatePicker: React.FC<DatePickerProps> = ({
               <div
                 style={{
                   position: "relative",
-                  // padding: "5px",
-                  borderRadius: "5px",
-                  //   hasError || isIncomplete ? "" : "rgba(83, 83, 83, 0.8)",
+                  borderRadius: "12px",
                   transition: "background-color 0.3s ease",
                 }}
                 onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+                onBlur={() => {
+                  setIsFocused(false);
+                  setTouched({ ...touched, [name]: true }); // Mark field as touched on blur
+                }}
               >
-                <MUIDatePicker
-                  label={placeholder}
+                <label
+                  htmlFor={name}
+                  className="mb-1 block text-sm font-thin text-white"
+                >
+                  {label}
+                  {required && (
+                    <span
+                      className={authFlow ? "text-yellow-400" : "text-red-500"}
+                    >
+                      {" "}
+                      *
+                    </span>
+                  )}
+                </label>
+                <DesktopDatePicker
                   value={value ? dayjs(value) : null}
                   onChange={(newValue: Dayjs | null) => {
                     setFieldValue(
                       name,
-                      newValue ? newValue.toISOString() : null,
+                      newValue ? newValue?.format("MM/DD/YYYY") : null, // Store the formatted date
                     );
                     setIsIncomplete(
                       newValue ? !dayjs(newValue).isValid() : false,
@@ -89,32 +106,27 @@ const DatePicker: React.FC<DatePickerProps> = ({
                   {...rest}
                   sx={{
                     "& .MuiInputBase-root": {
-                      // backgroundColor: "transparent",
-                      backgroundColor: "#00000099",
+                      backgroundColor: "transparent",
                       color: "white",
-                      borderRadius: "5px",
-                      border: "1.5px solid",
-                      borderColor:
-                        hasError || isIncomplete ? "#ffde59" : "white",
+                      borderRadius: "12px",
+                      border: "1.5px solid", // Ensure border is visible
+                      borderColor: hasError ? "#ffde59 !important" : "white", // Cyan border on error, force it with !important
                       "&:hover .MuiOutlinedInput-notchedOutline": {
                         borderColor: hasError ? "#ffde59" : "lightgray",
                       },
                       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: hasError ? "#ffde59" : "white",
+                        borderColor: hasError ? "cyan" : "",
                         borderWidth: "0",
-                      },
-                      "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#ffde59 !important",
                       },
                     },
                     "& .MuiInputLabel-root": {
                       color: hasError || isIncomplete ? "#ffde59" : "white",
                       position: "absolute",
                       pointerEvents: "none",
-                      marginTop: error ? "12px" : marginTop(),
+                      marginTop: error ? "12px" : labelMarginTop(),
                       "&.Mui-focused": {
                         marginTop: "12px",
-                        color: hasError ? "#ffde59" : "white",
+                        color: hasError ? "cyan" : "white", // Change label color to cyan on error
                       },
                     },
                     "& .MuiSvgIcon-fontSizeMedium": {
@@ -124,6 +136,13 @@ const DatePicker: React.FC<DatePickerProps> = ({
                       color: "#ffde59",
                       marginLeft: "5px",
                     },
+                    "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input": {
+                      padding: "5px 16px",
+                      fontSize: "14px",
+                    },
+                    "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "cyan !important", // Force cyan border color on error
+                    },
                   }}
                 />
               </div>
@@ -131,14 +150,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
           );
         }}
       </Field>
-      <span
-        style={{
-          color: "#FFDE59",
-          fontSize: "0.875rem",
-        }}
-      >
-        <ErrorMessage name={name} component="span" />
-      </span>
+      <ErrorMessage
+        name={name}
+        component="div"
+        className={`text-[11px] ${authFlow ? "text-yellow-400" : "text-red-500"}`}
+      />
     </div>
   );
 };

@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 // } from "@stripe/react-stripe-js";
 // assets import
 import TikTok from "../assets/images/TikTok.svg";
-import aceCampLogo from "../assets/images/logo (1).png";
+import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
@@ -33,6 +33,7 @@ import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pd
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 
 import { viewPdf } from "../utils/downloadUtils";
+import AppleSignInButton from "../components/social-login/AppleSignInButton";
 
 const Register: React.FC = () => {
   // const stripe = useStripe();
@@ -111,13 +112,22 @@ const Register: React.FC = () => {
       "You must agree to the Terms and Conditions to proceed",
     ),
     phone: Yup.string().required("Phone is Required"),
-    dateOfBirth: Yup.date()
-      .nullable() // Allows the field to be empty (null)
+    dateOfBirth: Yup.string()
+      .nullable() // Allow null values
       .test(
-        "not-future-date",
-        "Date cannot be in the future",
-        (value) => !value || moment(value).isSameOrBefore(moment(), "day"),
-      ),
+        "valid-date",
+        "Invalid date. Expected format: MM/DD/YYYY",
+        (value) => {
+          // Check if the value is non-null and valid
+          if (!value) return true; // If the value is null or empty, don't validate the format
+          return moment(value, "MM/DD/YYYY", true).isValid(); // Validate the date using MM/DD/YYYY format
+        },
+      )
+      .test("not-future", "Date cannot be in the future", (value) => {
+        // Ensure the date is not in the future
+        if (!value) return true; // If value is empty or null, don't validate future date
+        return moment(value, "MM/DD/YYYY").isSameOrBefore(moment(), "day");
+      }),
   });
 
   // const [cardError, setCardError] = useState<string | null>(null);
@@ -225,9 +235,9 @@ const Register: React.FC = () => {
   return (
     <>
       {!showOtpScreen && !showSuccessScreen && (
-        <div className="bg-back-600 my-10 flex h-auto w-full flex-col items-center rounded-xl border p-2 md:w-full md:p-4">
-          <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
-          <div className="flex gap-5">
+        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
+          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+          {/* <div className="flex gap-5">
             <InstagramLoginComponent />
             <FacebookLoginComponent
               appId="490090883627586"
@@ -235,338 +245,316 @@ const Register: React.FC = () => {
             />
             <img src={TikTok} alt="" />
             <GoogleLoginComponent />
-          </div>
-          <h2
-            className={`my my-5 py-2 text-[13px] font-semibold text-primaryText`}
-          >
-            -OR-
-          </h2>
+          </div> */}
+
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting }) => (
-              <Form className="w-full max-w-md">
-                <div className="mb-4 flex gap-4">
-                  <div className="flex w-1/2 flex-col pr-2">
+            {({ isSubmitting, errors, values }) => {
+              console.log("values", values);
+              return (
+                <Form className="w-full max-w-md">
+                  <div className="flex gap-2">
+                    <div className="flex w-1/2 flex-col">
+                      <FormikControl
+                        label=" First Name"
+                        name="firstName"
+                        control="input"
+                        className="w-full"
+                        placeholder=" Your First Name"
+                        type="text"
+                        required={true}
+                        authFlow={true}
+                      />
+                    </div>
+                    <div className="flex w-1/2 flex-col">
+                      <FormikControl
+                        label=" Last Name"
+                        name="lastName"
+                        control="input"
+                        className="w-full"
+                        placeholder=" Your Last Name"
+                        type="text"
+                        required={true}
+                        authFlow={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="">
                     <FormikControl
-                      label=" First Name"
-                      name="firstName"
+                      label=" Username"
+                      name="username"
                       control="input"
                       className="w-full"
-                      placeholder=" Your First Name"
+                      placeholder=" Your Username"
                       type="text"
                       required={true}
+                      maxLength={25}
+                      validateRegex={ALPHANUMERIC_REGEX}
                       authFlow={true}
                     />
                   </div>
-                  <div className="flex w-1/2 flex-col pl-2">
+                  <div className="mb-4">
                     <FormikControl
-                      label=" Last Name"
-                      name="lastName"
+                      label=" Password"
+                      name="password"
                       control="input"
                       className="w-full"
-                      placeholder=" Your Last Name"
-                      type="text"
+                      placeholder=" Your Password"
+                      type="password"
                       required={true}
+                      maxLength={25}
                       authFlow={true}
                     />
                   </div>
-                </div>
-                <div className="mb-4">
-                  <FormikControl
-                    label=" Username"
-                    name="username"
-                    control="input"
-                    className="w-full"
-                    placeholder=" Your Username"
-                    type="text"
-                    required={true}
-                    maxLength={25}
-                    validateRegex={ALPHANUMERIC_REGEX}
-                    authFlow={true}
-                  />
-                </div>
-                <div className="mb-4">
-                  <FormikControl
-                    label=" Password"
-                    name="password"
-                    control="input"
-                    className="w-full"
-                    placeholder=" Your Password"
-                    type="password"
-                    required={true}
-                    maxLength={25}
-                    authFlow={true}
-                  />
-                </div>
-                <div className="mb-4">
-                  <FormikControl
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    control="input"
-                    className="w-full"
-                    placeholder="Confirm Your Password"
-                    type="password"
-                    required={true}
-                    maxLength={25}
-                    authFlow={true}
-                  />
-                </div>
-                <div className="mb-4">
-                  <FormikControl
-                    label="Date of Birth"
-                    name="dateOfBirth"
-                    control="date"
-                    className="w-full"
-                    placeholder="Date of Birth"
-                    type="date"
-                    maxDate={dayjs()}
-                    authFlow={true}
-                  />
-                </div>
-                <div className="mb-4">
-                  <FormikControl
-                    label="Email"
-                    name="email"
-                    control="input"
-                    className="w-full"
-                    placeholder="Email"
-                    type="text"
-                    required={true}
-                    authFlow={true}
-                    maxLength={256}
-                  />
-                </div>
-                <div className="mb-4 flex">
-                  <div className="flex w-20 pr-2">
+                  <div className="mb-4">
                     <FormikControl
-                      name="countryCode"
+                      label="Confirm Password"
+                      name="confirmPassword"
                       control="input"
                       className="w-full"
-                      type="text"
+                      placeholder="Confirm Your Password"
+                      type="password"
+                      required={true}
+                      maxLength={25}
+                      authFlow={true}
                     />
                   </div>
-                  <div className="flex w-full flex-col pl-2">
+                  <div className="mb-4">
                     <FormikControl
-                      label="Phone"
-                      name="phone"
+                      label="Date of Birth"
+                      name="dateOfBirth"
+                      control="date"
+                      className="w-full"
+                      placeholder="Date of Birth"
+                      type="date"
+                      maxDate={dayjs()}
+                      authFlow={true}
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <FormikControl
+                      label="Email"
+                      name="email"
+                      control="input"
+                      className="w-full"
+                      placeholder="Email"
+                      type="text"
+                      required={true}
+                      authFlow={true}
+                      maxLength={256}
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-20 pr-2">
+                      <FormikControl
+                        authFlow={true}
+                        label="Phone"
+                        name="countryCode"
+                        control="input"
+                        className="w-full"
+                        type="text"
+                        required={true}
+                      />
+                    </div>
+                    <div className="flex w-full flex-col">
+                      <FormikControl
+                        label="&nbsp;"
+                        name="phone"
+                        control="number"
+                        className="w-full"
+                        placeholder="Phone"
+                        // required={true}
+                        authFlow={true}
+                        maxLength={10}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <FormikControl
+                      label="GHIN (Optional)"
+                      Placeholder="GHIN"
+                      name="ghin"
                       control="number"
                       className="w-full"
-                      placeholder="Phone"
-                      required={true}
-                      authFlow={true}
-                      maxLength={10}
+                      placeholder="GHIN"
                     />
-                    <p className="-mt-4 w-full text-[11px] font-semibold text-yellowText">
-                      (By providing your phone number, you agree to receive text
-                      messages from AceCam Golf LLC. Message and data rates may
-                      apply.)
-                    </p>
                   </div>
-                </div>
-                <div className="mb-4">
-                  <FormikControl
-                    label="GHIN (Optional)"
-                    name="ghin"
-                    control="number"
-                    className="w-full"
-                    placeholder="GHIN"
-                  />
-                </div>
 
-                <div className="mx-auto max-w-md">
-                  {/* <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
-                    Card Information
-                  </h2>
-                  <div className="mb-4 flex flex-col">
-                    <div
-                      className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
-                        cardTouched && cardError
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      <CardNumberElement
-                        options={{
-                          placeholder: "Card Number",
-                          style: {
-                            base: {
-                              fontSize: "16px",
-                              color: "#fff",
-                              "::placeholder": {
+                  <div className="mx-auto max-w-md">
+                    {/* <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
+                      Card Information
+                    </h2>
+                    <div className="mb-4 flex flex-col">
+                      <div
+                        className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
+                          cardTouched && cardError
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        <CardNumberElement
+                          options={{
+                            placeholder: "Card Number",
+                            style: {
+                              base: {
+                                fontSize: "16px",
                                 color: "#fff",
+                                "::placeholder": {
+                                  color: "#fff",
+                                },
+                              },
+                              invalid: {
+                                color: "red",
                               },
                             },
-                            invalid: {
-                              color: "red",
-                            },
-                          },
-                        }}
-                      />
-                    </div>
-
-                    <div
-                      className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
-                        cardTouched && cardError
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      <CardExpiryElement
-                        options={{
-                          placeholder: "Expiry Date",
-                          style: {
-                            base: {
-                              fontSize: "16px",
-                              color: "#fff",
-                              "::placeholder": {
-                                color: "#fff",
-                              },
-                            },
-                            invalid: {
-                              color: "red",
-                            },
-                          },
-                        }}
-                      />
-                    </div>
-                    <div
-                      className={`rounded border-2 bg-black-opacity-50 p-4 ${
-                        cardTouched && cardError
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      <CardCvcElement
-                        options={{
-                          placeholder: "CVV",
-                          style: {
-                            base: {
-                              fontSize: "16px",
-                              color: "#fff",
-                              "::placeholder": {
-                                color: "#fff",
-                              },
-                            },
-                            invalid: {
-                              color: "red",
-                            },
-                          },
-                        }}
-                      />
-                    </div>
-                    {cardTouched && cardError ? (
-                      <div className="mt-2 text-sm text-red-500">
-                        {cardError}
+                          }}
+                        />
                       </div>
-                    ) : null}
-                  </div>
-
-                  <div className="mb-4 flex gap-4"></div>
-                  <div>
-                    <FormikControl
-                      label="Name On Card"
-                      name="nameOnCard"
-                      id="nameOnCard"
-                      control="input"
-                      className="w-full"
-                      placeholder="Enter Your Name"
-                      type="text"
-                    />
-                  </div> */}
-                  <div className="mb-6 flex flex-col">
-                    <label className="inline-flex items-center">
-                      <Field
-                        type="checkbox"
-                        name="acceptTerms"
-                        className="form-checkbox h-4 w-4 leading-tight text-blue-400"
+  
+                      <div
+                        className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
+                          cardTouched && cardError
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        <CardExpiryElement
+                          options={{
+                            placeholder: "Expiry Date",
+                            style: {
+                              base: {
+                                fontSize: "16px",
+                                color: "#fff",
+                                "::placeholder": {
+                                  color: "#fff",
+                                },
+                              },
+                              invalid: {
+                                color: "red",
+                              },
+                            },
+                          }}
+                        />
+                      </div>
+                      <div
+                        className={`rounded border-2 bg-black-opacity-50 p-4 ${
+                          cardTouched && cardError
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        <CardCvcElement
+                          options={{
+                            placeholder: "CVV",
+                            style: {
+                              base: {
+                                fontSize: "16px",
+                                color: "#fff",
+                                "::placeholder": {
+                                  color: "#fff",
+                                },
+                              },
+                              invalid: {
+                                color: "red",
+                              },
+                            },
+                          }}
+                        />
+                      </div>
+                      {cardTouched && cardError ? (
+                        <div className="mt-2 text-sm text-red-500">
+                          {cardError}
+                        </div>
+                      ) : null}
+                    </div>
+  
+                    <div className="mb-4 flex gap-4"></div>
+                    <div>
+                      <FormikControl
+                        label="Name On Card"
+                        name="nameOnCard"
+                        id="nameOnCard"
+                        control="input"
+                        className="w-full"
+                        placeholder="Enter Your Name"
+                        type="text"
                       />
-                      <span className={`ml-2 text-primaryText`}>
-                        Agreeing to{" "}
-                        <Link
-                          onClick={downloadTermsAndConditionsFunc}
-                          className={`px-1 text-sm text-link underline hover:underline`}
-                          to=""
-                        >
-                          Terms and Conditions
-                        </Link>
-                        of the contest
+                    </div> */}
+                    <div className="mb-6 flex flex-col">
+                      <label className="inline-flex items-center">
+                        <Field
+                          type="checkbox"
+                          name="acceptTerms"
+                          className="form-checkbox -mt-[1rem] h-4 w-4 leading-tight text-blue-400"
+                        />
+                        <span className={`ml-2 text-[13px] text-primaryText`}>
+                          Agreeing to{" "}
+                          <Link
+                            onClick={downloadTermsAndConditionsFunc}
+                            className={`px-1 text-[13px] text-link underline hover:underline`}
+                            to=""
+                          >
+                            Terms and Conditions
+                          </Link>
+                          of the contest
+                        </span>
+                      </label>
+                      <span
+                        style={{
+                          color: "#FFDE59",
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        <ErrorMessage
+                          name="acceptTerms"
+                          component="div"
+                          className="text-[13px]"
+                        />
                       </span>
-                    </label>
-                    <span
-                      style={{
-                        color: "#FFDE59",
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      <ErrorMessage name="acceptTerms" component="span" />
-                    </span>
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  type="submit"
-                  className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
-                  disabled={isSubmitting}
-                >
-                  Create Account
-                </button>
+                  <div className="flex justify-center">
+                    <button
+                      type="submit"
+                      className={`w-[200px] rounded-[12px] border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
+                      disabled={isSubmitting}
+                    >
+                      Create Account
+                    </button>
+                  </div>
 
-                <p
-                  className={`mb-6 mt-2 text-center text-primaryText md:text-left`}
-                >
-                  Already have an account?{" "}
-                  <Link
-                    to={ROUTES.LOGIN}
-                    className={`text-sm text-link hover:underline`}
+                  <p
+                    className={`mb-6 mt-2 text-center text-primaryText md:text-left`}
                   >
-                    Login
-                  </Link>
-                </p>
-              </Form>
-            )}
+                    Already have an account?{" "}
+                    <Link
+                      to={ROUTES.LOGIN}
+                      className={`text-sm text-link hover:underline`}
+                    >
+                      Login
+                    </Link>
+                  </p>
+                </Form>
+              );
+            }}
           </Formik>
-
-          <div>
-            <div className="fixed bottom-14 right-[20px] hidden h-0.5 w-[17%] items-end md:flex">
-              <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">
-                <p
-                  onClick={downloadTermsAndConditionsFunc}
-                  className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-                >
-                  Terms and Conditions
-                </p>{" "}
-                <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                  |
-                </p>{" "}
-                <p
-                  className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-                  onClick={downloadPrivacyPolicyFunc}
-                >
-                  {" "}
-                  Privacy Policy
-                </p>
-                <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                  |
-                </p>{" "}
-                <p
-                  className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-                >
-                  <a href="mailto:support@acecamgolf.com">Contact Us</a>
-                </p>
-              </div>
-            </div>
-            <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
-              <div className="right-1 top-[1px] flex md:absolute">
-                <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                  © 2024 AceCam
-                  <sup className="text-[8px]">TM&nbsp;</sup>{" "}
-                  {/* <span className="align-super text-xs">™&nbsp;</span> */}
-                  Golf, LLC. All rights reserved.
-                </p>
-              </div>
+          <div className="w-full">
+            <p className="mt-[10px] text-center text-[14px] text-white">
+              - or sign in using -{" "}
+            </p>
+            <div className="mt-[10px] flex w-full items-center justify-between">
+              <InstagramLoginComponent />
+              <FacebookLoginComponent
+                appId="490090883627586"
+                redirectUri={API_URL.fbRedirectUI}
+              />
+              <img src={TikTok} alt="" />
+              <GoogleLoginComponent />
+              <AppleSignInButton />
             </div>
           </div>
         </div>

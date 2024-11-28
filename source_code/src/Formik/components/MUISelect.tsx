@@ -59,7 +59,7 @@ const MUISelect: React.FC<SelectProps> = ({
 }) => {
   const renderedOptions = useMemo(
     () =>
-      options.map((option) => (
+      options?.map((option) => (
         <MenuItem key={option.value} value={option.value}>
           {option.key} {skipCode ? "" : (option.code ?? "")}
         </MenuItem>

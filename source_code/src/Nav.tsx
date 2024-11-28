@@ -179,7 +179,9 @@ const Nav: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getAllNotification();
+    if(userPermisions?.data?.permission["is_player"]){
+      getAllNotification();
+    }
   }, [location.pathname]);
 
   function countUnreadNotifications(notifications: Notification[]): number {

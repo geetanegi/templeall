@@ -277,7 +277,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 {title}
               </p>
             </span>
-            {status === "PENDING" ? (
+            {status === "Pending" ? (
               <div className="flex w-[70px] items-center bg-[#FFFFFF1A] px-2">
                 <CircleEllipsis size={12} color="#FD8A02" />
                 <span className="ml-1 text-[11px] text-[#FD8A02]">Pending</span>
@@ -297,7 +297,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                   >
                     <LockKeyholeOpen size={12} />
                     <span>
-                      {requestVideoPayload?.status === "REJECT"
+                      {requestVideoPayload?.status === "Reject"
                         ? "Re-Request Video"
                         : "Request Video"}{" "}
                     </span>

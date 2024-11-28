@@ -19,6 +19,7 @@ interface getVideosListPayloadType {
   playerId?: number | string | undefined;
   date?: string;
   searchParams?: searchParams;
+  zoneId?: string,
 }
 
 interface searchParams {
@@ -81,7 +82,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   useEffect(() => {
     if (filterValue === "SOTW") {
-      makeApiCall(API_URL.getAllShotOfTheWeek);
+      makeApiCall(API_URL.getPlayerShotOfTheWeek);
     } else if (filterValue === "WIN") {
       makeApiCall(API_URL.getAllPlayerWinnerVideos);
     } else {
@@ -136,7 +137,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     } else {
       if (selectedTab === 3) {
         const searchParams = {
-          status: "APPROVED",
           "playerUser.id":
             typeof userInfo === "object" ? userInfo.userId : undefined,
         };
@@ -157,6 +157,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           ...payload,
           date: moment().utc().format("YYYY-MM-DD"),
           playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
+          zoneId: timeZone,
         };
         if (filterValue) {
           payload = {
@@ -168,8 +169,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         }
       } else if (selectedTab === 1) {
         const searchParams = {
-          status: "APPROVED",
-          isPublished: true,
           "playerUser.id":
             typeof userInfo === "object" ? userInfo.userId : undefined,
         };

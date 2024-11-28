@@ -1,39 +1,41 @@
 import React from 'react'
 import Modal from '../ModalComponent'
-import { CircleCheck, ClipboardX, Trash2 } from 'lucide-react';
-
+import { CircleCheck, Trash2 } from 'lucide-react';
+import Discard from '../../assets/images/Discard.svg';
 interface ConfirmationModalProps {
-    type:string;
-    confirmationText: string;
-    isOpen:boolean;
-    onClose:(flag: boolean)=>void
-    onOk:()=>void;
-    buttonTxt?:boolean
-    
+  type: string;
+  confirmationText: string;
+  isOpen: boolean;
+  onClose: (flag: boolean) => void
+  onOk: () => void;
+  buttonTxt?: boolean
+
 }
 
-const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, buttonTxt, confirmationText, isOpen, onClose, onOk }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ type, buttonTxt, confirmationText, isOpen, onClose, onOk }) => {
   return (
     <div>
-        <Modal
+      <Modal
         isOpen={isOpen}
         onClose={() => onClose(false)}
-        title="Confirmation"
-        >
-            <>
+        title={type === 'remove' ? 'Discard Comment' : type === 'delete' ? 'Delete Comment' : 'Confirmation'}
+      >
+        <>
           <div className="mb-6 w-full items-center justify-center rounded-bl-lg rounded-br-lg px-6 text-center md:w-[480px]">
             {
-                type ==="success" ? 
-                <CircleCheck className="m mx-auto mb-6 h-[38px] w-[38px] rounded-full bg-[#248A3D59] p-2" /> : 
-                type == "remove" ? <ClipboardX className='m mx-auto mb-6 h-[50px] border-4 border-[#FF3B3026] shadow-lg w-[50px] rounded-full bg-[#FF3B3059] p-2 text-[#FF3B30]' /> :
-                <Trash2 className="m mx-auto mb-6 h-[50px] border-4 border-[#FF3B3026] shadow-lg w-[50px] rounded-full bg-[#FF3B3059] p-2 text-[#FF3B30]"
-                /> 
+              type === "success" ?
+                <CircleCheck className="m mx-auto mb-6 h-[38px] w-[38px] rounded-full bg-[#248A3D59] p-2" /> :
+                type == "remove" ?
+                  <img src={Discard} alt="" className="m mx-auto h-[50px] w-[50px] p-2  mb-2 " />
+                  :
+                  <Trash2 className="m mx-auto mb-6 h-[50px] border-4 border-[#FF3B3026] shadow-lg w-[50px] rounded-full bg-[#FF3B3059] p-2 text-[#FF3B30]"
+                  />
             }
-            <p className="text-center">
+            <p className="text-center font-[16px] text-[#1D1A0C] font-light">
               {confirmationText}
             </p>
           </div>
-          <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
+          <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-4 md:w-[480px]">
             <button
               type="button"
               onClick={() => onClose(false)}
@@ -46,13 +48,13 @@ const ConfirmationModal:React.FC<ConfirmationModalProps> = ({type, buttonTxt, co
             <button
               type="submit"
               onClick={() => onOk()}
-              className="w-32 rounded-md bg-[#95c11e] py-2 text-white"
+              className="w-32 rounded-md bg-primaryColor py-2 text-white"
             >
-              {buttonTxt ?  "Delete" : "Yes"}
+              {buttonTxt ? "Delete" : "Yes"}
             </button>
           </div>
-        </> 
-        </Modal>
+        </>
+      </Modal>
     </div>
   )
 }

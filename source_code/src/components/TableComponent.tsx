@@ -130,7 +130,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
           </div>
         )}
         {pagination ? (
-          <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
+          <div className="mt-4 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
             <div className="flex items-center justify-center">
               <div>Showing results {currentPage * 10 + 1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
             </div>

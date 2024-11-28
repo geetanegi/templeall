@@ -19,6 +19,7 @@ interface getVideosListPayloadType {
   playerId?: number | string | undefined;
   date?: string;
   searchParams?: searchParams;
+  zoneId?: string,
 }
 
 interface searchParams {
@@ -81,7 +82,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   useEffect(() => {
     if (filterValue === "SOTW") {
-      makeApiCall(API_URL.getAllShotOfTheWeek);
+      makeApiCall(API_URL.getPlayerShotOfTheWeek);
     } else if (filterValue === "WIN") {
       makeApiCall(API_URL.getAllPlayerWinnerVideos);
     } else {
@@ -136,7 +137,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
     } else {
       if (selectedTab === 3) {
         const searchParams = {
-          status: "APPROVED",
           "playerUser.id":
             typeof userInfo === "object" ? userInfo.userId : undefined,
         };
@@ -157,6 +157,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           ...payload,
           date: moment().utc().format("YYYY-MM-DD"),
           playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
+          zoneId: timeZone,
         };
         if (filterValue) {
           payload = {
@@ -168,8 +169,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         }
       } else if (selectedTab === 1) {
         const searchParams = {
-          status: "APPROVED",
-          isPublished: true,
           "playerUser.id":
             typeof userInfo === "object" ? userInfo.userId : undefined,
         };
@@ -219,14 +218,14 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   };
 
   return (
-    <div className="h-full min-h-[100vh] bg-[#ffffff] bg-fixed px-10 pb-10">
+    <div className=" bg-[#ffffff] bg-fixed px-5 pb-10">
       <div className="flex justify-between pt-5">
         <div
-          className="flex h-[45px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
+          className="flex h-[40px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
           style={{ width: "max-content" }}
         >
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 1 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 1 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(1);
@@ -236,7 +235,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
               className={`mr-2 h-[16px] w-[16px] ${selectedTab === 1 ? "text-[#ffffff]" : "text-[#7B7887]"}`}
             />
             Published Highlights
-            <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
+            <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] font-semibold">
               {selectedTab === 1 && filterValue
                 ? allVideos.length
                 : highlightsCounts.published || 0}
@@ -315,7 +314,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                     uploadDate={moment
                       .utc(videoData?.startTime)
                       .local()
-                      .format("DD/MM/YYYY")}
+                      .format("MM/DD/YYYY")}
                     title={videoData?.contestType}
                     status={videoData?.status}
                     clubName={videoData?.club?.name || ""}

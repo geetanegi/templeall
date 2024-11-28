@@ -373,9 +373,9 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     );
 
     return (
-      <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
-        <div className="mb-4 flex flex-col justify-between md:flex-row">
-          <div className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]">
+      <div className="flex-1  md:flex-[0.75] pl-[24px] lg:flex-[0.75] xl:flex-[0.75]">
+        <div className=" flex flex-col justify-between md:flex-row">
+          <div className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2  md:mt-0 md:w-[320px]">
             <input
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
@@ -403,7 +403,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           </div>
           {!isCourseAdmin && selectedUserTab != 3 && (
             <button
-              className="mt-4 flex gap-2 rounded-md bg-primaryColor px-4 py-2 text-white md:mr-2 md:mt-0 md:px-6"
+              className="mt-4 flex gap-2 rounded-md bg-primaryColor px-4 py-2 text-white md:mt-0 md:px-6"
               onClick={() => openModal("", 0)}
             >
               <Plus /> {selectedUserTab === 2 ? "Course Admin" : "Super Admin"}

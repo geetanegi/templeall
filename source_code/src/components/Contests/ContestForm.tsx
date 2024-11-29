@@ -109,9 +109,18 @@ const ContestForm: React.FC<ContestProps> = ({
         <div className="">
           <MUISelect
             label="Contest Type"
-            name="contestTypeId"
+            name="contestType"
             required={true}
-            options={contestTypeOptions|| []}
+            options={[
+              {
+                key: "AceCam-Jackpot",
+                value: "ACE_CAM_JACKPOT",
+              },
+              {
+                key: "Closest-to-the-Pin",
+                value: "CLOSEST_TO_THE_PIN",
+              },
+            ]}
             disabled={isUpdateContest ? true : false || isSuperAdmin}
           />
         </div>

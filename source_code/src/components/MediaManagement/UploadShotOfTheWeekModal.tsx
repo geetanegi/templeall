@@ -37,7 +37,7 @@ const initialValue = {
   course: "",
   hole: "",
   tee: "",
-  contestTypeId: "",
+  contestType: "",
   dateTime: "",
   videoUrl: "",
   username: "",
@@ -54,7 +54,7 @@ const validationSchema = Yup.object({
   course: Yup.string().required("Course must be selected"),
   hole: Yup.string().required("Hole must be selected"),
   tee: Yup.string().required("Tee must be selected"),
-  contestTypeId: Yup.string().required("Contest Name must be selected"),
+  contestType: Yup.string().required("Contest Name must be selected"),
   dateTime: Yup.string().required("Date and Time must be selected"),
   username: Yup.string().required("Username is required"),
 });
@@ -257,7 +257,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             const data1 = {
               data: {
                 dateTime: ensureUTC(values.dateTime || ""),
-                contestTypeId: values.contestTypeId,
+                contestType: values.contestType,
                 club: values.club,
                 course: values.course,
                 hole: values.hole,
@@ -464,12 +464,18 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                       <div className="mb-3 px-5">
                         <MUISelect
                           label="Contest Type"
-                          name="contestTypeId"
+                          name="contestType"
                           required={true}
-                          options={contestTypeOptions?.map((item) => ({
-                            value: item.id,
-                            key: item.type,
-                          })) || []}
+                          options={[
+                            {
+                              key: "AceCam-Jackpot",
+                              value: "ACE_CAM_JACKPOT",
+                            },
+                            {
+                              key: "Closest-to-the-Pin",
+                              value: "CLOSEST_TO_THE_PIN",
+                            },
+                          ]}
                         />
                       </div>
                       <div className="px-5">

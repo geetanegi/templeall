@@ -22,7 +22,6 @@ import {
   HoleListResponse,
 } from "../AdminPanel/courses/courses.interface";
 import { setLoading } from "../../reducers/loader/loader";
-import { getFilters } from "../../utils/genericApiCalls";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -50,7 +49,7 @@ const ContestManagement = () => {
   const [totalElement, setTotalElement] = useState<number>(10);
   const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<any>(0);
-  const [currentStatus, setCurrentStatus] = useState<boolean | null>(null);
+  const [currentStatus, setCurrentStatus] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedId, setSetselectedId] = useState<number | null>(null);
   const [selectedContestType, setSelectedContestType] = useState<string | null>(
@@ -61,9 +60,8 @@ const ContestManagement = () => {
   const [selectedHoles, setSelectedHoles] = useState<string>("");
   const [selectedCourse, setSelectedCourse] = useState<{
     name: string;
-    id: number | string;
-  } | null>(null);
-  const [filterByContest, setFilterByContest] = useState<any>([])
+    id: number;
+  }>({ name: "", id: 1 });
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -105,14 +103,8 @@ const ContestManagement = () => {
   };
 
   useEffect(() => {
-    fetchContestList();
-
-  }, [selectedHoles, selectedCourse, currentStatus, selectedContestType, currentPage]);
-
-  useEffect(() => {
-    getFilters("contest_type", setFilterByContest)
     fetchCourseList();
-  }, [])
+  }, [selectedHoles, selectedCourse, currentStatus, selectedContestType]);
 
   useEffect(() => {
     if (selectedCourse) {
@@ -123,13 +115,7 @@ const ContestManagement = () => {
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const courseId: number | string = event.target.value
-    if (courseId) {
-      const courseName = courses?.data?.filter((course) => course.id === Number(courseId))[0]?.courseName
-      setSelectedCourse({ name: String(courseName), id: event.target.value });
-    } else {
-      setSelectedCourse(null);
-    }
+    setSelectedCourse({ name: event.target.value, id: 1 });
     setCurrentPage(0);
     setHolesList(null); // Reset holesList to null when course changes
     setSelectedHoles(""); // Reset selectedHoles to an empty array
@@ -154,25 +140,40 @@ const ContestManagement = () => {
     data: any;
   }
 
+  useEffect(() => {
+    fetchContestList();
+  }, [currentStatus, selectedContestType, selectedCourse, selectedHoles]);
 
+  useEffect(() => {
+    fetchContestList();
+  }, [pageSize, currentPage]);
 
   useEffect(() => {
     setRowData(computeTableData(totalAdminCount));
   }, [totalAdminCount]);
 
-  const getStatus = (status: boolean) => {
-    if (status) {
+  const getStatus = (status: string) => {
+    if (status == "Active") {
       return (
         <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#97D0A533] py-0.5 text-[#248A3D]">
           <MdSportsGolf className="size-5" />
-          <span className="text-xs">{status && "Active"}</span>
+          <span className="text-xs">{status}</span>
         </div>
       );
-    } else {
+    }
+    if (status == "Inactive") {
       return (
         <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#D0D0D033] py-1 text-[#8E8E8E]">
           <Ban height={15} width={15} />
-          <span className="text-xs">{!status && "Inactive"}</span>
+          <span className="text-xs">{status}</span>
+        </div>
+      );
+    }
+    if (status == "Completed") {
+      return (
+        <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#97D0A533] py-1 text-[#248A3D]">
+          <CircleCheck height={15} width={15} />
+          <span className="text-xs">{status}</span>
         </div>
       );
     }
@@ -205,10 +206,10 @@ const ContestManagement = () => {
     return data;
   };
 
-  const isCompleted = (status: boolean, id: number) => {
+  const isCompleted = (status: string, id: number) => {
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
-        <button style={{ color: "rgb(4, 98, 33)" }}>
+        <button style={{ color: "#95c11e" }}>
           <SquarePen
             strokeWidth={1}
             onClick={() => {
@@ -220,7 +221,7 @@ const ContestManagement = () => {
           />
         </button>
         <SwitchComponent
-          isChecked={status}
+          isChecked={status === "Active" ? true : false}
           id={id}
           onChange={(newStatus: any, revert: any) =>
             updateContestStatus(id, newStatus, revert)
@@ -230,12 +231,13 @@ const ContestManagement = () => {
     );
   };
 
-  const updateActiveStatus = (id: number | string, newStatus: boolean) => {
+  const updateActiveStatus = (id: number | string, newStatus: string) => {
+    const status = newStatus === "AC" ? "Active" : "Inactive";
     const newData = totalAdminCount.map((contest: any) => {
       if (contest.id === id) {
         return {
           ...contest,
-          activeStatus: newStatus,
+          activeStatus: status,
         };
       }
       return contest;
@@ -250,9 +252,9 @@ const ContestManagement = () => {
       res = await apiService.post<ContestApiResponse>(API_URL.getAllContests, {
         data: {
           searchParams: {
-            contestTypeId: selectedContestType || null,
-            activeStatus: currentStatus,
-            courseName: selectedCourse?.name || null,
+            contestType: selectedContestType || null,
+            activeStatus: currentStatus || null,
+            courseName: selectedCourse.name || null,
             holeNumbers: selectedHoles.length ? selectedHoles : null,
           },
           pageSortingParam: {
@@ -279,6 +281,14 @@ const ContestManagement = () => {
     }
   };
 
+  const mapStatusToBackend = (status: boolean) => {
+    if (status) {
+      return "AC"; // Backend expects 'DE' for Inactive
+    } else {
+      return "DE"; // Backend expects 'AC' for Active
+    }
+  };
+
   const updateContestStatus = async (
     id: number,
     status: boolean,
@@ -286,7 +296,7 @@ const ContestManagement = () => {
   ) => {
     try {
       dispatch(setLoading(true));
-      const newStatus = status;
+      const newStatus = mapStatusToBackend(status);
 
       const res = await apiService.post<any>(API_URL.updateStatusContest, {
         data: {
@@ -320,35 +330,29 @@ const ContestManagement = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
-  const statusFilters = {
-    "Filter by Status": null,
-    "Active": true,
-    "Inactive": false,
-  }
-
   return (
     <div
-      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat  p-[24px] md:flex-row"
+      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat pb-10 pt-10 md:flex-row"
       style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
     >
-      <div className="flex-1  md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
+      <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between gap-2">
             <select
               id="courses"
               style={{ marginLeft: "5px" }}
-              value={String(currentStatus)}
               className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:ml-2 md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
-                const value = e.target.value === "true" ? true : e.target.value === "false" ? false : null;
-                setCurrentStatus(value);
+                setCurrentStatus(e.target.value);
               }} // Update selected status
-            > {
-                Object.entries(statusFilters).map(([key, value]) => (
-                  <option value={String(value)} key={key} onClick={() => setCurrentStatus(value)}>{key}</option>
-                ))
-              }
+            >
+              <option value="" selected>
+                Filter by Status
+              </option>
+              <option value="Inactive">Inactive</option>
+              <option value="Active">Active</option>
+              <option value="Completed">Completed</option>
             </select>
             <select
               id="courses"
@@ -361,11 +365,8 @@ const ContestManagement = () => {
               <option value="" selected>
                 Filter by Contests
               </option>
-              {
-                filterByContest.map((filter: { id: number | string, type: string }) => (
-                  <option value={filter.id}>{filter.type}</option>
-                ))
-              }
+              <option value="AceCam-Jackpot">AceCam-Jackpot</option>
+              <option value="Closest-to-the-Pin">Closest-to-the-Pin</option>
             </select>
             <select
               id="courses"
@@ -374,7 +375,7 @@ const ContestManagement = () => {
             >
               <option value="">Filter by Courses</option>
               {courses?.data.map((course) => (
-                <option key={course.id} value={course.id}>
+                <option key={course.id} value={course.courseName}>
                   {course.courseName}
                 </option>
               ))}
@@ -388,7 +389,7 @@ const ContestManagement = () => {
               }
               maxDisplayCount={2}
               label="Filter by Holes"
-              disabled={selectedCourse ? false : true}
+              // disabled={selectedCourse ? false : true}
               onChange={handleSelectedValuesChange}
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />

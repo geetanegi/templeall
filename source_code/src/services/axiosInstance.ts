@@ -6,9 +6,9 @@ import { logout } from "../reducers/login/login";
 import { resetCourseState } from "../reducers/Courses_data/courses";
 
 const axiosInstance = axios.create({
-  // baseURL: "https://test.acecamgolf.com/api/", // Test env
+  baseURL: "https://test.acecamgolf.com/api/", // Test env
   //  baseURL: "http://10.95.4.121:8081/"    //dev env
-  baseURL: "https://dev.acecamgolf.com/api/",
+  // baseURL: "https://dev.acecamgolf.com/api/",
   // baseURL: "/api/",
 });
 

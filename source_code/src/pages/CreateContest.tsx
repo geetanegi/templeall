@@ -36,7 +36,7 @@ import { getFilters } from "../utils/genericApiCalls";
 // }
 
 interface ContestFormValues {
-  contestTypeId: string | number;
+  contestType: string | number;
   clubName: string;
   courseName: string;
   holesName: string;
@@ -60,7 +60,7 @@ interface ContestFormValues {
 
 // import * as Yup from 'yup';
 const validationSchema = Yup.object({
-  contestTypeId: Yup.string().required("This field is mandatory."),
+  contestType: Yup.string().required("This field is mandatory."),
   clubName: Yup.string().required("This field is mandatory."),
   courseName: Yup.string().required("This field is mandatory."),
   holesName: Yup.string().required("This field is mandatory."),
@@ -209,7 +209,7 @@ const CreateContest: React.FC = () => {
   const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
-    contestTypeId: editData?.contestTypeId || "",
+    contestType: editData?.contestType || "",
     clubName: editData?.club.id || "",
     courseName: editData?.course?.id || "",
     holesName: editData?.hole?.id || "",
@@ -460,7 +460,7 @@ const CreateContest: React.FC = () => {
         timeZone: tz,
         id: id ? id : null,
         name: "Test contest 99",
-        contestTypeId: values.contestTypeId,
+        contestType: values.contestType,
         clubId: values.clubName,
         courseId: values.courseName,
         holeId: values.holesName,

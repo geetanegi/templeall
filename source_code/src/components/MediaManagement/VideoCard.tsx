@@ -490,7 +490,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           {isApproved ? (
             <div className="absolute bottom-0 w-full">
               <div className="flex h-4 w-full items-center justify-between bg-[#0000009D] px-3 text-[10px]">
-                <span>{requestVideoPayload.type === "SOTW" || requestVideoPayload.type === "WIN" ? computeCategory() : requestVideoPayload.videoCategory}</span>
+                <span>{computeCategory()}</span>
                 <span className="ml-auto text-[10px] text-[#FFFFFF]">
                   <span className="mr-[10px]">|</span>
                   {duration ? Math.floor(duration * 100) / 100 : ""}

@@ -14,7 +14,7 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { setCourseData } from "../../reducers/Courses_data/courses";
 import { setLoading } from "../../reducers/loader/loader";
 import RejectConfirmationModal from "./RejectConfirmationModal";
-// import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
+import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 import { getFilters } from "../../utils/genericApiCalls";
 
@@ -70,17 +70,17 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     fetchCourseData();
   }, []);
 
-  const computeFilterDropDown = (selectedTab: number) => {
-    if (selectedTab === 1) {
-      getFilters("contest_type", setFilterArray);
-    }else if(selectedTab === 2){
-      getFilters("request_status", setFilterArray);
-    }
-  };
+  // const computeFilterDropDown = (selectedTab: number) => {
+  //   if (selectedTab === 1) {
+  //     getFilters("contest_type", setFilterArray);
+  //   }else if(selectedTab === 2){
+  //     getFilters("request_status", setFilterArray);
+  //   }
+  // };
 
-  useEffect(() => {
-    computeFilterDropDown(selectedTab);
-  }, [selectedTab]);
+  // useEffect(() => {
+  //   computeFilterDropDown(selectedTab);
+  // }, [selectedTab]);
 
   const getAllMediaCounts = async () => {
     try {
@@ -283,13 +283,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 >
                   All videos
                 </option>
-                {filterArray?.map((filter) => {
+                {computeFilterDropDown(selectedTab, "SuperAdmin")?.map((filter) => {
                   return (
                     <option
-                      key={filter.id}   
-                      value={filter.id}
+                      key={filter.key}   
+                      value={filter.key}
                     >
-                      {filter.displayName}
+                      {filter.name}
                     </option>
                   );
                 })}

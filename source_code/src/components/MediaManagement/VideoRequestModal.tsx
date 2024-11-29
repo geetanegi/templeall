@@ -122,7 +122,7 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                     *
                   </span>
 
-                  <div className="flex space-x-4">
+                  {/* <div className="flex space-x-4">
                     {videoCategory?.map((category) => (
                       <>
                         <label className="inline-flex items-center">
@@ -138,6 +138,41 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                         </label>
                       </>
                     ))}
+                  </div> */}
+                  <div className="flex space-x-4">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="videoCategory"
+                        value="TOP_SHOT"
+                        checked={selectedOption === "TOP_SHOT"}
+                        onChange={handleTagChange}
+                        className="form-radio text-blue-600"
+                      />
+                      <span className="ml-2 text-[14px]">Top Shot</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="videoCategory"
+                        value="NOT_TOP_SHOT"
+                        checked={selectedOption === "NOT_TOP_SHOT"}
+                        onChange={handleTagChange}
+                        className="form-radio text-blue-600"
+                      />
+                      <span className="ml-2 text-[14px]">Not Top Shot</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="videoCategory"
+                        value="BLOOPERS"
+                        checked={selectedOption === "BLOOPERS"}
+                        onChange={handleTagChange}
+                        className="form-radio text-blue-600"
+                      />
+                      <span className="ml-2 text-[14px]">Blooper</span>
+                    </label>
                   </div>
 
                   <div>

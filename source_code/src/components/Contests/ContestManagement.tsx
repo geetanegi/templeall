@@ -42,7 +42,7 @@ const ContestManagement = () => {
     (state: RootState) => state.auth.userPermissions,
   );
 
-  const isCourseAdmin = userPermisions.data?.permission["is_course_admin"];
+  const isCourseAdmin = userPermisions.data?.permission?.["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);

@@ -324,7 +324,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
-        isCourseAdmin={userPermisions?.data?.permission["is_course_admin"]}
+        isCourseAdmin={userPermisions?.data?.permission?.["is_course_admin"]}
         setIsStatusChange={setIsStatusChange}
         isStatusChange={isStatusChange}
         setDataLength={setDataLength}

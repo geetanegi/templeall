@@ -47,7 +47,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
     const getUserCount = async () => {
       let url = API_URL.getAllCount;
       let payload: Record<string, unknown> = {};
-      if (isCourseAdmin && userPermisions.data?.permission["is_course_admin"]) {
+      if (isCourseAdmin && userPermisions.data?.permission?.["is_course_admin"]) {
         url = API_URL.getCourseAdminByClubId;
         payload = {
           loginUserId:

@@ -42,8 +42,8 @@ const GolfClubInfo: React.FC<GolfClubInfoProps> = ({
     >
       <img
         src={
-          course.imageBase64 !== null
-            ? `data:image/png;base64,${course.imageBase64}`
+          course.imageUrl !== null
+            ? `${course.imageUrl}`
             : link
         }
         alt={course.courseName}

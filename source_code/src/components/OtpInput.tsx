@@ -45,7 +45,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
   };
 
   return (
-    <div className="flex gap-0 md:gap-6">
+    <div className="flex gap-0 md:gap-2">
       {Array(length)
         .fill("")
         .map((_, index) => (
@@ -59,7 +59,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
             onKeyDown={(e) => handleKeyDown(e, index)}
             onPaste={handlePaste}
             style={{ background: "#00000099" }}
-            className="h-9 w-9 rounded-lg border text-center text-lg text-white outline-none md:h-14 md:w-14"
+            className="w-4 rounded-lg border text-center text-lg text-white outline-none md:h-9 md:w-9"
           />
         ))}
     </div>

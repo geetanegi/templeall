@@ -21,7 +21,7 @@ interface FormikControlProps {
     | "number"
     | "date"
     | "customInput"
-    | "searchInput",
+    | "searchInput";
 
   [key: string]: any;
 }
@@ -101,9 +101,25 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
     case "date":
       return <DatePicker label={rest.label} name={rest.name} {...rest} />;
     case "number":
-      return <NumberInput label={rest.label} name={rest.name} {...rest} />;
+      return (
+        <NumberInput
+          label={rest.label}
+          placeholder={rest.placeholder}
+          name={rest.name}
+          {...rest}
+        />
+      );
     case "searchInput":
-       return <SearchInput label={rest.label} onSelect={rest.onSelect} value={rest.value} options={rest.options} name={rest.name} {...rest} />
+      return (
+        <SearchInput
+          label={rest.label}
+          onSelect={rest.onSelect}
+          value={rest.value}
+          options={rest.options}
+          name={rest.name}
+          {...rest}
+        />
+      );
     default:
       return null;
   }

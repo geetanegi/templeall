@@ -25,6 +25,7 @@ interface ContestProps {
   toggleModal: () => void;
   frequency: string;
   isSuperAdmin: boolean;
+  contestTypeOptions: {value:number|string; key:string}[]
 }
 
 const ContestForm: React.FC<ContestProps> = ({
@@ -37,7 +38,9 @@ const ContestForm: React.FC<ContestProps> = ({
   endDate,
   toggleModal,
   isSuperAdmin,
+  contestTypeOptions
 }) => {
+  // debugger
   const today = moment();
   const location = useLocation();
   const { setFieldValue, errors, touched } = useFormikContext<{
@@ -107,18 +110,9 @@ const ContestForm: React.FC<ContestProps> = ({
         <div className="">
           <MUISelect
             label="Contest Type"
-            name="contestType"
+            name="contestTypeId"
             required={true}
-            options={[
-              {
-                key: "AceCam-Jackpot",
-                value: "ACE_CAM_JACKPOT",
-              },
-              {
-                key: "Closest-to-the-Pin",
-                value: "CLOSEST_TO_THE_PIN",
-              },
-            ]}
+            options={contestTypeOptions|| []}
             disabled={isUpdateContest ? true : false || isSuperAdmin}
           />
         </div>

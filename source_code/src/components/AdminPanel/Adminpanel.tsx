@@ -33,7 +33,7 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
   const adminSidePanelRef = useRef<AdminSidePanelHandle>(null);
   const adminRightPanelRef = useRef<AdminRightPanelHandle>(null);
 
-  const handleRefreshUserCount = (count?:number, searchFlag?:boolean) => {
+  const handleRefreshUserCount = (count?: number, searchFlag?: boolean) => {
     if (adminSidePanelRef.current) {
       adminSidePanelRef.current.getUserCount(count || 0, searchFlag || false); // Call the method exposed by the child component
     }
@@ -59,7 +59,7 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
     { roleIds: 3, key: "Player User", role: "Players", icon: <Users size={16} /> },
     { roleIds: 2, key: "Course Admin", role: "Course Admin", icon: <LandPlot size={16} /> },
     { roleIds: 1, key: "Super Admin", role: "Super Admin", icon: <UserCog size={16} /> }
-]
+  ]
   if (isCourseAdmin) {
     usersCount = [];
     usersCount = [
@@ -72,16 +72,16 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
     ];
   }
 
- 
+
 
   return (
     <PageLoader isActive={loader}>
       <>
         <div
-          className="bg-admin-bg-position flex min-h-[88vh] flex-col bg-[#ffffff] bg-contain bg-fixed bg-no-repeat pt-10 md:flex-row"
+          className="bg-admin-bg-position flex min-h-[88vh] flex-col bg-[#ffffff] bg-contain bg-fixed bg-no-repeat p-[24px] md:flex-row"
           style={{ backgroundImage: `url(${BG})`, height: "max-content" }}
         >
-          <div className="flex-1 px-4 md:flex-[0.25] md:px-10 lg:flex-[0.25] xl:flex-[0.25]">
+          <div className="flex-1 md:flex-[0.25]  pl-0 lg:flex-[0.25] xl:flex-[0.25] min-w-[320px]">
             <AdminSidePanel
               selectedUserTab={selectedUserTab}
               setSelectedUserTab={setSelectedUserTab}

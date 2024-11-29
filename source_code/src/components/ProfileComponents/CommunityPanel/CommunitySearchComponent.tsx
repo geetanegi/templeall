@@ -96,7 +96,7 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
   };
 
   return (
-    <div className="ml-5 h-[90vh] w-[25%]">
+    <div className="ml-5  w-[25%]">
       <div className="align-center mt-5 flex w-full justify-center justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[242px]">
         <input
           className="w-full bg-gray-100 focus:outline-none"
@@ -108,13 +108,13 @@ const CommunitySearchComponent: React.FC<CommunitySearchComponentProps> = ({
           size={20}
           color="gray"
           className="my-auto cursor-pointer"
-          //   onClick={getPlayer}
+        //   onClick={getPlayer}
         />
       </div>
       <div className="my-3 text-[20px] font-semibold tracking-wide text-primaryText">
         Community
       </div>
-      <div className="h-[85vh]" style={scrollbarStyles}>
+      <div className="h-[calc(80%-150px)]" style={scrollbarStyles}>
         {playersList?.map((profile: any) => (
           <PlayerCard
             profile={profile}

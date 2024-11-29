@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "../ModalComponent";
 import { Formik, FormikHelpers } from "formik";
 import apiService from "../../services/apiService";
@@ -10,7 +10,7 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { setLoading } from "../../reducers/loader/loader";
 import * as Yup from "yup";
 import FormikControl from "../../Formik/components/FormikControl";
-import { getFilters } from "../../utils/genericApiCalls";
+// import { getFilters } from "../../utils/genericApiCalls";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -38,15 +38,15 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
 }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [selectedOption, setSelectedOption] = useState<number | string>("");
-  const [videoCategory, setVideoCategory] = useState<
-    { id: string | number; type: string }[] | null
-  >(null);
+  // const [videoCategory, setVideoCategory] = useState<
+  //   { id: string | number; type: string }[] | null
+  // >(null);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getFilters("video_category", setVideoCategory);
-  }, []);
+  // useEffect(() => {
+  //   getFilters("video_category", setVideoCategory);
+  // }, []);
 
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     if (selectedOption) {

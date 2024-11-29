@@ -16,15 +16,15 @@ import { setLoading } from "../../reducers/loader/loader";
 import RejectConfirmationModal from "./RejectConfirmationModal";
 import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
-import { getFilters } from "../../utils/genericApiCalls";
+// import { getFilters } from "../../utils/genericApiCalls";
 
 interface MediaManagementProps {}
 
-type ContestType = {
-  id: string | number;
-  type: string;
-  displayName: string
-};
+// type ContestType = {
+//   id: string | number;
+//   type: string;
+//   displayName: string
+// };
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -53,7 +53,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [uploadSotwProgressArr, setUploadSotwProgressArr] = useState<
     Array<any>
   >([]);
-  const [filterArray, setFilterArray] = useState<ContestType[]>([]);
+  // const [filterArray, setFilterArray] = useState<ContestType[]>([]);
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
@@ -318,7 +318,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
-        isCourseAdmin={userPermisions?.data?.permission["is_course_admin"]}
+        isCourseAdmin={userPermisions?.data?.permission?.["is_course_admin"]}
         setIsStatusChange={setIsStatusChange}
         isStatusChange={isStatusChange}
         setDataLength={setDataLength}

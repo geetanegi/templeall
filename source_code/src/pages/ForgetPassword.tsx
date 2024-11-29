@@ -149,7 +149,7 @@ const ForgetPassword: React.FC = () => {
             </p>
           </>
         )}
-        <div className="md:w-[260px]">{DisplayScreens()}</div>
+        <div className="md:w-[280px]">{DisplayScreens()}</div>
         <div>
           <div className="fixed bottom-14 right-[5px] hidden h-0.5 w-[17%] items-end md:flex">
             <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">

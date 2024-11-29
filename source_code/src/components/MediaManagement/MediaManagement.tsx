@@ -14,10 +14,17 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { setCourseData } from "../../reducers/Courses_data/courses";
 import { setLoading } from "../../reducers/loader/loader";
 import RejectConfirmationModal from "./RejectConfirmationModal";
-import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
+// import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
+import { getFilters } from "../../utils/genericApiCalls";
 
-interface MediaManagementProps { }
+interface MediaManagementProps {}
+
+type ContestType = {
+  id: string | number;
+  type: string;
+  displayName: string
+};
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -36,7 +43,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [updateStatusData, setUpdateStatusData] = useState<{
     id: string | number;
     status: string;
-  }>({ id: "", status: "" });
+    statusId: string | number;
+  }>({ id: "", status: "", statusId: "" });
   const [filterValue, setFilterValue] = useState<string>("");
   const [mediaCounts, setMediaCounts] = useState<any>({});
   const [isStatusChange, setIsStatusChange] = useState<boolean>(false);
@@ -45,6 +53,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [uploadSotwProgressArr, setUploadSotwProgressArr] = useState<
     Array<any>
   >([]);
+  const [filterArray, setFilterArray] = useState<ContestType[]>([]);
   const userPermisions = useSelector(
     (state: RootState) => state.auth.userPermissions,
   );
@@ -60,6 +69,18 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   useEffect(() => {
     fetchCourseData();
   }, []);
+
+  const computeFilterDropDown = (selectedTab: number) => {
+    if (selectedTab === 1) {
+      getFilters("contest_type", setFilterArray);
+    }else if(selectedTab === 2){
+      getFilters("request_status", setFilterArray);
+    }
+  };
+
+  useEffect(() => {
+    computeFilterDropDown(selectedTab);
+  }, [selectedTab]);
 
   const getAllMediaCounts = async () => {
     try {
@@ -105,6 +126,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleUpdateStatus = async (
     id: number | string,
     status: string,
+    statusId:number | string,
     rejectReasons?: string,
   ) => {
     const updatedStatus = status === "Rejected" ? "Reject" : status;
@@ -112,7 +134,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       let payload = {};
       payload = {
         requestVideoId: id,
-        status: updatedStatus.toUpperCase(),
+        statusId: statusId,
       };
 
       if (updatedStatus === "Reject") {
@@ -140,7 +162,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterValue(event.target.value); // Update the state with the selected value
+    setFilterValue(event.target.value);
+    
   };
 
   const handleInprogressVideoList = (data: any, action: string) => {
@@ -191,9 +214,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
+  
+
   return (
     <div
-      className="min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5 mb-[30px]"
+      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5"
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between px-10 pt-10">
@@ -250,26 +275,29 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             <div className="align-center flex">
               <select
                 id="courses"
+                defaultValue={filterValue}
                 className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
                 onChange={handleFilterChange}
               >
-                {computeFilterDropDown(selectedTab, "SuperAdmin")?.map(
-                  (filter) => {
-                    return (
-                      <option
-                        value={filter.key}
-                        selected={filterValue === filter?.key}
-                      >
-                        {filter.name}
-                      </option>
-                    );
-                  },
-                )}
+                <option value={""} 
+                >
+                  All videos
+                </option>
+                {filterArray?.map((filter) => {
+                  return (
+                    <option
+                      key={filter.id}   
+                      value={filter.id}
+                    >
+                      {filter.displayName}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           ) : null}
           {selectedTab === 3 &&
-            userPermisions?.data?.permission["is_super_admin"] ? (
+          userPermisions?.data?.permission["is_super_admin"] ? (
             <button
               className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {
@@ -349,4 +377,4 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   );
 };
 
-export default MediaManagement;
+export default React.memo(MediaManagement);

@@ -90,7 +90,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           InputLabelProps={{ shrink: true }}
           sx={{
             "& .MuiInputBase-root": {
-              borderRadius: "10px",
+              borderRadius: "5px",
               backgroundColor: "#FAFAFA",
             },
           }}

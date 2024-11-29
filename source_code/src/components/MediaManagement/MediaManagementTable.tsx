@@ -36,7 +36,8 @@ interface MediaManagementTableProps {
   handleUpdateStatus: (
     id: number | string,
     status: string,
-    des: string,
+    statusId: number | string,
+    des?: string,
   ) => void;
   filterValue: string;
   isCourseAdmin: boolean;
@@ -72,6 +73,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   uploadSotwProgressArr,
   getAllMediaCounts
 }) => {
+  debugger
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
@@ -94,19 +96,15 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
 
-  //  useEffect  calcualted no. of rows data based on pagination num ber selected and updated on table
-  useEffect(() => {
-    getVideosList();
-  }, [pageSize, currentPage]);
+  
 
   useEffect(() => {
-    setCurrentPage(0);
     getVideosList();
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
     setTotalPages(0);
-  }, [selectedTab, isRefreshList, filterValue]);
+  }, [selectedTab, isRefreshList, currentPage, filterValue]);
 
   useEffect(() => {
     setActiveStatus("pending");
@@ -120,7 +118,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       } else {
         computeRowData(fetchedData);
       }
-    } else {
+    }else if(rowData.length) {
       getVideosList();
     }
   }, [uploadSotwProgressArr]);
@@ -128,7 +126,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   useEffect(() => {
     if (uploadProgressArr && selectedTab !== 3) {
       computeRowData(fetchedData);
-    } else {
+    } else if(rowData.length) {
       getVideosList();
     }
   }, [uploadProgressArr]);
@@ -181,7 +179,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       if (filterValue) {
         payload.searchParams = {
-          "scheduleContest.contest.contestType": filterValue,
+          "scheduleContest.contest.contestType.id": filterValue,
         };
       }
     } else if (selectedTab === 2) {
@@ -193,7 +191,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       if (filterValue) {
         payload.searchParams = {
-            status: filterValue,
+            "statusId": filterValue,
           }  
       }
     }
@@ -201,7 +199,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     if (isCourseAdmin) {
       payload = {}
       payload.loginUserId = typeof userInfo === "object" ? userInfo.userId : null,
-      payload.contestType = null,
+      payload.contestTypeId = null,
       
       payload.pageSortingParam = {
         sortDir: "DESC",
@@ -211,7 +209,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       
       if (filterValue) {
-        payload.contestType = filterValue === 'ACE_CAM_JACKPOT' ? "AceCam-Jackpot": "Closest-to-the-Pin"
+        payload.contestTypeId = filterValue
       }
     }
 
@@ -240,34 +238,34 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     index: number,
     tablelength: number,
   ) => {
-    return status === "PENDING" ? (
+    return status === "Pending" ? (
       <StatusDropdown
         setActiveStatus={setActiveStatus}
         index={index}
         tablelength={tablelength}
-        handleUpdateStatus={(status) => {
-          if (status === "Rejected") {
+        handleUpdateStatus={(type, id) => {
+          if (type === "Reject") {
             setIsRejectModalOpen(true);
-            setUpdateStatusData({ id: reqId, status });
+            setUpdateStatusData({ id: reqId, type, statusId: id });
           } else {
-            handleUpdateStatus(reqId, status, "");
+            handleUpdateStatus(reqId, status, id, "");
           }
         }}
       />
     ) : (
       <div
         className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${
-          status === "APPROVED"
+          status === "Approved"
             ? "bg-green-100 text-green-600"
             : "bg-red-100 text-red-600"
         }} `}
       >
-        {status === "APPROVED" && (
+        {status === "Approved" && (
           <CircleCheck size={12} className="text-green-600" />
         )}
-        {status === "REJECT" && <CircleX size={12} className="text-red-600" />}
+        {status === "Reject" && <CircleX size={12} className="text-red-600" />}
         <span
-          className={`${status === "APPROVED" ? "text-green-600" : "text-red-600"}`}
+          className={`${status === "Approved" ? "text-green-600" : "text-red-600"}`}
           style={{
             fontFamily: "Nunito",
             fontSize: "11px",
@@ -279,7 +277,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             textOverflow: "ellipsis",
           }}
         >
-          {status === "APPROVED" ? "Approved" : "Rejected"}
+          {status === "Approved" ? "Approved" : "Rejected"}
         </span>
       </div>
     );
@@ -292,7 +290,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     reqId: string | number,
     playvideo: () => void,
   ) => {
-    if (status === "REJECT") {
+    if (status === "Reject") {
       return <div className="p-1 py-4 text-[gray]">No video</div>;
     } else if (videos) {
       return (
@@ -322,9 +320,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     } else {
       return (
         <button
-          className={`flex gap-2 py-4 ${activeStatus === "Approved" || status === "APPROVED" ? "cursor-pointer" : "cursor-default"} `}
+          className={`flex gap-2 py-4 ${activeStatus === "Approved" || status === "Approved" ? "cursor-pointer" : "cursor-default"} `}
           onClick={() => {
-            if (activeStatus === "Approved" || status === "APPROVED") {
+            if (activeStatus === "Approved" || status === "Approved") {
               setVideoCategory(videoCategory);
               setSelectedReqVideoId(reqId);
               setIsModalOpen(true);
@@ -333,10 +331,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         >
           <Upload
             size={18}
-            className={`${activeStatus === "Approved" || status === "APPROVED" ? "text-[#0077B6]" : "text-[gray]"}`}
+            className={`${activeStatus === "Approved" || status === "Approved" ? "text-[#0077B6]" : "text-[gray]"}`}
           />
           <div
-            className={`${activeStatus === "Approved" || status === "APPROVED" ? "text-[#0077B6]" : "text-[gray]"}`}
+            className={`${activeStatus === "Approved" || status === "Approved" ? "text-[#0077B6]" : "text-[gray]"}`}
           >
             Video
           </div>
@@ -564,6 +562,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setRowData([]);
     }
   };
+
   return (
     <div className="px-10">
       <PageLoader isActive={loader}>
@@ -606,4 +605,4 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   );
 };
 
-export default MediaManagementTable;
+export default React.memo(MediaManagementTable);

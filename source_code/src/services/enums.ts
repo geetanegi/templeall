@@ -46,6 +46,7 @@ export const API_URL = {
   getAllHighlightsVideo: "/core/request-video/all-approved-req-sotw-videos",
   getAllpublishSotwVideos: "/core/request-video/all-published-and-sotw-videos",
   getAllShotOfTheWeek: "/core/shot-of-the-week/all-shot-of-the-week",
+  getPlayerShotOfTheWeek: "/core/shot-of-the-week/player-shot-of-the-week",
   getAllShotOfTheWeekSA: "/core/shot-of-the-week/all-shot-of-the-week-sa",
   getAllWinnersVideo: "/core/winner-video/all-winner-videos",
   getAllReqVideos: "/core/request-video/all-req-videos",
@@ -75,6 +76,8 @@ export const API_URL = {
   searchUserPS:"/core/profile/search-user-ps",
   getAllPlayerWinnerVideos: "/core/winner-video/player-winner-videos",
   publishWinnerVideos: "/core/winner-video/published",
+  getFilter: "/core/lookup/category",
+  getPlayerVideoFilter: "/core/request-video/all-highlight-list",
 
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",

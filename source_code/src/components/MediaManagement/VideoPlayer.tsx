@@ -29,7 +29,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         className={`move h-[300px] w-[530px] cursor-pointer overflow-hidden rounded-lg border bg-[#000000] pb-[1px] pl-[1px] pr-[1px] ${
           isVideoPlayerVisible ? "visible" : "hidden"
         }`}
-        style={{ zIndex: 9999 }} // Ensure the video shows above other elements
+        style={{ zIndex: 9999 }} 
       >
         <ReactPlayer
           ref={playerRef}

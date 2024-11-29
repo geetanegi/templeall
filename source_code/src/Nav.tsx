@@ -179,8 +179,10 @@ const Nav: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getAllNotification();
-  }, [location.pathname]);
+    if(userPermisions?.data?.permission["is_player"]){
+      getAllNotification();
+    }
+  }, [location.pathname, userPermisions]);
 
   function countUnreadNotifications(notifications: Notification[]): number {
     return notifications.filter((notification) => !notification.isRead).length;
@@ -324,12 +326,12 @@ const Nav: React.FC = () => {
                               <li>
                                 <a
                                   onClick={() => {
-                                    // dispatch(loginUserDetails({}));
+                                    dispatch(loginUserDetails({}));
                                     dispatch(resetCourseState());
                                     dispatch(logout());
                                     navigate(ROUTES.LOGIN, { replace: true });
                                     // localStorage.clear();
-                                  }}
+                                  }}  
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
                                   Sign out
@@ -446,7 +448,7 @@ const Nav: React.FC = () => {
                       onClick={() => {
                         // localStorage.clear();
                         // window.location.reload();
-                        // dispatch(loginUserDetails({}));
+                        dispatch(loginUserDetails({}));
                         dispatch(resetCourseState());
                         dispatch(logout());
                         navigate(ROUTES.LOGIN, { replace: true });

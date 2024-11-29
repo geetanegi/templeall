@@ -20,6 +20,7 @@ import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { parseInt } from "lodash";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
+import { getFilters } from "../utils/genericApiCalls";
 
 // interface recurrence {
 //   frequency: string;
@@ -35,7 +36,7 @@ import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 // }
 
 interface ContestFormValues {
-  contestType: string;
+  contestTypeId: string | number;
   clubName: string;
   courseName: string;
   holesName: string;
@@ -59,7 +60,7 @@ interface ContestFormValues {
 
 // import * as Yup from 'yup';
 const validationSchema = Yup.object({
-  contestType: Yup.string().required("This field is mandatory."),
+  contestTypeId: Yup.string().required("This field is mandatory."),
   clubName: Yup.string().required("This field is mandatory."),
   courseName: Yup.string().required("This field is mandatory."),
   holesName: Yup.string().required("This field is mandatory."),
@@ -172,7 +173,18 @@ const validationSchema = Yup.object({
 
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
-    then: Yup.string().required("This field is mandatory."),
+    then: Yup.string().required("This field is mandatory.")
+    .test(
+      "min-value",
+      "Entries Per 24 hours should not be less than 1.",
+      (value) => {
+        if (value) {
+          const numValue = Number(value);
+          return !isNaN(numValue) && numValue >= 1;
+        }
+        return true; // Pass validation if no value is entered
+      }
+    ),
     otherwise: Yup.string().nullable(), // Nullable when not required
   }),
 
@@ -197,7 +209,7 @@ const CreateContest: React.FC = () => {
   const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
-    contestType: editData?.contestType || "",
+    contestTypeId: editData?.contestTypeId || "",
     clubName: editData?.club.id || "",
     courseName: editData?.course?.id || "",
     holesName: editData?.hole?.id || "",
@@ -257,6 +269,10 @@ const CreateContest: React.FC = () => {
     frequency: "",
   });
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+  const [contestTypeOptions, setContestTypeOptions] = useState<{
+    id: string | number;
+    type: string;
+  }[] | null>(null)
   const handleValues = useCallback((values: ContestFormValues) => {
     setSelectedClub(values.clubName);
     setSelectedCourse(values.courseName);
@@ -387,6 +403,7 @@ const CreateContest: React.FC = () => {
 
   useEffect(() => {
     fetchCourseData();
+    getFilters("contest_type", setContestTypeOptions)
   }, []);
 
   const fetchEditData = async () => {
@@ -427,7 +444,6 @@ const CreateContest: React.FC = () => {
     //   ToastInfo("Please select Make Recurring ");
     //   return;
     // }
-
     const totalPayout: number =
       parseInt(values.acecamPercentage) +
       parseInt(values.charityPercentage) +
@@ -444,7 +460,7 @@ const CreateContest: React.FC = () => {
         timeZone: tz,
         id: id ? id : null,
         name: "Test contest 99",
-        contestType: values.contestType,
+        contestTypeId: values.contestTypeId,
         clubId: values.clubName,
         courseId: values.courseName,
         holeId: values.holesName,
@@ -459,7 +475,7 @@ const CreateContest: React.FC = () => {
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
-        activeStatus: "Inactive",
+        activeStatus: false,
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
           id: editData?.payoutStructure?.id,
@@ -584,6 +600,10 @@ const CreateContest: React.FC = () => {
                         <ContestForm
                           values={values}
                           isSuperAdmin={isSuperAdmin}
+                          contestTypeOptions={contestTypeOptions?.map((item) => ({
+                            value: item.id,
+                            key: item.type,
+                          })) || []}
                           saveState={saveState}
                           holeOptions={holeOptions || []}
                           clubOptions={clubOptions || []}

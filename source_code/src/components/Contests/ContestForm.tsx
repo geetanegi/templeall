@@ -38,7 +38,7 @@ const ContestForm: React.FC<ContestProps> = ({
   endDate,
   toggleModal,
   isSuperAdmin,
-  contestTypeOptions
+  // contestTypeOptions
 }) => {
   const today = moment();
   const location = useLocation();

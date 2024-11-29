@@ -17,7 +17,7 @@ import moment from "moment";
 import uuid from "react-uuid";
 import { AnyMessageParams } from "yup/lib/types";
 import { formatDuration } from "./mediaUtils/mediaUtils";
-import { getFilters } from "../../utils/genericApiCalls";
+// import { getFilters } from "../../utils/genericApiCalls";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -112,10 +112,10 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [usersList, setUsersList] = useState<any>([]);
   const [searchUserFlag, setSearchUserFlag] = useState<boolean>(false);
   const [videoDuration, setVideoDuration] = useState<string>("00:00");
-  const [contestTypeOptions, setContestTypeOptions] = useState<{
-    id: string | number;
-    type: string;
-  }[] | null>(null)
+  // const [contestTypeOptions, setContestTypeOptions] = useState<{
+  //   id: string | number;
+  //   type: string;
+  // }[] | null>(null)
   const dispatch = useDispatch();
 
   const CHUNK_SIZE = 0.5 * 1024 * 1024;
@@ -163,9 +163,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     setVideoFile(null);
     setThumbnail("");
     setUsersList([]);
-    if(isModalOpen){
-      getFilters("contest_type", setContestTypeOptions)
-    }
+    // if(isModalOpen){
+    //   getFilters("contest_type", setContestTypeOptions)
+    // }
   }, [isModalOpen]);
 
   const handleButtonClick = () => {

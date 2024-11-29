@@ -126,7 +126,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleUpdateStatus = async (
     id: number | string,
     status: string,
-    statusId:number | string,
+    // statusId:number | string,
     rejectReasons?: string,
   ) => {
     const updatedStatus = status === "Rejected" ? "Reject" : status;
@@ -134,7 +134,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       let payload = {};
       payload = {
         requestVideoId: id,
-        statusId: statusId,
+        status: updatedStatus,
       };
 
       if (updatedStatus === "Reject") {

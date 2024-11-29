@@ -101,8 +101,8 @@ const FeatureHighlightsComponents: React.FC<
           })}
         </div>
       ) : (
-        <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A] mb-4">
-          <VideoOff color="#ffffff" size={84} className="font-extralight" />
+        <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A] mb-4 ">
+          <VideoOff color="#ffffff" size={84} className="font-extralight " />
           <span className="text-[#F5F6F7]">
             No videos are available to watch
           </span>

@@ -219,7 +219,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   };
 
   return (
-    <div className="h-full min-h-[100vh] bg-[#ffffff] bg-fixed px-[24px] pb-10">
+    <div className="h-full min-h-[100vh] bg-[#ffffff] bg-fixed pl-[24px] pr-[16px] pb-10">
       <div className="flex justify-between pt-[24px]">
         <div
           className="flex h-[45px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
@@ -276,7 +276,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           </button>
         </div>
         {selectedTab !== 2 ? (
-          <div className="mb-4 flex gap-[16px]">
+          <div className="mb-4 flex gap-[16px] mr-[16px]">
             <div className="align-center flex">
               <select
                 id="courses"
@@ -309,7 +309,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           <div className="mt-3 flex w-full flex-wrap mb-3">
             {allVideos?.map((videoData) => {
               return (
-                <div className="w-[25%]  pr-[10px]">
+                <div className="w-[25%]  pr-[16px]">
                   <VideoCard
                     key={videoData.id}
                     uploadDate={moment
@@ -344,7 +344,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             })}
           </div>
         ) : (
-          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3">
+          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 mr-[16px]">
             <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
               <VideoOff
                 color="#7B7887"

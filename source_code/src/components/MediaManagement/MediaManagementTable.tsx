@@ -73,7 +73,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   uploadSotwProgressArr,
   getAllMediaCounts
 }) => {
-  debugger
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =

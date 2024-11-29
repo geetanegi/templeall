@@ -70,10 +70,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       if (selectedCourseData) {
         const filteredHoles = selectedCourseData.holeList
           ? selectedCourseData.holeList.filter((hole) =>
-              selectedHoles && selectedHoles.length > 0
-                ? selectedHoles.includes(hole.id.toString())
-                : true,
-            )
+            selectedHoles && selectedHoles.length > 0
+              ? selectedHoles.includes(hole.id.toString())
+              : true,
+          )
           : selectedCourseData.holeList;
 
         setFilterCourses([
@@ -269,8 +269,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
   return (
     <PageLoader isActive={loader}>
-      <div className="mt-6 flex h-full min-h-screen pb-14">
-        <div className="2xl:max-w-none mt-2 w-full max-w-7xl overflow-x-scroll md:overflow-auto">
+      <div className="mt-[24px] flex h-full min-h-screen pb-14">
+        <div className="2xl:max-w-none  w-full max-w-7xl overflow-x-scroll md:overflow-auto">
           <div className="overflow-x-auto rounded-md border">
             <table className="font-inter w-full table-auto overflow-scroll text-left md:overflow-auto">
               <thead className="w-full rounded-lg text-base font-semibold text-white">

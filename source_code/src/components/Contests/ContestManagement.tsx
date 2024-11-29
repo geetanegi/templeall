@@ -109,10 +109,10 @@ const ContestManagement = () => {
 
   }, [selectedHoles, selectedCourse, currentStatus, selectedContestType, currentPage]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getFilters("contest_type", setFilterByContest)
     fetchCourseList();
-  },[])
+  }, [])
 
   useEffect(() => {
     if (selectedCourse) {
@@ -123,11 +123,11 @@ const ContestManagement = () => {
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const courseId:number|string = event.target.value
-    if(courseId){
+    const courseId: number | string = event.target.value
+    if (courseId) {
       const courseName = courses?.data?.filter((course) => course.id === Number(courseId))[0]?.courseName
       setSelectedCourse({ name: String(courseName), id: event.target.value });
-    }else{
+    } else {
       setSelectedCourse(null);
     }
     setCurrentPage(0);
@@ -168,7 +168,7 @@ const ContestManagement = () => {
           <span className="text-xs">{status && "Active"}</span>
         </div>
       );
-    }else{ 
+    } else {
       return (
         <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#D0D0D033] py-1 text-[#8E8E8E]">
           <Ban height={15} width={15} />
@@ -321,17 +321,17 @@ const ContestManagement = () => {
   }
 
   const statusFilters = {
-    "Filter by Status":null,
-    "Active" : true,
-    "Inactive" : false,
+    "Filter by Status": null,
+    "Active": true,
+    "Inactive": false,
   }
 
   return (
     <div
-      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat pb-10 pt-10 md:flex-row"
+      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat  p-[24px] md:flex-row"
       style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
     >
-      <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
+      <div className="flex-1  md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between gap-2">
             <select
@@ -345,10 +345,10 @@ const ContestManagement = () => {
                 setCurrentStatus(value);
               }} // Update selected status
             > {
-              Object.entries(statusFilters).map(([key, value])=>(
-                <option value={String(value)} key={key} onClick={()=>setCurrentStatus(value)}>{key}</option>
-              ))
-            }
+                Object.entries(statusFilters).map(([key, value]) => (
+                  <option value={String(value)} key={key} onClick={() => setCurrentStatus(value)}>{key}</option>
+                ))
+              }
             </select>
             <select
               id="courses"
@@ -362,8 +362,8 @@ const ContestManagement = () => {
                 Filter by Contests
               </option>
               {
-                filterByContest.map((filter: {id: number |string, type : string})=>(
-                  <option value={filter.id}>{filter.type}</option>    
+                filterByContest.map((filter: { id: number | string, type: string }) => (
+                  <option value={filter.id}>{filter.type}</option>
                 ))
               }
             </select>

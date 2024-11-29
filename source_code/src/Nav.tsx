@@ -298,11 +298,11 @@ const Nav: React.FC = () => {
                         </span>
                         {menu.routeUrl === location.pathname && (
                           //  ||  selectedMenu === menu.name
-                          <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                          <div className="w-[130%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
                         {location.pathname.startsWith(menu.routeUrl) &&
                           isContestsRoute(location.pathname) && (
-                            <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                            <div className="w-[130%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                           )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (

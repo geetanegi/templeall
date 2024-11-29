@@ -190,7 +190,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       if (filterValue) {
         payload.searchParams = {
-            "statusId": filterValue,
+            "status": filterValue,
           }  
       }
     }
@@ -208,7 +208,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       
       if (filterValue) {
-        payload.contestTypeId = filterValue
+        payload.contestType = filterValue === 'ACE_CAM_JACKPOT' ? "AceCam-Jackpot": "Closest-to-the-Pin"
       }
     }
 

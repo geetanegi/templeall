@@ -126,7 +126,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleUpdateStatus = async (
     id: number | string,
     status: string,
-    // statusId:number | string,
     rejectReasons?: string,
   ) => {
     const updatedStatus = status === "Rejected" ? "Reject" : status;
@@ -134,7 +133,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       let payload = {};
       payload = {
         requestVideoId: id,
-        status: updatedStatus,
+        status: updatedStatus.toUpperCase(),
       };
 
       if (updatedStatus === "Reject") {
@@ -160,7 +159,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       console.error(error);
     }
   };
-
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterValue(event.target.value);
     

@@ -175,17 +175,17 @@ const validationSchema = Yup.object({
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
     then: Yup.string().required("This field is mandatory.")
-    .test(
-      "min-value",
-      "Entries Per 24 hours should not be less than 1.",
-      (value) => {
-        if (value) {
-          const numValue = Number(value);
-          return !isNaN(numValue) && numValue >= 1;
+      .test(
+        "min-value",
+        "Entries Per 24 hours should not be less than 1.",
+        (value) => {
+          if (value) {
+            const numValue = Number(value);
+            return !isNaN(numValue) && numValue >= 1;
+          }
+          return true; // Pass validation if no value is entered
         }
-        return true; // Pass validation if no value is entered
-      }
-    ),
+      ),
     otherwise: Yup.string().nullable(), // Nullable when not required
   }),
 
@@ -295,7 +295,7 @@ const Contests: React.FC = () => {
     id: string | number;
     type: string;
   }[] | null>(null)
-  
+
   const handleValues = useCallback((values: ContestFormValues) => {
     setSelectedClub(values.clubName);
     setSelectedCourse(values.courseName);
@@ -456,7 +456,7 @@ const Contests: React.FC = () => {
     values: ContestFormValues,
     { setSubmitting }: FormikHelpers<ContestFormValues>,
   ) => {
-    debugger
+
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
     if (saveState.repeatEvery === 0 || saveState.frequency === "") {

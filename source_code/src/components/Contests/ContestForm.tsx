@@ -40,7 +40,6 @@ const ContestForm: React.FC<ContestProps> = ({
   isSuperAdmin,
   contestTypeOptions
 }) => {
-  // debugger
   const today = moment();
   const location = useLocation();
   const { setFieldValue, errors, touched } = useFormikContext<{

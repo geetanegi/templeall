@@ -75,9 +75,9 @@ const CoursePanel: React.FC = () => {
 
   return (
     <>
-      <div className="flex-1 bg-white px-4 pt-10 md:flex-[0.75] md:px-8">
+      <div className="flex-1 bg-white flex-[0.75] p-[24px]">
         <div className="mb-4 flex flex-col justify-between md:flex-row">
-          <div className="align-center md:w-2xl mt-5 flex w-full flex-col rounded-md px-0 md:ml-2 md:mt-0">
+          <div className="align-center md:w-2xl  flex w-full flex-col rounded-md px-0 ">
             <div className="flex max-w-screen-sm items-center space-x-3">
               <select
                 id="courses"

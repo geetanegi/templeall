@@ -606,4 +606,4 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   );
 };
 
-export default MediaManagementTable;
+export default React.memo(MediaManagementTable);

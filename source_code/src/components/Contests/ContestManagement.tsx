@@ -334,21 +334,21 @@ const ContestManagement = () => {
       <div className="flex-1  md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between gap-2">
-            <select
+          <select
               id="courses"
               style={{ marginLeft: "5px" }}
-              value={String(currentStatus)}
               className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:ml-2 md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
-                const value = e.target.value === "true" ? true : e.target.value === "false" ? false : null;
-                setCurrentStatus(value);
+                setCurrentStatus(e.target.value);
               }} // Update selected status
-            > {
-                Object.entries(statusFilters).map(([key, value]) => (
-                  <option value={String(value)} key={key} onClick={() => setCurrentStatus(value)}>{key}</option>
-                ))
-              }
+            >
+              <option value="" selected>
+                Filter by Status
+              </option>
+              <option value="Inactive">Inactive</option>
+              <option value="Active">Active</option>
+              <option value="Completed">Completed</option>
             </select>
             <select
               id="courses"
@@ -361,11 +361,8 @@ const ContestManagement = () => {
               <option value="" selected>
                 Filter by Contests
               </option>
-              {
-                filterByContest.map((filter: { id: number | string, type: string }) => (
-                  <option value={filter.id}>{filter.type}</option>
-                ))
-              }
+              <option value="AceCam-Jackpot">AceCam-Jackpot</option>
+              <option value="Closest-to-the-Pin">Closest-to-the-Pin</option>
             </select>
             <select
               id="courses"

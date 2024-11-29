@@ -174,7 +174,18 @@ const validationSchema = Yup.object({
   ),
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
-    then: Yup.string().required("Entries Per 24 hours should not be less than 1."),
+    then: Yup.string().required("This field is mandatory.")
+    .test(
+      "min-value",
+      "Entries Per 24 hours should not be less than 1.",
+      (value) => {
+        if (value) {
+          const numValue = Number(value);
+          return !isNaN(numValue) && numValue >= 1;
+        }
+        return true; // Pass validation if no value is entered
+      }
+    ),
     otherwise: Yup.string().nullable(), // Nullable when not required
   }),
 

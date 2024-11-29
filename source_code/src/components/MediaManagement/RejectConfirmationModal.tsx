@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
 const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({
   setIsStatusChange,
   isStatusChange,
-  isRejectModalOpen,
+  isRejectModalOpen,    
   setIsRejectModalOpen,
   handleUpdateStatus,
   updateStatusData,
@@ -42,8 +42,6 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({
   };
 
   return (
-    <>
-      {updateStatusData.status === "Rejected" ? (
         <Modal
           title="Confirmation"
           isOpen={isRejectModalOpen}
@@ -93,8 +91,6 @@ const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({
             }}
           </Formik>
         </Modal>
-      ) : null}
-    </>
   );
 };
 

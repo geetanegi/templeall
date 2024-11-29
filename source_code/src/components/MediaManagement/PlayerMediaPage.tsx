@@ -10,16 +10,16 @@ import { RootState } from "../../store";
 import PageLoader from "../PageLoader";
 import moment from "moment";
 import VideoPlayer from "./VideoPlayer";
-import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import { timeZone } from "../../utils/TimeUtils";
+import { getFilters } from "../../utils/genericApiCalls";
 
-interface PlayerMediaPageProps { }
+interface PlayerMediaPageProps {}
 
 interface getVideosListPayloadType {
   playerId?: number | string | undefined;
   date?: string;
   searchParams?: searchParams;
-  zoneId?: string,
+  zoneId?: string;
 }
 
 interface searchParams {
@@ -27,7 +27,7 @@ interface searchParams {
   status?: string;
   "playerUser.id"?: number | string | undefined;
   "club.id"?: number | string;
-  videoCategory?: string;
+  videoCategoryId?: string | number;
   "player.id"?: string | number | undefined;
 }
 
@@ -40,24 +40,33 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] =
     useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<string>("");
-  const [filterValue, setFilterValue] = useState<string>("");
+  const [filterValue, setFilterValue] = useState<string | number>("");
   const [refreshList, setRefreshList] = useState<boolean>(false);
   const [highlightsCounts, setHighlightsCounts] = useState<any>({});
+  const [filterOptions, setFilterOptions] = useState<
+    { id: number | string; type: string; category: string }[] | null
+  >(null);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+
+  useEffect(()=>{
+    getFilters("", setFilterOptions);
     setAllVideos([]);
-    if (filterValue === "SOTW") {
-      makeApiCall(API_URL.getAllShotOfTheWeek);
-    } else if (filterValue === "WIN") {
+    setFilterValue("")
+    setSelectedValue("");
+    getAllHighlightsCounts();
+  },[selectedTab, refreshList])
+
+  useEffect(() => {
+    if (filterValue === "sotw") {
+      makeApiCall(API_URL.getPlayerShotOfTheWeek);
+    } else if (filterValue === "winner") {
       makeApiCall(API_URL.getAllPlayerWinnerVideos);
     } else {
       getAllVideos();
     }
-    setSelectedValue("");
-    getAllHighlightsCounts();
-  }, [selectedTab, refreshList]);
+  }, [filterValue, selectedTab, refreshList]);
 
   const getAllHighlightsCounts = async () => {
     try {
@@ -77,22 +86,11 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       } else if (data?.error && data.description) {
         ToastInfo(data.description);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
-
-  useEffect(() => {
-    if (filterValue === "SOTW") {
-      makeApiCall(API_URL.getPlayerShotOfTheWeek);
-    } else if (filterValue === "WIN") {
-      makeApiCall(API_URL.getAllPlayerWinnerVideos);
-    } else {
-      getAllVideos();
-    }
-  }, [filterValue]);
 
   const getAllVideos = async () => {
     try {
-      dispatch(setLoading(true));
       if (!filterValue) {
         if (selectedTab === 2) {
           await makeApiCall(API_URL.getAllPlayerReqHighlights);
@@ -101,7 +99,6 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
         } else if (selectedTab === 1) {
           await makeApiCall(API_URL.getAllpublishSotwVideos);
         } else {
-          // do nothing
         }
       } else {
         if (selectedTab === 3) {
@@ -112,9 +109,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
+    } 
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -123,109 +118,116 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
   const makeApiCall = async (endPoint: string) => {
     let payload: getVideosListPayloadType = {};
-
-    if (
-      selectedValue === "SOTW" &&
-      endPoint === "/core/shot-of-the-week/all-shot-of-the-week"
-    ) {
-      payload = {
-        ...payload,
-        searchParams: {
-          "club.id": "1",
-        },
-      };
-    } else {
-      if (selectedTab === 3) {
-        const searchParams = {
-          "playerUser.id":
-            typeof userInfo === "object" ? userInfo.userId : undefined,
-        };
+    dispatch(setLoading(true));
+    try {
+      if (
+        selectedValue === "sotw" &&
+        endPoint === "/core/shot-of-the-week/all-shot-of-the-week"
+      ) {
         payload = {
           ...payload,
-          searchParams,
+          searchParams: {
+            "club.id": "1",
+          },
         };
-        if (filterValue) {
-          payload = {
-            searchParams: {
-              ...payload.searchParams,
-              videoCategory: filterValue,
-            },
+      } else {
+        if (selectedTab === 3) {
+          const searchParams = {
+            "playerUser.id":
+              typeof userInfo === "object" ? userInfo.userId : undefined,
           };
-        }
-      } else if (selectedTab === 2) {
-        payload = {
-          ...payload,
-          date: moment().utc().format("YYYY-MM-DD"),
-          playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
-          zoneId: timeZone,
-        };
-        if (filterValue) {
           payload = {
-            searchParams: {
-              ...payload.searchParams,
-              videoCategory: filterValue,
-            },
+            ...payload,
+            searchParams,
           };
-        }
-      } else if (selectedTab === 1) {
-        const searchParams = {
-          "playerUser.id":
-            typeof userInfo === "object" ? userInfo.userId : undefined,
-        };
-        payload = {
-          ...payload,
-          searchParams,
-        };
-        if (filterValue) {
+          if (filterValue) {
+            payload = {
+              searchParams: {
+                ...payload.searchParams,
+                videoCategoryId: filterValue,
+              },
+            };
+          }
+        } else if (selectedTab === 2) {
           payload = {
-            searchParams: {
-              ...payload.searchParams,
-              videoCategory: filterValue,
-            },
+            ...payload,
+            date: moment().utc().format("YYYY-MM-DD"),
+            playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
+            zoneId: timeZone,
           };
+          if (filterValue) {
+            payload = {
+              searchParams: {
+                ...payload.searchParams,
+                videoCategoryId: filterValue,
+              },
+            };
+          }
+        } else if (selectedTab === 1) {
+          const searchParams = {
+            "playerUser.id":
+              typeof userInfo === "object" ? userInfo.userId : undefined,
+          };
+          payload = {
+            ...payload,
+            searchParams,
+          };
+          if (filterValue) {
+            payload = {
+              searchParams: {
+                ...payload.searchParams,
+                videoCategoryId: filterValue,
+              },
+            };
+          }
         }
       }
-    }
-
-    if (filterValue === "SOTW" || filterValue === "WIN") {
-      payload = {
-        searchParams: {
-          "player.id":
-            typeof userInfo === "object" ? userInfo.userId : undefined,
-        },
-      };
-      if (selectedTab === 1) {
+  
+      if (filterValue === "sotw" || filterValue === "winner") {
         payload = {
           searchParams: {
             "player.id":
               typeof userInfo === "object" ? userInfo.userId : undefined,
-            isPublished: true,
           },
         };
+        if (selectedTab === 1) {
+          payload = {
+            searchParams: {
+              "player.id":
+                typeof userInfo === "object" ? userInfo.userId : undefined,
+              isPublished: true,
+            },
+          };
+        }
       }
+  
+      const { data, status } = await apiService.post<any>(endPoint, {
+        data: {
+          ...payload,
+        },
+      });
+      if (status === 200 && data?.data != null && !data?.error) {
+        setAllVideos(data?.data);
+      } else if (data?.error && data.description) {
+        ToastInfo(data.description);
+      }
+    } catch (error) {
+        console.log(error)
+    }finally{
+      dispatch(setLoading(false));
     }
-
-    const { data, status } = await apiService.post<any>(endPoint, {
-      data: {
-        ...payload,
-      },
-    });
-    if (status === 200 && data?.data != null && !data?.error) {
-      setAllVideos(data?.data);
-    } else if (data?.error && data.description) {
-      ToastInfo(data.description);
-    }
+   
   };
 
   return (
-    <div className=" bg-[#ffffff] bg-fixed px-5 pb-10">
+    <div className="bg-[#ffffff] bg-fixed px-5 pb-10">
       <div className="flex justify-between pt-5">
         <div
           className="flex h-[40px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
           style={{ width: "max-content" }}
         >
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 1 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] text-[14px] ${selectedTab === 1 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(1);
@@ -235,14 +237,14 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
               className={`mr-2 h-[16px] w-[16px] ${selectedTab === 1 ? "text-[#ffffff]" : "text-[#7B7887]"}`}
             />
             Published Highlights
-            <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000] font-semibold">
+            <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] font-semibold text-[#000000]">
               {selectedTab === 1 && filterValue
                 ? allVideos.length
                 : highlightsCounts.published || 0}
             </span>
           </button>
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(2);
@@ -257,7 +259,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             </span>
           </button>
           <button
-            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-primaryColor  text-[#ffffff]" : "text-[#7B7887]"} `}
+            className={`flex items-center justify-center rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
             onClick={() => {
               setFilterValue("");
               setSelectedTab(3);
@@ -282,13 +284,21 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                 className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
                 onChange={handleFilterChange}
               >
-                {computeFilterDropDown("", "Player")?.map((filter) => {
+                <option value={""} selected={filterValue === ""}>
+                  All
+                </option>
+                {filterOptions?.map((filter) => {
                   return (
                     <option
-                      value={filter.key}
-                      selected={filterValue === filter?.key}
+                      value={
+                        filter.category === "sotw" ||
+                        filter.category === "winner"
+                          ? filter.category
+                          : filter.id
+                      }
+                      selected={filterValue === filter?.id}
                     >
-                      {filter.name}
+                      {filter.type}
                     </option>
                   );
                 })}
@@ -305,10 +315,10 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       </div>
       <PageLoader isActive={loader}>
         {allVideos.length ? (
-          <div className="mt-3 flex w-full flex-wrap mb-3">
+          <div className="mb-3 mt-3 flex w-full flex-wrap">
             {allVideos?.map((videoData) => {
               return (
-                <div className="w-[25%] px-2 mb-4">
+                <div className="mb-4 w-[25%] px-2">
                   <VideoCard
                     key={videoData.id}
                     uploadDate={moment
@@ -336,7 +346,10 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
                     userInfo={userInfo}
                     isEdit={videoData?.videos?.url ? true : false}
                     width="100%"
-                    onTeeTime={moment.utc(videoData?.startTime).local().format("hh:mm:ss A")}
+                    onTeeTime={moment
+                      .utc(videoData?.startTime)
+                      .local()
+                      .format("hh:mm:ss A")}
                   />
                 </div>
               );
@@ -370,4 +383,4 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   );
 };
 
-export default PlayerMediaPage;
+export default React.memo(PlayerMediaPage);

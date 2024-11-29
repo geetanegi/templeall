@@ -152,10 +152,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             <p className={`text-xs text-primaryText md:text-sm`}>
               Didn't you receive the OTP?{" "}
               <button
-                className={`font-semibold text-link ${timeLeft > 0 && isRunning
-                  ? "cursor-not-allowed opacity-60"
-                  : "cursor-pointer text-red-600"
-                  }`}
+                className={`font-semibold text-link ${
+                  timeLeft > 0 && isRunning
+                    ? "cursor-not-allowed opacity-60"
+                    : "cursor-pointer text-red-600"
+                }`}
                 onClick={handleReset}
                 disabled={timeLeft > 0 && isRunning}
               >

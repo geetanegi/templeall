@@ -61,8 +61,8 @@ const ContestManagement = () => {
   const [selectedHoles, setSelectedHoles] = useState<string>("");
   const [selectedCourse, setSelectedCourse] = useState<{
     name: string;
-    id: number;
-  }>({ name: "", id: 1 });
+    id: number | string;
+  } | null>(null);
   const [filterByContest, setFilterByContest] = useState<any>([])
   const dispatch = useDispatch();
 
@@ -105,13 +105,13 @@ const ContestManagement = () => {
   };
 
   useEffect(() => {
-    fetchCourseList();
     fetchContestList();
 
   }, [selectedHoles, selectedCourse, currentStatus, selectedContestType, currentPage]);
 
   useEffect(()=>{
     getFilters("contest_type", setFilterByContest)
+    fetchCourseList();
   },[])
 
   useEffect(() => {
@@ -123,7 +123,13 @@ const ContestManagement = () => {
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCourse({ name: event.target.value, id: 1 });
+    const courseId:number|string = event.target.value
+    if(courseId){
+      const courseName = courses?.data?.filter((course) => course.id === Number(courseId))[0]?.courseName
+      setSelectedCourse({ name: String(courseName), id: event.target.value });
+    }else{
+      setSelectedCourse(null);
+    }
     setCurrentPage(0);
     setHolesList(null); // Reset holesList to null when course changes
     setSelectedHoles(""); // Reset selectedHoles to an empty array
@@ -246,7 +252,7 @@ const ContestManagement = () => {
           searchParams: {
             contestTypeId: selectedContestType || null,
             activeStatus: currentStatus,
-            courseName: selectedCourse.name || null,
+            courseName: selectedCourse?.name || null,
             holeNumbers: selectedHoles.length ? selectedHoles : null,
           },
           pageSortingParam: {
@@ -360,8 +366,6 @@ const ContestManagement = () => {
                   <option value={filter.id}>{filter.type}</option>    
                 ))
               }
-              {/* <option value="AceCam-Jackpot">AceCam-Jackpot</option>
-              <option value="Closest-to-the-Pin">Closest-to-the-Pin</option> */}
             </select>
             <select
               id="courses"
@@ -370,7 +374,7 @@ const ContestManagement = () => {
             >
               <option value="">Filter by Courses</option>
               {courses?.data.map((course) => (
-                <option key={course.id} value={course.courseName}>
+                <option key={course.id} value={course.id}>
                   {course.courseName}
                 </option>
               ))}
@@ -384,7 +388,7 @@ const ContestManagement = () => {
               }
               maxDisplayCount={2}
               label="Filter by Holes"
-              // disabled={selectedCourse ? false : true}
+              disabled={selectedCourse ? false : true}
               onChange={handleSelectedValuesChange}
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />

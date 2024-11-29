@@ -76,7 +76,9 @@ export const API_URL = {
   searchUserPS:"/core/profile/search-user-ps",
   getAllPlayerWinnerVideos: "/core/winner-video/player-winner-videos",
   publishWinnerVideos: "/core/winner-video/published",
-  getContestTypeFilter: "/core/lookup/category",
+  getFilter: "/core/lookup/category",
+  getPlayerVideoFilter: "/core/request-video/all-highlight-list",
+
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",
   getLiveLeaderBoard: "/core/leader-board/live",

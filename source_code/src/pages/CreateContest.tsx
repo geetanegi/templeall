@@ -444,7 +444,6 @@ const CreateContest: React.FC = () => {
     //   ToastInfo("Please select Make Recurring ");
     //   return;
     // }
-    debugger
     const totalPayout: number =
       parseInt(values.acecamPercentage) +
       parseInt(values.charityPercentage) +

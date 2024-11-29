@@ -30,7 +30,6 @@ import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 
 import { viewPdf } from "../utils/downloadUtils";
 import AppleSignInButton from "../components/social-login/AppleSignInButton";
@@ -228,9 +227,6 @@ const Register: React.FC = () => {
     viewPdf(TermsAndConditionsPdf);
   };
 
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
 
   return (
     <>
@@ -252,7 +248,7 @@ const Register: React.FC = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting, errors, values }) => {
+            {({ isSubmitting, values }) => {
               console.log("values", values);
               return (
                 <Form className="w-full max-w-md">

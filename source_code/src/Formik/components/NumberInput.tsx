@@ -1,6 +1,5 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
-import TextField from "@mui/material/TextField";
 
 interface NumberInputProps {
   label: string;
@@ -45,16 +44,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
     }
   };
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    form: any,
-  ) => {
-    const { value } = event.target;
-    // Only allow numeric values
-    if (/^\d*$/.test(value) && (!maxLength || value.length <= maxLength)) {
-      form.setFieldValue(name, value);
-    }
-  };
+
 
   return (
     <div className={`mb-[20px] ${className}`}>

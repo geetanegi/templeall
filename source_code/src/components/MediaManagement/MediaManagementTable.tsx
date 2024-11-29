@@ -96,19 +96,15 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
 
-  //  useEffect  calcualted no. of rows data based on pagination num ber selected and updated on table
-  useEffect(() => {
-    getVideosList();
-  }, [pageSize, currentPage]);
+  
 
   useEffect(() => {
-    setCurrentPage(0);
     getVideosList();
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
     setTotalPages(0);
-  }, [selectedTab, isRefreshList, filterValue]);
+  }, [selectedTab, isRefreshList, currentPage, filterValue]);
 
   useEffect(() => {
     setActiveStatus("pending");
@@ -122,7 +118,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       } else {
         computeRowData(fetchedData);
       }
-    } else {
+    }else if(rowData.length) {
       getVideosList();
     }
   }, [uploadSotwProgressArr]);
@@ -130,7 +126,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   useEffect(() => {
     if (uploadProgressArr && selectedTab !== 3) {
       computeRowData(fetchedData);
-    } else {
+    } else if(rowData.length) {
       getVideosList();
     }
   }, [uploadProgressArr]);
@@ -248,9 +244,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         index={index}
         tablelength={tablelength}
         handleUpdateStatus={(type, id) => {
-          if (type === "Rejected") {
+          if (type === "Reject") {
             setIsRejectModalOpen(true);
-            setUpdateStatusData({ id: reqId, status, statusId: id });
+            setUpdateStatusData({ id: reqId, type, statusId: id });
           } else {
             handleUpdateStatus(reqId, status, id, "");
           }
@@ -566,6 +562,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setRowData([]);
     }
   };
+
   return (
     <div className="px-10">
       <PageLoader isActive={loader}>
@@ -608,4 +605,4 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   );
 };
 
-export default MediaManagementTable;
+export default React.memo(MediaManagementTable);

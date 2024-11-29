@@ -3,20 +3,13 @@ import Adminpanel from "../components/AdminPanel/Adminpanel";
 import { RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
-import { API_URL } from "../services/enums";
-import apiService from "../services/apiService";
-import {
-  updateProfile,
-  updateProfileImage,
-} from "../reducers/Profiler/profiler";
-import { ToastInfo } from "../components/Toast";
+
 import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
 import PlayerHomePage from "../components/PlayerHomePage/PlayerHomePage";
 import AdminHomePage from "../components/PlayerHomePage/AdminHomePage";
 
 const Dashboard: React.FC = () => {
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -29,33 +22,7 @@ const Dashboard: React.FC = () => {
     } else {
       dispatch(setLoading(false));
     }
-    fetchUserInformation();
   }, []);
-
-  const fetchUserInformation = async () => {
-    try {
-      dispatch(setLoading(true));
-      const { data, status } = await apiService.post<any>(
-        API_URL.fetchUserProfile,
-        {
-          data: {
-            loginUserId:
-              typeof userInfo === "object" ? userInfo.userId : undefined,
-          },
-        },
-      );
-      if (status === 200 && data?.data != null && !data?.error) {
-        const profileImage = data?.data?.userProfile?.imageBase64;
-        dispatch(updateProfileImage({ profileImage }));
-        dispatch(updateProfile({ profiler: data.data }));
-      } else if (data?.error && data.description) {
-        ToastInfo(data.description);
-      }
-    } catch (error) {
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
 
   if (location.pathname === ROUTES.USERS) {
     if (userPermisions?.data?.permission["is_super_admin"]) {

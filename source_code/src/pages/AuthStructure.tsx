@@ -9,7 +9,6 @@ import { ROUTES } from "../utils/routesPath";
 import PageLoader from "../components/PageLoader";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import AceCamUI from "../components/AceCamUI";
 
 import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";

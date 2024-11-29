@@ -11,6 +11,7 @@ import ImageComponent from './ImageComponent';
 import { updateProfile, updateProfileImage } from '../../reducers/Profiler/profiler';
 import { useLocation } from 'react-router-dom';
 import { ToastInfo } from '../Toast';
+import { decryptData, secretKey } from '../../utils/encrypt';
 
 
 interface ProfileOverviewSectionProps {
@@ -24,9 +25,9 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
   isCommunitySearch,
   role,
 }) => {
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const location = useLocation();
   const [userinformation, setUserInformation] = useState<any>()
@@ -108,7 +109,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
       return false;
     } else if (role && role != "Player") {
       return true;
-    } else if (!userPermisions?.data?.permission["is_player"]) {
+    } else if (!userPermisions?.permission["is_player"]) {
       return true;
     } else {
       return false;
@@ -144,11 +145,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
           </div>
         </div>
       )}
-      <div className="flex w-[100%] lg:hidden" style={{ width: "max-content" }}>
-        <div className="relative left-8 top-16 mx-auto text-center text-[32px]">
-          {userinformation?.firstName} {userinformation?.lastName}{" "}
-        </div>
-      </div>
+      
       <ImageComponent
         image={userinformation?.userProfile?.imageUrl}
         userDetails={{

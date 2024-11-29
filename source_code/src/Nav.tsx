@@ -27,6 +27,7 @@ import { Popover } from "./components/GenericUIcomponents/PopoverComponent";
 import NotificationPopoverComponent from "./components/Notification/NotificationComponent";
 import { timeZone } from "./utils/TimeUtils";
 import { setPaymentSuccess } from "./reducers/Payment/Payment";
+import { decryptData, secretKey } from "./utils/encrypt";
 
 type Notification = {
   id: number;
@@ -46,19 +47,19 @@ const Nav: React.FC = () => {
   );
 
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
   const profileImage =
     useSelector((state: RootState) => state.profiler.profileImage) || "";
   const profiledetails =
     useSelector((state: RootState) => state.profiler.profile) || "";
   const location = useLocation();
-  const data = useSelector(
-    (state: RootState) => state.permissions.userPermissions,
-  );
+  // const data = useSelector(
+  //   (state: RootState) => state.permissions.userPermissions,
+  // );
 
-  const menuList = data?.data?.menuList;
+  const menuList = userPermisions?.menuList;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [navCollapsed, setNavCollapsed] = useState(true);
   const [usersSubMenu, setUsersSubMenu] = useState(false);
@@ -89,7 +90,7 @@ const Nav: React.FC = () => {
         },
       });
       if (data.status === 200 && !data.data.error) {
-        dispatch(loginUserDetails(data.data));
+        dispatch(loginUserDetails(data.data.data.encrypt));
         dispatch(setLoading(false));
       }
     } catch (error) {
@@ -179,10 +180,8 @@ const Nav: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if(userPermisions?.data?.permission["is_player"]){
       getAllNotification();
-    }
-  }, [location.pathname, userPermisions]);
+  }, [location.pathname]);
 
   function countUnreadNotifications(notifications: Notification[]): number {
     return notifications.filter((notification) => !notification.isRead).length;
@@ -298,11 +297,11 @@ const Nav: React.FC = () => {
                         </span>
                         {menu.routeUrl === location.pathname && (
                           //  ||  selectedMenu === menu.name
-                          <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                          <div className="w-[130%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
                         {location.pathname.startsWith(menu.routeUrl) &&
                           isContestsRoute(location.pathname) && (
-                            <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                            <div className="w-[130%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                           )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
@@ -349,7 +348,7 @@ const Nav: React.FC = () => {
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <div className="relative mt-[7px]">
-              {userPermisions?.data?.permission["is_player"] ? (
+              {userPermisions?.permission?.["is_player"] ? (
                 <Popover
                   content={
                     <NotificationPopoverComponent
@@ -400,7 +399,7 @@ const Nav: React.FC = () => {
                   {profiledetails?.firstName || ""}{" "}
                   {profiledetails?.lastName || ""}
                 </div>
-                {userPermisions?.data?.permission["is_player"] ? (
+                {userPermisions?.permission?.["is_player"] ? (
                   <div className="flex items-center justify-center text-[#7B7887]">
                     <span className="text-[12px]">
                       HDCP: {profiledetails?.userProfile?.handicap}

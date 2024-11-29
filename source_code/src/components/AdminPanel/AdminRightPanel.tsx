@@ -184,7 +184,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           } else if (selectedUserTab === 2) {
             if (
               isCourseAdmin &&
-              userPermisions.data?.permission["is_course_admin"]
+              userPermisions.data?.permission?.["is_course_admin"]
             ) {
               listingEndPoint = API_URL.getClubCourseAdmin;
               payload = {

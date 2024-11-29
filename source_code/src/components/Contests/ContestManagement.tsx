@@ -23,6 +23,7 @@ import {
 } from "../AdminPanel/courses/courses.interface";
 import { setLoading } from "../../reducers/loader/loader";
 import { getFilters } from "../../utils/genericApiCalls";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -38,11 +39,11 @@ const tableHeaders = [
 const ContestManagement = () => {
   const navigate = useNavigate();
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
 
-  const isCourseAdmin = userPermisions.data?.permission["is_course_admin"];
+  const isCourseAdmin = userPermisions?.permission["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -208,7 +209,7 @@ const ContestManagement = () => {
   const isCompleted = (status: boolean, id: number) => {
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
-        <button style={{ color: "rgb(4, 98, 33)" }}>
+        <button style={{ color: "#95c11e" }}>
           <SquarePen
             strokeWidth={1}
             onClick={() => {
@@ -310,13 +311,13 @@ const ContestManagement = () => {
     }
   };
 
-  if (userPermisions?.data?.permission["is_player"]) {
+  if (userPermisions?.permission["is_player"]) {
     return (
       <div>
         <ContestList />
       </div>
     );
-  } else if (!userPermisions?.data?.permission) {
+  } else if (!userPermisions?.permission) {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
@@ -393,7 +394,7 @@ const ContestManagement = () => {
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
           </div>
-          {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (
+          {!isCourseAdmin && !userPermisions?.permission["is_player"] && (
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {

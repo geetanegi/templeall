@@ -17,6 +17,7 @@ import RejectConfirmationModal from "./RejectConfirmationModal";
 // import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 import { getFilters } from "../../utils/genericApiCalls";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 interface MediaManagementProps {}
 
@@ -54,9 +55,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     Array<any>
   >([]);
   const [filterArray, setFilterArray] = useState<ContestType[]>([]);
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
 
   const dispatch = useDispatch();
 
@@ -160,7 +161,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       console.error(error);
     }
   };
-
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterValue(event.target.value);
     
@@ -208,9 +208,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     }
   };
 
-  if (userPermisions?.data?.permission["is_player"]) {
+  if (userPermisions?.permission["is_player"]) {
     return <PlayerMediaPage />;
-  } else if (!userPermisions?.data?.permission) {
+  } else if (!userPermisions?.permission) {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
@@ -222,7 +222,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between px-10 pt-10">
-        {userPermisions?.data?.permission["is_super_admin"] ? (
+        {userPermisions?.permission["is_super_admin"] ? (
           <div
             className="flex gap-[4px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[2px]"
             style={{ width: "max-content" }}
@@ -297,7 +297,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             </div>
           ) : null}
           {selectedTab === 3 &&
-          userPermisions?.data?.permission["is_super_admin"] ? (
+          userPermisions?.permission["is_super_admin"] ? (
             <button
               className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {
@@ -324,7 +324,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
-        isCourseAdmin={userPermisions?.data?.permission["is_course_admin"]}
+        isCourseAdmin={userPermisions?.permission["is_course_admin"]}
         setIsStatusChange={setIsStatusChange}
         isStatusChange={isStatusChange}
         setDataLength={setDataLength}

@@ -21,6 +21,7 @@ import ContestForm from "../components/Contests/ContestForm";
 import { parseInt } from "lodash";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
+import { decryptData, secretKey } from "../utils/encrypt";
 
 // interface recurrence {
 //   frequency: string;
@@ -230,12 +231,12 @@ const CreateContest: React.FC = () => {
     note: "",
   };
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
+  const isSuperAdmin = !userPermisions?.permission["is_super_admin"];
 
   const { state } = useLocation();
   console.log("state", state); // to be removed later

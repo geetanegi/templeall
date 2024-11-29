@@ -26,7 +26,6 @@ const QRModal: React.FC<QRModalProps> = ({
   };
 
   const queryParams = getQueryParams();
-  console.log("course", queryParams);
   return (
     <div>
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)} title={""}>

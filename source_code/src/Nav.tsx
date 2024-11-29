@@ -179,7 +179,7 @@ const Nav: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if(userPermisions?.data?.permission["is_player"]){
+    if (userPermisions?.data?.permission?.["is_player"]) {
       getAllNotification();
     }
   }, [location.pathname, userPermisions]);
@@ -298,11 +298,11 @@ const Nav: React.FC = () => {
                         </span>
                         {menu.routeUrl === location.pathname && (
                           //  ||  selectedMenu === menu.name
-                          <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                          <div className="w-[130%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                         )}
                         {location.pathname.startsWith(menu.routeUrl) &&
                           isContestsRoute(location.pathname) && (
-                            <div className="w-[110%] border-b-2 border-primaryColor text-[#1D1A0C]" />
+                            <div className="w-[130%] border-b-2 border-primaryColor text-[#1D1A0C]" />
                           )}
                         {/* sub menu for user */}
                         {selectedMenu === menu.name && dropdownOpen && (
@@ -331,7 +331,7 @@ const Nav: React.FC = () => {
                                     dispatch(logout());
                                     navigate(ROUTES.LOGIN, { replace: true });
                                     // localStorage.clear();
-                                  }}  
+                                  }}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
                                   Sign out
@@ -349,7 +349,7 @@ const Nav: React.FC = () => {
           </div>
           <div className="flex items-center space-x-3 md:order-3 rtl:space-x-reverse">
             <div className="relative mt-[7px]">
-              {userPermisions?.data?.permission["is_player"] ? (
+              {userPermisions?.data?.permission?.["is_player"] ? (
                 <Popover
                   content={
                     <NotificationPopoverComponent
@@ -400,7 +400,7 @@ const Nav: React.FC = () => {
                   {profiledetails?.firstName || ""}{" "}
                   {profiledetails?.lastName || ""}
                 </div>
-                {userPermisions?.data?.permission["is_player"] ? (
+                {userPermisions?.data?.permission?.["is_player"] ? (
                   <div className="flex items-center justify-center text-[#7B7887]">
                     <span className="text-[12px]">
                       HDCP: {profiledetails?.userProfile?.handicap}

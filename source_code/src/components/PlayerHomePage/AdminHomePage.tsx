@@ -54,7 +54,7 @@ const AdminHomePage: React.FC = () => {
       <div className="flex">
         <div className="w-full bg-[#ffffff]">
           <div className="bg-[#ffffff] bg-fixed px-4 pb-10 mb-10">
-            <div className="flex items-center justify-between px-4 py-4">
+            <div className="flex items-center justify-between  py-4">
               <p className="flex text-[18px] font-semibold">
                 {showAll && (
                   <CircleArrowLeft
@@ -97,7 +97,7 @@ const AdminHomePage: React.FC = () => {
             </div>
 
             {!showAll && (
-              <div className="mt-6 px-4">
+              <div className="mt-6">
                 {/* highlights tabs  */}
                 <ContestTabs showMostRecent={false} />
               </div>

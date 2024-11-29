@@ -13,7 +13,7 @@ import VideoPlayer from "./VideoPlayer";
 import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import { timeZone } from "../../utils/TimeUtils";
 
-interface PlayerMediaPageProps {}
+interface PlayerMediaPageProps { }
 
 interface getVideosListPayloadType {
   playerId?: number | string | undefined;
@@ -76,7 +76,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       } else if (data?.error && data.description) {
         ToastInfo(data.description);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -219,8 +219,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   };
 
   return (
-    <div className="h-full min-h-[100vh] bg-[#ffffff] bg-fixed px-10 pb-10">
-      <div className="flex justify-between pt-5">
+    <div className="h-full min-h-[100vh] bg-[#ffffff] bg-fixed px-[24px] pb-10">
+      <div className="flex justify-between pt-[24px]">
         <div
           className="flex h-[45px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
           style={{ width: "max-content" }}
@@ -309,7 +309,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           <div className="mt-3 flex w-full flex-wrap mb-3">
             {allVideos?.map((videoData) => {
               return (
-                <div className="w-[25%] px-2">
+                <div className="w-[25%]  pr-[10px]">
                   <VideoCard
                     key={videoData.id}
                     uploadDate={moment

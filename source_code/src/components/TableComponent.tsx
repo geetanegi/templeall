@@ -58,10 +58,10 @@ const TableComponent: React.FC<TableComponentProps> = ({
   }
 
   return (
-    <div className="mb-2 mt-3 flex h-full text-sm mb-1">
+    <div className="mb-2 mt-[16px] flex h-full text-sm mb-1">
       <div className="w-full">
         <div
-          className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg" : "rounded-t-lg"} 2xl:max-w-none mt-2 border border-gray-100 md:overflow-auto`}
+          className={`w-full overflow-x-scroll ${rowData.length ? "rounded-lg" : "rounded-t-lg"} 2xl:max-w-none  border border-gray-100 md:overflow-auto`}
           style={rowData.length ? {} : scrollbarStyles}
         >
           <table className="font-inter w-full table-auto overflow-scroll border text-left text-sm md:overflow-auto">
@@ -130,7 +130,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
           </div>
         )}
         {pagination ? (
-          <div className="mt-4 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
+          <div className="mt-4 flex w-full flex-col items-center justify-center gap-5  sm:flex-row sm:justify-between">
             <div className="flex items-center justify-center">
               <div>Showing results {currentPage * 10 + 1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
             </div>

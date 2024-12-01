@@ -15,14 +15,21 @@ const PlayerHomePage: React.FC = () => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const [videosData, setVideosData] = useState<any>([]);
+  const [totalSotwCount, setTotalSotwCount] = useState<number | string>(4);
 
-  const fetchSOTWVideosAPI = async () => {
+  const fetchSOTWVideosAPI = async (pagesize = 4) => {
     try {
       dispatch(setLoading(true));
       const { data, status } = await apiService.post<any>(
         API_URL.getAllShotOfTheWeek,
         {
           data: {
+            pageSortingParam: {
+              sortDir: "DESC",
+              sortBy: "createdDate",
+              pageNumber: 0,
+              pageSize: pagesize,
+            },
             searchParams: {
               isPublished: true,
             },
@@ -30,7 +37,8 @@ const PlayerHomePage: React.FC = () => {
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        setVideosData(data?.data);
+        setVideosData(data?.data.content);
+        setTotalSotwCount(data?.data.totalElements);
       } else if (data?.error && data.description) {
         ToastInfo(data.description);
       }
@@ -46,35 +54,38 @@ const PlayerHomePage: React.FC = () => {
 
   const [showAll, setShowAll] = useState(false);
 
-  const displayedData = showAll ? videosData : videosData.slice(0, 4);
 
   return (
     <PageLoader isActive={loader}>
       <div className="flex">
         <div className="w-full bg-[#ffffff]">
-          <div className="bg-[#ffffff] bg-fixed px-4 pb-10  mb-10">
-            <div className="flex items-center justify-between px-4 py-4">
+          <div className="bg-[#ffffff] bg-fixed px-4 pb-[24px]  mb-10">
+            <div className="flex items-center justify-between  py-4">
               <p className="flex text-[18px] font-semibold">
                 {showAll && (
                   <CircleArrowLeft
                     className="mr-3 cursor-pointer"
                     strokeWidth={1.25}
                     color="#95C11E"
-                    onClick={() => setShowAll(false)}
+                    onClick={() =>{
+                      fetchSOTWVideosAPI(4)
+                      setShowAll(false)}}
                   />
                 )}
                 Shot of the week
               </p>
-              {!showAll && videosData.length > 4 && (
+              {!showAll && Number(totalSotwCount) > 4 && (
                 <button
-                  onClick={() => setShowAll(true)}
+                  onClick={() => {
+                    fetchSOTWVideosAPI(10)
+                    setShowAll(true)}}
                   className="text-[14px] font-semibold text-[#046221]"
                 >
                   View All
                 </button>
               )}
             </div>
-            <div className="px-2">
+            <div className="">
               {videosData.length === 0 ? (
                 <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 ">
                   <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
@@ -90,12 +101,12 @@ const PlayerHomePage: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <PlayerSOTW data={displayedData} />
+                <PlayerSOTW data={videosData} />
               )}
             </div>
 
             {!showAll && (
-              <div className="mt-6 px-4">
+              <div className="mt-6 ">
                 {/* highlights tabs  */}
                 <ContestTabs showMostRecent={true} />
               </div>

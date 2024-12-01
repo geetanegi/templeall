@@ -19,7 +19,7 @@ import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 
-interface MediaManagementProps {}
+interface MediaManagementProps { }
 
 type ContestType = {
   id: string | number;
@@ -163,7 +163,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterValue(event.target.value);
-    
+
   };
 
   const handleInprogressVideoList = (data: any, action: string) => {
@@ -172,7 +172,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         const videoIndex = prevArr.findIndex(
           (item) => item.vidId === data.vidId,
         );
-        
+
         if (videoIndex !== -1) {
           const updatedArr = [...prevArr];
           updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };
@@ -214,11 +214,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
-  
+
 
   return (
     <div
-      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5"
+      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5 p-[24px]"
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between px-10 pt-10">

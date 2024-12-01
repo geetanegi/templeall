@@ -209,7 +209,7 @@ const ContestManagement = () => {
   const isCompleted = (status: boolean, id: number) => {
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
-        <button style={{ color: "#95c11e" }}>
+        <button style={{ color: "#046221" }}>
           <SquarePen
             strokeWidth={1}
             onClick={() => {
@@ -329,10 +329,10 @@ const ContestManagement = () => {
 
   return (
     <div
-      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat pb-10 pt-10 md:flex-row"
-      style={{ paddingTop: "20px", backgroundImage: `url(${BG})` }}
+      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat pb-[24px] mb-[24px] px-[24px] md:flex-row"
+      style={{ paddingTop: "24px", backgroundImage: `url(${BG})` }}
     >
-      <div className="flex-1 px-4 md:flex-[0.75] md:px-8 lg:flex-[0.75] xl:flex-[0.75]">
+      <div className="flex-1 md:flex-[0.75]  lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between gap-2">
             <select
@@ -401,7 +401,7 @@ const ContestManagement = () => {
                 navigate(ROUTES.CONTESTS, { state: "CREATE_CONTEST" });
               }}
             >
-              <Plus height={18} width={18} /> Create Contest
+              <Plus height={16} width={16} className="mt-[2px]" /> Create Contest
             </button>
           )}
         </div>

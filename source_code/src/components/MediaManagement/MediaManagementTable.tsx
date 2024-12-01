@@ -48,7 +48,7 @@ interface MediaManagementTableProps {
   isModalOpen: boolean;
   isSOTWModalOpen: boolean;
   uploadSotwProgressArr: Array<any>;
-  getAllMediaCounts:()=>{}
+  getAllMediaCounts: () => {}
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -397,7 +397,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                         (vid: any) => vid.id === data.id,
                       )?.[0].totalchunk,
                     )) *
-                    100,
+                  100,
                 )}
               />
             ) : !data.videos ? (
@@ -499,7 +499,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                         (vid: any) => vid.id === data.id,
                       )?.[0].totalchunk,
                     )) *
-                    100,
+                  100,
                 )}
               />
             ) : (
@@ -564,7 +564,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   };
 
   return (
-    <div className="px-10">
+    <div className="">
       <PageLoader isActive={loader}>
         <TableComponent
           rowData={rowData}

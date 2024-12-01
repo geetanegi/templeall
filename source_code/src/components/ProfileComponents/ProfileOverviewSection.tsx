@@ -117,7 +117,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
   };
 
   return (
-    <div className='lg:bg-custom-gradient-1 rounded-lg sm:rounded-l-full'>
+    <div className={`lg:bg-custom-gradient-1 rounded-lg sm:rounded-l-full ${!isCommunitySearch || userId ? "" : "invisible"}`}>
     <div
       className={`mx-auto mt-24 flex h-[432px] w-full flex-col-reverse justify-between bg-center rounded-lg p-6 sm:mt-0 sm:flex-row sm:rounded-l-full sm:shadow-lg bg-contain bg-no-repeat lg:mx-0 lg:ml-auto lg:bg-golfballBg ${!isCommunitySearch || userId ? "" : "invisible"} `}
       style={{ backgroundPosition: '30% center' }}

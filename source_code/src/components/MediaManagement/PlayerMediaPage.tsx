@@ -13,7 +13,7 @@ import VideoPlayer from "./VideoPlayer";
 import { timeZone } from "../../utils/TimeUtils";
 import { getFilters } from "../../utils/genericApiCalls";
 
-interface PlayerMediaPageProps {}
+interface PlayerMediaPageProps { }
 
 interface getVideosListPayloadType {
   playerId?: number | string | undefined;
@@ -86,7 +86,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
       } else if (data?.error && data.description) {
         ToastInfo(data.description);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getAllVideos = async () => {
@@ -277,7 +277,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
           </button>
         </div>
         {selectedTab !== 2 ? (
-          <div className="mb-4 flex gap-[16px]">
+          <div className="mb-4 flex gap-[16px] mr-[16px]">
             <div className="align-center flex">
               <select
                 id="courses"
@@ -356,7 +356,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             })}
           </div>
         ) : (
-          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3">
+          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 mr-[16px]">
             <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
               <VideoOff
                 color="#7B7887"

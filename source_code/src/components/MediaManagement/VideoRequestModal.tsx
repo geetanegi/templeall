@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../ModalComponent";
 import { Formik, FormikHelpers } from "formik";
 import apiService from "../../services/apiService";
@@ -10,7 +10,7 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { setLoading } from "../../reducers/loader/loader";
 import * as Yup from "yup";
 import FormikControl from "../../Formik/components/FormikControl";
-// import { getFilters } from "../../utils/genericApiCalls";
+import { getFilters } from "../../utils/genericApiCalls";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -38,15 +38,15 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
 }) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [selectedOption, setSelectedOption] = useState<number | string>("");
-  // const [videoCategory, setVideoCategory] = useState<
-  //   { id: string | number; type: string }[] | null
-  // >(null);
+  const [videoCategory, setVideoCategory] = useState<
+    { id: string | number; type: string }[] | null
+  >(null);
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getFilters("video_category", setVideoCategory);
-  // }, []);
+  useEffect(() => {
+    getFilters("video_category", setVideoCategory);
+  }, []);
 
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     if (selectedOption) {
@@ -140,39 +140,21 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                     ))}
                   </div> */}
                   <div className="flex space-x-4">
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="videoCategory"
-                        value="TOP_SHOT"
-                        checked={selectedOption === "TOP_SHOT"}
-                        onChange={handleTagChange}
-                        className="form-radio text-blue-600"
-                      />
-                      <span className="ml-2 text-[14px]">Top Shot</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="videoCategory"
-                        value="NOT_TOP_SHOT"
-                        checked={selectedOption === "NOT_TOP_SHOT"}
-                        onChange={handleTagChange}
-                        className="form-radio text-blue-600"
-                      />
-                      <span className="ml-2 text-[14px]">Not Top Shot</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="videoCategory"
-                        value="BLOOPERS"
-                        checked={selectedOption === "BLOOPERS"}
-                        onChange={handleTagChange}
-                        className="form-radio text-blue-600"
-                      />
-                      <span className="ml-2 text-[14px]">Blooper</span>
-                    </label>
+                    {videoCategory?.map((category) => (
+                      <>
+                        <label className="inline-flex items-center">
+                          <input
+                            type="radio"
+                            name="videoCategory"
+                            value={category.id}
+                            checked={selectedOption == category.id}
+                            onChange={handleTagChange}
+                            className="form-radio text-blue-600"
+                          />
+                          <span className="ml-2 text-[14px]">{category.type}</span>
+                        </label>
+                      </>
+                    ))}
                   </div>
 
                   <div>

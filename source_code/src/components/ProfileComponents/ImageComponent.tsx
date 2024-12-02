@@ -112,6 +112,9 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
       console.error("Error uploading the cropped image:", error);
     } finally {
       dispatch(setLoading(false));
+      if (fileInputRef?.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 

@@ -12,6 +12,7 @@ import { ROUTES } from "../../utils/routesPath";
 import { useFormikContext } from "formik";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 interface ContestProps {
   clubOptions: { value: number; key: string }[];
@@ -38,7 +39,7 @@ const ContestForm: React.FC<ContestProps> = ({
   endDate,
   toggleModal,
   isSuperAdmin,
-  // contestTypeOptions
+  contestTypeOptions
 }) => {
   const today = moment();
   const location = useLocation();
@@ -99,9 +100,9 @@ const ContestForm: React.FC<ContestProps> = ({
     location.pathname,
   );
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
 
   return (
     <div className="space-y-4 ">
@@ -109,18 +110,9 @@ const ContestForm: React.FC<ContestProps> = ({
         <div className="">
           <MUISelect
             label="Contest Type"
-            name="contestType"
+            name="contestTypeId"
             required={true}
-            options={[
-              {
-                key: "AceCam-Jackpot",
-                value: "ACE_CAM_JACKPOT",
-              },
-              {
-                key: "Closest-to-the-Pin",
-                value: "CLOSEST_TO_THE_PIN",
-              },
-            ]}
+            options={contestTypeOptions|| []}
             disabled={isUpdateContest ? true : false || isSuperAdmin}
           />
         </div>
@@ -272,7 +264,7 @@ const ContestForm: React.FC<ContestProps> = ({
                     </span>
                   </span>
                 )}
-                {userPermisions?.data?.permission["is_super_admin"] && (
+                {userPermisions?.permission["is_super_admin"] && (
                   <SquarePen
                     className={`mx-2 h-5 text-[#95c11e]`}
                     strokeWidth={1}

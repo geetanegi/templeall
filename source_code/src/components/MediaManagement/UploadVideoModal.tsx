@@ -87,7 +87,13 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
       } else {
         setCheckVideo(true);
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }finally{
+      if (fileInputRef?.current) {
+        fileInputRef.current.value = "";
+      }
+    }
   };
 
   const generateThumbnail = (file: File) => {

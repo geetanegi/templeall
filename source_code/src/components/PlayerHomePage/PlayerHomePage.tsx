@@ -15,14 +15,21 @@ const PlayerHomePage: React.FC = () => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const [videosData, setVideosData] = useState<any>([]);
+  const [totalSotwCount, setTotalSotwCount] = useState<number | string>(4);
 
-  const fetchSOTWVideosAPI = async () => {
+  const fetchSOTWVideosAPI = async (pagesize = 4) => {
     try {
       dispatch(setLoading(true));
       const { data, status } = await apiService.post<any>(
         API_URL.getAllShotOfTheWeek,
         {
           data: {
+            pageSortingParam: {
+              sortDir: "DESC",
+              sortBy: "createdDate",
+              pageNumber: 0,
+              pageSize: pagesize,
+            },
             searchParams: {
               isPublished: true,
             },
@@ -30,7 +37,8 @@ const PlayerHomePage: React.FC = () => {
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        setVideosData(data?.data);
+        setVideosData(data?.data.content);
+        setTotalSotwCount(data?.data.totalElements);
       } else if (data?.error && data.description) {
         ToastInfo(data.description);
       }
@@ -46,7 +54,6 @@ const PlayerHomePage: React.FC = () => {
 
   const [showAll, setShowAll] = useState(false);
 
-  const displayedData = showAll ? videosData : videosData.slice(0, 4);
 
   return (
     <PageLoader isActive={loader}>
@@ -60,14 +67,18 @@ const PlayerHomePage: React.FC = () => {
                     className="mr-3 cursor-pointer"
                     strokeWidth={1.25}
                     color="#95C11E"
-                    onClick={() => setShowAll(false)}
+                    onClick={() =>{
+                      fetchSOTWVideosAPI(4)
+                      setShowAll(false)}}
                   />
                 )}
                 Shot of the week
               </p>
-              {!showAll && videosData.length > 4 && (
+              {!showAll && Number(totalSotwCount) > 4 && (
                 <button
-                  onClick={() => setShowAll(true)}
+                  onClick={() => {
+                    fetchSOTWVideosAPI(10)
+                    setShowAll(true)}}
                   className="text-[14px] font-semibold text-[#046221]"
                 >
                   View All
@@ -90,7 +101,7 @@ const PlayerHomePage: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <PlayerSOTW data={displayedData} />
+                <PlayerSOTW data={videosData} />
               )}
             </div>
 

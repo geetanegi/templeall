@@ -21,6 +21,7 @@ import ContestForm from "../components/Contests/ContestForm";
 import { parseInt } from "lodash";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
+import { decryptData, secretKey } from "../utils/encrypt";
 
 // interface recurrence {
 //   frequency: string;
@@ -36,7 +37,7 @@ import { getFilters } from "../utils/genericApiCalls";
 // }
 
 interface ContestFormValues {
-  contestType: string | number;
+  contestTypeId: string | number;
   clubName: string;
   courseName: string;
   holesName: string;
@@ -60,7 +61,7 @@ interface ContestFormValues {
 
 // import * as Yup from 'yup';
 const validationSchema = Yup.object({
-  contestType: Yup.string().required("This field is mandatory."),
+  contestTypeId: Yup.string().required("This field is mandatory."),
   clubName: Yup.string().required("This field is mandatory."),
   courseName: Yup.string().required("This field is mandatory."),
   holesName: Yup.string().required("This field is mandatory."),
@@ -209,7 +210,7 @@ const CreateContest: React.FC = () => {
   const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
-    contestType: editData?.contestType || "",
+    contestTypeId: editData?.contestTypeId || "",
     clubName: editData?.club.id || "",
     courseName: editData?.course?.id || "",
     holesName: editData?.hole?.id || "",
@@ -230,12 +231,12 @@ const CreateContest: React.FC = () => {
     note: "",
   };
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
+  const isSuperAdmin = !userPermisions?.permission["is_super_admin"];
 
   const { state } = useLocation();
   console.log("state", state); // to be removed later
@@ -460,7 +461,7 @@ const CreateContest: React.FC = () => {
         timeZone: tz,
         id: id ? id : null,
         name: "Test contest 99",
-        contestType: values.contestType,
+        contestTypeId: values.contestTypeId,
         clubId: values.clubName,
         courseId: values.courseName,
         holeId: values.holesName,

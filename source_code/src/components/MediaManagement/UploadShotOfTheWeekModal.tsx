@@ -17,7 +17,7 @@ import moment from "moment";
 import uuid from "react-uuid";
 import { AnyMessageParams } from "yup/lib/types";
 import { formatDuration } from "./mediaUtils/mediaUtils";
-// import { getFilters } from "../../utils/genericApiCalls";
+import { getFilters } from "../../utils/genericApiCalls";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -37,7 +37,7 @@ const initialValue = {
   course: "",
   hole: "",
   tee: "",
-  contestType: "",
+  contestTypeId: "",
   dateTime: "",
   videoUrl: "",
   username: "",
@@ -54,7 +54,7 @@ const validationSchema = Yup.object({
   course: Yup.string().required("Course must be selected"),
   hole: Yup.string().required("Hole must be selected"),
   tee: Yup.string().required("Tee must be selected"),
-  contestType: Yup.string().required("Contest Name must be selected"),
+  contestTypeId: Yup.string().required("Contest Name must be selected"),
   dateTime: Yup.string().required("Date and Time must be selected"),
   username: Yup.string().required("Username is required"),
 });
@@ -112,10 +112,10 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   const [usersList, setUsersList] = useState<any>([]);
   const [searchUserFlag, setSearchUserFlag] = useState<boolean>(false);
   const [videoDuration, setVideoDuration] = useState<string>("00:00");
-  // const [contestTypeOptions, setContestTypeOptions] = useState<{
-  //   id: string | number;
-  //   type: string;
-  // }[] | null>(null)
+  const [contestTypeOptions, setContestTypeOptions] = useState<{
+    id: string | number;
+    type: string;
+  }[] | null>(null)
   const dispatch = useDispatch();
 
   const CHUNK_SIZE = 0.5 * 1024 * 1024;
@@ -163,9 +163,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     setVideoFile(null);
     setThumbnail("");
     setUsersList([]);
-    // if(isModalOpen){
-    //   getFilters("contest_type", setContestTypeOptions)
-    // }
+    if(isModalOpen){
+      getFilters("contest_type", setContestTypeOptions)
+    }
   }, [isModalOpen]);
 
   const handleButtonClick = () => {
@@ -182,7 +182,14 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       } else {
         setCheckVideo(true);
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }finally{
+      if (fileInputRef?.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+    
   };
 
   const generateThumbnail = (file: File) => {
@@ -257,7 +264,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             const data1 = {
               data: {
                 dateTime: ensureUTC(values.dateTime || ""),
-                contestType: values.contestType,
+                contestTypeId: values.contestTypeId,
                 club: values.club,
                 course: values.course,
                 hole: values.hole,
@@ -324,6 +331,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               ToastInfo(data.description);
               handleInprogressVideoList({ vidId }, "remove");
               setUsersList([]);
+              dispatch(setLoading(false));
               break
             }
           } else {
@@ -464,18 +472,12 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                       <div className="mb-3 px-5">
                         <MUISelect
                           label="Contest Type"
-                          name="contestType"
+                          name="contestTypeId"
                           required={true}
-                          options={[
-                            {
-                              key: "AceCam-Jackpot",
-                              value: "ACE_CAM_JACKPOT",
-                            },
-                            {
-                              key: "Closest-to-the-Pin",
-                              value: "CLOSEST_TO_THE_PIN",
-                            },
-                          ]}
+                          options={contestTypeOptions?.map((item) => ({
+                            value: item.id,
+                            key: item.type,
+                          })) || []}
                         />
                       </div>
                       <div className="px-5">

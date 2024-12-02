@@ -219,7 +219,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   };
 
   return (
-    <div className="h-full min-h-[100vh] bg-[#ffffff] bg-fixed pl-[24px] pr-[16px] pb-10">
+    <div className="h-full bg-[#ffffff] bg-fixed pl-[24px] pr-[16px] pb-10">
       <div className="flex justify-between pt-[24px]">
         <div
           className="flex h-[45px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"

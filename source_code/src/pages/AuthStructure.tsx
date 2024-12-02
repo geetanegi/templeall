@@ -76,7 +76,7 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
 
-            <div className="-mt-10 flex items-center justify-center gap-2 md:hidden">
+            <div className="-mt-10 flex items-center justify-center gap-2 ">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
@@ -102,8 +102,8 @@ const AuthStructure: React.FC = () => {
                 <a href="mailto:support@acecamgolf.com">Contact Us</a>
               </p>
             </div>
-            <div className="-mt-0 mb-10 flex items-center justify-center gap-2 md:hidden">
-              <div className="right-1 top-[1px] flex md:absolute">
+            <div className="-mt-0 mb-10 flex items-center justify-center gap-2 ">
+              <div className="right-1 top-[1px] flex">
                 <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                   © 2024 AceCam
                   <sup className="text-[8px]">TM&nbsp;</sup>{" "}

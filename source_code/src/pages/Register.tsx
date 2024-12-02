@@ -333,8 +333,8 @@ const Register: React.FC = () => {
                       maxLength={256}
                     />
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-20 pr-2">
+                  <div className="flex items-center h-[70px]">
+                    <div className="w-20 pr-2 h-[73px] ">
                       <FormikControl
                         authFlow={true}
                         label="Phone"
@@ -352,12 +352,15 @@ const Register: React.FC = () => {
                         control="number"
                         className="w-full"
                         placeholder="Phone"
-                        // required={true}
                         authFlow={true}
                         maxLength={10}
                       />
                     </div>
+
                   </div>
+                  <div className="text-xs  text-yellow-400 mb-[10px]">(By providing your phone number, you agree to receivetext messages from AceCam Golf LLC.Message and data rates may apply. )</div>
+
+
                   <div className="mb-4">
                     <FormikControl
                       label="GHIN (Optional)"
@@ -370,105 +373,7 @@ const Register: React.FC = () => {
                   </div>
 
                   <div className="mx-auto max-w-md">
-                    {/* <h2 className={`mb-4 text-xl font-semibold text-primaryText`}>
-                      Card Information
-                    </h2>
-                    <div className="mb-4 flex flex-col">
-                      <div
-                        className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
-                          cardTouched && cardError
-                            ? "border-red-500"
-                            : "border-gray-300"
-                        }`}
-                      >
-                        <CardNumberElement
-                          options={{
-                            placeholder: "Card Number",
-                            style: {
-                              base: {
-                                fontSize: "16px",
-                                color: "#fff",
-                                "::placeholder": {
-                                  color: "#fff",
-                                },
-                              },
-                              invalid: {
-                                color: "red",
-                              },
-                            },
-                          }}
-                        />
-                      </div>
-  
-                      <div
-                        className={`mb-5 rounded border-2 bg-black-opacity-50 p-4 ${
-                          cardTouched && cardError
-                            ? "border-red-500"
-                            : "border-gray-300"
-                        }`}
-                      >
-                        <CardExpiryElement
-                          options={{
-                            placeholder: "Expiry Date",
-                            style: {
-                              base: {
-                                fontSize: "16px",
-                                color: "#fff",
-                                "::placeholder": {
-                                  color: "#fff",
-                                },
-                              },
-                              invalid: {
-                                color: "red",
-                              },
-                            },
-                          }}
-                        />
-                      </div>
-                      <div
-                        className={`rounded border-2 bg-black-opacity-50 p-4 ${
-                          cardTouched && cardError
-                            ? "border-red-500"
-                            : "border-gray-300"
-                        }`}
-                      >
-                        <CardCvcElement
-                          options={{
-                            placeholder: "CVV",
-                            style: {
-                              base: {
-                                fontSize: "16px",
-                                color: "#fff",
-                                "::placeholder": {
-                                  color: "#fff",
-                                },
-                              },
-                              invalid: {
-                                color: "red",
-                              },
-                            },
-                          }}
-                        />
-                      </div>
-                      {cardTouched && cardError ? (
-                        <div className="mt-2 text-sm text-red-500">
-                          {cardError}
-                        </div>
-                      ) : null}
-                    </div>
-  
-                    <div className="mb-4 flex gap-4"></div>
-                    <div>
-                      <FormikControl
-                        label="Name On Card"
-                        name="nameOnCard"
-                        id="nameOnCard"
-                        control="input"
-                        className="w-full"
-                        placeholder="Enter Your Name"
-                        type="text"
-                      />
-                    </div> */}
+
                     <div className="mb-6 flex flex-col">
                       <label className="inline-flex items-center">
                         <Field

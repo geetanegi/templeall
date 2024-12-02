@@ -65,9 +65,12 @@ const MUITextArea: React.FC<TextAreaProps> = ({
                 <span
                   style={{
                     color: "#d32f2f",
-                    fontSize: "0.75rem",
+                    fontSize: "12px",
                     textAlign: "left",
                     display: "block",
+                    "fontFamily": "Helvetica",
+                    fontWeight: 400
+
                   }}
                 >
                   {msg}
@@ -77,7 +80,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
           </>
         )}
       </Field>
-    </div>
+    </div >
   );
 };
 

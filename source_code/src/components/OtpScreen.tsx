@@ -166,7 +166,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         </button>
 
         <div className="flex w-full flex-col items-center justify-center pb-4 md:flex-row md:justify-between md:pb-0">
-          <p className={`text-xs text-primaryText text-xs`}>
+          <p className={`text-[12px] text-primaryText text-xs`}>
             You can resend OTP in{" "}
             <span className={`text-yellowText`}>{timeLeft}</span> seconds
           </p>

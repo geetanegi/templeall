@@ -26,7 +26,7 @@ interface ContestProps {
   toggleModal: () => void;
   frequency: string;
   isSuperAdmin: boolean;
-  contestTypeOptions: {value:number|string; key:string}[]
+  contestTypeOptions: { value: number | string; key: string }[]
 }
 
 const ContestForm: React.FC<ContestProps> = ({
@@ -112,7 +112,7 @@ const ContestForm: React.FC<ContestProps> = ({
             label="Contest Type"
             name="contestTypeId"
             required={true}
-            options={contestTypeOptions|| []}
+            options={contestTypeOptions || []}
             disabled={isUpdateContest ? true : false || isSuperAdmin}
           />
         </div>

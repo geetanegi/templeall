@@ -12,16 +12,16 @@ import SearchInput from "./SearchInput";
 
 interface FormikControlProps {
   control:
-    | "input"
-    | "textarea"
-    | "select"
-    | "radio"
-    | "checkbox"
-    | "customCheckbox"
-    | "number"
-    | "date"
-    | "customInput"
-    | "searchInput";
+  | "input"
+  | "textarea"
+  | "select"
+  | "radio"
+  | "checkbox"
+  | "customCheckbox"
+  | "number"
+  | "date"
+  | "customInput"
+  | "searchInput";
 
   [key: string]: any;
 }
@@ -102,12 +102,14 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
       return <DatePicker label={rest.label} name={rest.name} {...rest} />;
     case "number":
       return (
-        <NumberInput
-          label={rest.label}
-          placeholder={rest.placeholder}
-          name={rest.name}
-          {...rest}
-        />
+        <div className="w-full h-[76px]">
+          <NumberInput
+            label={rest.label}
+            placeholder={rest.placeholder}
+            name={rest.name}
+            {...rest}
+          />
+        </div>
       );
     case "searchInput":
       return (

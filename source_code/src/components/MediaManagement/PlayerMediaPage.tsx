@@ -220,8 +220,8 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
   };
 
   return (
-    <div className="bg-[#ffffff] bg-fixed px-5 pb-10">
-      <div className="flex justify-between pt-5">
+    <div className="h-full bg-[#ffffff] bg-fixed pl-[24px] pr-[16px] pb-10">
+      <div className="flex justify-between pt-[24px]">
         <div
           className="flex h-[40px] gap-[16px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[4px]"
           style={{ width: "max-content" }}
@@ -356,7 +356,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             })}
           </div>
         ) : (
-          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 mr-[16px]">
+          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 mr-[16px] mt-2">
             <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
               <VideoOff
                 color="#7B7887"

@@ -221,7 +221,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5 p-[24px]"
       style={{ height: "max-content" }}
     >
-      <div className="flex justify-between px-10 pt-10">
+      <div className="flex justify-between">
         {userPermisions?.permission["is_super_admin"] ? (
           <div
             className="flex gap-[4px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[2px]"
@@ -276,7 +276,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               <select
                 id="courses"
                 defaultValue={filterValue}
-                className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:ml-2 md:mt-0 md:w-[320px]"
+                className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2  md:mt-0 md:w-[320px]"
                 onChange={handleFilterChange}
               >
                 <option value={""} 

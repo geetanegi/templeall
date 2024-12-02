@@ -5,13 +5,10 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
-import TikTok from "../assets/images/TikTok.svg";
 import aceCampLogo from "../assets/images/Logo_png with heading.png";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
-import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
 import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
-import InstagramLoginComponent from "../components/social-login/InstagramLoginComponent";
 import apiService from "../services/apiService";
 import { RootState } from "../store";
 import { setLoading } from "../reducers/loader/loader";
@@ -205,14 +202,10 @@ const Login: React.FC = () => {
           <p className="mt-[10px] text-center text-[14px] text-white">
             - or sign in using -{" "}
           </p>
-          <div className="mt-[10px] flex items-center justify-between">
-            <InstagramLoginComponent />
-            <FacebookLoginComponent
-              appId="490090883627586"
-              redirectUri={API_URL.fbRedirectUI}
-            />
-            <img src={TikTok} alt="" />
-            <GoogleLoginComponent />
+          <div className="mt-[10px] flex items-center justify-center">
+            <div className="mr-4">
+              <GoogleLoginComponent />
+            </div>
             <AppleSignInButton />
           </div>
         </div>

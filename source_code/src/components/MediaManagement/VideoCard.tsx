@@ -14,6 +14,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { PiPlayCircleBold } from "react-icons/pi";
+
 import VideoRequestModal from "./VideoRequestModal";
 
 import rejectedVideo from "../../assets/images/rejectedVideo.png";
@@ -337,11 +338,27 @@ const VideoCard: React.FC<VideoCardProps> = ({
     if (isApproved) {
       return (
         <div className="h-full w-full rounded-t-lg bg-gray-100 object-cover">
-          <img
-            className="h-full w-full rounded-t-lg object-cover"
-            src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
-            alt=""
-          />
+          {requestVideoPayload?.videos?.thumbnailUrl && (
+            <img
+              className="h-full w-full rounded-t-lg object-cover"
+              src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
+              alt=""
+            />
+
+          )}
+          {!requestVideoPayload?.videos?.thumbnailUrl && (
+            <div className="bg-#F5F6F7 h-full w-full rounded-t-lg object-cover">
+              <VideoOff
+                color="#7B7887"
+                // strokeWidth={1}
+                size={36}
+                className=" absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              />
+              <p className="text-[#7B7887] absolute bottom-[20%] text-sm px-4 text-center font-medium">The video is yet to be uploaded. Please contact your admin.</p>
+            </div>
+          )}
+
+
         </div>
       );
     } else if (status === "PENDING" || !status) {

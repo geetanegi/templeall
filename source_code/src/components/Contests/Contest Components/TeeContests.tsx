@@ -192,7 +192,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
               <span className="flex items-center rounded-md bg-green-100 px-2 mt-[4px]">
                 <img src={GolfTee} alt="" className="" />
                 <span className="p-1 text-xs font-semibold text-green-700">
-                  {teeContest.activeStatus}
+                  {teeContest.activeStatus ? "Active" : "Inactive"}
                 </span>
               </span>
             </div>

@@ -148,7 +148,7 @@ const Nav: React.FC = () => {
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        const profileImage = data?.data?.userProfile?.imageBase64;
+        const profileImage = data?.data?.userProfile?.imageUrl;
         dispatch(updateProfileImage({ profileImage }));
         dispatch(updateProfile({ profiler: data.data }));
       } else if (data?.error && data.description) {
@@ -384,7 +384,7 @@ const Nav: React.FC = () => {
                   <div className="h-10 w-10 object-contain">
                     <img
                       className="w-full rounded-full"
-                      src={`data:image/png;base64,${profileImage}`}
+                      src={profileImage}
                       alt="user photo"
                     />
                   </div>

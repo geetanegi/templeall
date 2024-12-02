@@ -7,10 +7,6 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
-import { viewPdf } from "../utils/downloadUtils";
-
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -127,13 +123,6 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
     setShowOtpScreen(false);
   };
 
-  const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
-  };
-
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
 
   return (
     <>
@@ -145,31 +134,29 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           </span>
         </h4>
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
-        <span className="text-[#FFDE59]">{otpError}</span>
+        <span className="text-[#FFDE59] text-xs">{otpError}</span>
 
-        <div className="flex w-full flex-col-reverse items-center justify-center justify-between pb-2 md:flex-row md:justify-between md:pb-6">
-          <div className="flex text-center">
-            <p className={`text-xs text-primaryText md:text-sm`}>
-              Didn't you receive the OTP?{" "}
-              <button
-                className={`font-semibold text-link ${
-                  timeLeft > 0 && isRunning
-                    ? "cursor-not-allowed opacity-60"
-                    : "cursor-pointer text-red-600"
+        <p className="mb-4 pl-6 text-xs font-normal text-[#ffffff] text-right w-[100%] mt-0">
+          OTP is valid for 5 minutes
+        </p>
+
+        <div className="flex text-center">
+          <p className={`text-xs text-primaryText text-sm`}>
+            Didn't you receive the OTP?{" "}
+            <button
+              className={`font-semibold text-link ${timeLeft > 0 && isRunning
+                ? "cursor-not-allowed opacity-60"
+                : "cursor-pointer text-link"
                 }`}
-                onClick={handleReset}
-                disabled={timeLeft > 0 && isRunning}
-              >
-                Resend OTP
-              </button>
-            </p>
-          </div>
-          <div className="flex w-full flex-col items-center justify-center md:w-auto md:flex-row md:justify-between">
-            <p className="mb-4 pl-6 text-xs font-semibold text-[#ffffff] sm:text-left md:px-0 md:text-center md:text-sm lg:text-right">
-              OTP is valid for 5 minutes
-            </p>
-          </div>
+              onClick={handleReset}
+              disabled={timeLeft > 0 && isRunning}
+            >
+              Resend OTP
+            </button>
+          </p>
         </div>
+
+
 
         <button
           onClick={handleOTP}
@@ -179,58 +166,19 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         </button>
 
         <div className="flex w-full flex-col items-center justify-center pb-4 md:flex-row md:justify-between md:pb-0">
-          <p className={`text-xs text-primaryText md:text-sm`}>
+          <p className={`text-xs text-primaryText text-xs`}>
             You can resend OTP in{" "}
             <span className={`text-yellowText`}>{timeLeft}</span> seconds
           </p>
           <Link
             to={ROUTES.LOGIN}
-            className={`text-xs text-link hover:underline md:text-sm`}
+            className={`text-xs text-link hover:underline text-xs`}
             onClick={handleOtpState}
           >
             Back to Login
           </Link>
         </div>
-        <div>
-          <div className="fixed bottom-14 right-[5px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">
-              <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
-              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-              >
-                <a href="mailto:support@acecamgolf.com">Contact Us</a>
-              </p>
-            </div>
-          </div>
-          <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] flex md:absolute">
-              <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                © 2024 AceCam
-                <sup className="text-[8px]">TM&nbsp;</sup>{" "}
-                {/* <span className="align-super text-xs">™&nbsp;</span> */}
-                Golf, LLC. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </div>
+
       </div>
     </>
   );

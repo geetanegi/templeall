@@ -205,14 +205,10 @@ const Login: React.FC = () => {
           <p className="mt-[10px] text-center text-[14px] text-white">
             - or sign in using -{" "}
           </p>
-          <div className="mt-[10px] flex items-center justify-between">
-            <InstagramLoginComponent />
-            <FacebookLoginComponent
-              appId="490090883627586"
-              redirectUri={API_URL.fbRedirectUI}
-            />
-            <img src={TikTok} alt="" />
-            <GoogleLoginComponent />
+          <div className="mt-[10px] flex items-center justify-center">
+            <div className="mr-4">
+              <GoogleLoginComponent />
+            </div>
             <AppleSignInButton />
           </div>
         </div>

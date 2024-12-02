@@ -344,7 +344,7 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
             })}
           </div>
         ) : (
-          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 mr-[16px]">
+          <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 mr-[16px] mt-2">
             <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
               <VideoOff
                 color="#7B7887"

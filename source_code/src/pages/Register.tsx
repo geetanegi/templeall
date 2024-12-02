@@ -350,7 +350,7 @@ const Register: React.FC = () => {
                     </div>
 
                   </div>
-                  <div className="text-xs  text-yellow-400 mb-[10px]">(By providing your phone number, you agree to receive text messages from AceCam Golf LLC.Message and data rates may apply. )</div>
+                  <div className="text-xs  text-[#FFDE59] mb-[10px]">(By providing your phone number, you agree to receivetext messages from AceCam Golf LLC.Message and data rates may apply. )</div>
 
 
                   <div className="mb-4">

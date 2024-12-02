@@ -130,6 +130,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
           fetchUserInformation={fetchUserInformation}
           userInfo={userInfo}
           userId={userId}
+          userPermisions={userPermisions}
         />
       ) : (
         <div className="ml-0 h-full w-[70%] lg:ml-20">

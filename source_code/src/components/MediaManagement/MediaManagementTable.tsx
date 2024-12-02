@@ -355,10 +355,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             reuestDate: moment()
-              .utc(data?.requestTime)
+              .utc(data?.startTime)
               .local()
               .format("MM-DD-YYYY-"),
-            time: moment.utc(data?.requestTime).local().format("hh:mm A"),
+            time: moment.utc(data?.startTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">
                 <CirclePlay

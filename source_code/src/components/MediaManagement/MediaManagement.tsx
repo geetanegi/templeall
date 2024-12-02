@@ -19,12 +19,12 @@ import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 
-interface MediaManagementProps { }
+interface MediaManagementProps {}
 
 type ContestType = {
   id: string | number;
   type: string;
-  displayName: string
+  displayName: string;
 };
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
@@ -55,9 +55,12 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     Array<any>
   >([]);
   const [filterArray, setFilterArray] = useState<ContestType[]>([]);
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermisions = JSON.parse(
+    decryptData(
+      useSelector((state: RootState) => state.auth.userPermissions),
+      secretKey,
+    ),
+  );
 
   const dispatch = useDispatch();
 
@@ -74,7 +77,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const computeFilterDropDown = (selectedTab: number) => {
     if (selectedTab === 1) {
       getFilters("contest_type", setFilterArray);
-    }else if(selectedTab === 2){
+    } else if (selectedTab === 2) {
       getFilters("request_status", setFilterArray);
     }
   };
@@ -127,7 +130,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const handleUpdateStatus = async (
     id: number | string,
     status: string,
-    statusId:number | string,
+    statusId: number | string,
     rejectReasons?: string,
   ) => {
     const updatedStatus = status === "Rejected" ? "Reject" : status;
@@ -163,7 +166,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterValue(event.target.value);
-
   };
 
   const handleInprogressVideoList = (data: any, action: string) => {
@@ -214,15 +216,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
-
-
   return (
     <div
-      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5 p-[24px]"
+      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed p-[24px] pb-5"
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between">
-        {userPermisions?.permission["is_super_admin"] ? (
+        {!userPermisions?.permission["is_player"] ? (
           <div
             className="flex gap-[4px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[2px]"
             style={{ width: "max-content" }}
@@ -241,33 +241,37 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                   : mediaCounts.Video_Management || 0}
               </span>
             </button>
-            <button
-              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
-              onClick={() => setSelectedTab(2)}
-            >
-              <FileVideo2
-                className={`mr-2 h-[16px] w-[16px] ${selectedTab === 2 ? "text-[#ffffff]" : "text-[#7B7887]"}`}
-              />
-              Requested Videos
-              <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-                {selectedTab === 2 && filterValue
-                  ? dataLength
-                  : mediaCounts.Requested_Video || 0}
-              </span>
-            </button>
-            <button
-              className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
-              onClick={() => setSelectedTab(3)}
-            >
-              <FileVideo2
-                className={`mr-2 h-[16px] w-[16px] ${selectedTab === 3 ? "text-[#ffffff]" : "text-[#7B7887]"}`}
-              />
-              Shot of the Week
-              <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-                {Number(mediaCounts.Shot_Of_The_Week) +
-                  uploadSotwProgressArr.length || 0}
-              </span>
-            </button>
+            {userPermisions?.permission["is_super_admin"] ? (
+              <>
+                <button
+                  className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
+                  onClick={() => setSelectedTab(2)}
+                >
+                  <FileVideo2
+                    className={`mr-2 h-[16px] w-[16px] ${selectedTab === 2 ? "text-[#ffffff]" : "text-[#7B7887]"}`}
+                  />
+                  Requested Videos
+                  <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
+                    {selectedTab === 2 && filterValue
+                      ? dataLength
+                      : mediaCounts.Requested_Video || 0}
+                  </span>
+                </button>
+                <button
+                  className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[6px] font-[14px] ${selectedTab === 3 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
+                  onClick={() => setSelectedTab(3)}
+                >
+                  <FileVideo2
+                    className={`mr-2 h-[16px] w-[16px] ${selectedTab === 3 ? "text-[#ffffff]" : "text-[#7B7887]"}`}
+                  />
+                  Shot of the Week
+                  <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
+                    {Number(mediaCounts.Shot_Of_The_Week) +
+                      uploadSotwProgressArr.length || 0}
+                  </span>
+                </button>
+              </>
+            ) : null}
           </div>
         ) : null}
         <div className="flex gap-[16px]">
@@ -276,19 +280,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               <select
                 id="courses"
                 defaultValue={filterValue}
-                className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2  md:mt-0 md:w-[320px]"
+                className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[320px]"
                 onChange={handleFilterChange}
               >
-                <option value={""} 
-                >
-                  All videos
-                </option>
+                <option value={""}>All videos</option>
                 {filterArray?.map((filter) => {
                   return (
-                    <option
-                      key={filter.id}   
-                      value={filter.id}
-                    >
+                    <option key={filter.id} value={filter.id}>
                       {filter.displayName}
                     </option>
                   );
@@ -296,8 +294,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               </select>
             </div>
           ) : null}
-          {selectedTab === 3 &&
-          userPermisions?.permission["is_super_admin"] ? (
+          {selectedTab === 3 && userPermisions?.permission["is_super_admin"] ? (
             <button
               className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {

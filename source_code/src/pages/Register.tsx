@@ -3,15 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-// import {
-//   useStripe,
-//   useElements,
-//   // CardNumberElement,
-//   // CardExpiryElement,
-//   // CardCvcElement,
-// } from "@stripe/react-stripe-js";
-// assets import
-import TikTok from "../assets/images/TikTok.svg";
+
 import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import FormikControl from "../Formik/components/FormikControl";
@@ -22,8 +14,6 @@ import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
-import InstagramLoginComponent from "../components/social-login/InstagramLoginComponent";
-import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
 import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
 import { API_URL } from "../services/enums";
 import dayjs from "dayjs";

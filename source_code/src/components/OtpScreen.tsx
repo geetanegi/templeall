@@ -7,10 +7,6 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
-import { viewPdf } from "../utils/downloadUtils";
-
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -127,13 +123,6 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
     setShowOtpScreen(false);
   };
 
-  const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
-  };
-
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
 
   return (
     <>

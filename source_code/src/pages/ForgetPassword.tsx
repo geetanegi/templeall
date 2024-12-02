@@ -13,9 +13,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
-import { viewPdf } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
+
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -91,13 +89,6 @@ const ForgetPassword: React.FC = () => {
         />
       );
     }
-  };
-
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
-  const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
   };
 
   return (

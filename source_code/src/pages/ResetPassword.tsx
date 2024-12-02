@@ -12,9 +12,6 @@ import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
-import { viewPdf } from "../utils/downloadUtils";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 import { encryptData, secretKey } from "../utils/encrypt";
 
 const ResetPassword: React.FC = () => {
@@ -90,13 +87,6 @@ const ResetPassword: React.FC = () => {
     }
   };
 
-  const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
-  };
-
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
 
   return (
     <div className="flex w-full flex-col items-center rounded-lg border p-2 md:mt-10 md:w-full md:p-6">

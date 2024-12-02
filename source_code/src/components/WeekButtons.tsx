@@ -15,7 +15,7 @@ const DayButton: React.FC<DayButtonProps> = ({ day, isActive, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-8 rounded-md px-2 py-1 text-sm ${isActive ? "bg-[#95c11e]" : "bg-[#7b7887]"}`}
+      className={`w-8 rounded-md px-2 py-1 text-sm ${isActive ? "bg-primaryColor" : "bg-[#7b7887]"}`}
     >
       <span className="text-sm font-bold text-white"> {day.label}</span>
     </button>

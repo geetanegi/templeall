@@ -141,7 +141,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             ? "Course Admin"
             : "Player";
       return Data.map((item) => {
-        const activeStatus = item.activeStatus === "Active";
+        const activeStatus = item.activeStatus;
         return {
           name: computeUserName(
             item.firstName,
@@ -184,7 +184,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           } else if (selectedUserTab === 2) {
             if (
               isCourseAdmin &&
-              userPermisions.data?.permission["is_course_admin"]
+              userPermisions.data?.permission?.["is_course_admin"]
             ) {
               listingEndPoint = API_URL.getClubCourseAdmin;
               payload = {

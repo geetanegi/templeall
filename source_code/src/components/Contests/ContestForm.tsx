@@ -12,6 +12,7 @@ import { ROUTES } from "../../utils/routesPath";
 import { useFormikContext } from "formik";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 interface ContestProps {
   clubOptions: { value: number; key: string }[];
@@ -40,7 +41,6 @@ const ContestForm: React.FC<ContestProps> = ({
   isSuperAdmin,
   contestTypeOptions
 }) => {
-  // debugger
   const today = moment();
   const location = useLocation();
   const { setFieldValue, errors, touched } = useFormikContext<{
@@ -100,9 +100,9 @@ const ContestForm: React.FC<ContestProps> = ({
     location.pathname,
   );
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
 
   return (
     <div className="space-y-4 ">
@@ -264,7 +264,7 @@ const ContestForm: React.FC<ContestProps> = ({
                     </span>
                   </span>
                 )}
-                {userPermisions?.data?.permission["is_super_admin"] && (
+                {userPermisions?.permission["is_super_admin"] && (
                   <SquarePen
                     className={`mx-2 h-5 text-[#95c11e]`}
                     strokeWidth={1}

@@ -48,7 +48,7 @@ interface MediaManagementTableProps {
   isModalOpen: boolean;
   isSOTWModalOpen: boolean;
   uploadSotwProgressArr: Array<any>;
-  getAllMediaCounts:()=>{}
+  getAllMediaCounts: () => {}
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -73,7 +73,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   uploadSotwProgressArr,
   getAllMediaCounts
 }) => {
-  debugger
+  
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
@@ -355,10 +355,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             reuestDate: moment()
-              .utc(data?.requestTime)
+              .utc(data?.startTime)
               .local()
               .format("MM-DD-YYYY-"),
-            time: moment.utc(data?.requestTime).local().format("hh:mm A"),
+            time: moment.utc(data?.startTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">
                 <CirclePlay
@@ -397,7 +397,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                         (vid: any) => vid.id === data.id,
                       )?.[0].totalchunk,
                     )) *
-                    100,
+                  100,
                 )}
               />
             ) : !data.videos ? (
@@ -499,7 +499,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                         (vid: any) => vid.id === data.id,
                       )?.[0].totalchunk,
                     )) *
-                    100,
+                  100,
                 )}
               />
             ) : (
@@ -564,7 +564,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   };
 
   return (
-    <div className="px-10">
+    <div className="">
       <PageLoader isActive={loader}>
         <TableComponent
           rowData={rowData}

@@ -72,7 +72,6 @@ const ContestList: React.FC = () => {
   );
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-
   // const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   // const [selectedHoleId, setSelectedHoleId] = useState<number | null>(null);
   // const [selectedTeeId, setSelectedTeeId] = useState<number | null>(null);
@@ -200,8 +199,7 @@ const ContestList: React.FC = () => {
   useEffect(() => {
     if (
       selectedCourseId !== null &&
-      HoleList?.data[0]?.id !== undefined &&
-      selectedHoleId === null
+      HoleList?.data[0]?.id !== undefined
     ) {
       dispatch(setSelectedHoleId(HoleList.data[0].id));
       dispatch(setHoleNumber(HoleList.data[0].holeNumber));
@@ -285,7 +283,7 @@ const ContestList: React.FC = () => {
                     ))}
                     {/* <TeeInfo  />   */}
                   </div>
-                  <div className="h-96 w-[70%] overflow-auto last:mb-[75px]">
+                  <div className="h-96 w-[70%] overflow-auto last:mb-[20px]">
                     {contestList?.data.map((contestListItem) => (
                       <TeeContests
                         key={contestListItem.contestId}

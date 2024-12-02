@@ -14,6 +14,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { PiPlayCircleBold } from "react-icons/pi";
+
 import VideoRequestModal from "./VideoRequestModal";
 
 import rejectedVideo from "../../assets/images/rejectedVideo.png";
@@ -211,7 +212,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <span></span>
             <div className="n relative ml-auto mr-10 mt-0 flex h-[16px] w-[44px] gap-[12px] text-sm">
               <div
-                className="flex items-center space-x-5"
+                className="flex items-center space-x-5 cursor-pointer"
                 onClick={() => {
                   if (requestVideoPayload?.videos?.url) {
                     setIsDrawerOpen(true);
@@ -228,7 +229,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
               {/* Comments */}
               <div className="flex gap-1">
                 <ThumbsUp
-                  className={`${like.islike ? "text-buttonPrimary" : ""} `}
+                  className={`${like.islike ? "text-buttonPrimary" : ""} cursor-pointer`}
                   size={16}
                   onClick={() => {
                     makeVieoLiked(
@@ -337,11 +338,27 @@ const VideoCard: React.FC<VideoCardProps> = ({
     if (isApproved) {
       return (
         <div className="h-full w-full rounded-t-lg bg-gray-100 object-cover">
-          <img
-            className="h-full w-full rounded-t-lg object-cover"
-            src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
-            alt=""
-          />
+          {requestVideoPayload?.videos?.thumbnailUrl && (
+            <img
+              className="h-full w-full rounded-t-lg object-cover"
+              src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
+              alt=""
+            />
+
+          )}
+          {!requestVideoPayload?.videos?.thumbnailUrl && (
+            <div className="bg-#F5F6F7 h-full w-full rounded-t-lg object-cover">
+              <VideoOff
+                color="#7B7887"
+                // strokeWidth={1}
+                size={36}
+                className=" absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              />
+              <p className="text-[#7B7887] absolute bottom-[20%] text-sm px-4 text-center font-medium">The video is yet to be uploaded. Please contact your admin.</p>
+            </div>
+          )}
+
+
         </div>
       );
     } else if (status === "PENDING" || !status) {
@@ -431,14 +448,14 @@ const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <>
       <div
-        className={`cursor-pointer rounded-lg   bg-gradient-green text-white shadow-lg max-h-[330px]`}
+        className={` rounded-lg   bg-gradient-green text-white shadow-lg max-h-[330px]`}
         style={{ width: width }}
       >
         {/* Thumbnail with duration and overlay icons */}
         <div className="relative h-[175px] overflow-hidden rounded-t-lg bg-[#ffffff]">
           {computeVideoThumbnail()}
           {/* Play Button */}
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center ">
             {" "}
             {status === "REJECT" ? (
               <div className="flex h-[70%] w-[90%] flex-col rounded-md bg-[#1D1A0C99] text-[14px]">
@@ -448,7 +465,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                       color="#ffffff"
                       // strokeWidth={1}
                       size={36}
-                      className="rounded-full bg-[#FFFFFF59] p-2 font-extralight"
+                      className="rounded-full bg-[#FFFFFF59] p-2 font-extralight "
                     />
                   </div>
                 </div>
@@ -459,7 +476,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             ) : (
               <PiPlayCircleBold
                 style={{ height: "38px", width: "38px" }}
-                className={`${requestVideoPayload?.videos?.url ? "visible" : "invisible"}`}
+                className={`${requestVideoPayload?.videos?.url ? "visible" : "invisible"} cursor-pointer`}
                 onClick={() => {
                   if (isApproved) {
                     if (

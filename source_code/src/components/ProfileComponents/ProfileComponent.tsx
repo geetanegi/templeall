@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import FeatureHighlightsComponents from "./CommunityPanel/FeatureHighlightsComponents";
 import { useLocation } from "react-router-dom";
+import { decryptData, secretKey } from "../../utils/encrypt";
 // import { useLocation } from 'react-router-dom';
 
 interface ProfileComponentProps {
@@ -18,9 +19,9 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
 }) => {
   const location = useLocation();
   const { id, role } = location.state || {};
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
 
   const [selectedUser, setSelectedUser] = useState<string | number>(userId);
   const [showUserNotFound, setShowUserNotFound] = useState<boolean>(false)
@@ -34,7 +35,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
       <div className="bg-white-700 h-full min-h-[90vh] w-full overflow-auto bg-contain bg-cover bg-fixed bg-no-repeat sm:flex-row sm:bg-profilebackground md:flex-row lg:overflow-hidden">
         <div className="flex w-full pt-6">
 
-          {userPermisions?.data?.permission["is_player"] &&
+          {userPermisions?.permission["is_player"] &&
             isCommunitySearch ? (
             <CommunitySearchComponent
               selectedUser={selectedUser}

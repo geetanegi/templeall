@@ -112,6 +112,9 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
       console.error("Error uploading the cropped image:", error);
     } finally {
       dispatch(setLoading(false));
+      if (fileInputRef?.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -191,7 +194,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
 
   return (
     <PageLoader isActive={loader}>
-      <div className="left- relative top-[-24px] flex h-[432px] w-[360px] flex-col">
+      <div className="left- relative top-[-24px] flex h-[432px] w-[300px] flex-col ml-5">
         <button
           className={`z-10 ml-auto mt-5 w-10 cursor-pointer rounded-full bg-[#1D1A0C66] p-2 text-center ${!userId || (typeof userInfo === "object" && "userId" in userInfo && userId == userInfo.userId) ? "" : "invisible"} `}
         >
@@ -207,7 +210,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
             onChange={handleFileChange}
           />
         </button>
-        <div className="border-gray relative left-[40px] top-[-68px] mx-auto h-[432px] w-[360px] border bg-gray-500 p-2 lg:border-0 lg:lg:bg-transparent">
+        <div className="border-gray relative left-[-10px] top-[-68px] mx-auto h-[432px] w-[360px] border bg-gray-500 p-2 lg:border-0 lg:lg:bg-transparent">
           <div
             className="ml-auto"
             style={{ width: "max-content", height: "max-content" }}

@@ -13,9 +13,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
-import { viewPdf } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
+
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -93,13 +91,6 @@ const ForgetPassword: React.FC = () => {
     }
   };
 
-  const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
-  };
-  const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
-  };
-
   return (
     <div className="w-full">
       <div
@@ -108,7 +99,7 @@ const ForgetPassword: React.FC = () => {
         {/* // sm:max-h-56 for mobile but not */}
         <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
 
-        <h1 className={`py-5 text-2xl font-semibold text-primaryText`}>
+        <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
@@ -149,47 +140,8 @@ const ForgetPassword: React.FC = () => {
             </p>
           </>
         )}
-        <div className="md:w-[260px]">{DisplayScreens()}</div>
-        <div>
-          <div className="fixed bottom-14 right-[5px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] mt-2 flex gap-2 md:absolute">
-              <p
-                onClick={downloadTermsAndConditionsFunc}
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-              >
-                Terms and Conditions
-              </p>{" "}
-              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-                onClick={downloadPrivacyPolicyFunc}
-              >
-                {" "}
-                Privacy Policy
-              </p>
-              <p className="cursor-pointer whitespace-nowrap text-[13px] text-[#FFFFFF] hover:underline">
-                |
-              </p>{" "}
-              <p
-                className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
-              >
-                <a href="mailto:support@acecamgolf.com">Contact Us</a>
-              </p>
-            </div>
-          </div>
-          <div className="fixed bottom-14 left-[80px] hidden h-0.5 w-[17%] items-end md:flex">
-            <div className="right-1 top-[1px] flex md:absolute">
-              <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                © 2024 AceCam
-                <sup className="text-[8px]">TM&nbsp;</sup>{" "}
-                {/* <span className="align-super text-xs">™&nbsp;</span> */}
-                Golf, LLC. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </div>
+        <div className="md:w-[280px]">{DisplayScreens()}</div>
+
       </div>
     </div>
   );

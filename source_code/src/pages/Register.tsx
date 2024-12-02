@@ -3,15 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-// import {
-//   useStripe,
-//   useElements,
-//   // CardNumberElement,
-//   // CardExpiryElement,
-//   // CardCvcElement,
-// } from "@stripe/react-stripe-js";
-// assets import
-import TikTok from "../assets/images/TikTok.svg";
+
 import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import FormikControl from "../Formik/components/FormikControl";
@@ -22,8 +14,6 @@ import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
-import InstagramLoginComponent from "../components/social-login/InstagramLoginComponent";
-import FacebookLoginComponent from "../components/social-login/FacebookLoginComponent";
 import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
 import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
@@ -542,14 +532,10 @@ const Register: React.FC = () => {
             <p className="mt-[10px] text-center text-[14px] text-white">
               - or sign in using -{" "}
             </p>
-            <div className="mt-[10px] flex w-full items-center justify-between">
-              <InstagramLoginComponent />
-              <FacebookLoginComponent
-                appId="490090883627586"
-                redirectUri={API_URL.fbRedirectUI}
-              />
-              <img src={TikTok} alt="" />
-              <GoogleLoginComponent />
+            <div className="mt-[10px] flex items-center justify-center">
+              <div className="mr-4">
+                <GoogleLoginComponent />
+              </div>
               <AppleSignInButton />
             </div>
           </div>

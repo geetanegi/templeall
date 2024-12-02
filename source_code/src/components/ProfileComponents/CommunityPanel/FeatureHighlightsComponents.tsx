@@ -57,7 +57,7 @@ const FeatureHighlightsComponents: React.FC<
   }
 
   return (
-    <div className="my-5 w-[95%] rounded-[8px] bg-[#1D1A0C99] p-3 mb-16 pb-5">
+    <div className="my-5 w-[98%] rounded-[8px] bg-[#1D1A0C99] p-3 mb-16 pb-5 mr-[24px]">
       <div className="flex items-center justify-between">
         <span className="text-[16px] text-[#ffffff]">
           Featured Highlights
@@ -101,8 +101,8 @@ const FeatureHighlightsComponents: React.FC<
           })}
         </div>
       ) : (
-        <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A] mb-4">
-          <VideoOff color="#ffffff" size={84} className="font-extralight" />
+        <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A] mb-4 ">
+          <VideoOff color="#ffffff" size={84} className="font-extralight " />
           <span className="text-[#F5F6F7]">
             No videos are available to watch
           </span>

@@ -23,6 +23,7 @@ import { ROUTES } from "../utils/routesPath";
 import { ensureUTC } from "../utils/TimeUtils";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
+import { decryptData, secretKey } from "../utils/encrypt";
 
 // interface recurrence {
 //   frequency: string;
@@ -256,12 +257,12 @@ const Contests: React.FC = () => {
     note: editData?.note,
   };
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
+  const isSuperAdmin = !userPermisions?.permission["is_super_admin"];
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -456,7 +457,6 @@ const Contests: React.FC = () => {
     values: ContestFormValues,
     { setSubmitting }: FormikHelpers<ContestFormValues>,
   ) => {
-    debugger
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
     if (saveState.repeatEvery === 0 || saveState.frequency === "") {
@@ -493,7 +493,7 @@ const Contests: React.FC = () => {
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
-        activeStatus: editData?.activeStatus,
+        activeStatus: editData?.activeStatus ? "Active" : "Inactive",
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
           id: editData?.payoutStructure?.id,
@@ -556,7 +556,7 @@ const Contests: React.FC = () => {
                 <h3 className="mb-2 text-xl font-bold">
                   {/* {pathname === ROUTES.CREATE_CONTEST
                     ? " Create Contest"
-                    : userPermisions.data?.permission["is_course_admin"]
+                    : userPermisions?.permission["is_course_admin"]
                       ? "Contest Details"
                       : "Edit Contest"} */}
                   Edit Contest
@@ -629,7 +629,7 @@ const Contests: React.FC = () => {
                             Back
                           </button>
 
-                          {userPermisions.data?.permission[
+                          {userPermisions?.permission[
                             "is_super_admin"
                           ] && (
                               <button

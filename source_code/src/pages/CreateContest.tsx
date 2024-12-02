@@ -475,7 +475,7 @@ const CreateContest: React.FC = () => {
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
-        activeStatus: false,
+        activeStatus: "Inactive",
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
           id: editData?.payoutStructure?.id,

@@ -22,6 +22,8 @@ import {
   HoleListResponse,
 } from "../AdminPanel/courses/courses.interface";
 import { setLoading } from "../../reducers/loader/loader";
+import { getFilters } from "../../utils/genericApiCalls";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -37,11 +39,11 @@ const tableHeaders = [
 const ContestManagement = () => {
   const navigate = useNavigate();
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
 
-  const isCourseAdmin = userPermisions.data?.permission?.["is_course_admin"];
+  const isCourseAdmin = userPermisions?.permission["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -49,7 +51,7 @@ const ContestManagement = () => {
   const [totalElement, setTotalElement] = useState<number>(10);
   const [totalAdminCount, setTotalAdminCount] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<any>(0);
-  const [currentStatus, setCurrentStatus] = useState<any>(null);
+  const [currentStatus, setCurrentStatus] = useState<boolean | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedId, setSetselectedId] = useState<number | null>(null);
   const [selectedContestType, setSelectedContestType] = useState<string | null>(
@@ -60,8 +62,9 @@ const ContestManagement = () => {
   const [selectedHoles, setSelectedHoles] = useState<string>("");
   const [selectedCourse, setSelectedCourse] = useState<{
     name: string;
-    id: number;
-  }>({ name: "", id: 1 });
+    id: number | string;
+  } | null>(null);
+  const [filterByContest, setFilterByContest] = useState<any>([])
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -103,8 +106,14 @@ const ContestManagement = () => {
   };
 
   useEffect(() => {
+    fetchContestList();
+
+  }, [selectedHoles, selectedCourse, currentStatus, selectedContestType, currentPage]);
+
+  useEffect(()=>{
+    getFilters("contest_type", setFilterByContest)
     fetchCourseList();
-  }, [selectedHoles, selectedCourse, currentStatus, selectedContestType]);
+  },[])
 
   useEffect(() => {
     if (selectedCourse) {
@@ -115,7 +124,13 @@ const ContestManagement = () => {
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCourse({ name: event.target.value, id: 1 });
+    const courseId:number|string = event.target.value
+    if(courseId){
+      const courseName = courses?.data?.filter((course) => course.id === Number(courseId))[0]?.courseName
+      setSelectedCourse({ name: String(courseName), id: event.target.value });
+    }else{
+      setSelectedCourse(null);
+    }
     setCurrentPage(0);
     setHolesList(null); // Reset holesList to null when course changes
     setSelectedHoles(""); // Reset selectedHoles to an empty array
@@ -140,40 +155,25 @@ const ContestManagement = () => {
     data: any;
   }
 
-  useEffect(() => {
-    fetchContestList();
-  }, [currentStatus, selectedContestType, selectedCourse, selectedHoles]);
 
-  useEffect(() => {
-    fetchContestList();
-  }, [pageSize, currentPage]);
 
   useEffect(() => {
     setRowData(computeTableData(totalAdminCount));
   }, [totalAdminCount]);
 
-  const getStatus = (status: string) => {
-    if (status == "Active") {
+  const getStatus = (status: boolean) => {
+    if (status) {
       return (
         <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#97D0A533] py-0.5 text-[#248A3D]">
           <MdSportsGolf className="size-5" />
-          <span className="text-xs">{status}</span>
+          <span className="text-xs">{status && "Active"}</span>
         </div>
       );
-    }
-    if (status == "Inactive") {
+    }else{ 
       return (
         <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#D0D0D033] py-1 text-[#8E8E8E]">
           <Ban height={15} width={15} />
-          <span className="text-xs">{status}</span>
-        </div>
-      );
-    }
-    if (status == "Completed") {
-      return (
-        <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#97D0A533] py-1 text-[#248A3D]">
-          <CircleCheck height={15} width={15} />
-          <span className="text-xs">{status}</span>
+          <span className="text-xs">{!status && "Inactive"}</span>
         </div>
       );
     }
@@ -206,7 +206,7 @@ const ContestManagement = () => {
     return data;
   };
 
-  const isCompleted = (status: string, id: number) => {
+  const isCompleted = (status: boolean, id: number) => {
     return (
       <div className="flex w-[70%] justify-between gap-2 py-2">
         <button style={{ color: "#046221" }}>
@@ -221,7 +221,7 @@ const ContestManagement = () => {
           />
         </button>
         <SwitchComponent
-          isChecked={status === "Active" ? true : false}
+          isChecked={status}
           id={id}
           onChange={(newStatus: any, revert: any) =>
             updateContestStatus(id, newStatus, revert)
@@ -231,13 +231,12 @@ const ContestManagement = () => {
     );
   };
 
-  const updateActiveStatus = (id: number | string, newStatus: string) => {
-    const status = newStatus === "AC" ? "Active" : "Inactive";
+  const updateActiveStatus = (id: number | string, newStatus: boolean) => {
     const newData = totalAdminCount.map((contest: any) => {
       if (contest.id === id) {
         return {
           ...contest,
-          activeStatus: status,
+          activeStatus: newStatus,
         };
       }
       return contest;
@@ -252,9 +251,9 @@ const ContestManagement = () => {
       res = await apiService.post<ContestApiResponse>(API_URL.getAllContests, {
         data: {
           searchParams: {
-            contestType: selectedContestType || null,
-            activeStatus: currentStatus || null,
-            courseName: selectedCourse.name || null,
+            contestTypeId: selectedContestType || null,
+            activeStatus: currentStatus,
+            courseName: selectedCourse?.name || null,
             holeNumbers: selectedHoles.length ? selectedHoles : null,
           },
           pageSortingParam: {
@@ -281,14 +280,6 @@ const ContestManagement = () => {
     }
   };
 
-  const mapStatusToBackend = (status: boolean) => {
-    if (status) {
-      return "AC"; // Backend expects 'DE' for Inactive
-    } else {
-      return "DE"; // Backend expects 'AC' for Active
-    }
-  };
-
   const updateContestStatus = async (
     id: number,
     status: boolean,
@@ -296,7 +287,7 @@ const ContestManagement = () => {
   ) => {
     try {
       dispatch(setLoading(true));
-      const newStatus = mapStatusToBackend(status);
+      const newStatus = status;
 
       const res = await apiService.post<any>(API_URL.updateStatusContest, {
         data: {
@@ -320,14 +311,20 @@ const ContestManagement = () => {
     }
   };
 
-  if (userPermisions?.data?.permission["is_player"]) {
+  if (userPermisions?.permission["is_player"]) {
     return (
       <div>
         <ContestList />
       </div>
     );
-  } else if (!userPermisions?.data?.permission) {
+  } else if (!userPermisions?.permission) {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
+  }
+
+  const statusFilters = {
+    "Filter by Status":null,
+    "Active" : true,
+    "Inactive" : false,
   }
 
   return (
@@ -341,18 +338,18 @@ const ContestManagement = () => {
             <select
               id="courses"
               style={{ marginLeft: "5px" }}
+              value={String(currentStatus)}
               className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:ml-2 md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
-                setCurrentStatus(e.target.value);
+                const value = e.target.value === "true" ? true : e.target.value === "false" ? false : null;
+                setCurrentStatus(value);
               }} // Update selected status
-            >
-              <option value="" selected>
-                Filter by Status
-              </option>
-              <option value="Inactive">Inactive</option>
-              <option value="Active">Active</option>
-              <option value="Completed">Completed</option>
+            > {
+              Object.entries(statusFilters).map(([key, value])=>(
+                <option value={String(value)} key={key} onClick={()=>setCurrentStatus(value)}>{key}</option>
+              ))
+            }
             </select>
             <select
               id="courses"
@@ -365,8 +362,11 @@ const ContestManagement = () => {
               <option value="" selected>
                 Filter by Contests
               </option>
-              <option value="AceCam-Jackpot">AceCam-Jackpot</option>
-              <option value="Closest-to-the-Pin">Closest-to-the-Pin</option>
+              {
+                filterByContest.map((filter: {id: number |string, type : string})=>(
+                  <option value={filter.id}>{filter.type}</option>    
+                ))
+              }
             </select>
             <select
               id="courses"
@@ -375,7 +375,7 @@ const ContestManagement = () => {
             >
               <option value="">Filter by Courses</option>
               {courses?.data.map((course) => (
-                <option key={course.id} value={course.courseName}>
+                <option key={course.id} value={course.id}>
                   {course.courseName}
                 </option>
               ))}
@@ -389,12 +389,12 @@ const ContestManagement = () => {
               }
               maxDisplayCount={2}
               label="Filter by Holes"
-              // disabled={selectedCourse ? false : true}
+              disabled={selectedCourse ? false : true}
               onChange={handleSelectedValuesChange}
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
           </div>
-          {!isCourseAdmin && !userPermisions?.data?.permission["is_player"] && (
+          {!isCourseAdmin && !userPermisions?.permission["is_player"] && (
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {

@@ -23,6 +23,7 @@ import { ROUTES } from "../utils/routesPath";
 import { ensureUTC } from "../utils/TimeUtils";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
+import { decryptData, secretKey } from "../utils/encrypt";
 
 // interface recurrence {
 //   frequency: string;
@@ -38,7 +39,7 @@ import { getFilters } from "../utils/genericApiCalls";
 // }
 
 interface ContestFormValues {
-  contestType: string | number;
+  contestTypeId: string | number;
   clubName: string;
   courseName: string;
   holesName: string;
@@ -62,7 +63,7 @@ interface ContestFormValues {
 
 // import * as Yup from 'yup';
 const validationSchema = Yup.object({
-  contestType: Yup.string().required("This field is mandatory."),
+  contestTypeId: Yup.string().required("This field is mandatory."),
   clubName: Yup.string().required("This field is mandatory."),
   courseName: Yup.string().required("This field is mandatory."),
   holesName: Yup.string().required("This field is mandatory."),
@@ -175,17 +176,17 @@ const validationSchema = Yup.object({
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
     then: Yup.string().required("This field is mandatory.")
-      .test(
-        "min-value",
-        "Entries Per 24 hours should not be less than 1.",
-        (value) => {
-          if (value) {
-            const numValue = Number(value);
-            return !isNaN(numValue) && numValue >= 1;
-          }
-          return true; // Pass validation if no value is entered
+    .test(
+      "min-value",
+      "Entries Per 24 hours should not be less than 1.",
+      (value) => {
+        if (value) {
+          const numValue = Number(value);
+          return !isNaN(numValue) && numValue >= 1;
         }
-      ),
+        return true; // Pass validation if no value is entered
+      }
+    ),
     otherwise: Yup.string().nullable(), // Nullable when not required
   }),
 
@@ -212,7 +213,7 @@ const Contests: React.FC = () => {
   const onClose = () => setIsOpenModal(false);
 
   const initialValues: ContestFormValues = {
-    contestType: editData?.contestType,
+    contestTypeId: editData?.contestTypeId,
     clubName: editData?.club.id,
     courseName: editData?.course?.id,
     holesName: editData?.hole?.id,
@@ -256,12 +257,12 @@ const Contests: React.FC = () => {
     note: editData?.note,
   };
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = !userPermisions?.data?.permission["is_super_admin"];
+  const isSuperAdmin = !userPermisions?.permission["is_super_admin"];
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -295,7 +296,7 @@ const Contests: React.FC = () => {
     id: string | number;
     type: string;
   }[] | null>(null)
-
+  
   const handleValues = useCallback((values: ContestFormValues) => {
     setSelectedClub(values.clubName);
     setSelectedCourse(values.courseName);
@@ -456,7 +457,6 @@ const Contests: React.FC = () => {
     values: ContestFormValues,
     { setSubmitting }: FormikHelpers<ContestFormValues>,
   ) => {
-
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
     if (saveState.repeatEvery === 0 || saveState.frequency === "") {
@@ -480,7 +480,7 @@ const Contests: React.FC = () => {
         timeZone: tz,
         id: id ? id : null,
         name: "Test contest 99",
-        contestType: values.contestType,
+        contestTypeId: values.contestTypeId,
         clubId: values.clubName,
         courseId: values.courseName,
         holeId: values.holesName,
@@ -556,7 +556,7 @@ const Contests: React.FC = () => {
                 <h3 className="mb-2 text-xl font-bold">
                   {/* {pathname === ROUTES.CREATE_CONTEST
                     ? " Create Contest"
-                    : userPermisions.data?.permission["is_course_admin"]
+                    : userPermisions?.permission["is_course_admin"]
                       ? "Contest Details"
                       : "Edit Contest"} */}
                   Edit Contest
@@ -629,7 +629,7 @@ const Contests: React.FC = () => {
                             Back
                           </button>
 
-                          {userPermisions.data?.permission[
+                          {userPermisions?.permission[
                             "is_super_admin"
                           ] && (
                               <button

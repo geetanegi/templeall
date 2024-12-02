@@ -8,14 +8,19 @@ import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
 import PlayerHomePage from "../components/PlayerHomePage/PlayerHomePage";
 import AdminHomePage from "../components/PlayerHomePage/AdminHomePage";
+import { decryptData, secretKey } from "../utils/encrypt";
+
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const userPermisions = useSelector(
+  
+  
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
+
   useEffect(() => {
     if (!userPermisions?.data?.permission) {
       dispatch(setLoading(true));
@@ -25,22 +30,22 @@ const Dashboard: React.FC = () => {
   }, []);
 
   if (location.pathname === ROUTES.USERS) {
-    if (userPermisions?.data?.permission?.["is_super_admin"]) {
+    if (userPermisions?.permission["is_super_admin"]) {
       return <Adminpanel />;
-    } else if (userPermisions?.data?.permission?.["is_course_admin"]) {
+    } else if (userPermisions?.permission["is_course_admin"]) {
       return <Adminpanel isCourseAdmin={true} />;
     }
   }
 
-  if (userPermisions && userPermisions?.data?.permission?.["is_course_admin"]) {
+  if (userPermisions && userPermisions?.permission["is_course_admin"]) {
     return <Navigate to={ROUTES.CONTESTS} replace />;
   }
 
   return (
     <div>
-      {userPermisions?.data?.permission?.["is_player"] && <PlayerHomePage />}
-      {userPermisions?.data?.permission?.["is_super_admin"] && <AdminHomePage />}
-      {userPermisions?.data?.permission?.["is_course_admin"] && <AdminHomePage />}
+      {userPermisions?.permission["is_player"] && <PlayerHomePage />}
+      {userPermisions?.permission["is_super_admin"] && <AdminHomePage />}
+      {userPermisions?.permission["is_course_admin"] && <AdminHomePage />}
     </div>
   );
 };

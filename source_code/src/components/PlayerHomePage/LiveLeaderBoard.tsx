@@ -10,17 +10,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setLoading } from "../../reducers/loader/loader";
 import PageLoader from "../PageLoader";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 const LiveLeaderBoard: React.FC = () => {
   const tz = momentTz.tz.guess();
   const dispatch = useDispatch();
 
-  const userPermisions = useSelector(
+  const userPermisions = JSON.parse(decryptData(useSelector(
     (state: RootState) => state.auth.userPermissions,
-  );
+  ), secretKey))
+
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = userPermisions?.data?.permission["is_super_admin"];
+  const isSuperAdmin = userPermisions?.permission["is_super_admin"];
 
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [dropDownList, setDropDownList] = useState<leaderBoard[] | null>(null);

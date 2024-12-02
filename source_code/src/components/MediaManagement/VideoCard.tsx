@@ -211,7 +211,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <span></span>
             <div className="n relative ml-auto mr-10 mt-0 flex h-[16px] w-[44px] gap-[12px] text-sm">
               <div
-                className="flex items-center space-x-5"
+                className="flex items-center space-x-5 cursor-pointer"
                 onClick={() => {
                   if (requestVideoPayload?.videos?.url) {
                     setIsDrawerOpen(true);
@@ -228,7 +228,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
               {/* Comments */}
               <div className="flex gap-1">
                 <ThumbsUp
-                  className={`${like.islike ? "text-buttonPrimary" : ""} `}
+                  className={`${like.islike ? "text-buttonPrimary" : ""} cursor-pointer`}
                   size={16}
                   onClick={() => {
                     makeVieoLiked(
@@ -431,14 +431,14 @@ const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <>
       <div
-        className={`cursor-pointer rounded-lg   bg-gradient-green text-white shadow-lg max-h-[330px]`}
+        className={` rounded-lg   bg-gradient-green text-white shadow-lg max-h-[330px]`}
         style={{ width: width }}
       >
         {/* Thumbnail with duration and overlay icons */}
         <div className="relative h-[175px] overflow-hidden rounded-t-lg bg-[#ffffff]">
           {computeVideoThumbnail()}
           {/* Play Button */}
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center ">
             {" "}
             {status === "REJECT" ? (
               <div className="flex h-[70%] w-[90%] flex-col rounded-md bg-[#1D1A0C99] text-[14px]">
@@ -448,7 +448,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                       color="#ffffff"
                       // strokeWidth={1}
                       size={36}
-                      className="rounded-full bg-[#FFFFFF59] p-2 font-extralight"
+                      className="rounded-full bg-[#FFFFFF59] p-2 font-extralight "
                     />
                   </div>
                 </div>
@@ -459,7 +459,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             ) : (
               <PiPlayCircleBold
                 style={{ height: "38px", width: "38px" }}
-                className={`${requestVideoPayload?.videos?.url ? "visible" : "invisible"}`}
+                className={`${requestVideoPayload?.videos?.url ? "visible" : "invisible"} cursor-pointer`}
                 onClick={() => {
                   if (isApproved) {
                     if (

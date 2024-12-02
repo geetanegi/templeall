@@ -18,7 +18,7 @@ import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 // import { getFilters } from "../../utils/genericApiCalls";
 
-interface MediaManagementProps {}
+interface MediaManagementProps { }
 
 // type ContestType = {
 //   id: string | number;
@@ -161,7 +161,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterValue(event.target.value);
-    
+
   };
 
   const handleInprogressVideoList = (data: any, action: string) => {
@@ -170,7 +170,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         const videoIndex = prevArr.findIndex(
           (item) => item.vidId === data.vidId,
         );
-        
+
         if (videoIndex !== -1) {
           const updatedArr = [...prevArr];
           updatedArr[videoIndex] = { ...updatedArr[videoIndex], ...data };
@@ -212,14 +212,14 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
-  
+
 
   return (
     <div
-      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5"
+      className="mb-[30px] min-h-[88vh] w-full bg-[#ffffff] bg-fixed pb-5 p-[24px]"
       style={{ height: "max-content" }}
     >
-      <div className="flex justify-between px-10 pt-10">
+      <div className="flex justify-between ">
         {userPermisions?.data?.permission["is_super_admin"] ? (
           <div
             className="flex gap-[4px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[2px]"
@@ -280,7 +280,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 {computeFilterDropDown(selectedTab, "SuperAdmin")?.map((filter) => {
                   return (
                     <option
-                      key={filter.key}   
+                      key={filter.key}
                       value={filter.key}
                     >
                       {filter.name}
@@ -291,7 +291,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             </div>
           ) : null}
           {selectedTab === 3 &&
-          userPermisions?.data?.permission["is_super_admin"] ? (
+            userPermisions?.data?.permission["is_super_admin"] ? (
             <button
               className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {

@@ -21,7 +21,7 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
     <div className="flex flex-wrap justify-start">
       {data?.map((videoData: any, i: number) => {
         return (
-          <div className="w-[25%] px-2 mb-4" key={i}>
+          <div className="w-[25%] pr-2 mb-4" key={i}>
             <VideoCard
               isVideoPlayerVisible={isVideoPlayerVisible}
               userInfo={userInfo}

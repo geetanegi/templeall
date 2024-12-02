@@ -52,8 +52,8 @@ const PlayerHomePage: React.FC = () => {
     <PageLoader isActive={loader}>
       <div className="flex">
         <div className="w-full bg-[#ffffff]">
-          <div className="bg-[#ffffff] bg-fixed px-4 pb-10  mb-10">
-            <div className="flex items-center justify-between px-4 py-4">
+          <div className="bg-[#ffffff] bg-fixed px-4 pb-[24px]  mb-10">
+            <div className="flex items-center justify-between  py-4">
               <p className="flex text-[18px] font-semibold">
                 {showAll && (
                   <CircleArrowLeft
@@ -74,7 +74,7 @@ const PlayerHomePage: React.FC = () => {
                 </button>
               )}
             </div>
-            <div className="px-2">
+            <div className="">
               {videosData.length === 0 ? (
                 <div className="my-5 h-[206px] w-full rounded-[8px] border bg-[#F5F6F7] p-3 ">
                   <div className="mt-2 flex h-[152px] w-[full] flex-col items-center justify-center rounded-[6px] bg-[#FFFFFF1A]">
@@ -95,7 +95,7 @@ const PlayerHomePage: React.FC = () => {
             </div>
 
             {!showAll && (
-              <div className="mt-6 px-4">
+              <div className="mt-6 ">
                 {/* highlights tabs  */}
                 <ContestTabs showMostRecent={true} />
               </div>

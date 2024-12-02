@@ -76,7 +76,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
     };
 
     return (
-      <div className='flex flex-col rounded-md p-2 bg-[#F3F6F9] '>
+      <div className='flex flex-col rounded-md p-2 bg-[#F3F6F9]  h-[145px]'>
         {
           usersCount.map((itm: any) => (
             <button

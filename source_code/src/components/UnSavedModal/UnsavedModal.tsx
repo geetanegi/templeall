@@ -22,7 +22,7 @@ const UnsavedModal: React.FC<unsavedModalProps> = ({
           <div className="space-x-2">
             <button
               onClick={handleDiscard}
-              className={`rounded-lg bg-[#95c11e] px-5 py-2 text-sm font-medium text-white`}
+              className={`rounded-lg bg-primaryColor px-5 py-2 text-sm font-medium text-white`}
             >
               Discard
             </button>

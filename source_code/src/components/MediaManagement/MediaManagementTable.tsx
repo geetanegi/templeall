@@ -47,7 +47,7 @@ interface MediaManagementTableProps {
   isModalOpen: boolean;
   isSOTWModalOpen: boolean;
   uploadSotwProgressArr: Array<any>;
-  getAllMediaCounts:()=>{}
+  getAllMediaCounts: () => {}
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -193,25 +193,25 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       if (filterValue) {
         payload.searchParams = {
-            status: filterValue,
-          }  
+          status: filterValue,
+        }
       }
     }
 
     if (isCourseAdmin) {
       payload = {}
       payload.loginUserId = typeof userInfo === "object" ? userInfo.userId : null,
-      payload.contestType = null,
-      
-      payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
-        pageNumber: currentPage,
-        pageSize: pageSize,
-      };
-      
+        payload.contestType = null,
+
+        payload.pageSortingParam = {
+          sortDir: "DESC",
+          sortBy: "createdDate",
+          pageNumber: currentPage,
+          pageSize: pageSize,
+        };
+
       if (filterValue) {
-        payload.contestType = filterValue === 'ACE_CAM_JACKPOT' ? "AceCam-Jackpot": "Closest-to-the-Pin"
+        payload.contestType = filterValue === 'ACE_CAM_JACKPOT' ? "AceCam-Jackpot" : "Closest-to-the-Pin"
       }
     }
 
@@ -256,11 +256,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       />
     ) : (
       <div
-        className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${
-          status === "APPROVED"
-            ? "bg-green-100 text-green-600"
-            : "bg-red-100 text-red-600"
-        }} `}
+        className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${status === "APPROVED"
+          ? "bg-green-100 text-green-600"
+          : "bg-red-100 text-red-600"
+          }} `}
       >
         {status === "APPROVED" && (
           <CircleCheck size={12} className="text-green-600" />
@@ -399,7 +398,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                         (vid: any) => vid.id === data.id,
                       )?.[0].totalchunk,
                     )) *
-                    100,
+                  100,
                 )}
               />
             ) : !data.videos ? (
@@ -501,7 +500,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                         (vid: any) => vid.id === data.id,
                       )?.[0].totalchunk,
                     )) *
-                    100,
+                  100,
                 )}
               />
             ) : (
@@ -565,7 +564,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   };
   return (
-    <div className="px-10">
+    <div className="">
       <PageLoader isActive={loader}>
         <TableComponent
           rowData={rowData}

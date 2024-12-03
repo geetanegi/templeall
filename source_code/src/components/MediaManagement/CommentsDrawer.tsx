@@ -288,7 +288,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               ))}
             </div>
           </div>
-          <div className="absolute bottom-0 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7] text-[13px]">
+          <div className="absolute bottom-10 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7] text-[13px]">
             <input
               type="text"
               placeholder="Comments"

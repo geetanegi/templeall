@@ -18,6 +18,7 @@ import RejectConfirmationModal from "./RejectConfirmationModal";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
+import { constantWords } from "../../utils/constantEnums";
 
 interface MediaManagementProps {}
 
@@ -133,7 +134,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     statusId: number | string,
     rejectReasons?: string,
   ) => {
-    const updatedStatus = status === "Rejected" ? "Reject" : status;
+    const updatedStatus = status
     try {
       let payload = {};
       payload = {
@@ -141,7 +142,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         statusId: statusId,
       };
 
-      if (updatedStatus === "Reject") {
+      if (updatedStatus === constantWords.REJECT) {
         payload = {
           ...payload,
           rejectionReason: rejectReasons,
@@ -215,8 +216,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   } else if (!userPermisions?.permission) {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
-
-
 
   return (
     <div

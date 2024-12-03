@@ -457,7 +457,6 @@ const Contests: React.FC = () => {
     values: ContestFormValues,
     { setSubmitting }: FormikHelpers<ContestFormValues>,
   ) => {
-
     // Handle form submission here
     setSubmitting(false); // Reset submitting state
     if (saveState.repeatEvery === 0 || saveState.frequency === "") {

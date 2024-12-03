@@ -14,9 +14,7 @@ const AppleSignInButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const handleAppleResponse = async (response: any) => {
-
     if (response.error) {
       console.error("Apple login failed:", response.error);
       return;
@@ -25,6 +23,7 @@ const AppleSignInButton: React.FC = () => {
     if (response.authorization) {
       handleLoginSuccess(response);
     }
+  
   };
 
 
@@ -34,13 +33,10 @@ const AppleSignInButton: React.FC = () => {
     try {
       const { data, status } = await apiService.post<any>(
         API_URL.verifyAppleeToken,
-        { data: { "code": response.authorization.code } },
+        { data: { code: response.authorization.code } },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        
-        console.log("socialLogin data ", data)
-        if(data?.data?.isVerified === true){
-          debugger
+        if (data?.data?.isVerified === true) {
           dispatch(
             login({
               token: data?.data?.token,
@@ -52,12 +48,13 @@ const AppleSignInButton: React.FC = () => {
             }),
           );
           navigate(ROUTES.DASHBOARD);
-          return
-        }else{
-          debugger
-          console.log(data?.data?.emailId, "data?.data?.emailId")
-          navigate("/user-registration")
-          return
+        } else {
+          navigate(ROUTES.USER_REGISTRATION, {
+            state: {
+              email: data?.data?.emailId,
+              maskEmail: data?.data?.maskEmail,
+            },
+          });
         }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
@@ -69,10 +66,11 @@ const AppleSignInButton: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
-  };  
-  
+  };
+
   return (
-    <AppleLogin clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
+    <AppleLogin
+      clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
       redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"
       responseMode="form_post"

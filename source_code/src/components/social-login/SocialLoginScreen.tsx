@@ -4,7 +4,7 @@ import aceCampLogo from "../../assets/images/Logo_png with heading.png";
 import FormikControl from "../../Formik/components/FormikControl";
 import { viewPdf } from "../../utils/downloadUtils";
 import TermsAndConditionsPdf from "../../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
@@ -28,7 +28,6 @@ interface SocialLoginInputsInterface {
 }
 
 interface SocialLoginScreenProps {
-  email?: string;
 }
 
 const validationSchema = Yup.object({
@@ -61,10 +60,7 @@ const validationSchema = Yup.object({
   phone: Yup.string().required("Phone is Required."),
 });
 
-const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
-  email = "",
-}) => {
-  debugger
+const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const initialValues: SocialLoginInputsInterface = {
     firstName: "",
     lastName: "",
@@ -73,15 +69,16 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
     countryCode: "+1",
     acceptTerms: false,
   };
-
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(false);
   const [token, setToken] = useState<string>('')
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const {email} = location.state
  
+  debugger
 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);

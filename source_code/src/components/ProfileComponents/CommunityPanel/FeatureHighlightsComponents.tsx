@@ -35,7 +35,6 @@ const FeatureHighlightsComponents: React.FC<
         {
           data: {
             searchParams: {
-              status: "APPROVED",
               isPublished: true,
               "playerUser.id": JSON.stringify(selectedUser),
             },

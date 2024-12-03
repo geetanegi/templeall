@@ -40,7 +40,6 @@ const AppleSignInButton: React.FC = () => {
         
         console.log("socialLogin data ", data)
         if(data?.data?.isVerified === true){
-          debugger
           dispatch(
             login({
               token: data?.data?.token,
@@ -52,12 +51,9 @@ const AppleSignInButton: React.FC = () => {
             }),
           );
           navigate(ROUTES.DASHBOARD);
-          return
         }else{
-          debugger
           console.log(data?.data?.emailId, "data?.data?.emailId")
-          navigate("/user-registration")
-          return
+          navigate(ROUTES.USER_REGISTRATION, {state: {email: data?.data?.emailId}})
         }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);

@@ -4,17 +4,18 @@ import aceCampLogo from "../../assets/images/Logo_png with heading.png";
 import FormikControl from "../../Formik/components/FormikControl";
 import { viewPdf } from "../../utils/downloadUtils";
 import TermsAndConditionsPdf from "../../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import moment from "moment";
-// import { useDispatch } from "react-redux";
-// import { loginWithoutRemember } from "../../reducers/login/login";
+import { useDispatch } from "react-redux";
+import { loginWithoutRemember } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
 import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
-// import { ROUTES } from "../../utils/routesPath";
+import { ROUTES } from "../../utils/routesPath";
+import { setLoading } from "../../reducers/loader/loader";
 
 interface SocialLoginInputsInterface {
   username: string;
@@ -29,6 +30,36 @@ interface SocialLoginInputsInterface {
 interface SocialLoginScreenProps {
   email?: string;
 }
+
+const validationSchema = Yup.object({
+  firstName: Yup.string()
+    .required("First Name is required.")
+    .matches(
+      /^[A-Za-z]+$/,
+      "First Name must contain only alphabetic characters",
+    )
+    .max(100, "First Name must be less than 100 characters"),
+  lastName: Yup.string()
+    .required("Last Name is required.")
+    .matches(
+      /^[A-Za-z]+$/,
+      "Last Name must contain only alphabetic characters",
+    )
+    .max(100, "Last Name must be less than 100 characters"),
+  username: Yup.string()
+    .required("Username is Required.")
+    .matches(
+      /^[a-zA-Z0-9]+$/,
+      "Username must contain only alphanumeric characters  ",
+    )
+    .min(3, "Username must be at least 3 characters.")
+    .max(25, "Username must be less than 25 characters"),
+  acceptTerms: Yup.bool().oneOf(
+    [true],
+    "You must agree to the Terms and Conditions to proceed",
+  ),
+  phone: Yup.string().required("Phone is Required."),
+});
 
 const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   email = "netlink@gmail.com",
@@ -46,38 +77,11 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(false);
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const [token, setToken] = useState<string>('')
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required("First Name is required.")
-      .matches(
-        /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters",
-      )
-      .max(100, "First Name must be less than 100 characters"),
-    lastName: Yup.string()
-      .required("Last Name is required.")
-      .matches(
-        /^[A-Za-z]+$/,
-        "Last Name must contain only alphabetic characters",
-      )
-      .max(100, "Last Name must be less than 100 characters"),
-    username: Yup.string()
-      .required("Username is Required.")
-      .matches(
-        /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters  ",
-      )
-      .min(3, "Username must be at least 3 characters.")
-      .max(25, "Username must be less than 25 characters"),
-    acceptTerms: Yup.bool().oneOf(
-      [true],
-      "You must agree to the Terms and Conditions to proceed",
-    ),
-    phone: Yup.string().required("Phone is Required."),
-  });
+ 
 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
@@ -90,6 +94,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
           .add(8, "hours")
           .format("YYYY-MM-DD HH:mm:ss");
         localStorage.setItem("expirationTime", expirationTime);
+    dispatch(loginWithoutRemember({ token: token }));
+    navigate(ROUTES.DASHBOARD)
   }
 
   const DisplayScreens = () => {
@@ -113,13 +119,12 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
       );
     } else if (otpVerified) {
       console.log("otpVerified", otpVerified)
-      // navigate(ROUTES.DASHBOARD);
+      navigate(ROUTES.DASHBOARD);
     }
   };
 
   const handleSubmit = async (values: SocialLoginInputsInterface) => {
-    console.log(" social Login values ", values);
-
+    dispatch(setLoading(true));
     try {
       const payload = {
         username: values.username,
@@ -138,8 +143,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        
-        // dispatch(loginWithoutRemember({ token: data?.data?.token }));
+        setToken(data?.data?.token || '')
         setUsernameValue(values.username)
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
@@ -147,7 +151,11 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
       } else {
         ToastInfo(data?.description);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }finally{
+      dispatch(setLoading(false));
+    }
   };
 
   return (

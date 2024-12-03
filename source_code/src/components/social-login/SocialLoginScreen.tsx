@@ -76,16 +76,14 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const {email} = location.state
+  const {email, maskEmail} = location.state
  
-  debugger
-
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
   };
 
   const OtpVerified = () =>{
-    debugger
+    
     setOtpVerified(true)
     const expirationTime = moment()
           .add(8, "hours")
@@ -106,7 +104,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
             {showOtpScreen && "OTP Verification"}
           </h1>
           <OtpScreen
-            email={email}
+            email={maskEmail}
             setShowSuccessScreen={OtpVerified}
             setShowOtpScreen={setShowOtpScreen}
             url={API_URL.verifyRegisterOtp}
@@ -116,7 +114,6 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         </div>
       );
     } else if (otpVerified) {
-      console.log("otpVerified", otpVerified)
       navigate(ROUTES.DASHBOARD);
     }
   };
@@ -133,7 +130,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         countryCode: values.countryCode,
         mode: "WEB",
       };
-      debugger
+      
       const { data, status } = await apiService.post<any>(
         API_URL.socialLoginRegistration,
         {
@@ -174,7 +171,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   Please help us in getting to know you better.
                 </p>
                 <p className="text-center text-primaryText text-[12px]">
-                  Email: <span className="text-yellowText">{email}</span> 
+                  Email: <span className="text-yellowText">{maskEmail}</span> 
                 </p>  
               </div>
               <div className="flex gap-2">

@@ -8,20 +8,26 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { login } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
+import { ROUTES } from "../../utils/routesPath";
 
 const AppleSignInButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
   const handleAppleResponse = async (response: any) => {
 
     if (response.error) {
       console.error("Apple login failed:", response.error);
       return;
     }
+
     if (response.authorization) {
       handleLoginSuccess(response);
     }
   };
+
+
 
   const handleLoginSuccess = async (response: any) => {
     dispatch(setLoading(true));
@@ -31,17 +37,28 @@ const AppleSignInButton: React.FC = () => {
         { data: { "code": response.authorization.code } },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        dispatch(
-          login({
-            token: data?.data?.token,
-            userInfo: {
-              username: "",
-              password: "",
-              userId: data?.data?.userId,
-            },
-          }),
-        );
-        navigate("/dashboard");
+        
+        console.log("socialLogin data ", data)
+        if(data?.data?.isVerified === true){
+          debugger
+          dispatch(
+            login({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }),
+          );
+          navigate(ROUTES.DASHBOARD);
+          return
+        }else{
+          debugger
+          console.log(data?.data?.emailId, "data?.data?.emailId")
+          navigate("/user-registration")
+          return
+        }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
       } else {
@@ -52,7 +69,9 @@ const AppleSignInButton: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
-  };  return (
+  };  
+  
+  return (
     <AppleLogin clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
       redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"

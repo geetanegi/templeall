@@ -27,12 +27,6 @@ type ContestType = {
   displayName: string;
 };
 
-// type ContestType = {
-//   id: string | number;
-//   type: string;
-//   displayName: string
-// };
-
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSOTWModalOpen, setIsSOTWModalOpen] = useState<boolean>(false);

@@ -114,7 +114,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:mt-20 md:w-full">
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl  md:mt-20 md:w-full">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
 
         <Formik

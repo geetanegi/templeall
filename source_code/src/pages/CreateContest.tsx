@@ -13,7 +13,7 @@ import { ApiResponse } from "../reducers/Courses_data/course";
 import { RootState } from "../store";
 import moment from "moment";
 import momentTz from "moment-timezone";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
@@ -175,17 +175,17 @@ const validationSchema = Yup.object({
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
     then: Yup.string().required("This field is mandatory.")
-    .test(
-      "min-value",
-      "Entries Per 24 hours should not be less than 1.",
-      (value) => {
-        if (value) {
-          const numValue = Number(value);
-          return !isNaN(numValue) && numValue >= 1;
+      .test(
+        "min-value",
+        "Entries Per 24 hours should not be less than 1.",
+        (value) => {
+          if (value) {
+            const numValue = Number(value);
+            return !isNaN(numValue) && numValue >= 1;
+          }
+          return true; // Pass validation if no value is entered
         }
-        return true; // Pass validation if no value is entered
-      }
-    ),
+      ),
     otherwise: Yup.string().nullable(), // Nullable when not required
   }),
 
@@ -238,8 +238,6 @@ const CreateContest: React.FC = () => {
 
   const isSuperAdmin = !userPermisions?.permission["is_super_admin"];
 
-  const { state } = useLocation();
-  console.log("state", state); // to be removed later
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -476,7 +474,7 @@ const CreateContest: React.FC = () => {
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
-        activeStatus: "Inactive",
+        activeStatus: false,
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
           id: editData?.payoutStructure?.id,
@@ -569,24 +567,6 @@ const CreateContest: React.FC = () => {
                         }
                       }
 
-                      // if (clubOptions?.length === 0) {
-                      // setFieldValue("courseName", "");
-                      // setFieldValue("Tee", "");
-                      // setFieldValue("holesName", "");
-                      // }
-                      // if (courseOptions?.length === 0) {
-                      //   setFieldValue("courseName", "");
-                      //   setFieldValue("holesName", "");
-                      // }
-                      // if (holeOptions?.length === 0) {
-                      //   setFieldValue("Tee", "");
-                      // }
-                      // if (values.holesName === "") {
-                      //   setFieldValue("Tee", "");
-                      // }
-                      // if (values.courseName === "") {
-                      //   setFieldValue("holesName", "");
-                      // }
                     }, [
                       setFieldValue,
                       teeOptions,

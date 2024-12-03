@@ -84,7 +84,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
     viewPdf(TermsAndConditionsPdf);
   };
 
-  const OtpVerified = (flag: any) =>{
+  const OtpVerified = () =>{
     debugger
     setOtpVerified(true)
     const expirationTime = moment()

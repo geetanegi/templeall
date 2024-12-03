@@ -103,7 +103,6 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
-          ToastSuccess("Register successfully");
           if(token){
            dispatch(loginWithoutRemember({ token: data?.data?.token }));
            dispatch(
@@ -116,6 +115,8 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
               },
             }),
           );
+          }else{
+            ToastSuccess("Register successfully");
           }
           navigate(ROUTES.DASHBOARD);
         } else {

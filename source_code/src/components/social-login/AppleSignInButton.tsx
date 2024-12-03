@@ -51,11 +51,8 @@ const AppleSignInButton: React.FC = () => {
           return
         }else{
           debugger
-<<<<<<< HEAD
+
           navigate(ROUTES.USER_REGISTRATION, { state: { email: data?.data?.emailId} })
-=======
-          navigate(ROUTES.USER_REGISTRATION, { state: { email: data?.data?.email} })
->>>>>>> 3c2379f5b201b236cd8fe62ceaa4325479c0ddb7
           return
         }
         debugger

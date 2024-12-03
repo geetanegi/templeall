@@ -4,7 +4,7 @@ import aceCampLogo from "../../assets/images/Logo_png with heading.png";
 import FormikControl from "../../Formik/components/FormikControl";
 import { viewPdf } from "../../utils/downloadUtils";
 import TermsAndConditionsPdf from "../../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
@@ -14,7 +14,7 @@ import moment from "moment";
 import { ToastInfo } from "../Toast";
 import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
-import { ROUTES } from "../../utils/routesPath";
+// import { ROUTES } from "../../utils/routesPath";
 
 interface SocialLoginInputsInterface {
   username: string;
@@ -46,7 +46,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(false);
   // const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -111,7 +111,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
         </div>
       );
     } else if (otpVerified) {
-      navigate(ROUTES.DASHBOARD);
+      console.log("otpVerified", otpVerified)
+      // navigate(ROUTES.DASHBOARD);
     }
   };
 
@@ -150,6 +151,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
 
   return (
     <>
+    {
+      showOtpScreen ? <div>{DisplayScreens()}</div> : 
       <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
         <div>
@@ -276,7 +279,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
           </Formik>
         </div>
       </div>
-      {showOtpScreen && <div>{DisplayScreens()}</div>}
+    }
     </>
   );
 };

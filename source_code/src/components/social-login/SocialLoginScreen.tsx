@@ -86,7 +86,6 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
 
   const OtpVerified = (flag: any) =>{
     debugger
-    console.log("flagflag", flag)
     setOtpVerified(true)
     const expirationTime = moment()
           .add(8, "hours")

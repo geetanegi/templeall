@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
+import { login, loginWithoutRemember } from "../reducers/login/login";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -103,6 +104,19 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
           ToastSuccess("Register successfully");
+          if(token){
+           dispatch(loginWithoutRemember({ token: data?.data?.token }));
+           dispatch(
+            login({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }),
+          );
+          }
           navigate(ROUTES.DASHBOARD);
         } else {
           localStorage.setItem("tokenForgetPassword", data?.data?.token);

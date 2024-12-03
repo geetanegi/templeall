@@ -49,8 +49,11 @@ const AppleSignInButton: React.FC = () => {
         if(data?.data?.isVerified){
           navigate(ROUTES.DASHBOARD);
         }else{
+          debugger
           navigate(ROUTES.USER_REGISTRATION, { state: { email: data?.data?.email} })
+          return
         }
+        debugger
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
       } else {

@@ -13,6 +13,8 @@ import { ROUTES } from "../../utils/routesPath";
 const AppleSignInButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
   const handleAppleResponse = async (response: any) => {
 
     if (response.error) {
@@ -23,9 +25,9 @@ const AppleSignInButton: React.FC = () => {
     if (response.authorization) {
       handleLoginSuccess(response);
     }
-    debugger
-    console.log("apple response", response)
   };
+
+
 
   const handleLoginSuccess = async (response: any) => {
     dispatch(setLoading(true));
@@ -35,19 +37,20 @@ const AppleSignInButton: React.FC = () => {
         { data: { "code": response.authorization.code } },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        dispatch(
-          login({
-            token: data?.data?.token,
-            userInfo: {
-              username: "",
-              password: "",
-              userId: data?.data?.userId,
-            },
-          }),
-        );
+        
         console.log("socialLogin data ", data)
         if(data?.data?.isVerified === true){
           debugger
+          dispatch(
+            login({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }),
+          );
           navigate(ROUTES.DASHBOARD);
           return
         }else{
@@ -66,7 +69,9 @@ const AppleSignInButton: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
-  };  return (
+  };  
+  
+  return (
     <AppleLogin clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
       redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"

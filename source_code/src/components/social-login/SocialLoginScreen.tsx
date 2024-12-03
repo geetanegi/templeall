@@ -33,6 +33,7 @@ interface SocialLoginScreenProps {
 const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   email = "netlink@gmail.com",
 }) => {
+  debugger
   const initialValues: SocialLoginInputsInterface = {
     firstName: "",
     lastName: "",

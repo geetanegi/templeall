@@ -9,7 +9,6 @@ import { ROUTES } from "../utils/routesPath";
 import PageLoader from "../components/PageLoader";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-
 import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
@@ -66,9 +65,9 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
 
-            {location.pathname === ROUTES.STRIPE && (
+            {location.pathname === ROUTES.USER_REGISTRATION && (
               <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
-                {location.pathname === ROUTES.STRIPE && (
+                {location.pathname === ROUTES.USER_REGISTRATION && (
                   // <StripeIntegration>
                   <SocialLoginScreen />
                   // </StripeIntegration>

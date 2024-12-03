@@ -220,7 +220,6 @@ const Register: React.FC = () => {
         <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
           <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
 
-
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

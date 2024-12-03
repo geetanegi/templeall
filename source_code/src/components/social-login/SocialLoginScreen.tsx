@@ -137,7 +137,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
       );
       if (status === 200 && data?.data != null && !data?.error) {
         
-        dispatch(loginWithoutRemember({ token: data?.data?.token }));
+        // dispatch(loginWithoutRemember({ token: data?.data?.token }));
         setUsernameValue(values.username)
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {

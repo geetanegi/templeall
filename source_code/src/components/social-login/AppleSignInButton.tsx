@@ -46,7 +46,8 @@ const AppleSignInButton: React.FC = () => {
           }),
         );
         console.log("socialLogin data ", data)
-        if(data?.data?.isVerified){
+        if(data?.data?.isVerified === true){
+          debugger
           navigate(ROUTES.DASHBOARD);
           return
         }else{

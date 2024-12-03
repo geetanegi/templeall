@@ -247,9 +247,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         handleUpdateStatus={(type, id) => {
           if (type === constantWords.REJECT) {
             setIsRejectModalOpen(true);
-            setUpdateStatusData({ id: reqId, type, statusId: id });
+            setUpdateStatusData({ id: reqId, status: type, statusId: id });
           } else {
-            debugger
             handleUpdateStatus(reqId, status, id, "");
           }
         }}

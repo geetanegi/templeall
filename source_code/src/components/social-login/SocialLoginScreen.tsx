@@ -4,7 +4,7 @@ import aceCampLogo from "../../assets/images/Logo_png with heading.png";
 import FormikControl from "../../Formik/components/FormikControl";
 import { viewPdf } from "../../utils/downloadUtils";
 import TermsAndConditionsPdf from "../../assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
@@ -15,6 +15,7 @@ import { ToastInfo } from "../Toast";
 import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
+import { setLoading } from "../../reducers/loader/loader";
 
 interface SocialLoginInputsInterface {
   username: string;
@@ -27,12 +28,39 @@ interface SocialLoginInputsInterface {
 }
 
 interface SocialLoginScreenProps {
-  email?: string;
 }
 
-const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
-  email = "netlink@gmail.com",
-}) => {
+const validationSchema = Yup.object({
+  firstName: Yup.string()
+    .required("First Name is required.")
+    .matches(
+      /^[A-Za-z]+$/,
+      "First Name must contain only alphabetic characters",
+    )
+    .max(100, "First Name must be less than 100 characters"),
+  lastName: Yup.string()
+    .required("Last Name is required.")
+    .matches(
+      /^[A-Za-z]+$/,
+      "Last Name must contain only alphabetic characters",
+    )
+    .max(100, "Last Name must be less than 100 characters"),
+  username: Yup.string()
+    .required("Username is Required.")
+    .matches(
+      /^[a-zA-Z0-9]+$/,
+      "Username must contain only alphanumeric characters  ",
+    )
+    .min(3, "Username must be at least 3 characters.")
+    .max(25, "Username must be less than 25 characters"),
+  acceptTerms: Yup.bool().oneOf(
+    [true],
+    "You must agree to the Terms and Conditions to proceed",
+  ),
+  phone: Yup.string().required("Phone is Required."),
+});
+
+const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const initialValues: SocialLoginInputsInterface = {
     firstName: "",
     lastName: "",
@@ -41,54 +69,28 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
     countryCode: "+1",
     acceptTerms: false,
   };
-
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(false);
+  const [token, setToken] = useState<string>('')
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required("First Name is required.")
-      .matches(
-        /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters",
-      )
-      .max(100, "First Name must be less than 100 characters"),
-    lastName: Yup.string()
-      .required("Last Name is required.")
-      .matches(
-        /^[A-Za-z]+$/,
-        "Last Name must contain only alphabetic characters",
-      )
-      .max(100, "Last Name must be less than 100 characters"),
-    username: Yup.string()
-      .required("Username is Required.")
-      .matches(
-        /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters  ",
-      )
-      .min(3, "Username must be at least 3 characters.")
-      .max(25, "Username must be less than 25 characters"),
-    acceptTerms: Yup.bool().oneOf(
-      [true],
-      "You must agree to the Terms and Conditions to proceed",
-    ),
-    phone: Yup.string().required("Phone is Required."),
-  });
-
+  const location = useLocation();
+  const {email, maskEmail} = location.state
+ 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
   };
 
-  const OtpVerified = (flag: any) =>{
-    console.log("flagflag", flag)
+  const OtpVerified = () =>{
+    
     setOtpVerified(true)
     const expirationTime = moment()
           .add(8, "hours")
           .format("YYYY-MM-DD HH:mm:ss");
         localStorage.setItem("expirationTime", expirationTime);
+    dispatch(loginWithoutRemember({ token: token }));
+    navigate(ROUTES.DASHBOARD)
   }
 
   const DisplayScreens = () => {
@@ -102,11 +104,12 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
             {showOtpScreen && "OTP Verification"}
           </h1>
           <OtpScreen
-            email={email}
-            setShowSuccessScreen={(e)=>OtpVerified(e)}
+            email={maskEmail}
+            setShowSuccessScreen={OtpVerified}
             setShowOtpScreen={setShowOtpScreen}
             url={API_URL.verifyRegisterOtp}
             username={usernameValue}
+            token={token}
           />
         </div>
       );
@@ -116,8 +119,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   };
 
   const handleSubmit = async (values: SocialLoginInputsInterface) => {
-    console.log(" social Login values ", values);
-
+    dispatch(setLoading(true));
     try {
       const payload = {
         username: values.username,
@@ -128,7 +130,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
         countryCode: values.countryCode,
         mode: "WEB",
       };
-
+      
       const { data, status } = await apiService.post<any>(
         API_URL.socialLoginRegistration,
         {
@@ -136,8 +138,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        
-        dispatch(loginWithoutRemember({ token: data?.data?.token }));
+        setToken(data?.data?.token || '')
         setUsernameValue(values.username)
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
@@ -145,11 +146,17 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
       } else {
         ToastInfo(data?.description);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }finally{
+      dispatch(setLoading(false));
+    }
   };
 
   return (
     <>
+    {
+      showOtpScreen ? <div>{DisplayScreens()}</div> : 
       <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
         <div>
@@ -164,7 +171,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
                   Please help us in getting to know you better.
                 </p>
                 <p className="text-center text-primaryText text-[12px]">
-                  Email: <span className="text-yellowText">{email}</span> 
+                  Email: <span className="text-yellowText">{maskEmail}</span> 
                 </p>  
               </div>
               <div className="flex gap-2">
@@ -276,7 +283,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
           </Formik>
         </div>
       </div>
-      {showOtpScreen && <div>{DisplayScreens()}</div>}
+    }
     </>
   );
 };

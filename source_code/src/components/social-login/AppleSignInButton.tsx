@@ -18,9 +18,12 @@ const AppleSignInButton: React.FC = () => {
       console.error("Apple login failed:", response.error);
       return;
     }
+
     if (response.authorization) {
       handleLoginSuccess(response);
     }
+    debugger
+    console.log("apple response", response)
   };
 
   const handleLoginSuccess = async (response: any) => {
@@ -41,7 +44,11 @@ const AppleSignInButton: React.FC = () => {
             },
           }),
         );
-        navigate("/dashboard");
+        if(data?.data?.isVerified){
+          navigate("/dashboard");
+        }else{
+          navigate("/stripe")
+        }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
       } else {

@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 
 import aceCampLogo from "../assets/images/Logo_png with heading.png";
+import aceCampLogo1 from "../assets/images/logo (1).png";
+
 
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
@@ -100,7 +102,7 @@ const Register: React.FC = () => {
       [true],
       "You must agree to the Terms and Conditions to proceed",
     ),
-    phone: Yup.string().required("Phone is Required"),
+    phone: Yup.string().required("Phone number field is missing."),
     dateOfBirth: Yup.string()
       .nullable() // Allow null values
       .test(
@@ -119,9 +121,7 @@ const Register: React.FC = () => {
       }),
   });
 
-  // const [cardError, setCardError] = useState<string | null>(null);
-  // const [isCardEmpty, setIsCardEmpty] = useState(true); // Track if CardElement is empty
-  // const [cardTouched, setCardTouched] = useState(false);
+
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [usernameValue, setUsernameValue] = useState<string>("");
@@ -129,11 +129,9 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (
     values: RegisterFormValues,
-    // { setSubmitting }: FormikHelpers<RegisterFormValues>,
   ) => {
     setEmail(values.email);
     dispatch(setLoading(true));
-    // setCardTouched(false);
     try {
       const {
         firstName,
@@ -183,30 +181,28 @@ const Register: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
-
-    // if (!stripe || !elements) {
-    //   // Stripe.js has not loaded yet
-    //   return;
-    // }
-    // const cardNumberElement = elements.getElement(CardNumberElement);
-    // if ((cardTouched && !cardNumberElement) || isCardEmpty) {
-    //   setCardError("Card details are required");
-    //   setSubmitting(false);
-    //   setIsCardEmpty(true);
-    //   return;
-    // }
   };
 
   const DisplayScreens = () => {
     if (showOtpScreen === true) {
       return (
-        <OtpScreen
-          email={email}
-          setShowSuccessScreen={setShowSuccessScreen}
-          setShowOtpScreen={setShowOtpScreen}
-          url={API_URL.verifyRegisterOtp}
-          username={usernameValue}
-        />
+        <div
+          className={`flex w-full flex-col items-center rounded-xl pb-10 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+        >
+          <img src={aceCampLogo1} alt="" className="-mt-24 h-32 w-32" />
+          <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
+            {showOtpScreen && "OTP Verification"}
+            {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
+          </h1>
+          <OtpScreen
+            email={email}
+            setShowSuccessScreen={setShowSuccessScreen}
+            setShowOtpScreen={setShowOtpScreen}
+            url={API_URL.verifyRegisterOtp}
+            username={usernameValue}
+          />
+        </div>
+
       );
     } else if (showSuccessScreen === true) {
       return <SuccessScreen />;
@@ -223,15 +219,6 @@ const Register: React.FC = () => {
       {!showOtpScreen && !showSuccessScreen && (
         <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
           <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
-          {/* <div className="flex gap-5">
-            <InstagramLoginComponent />
-            <FacebookLoginComponent
-              appId="490090883627586"
-              redirectUri={API_URL.fbRedirectUI}
-            />
-            <img src={TikTok} alt="" />
-            <GoogleLoginComponent />
-          </div> */}
 
           <Formik
             initialValues={initialValues}
@@ -253,6 +240,8 @@ const Register: React.FC = () => {
                         type="text"
                         required={true}
                         authFlow={true}
+                        maxLength={25}
+
                       />
                     </div>
                     <div className="flex w-1/2 flex-col">
@@ -265,6 +254,8 @@ const Register: React.FC = () => {
                         type="text"
                         required={true}
                         authFlow={true}
+                        maxLength={25}
+
                       />
                     </div>
                   </div>
@@ -358,7 +349,7 @@ const Register: React.FC = () => {
                     </div>
 
                   </div>
-                  <div className="text-xs  text-yellow-400 mb-[10px]">(By providing your phone number, you agree to receivetext messages from AceCam Golf LLC.Message and data rates may apply. )</div>
+                  <div className="text-xs  text-[#FFDE59] mb-[10px]">(By providing your phone number, you agree to receivetext messages from AceCam Golf LLC.Message and data rates may apply. )</div>
 
 
                   <div className="mb-4">
@@ -447,7 +438,7 @@ const Register: React.FC = () => {
         </div>
       )}
       {showOtpScreen && (
-        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl border border-white bg-opacity-50 p-6 md:w-full md:p-8">
+        <div >
           {DisplayScreens()}
         </div>
       )}

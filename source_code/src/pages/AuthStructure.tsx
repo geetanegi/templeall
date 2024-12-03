@@ -9,7 +9,6 @@ import { ROUTES } from "../utils/routesPath";
 import PageLoader from "../components/PageLoader";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-
 import { viewPdf } from "../utils/downloadUtils";
 import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
@@ -38,7 +37,7 @@ const AuthStructure: React.FC = () => {
             className={`align-center flex h-screen w-full flex-col bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
           >
             {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-[12px] py-12 md:w-[280px]">
                 {location.pathname === ROUTES.LOGIN && <Login />}
               </div>
             )}

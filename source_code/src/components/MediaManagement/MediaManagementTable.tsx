@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setLoading } from "../../reducers/loader/loader";
 import ProgressBar from "../GenericUIcomponents/ProgressBar";
+import { constantWords } from "../../utils/constantEnums";
 
 interface MediaManagementTableProps {
   setIsVideoPlayerVisible: (flag: boolean) => void;
@@ -107,7 +108,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   }, [selectedTab, isRefreshList, currentPage, filterValue]);
 
   useEffect(() => {
-    setActiveStatus("pending");
+    setActiveStatus(constantWords.PENDING);
     computeRowData(rowData);
   }, [isStatusChange]);
 
@@ -238,16 +239,17 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     index: number,
     tablelength: number,
   ) => {
-    return status === "Pending" ? (
+    return status === constantWords.PENDING ? (
       <StatusDropdown
         setActiveStatus={setActiveStatus}
         index={index}
         tablelength={tablelength}
         handleUpdateStatus={(type, id) => {
-          if (type === "Reject") {
+          if (type === constantWords.REJECT) {
             setIsRejectModalOpen(true);
             setUpdateStatusData({ id: reqId, type, statusId: id });
           } else {
+            debugger
             handleUpdateStatus(reqId, status, id, "");
           }
         }}
@@ -255,17 +257,17 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     ) : (
       <div
         className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${
-          status === "Approved"
+          status === constantWords.APPROVED
             ? "bg-green-100 text-green-600"
             : "bg-red-100 text-red-600"
         }} `}
       >
-        {status === "Approved" && (
+        {status === constantWords.APPROVED && (
           <CircleCheck size={12} className="text-green-600" />
         )}
-        {status === "Reject" && <CircleX size={12} className="text-red-600" />}
+        {status === constantWords.REJECT && <CircleX size={12} className="text-red-600" />}
         <span
-          className={`${status === "Approved" ? "text-green-600" : "text-red-600"}`}
+          className={`${status === constantWords.APPROVED ? "text-green-600" : "text-red-600"}`}
           style={{
             fontFamily: "Nunito",
             fontSize: "11px",
@@ -277,7 +279,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             textOverflow: "ellipsis",
           }}
         >
-          {status === "Approved" ? "Approved" : "Rejected"}
+          {status === constantWords.APPROVED ? constantWords.Approved : constantWords.Rejected}
         </span>
       </div>
     );
@@ -290,7 +292,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     reqId: string | number,
     playvideo: () => void,
   ) => {
-    if (status === "Reject") {
+    if (status === constantWords.REJECT) {
       return <div className="p-1 py-4 text-[gray]">No video</div>;
     } else if (videos) {
       return (
@@ -320,9 +322,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     } else {
       return (
         <button
-          className={`flex gap-2 py-4 ${activeStatus === "Approved" || status === "Approved" ? "cursor-pointer" : "cursor-default"} `}
+          className={`flex gap-2 py-4 ${activeStatus === constantWords.APPROVED || status === constantWords.APPROVED ? "cursor-pointer" : "cursor-default"} `}
           onClick={() => {
-            if (activeStatus === "Approved" || status === "Approved") {
+            if (activeStatus === constantWords.APPROVED || status === constantWords.APPROVED) {
               setVideoCategory(videoCategory);
               setSelectedReqVideoId(reqId);
               setIsModalOpen(true);
@@ -331,10 +333,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         >
           <Upload
             size={18}
-            className={`${activeStatus === "Approved" || status === "Approved" ? "text-[#0077B6]" : "text-[gray]"}`}
+            className={`${activeStatus === constantWords.APPROVED || status === constantWords.APPROVED ? "text-[#0077B6]" : "text-[gray]"}`}
           />
           <div
-            className={`${activeStatus === "Approved" || status === "Approved" ? "text-[#0077B6]" : "text-[gray]"}`}
+            className={`${activeStatus === constantWords.APPROVED || status === constantWords.APPROVED ? "text-[#0077B6]" : "text-[gray]"}`}
           >
             Video
           </div>

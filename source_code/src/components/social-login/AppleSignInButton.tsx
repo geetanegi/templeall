@@ -8,6 +8,7 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { login } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
+import { ROUTES } from "../../utils/routesPath";
 
 const AppleSignInButton: React.FC = () => {
   const dispatch = useDispatch();
@@ -44,10 +45,11 @@ const AppleSignInButton: React.FC = () => {
             },
           }),
         );
+        console.log("socialLogin data ", data)
         if(data?.data?.isVerified){
-          navigate("/dashboard");
+          navigate(ROUTES.DASHBOARD);
         }else{
-          navigate("/stripe")
+          navigate(ROUTES.USER_REGISTRATION, { state: { email: data?.data?.email} })
         }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);

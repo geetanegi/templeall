@@ -79,6 +79,11 @@ export const API_URL = {
   getFilter: "/core/lookup/category",
   getPlayerVideoFilter: "/core/request-video/all-highlight-list",
 
+
+  // social login api's
+
+  socialLoginRegistration : "/identity/auth/social-signup-registration",
+
   // homepageAPI's
   getAllDailyActiveContest: "/core/contest/get-all-daily-active-contest",
   getLiveLeaderBoard: "/core/leader-board/live",

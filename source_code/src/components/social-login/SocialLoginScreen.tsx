@@ -62,7 +62,7 @@ const validationSchema = Yup.object({
 });
 
 const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
-  email = "netlink@gmail.com",
+  email = "",
 }) => {
   debugger
   const initialValues: SocialLoginInputsInterface = {
@@ -88,6 +88,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   };
 
   const OtpVerified = (flag: any) =>{
+    debugger
     console.log("flagflag", flag)
     setOtpVerified(true)
     const expirationTime = moment()
@@ -110,7 +111,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
           </h1>
           <OtpScreen
             email={email}
-            setShowSuccessScreen={(e)=>OtpVerified(e)}
+            setShowSuccessScreen={OtpVerified}
             setShowOtpScreen={setShowOtpScreen}
             url={API_URL.verifyRegisterOtp}
             username={usernameValue}
@@ -136,7 +137,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
         countryCode: values.countryCode,
         mode: "WEB",
       };
-
+      debugger
       const { data, status } = await apiService.post<any>(
         API_URL.socialLoginRegistration,
         {

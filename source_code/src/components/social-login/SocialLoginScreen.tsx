@@ -9,8 +9,8 @@ import * as Yup from "yup";
 import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { loginWithoutRemember } from "../../reducers/login/login";
+// import { useDispatch } from "react-redux";
+// import { loginWithoutRemember } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
 import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
@@ -45,7 +45,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({

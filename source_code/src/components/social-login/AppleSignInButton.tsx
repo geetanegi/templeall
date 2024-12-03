@@ -48,9 +48,14 @@ const AppleSignInButton: React.FC = () => {
         console.log("socialLogin data ", data)
         if(data?.data?.isVerified){
           navigate(ROUTES.DASHBOARD);
+          return
         }else{
           debugger
+<<<<<<< HEAD
+          navigate(ROUTES.USER_REGISTRATION, { state: { email: data?.data?.emailId} })
+=======
           navigate(ROUTES.USER_REGISTRATION, { state: { email: data?.data?.email} })
+>>>>>>> 3c2379f5b201b236cd8fe62ceaa4325479c0ddb7
           return
         }
         debugger

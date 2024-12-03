@@ -15,6 +15,7 @@ interface OTPScreenPropps {
   url?: string;
   email?: string;
   maskEmail?: string;
+  token?:string
 }
 
 const OtpScreen: React.FC<OTPScreenPropps> = ({
@@ -24,6 +25,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   url,
   username,
   maskEmail,
+  token=''
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -91,7 +93,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       const endPoint = url ? url : API_URL.verifySignInOtp;
       let dataForRegister = {
         otp,
-        tempUserId: localStorage.getItem("tokenRegisterPassword"),
+        tempUserId: token || localStorage.getItem("tokenRegisterPassword"),
       };
       const newData = { otp, username };
       const { data, status } = await apiService.post<any>(endPoint, {

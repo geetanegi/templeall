@@ -114,6 +114,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = ({
             setShowOtpScreen={setShowOtpScreen}
             url={API_URL.verifyRegisterOtp}
             username={usernameValue}
+            token={token}
           />
         </div>
       );

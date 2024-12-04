@@ -8,6 +8,7 @@ import aceCampLogo from "../assets/images/Logo_png with heading.png";
 import aceCampLogo1 from "../assets/images/logo (1).png";
 
 
+
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
 import SuccessScreen from "../components/SuccessScreen";
@@ -189,7 +190,7 @@ const Register: React.FC = () => {
         <div
           className={`flex w-full flex-col items-center rounded-xl pb-10 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
         >
-          <img src={aceCampLogo1} alt="" className="-mt-24 h-32 w-32" />
+          <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
           <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
             {showOtpScreen && "OTP Verification"}
             {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
@@ -360,6 +361,7 @@ const Register: React.FC = () => {
                       control="number"
                       className="w-full"
                       placeholder="GHIN"
+                      maxLength={7}
                     />
                   </div>
 

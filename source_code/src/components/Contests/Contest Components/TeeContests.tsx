@@ -52,7 +52,6 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
     ? currentTime.isAfter(eligibleTimeUTC)
     : true;
 
-  // console.log("isCrossed", isCrossed);
 
   const [isContestAlreadySelected, setIsContestAlreadySelected] =
     useState(false);
@@ -162,12 +161,13 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
   const showMessageDialogFunc = () => {
     if (!isRegistrationOpen) {
       return "The registration window for the contest has closed.";
-    } else if (teeContest?.eligibleForRegistration != null && !teeContest?.eligibleForRegistration) {
+    } else if (teeContest?.limitSection && !teeContest?.eligibleForRegistration) {
       return "You have reached today's playing limit for this contest.";
-    } else if (!isCrossed) {
+    } else if (teeContest?.limitSection && !isCrossed) {
       //  eligibleRegistrationTime is greater than current time
       return `You recently took part in the contest. Registration will reopen after ${moment.utc(teeContest.eligibleRegistrationTime).local().format("hh:mm A")}`;
     }
+
   };
 
   return (

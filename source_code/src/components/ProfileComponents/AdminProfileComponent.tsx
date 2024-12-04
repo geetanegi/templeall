@@ -13,6 +13,7 @@ interface AdminProfileComponentProps {
   userId: string | number;
   userInfo: any;
   userPermisions: any;
+  role:string
 }
 
 const AdminProfileComponent: React.FC<AdminProfileComponentProps> = ({
@@ -21,7 +22,9 @@ const AdminProfileComponent: React.FC<AdminProfileComponentProps> = ({
   userInfo,
   userId,
   userPermisions,
+  role
 }) => {
+
   return (
     <div className="mt-40 flex h-full flex-col items-center justify-between pl-16 lg:mt-0 lg:flex-row">
       <div
@@ -39,7 +42,7 @@ const AdminProfileComponent: React.FC<AdminProfileComponentProps> = ({
         </span>
       </div>
       <div className="flex flex-col gap-[16px] lg:ml-auto lg:mt-20">
-        {userPermisions?.permission["is_course_admin"] ? (
+        {userPermisions?.permission["is_course_admin"] || role === "Course Admin" ? (
           <>
             <div className="flex gap-2">
               <img

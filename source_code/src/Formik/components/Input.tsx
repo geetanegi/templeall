@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({
       <label htmlFor={name} className="mb-1 block text-sm font-thin text-white">
         {label}
         {required && (
-          <span className={authFlow ? "text-yellow-400" : "text-red-500"}>
+          <span className={authFlow ? "text-[#FFDE59]" : "text-red-500"}>
             {" "}
             *
           </span>
@@ -54,27 +54,24 @@ const Input: React.FC<InputProps> = ({
               type={type}
               maxLength={maxLength}
               onKeyPress={handleKeyPress}
-              className={`w-full border bg-transparent px-4 py-[5px] text-white ${
-                form.errors[name] && form.touched[name]
+              className={`w-full border bg-transparent px-4 py-[5px] text-white ${form.errors[name] && form.touched[name]
+                ? authFlow
+                  ? "border-[#FFDE59]"
+                  : "border-red-500"
+                : "border-white"
+                } rounded-[12px] focus:outline-none ${form.errors[name] && form.touched[name]
                   ? authFlow
-                    ? "border-yellow-400"
-                    : "border-red-500"
-                  : "border-white"
-              } rounded-[12px] focus:outline-none ${
-                form.errors[name] && form.touched[name]
-                  ? authFlow
-                    ? "focus:border-yellow-400 focus:ring-0"
+                    ? "focus:border-[#FFDE59] focus:ring-0"
                     : "focus:border-red-500 focus:ring-0"
                   : "focus:border-white focus:ring-0"
-              } `}
+                } `}
               placeholder={label}
             />
             <ErrorMessage
               name={name}
               component="div"
-              className={`text-[11px] ${
-                authFlow ? "text-yellow-400" : "text-red-500"
-              }`}
+              className={`text-[11px] ${authFlow ? "text-[#FFDE59]" : "text-red-500"
+                }`}
             />
           </div>
         )}

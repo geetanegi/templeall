@@ -76,7 +76,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                   {label}
                   {required && (
                     <span
-                      className={authFlow ? "text-yellow-400" : "text-red-500"}
+                      className={authFlow ? "text-[#FFDE59]" : "text-red-500"}
                     >
                       {" "}
                       *
@@ -106,6 +106,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                   {...rest}
                   sx={{
                     "& .MuiInputBase-root": {
+                      height: "40px !important",
                       backgroundColor: "transparent",
                       color: "white",
                       borderRadius: "12px",
@@ -153,7 +154,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       <ErrorMessage
         name={name}
         component="div"
-        className={`text-[11px] ${authFlow ? "text-yellow-400" : "text-red-500"}`}
+        className={`text-[11px] ${authFlow ? "text-[#FFDE59]" : "text-red-500"}`}
       />
     </div>
   );

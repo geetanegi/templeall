@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "./Toast";
 import { API_URL } from "../services/enums";
+import { login, loginWithoutRemember } from "../reducers/login/login";
 
 interface OTPScreenPropps {
   setShowSuccessScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +16,7 @@ interface OTPScreenPropps {
   url?: string;
   email?: string;
   maskEmail?: string;
+  token?:string
 }
 
 const OtpScreen: React.FC<OTPScreenPropps> = ({
@@ -24,6 +26,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   url,
   username,
   maskEmail,
+  token=''
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -91,7 +94,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       const endPoint = url ? url : API_URL.verifySignInOtp;
       let dataForRegister = {
         otp,
-        tempUserId: localStorage.getItem("tokenRegisterPassword"),
+        tempUserId: token || localStorage.getItem("tokenRegisterPassword"),
       };
       const newData = { otp, username };
       const { data, status } = await apiService.post<any>(endPoint, {
@@ -100,7 +103,21 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
-          ToastSuccess("Register successfully");
+          if(token){
+           dispatch(loginWithoutRemember({ token: data?.data?.token }));
+           dispatch(
+            login({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }),
+          );
+          }else{
+            ToastSuccess("Register successfully");
+          }
           navigate(ROUTES.DASHBOARD);
         } else {
           localStorage.setItem("tokenForgetPassword", data?.data?.token);
@@ -166,7 +183,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         </button>
 
         <div className="flex w-full flex-col items-center justify-center pb-4 md:flex-row md:justify-between md:pb-0">
-          <p className={`text-xs text-primaryText text-xs`}>
+          <p className={`text-[12px] text-primaryText text-xs`}>
             You can resend OTP in{" "}
             <span className={`text-yellowText`}>{timeLeft}</span> seconds
           </p>

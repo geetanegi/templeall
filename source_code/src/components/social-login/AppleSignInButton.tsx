@@ -8,12 +8,13 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import { login } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
+import { ROUTES } from "../../utils/routesPath";
 
 const AppleSignInButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleAppleResponse = async (response: any) => {
 
+  const handleAppleResponse = async (response: any) => {
     if (response.error) {
       console.error("Apple login failed:", response.error);
       return;
@@ -21,6 +22,7 @@ const AppleSignInButton: React.FC = () => {
     if (response.authorization) {
       handleLoginSuccess(response);
     }
+  
   };
 
   const handleLoginSuccess = async (response: any) => {
@@ -28,20 +30,29 @@ const AppleSignInButton: React.FC = () => {
     try {
       const { data, status } = await apiService.post<any>(
         API_URL.verifyAppleeToken,
-        { data: { "code": response.authorization.code } },
+        { data: { code: response.authorization.code } },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        dispatch(
-          login({
-            token: data?.data?.token,
-            userInfo: {
-              username: "",
-              password: "",
-              userId: data?.data?.userId,
+        if (data?.data?.isVerified === true) {
+          dispatch(
+            login({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }),
+          );
+          navigate(ROUTES.DASHBOARD);
+        } else {
+          navigate(ROUTES.USER_REGISTRATION, {
+            state: {
+              email: data?.data?.emailId,
+              maskEmail: data?.data?.maskEmail,
             },
-          }),
-        );
-        navigate("/dashboard");
+          });
+        }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
       } else {
@@ -52,8 +63,11 @@ const AppleSignInButton: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
-  };  return (
-    <AppleLogin clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
+  };
+
+  return (
+    <AppleLogin
+      clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
       redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
       responseType="code id_token"
       responseMode="form_post"

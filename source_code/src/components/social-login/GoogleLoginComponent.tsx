@@ -9,7 +9,6 @@ import { ToastInfo } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
 import "../../App.css";
 
-// import GoogleIcon from "../../assets/images/Google.svg";
 
 const LoginButton: React.FC = () => {
   const dispatch = useDispatch();

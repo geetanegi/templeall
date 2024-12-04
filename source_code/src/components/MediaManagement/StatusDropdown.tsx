@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { CircleEllipsis, CircleCheck, CircleX } from "lucide-react"; // Import icons
 import { getFilters } from "../../utils/genericApiCalls";
+import { capitalizeFirstLetter } from "../../utils/utils";
+import { constantWords } from "../../utils/constantEnums";
 
 interface StatusDropdownProps {
   setActiveStatus: (status: string) => void;
@@ -22,8 +24,8 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openUpwards, setOpenUpwards] = useState(tablelength - 2 < index); // Add state to track direction of dropdown
-  const [status, setStatus] = useState<"Pending" | "Approved" | "Rejected">(
-    "Pending",
+  const [status, setStatus] = useState<string>(
+    constantWords.PENDING,
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [statusDopdownOptions, setStatusDropdownOptions] = useState<
@@ -31,25 +33,17 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
   >([]);
 
 
-  const statusMap = {
-    Approved: "Approved",
-    Reject: "Rejected",
-    Pending: "Pending",
-  } as const;
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleStatusChange = (type: keyof typeof statusMap, id: string| number) => {
-    setStatus(statusMap[type] as "Pending" | "Approved" | "Rejected");
-    setActiveStatus(statusMap[type] as "Pending" | "Approved" | "Rejected");
-    if (statusMap[type] as "Rejected") {
+  const handleStatusChange = (type: string, id: string| number) => {
+    setStatus(type);
+    setActiveStatus(type);
       handleUpdateStatus(
         type,
         id
       );
-    }
     setIsOpen(false);
   };
 
@@ -97,17 +91,17 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
       <button
         onClick={toggleDropdown}
         className={`flex items-center gap-1.5 rounded px-2 py-0.5 shadow-md ${
-          status === "Pending"
+          status === constantWords.PENDING
             ? "bg-orange-100 text-orange-600"
-            : status === "Approved"
+            : status === constantWords.APPROVED
               ? "bg-green-100 text-green-600"
               : "bg-red-100 text-red-600"
         }`}
         style={{ width: "90px", height: "22px" }}
       >
-        {status === "Pending" && <CircleEllipsis size={16} />}
-        {status === "Approved" && <CircleCheck size={24} />}
-        {status === "Rejected" && <CircleX size={16} />}
+        {status === constantWords.PENDING && <CircleEllipsis size={16} />}
+        {status === constantWords.APPROVED && <CircleCheck size={24} />}
+        {status === constantWords.REJECT && <CircleX size={16} />}
         <span
           className=""
           style={{
@@ -123,7 +117,7 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
             textOverflow: "ellipsis",
           }}
         >
-          {status}
+          {capitalizeFirstLetter(status)}
         </span>
         <span className="text-sm">⋮</span>
       </button>
@@ -145,20 +139,20 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
               <button
                 key={action.id}
                 onClick={() =>
-                  handleStatusChange(action.type as keyof typeof statusMap, action.id)
+                  handleStatusChange(action.type , action.id)
                 }
                 className={`flex w-full items-center gap-1.5 px-2 py-0.5 ${
-                  action.type === "Approved"
+                  action.type === constantWords.APPROVED
                     ? "bg-[#97D0A533] text-green-600"
-                    : action.type === "Pending"
+                    : action.type === constantWords.PENDING
                       ? "bg-[#FD8A0233] text-orange-600"
                       : "bg-[#FF3B3033] text-red-600"
                 }`}
                 style={{ height: "22px" }}
               >
-                {action.type === "Approved" && <CircleCheck size={12} />}
-                {action.type === "Pending" && <CircleEllipsis size={12} />}
-                {action.type === "Reject" && <CircleX size={12} />}
+                {action.type === constantWords.APPROVED && <CircleCheck size={12} />}
+                {action.type === constantWords.PENDING && <CircleEllipsis size={12} />}
+                {action.type === constantWords.REJECT && <CircleX size={12} />}
                 <span
                   style={{
                     fontFamily: "Nunito",
@@ -173,7 +167,7 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {action.type}
+                  {capitalizeFirstLetter(action.type)}
                 </span>
               </button>
             ))}

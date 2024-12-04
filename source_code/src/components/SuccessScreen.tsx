@@ -11,7 +11,7 @@ const SuccessScreen: React.FC = () => {
         <h1 className="pt-4 text-2xl font-medium text-green-700">Success</h1>
         <p className="text-sm font-normal text-green-700">Password Changed</p>
         <p className="mt-5 text-center">
-          <Link to={ROUTES.LOGIN} className="text-[#1E95C1] hover:underline">
+          <Link to={ROUTES.LOGIN} className="text-link hover:underline">
             Back to login
           </Link>
         </p>

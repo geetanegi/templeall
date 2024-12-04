@@ -36,6 +36,7 @@ import { setLoading } from "../../reducers/loader/loader";
 import ShareVideoModal from "./ShareRequestModal";
 import CommentsDrawer from "./CommentsDrawer";
 import bookmarkImg from "../../assets/images/bookmark.png";
+import { constantWords } from "../../utils/constantEnums";
 
 interface VideoCardProps {
   thumbnail?: string;
@@ -278,7 +279,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 {title}
               </p>
             </span>
-            {status === "Pending" ? (
+            {status === constantWords.PENDING ? (
               <div className="flex w-[70px] items-center bg-[#FFFFFF1A] px-2">
                 <CircleEllipsis size={12} color="#FD8A02" />
                 <span className="ml-1 text-[11px] text-[#FD8A02]">Pending</span>
@@ -298,7 +299,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                   >
                     <LockKeyholeOpen size={12} />
                     <span>
-                      {requestVideoPayload?.status === "Reject"
+                      {requestVideoPayload?.status === constantWords.REJECT
                         ? "Re-Request Video"
                         : "Request Video"}{" "}
                     </span>
@@ -361,7 +362,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
         </div>
       );
-    } else if (status === "PENDING" || !status) {
+    } else if (status === constantWords.PENDING || !status) {
       return (
         <img
           src={requestvideo}
@@ -369,7 +370,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           className="w-full rounded-t-lg object-cover"
         />
       );
-    } else if (status === "REJECT") {
+    } else if (status === constantWords.REJECT) {
       return (
         <img
           src={rejectedVideo}
@@ -457,7 +458,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           {/* Play Button */}
           <div className="absolute inset-0 flex items-center justify-center ">
             {" "}
-            {status === "REJECT" ? (
+            {status === constantWords.REJECT ? (
               <div className="flex h-[70%] w-[90%] flex-col rounded-md bg-[#1D1A0C99] text-[14px]">
                 <div className="mt-[5px] flex items-center justify-center">
                   <div className="rounded-full bg-[#FFFFFF26] p-2">

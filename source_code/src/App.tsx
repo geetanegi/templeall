@@ -57,7 +57,7 @@ function AppRoutes() {
       element: <AuthStructure />,
     },
     {
-      path: ROUTES.STRIPE,
+      path: ROUTES.USER_REGISTRATION,
       element: <AuthStructure />,
     },
     {

@@ -132,12 +132,14 @@ const ResetPassword: React.FC = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
-              >
-                Reset Password
-              </button>
+              <div className="flex items-center justify-center">
+                <button
+                  type="submit"
+                  className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+                >
+                  Reset Password
+                </button>
+              </div>
             </Form>
           </Formik>
           <p className="mt-4 text-center">

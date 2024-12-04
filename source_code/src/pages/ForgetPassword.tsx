@@ -93,9 +93,9 @@ const ForgetPassword: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:mt-20 md:w-full">
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:w-full">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
-        <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
+        <h1 className={`text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>

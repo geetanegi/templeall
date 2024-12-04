@@ -182,9 +182,9 @@ const Register: React.FC = () => {
     if (showOtpScreen === true) {
       return (
         <div
-          className={`flex w-full flex-col items-center rounded-xl pb-10 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+          className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:w-full`}
         >
-          <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
+          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
           <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
             {showOtpScreen && "OTP Verification"}
             {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
@@ -417,11 +417,11 @@ const Register: React.FC = () => {
               );
             }}
           </Formik>
-          <div className="w-full">
-            <p className="mt-[10px] text-center text-[14px] text-white">
+          <div className="mb-20 block h-[40px] w-full" style={{ zIndex: 1 }}>
+            <p className="text-center text-[14px] text-white">
               - or sign in using -{" "}
             </p>
-            <div className="mt-[10px] flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <div className="mr-4">
                 <GoogleLoginComponent />
               </div>

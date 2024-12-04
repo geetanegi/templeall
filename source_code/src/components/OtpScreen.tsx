@@ -142,7 +142,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center space-y-2 md:justify-between">
+      <div className="flex flex-col items-center justify-center md:justify-between">
         <h4 className="px-6 text-center text-xs text-[#ffffff] md:text-left md:text-sm">
           Enter the OTP sent to{" "}
           <span className={`text-[16px] font-bold text-yellowText`}>

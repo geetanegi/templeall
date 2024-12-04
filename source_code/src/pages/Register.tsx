@@ -359,6 +359,7 @@ const Register: React.FC = () => {
                       control="number"
                       className="w-full"
                       placeholder="GHIN"
+                      maxLength={7}
                     />
                   </div>
 

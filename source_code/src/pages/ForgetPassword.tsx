@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../Formik/components/FormikControl";
 import { Link } from "react-router-dom";
-import aceCampLogo from "../assets/images/logo (1).png";
+import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import OtpScreen from "../components/OtpScreen";
 import apiService from "../services/apiService";
@@ -93,12 +93,8 @@ const ForgetPassword: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div
-        className={`flex w-full flex-col items-center rounded-xl pb-10 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
-      >
-        {/* // sm:max-h-56 for mobile but not */}
-        <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
-
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:mt-20 md:w-full">
+        <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
         <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}

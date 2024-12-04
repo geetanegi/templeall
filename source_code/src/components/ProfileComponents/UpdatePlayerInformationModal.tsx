@@ -488,6 +488,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                       value={values.ghin}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      maxLength={7}
                       className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 md:w-[430px]"
                     />
                     <div className="mx-5">

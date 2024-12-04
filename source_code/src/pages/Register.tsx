@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 
 import aceCampLogo from "../assets/images/Logo_png with heading.png";
-import aceCampLogo1 from "../assets/images/logo (1).png";
 
 
 

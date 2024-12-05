@@ -16,7 +16,7 @@ interface OTPScreenPropps {
   url?: string;
   email?: string;
   maskEmail?: string;
-  token?:string
+  token?: string;
 }
 
 const OtpScreen: React.FC<OTPScreenPropps> = ({
@@ -26,7 +26,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   url,
   username,
   maskEmail,
-  token=''
+  token = "",
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -103,19 +103,19 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
-          if(token){
-           dispatch(loginWithoutRemember({ token: data?.data?.token }));
-           dispatch(
-            login({
-              token: data?.data?.token,
-              userInfo: {
-                username: "",
-                password: "",
-                userId: data?.data?.userId,
-              },
-            }),
-          );
-          }else{
+          if (token) {
+            dispatch(loginWithoutRemember({ token: data?.data?.token }));
+            dispatch(
+              login({
+                token: data?.data?.token,
+                userInfo: {
+                  username: "",
+                  password: "",
+                  userId: data?.data?.userId,
+                },
+              }),
+            );
+          } else {
             ToastSuccess("Register successfully");
           }
           navigate(ROUTES.DASHBOARD);
@@ -140,62 +140,63 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
     setShowOtpScreen(false);
   };
 
-
   return (
     <>
-      <div className="flex flex-col items-center justify-center space-y-2 md:justify-between">
+      <div className="flex flex-col items-center justify-center md:justify-between">
         <h4 className="px-6 text-center text-xs text-[#ffffff] md:text-left md:text-sm">
           Enter the OTP sent to{" "}
           <span className={`text-[16px] font-bold text-yellowText`}>
             {email ? email : maskEmail}
           </span>
         </h4>
+        <div className="w-[90%]">
+          <p className="text-[14px] font-normal text-white">
+            Enter OTP <span className="text-[#FFDE59]">*</span>
+          </p>
+        </div>
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
-        <span className="text-[#FFDE59] text-xs">{otpError}</span>
-
-        <p className="mb-4 pl-6 text-xs font-normal text-[#ffffff] text-right w-[100%] mt-0">
-          OTP is valid for 5 minutes
-        </p>
+        <span className="text-xs text-[#FFDE59]">{otpError}</span>
 
         <div className="flex text-center">
-          <p className={`text-xs text-primaryText text-sm`}>
+          <p className={`text-sm text-xs text-primaryText`}>
             Didn't you receive the OTP?{" "}
             <button
-              className={`font-semibold text-link ${timeLeft > 0 && isRunning
-                ? "cursor-not-allowed opacity-60"
-                : "cursor-pointer text-link"
-                }`}
+              className={`font-semibold text-link ${
+                timeLeft > 0 && isRunning
+                  ? "cursor-not-allowed opacity-60"
+                  : "cursor-pointer text-link"
+              }`}
               onClick={handleReset}
               disabled={timeLeft > 0 && isRunning}
             >
               Resend OTP
             </button>
+            <p className="mb-4 mt-1 w-[100%] text-center text-xs font-normal text-[#ffffff]">
+              OTP is valid for 5 minutes
+            </p>
           </p>
         </div>
 
-
-
         <button
           onClick={handleOTP}
-          className="w-48 rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600 md:w-full"
+          className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
         >
           Verify
         </button>
 
-        <div className="flex w-full flex-col items-center justify-center pb-4 md:flex-row md:justify-between md:pb-0">
-          <p className={`text-[12px] text-primaryText text-xs`}>
+        <div className="flex w-full flex-col items-center justify-center pb-4">
+          <p className={`text-[12px] text-xs text-primaryText`}>
             You can resend OTP in{" "}
             <span className={`text-yellowText`}>{timeLeft}</span> seconds
           </p>
           <Link
             to={ROUTES.LOGIN}
-            className={`text-xs text-link hover:underline text-xs`}
+            className={`text-xs text-link hover:underline`}
             onClick={handleOtpState}
           >
             Back to Login
           </Link>
         </div>
-
       </div>
     </>
   );

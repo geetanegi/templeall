@@ -93,9 +93,9 @@ const ForgetPassword: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:mt-20 md:w-full">
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:w-full">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
-        <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
+        <h1 className={`text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
@@ -120,13 +120,14 @@ const ForgetPassword: React.FC = () => {
                     authFlow={true}
                   />
                 </div>
-
-                <button
-                  type="submit"
-                  className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
-                >
-                  Send OTP
-                </button>
+                <div className="flex items-center justify-center">
+                  <button
+                    type="submit"
+                    className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+                  >
+                    Send OTP
+                  </button>
+                </div>
               </Form>
             </Formik>
             <p className="mt-4 text-center">
@@ -137,7 +138,6 @@ const ForgetPassword: React.FC = () => {
           </>
         )}
         <div className="md:w-[280px]">{DisplayScreens()}</div>
-
       </div>
     </div>
   );

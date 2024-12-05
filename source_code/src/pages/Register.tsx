@@ -6,9 +6,6 @@ import { useDispatch } from "react-redux";
 
 import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
-
-
-
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
 import SuccessScreen from "../components/SuccessScreen";
@@ -122,15 +119,12 @@ const Register: React.FC = () => {
       }),
   });
 
-
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
-  const handleSubmit = async (
-    values: RegisterFormValues,
-  ) => {
+  const handleSubmit = async (values: RegisterFormValues) => {
     setEmail(values.email);
     dispatch(setLoading(true));
     try {
@@ -188,9 +182,9 @@ const Register: React.FC = () => {
     if (showOtpScreen === true) {
       return (
         <div
-          className={`flex w-full flex-col items-center rounded-xl pb-10 ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:mt-10 md:w-full`}
+          className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "p-11 px-2" : "p-5 px-2"} md:w-full`}
         >
-          <img src={aceCampLogo} alt="" className="-mt-24 h-32 w-32" />
+          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
           <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
             {showOtpScreen && "OTP Verification"}
             {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
@@ -203,7 +197,6 @@ const Register: React.FC = () => {
             username={usernameValue}
           />
         </div>
-
       );
     } else if (showSuccessScreen === true) {
       return <SuccessScreen />;
@@ -213,7 +206,6 @@ const Register: React.FC = () => {
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
   };
-
 
   return (
     <>
@@ -242,7 +234,6 @@ const Register: React.FC = () => {
                         required={true}
                         authFlow={true}
                         maxLength={25}
-
                       />
                     </div>
                     <div className="flex w-1/2 flex-col">
@@ -256,7 +247,6 @@ const Register: React.FC = () => {
                         required={true}
                         authFlow={true}
                         maxLength={25}
-
                       />
                     </div>
                   </div>
@@ -325,8 +315,8 @@ const Register: React.FC = () => {
                       maxLength={256}
                     />
                   </div>
-                  <div className="flex items-center h-[70px]">
-                    <div className="w-20 pr-2 h-[73px] ">
+                  <div className="flex h-[70px] items-center">
+                    <div className="h-[73px] w-20 pr-2">
                       <FormikControl
                         authFlow={true}
                         label="Phone"
@@ -348,10 +338,12 @@ const Register: React.FC = () => {
                         maxLength={10}
                       />
                     </div>
-
                   </div>
-                  <div className="text-xs  text-[#FFDE59] mb-[10px]">(By providing your phone number, you agree to receivetext messages from AceCam Golf LLC.Message and data rates may apply. )</div>
-
+                  <div className="mb-[10px] text-xs text-[#FFDE59]">
+                    (By providing your phone number, you agree to receivetext
+                    messages from AceCam Golf LLC.Message and data rates may
+                    apply. )
+                  </div>
 
                   <div className="mb-4">
                     <FormikControl
@@ -366,7 +358,6 @@ const Register: React.FC = () => {
                   </div>
 
                   <div className="mx-auto max-w-md">
-
                     <div className="mb-6 flex flex-col">
                       <label className="inline-flex items-center">
                         <Field
@@ -401,10 +392,10 @@ const Register: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center">
+                  <div className="flex items-center justify-center">
                     <button
                       type="submit"
-                      className={`w-[200px] rounded-[12px] border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
+                      className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
                       disabled={isSubmitting}
                     >
                       Create Account
@@ -426,11 +417,11 @@ const Register: React.FC = () => {
               );
             }}
           </Formik>
-          <div className="w-full">
-            <p className="mt-[10px] text-center text-[14px] text-white">
+          <div className="mb-20 block h-[40px] w-full" style={{ zIndex: 1 }}>
+            <p className="text-center text-[14px] text-white">
               - or sign in using -{" "}
             </p>
-            <div className="mt-[10px] flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <div className="mr-4">
                 <GoogleLoginComponent />
               </div>
@@ -439,11 +430,7 @@ const Register: React.FC = () => {
           </div>
         </div>
       )}
-      {showOtpScreen && (
-        <div >
-          {DisplayScreens()}
-        </div>
-      )}
+      {showOtpScreen && <div>{DisplayScreens()}</div>}
     </>
   );
 };

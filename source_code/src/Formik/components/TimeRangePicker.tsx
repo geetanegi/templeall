@@ -1,0 +1,254 @@
+import React, { useEffect, useState } from "react";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment, { Moment } from "moment";
+import { Field } from "formik";
+
+interface TimeRangePickerProps {
+  CustomClockIcon?: any;
+  startTimeValue: any;
+  endTimeValue: any;
+  name1:string;
+  name2:string
+}
+
+const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
+  CustomClockIcon,
+  startTimeValue,
+  endTimeValue,
+  name1,
+  name2,
+  ...rest
+}) => {
+  const [startTime, setStartTime] = useState<Moment | null>(null);
+  const [endTime, setEndTime] = useState<Moment | null>(null);
+
+  useEffect(() => {
+    // If time values are strings, parse them to Moment objects
+    if (startTimeValue) {
+      setStartTime(moment(startTimeValue, "HH:mm:ss"));  // Adjust format as needed
+    }
+    if (endTimeValue) {
+      setEndTime(moment(endTimeValue, "HH:mm:ss"));  // Adjust format as needed
+    }
+  }, [startTimeValue, endTimeValue]);
+
+  const disableStartTime = (
+    time: Moment,   
+    view: "hours" | "minutes" | "seconds",
+  ): boolean => {
+    if (!endTime) return false;
+ 
+  
+    const maxStartTime = moment(endTime).subtract(5, "minutes");
+    const endHour = endTime.hour();
+    const maxHour = maxStartTime.hour();
+    const maxMinute = maxStartTime.minute();
+  
+    if (view === "hours") {
+      if (endHour === 0 && time.hour() === 0) {
+        return true;
+      }
+  
+      return time.hour() > maxHour;
+    }
+  
+    if (view === "minutes") {
+      if (time.hour() === maxHour) {
+        return time.minute() > maxMinute;
+      }
+      
+      if (time.hour() === 0) {
+        return time.minute() > 59;
+      }
+    }
+  
+    return false;
+  };
+  
+
+  const disableEndTime = (
+    time: Moment,
+    view: "hours" | "minutes" | "seconds",
+  ): boolean => {
+    if (!startTime) return false;
+
+    const minEndTime = moment(startTime).add(5, "minutes"); // Start time must always be 5 minutes less than end time
+    const startHour = startTime.hour();
+    const minHour = minEndTime.hour();
+    const minMinute = minEndTime.minute();
+
+    // Disable end time if it is before the start time
+    if (time.isBefore(startTime)) {
+      return true;
+    }
+
+    if (view === "hours") {
+      // If start time is 23:00, hide 00 hour in end time
+      if (startHour === 23 && time.hour() === 0) {
+        return true;
+      }
+
+      // Disable hours less than the minimum hour, but keep 00 enabled for now
+      return time.hour() < minHour && time.hour() !== 0;
+    }
+
+    if (view === "minutes") {
+      // For the same hour as minEndTime, disable minutes less than the minimum
+      if (time.hour() === minHour) {
+        return time.minute() < minMinute;
+      }
+
+      // For hour 0, disable minutes from 0 to 4 (if start time is 23:00)
+      if (time.hour() === 0) {
+        return time.minute() < 5;
+      }
+    }
+
+    return false;
+  };
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <div className="w-[50%]">
+        <Field name={name1}>
+          {({ field, form, meta }: any) => {
+            const { setFieldValue } = form;
+            return (
+              <>
+                <TimePicker
+                  {...field}
+                  label="Start Time"
+                  value={startTime}
+                  ampm={false}
+                  {...rest}
+                  onChange={(newValue: Moment | null) => {
+                    setStartTime(newValue);
+                    setFieldValue(name1, newValue ? moment(newValue).format('HH:mm:ss') : null);
+                    // Reset end time if it's no longer valid
+                    if (
+                      endTime &&
+                      newValue &&
+                      newValue.isSameOrAfter(moment(endTime))
+                    ) {
+                      setEndTime(null);
+                      setFieldValue("endTime", null);
+                    }
+                  }}
+                  shouldDisableTime={disableStartTime}
+                  slots={
+                    CustomClockIcon && {
+                      openPickerIcon: () => CustomClockIcon,
+                    }
+                  }
+                  slotProps={{
+                    popper: {
+                      sx: {
+                        "& .MuiList-root": {
+                          width: "100px",
+                        },
+                      },
+                    },
+                    textField: {
+                      error: Boolean(meta.error && meta.touched),
+                      helperText: meta.touched && meta.error,
+                      sx: {
+                        "& .MuiInputBase-root-MuiOutlinedInput-root": {},
+                        width: "100%",
+                        "& .MuiInputBase-root": {
+                          borderRadius: "5px",
+                          backgroundColor: "#FAFAFA",
+                          fontSize: "14px",
+                          padding: "0px 16px 0px 6px",
+                          height: "46px",
+                        },
+                        "& .MuiInputLabel-root": {
+                          fontSize: "14px",
+                          paddingLeft: "10px",
+                          transform: "translate(0, 12px) scale(1)", // Center in the empty state
+                        },
+                        "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-root.MuiFormLabel-filled":
+                          {
+                            transform: "translate(0, -6px) scale(0.75)",
+                            paddingLeft: "15px",
+                          },
+                      },
+                    },
+                  }}
+                />
+              </>
+            );
+          }}
+        </Field>
+      </div>
+
+      <div className="w-[50%]">
+        <Field name={name2}>
+          {({ field, form, meta }: any) => {
+            const { setFieldValue } = form;
+            return (
+              <>
+                <TimePicker
+                  {...field}
+                  label="End Time"
+                  {...rest}
+                  value={endTime}
+                  ampm={false}
+                  onChange={(newValue: Moment | null) => {
+                    setEndTime(newValue);
+                    setFieldValue(name2, newValue ? moment(newValue).format('HH:mm:ss') : null);
+                  }}
+                  shouldDisableTime={disableEndTime}
+                  slots={
+                    CustomClockIcon && {
+                      openPickerIcon: () => CustomClockIcon,
+                    }
+                  }
+                  slotProps={{
+                    popper: {
+                      sx: {
+                        "& .MuiList-root": {
+                          width: "100px",
+                        },
+                        "& .MuiDialogActions-root": {
+                          border: "none",
+                        },
+                      },
+                    },
+                    textField: {
+                      error: Boolean(meta.error && meta.touched),
+                      helperText: meta.touched && meta.error,
+                      sx: {
+                        "& .MuiInputBase-root-MuiOutlinedInput-root": {},
+                        width: "100%",
+                        "& .MuiInputBase-root": {
+                          borderRadius: "5px",
+                          backgroundColor: "#FAFAFA",
+                          fontSize: "14px",
+                          padding: "0px 16px 0px 6px",
+                          height: "46px",
+                        },
+                        "& .MuiInputLabel-root": {
+                          fontSize: "14px",
+                          paddingLeft: "10px",
+                          transform: "translate(0, 12px) scale(1)", // Center in the empty state
+                        },
+                        "& .MuiInputLabel-root.Mui-focused, & .MuiInputLabel-root.MuiFormLabel-filled":
+                          {
+                            transform: "translate(0, -6px) scale(0.75)",
+                            paddingLeft: "15px",
+                          },
+                      },
+                    },
+                  }}
+                />
+              </>
+            );
+          }}
+        </Field>
+      </div>
+    </LocalizationProvider>
+  );
+};
+
+export default TimeRangePicker;

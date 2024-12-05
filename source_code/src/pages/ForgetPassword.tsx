@@ -92,52 +92,56 @@ const ForgetPassword: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:mt-20 md:w-full">
+    <div
+      className={`${showOtpScreen ? "mt-[40px] py-4" : "-mt-[10px] mb-[50px] py-28"} `}
+    >
+      <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl md:w-full">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
-        <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
+        <h1 className={`text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
-        {!showOtpScreen && !showSuccessScreen && (
-          <>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              <Form className="w-full max-w-sm md:max-w-md">
-                <div className="mb-4">
-                  <FormikControl
-                    label="Username"
-                    name="username"
-                    control="input"
-                    className="w-full"
-                    placeholder="Username"
-                    type="text"
-                    required={true}
-                    maxLength={25}
-                    authFlow={true}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
-                >
-                  Send OTP
-                </button>
-              </Form>
-            </Formik>
-            <p className="mt-4 text-center">
-              <Link to={ROUTES.LOGIN} className={`text-link hover:underline`}>
-                Back to login
-              </Link>
-            </p>
-          </>
-        )}
-        <div className="md:w-[280px]">{DisplayScreens()}</div>
-
+        <div className="">
+          {!showOtpScreen && !showSuccessScreen && (
+            <>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                <Form className="w-full max-w-sm md:max-w-md">
+                  <div className="mb-4">
+                    <FormikControl
+                      label="Username"
+                      name="username"
+                      control="input"
+                      className="w-full"
+                      placeholder="Username"
+                      type="text"
+                      required={true}
+                      maxLength={25}
+                      authFlow={true}
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="submit"
+                      className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+                    >
+                      Send OTP
+                    </button>
+                  </div>
+                </Form>
+              </Formik>
+              <p className="mt-4 text-center">
+                <Link to={ROUTES.LOGIN} className={`text-link hover:underline`}>
+                  Back to login
+                </Link>
+              </p>
+            </>
+          )}
+        </div>
+        <div className="px-0 md:w-full">{DisplayScreens()}</div>
       </div>
     </div>
   );

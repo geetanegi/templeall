@@ -1,9 +1,8 @@
 import React from "react";
 import { SelectChangeEvent } from "@mui/material";
 import MUISelect from "../../Formik/components/MUISelect";
-import CustomDatePicker from "../../Formik/components/CustomDatePicker";
 import MUINumber from "../../Formik/components/MUINumber";
-import { RefreshCcw, SquarePen } from "lucide-react";
+import { ChevronDown, Info, RefreshCcw, SquarePen } from "lucide-react";
 import moment from "moment";
 import FormikControl from "../../Formik/components/FormikControl";
 import { getOrdinal } from "../../utils/RegexPatterns";
@@ -13,6 +12,9 @@ import { useFormikContext } from "formik";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { decryptData, secretKey } from "../../utils/encrypt";
+import TooltipSpan from "../Tooltip/TooltipSpan";
+import CustomDatePicker from "../../Formik/components/DatePickerContestUi";
+  import TimeRangePicker from "../../Formik/components/TimeRangePicker";
 
 interface ContestProps {
   clubOptions: { value: number; key: string }[];
@@ -26,7 +28,7 @@ interface ContestProps {
   toggleModal: () => void;
   frequency: string;
   isSuperAdmin: boolean;
-  contestTypeOptions: { value: number | string; key: string }[]
+  contestTypeOptions: { value: number | string; key: string }[];
 }
 
 const ContestForm: React.FC<ContestProps> = ({
@@ -39,7 +41,7 @@ const ContestForm: React.FC<ContestProps> = ({
   endDate,
   toggleModal,
   isSuperAdmin,
-  contestTypeOptions
+  contestTypeOptions,
 }) => {
   const today = moment();
   const location = useLocation();
@@ -100,12 +102,20 @@ const ContestForm: React.FC<ContestProps> = ({
     location.pathname,
   );
 
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermisions = JSON.parse(
+    decryptData(
+      useSelector((state: RootState) => state.auth.userPermissions),
+      secretKey,
+    ),
+  );
+
+  // const computeContestMinTime = () => {
+  //     const currentDate = combineDateAndTime(moment(), values.startTime);
+  //     return
+  // }
 
   return (
-    <div className="space-y-4 ">
+    <div className="space-y-4">
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <div className="">
           <MUISelect
@@ -156,56 +166,92 @@ const ContestForm: React.FC<ContestProps> = ({
           />
         </div>
       </div>
-      <div className="mb-4 w-full space-y-4">
-        <h5 className="text-l font-normal text-black">Contest Duration</h5>
+      <div className="mb-4 w-full">
+        <div className="flex items-center">
+          <h5 className="text-l font-normal text-black">Contest Duration</h5>
+          <TooltipSpan
+            text={<Info className="text-yellowText" size={16} />}
+            tooltip={"Set the dates for which the contest begins and ends."}
+            needPY={true}
+            position="right"
+          />
+        </div>
         <div>
-          <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-x-5 gap-y-2 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
             <div>
               <CustomDatePicker
                 name="startDate"
-                label="Start Date/Time"
+                label="Start Date"
                 required={true}
                 disabled={isSuperAdmin}
+                maxDate={values.endDate}
                 minDate={today.format("YYYY-MM-DD")}
               />
             </div>
             <div>
               <CustomDatePicker
                 name="endDate"
-                label="End Date/Time"
+                label="End Date"
                 required={true}
                 disabled={isSuperAdmin}
-                minDate={values?.startDate || undefined}
+                minDate={values.startDate || today.format("YYYY-MM-DD")}
               />
             </div>
           </div>
         </div>
       </div>
       <div className="mb-4 space-y-4">
-        <h5 className="text-l font-normal text-black">Registration Period</h5>
         <div>
-          <div className="mb-6 grid grid-cols-1 gap-x-5 gap-y-5 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-            <div>
-              <CustomDatePicker
-                name="registrationStartTime"
-                label="Start Date/Time"
-                required={true}
-                disabled={isSuperAdmin}
-                maxDate={values.endDate}
-              />
+          <div className="mb-6 w-full gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+            <div className="mb-4" >
+              <div className="mb-2 flex items-center">
+                <h5 className="text-l font-normal text-black">
+                  Active Hours
+                </h5>
+                <TooltipSpan
+                  text={<Info className="text-yellowText" size={16} />}
+                  tooltip={
+                    "Set the time frame during which the contest will be ACTIVE; all tee shots must be taken within this period to be eligible for contest prizes."
+                  }
+                  needPY={true}
+                  position="right"
+                />
+              </div>
+              <div className="flex w-[67%] gap-4">
+                <TimeRangePicker
+                  name1={"startTime"}
+                  name2={"endTime"}
+                  startTimeValue={values.startTime}
+                  endTimeValue={values.endTime}
+                  CustomClockIcon={<ChevronDown />}
+                />
+              </div>
             </div>
             <div>
-              <CustomDatePicker
-                name="registrationEndTime"
-                label="End Date/Time"
-                required={true}
-                disabled={isSuperAdmin}
-                minDate={values?.registrationStartTime || undefined}
-                maxDate={values.endDate}
-              />
+              <div className="mb-2 flex items-center">
+                <h5 className="text-l font-normal text-black">
+                  Registration Period
+                </h5>
+                <TooltipSpan
+                  text={<Info className="text-yellowText" size={16} />}
+                  tooltip={
+                    "Set the time frame during which players can register for the contest."
+                  }
+                  needPY={true}
+                  position="right"
+                />
+              </div>
+              <div className="flex w-[67%] gap-4">
+                <TimeRangePicker
+                  name1="registrationStartTime"
+                  name2="registrationEndTime"
+                  startTimeValue={values.registrationStartTime}
+                  endTimeValue={values.registrationEndTime}
+                  CustomClockIcon={<ChevronDown />}
+                />
+              </div>
             </div>
           </div>
-
           <div className="my-4 grid grid-cols-1 gap-x-5 gap-y-3 md:w-full md:grid-cols-[1fr,2fr]">
             <div className="mt-2">
               <MUINumber
@@ -219,9 +265,7 @@ const ContestForm: React.FC<ContestProps> = ({
               />
             </div>
             {values.startDate !== "" &&
-              values.endDate !== "" &&
-              saveState.selectedDays === "" &&
-              saveState.frequency === "" && (
+              values.endDate !== ""  && (
                 <>
                   <div className="my-4 flex justify-start font-medium underline decoration-blue-600">
                     <span className="text-blue-600">

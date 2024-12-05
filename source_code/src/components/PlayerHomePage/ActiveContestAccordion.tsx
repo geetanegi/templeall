@@ -18,6 +18,7 @@ import PageLoader from "../PageLoader";
 const ActiveContestAccordion: React.FC = () => {
   const dispatch = useDispatch();
   const loader = useSelector((state: RootState) => state.loader.isLoading);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [openAccordion, setOpenAccordion] = useState<number>(0); // Default open first accordion
@@ -32,6 +33,8 @@ const ActiveContestAccordion: React.FC = () => {
           data: {
             date: moment().utc(),
             zoneId: timeZone,
+            playerId:
+              typeof userInfo === "object" ? userInfo.userId : undefined,
           },
         },
       );
@@ -68,7 +71,7 @@ const ActiveContestAccordion: React.FC = () => {
       <div className="w-full">
         {(data.length === 0 || data === undefined) && (
           <div className="">
-            <p className="text-[14px] p-5">No Available Active Contest ! </p>
+            <p className="p-5 text-[14px]">No Available Active Contest ! </p>
           </div>
         )}
 
@@ -123,8 +126,9 @@ const ActiveContestAccordion: React.FC = () => {
                 </span>
               </button>
               <div
-                className={`transition-max-height overflow-auto duration-300 ${openAccordion === i ? "max-h-96" : "max-h-0"
-                  }`}
+                className={`transition-max-height overflow-auto duration-300 ${
+                  openAccordion === i ? "max-h-96" : "max-h-0"
+                }`}
               >
                 {/* content  */}
                 {item.allDailyActiveContestDTOS.length > 0 &&
@@ -201,7 +205,8 @@ const ActiveContestAccordion: React.FC = () => {
                                   <p className="rounded-md bg-[#97D0A533] p-1 text-[10px] text-white">
                                     Status:{" "}
                                     <span className="text-[10px] font-bold text-yellowText">
-                                      {item.activeStatus}
+                                      {item.registered}
+                                      {}
                                     </span>{" "}
                                   </p>
                                 </div>

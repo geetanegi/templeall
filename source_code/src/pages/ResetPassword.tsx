@@ -87,11 +87,10 @@ const ResetPassword: React.FC = () => {
     }
   };
 
-
   return (
-    <div className="flex w-full flex-col items-center rounded-lg border p-2 md:mt-10 md:w-full md:p-6">
+    <div className="flex w-full flex-col items-center rounded-lg">
       {/* // sm:max-h-56 for mobile but not */}
-      <img src={aceCampLogo} alt="" className="-mt-20 h-32 w-32" />
+      <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
 
       {showSuccessScreen ? (
         <div className="mt-10">
@@ -133,12 +132,14 @@ const ResetPassword: React.FC = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                className={`w-full rounded-md border bg-buttonPrimary py-2 text-white hover:bg-lime-600`}
-              >
-                Reset Password
-              </button>
+              <div className="flex items-center justify-center">
+                <button
+                  type="submit"
+                  className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+                >
+                  Reset Password
+                </button>
+              </div>
             </Form>
           </Formik>
           <p className="mt-4 text-center">
@@ -148,7 +149,6 @@ const ResetPassword: React.FC = () => {
           </p>
         </>
       )}
-
     </div>
   );
 };

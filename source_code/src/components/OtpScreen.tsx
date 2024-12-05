@@ -143,13 +143,20 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center space-y-2 md:justify-between">
-        <h4 className="px-6 text-center text-xs text-[#ffffff] md:text-left md:text-sm">
-          Enter the OTP sent to{" "}
-          <span className={`text-[16px] font-bold text-yellowText`}>
+      <div className="flex flex-col items-center justify-center md:justify-between">
+        <div className="mb-[5px] flex w-full gap-1">
+          <h4 className="text-[12px] font-thin text-[#ffffff] md:text-left md:text-[12px]">
+            Enter the OTP sent to{" "}
+          </h4>
+          <span className={`text-[12px] font-bold text-yellowText`}>
             {email ? email : maskEmail}
           </span>
-        </h4>
+        </div>
+        <div className="w-full py-1">
+          <p className="text-[14px] font-normal text-white">
+            Enter OTP <span className="text-[#FFDE59]">*</span>
+          </p>
+        </div>
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
         <span className="text-[#FFDE59] text-xs">{otpError}</span>
 
@@ -177,7 +184,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
 
         <button
           onClick={handleOTP}
-          className="w-48 rounded-md bg-lime-500 py-2 text-white hover:bg-lime-600 md:w-full"
+          className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
         >
           Verify
         </button>

@@ -107,12 +107,12 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
         if (value) {
           payload = {
             selectedUserId: userId,
-            activeStatus: "AC",
+            activeStatus: true,
           };
         } else {
           payload = {
             selectedUserId: userId,
-            activeStatus: "DE",
+            activeStatus: false,
           };
         }
         const { data, status } = await apiService.post<any>(
@@ -286,11 +286,11 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     ) => {
       return (
         <div
-          className={`flex h-[40px] ${activeStatus ? "cursor-pointer" : "cursor-not-allowed"}`}
+          className={`flex h-[40px] ${activeStatus ? "cursor-pointer" : "cursor-pointer"}`}
           onClick={() => {
-            if (activeStatus) {
-              navigate(ROUTES.PROFILE, { state: { id: id, role: role } });
-            }
+            // if (activeStatus) {
+            navigate(ROUTES.PROFILE, { state: { id: id, role: role } });
+            // }
           }}
         >
           <div className="mr-5 w-10 rounded-md border bg-[#ebf0fa]">
@@ -373,9 +373,9 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     );
 
     return (
-      <div className="flex-1  md:flex-[0.75] pl-[24px] lg:flex-[0.75] xl:flex-[0.75]">
-        <div className=" flex flex-col justify-between md:flex-row">
-          <div className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2  md:mt-0 md:w-[320px]">
+      <div className="flex-1 pl-[24px] md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
+        <div className="flex flex-col justify-between md:flex-row">
+          <div className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[320px]">
             <input
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"

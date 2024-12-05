@@ -13,7 +13,7 @@ export const maskEmail = (email: string): string => {
   const { localPart, domainPart } = splitEmail(email);
 
   if (localPart.length > 3) {
-    const maskedLocalPart = localPart.substring(0, 3) + "*****";
+    const maskedLocalPart = localPart.substring(0, 3) + "***";
     return `${maskedLocalPart}@${domainPart}`;
   }
 

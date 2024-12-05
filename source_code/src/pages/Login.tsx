@@ -204,9 +204,9 @@ const Login: React.FC = () => {
           </p>
           <div className="mt-[10px] flex items-center justify-center">
             <div className="mr-4">
-              <GoogleLoginComponent />
+              <AppleSignInButton />
             </div>
-            <AppleSignInButton />
+            <GoogleLoginComponent />
           </div>
         </div>
       </div>

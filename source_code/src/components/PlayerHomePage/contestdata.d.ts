@@ -8,7 +8,7 @@ interface Contest {
   registrationEndTime: string;
   entryFee: number;
   scheduleContestId: number;
-  activeStatus: string;
+  registered: string;
   acecamPercentage: number;
   charityPercentage: number;
   playerPercentage: number;

@@ -182,7 +182,7 @@ const Register: React.FC = () => {
     if (showOtpScreen === true) {
       return (
         <div
-          className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "px-2 pb-4" : "p-5 px-2"} md:w-full`}
+          className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "pb-4" : "p-5 px-2"} md:w-full`}
         >
           <img src={aceCampLogo} alt="" className="w-[220px]" />
           <h1 className={`mb-2 mt-5 text-xl font-semibold text-primaryText`}>
@@ -210,7 +210,7 @@ const Register: React.FC = () => {
   return (
     <>
       {!showOtpScreen && !showSuccessScreen && (
-        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
+        <div className="bg-back-600 mt-[5px] flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
           <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
 
           <Formik
@@ -423,9 +423,9 @@ const Register: React.FC = () => {
             </p>
             <div className="flex items-center justify-center">
               <div className="mr-4">
-                <GoogleLoginComponent />
+                <AppleSignInButton />
               </div>
-              <AppleSignInButton />
+              <GoogleLoginComponent />
             </div>
           </div>
         </div>

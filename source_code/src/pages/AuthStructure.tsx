@@ -42,7 +42,7 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
             {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto -mt-[50px] flex w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-3 md:w-[280px]">
                 {location.pathname === ROUTES.FORGET_PASSWORD && (
                   <ForgetPassword />
                 )}

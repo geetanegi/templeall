@@ -38,7 +38,7 @@ const TooltipSpan: React.FC<TooltipSpan> = ({
     case "right":
       tooltipStyles = "top-1/2 left-full transform -translate-y-1/2 ml-2";
       arrowStyles =
-        "absolute top-1/2 left-full transform -translate-y-1/2 bg-gray-900 h-2 w-2 rotate-45";
+        "absolute top-1/2 left-[-4px] transform -translate-y-1/2 bg-gray-900 h-2 w-2 rotate-45";
       break;
     default:
       tooltipStyles = "top-full left-1/2 transform -translate-x-1/2 mt-2"; // Default: bottom
@@ -73,7 +73,7 @@ const TooltipSpan: React.FC<TooltipSpan> = ({
       {isVisible && (
         <div
           role="tooltip"
-          className={`absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-100 shadow-sm transition-opacity duration-300 ${tooltipStyles}`}
+          className={`absolute z-10 w-[180px] inline-block rounded-lg bg-gray-900 px-3 py-2 text-[13px] font-medium text-white opacity-100 shadow-sm transition-opacity duration-300 ${tooltipStyles}`}
         >
           {tooltip}
           {/* Tooltip arrow */}

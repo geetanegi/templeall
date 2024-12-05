@@ -184,7 +184,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
 
           <div
             ref={commentRef}
-            className="absolute bottom-12 top-[325px] mt-[20px] flex flex-col overflow-y-auto"
+            className="absolute bottom-20 top-[325px] mt-[20px] flex flex-col overflow-y-auto"
           >
             <div className="mt-auto">
               {allComment.map((commentObj) => (

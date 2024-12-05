@@ -61,6 +61,9 @@ const validationSchema = Yup.object({
   countryCode: Yup.string()
     .required("Phone number is required")
     .max(4, "Country code must be less than 4 numbers"),
+  emailId: Yup.string()
+    .email("Please enter a valid email address")
+    .required("Email is required"),
 });
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
@@ -325,6 +328,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                 *
               </span>
             </div>
+
             <div className="mb-5 ml-6">
               {touched.emailId &&
                 errors.emailId &&
@@ -369,10 +373,10 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
               </span>
             </div>
             <div className="mb-5 ml-6">
-              {touched.emailId &&
-                errors.emailId &&
-                typeof errors.emailId === "string" && (
-                  <span className="text-red-600">{errors.emailId}</span>
+              {touched.mobile &&
+                errors.mobile &&
+                typeof errors.mobile === "string" && (
+                  <span className="text-red-600">{errors.mobile}</span>
                 )}
             </div>
             <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">

@@ -16,7 +16,7 @@ interface OTPScreenPropps {
   url?: string;
   email?: string;
   maskEmail?: string;
-  token?:string
+  token?: string;
 }
 
 const OtpScreen: React.FC<OTPScreenPropps> = ({
@@ -26,7 +26,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   url,
   username,
   maskEmail,
-  token=''
+  token = "",
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -103,19 +103,19 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       if (status === 200 && data?.data != null && !data?.error) {
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
-          if(token){
-           dispatch(loginWithoutRemember({ token: data?.data?.token }));
-           dispatch(
-            login({
-              token: data?.data?.token,
-              userInfo: {
-                username: "",
-                password: "",
-                userId: data?.data?.userId,
-              },
-            }),
-          );
-          }else{
+          if (token) {
+            dispatch(loginWithoutRemember({ token: data?.data?.token }));
+            dispatch(
+              login({
+                token: data?.data?.token,
+                userInfo: {
+                  username: "",
+                  password: "",
+                  userId: data?.data?.userId,
+                },
+              }),
+            );
+          } else {
             ToastSuccess("Register successfully");
           }
           navigate(ROUTES.DASHBOARD);
@@ -136,10 +136,13 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   };
 
   const handleOtpState = () => {
+    if(token){
+      navigate('/')
+      return
+    }
     setShowSuccessScreen(true);
     setShowOtpScreen(false);
   };
-
 
   return (
     <>
@@ -151,6 +154,33 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           <span className={`text-[12px] font-bold text-yellowText`}>
             {email ? email : maskEmail}
           </span>
+        </div>
+        <div className="w-full py-1">
+          <p className="text-[14px] font-normal text-white">
+            Enter OTP <span className="text-[#FFDE59]">*</span>
+          </p>
+        </div>
+        <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
+        <span className="text-xs text-[#FFDE59]">{otpError}</span>
+
+        <div className="mt-2 flex py-1 text-center">
+          <p className={`text-[12px] text-primaryText`}>
+            Didn't you receive the OTP?{" "}
+            <button
+              className={`font-semibold text-link ${
+                timeLeft > 0 && isRunning
+                  ? "cursor-not-allowed opacity-60"
+                  : "cursor-pointer text-link"
+              }`}
+              onClick={handleReset}
+              disabled={timeLeft > 0 && isRunning}
+            >
+              Resend OTP
+            </button>
+            <p className="mb-4 mt-1 w-[100%] text-center text-xs font-normal text-[#ffffff]">
+              OTP is valid for 5 minutes
+            </p>
+          </p>
         </div>
         <div className="w-full py-1">
           <p className="text-[14px] font-normal text-white">
@@ -189,20 +219,19 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           Verify
         </button>
 
-        <div className="flex w-full flex-col items-center justify-center pb-4 md:flex-row md:justify-between md:pb-0">
-          <p className={`text-[12px] text-primaryText text-xs`}>
+        <div className="mt-3 flex w-full flex-col items-center justify-center pb-[70px]">
+          <p className={`text-[12px] text-xs text-primaryText`}>
             You can resend OTP in{" "}
             <span className={`text-yellowText`}>{timeLeft}</span> seconds
           </p>
           <Link
             to={ROUTES.LOGIN}
-            className={`text-xs text-link hover:underline text-xs`}
+            className={`text-xs text-link hover:underline`}
             onClick={handleOtpState}
           >
             Back to Login
           </Link>
         </div>
-
       </div>
     </>
   );

@@ -85,7 +85,7 @@ const Login: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         // Update expiration time
         const expirationTime = moment()
-          .add(8, "hours")
+          .add(3, "hours")
           .format("YYYY-MM-DD HH:mm:ss");
         localStorage.setItem("expirationTime", expirationTime);
         if (rememberme === true) {

@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({
             onFocus={()=>{
               onFocus()}}
             label={
-              <span style={{ display: "flex", alignItems: "center" }}>
+              <span style={{  display: "flex", alignItems: "center" }}>
                 {label}
                 {required && (
                   <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>

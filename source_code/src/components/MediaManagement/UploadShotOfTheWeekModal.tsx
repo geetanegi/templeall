@@ -46,17 +46,26 @@ const initialValue = {
 const validationSchema = Yup.object({
   title: Yup.string()
     .required("Video title is required.")
-    .max(25, "Video title must be less than 25 characters"),
+    .max(25, "Video title must be less than 25 characters")
+    .nullable(),
   description: Yup.string()
     .required("Video description is required.")
-    .max(100, "Video description must be less than 100 characters"),
-  club: Yup.string().required("Club must be selected"),
-  course: Yup.string().required("Course must be selected"),
-  hole: Yup.string().required("Hole must be selected"),
-  tee: Yup.string().required("Tee must be selected"),
-  contestTypeId: Yup.string().required("Contest Name must be selected"),
-  dateTime: Yup.string().required("Date and Time must be selected"),
-  username: Yup.string().required("Username is required"),
+    .max(100, "Video description must be less than 100 characters")
+    .nullable(),
+  club: Yup.string().required("Club must be selected")
+  .nullable(),
+  course: Yup.string().required("Course must be selected")
+  .nullable(),
+  hole: Yup.string().required("Hole must be selected")
+  .nullable(),
+  tee: Yup.string().required("Tee must be selected")
+  .nullable(),
+  contestTypeId: Yup.string().required("Contest Name must be selected")
+  .nullable(),
+  dateTime: Yup.string().required("Date and Time must be selected")
+  .nullable(),
+  username: Yup.string().required("Username is required")
+  .nullable(),
 });
 
 const ensureUTC = (date: string | Date): string => {
@@ -166,7 +175,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     if(isModalOpen){
       getFilters("contest_type", setContestTypeOptions)
     }
-  }, [isModalOpen]);
+    }, [isModalOpen]);
 
   const handleButtonClick = () => {
     fileInputRef?.current?.click();
@@ -531,7 +540,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                           name="title"
                           control="customInput"
                           className="w-full"
-                          placeholder="Your First Name"
                           type="text"
                           required={true}
                         />
@@ -541,7 +549,6 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                           label="Video Description"
                           name="description"
                           control="textarea"
-                          placeholder="Video Description"
                           type="text"
                           required={true}
                         />

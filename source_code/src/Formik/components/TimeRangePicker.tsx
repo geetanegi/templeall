@@ -10,6 +10,7 @@ interface TimeRangePickerProps {
   endTimeValue: any;
   name1:string;
   name2:string
+  required?:boolean
 }
 
 const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
@@ -18,6 +19,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
   endTimeValue,
   name1,
   name2,
+  required,
   ...rest
 }) => {
   const [startTime, setStartTime] = useState<Moment | null>(null);
@@ -118,7 +120,12 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
               <>
                 <TimePicker
                   {...field}
-                  label="Start Time"
+                  label={<span className="text-[13px]" style={{ display: "flex", alignItems: "center" }}>
+                  {"Start Time"}
+                  {required && (
+                    <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
+                  )}
+                </span>}
                   value={startTime}
                   ampm={false}
                   {...rest}
@@ -190,7 +197,12 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
               <>
                 <TimePicker
                   {...field}
-                  label="End Time"
+                  label={<span style={{ display: "flex", alignItems: "center" }}>
+                  {"End Time"}
+                  {required && (
+                    <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
+                  )}
+                </span>}
                   {...rest}
                   value={endTime}
                   ampm={false}

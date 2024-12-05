@@ -77,7 +77,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           value={value}
           onChange={handleInputChange}
           label={
-            <span>
+            <span className="text-[13px]">
               {label}
               {required && <span className="ml-1 text-red-500">*</span>}
             </span>
@@ -87,7 +87,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           error={Boolean(errors[name] && touched[name])}
           // inputProps={{ maxLength }}
           onKeyPress={handleKeyPress}
-          InputLabelProps={{ shrink: true }}
+          // InputLabelProps={{ shrink: true }}
           sx={{
             "& .MuiInputBase-root": {
               borderRadius: "5px",

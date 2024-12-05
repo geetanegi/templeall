@@ -41,7 +41,7 @@ const MUIInput: React.FC<InputProps> = ({
             onFocus={onFocus}
             autoComplete="off"
             label={
-              <span className="">
+              <span className="text-[13px]">
                 {label}
                 {required && <span className="ml-1 text-red-500">*</span>}
               </span>
@@ -52,7 +52,7 @@ const MUIInput: React.FC<InputProps> = ({
             error={Boolean(form.errors[name] && form.touched[name])}
             inputProps={{ maxLength }}
             onKeyPress={handleKeyPress} // Add key press handler if needed
-            InputLabelProps={{ shrink: true }}
+            // InputLabelProps={{ shrink: true }}
             sx={{
               "& .MuiInputBase-root": {
                 borderRadius: "5px",

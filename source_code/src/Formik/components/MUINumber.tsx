@@ -59,14 +59,14 @@ const MUINumber: React.FC<InputProps> = ({
             {...field}
             type={type}
             label={
-              <span>
+              <span className="text-[13px]">
                 {label}
                 {required && <span className="ml-1 text-red-500">*</span>}
               </span>
             }
             disabled={disabled}
             className="w-full"
-            helperText={<ErrorMessage name={name} component="span" />}
+            helperText={<span className="ml-3"><ErrorMessage name={name} component="span" /></span>}
             error={Boolean(form.errors[name] && form.touched[name])}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}

@@ -11,6 +11,7 @@ interface TextAreaProps {
   validateRegex?: RegExp;
   rows?: number;
   disabled?: boolean;
+  strink?:boolean
 }
 
 const MUITextArea: React.FC<TextAreaProps> = ({
@@ -22,6 +23,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
   validateRegex,
   rows = 4,
   disabled = false,
+  strink,
 }) => {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const char = String.fromCharCode(event.which);
@@ -38,7 +40,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
             <TextField
               {...field}
               label={
-                <span>
+                <span className={strink ?'' : "text-[13px]"}>
                   {label}
                   {required && <span className="ml-1 text-red-500">*</span>}
                 </span>
@@ -47,9 +49,10 @@ const MUITextArea: React.FC<TextAreaProps> = ({
               disabled={disabled}
               placeholder={placeholder} // Use the placeholder prop here
               rows={rows}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{ shrink: strink }}
               className="w-full rounded-lg border px-2 text-gray-500"
               error={Boolean(form.errors[name] && form.touched[name])}
+              helperText={<span className=""><ErrorMessage name={name} component="span" /></span>}
               inputProps={{ maxLength }}
               onKeyPress={handleKeyPress}
               sx={{
@@ -60,7 +63,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
               }}
             />
             {/* ErrorMessage with custom styling */}
-            <ErrorMessage name={name}>
+            {/* <ErrorMessage name={name}>
               {(msg) => (
                 <span
                   style={{
@@ -76,7 +79,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
                   {msg}
                 </span>
               )}
-            </ErrorMessage>
+            </ErrorMessage> */}
           </>
         )}
       </Field>

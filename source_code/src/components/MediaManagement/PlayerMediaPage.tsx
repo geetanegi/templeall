@@ -51,12 +51,17 @@ const PlayerMediaPage: React.FC<PlayerMediaPageProps> = () => {
 
 
   useEffect(()=>{
-    getFilters("", setFilterOptions);
     setAllVideos([]);
     setFilterValue("")
     setSelectedValue("");
     getAllHighlightsCounts();
   },[selectedTab, refreshList])
+
+  useEffect(()=>{
+    getFilters("", setFilterOptions);
+  },[selectedTab])
+
+
 
   useEffect(() => {
     if (filterValue === "sotw") {

@@ -62,7 +62,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
       );
       if (status === 200 && data?.data != null && !data?.error) {
         setUserInformation(data?.data);
-        const profileImage = data?.data?.userProfile?.imageBase64;
+        const profileImage = data?.data?.userProfile?.imageUrl;
         if (
           !userId ||
           userId == (typeof userInfo === "object" ? userInfo.userId : undefined)

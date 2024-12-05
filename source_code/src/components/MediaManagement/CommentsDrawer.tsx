@@ -184,7 +184,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
 
           <div
             ref={commentRef}
-            className="absolute bottom-12 top-[325px] mt-[20px] flex flex-col overflow-y-auto"
+            className="absolute bottom-20 top-[325px] mt-[20px] flex flex-col overflow-y-auto"
           >
             <div className="mt-auto">
               {allComment.map((commentObj) => (
@@ -288,7 +288,7 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
               ))}
             </div>
           </div>
-          <div className="absolute bottom-0 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7] text-[13px]">
+          <div className="absolute bottom-10 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7] text-[13px]">
             <input
               type="text"
               placeholder="Comments"

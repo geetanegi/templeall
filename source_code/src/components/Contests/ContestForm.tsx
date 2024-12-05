@@ -221,6 +221,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 <TimeRangePicker
                   name1={"startTime"}
                   name2={"endTime"}
+                  required={true}
                   startTimeValue={values.startTime}
                   endTimeValue={values.endTime}
                   CustomClockIcon={<ChevronDown />}
@@ -245,6 +246,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 <TimeRangePicker
                   name1="registrationStartTime"
                   name2="registrationEndTime"
+                  required={true}
                   startTimeValue={values.registrationStartTime}
                   endTimeValue={values.registrationEndTime}
                   CustomClockIcon={<ChevronDown />}
@@ -402,6 +404,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 name="note"
                 required={true}
                 className="flex flex-row"
+                strink={true}
                 maxLength={150}
                 rows={4}
                 disabled={isSuperAdmin}

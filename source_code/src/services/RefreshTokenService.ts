@@ -19,7 +19,7 @@ export const refreshTokenAPI = async () => {
 
     if (status === 200 && data?.data != null && !data?.error) {
       const expirationTime = moment()
-        .add(8, "hours")
+        .add(3, "hours")
         .format("YYYY-MM-DD HH:mm:ss");
       localStorage.setItem("expirationTime", expirationTime);
       if (data?.data?.token) {

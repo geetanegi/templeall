@@ -64,7 +64,6 @@ interface ContestFormValues {
   note: string;
 }
 
-// import * as Yup from 'yup';
 const validationSchema = Yup.object({
   contestTypeId: Yup.string().required("This field is mandatory."),
   clubName: Yup.string().required("This field is mandatory."),
@@ -87,18 +86,7 @@ const validationSchema = Yup.object({
         return false;
       }
       return true;
-    }).test(
-      "start-not-past",
-      "Start date cannot be earlier than today's date. Please select a valid date.",
-      function (value) {
-        if (!value) return true;
-  
-        const start = moment(value, "YYYY-MM-DD");
-        const today = moment().startOf("day");
-  
-        return !start.isBefore(today); // Return false if start date is before today
-      }
-    ),
+    }),
 
   endDate: Yup.string()
     .nullable()
@@ -180,11 +168,11 @@ const validationSchema = Yup.object({
       },
     )
     .test("end-not-less-than-start", "Registration start time cannot be later than registration end time. Please select a valid time range.", function (value) {
-      const { registrationStartTime } = this.parent;
-      if (!value || !registrationStartTime) return true; 
+      const { registrationEndTime } = this.parent;
+      if (!value || !registrationEndTime) return true; 
 
       const registrationEnd = moment(`${value}`, "HH:mm A");
-      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+      const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
 
       if (registrationEnd.isSameOrAfter(registrationStart)) {
         return false;

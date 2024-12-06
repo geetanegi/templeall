@@ -179,7 +179,7 @@ const Register: React.FC = () => {
   };
 
   const DisplayScreens = () => {
-    if (showOtpScreen === true) {
+    if (false && showOtpScreen === true) {
       return (
         <div
           className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "pb-4" : "p-5 px-2"} md:w-full`}
@@ -430,7 +430,7 @@ const Register: React.FC = () => {
           </div>
         </div>
       )}
-      {showOtpScreen && <div>{DisplayScreens()}</div>}
+      {showOtpScreen && <div className="flex my-auto">{DisplayScreens()}</div>}
     </>
   );
 };

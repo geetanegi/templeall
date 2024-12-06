@@ -183,7 +183,7 @@ const ContestForm: React.FC<ContestProps> = ({
                 name="startDate"
                 label="Start Date"
                 required={true}
-                disabled={isSuperAdmin}
+                disabled={isUpdateContest ? true : false || isSuperAdmin}
                 maxDate={values.endDate}
                 minDate={today.format("YYYY-MM-DD")}
               />
@@ -224,6 +224,7 @@ const ContestForm: React.FC<ContestProps> = ({
                   required={true}
                   startTimeValue={values.startTime}
                   endTimeValue={values.endTime}
+                  disabled={isSuperAdmin}
                   CustomClockIcon={<ChevronDown />}
                 />
               </div>
@@ -247,6 +248,7 @@ const ContestForm: React.FC<ContestProps> = ({
                   name1="registrationStartTime"
                   name2="registrationEndTime"
                   required={true}
+                  disabled={isSuperAdmin}
                   startTimeValue={values.registrationStartTime}
                   endTimeValue={values.registrationEndTime}
                   CustomClockIcon={<ChevronDown />}
@@ -267,7 +269,9 @@ const ContestForm: React.FC<ContestProps> = ({
               />
             </div>
             {values.startDate !== "" &&
-              values.endDate !== ""  && (
+              values.endDate !== "" && 
+              saveState.selectedDays === "" && 
+              !saveState.frequency && (
                 <>
                   <div className="my-4 flex justify-start font-medium underline decoration-blue-600">
                     <span className="text-blue-600">

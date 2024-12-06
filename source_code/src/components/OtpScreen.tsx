@@ -136,6 +136,10 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   };
 
   const handleOtpState = () => {
+    if(token){
+      navigate('/')
+      return
+    }
     setShowSuccessScreen(true);
     setShowOtpScreen(false);
   };

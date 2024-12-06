@@ -87,7 +87,7 @@ const MUISelect: React.FC<SelectProps> = ({
               sx={formControlStyles}
             >
               <InputLabel id={`${name}-label`} sx={inputLabelStyles}>
-                <span style={{ display: "flex", alignItems: "center" }}>
+                <span className="text-[13px]" style={{ display: "flex", alignItems: "center" }}>
                   {label}
                   {required && (
                     <span style={{ color: "red", marginLeft: "0.25rem" }}>
@@ -112,7 +112,7 @@ const MUISelect: React.FC<SelectProps> = ({
                 {renderedOptions}
               </Select>
               <FormHelperText sx={{ fontSize: "12px", paddingRight: "0px" }}>
-                <ErrorMessage name={name} />
+                <ErrorMessage name={name}  />
               </FormHelperText>
             </FormControl>
           </Box>

@@ -458,11 +458,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             time: moment.utc(data?.requestTime).local().format("hh:mm A"),
             Category: (
               <div className="relative inline-block flex items-center text-[14px]">
-                {data.videoCategory === "TOP_SHOT"
-                  ? "Top Shot "
-                  : data.videoCategory === "NOT_TOP_SHOT"
-                    ? "Not Top Shot"
-                    : "Bloopers"}
+                {data.videoCategory}
                 <Info
                   size={16}
                   className="ml-2 cursor-pointer"

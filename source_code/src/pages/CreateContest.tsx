@@ -62,7 +62,6 @@ interface ContestFormValues {
   note: string;
 }
 
-// import * as Yup from 'yup';
 const validationSchema = Yup.object({
   contestTypeId: Yup.string().required("This field is mandatory."),
   clubName: Yup.string().required("This field is mandatory."),
@@ -178,11 +177,11 @@ const validationSchema = Yup.object({
       },
     )
     .test("end-not-less-than-start", "Registration start time cannot be later than registration end time. Please select a valid time range.", function (value) {
-      const { registrationStartTime } = this.parent;
-      if (!value || !registrationStartTime) return true; 
+      const { registrationEndTime } = this.parent;
+      if (!value || !registrationEndTime) return true; 
 
       const registrationEnd = moment(`${value}`, "HH:mm A");
-      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+      const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
 
       if (registrationEnd.isSameOrAfter(registrationStart)) {
         return false;
@@ -297,6 +296,7 @@ const validationSchema = Yup.object({
   queueLimit: Yup.string().required("This field is mandatory."),
   note: Yup.string().required("This field is mandatory."),
 });
+
 const CreateContest: React.FC = () => {
   const dispatch = useDispatch();
   const tz = momentTz.tz.guess();

@@ -116,13 +116,13 @@ const validationSchema = Yup.object({
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .required("This field is mandatory.")
-    .test("start-not-greater-than-end", "Start time cannot be later than end time", function (value) {
+    .test("start-not-greater-than-end", "Active hours start time cannot be later than active hours end time. Please select a valid time range.", function (value) {
       const { endTime } = this.parent; 
       if (!value || !endTime) return true; 
 
       const start = moment(value, "hh:mm A"); 
       const end = moment(endTime, "hh:mm A"); 
-      if (start.isAfter(end)) {
+      if (start.isSameOrAfter(end)) {
         return false; 
       }
       return true;
@@ -133,7 +133,7 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .test(
       "end-not-less-than-start",
-      "End time cannot be earlier than start time",
+      "Active hours end time cannot be earlier than the active hours start time. Please select a valid time range.",
       function (value) {
         const { startTime } = this.parent;
         if (!value || !startTime) return true; 
@@ -147,7 +147,7 @@ const validationSchema = Yup.object({
           "HH:mm A",
         );
 
-        if (endTimeObj.isBefore(startTimeObj)) {
+        if (endTimeObj.isSameOrBefore(startTimeObj)) {
           return false;
         }
         return true;
@@ -160,7 +160,7 @@ const validationSchema = Yup.object({
     .required("This field is mandatory.")
     .test(
       "is-at-least-30-min-before-contest-end",
-      "Registration start time should be earlier than active start time.",
+      "Registration start time should be earlier than active hours start time.",
       function (value) {
         const { startTime } = this.parent;  
         if (!value || !startTime) return true;
@@ -169,20 +169,32 @@ const validationSchema = Yup.object({
         const contestEnd = moment(startTime, "HH:mm A");
 
         if (!registrationEnd.isValid() || !contestEnd.isValid()) {
-          return false; // Invalid time format
+          return false;
         }
         if (registrationEnd.isAfter(contestEnd.subtract(0, "minutes"))) {
           return false;
         }
         return true;
       },
-    ),
+    )
+    .test("end-not-less-than-start", "Registration start time cannot be later than registration end time. Please select a valid time range.", function (value) {
+      const { registrationStartTime } = this.parent;
+      if (!value || !registrationStartTime) return true; 
+
+      const registrationEnd = moment(`${value}`, "HH:mm A");
+      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+
+      if (registrationEnd.isSameOrAfter(registrationStart)) {
+        return false;
+      }
+      return true;
+    }),
 
   registrationEndTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .required("This field is mandatory.")
-     .test("is-at-least-30-min-before-contest-end", "Registration end time must be at least 30 minutes before the contest end time", function (value) {
+     .test("is-at-least-30-min-before-contest-end", "Registration end time must be at least 30 minutes before the Contest active hours end time", function (value) {
       const { endTime } = this.parent;
       if (!value || !endTime) return true;
 
@@ -196,20 +208,19 @@ const validationSchema = Yup.object({
         return false;
       }
       return true;
+    })
+    .test("end-not-less-than-start", "Registration end time cannot be earlier than the start time. Please select a valid time range.", function (value) {
+      const { registrationStartTime } = this.parent;
+      if (!value || !registrationStartTime) return true; 
+
+      const registrationEnd = moment(`${value}`, "HH:mm A");
+      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+
+      if (registrationEnd.isSameOrBefore(registrationStart)) {
+        return false;
+      }
+      return true;
     }),
-    // .test("end-not-less-than-start", "Registration end time cannot be earlier than registration start time", function (value) {
-    //   const { registrationStartTime } = this.parent;
-    //   if (!value || !registrationStartTime) return true; 
-
-    //   const registrationEnd = moment(`${value}`, "HH:mm A");
-    //   const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
-
-    //   if (registrationEnd.isBefore(registrationStart)) {
-    //     return false;
-    //   }
-    //   return true;
-    // })
-   
 
   entryFee: Yup.number()
     .required("This field is mandatory.")

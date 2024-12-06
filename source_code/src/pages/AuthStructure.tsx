@@ -49,14 +49,15 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
             {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto  flex w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
                 {location.pathname === ROUTES.RESET_PASSWORD && (
                   <ResetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 md:mt-[20px] md:w-[280px]">
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 md:mt-[20px] md:w-[280px]"
+              >
                 {location.pathname === ROUTES.SIGNUP && (
                   // <StripeIntegration>
                   <Register />

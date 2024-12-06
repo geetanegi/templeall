@@ -10,7 +10,8 @@ interface TimeRangePickerProps {
   endTimeValue: any;
   name1:string;
   name2:string
-  required?:boolean
+  required?:boolean;
+  [key: string]: any;
 }
 
 const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
@@ -30,10 +31,14 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
     if (startTimeValue) {
       setStartTime(moment(startTimeValue, "HH:mm:ss"));  // Adjust format as needed
     }
+  
+  }, [startTimeValue]);
+
+  useEffect(()=>{
     if (endTimeValue) {
       setEndTime(moment(endTimeValue, "HH:mm:ss"));  // Adjust format as needed
     }
-  }, [startTimeValue, endTimeValue]);
+  },[endTimeValue])
 
   const disableStartTime = (
     time: Moment,   

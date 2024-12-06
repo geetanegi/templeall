@@ -42,7 +42,7 @@ const validationSchema = Yup.object({
     .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
     .max(100, "Last Name must be less than 100 characters"),
   username: Yup.string()
-    .required("Username is Required")
+    .required("Username is required")
     .matches(
       /^[a-zA-Z0-9]+$/,
       "Username must contain only alphanumeric characters",
@@ -50,7 +50,7 @@ const validationSchema = Yup.object({
     .min(3, "Username must be at least 3 characters")
     .max(25, "Username must be less than 25 characters"),
   password: Yup.string()
-    .required("Password is Required")
+    .required("Password is required")
     .matches(
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,25}$/,
       "Password must be 8-25 characters long, include at least one letter, one number, and one special character.",

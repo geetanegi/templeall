@@ -110,10 +110,12 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
         <button
           className="flex items-center justify-center gap-2 text-[14px] text-primaryColor"
           onClick={() => {
-            clearNotification(
-              notficationList.map((notification) => notification.id).join(","),
-              false,
-            );
+            if(notficationList.length){
+              clearNotification(
+                notficationList.map((notification) => notification.id).join(","),
+                false,
+              );
+            }
           }}
         >
           <CopyX size={14} /> Clear All{" "}
@@ -121,9 +123,11 @@ const NotificationPopoverComponent: React.FC<NotificationComponentProps> = ({
         <button
           className="flex items-center justify-center gap-2 text-[14px] text-primaryColor"
           onClick={() => {
-            markNotiicationAsRead(
-              notficationList.map((notification) => notification.id).join(","),
-            );
+            if(notficationList.length){
+              markNotiicationAsRead(
+                notficationList.map((notification) => notification.id).join(","),
+              );
+            }
           }}
         >
           <CheckCheck size={14} /> Mark all as read

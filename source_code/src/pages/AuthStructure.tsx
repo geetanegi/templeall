@@ -66,7 +66,7 @@ const AuthStructure: React.FC = () => {
             )}
 
             {location.pathname === ROUTES.USER_REGISTRATION && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:mt-[20px] md:w-[280px]">
                 {location.pathname === ROUTES.USER_REGISTRATION && (
                   // <StripeIntegration>
                   <SocialLoginScreen />

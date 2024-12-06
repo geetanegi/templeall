@@ -100,7 +100,7 @@ const Register: React.FC = () => {
       [true],
       "You must agree to the Terms and Conditions to proceed",
     ),
-    phone: Yup.string().required("Phone number field is missing."),
+    phone: Yup.string().required("Phone number is Required."),
     dateOfBirth: Yup.string()
       .nullable() // Allow null values
       .test(
@@ -316,7 +316,7 @@ const Register: React.FC = () => {
                     />
                   </div>
                   <div className="flex h-[70px] items-center">
-                    <div className="h-[73px] w-20 pr-2">
+                    <div className="h-[73px] w-28 w-20 pr-2">
                       <FormikControl
                         authFlow={true}
                         label="Phone"
@@ -327,7 +327,7 @@ const Register: React.FC = () => {
                         required={true}
                       />
                     </div>
-                    <div className="flex w-full flex-col">
+                    <div className="flex h-[73px] w-full flex-col">
                       <FormikControl
                         label="&nbsp;"
                         name="phone"
@@ -339,7 +339,7 @@ const Register: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <div className="mb-[10px] text-xs text-[#FFDE59]">
+                  <div className="mb-[10px] mt-2 text-xs text-[#FFDE59]">
                     (By providing your phone number, you agree to receivetext
                     messages from AceCam Golf LLC.Message and data rates may
                     apply. )

@@ -43,7 +43,7 @@ const ContestManagement = () => {
     (state: RootState) => state.auth.userPermissions,
   ), secretKey))
 
-  const isCourseAdmin = userPermisions?.permission["is_course_admin"];
+  const isCourseAdmin = userPermisions?.permission?.["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -106,7 +106,9 @@ const ContestManagement = () => {
   };
 
   useEffect(() => {
-    fetchContestList();
+    if(!userPermisions?.permission?.["is_player"]){
+      fetchContestList();
+    }
 
   }, [selectedHoles, selectedCourse, currentStatus, selectedContestType, currentPage]);
 

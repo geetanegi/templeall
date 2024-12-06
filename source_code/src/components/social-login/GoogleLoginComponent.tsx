@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastInfo } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
 import "../../App.css";
+import { ROUTES } from "../../utils/routesPath";
 
 
 const LoginButton: React.FC = () => {
@@ -38,17 +39,26 @@ const LoginButton: React.FC = () => {
         { data: newData },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        dispatch(
-          login({
-            token: data?.data?.token,
-            userInfo: {
-              username: "",
-              password: "",
-              userId: data?.data?.userId,
+        if (data?.data?.isVerified === true) {
+          dispatch(
+            login({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }),
+          );
+          navigate(ROUTES.DASHBOARD);
+        } else {
+          navigate(ROUTES.USER_REGISTRATION, {
+            state: {
+              email: data?.data?.emailId,
+              maskEmail: data?.data?.maskEmail,
             },
-          }),
-        );
-        navigate("/dashboard");
+          });
+        }
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
       } else {

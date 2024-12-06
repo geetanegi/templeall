@@ -45,8 +45,12 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getFilters("video_category", setVideoCategory);
-  }, []);
+    if(isModalOpen){
+      getFilters("video_category", setVideoCategory);
+    }else{
+      setSelectedOption("")
+    }
+  }, [isModalOpen]);
 
   const handleSubmit = async (values: any, {}: FormikHelpers<any>) => {
     if (selectedOption) {
@@ -121,24 +125,6 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
                   >
                     *
                   </span>
-
-                  {/* <div className="flex space-x-4">
-                    {videoCategory?.map((category) => (
-                      <>
-                        <label className="inline-flex items-center">
-                          <input
-                            type="radio"
-                            name="videoCategory"
-                            value={category.id}
-                            checked={selectedOption == category.id}
-                            onChange={handleTagChange}
-                            className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2 text-[14px]">{category.type}</span>
-                        </label>
-                      </>
-                    ))}
-                  </div> */}
                   <div className="flex space-x-4">
                     {videoCategory?.map((category) => (
                       <>
@@ -206,4 +192,4 @@ const VideoRequestModal: React.FC<UploadVideoModalProps> = ({
   );
 };
 
-export default VideoRequestModal;
+export default React.memo(VideoRequestModal);

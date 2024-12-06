@@ -85,7 +85,7 @@ const Login: React.FC = () => {
       if (status === 200 && data?.data != null && !data?.error) {
         // Update expiration time
         const expirationTime = moment()
-          .add(8, "hours")
+          .add(3, "hours")
           .format("YYYY-MM-DD HH:mm:ss");
         localStorage.setItem("expirationTime", expirationTime);
         if (rememberme === true) {
@@ -114,7 +114,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl  md:mt-20 md:w-full">
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:w-full">
         <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
 
         <Formik
@@ -204,9 +204,9 @@ const Login: React.FC = () => {
           </p>
           <div className="mt-[10px] flex items-center justify-center">
             <div className="mr-4">
-              <GoogleLoginComponent />
+              <AppleSignInButton />
             </div>
-            <AppleSignInButton />
+            <GoogleLoginComponent />
           </div>
         </div>
       </div>

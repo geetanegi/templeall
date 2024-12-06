@@ -37,12 +37,12 @@ const AuthStructure: React.FC = () => {
             className={`align-center flex h-screen w-full flex-col bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
           >
             {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-[12px] py-12 md:w-[280px]">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-[12px] py-12 md:md:mt-20 md:w-[280px]">
                 {location.pathname === ROUTES.LOGIN && <Login />}
               </div>
             )}
             {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto flex w-full flex-col items-center justify-center px-3 md:w-[280px]">
                 {location.pathname === ROUTES.FORGET_PASSWORD && (
                   <ForgetPassword />
                 )}
@@ -56,7 +56,7 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
             {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 md:mt-[20px] md:w-[280px]">
                 {location.pathname === ROUTES.SIGNUP && (
                   // <StripeIntegration>
                   <Register />
@@ -75,7 +75,7 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
 
-            <div className="-mt-10 flex items-center justify-center gap-2 ">
+            <div className="-mt-10 flex items-center justify-center gap-2">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
@@ -101,7 +101,7 @@ const AuthStructure: React.FC = () => {
                 <a href="mailto:support@acecamgolf.com">Contact Us</a>
               </p>
             </div>
-            <div className="-mt-0 mb-10 flex items-center justify-center gap-2 ">
+            <div className="mb-10 flex items-center justify-center gap-2">
               <div className="right-1 top-[1px] flex">
                 <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                   © 2024 AceCam

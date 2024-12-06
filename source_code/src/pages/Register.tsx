@@ -421,10 +421,8 @@ const Register: React.FC = () => {
             <p className="text-center text-[14px] text-white">
               - or sign in using -{" "}
             </p>
-            <div className="flex items-center justify-center">
-              <div className="mr-4">
+            <div className="flex items-center justify-center gap-8  ">
                 <AppleSignInButton />
-              </div>
               <GoogleLoginComponent />
             </div>
           </div>

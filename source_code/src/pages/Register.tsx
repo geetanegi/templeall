@@ -430,7 +430,7 @@ const Register: React.FC = () => {
           </div>
         </div>
       )}
-      {showOtpScreen && <div>{DisplayScreens()}</div>}
+      {showOtpScreen && <div className="flex my-auto">{DisplayScreens()}</div>}
     </>
   );
 };

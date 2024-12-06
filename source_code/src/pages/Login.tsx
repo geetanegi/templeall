@@ -202,10 +202,8 @@ const Login: React.FC = () => {
           <p className="mt-[10px] text-center text-[14px] text-white">
             - or sign in using -{" "}
           </p>
-          <div className="mt-[10px] flex items-center justify-center">
-            <div className="mr-4">
-              <AppleSignInButton />
-            </div>
+          <div className="mt-[10px] gap-8 flex items-center justify-center">
+            <AppleSignInButton />
             <GoogleLoginComponent />
           </div>
         </div>

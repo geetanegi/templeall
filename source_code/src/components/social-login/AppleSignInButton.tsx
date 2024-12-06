@@ -1,7 +1,7 @@
 import React from "react";
 import AppleLogin from "react-apple-login";
 import { setLoading } from "../../reducers/loader/loader";
-import AppleIcon from "../../assets/images/apple-1.png";
+import AppleIcon from "../../assets/images/Apple (1).png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import apiService from "../../services/apiService";
@@ -82,7 +82,7 @@ const AppleSignInButton: React.FC = () => {
           <img
             src={AppleIcon}
             alt="Sign in with Apple"
-            className="h-10 w-10 rounded-full bg-white"
+            className="rounded-full"
           />
           {/* <span>Sign in with Apple</span> */}
         </button>

@@ -193,8 +193,9 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
               <div className="mb-4 flex gap-4">
                 <input
                   name="countryCode"
-                  className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-4 py-3"
+                  className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#E6E6E6] cursor-not-allowed px-4 py-3 "
                   value={values.countryCode}
+                  disabled
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
@@ -205,10 +206,11 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
                   placeholder="Phone number"
                   id="contactNumber"
                   value={values.contactNumber}
+                  disabled
                   onChange={handleChange}
                   onBlur={handleBlur}
                   maxLength={10}
-                  className="w-[71%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
+                  className="w-[71%] rounded-lg border border-gray-200 bg-[#E6E6E6] cursor-not-allowed px-2 py-3 text-gray-500"
                 />
               </div>
               <div className="mb-5 ml-6">

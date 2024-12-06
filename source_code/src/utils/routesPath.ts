@@ -21,4 +21,6 @@ export const ROUTES = {
   USERS: "/users",
   PAYMENT_SUCCESS: "/payment-success",
   NOT_FOUND: "/not-found", // Change '*' to a specific path
+  ExternalTC: "/termsandconditions",
+  ExternalPrivacyPolicy: "/privacypolicy"
 };

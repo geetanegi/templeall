@@ -9,21 +9,19 @@ import { ROUTES } from "../utils/routesPath";
 import PageLoader from "../components/PageLoader";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { viewPdf } from "../utils/downloadUtils";
-import privacyPolicyPdf from "../assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
-import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
 import SocialLoginScreen from "../components/social-login/SocialLoginScreen";
+import { PRIVACY_POLICY_URL, TERMS_AND_CONDITIONS_URL } from "../utils/constantEnums";
 
 const AuthStructure: React.FC = () => {
   const location = useLocation();
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
+    window.open(PRIVACY_POLICY_URL, "_blank");
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
+    window.open(TERMS_AND_CONDITIONS_URL, "_blank");
   };
 
   return (
@@ -66,7 +64,7 @@ const AuthStructure: React.FC = () => {
             )}
 
             {location.pathname === ROUTES.USER_REGISTRATION && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:mt-[20px] md:w-[280px]">
                 {location.pathname === ROUTES.USER_REGISTRATION && (
                   // <StripeIntegration>
                   <SocialLoginScreen />

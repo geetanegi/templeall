@@ -179,7 +179,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
           <form
             onSubmit={handleSubmit}
             className="w-full overflow-y-auto overflow-x-hidden rounded-lg md:w-[480px]"
-            style={{ maxHeight: "80vh" }}
+            style={{ maxHeight: "70vh" }}
           >
             <div className="relative mb-5 ml-5 mr-7">
               <input

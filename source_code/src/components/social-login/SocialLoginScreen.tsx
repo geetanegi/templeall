@@ -27,8 +27,7 @@ interface SocialLoginInputsInterface {
   acceptTerms: boolean;
 }
 
-interface SocialLoginScreenProps {
-}
+interface SocialLoginScreenProps {}
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
@@ -40,10 +39,7 @@ const validationSchema = Yup.object({
     .max(100, "First Name must be less than 100 characters"),
   lastName: Yup.string()
     .required("Last Name is required.")
-    .matches(
-      /^[A-Za-z]+$/,
-      "Last Name must contain only alphabetic characters",
-    )
+    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
     .max(100, "Last Name must be less than 100 characters"),
   username: Yup.string()
     .required("Username is Required.")
@@ -72,26 +68,25 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(false);
-  const [token, setToken] = useState<string>('')
+  const [token, setToken] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const {email, maskEmail} = location.state
- 
+  const { email, maskEmail } = location.state || {};
+
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
   };
 
-  const OtpVerified = () =>{
-    
-    setOtpVerified(true)
+  const OtpVerified = () => {
+    setOtpVerified(true);
     const expirationTime = moment()
-          .add(8, "hours")
-          .format("YYYY-MM-DD HH:mm:ss");
-        localStorage.setItem("expirationTime", expirationTime);
+      .add(3, "hours")
+      .format("YYYY-MM-DD HH:mm:ss");
+    localStorage.setItem("expirationTime", expirationTime);
     dispatch(loginWithoutRemember({ token: token }));
-    navigate(ROUTES.DASHBOARD)
-  }
+    navigate(ROUTES.DASHBOARD);
+  };
 
   const DisplayScreens = () => {
     if (showOtpScreen === true) {
@@ -130,7 +125,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         countryCode: values.countryCode,
         mode: "WEB",
       };
-      
+
       const { data, status } = await apiService.post<any>(
         API_URL.socialLoginRegistration,
         {
@@ -138,8 +133,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         },
       );
       if (status === 200 && data?.data != null && !data?.error) {
-        setToken(data?.data?.token || '')
-        setUsernameValue(values.username)
+        setToken(data?.data?.token || "");
+        setUsernameValue(values.username);
         setShowOtpScreen(true);
       } else if (status === 200 && data?.error && data?.description) {
         ToastInfo(data?.description);
@@ -147,143 +142,146 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         ToastInfo(data?.description);
       }
     } catch (error) {
-      console.log(error)
-    }finally{
+      console.log(error);
+    } finally {
       dispatch(setLoading(false));
     }
   };
 
   return (
     <>
-    {
-      showOtpScreen ? <div>{DisplayScreens()}</div> : 
-      <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
-        <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
-        <div>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            <Form className="w-full max-w-sm md:max-w-md">
-              <div className="mb-5">
-                <p className="text-center text-primaryText text-[16px]">
-                  Please help us in getting to know you better.
-                </p>
-                <p className="text-center text-primaryText text-[12px]">
-                  Email: <span className="text-yellowText">{maskEmail}</span> 
-                </p>  
-              </div>
-              <div className="flex gap-2">
-                <div className="flex w-1/2 flex-col">
+      {showOtpScreen ? (
+        <div>{DisplayScreens()}</div>
+      ) : (
+        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
+          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+          <div>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              <Form className="w-full max-w-sm md:max-w-md">
+                <div className="mb-5">
+                  <p className="text-center text-[16px] text-primaryText">
+                    Please help us in getting to know you better.
+                  </p>
+                  <div className="flex items-center justify-center">
+                  <p className="text-center w-full md:w-[220px] text-[12px] text-primaryText  overflow-hidden whitespace-nowrap text-[12px] text-ellipsis">
+                    Email: <span className="text-yellowText">{maskEmail || "hjjkhjkhknjkhjkhjkhjkjkh@gmail.com"}</span>
+                  </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="flex w-1/2 flex-col">
+                    <FormikControl
+                      label=" First Name"
+                      name="firstName"
+                      control="input"
+                      className="w-full"
+                      placeholder=" Your First Name"
+                      type="text"
+                      required={true}
+                      authFlow={true}
+                    />
+                  </div>
+                  <div className="flex w-1/2 flex-col">
+                    <FormikControl
+                      label=" Last Name"
+                      name="lastName"
+                      control="input"
+                      className="w-full"
+                      placeholder=" Your Last Name"
+                      type="text"
+                      required={true}
+                      authFlow={true}
+                    />
+                  </div>
+                </div>
+                <div className="mb-4">
                   <FormikControl
-                    label=" First Name"
-                    name="firstName"
+                    label="Username"
+                    name="username"
                     control="input"
                     className="w-full"
-                    placeholder=" Your First Name"
+                    placeholder="userName"
                     type="text"
                     required={true}
+                    maxLength={25}
+                    // validateRegex={ALPHANUMERIC_REGEX}
                     authFlow={true}
                   />
                 </div>
-                <div className="flex w-1/2 flex-col">
-                  <FormikControl
-                    label=" Last Name"
-                    name="lastName"
-                    control="input"
-                    className="w-full"
-                    placeholder=" Your Last Name"
-                    type="text"
-                    required={true}
-                    authFlow={true}
-                  />
+                <div className="flex items-center">
+                  <div className="w-28 h-[73px] pr-2">
+                    <FormikControl
+                      authFlow={true}
+                      label="Phone"
+                      name="countryCode"
+                      control="input"
+                      className="w-full"
+                      type="text"
+                      required={true}
+                    />
+                  </div>
+                  <div className="flex h-[73px] w-full flex-col">
+                    <FormikControl
+                      label="&nbsp;"
+                      name="phone"
+                      control="number"
+                      className="w-full"
+                      placeholder="Phone"
+                      // required={true}
+                      authFlow={true}
+                      maxLength={10}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="mb-4">
-                <FormikControl
-                  label="Username"
-                  name="username"
-                  control="input"
-                  className="w-full"
-                  placeholder="userName"
-                  type="text"
-                  required={true}
-                  maxLength={25}
-                  // validateRegex={ALPHANUMERIC_REGEX}
-                  authFlow={true}
-                />
-              </div>
-              <div className="flex items-center">
-                <div className="w-20 pr-2">
-                  <FormikControl
-                    authFlow={true}
-                    label="Phone"
-                    name="countryCode"
-                    control="input"
-                    className="w-full"
-                    type="text"
-                    required={true}
-                  />
-                </div>
-                <div className="flex w-full flex-col">
-                  <FormikControl
-                    label="&nbsp;"
-                    name="phone"
-                    control="number"
-                    className="w-full"
-                    placeholder="Phone"
-                    // required={true}
-                    authFlow={true}
-                    maxLength={10}
-                  />
-                </div>
-              </div>
-              <div className="mb-6 flex flex-col">
-                <label className="inline-flex items-center">
-                  <Field
-                    type="checkbox"
-                    name="acceptTerms"
-                    className="form-checkbox h-4 w-4 leading-tight text-blue-400"
-                  />
-                  <span className={`ml-2 text-[13px] text-primaryText`}>
-                    Agreeing to{" "}
-                    <Link
-                      onClick={downloadTermsAndConditionsFunc}
-                      className={`px-1 text-[13px] text-link underline hover:underline`}
-                      to=""
-                    >
-                      Terms and Conditions
-                    </Link>
-                    of the contest
+                <div className="mb-6 flex flex-col">
+                  <label className="inline-flex items-center">
+                    <Field
+                      type="checkbox"
+                      name="acceptTerms"
+                      className="form-checkbox h-4 w-4 leading-tight text-blue-400"
+                    />
+                    <span className={`ml-2 text-[13px] text-primaryText`}>
+                      Agreeing to{" "}
+                      <Link
+                        onClick={downloadTermsAndConditionsFunc}
+                        className={`px-1 text-[13px] text-link underline hover:underline`}
+                        to=""
+                      >
+                        Terms and Conditions
+                      </Link>
+                      of the contest
+                    </span>
+                  </label>
+                  <span
+                    style={{
+                      color: "#FFDE59",
+                      fontSize: "0.875rem",
+                    }}
+                  >
+                    <ErrorMessage
+                      name="acceptTerms"
+                      component="div"
+                      className="text-[13px]"
+                    />
                   </span>
-                </label>
-                <span
-                  style={{
-                    color: "#FFDE59",
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  <ErrorMessage
-                    name="acceptTerms"
-                    component="div"
-                    className="text-[13px]"
-                  />
-                </span>
-              </div>
-              <div className="flex justify-center">
-                <button
-                  type="submit"
-                  className={`w-[200px] rounded-[12px] border bg-buttonPrimary h-[36px] text-primaryText hover:bg-lime-600`}
-                >
-                  Create Account
-                </button>
-              </div>
-            </Form>
-          </Formik>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    type="submit"
+                    className={`h-[36px] w-[200px] rounded-[12px] border bg-buttonPrimary text-primaryText hover:bg-lime-600`}
+                  >
+                    Create Account
+                  </button>
+                </div>
+              </Form>
+            </Formik>
+          </div>
         </div>
-      </div>
-    }
+      )}
     </>
   );
 };

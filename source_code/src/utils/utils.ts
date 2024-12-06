@@ -7,9 +7,11 @@ export const capitalizeFirstLetter = (value: string): string =>{
 
 
 export const combineDateAndTime = (date: string | Moment, time: string) => {
-  const parsedDate = moment(date); 
-  const parsedTime = moment(time, "HH:mm:ss.SSS"); 
+  // Parse the date and time separately
+  const parsedDate = moment(date); // Parse the date
+  const parsedTime = moment(time, "HH:mm:ss.SSS"); // Parse the time
   
+  // Combine date and time
   const combined = parsedDate
     .set({
       hour: parsedTime.hour(),

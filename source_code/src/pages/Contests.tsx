@@ -87,7 +87,19 @@ const validationSchema = Yup.object({
         return false;
       }
       return true;
-    }),
+    })
+    .test(
+      "start-not-past",
+      "Start date cannot be earlier than today's date. Please select a valid date.",
+      function (value) {
+        if (!value) return true;
+  
+        const start = moment(value, "YYYY-MM-DD");
+        const today = moment().startOf("day");
+  
+        return !start.isBefore(today); // Return false if start date is before today
+      }
+    ),
 
   endDate: Yup.string()
     .nullable()

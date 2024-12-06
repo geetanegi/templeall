@@ -71,14 +71,14 @@ const RecurrenceModal: React.FC<RecurrenceModalProps> = ({
                     : false
                 }
                 onClick={handleSaveModal}
-                className={` ${frequency === "WEEKLY" && selectedDays.length === 0 ? "cursor-not-allowed" : ""} rounded-lg bg-primaryColor px-5 py-2 text-sm font-medium text-white`}
+                className={` ${frequency === "WEEKLY" && selectedDays.length === 0 ? "cursor-not-allowed" : ""} rounded-lg bg-primaryColor w-[100px] px-5 py-2 text-sm font-medium text-white`}
               >
                 Save
               </button>
 
               <button
                 onClick={toggleModal}
-                className="rounded-md bg-[#7B7887] px-8 py-2 text-sm font-medium text-white"
+                className="rounded-md bg-[#7B7887] w-[100px] px-8 py-2 text-sm font-medium text-white"
               >
                 Back
               </button>

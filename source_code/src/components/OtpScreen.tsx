@@ -147,11 +147,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   return (
     <>
       <div className="flex flex-col items-center justify-center md:justify-between">
-        <div className="mb-[5px] flex w-full gap-1">
-          <h4 className="text-[12px] font-thin text-[#ffffff] md:text-left md:text-[12px]">
+        <div className="mb-[5px] flex w-full md:w-[220px] gap-1  whitespace-nowrap text-ellipsis">
+          <h4 className="text-[12px] w-[50%] font-thin text-[#ffffff] md:text-left md:text-[12px]">
             Enter the OTP sent to{" "}
           </h4>
-          <span className={`text-[12px] font-bold text-yellowText`}>
+          <span className={`text-[12px] font-bold text-yellowText overflow-hidden text-ellipsis`}>
             {email ? email : maskEmail}
           </span>
         </div>
@@ -182,35 +182,6 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
             </p>
           </p>
         </div>
-        <div className="w-full py-1">
-          <p className="text-[14px] font-normal text-white">
-            Enter OTP <span className="text-[#FFDE59]">*</span>
-          </p>
-        </div>
-        <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
-        <span className="text-[#FFDE59] text-xs">{otpError}</span>
-
-        <p className="mb-4 pl-6 text-xs font-normal text-[#ffffff] text-right w-[100%] mt-0">
-          OTP is valid for 5 minutes
-        </p>
-
-        <div className="flex text-center">
-          <p className={`text-xs text-primaryText text-sm`}>
-            Didn't you receive the OTP?{" "}
-            <button
-              className={`font-semibold text-link ${timeLeft > 0 && isRunning
-                ? "cursor-not-allowed opacity-60"
-                : "cursor-pointer text-link"
-                }`}
-              onClick={handleReset}
-              disabled={timeLeft > 0 && isRunning}
-            >
-              Resend OTP
-            </button>
-          </p>
-        </div>
-
-
 
         <button
           onClick={handleOTP}

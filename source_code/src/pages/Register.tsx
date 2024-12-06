@@ -119,8 +119,8 @@ const Register: React.FC = () => {
       }),
   });
 
-  const [showOtpScreen, setShowOtpScreen] = useState<boolean>(true);
-  const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(true);
+  const [showOtpScreen, setShowOtpScreen] = useState<boolean>(false);
+  const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [usernameValue, setUsernameValue] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 

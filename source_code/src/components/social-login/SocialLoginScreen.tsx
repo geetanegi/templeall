@@ -72,7 +72,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { email, maskEmail } = location.state;
+  const { email, maskEmail } = location.state || {};
 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
@@ -166,9 +166,11 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   <p className="text-center text-[16px] text-primaryText">
                     Please help us in getting to know you better.
                   </p>
-                  <p className="text-center text-[12px] text-primaryText">
-                    Email: <span className="text-yellowText">{maskEmail}</span>
+                  <div className="flex items-center justify-center">
+                  <p className="text-center w-full md:w-[220px] text-[12px] text-primaryText  overflow-hidden whitespace-nowrap text-[12px] text-ellipsis">
+                    Email: <span className="text-yellowText">{maskEmail || "hjjkhjkhknjkhjkhjkhjkjkh@gmail.com"}</span>
                   </p>
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <div className="flex w-1/2 flex-col">
@@ -211,7 +213,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   />
                 </div>
                 <div className="flex items-center">
-                  <div className="w-20 pr-2">
+                  <div className="w-28 h-[73px] pr-2">
                     <FormikControl
                       authFlow={true}
                       label="Phone"
@@ -222,7 +224,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       required={true}
                     />
                   </div>
-                  <div className="flex w-full flex-col">
+                  <div className="flex h-[73px] w-full flex-col">
                     <FormikControl
                       label="&nbsp;"
                       name="phone"

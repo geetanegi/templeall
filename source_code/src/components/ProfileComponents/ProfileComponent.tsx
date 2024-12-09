@@ -35,7 +35,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
       <div className="bg-white-700 h-full min-h-[90vh] w-full overflow-auto bg-contain bg-cover bg-fixed bg-no-repeat sm:flex-row sm:bg-profilebackground md:flex-row lg:overflow-hidden">
         <div className="flex w-full pt-6">
 
-          {userPermisions?.permission["is_player"] &&
+          {userPermisions?.permission?.["is_player"] &&
             isCommunitySearch ? (
             <CommunitySearchComponent
               selectedUser={selectedUser}

@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { setLoading } from "../../reducers/loader/loader";
 import uuid from "react-uuid";
 import { formatDuration } from "./mediaUtils/mediaUtils";
+import { validationConstant } from "../../utils/validationEnums";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
@@ -39,11 +40,11 @@ const initialValue = {
 
 const validationSchema = Yup.object({
   title: Yup.string()
-    .required("Video title is required.")
-    .max(25, "Video title must be less than 25 characters"),
+    .required(validationConstant.videoTitleReq)
+    .max(25, validationConstant.videoTitleMaxLength),
   description: Yup.string()
-    .required("Video description is required.")
-    .max(100, "Video description must be less than 100 characters"),
+    .required(validationConstant.videoDiscriptionReq)
+    .max(100, validationConstant.videoDiscriptionMaxLength),
 });
 
 const UploadVideoModal: React.FC<UploadVideoModalProps> = ({

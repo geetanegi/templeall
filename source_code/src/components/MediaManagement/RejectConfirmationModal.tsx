@@ -3,6 +3,7 @@ import Modal from "../ModalComponent";
 import { Formik, FormikHelpers } from "formik";
 import FormikControl from "../../Formik/components/FormikControl";
 import * as Yup from "yup";
+import { validationConstant } from "../../utils/validationEnums";
 interface RejectConfirmationModalProps {
   setIsRejectModalOpen: (flag: boolean) => void;
   isRejectModalOpen: boolean;
@@ -19,8 +20,8 @@ interface RejectConfirmationModalProps {
 
 const validationSchema = Yup.object({
   rejectReasons: Yup.string()
-    .required("Reject Reason is required.")
-    .max(100, "Reject Reason must be less than 100 characters"),
+    .required(validationConstant.videoRejestReason)
+    .max(100, validationConstant.videoRejestReasonMaxLength),
 });
 
 const RejectConfirmationModal: React.FC<RejectConfirmationModalProps> = ({

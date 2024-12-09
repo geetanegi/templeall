@@ -15,6 +15,7 @@ import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
 import { setLoading } from "../../reducers/loader/loader";
+import { validationConstant } from "../../utils/validationEnums";
 
 interface SocialLoginInputsInterface {
   username: string;
@@ -30,29 +31,29 @@ interface SocialLoginScreenProps {}
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
-    .required("First Name is required.")
+    .required(validationConstant.firstNameRequired)
     .matches(
       /^[A-Za-z]+$/,
-      "First Name must contain only alphabetic characters",
+      validationConstant.firstNameContains,
     )
-    .max(100, "First Name must be less than 100 characters"),
+    .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
-    .required("Last Name is required.")
-    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
-    .max(100, "Last Name must be less than 100 characters"),
+    .required(validationConstant.lastNameRequired)
+    .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
+    .max(25, validationConstant.lastNameMaxLength),
   username: Yup.string()
-    .required("Username is Required.")
+    .required(validationConstant.usernameRequired)
     .matches(
       /^[a-zA-Z0-9]+$/,
-      "Username must contain only alphanumeric characters  ",
+      validationConstant.userNameContains,
     )
-    .min(3, "Username must be at least 3 characters.")
-    .max(25, "Username must be less than 25 characters"),
+    .min(3, validationConstant.usernameMinWordLimit)
+    .max(25, validationConstant.userNameMaxWordLimit),
   acceptTerms: Yup.bool().oneOf(
     [true],
-    "You must agree to the Terms and Conditions to proceed",
+    validationConstant.agreeTermsAndConditions,
   ),
-  phone: Yup.string().required("Phone is Required."),
+  phone: Yup.string().required(validationConstant.phoneNumberIsRequired),
 });
 
 const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
@@ -236,14 +237,14 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                     />
                   </div>
                 </div>
-                <div className="mb-6 flex flex-col">
-                  <label className="inline-flex items-center">
+                <div className="mb-6 text-center flex flex-col">
+                  <label className="inline-flex justify-center items-center">
                     <Field
                       type="checkbox"
                       name="acceptTerms"
-                      className="form-checkbox h-4 w-4 leading-tight text-blue-400"
+                      className="form-checkbox md:-mt-[1rem] h-4 w-4 leading-tight text-blue-400"
                     />
-                    <span className={`ml-2 text-[13px] text-primaryText`}>
+                    <span className={`ml-1 text-[13px] text-primaryText`}>
                       Agreeing to{" "}
                       <Link
                         onClick={downloadTermsAndConditionsFunc}

@@ -314,7 +314,7 @@ const ContestForm: React.FC<ContestProps> = ({
                     </span>
                   </span>
                 )}
-                {userPermisions?.permission["is_super_admin"] && (
+                {userPermisions?.permission?.["is_super_admin"] && (
                   <SquarePen
                     className={`mx-2 h-5 text-[#95c11e]`}
                     strokeWidth={1}

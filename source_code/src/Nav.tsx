@@ -400,17 +400,17 @@ const Nav: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className="mx-4 max-w-[250px]">
+              <div className="mx-4 max-w-[220px]">
                 <div className="max-w-[200px] text-left overflow-hidden text-ellipsis whitespace-nowrap ">
                   {`${profiledetails?.firstName || ""} ${profiledetails?.lastName || ""}`}
                 </div>
                 {userPermisions?.permission?.["is_player"] ? (
-                  <div className="flex items-center text-[#7B7887]">
-                    <span className="text-[12px]">
+                  <div className="flex items-center text-[#7B7887]  ">
+                    <span className="text-[12px] max-w-[90px] overflow-hidden text-ellipsis whitespace-nowrap">
                       HDCP: {profiledetails?.userProfile?.handicap}
                     </span>
                     <Dot className="mx-[-4px]" />
-                    <span className="text-[12px]">
+                    <span className="text-[12px] max-w-[90px] overflow-hidden text-ellipsis whitespace-nowrap">
                       GHIN: {profiledetails?.userProfile?.ghin}
                     </span>
                   </div>

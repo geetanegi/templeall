@@ -12,6 +12,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
+import { validationConstant } from "../utils/validationEnums";
 
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,13 +39,13 @@ const ForgetPassword: React.FC = () => {
    * ***/
   const validationSchema = Yup.object({
     username: Yup.string()
-      .required("Username is Required")
+      .required(validationConstant.usernameRequired)
       .matches(
         /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters",
+        validationConstant.userNameContains,
       )
-      .min(3, "Username must be at least 3 characters")
-      .max(25, "Username must be less than 25 characters"),
+      .min(3, validationConstant.usernameMinWordLimit)
+      .max(25, validationConstant.userNameMaxWordLimit),
   });
 
   const handleSubmit = async (values: ResetPasswordFormValues) => {

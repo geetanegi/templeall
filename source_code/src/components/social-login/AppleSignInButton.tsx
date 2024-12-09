@@ -1,7 +1,7 @@
 import React from "react";
 import AppleLogin from "react-apple-login";
 import { setLoading } from "../../reducers/loader/loader";
-import AppleIcon from "../../assets/images/Apple (1).png";
+import AppleIcon from "../../assets/images/Apple.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import apiService from "../../services/apiService";
@@ -76,15 +76,14 @@ const AppleSignInButton: React.FC = () => {
       responseMode="form_post"
       scope="name email"
       usePopup={true}
-      callback={handleAppleResponse} // Handle both success and failure here
+      callback={handleAppleResponse} 
       render={(renderProps: any) => (
         <button onClick={renderProps.onClick} className="apple-signin-button">
           <img
             src={AppleIcon}
             alt="Sign in with Apple"
-            className="rounded-full"
+            className="h-[36px]"
           />
-          {/* <span>Sign in with Apple</span> */}
         </button>
       )}
     />

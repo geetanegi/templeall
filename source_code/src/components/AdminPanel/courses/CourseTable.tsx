@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+  import React, { useEffect, useState, useRef } from "react";
 import { LandPlot, QrCode } from "lucide-react";
 import apiService from "../../../services/apiService";
 import { ToastInfo, ToastSuccess } from "../../Toast";
@@ -6,13 +6,13 @@ import { Club, ApiResponse, Course } from "./courses.interface.ts";
 import QRCode from "react-qr-code";
 import { API_URL } from "../../../services/enums.ts";
 import PaginationComponent from "../../PaginationComponent.tsx";
-import Golf from "../../../assets/images/golf_course.png";
+import Golf from "../../../assets/images/golf_course (1).svg";
 import PageLoader from "../../PageLoader.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/index.ts";
 import { setLoading } from "../../../reducers/loader/loader.ts";
 import QRModal from "./QRModal.tsx";
-// import clubIcon from "../../../assets/images/club_icon (1).svg";
+import clubIcon from "../../../assets/images/Mask group (1).svg";
 
 interface CourseTableProps {
   selectedHoles?: string[] | null;
@@ -187,46 +187,46 @@ const CourseTable: React.FC<CourseTableProps> = ({
     return courses.map((course: any) => (
       <tr
         key={course.id}
-        className="whitespace-nowrap bg-gray-100 font-normal text-black"
+        className="whitespace-nowrap  font-normal text-black"
       >
         <td colSpan={2}>
-          {/* <div className="flex items-center border justify-between px-5 py-3 pl-10">
+          <div className="flex items-center bg-[#F5F6F7] border-y border-gray-400 justify-between py-3">
             <span className="flex items-center justify-between space-x-2">
               <img
                 src={clubIcon}
                 alt="golf"
-                className="mr-1 w-4 text-gray-600"
+                className="ml-10 mr-1 w-4 text-gray-600"
               />
               <span className="text-[14px] font-semibold">{course?.name}</span>
             </span>
-          </div> */}
+          </div>
           {course?.courseList?.map((club: any) => (
-            <div className="">
-              <div className="flex items-center justify-between px-5 py-3 pl-10">
+            <div className="" key={club?.id} >
+              <div className="flex items-center bg-[#E9EDF5] justify-between px-5 pl-10">
                 <span className="flex items-center justify-between space-x-2">
-                {/* <div className="ml-5 h-12 border border-gray-300"></div> */}
-                  <LandPlot className="h-5 w-5 text-gray-400" />
+                <div className="ml-2 mr-4 h-12 border border-gray-300"></div>
+                  <LandPlot className="h-5 w-5 text-gray-500" />
                   <span className="text-[14px] font-semibold">
                     {club?.courseName}
                   </span>
                 </span>
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   <button
                     onClick={() =>
                       handlePreview(
                         `${API_URL.qrCodeByCourseId}${club.id}&courseName=${club.courseName}`,
                       )
                     }
-                    className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                    className="font-weight-400 flex items-center justify-center rounded-md border border-primaryColor bg-white px-2 py-[1px] text-[12px] text-primaryColor"
                   >
-                    <QrCode className="mr-1 w-4 text-gray-600" />
+                    <QrCode className="mr-1 w-4 text-primaryColor" />
                     Preview
                   </button>
                   <button
                     onClick={() => downloadQRCode(`course-${club.id}`, "png")}
-                    className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                    className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                   >
-                    <QrCode className="mr-1 w-4 text-gray-600" />
+                    <QrCode className="mr-1 w-4 text-primaryText" />
                     Download
                   </button>
                 </div>
@@ -235,11 +235,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
                 const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
                 return (
                   <div key={hole?.id} className="bg-white">
-                    {/* Golf card */}
                     <div className="w-full border border-gray-200"></div>
                     <div className="flex items-center justify-between px-5 pl-7">
                       <span className="flex items-center justify-between space-x-3">
-                        <div className="ml-5 h-12 border border-gray-300"></div>
+                      <div className="ml-5 mr-5 h-12 border border-gray-300"></div>
+                        <div className=" h-12 border border-gray-300"></div>
                         <img
                           src={Golf}
                           alt="golf"
@@ -249,23 +249,23 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           Hole #{hole?.holeNumber} - Par {hole?.par}
                         </span>
                       </span>
-                      <div className="flex gap-1">
+                      <div className="flex gap-2">
                         <button
                           onClick={() =>
                             handlePreview(
-                              `${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`,
+                              `${API_URL.qrCodeByHoldId}?course=${club.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${club.courseName}`,
                             )
                           }
-                          className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                          className="font-weight-400 flex items-center justify-center rounded-md border border-primaryColor bg-white px-2 py-[1px] text-[12px] text-primaryColor"
                         >
-                          <QrCode className="mr-1 w-4 text-gray-600" />
+                          <QrCode className="mr-1 w-4 text-primaryColor" />
                           Preview
                         </button>
                         <button
                           onClick={() => downloadQRCode(holeKey, "png")}
-                          className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                          className="font-weight-400 flex items-center justify-center rounded-md  bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                         >
-                          <QrCode className="mr-1 w-4 text-gray-600" />
+                          <QrCode className="mr-1 w-4 text-primaryText" />
                           Download
                         </button>
                       </div>

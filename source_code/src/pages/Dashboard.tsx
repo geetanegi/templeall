@@ -30,22 +30,22 @@ const Dashboard: React.FC = () => {
   }, []);
 
   if (location.pathname === ROUTES.USERS) {
-    if (userPermisions?.permission["is_super_admin"]) {
+    if (userPermisions?.permission?.["is_super_admin"]) {
       return <Adminpanel />;
-    } else if (userPermisions?.permission["is_course_admin"]) {
+    } else if (userPermisions?.permission?.["is_course_admin"]) {
       return <Adminpanel isCourseAdmin={true} />;
     }
   }
 
-  if (userPermisions && userPermisions?.permission["is_course_admin"]) {
+  if (userPermisions && userPermisions?.permission?.["is_course_admin"]) {
     return <Navigate to={ROUTES.CONTESTS} replace />;
   }
 
   return (
     <div>
-      {userPermisions?.permission["is_player"] && <PlayerHomePage />}
-      {userPermisions?.permission["is_super_admin"] && <AdminHomePage />}
-      {userPermisions?.permission["is_course_admin"] && <AdminHomePage />}
+      {userPermisions?.permission?.["is_player"] && <PlayerHomePage />}
+      {userPermisions?.permission?.["is_super_admin"] && <AdminHomePage />}
+      {userPermisions?.permission?.["is_course_admin"] && <AdminHomePage />}
     </div>
   );
 };

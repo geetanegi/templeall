@@ -12,6 +12,7 @@ import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { encryptData, secretKey } from "../utils/encrypt";
+import { validationConstant } from "../utils/validationEnums";
 
 const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const ResetPassword: React.FC = () => {
     confirmPassword: Yup.string()
       .oneOf(
         [Yup.ref("password")],
-        "The passwords do not match. Please ensure both password fields are identical",
+        validationConstant.passWordMatching,
       )
       .required("Confirm password is required"),
   });

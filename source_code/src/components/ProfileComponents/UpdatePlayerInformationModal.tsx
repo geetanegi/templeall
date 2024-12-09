@@ -19,6 +19,7 @@ import moment from "moment";
 //   useStripe,
 // } from "@stripe/react-stripe-js";
 import PageLoader from "../PageLoader";
+import { validationConstant } from "../../utils/validationEnums";
 interface userProfileType {
   contactNumber?: string;
   ball?: string;
@@ -78,37 +79,37 @@ const initialValues = {
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
-    .required("First Name is required ")
+    .required(validationConstant.firstNameRequired)
     .matches(
       /^[A-Za-z]+$/,
-      "First Name must contain only alphabetic characters",
+      validationConstant.firstNameContains,
     )
-    .max(100, "First Name must be less than 100 characters"),
+    .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
-    .required("Last Name is required ")
-    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
-    .max(100, "Last Name must be less than 100 characters"),
+    .required(validationConstant.lastNameRequired)
+    .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
+    .max(100, validationConstant.lastNameMaxLength),
   email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Email is Required"),
+    .email(validationConstant.validEmail)
+    .required(validationConstant.emailRequired),
   contactNumber: Yup.string()
-    .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number.")
-    .min(10, "Please enter valid phone number.")
-    .max(10, "Please enter valid phone number."),
+    .matches(/^\+?[1-9]\d{1,14}$/, validationConstant.phoneNumberContains)
+    .min(10, validationConstant.validPhone)
+    .max(10, validationConstant.validPhone),
   location: Yup.string().matches(
     /^[A-Za-z0-9\s]+$/,
-    "Location must contain only alphabetic characters",
+    validationConstant.locationContains,
   ),
   city: Yup.string().matches(
     /^[A-Za-z\s]+$/,
-    "City must contain only alphabetic characters",
+    validationConstant.cityContains,
   ),
-  ghin: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid GHIN Number."),
-  alternateEmail: Yup.string().email("Please enter a valid email address"),
+  ghin: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, validationConstant.invalidGHIN),
+  alternateEmail: Yup.string().email(validationConstant.validEmail),
   handicap: Yup.string()
-    .typeError("Handicap number Must be a number")
-    .matches(/^\d+(\.\d+)?$/, "Handicap must be a valid number")
-    .required("Handicap number is required"),
+    .typeError(validationConstant.handicapNumberContains)
+    .matches(/^\d+(\.\d+)?$/, validationConstant.validHandiCapNumber)
+    .required(validationConstant.handicapNumberReq),
 });
 
 const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({

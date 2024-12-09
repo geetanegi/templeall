@@ -22,7 +22,7 @@ const LiveLeaderBoard: React.FC = () => {
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = userPermisions?.permission["is_super_admin"];
+  const isSuperAdmin = userPermisions?.permission?.["is_super_admin"];
 
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [dropDownList, setDropDownList] = useState<leaderBoard[] | null>(null);

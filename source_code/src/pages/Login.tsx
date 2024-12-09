@@ -20,6 +20,7 @@ import moment from "moment";
 // import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { decryptData, encryptData, secretKey } from "../utils/encrypt";
 import AppleSignInButton from "../components/social-login/AppleSignInButton";
+import { validationConstant } from "../utils/validationEnums";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -53,13 +54,13 @@ const Login: React.FC = () => {
    * ***/
   const validationSchema = Yup.object({
     username: Yup.string()
-      .required("Username is Required")
+      .required(validationConstant.usernameRequired)
       .matches(
         /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters  ",
+        validationConstant.userNameContains,
       )
-      .min(3, "Username must be at least 3 characters")
-      .max(25, "Username must be less than 25 characters"),
+      .min(3, validationConstant.usernameMinWordLimit)
+      .max(25, validationConstant.userNameMaxWordLimit),
     password: Yup.string()
       .required(PasswordRegex.REQUIRED)
       .matches(PasswordRegex.PATTERN, PasswordRegex.FORMAT)

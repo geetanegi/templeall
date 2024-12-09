@@ -42,14 +42,14 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
             {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col justify-center px-3 md:w-[280px]">
+              <div className="mx-auto my-auto flex w-full flex-col items-center justify-center px-[12px] mb-10  md:w-[280px]">
                 {location.pathname === ROUTES.FORGET_PASSWORD && (
                   <ForgetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto  flex w-full flex-col items-center justify-center px-5 md:w-[280px]">
+              <div className="mx-auto my-auto flex w-full flex-col items-center justify-center px-[12px] mb-10  md:w-[280px]">
                 {location.pathname === ROUTES.RESET_PASSWORD && (
                   <ResetPassword />
                 )}
@@ -67,7 +67,7 @@ const AuthStructure: React.FC = () => {
             )}
 
             {location.pathname === ROUTES.USER_REGISTRATION && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 mb-10 md:mt-[20px] md:w-[280px]">
+              <div className="mx-auto my-auto flex w-full flex-col items-center justify-center px-[12px] mb-10  md:w-[280px]">
                 {location.pathname === ROUTES.USER_REGISTRATION && (
                   // <StripeIntegration>
                   <SocialLoginScreen />

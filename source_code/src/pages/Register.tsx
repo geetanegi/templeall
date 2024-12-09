@@ -99,6 +99,7 @@ const Register: React.FC = () => {
       validationConstant.agreeTermsAndConditions,
     ),
     phone: Yup.string().required(validationConstant.phoneNumberIsRequired),
+    countryCode: Yup.string().required(validationConstant.countryCodeRequired),
     dateOfBirth: Yup.string()
       .nullable() 
       .test(
@@ -214,7 +215,7 @@ const Register: React.FC = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting, values }) => {
+            {({ isSubmitting, values, errors }) => {
               console.log("values", values);
               return (
                 <Form className="w-full max-w-md">
@@ -307,7 +308,7 @@ const Register: React.FC = () => {
                       maxLength={256}
                     />
                   </div>
-                  <div className="flex h-[70px] items-center">
+                  <div className={`flex h-[70px] items-center ${errors.countryCode ? "mb-7": ""}`}>
                     <div className="h-[73px] w-28 w-20 pr-2">
                       <FormikControl
                         authFlow={true}

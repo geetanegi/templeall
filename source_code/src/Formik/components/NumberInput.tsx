@@ -67,16 +67,17 @@ const NumberInput: React.FC<NumberInputProps> = ({
               maxLength={maxLength}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
-              className={`w-full border bg-transparent px-4 py-[5px] text-white ${
+              className={`w-full border bg-transparent  px-4 py-[5px] text-white ${
                 form.errors[name] && form.touched[name]
                   ? authFlow
-                    ? "border-[#FFDE59]"
+                    ? "border-[#FFDE59]" 
                     : "border-red-500"
                   : "border-white"
-              } rounded-[12px] focus:outline-none ${
+                
+              } ${authFlow ? "rounded-full" : "rounded-[12px]"} focus:outline-none ${
                 form.errors[name] && form.touched[name]
                   ? authFlow
-                    ? "focus:border-[#FFDE59] focus:ring-0"
+                    ? "focus:border-[#FFDE59] focus:ring-0 rounded-full"
                     : "focus:border-red-500 focus:ring-0"
                   : "focus:border-white focus:ring-0"
               } `}

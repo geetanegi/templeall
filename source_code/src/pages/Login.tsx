@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
 import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
@@ -114,8 +113,8 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:w-full">
-        <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl mt-5 md:w-full">
+        {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
         <Formik
           initialValues={initialValues}

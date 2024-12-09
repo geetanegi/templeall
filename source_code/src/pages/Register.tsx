@@ -4,7 +4,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
@@ -179,12 +178,12 @@ const Register: React.FC = () => {
   };
 
   const DisplayScreens = () => {
-    if (false && showOtpScreen === true) {
+    if (showOtpScreen === true) {
       return (
         <div
           className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "pb-4" : "p-5 px-2"} md:w-full`}
         >
-          <img src={aceCampLogo} alt="" className="w-[220px]" />
+          {/* <img src={aceCampLogo} alt="" className="w-[220px]" /> */}
           <h1 className={`mb-2 mt-5 text-xl font-semibold text-primaryText`}>
             {showOtpScreen && "OTP Verification"}
             {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
@@ -211,7 +210,7 @@ const Register: React.FC = () => {
     <>
       {!showOtpScreen && !showSuccessScreen && (
         <div className="bg-back-600 mt-[5px] flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
-          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+          {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
           <Formik
             initialValues={initialValues}
@@ -222,8 +221,7 @@ const Register: React.FC = () => {
               console.log("values", values);
               return (
                 <Form className="w-full max-w-md">
-                  <div className="flex gap-2">
-                    <div className="flex w-1/2 flex-col">
+                  <div className="flex flex-col gap-2">
                       <FormikControl
                         label=" First Name"
                         name="firstName"
@@ -235,8 +233,6 @@ const Register: React.FC = () => {
                         authFlow={true}
                         maxLength={25}
                       />
-                    </div>
-                    <div className="flex w-1/2 flex-col">
                       <FormikControl
                         label=" Last Name"
                         name="lastName"
@@ -248,7 +244,6 @@ const Register: React.FC = () => {
                         authFlow={true}
                         maxLength={25}
                       />
-                    </div>
                   </div>
                   <div className="">
                     <FormikControl
@@ -340,8 +335,8 @@ const Register: React.FC = () => {
                     </div>
                   </div>
                   <div className="mb-[10px] mt-2 text-xs text-[#FFDE59]">
-                    (By providing your phone number, you agree to receivetext
-                    messages from AceCam Golf LLC.Message and data rates may
+                    (By providing your phone number, you agree to receive text
+                    messages from AceCam Golf LLC. Message and data rates may
                     apply. )
                   </div>
 
@@ -350,6 +345,7 @@ const Register: React.FC = () => {
                       label="GHIN (Optional)"
                       Placeholder="GHIN"
                       name="ghin"
+                      authFlow={true}
                       control="number"
                       className="w-full"
                       placeholder="GHIN"

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import aceCampLogo from "../../assets/images/Logo_png with heading.png";
 import FormikControl from "../../Formik/components/FormikControl";
 import { viewPdf } from "../../utils/downloadUtils";
 import TermsAndConditionsPdf from "../../assets/Pdf/AceCamGolfTermsandConditions.pdf";
@@ -154,7 +153,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         <div>{DisplayScreens()}</div>
       ) : (
         <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
-          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+          {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
           <div>
             <Formik
               initialValues={initialValues}
@@ -168,7 +167,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   </p>
                   <div className="flex items-center justify-center">
                   <p className="text-center w-full md:w-[220px] text-[12px] text-primaryText  overflow-hidden whitespace-nowrap text-[12px] text-ellipsis">
-                    Email: <span className="text-yellowText">{maskEmail || "hjjkhjkhknjkhjkhjkhjkjkh@gmail.com"}</span>
+                    Email: <span className="text-yellowText">{maskEmail || ""}</span>
                   </p>
                   </div>
                 </div>

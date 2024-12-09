@@ -2,14 +2,14 @@ import React from "react";
 import success from "../assets/images/Check.png";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../utils/routesPath";
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
+
 
 
 
 const SuccessScreen: React.FC = () => {
   return (
     <div className="w-full flex flex-col my-auto">
-        <img src={aceCampLogo} alt="" className="mb-[60px]" />
+        {/* <img src={aceCampLogo} alt="" className="mb-[60px]" /> */}
       <div className="flex h-full w-full flex-col items-center justify-center">
         <img src={success} alt="" className="-mt-10" />
         <h1 className="pt-4 text-2xl font-medium text-primaryText">Success</h1>

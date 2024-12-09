@@ -69,11 +69,6 @@ function AppRoutes() {
       path: ROUTES.ExternalPrivacyPolicy,
       element: <ExternalPrivacyPolicy />,
     },
-
-    {
-      path: "/test",
-      element: <TestComp />,
-    },
     {
       path: "/test",
       element: <TestComp />,

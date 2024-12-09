@@ -54,6 +54,7 @@ const validationSchema = Yup.object({
     validationConstant.agreeTermsAndConditions,
   ),
   phone: Yup.string().required(validationConstant.phoneNumberIsRequired),
+  countryCode: Yup.string().required(validationConstant.countryCodeRequired),
 });
 
 const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
@@ -212,7 +213,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                     authFlow={true}
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mb-5 ">
                   <div className="w-28 h-[73px] pr-2">
                     <FormikControl
                       authFlow={true}

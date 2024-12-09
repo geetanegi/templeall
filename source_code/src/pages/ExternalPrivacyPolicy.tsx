@@ -660,7 +660,7 @@ const ExternalPrivacyPolicy = () => {
                 {/* <!-- Footer Section --> */}
                 <footer className="mt-12 text-center text-sm">
                     <p className="text-gray-300">
-                        <a href="#" className="text-yellow-400 hover:underline">
+                        <a href="#" className="text-link hover:underline">
                             Contact Us
                         </a>
                     </p>

@@ -59,7 +59,7 @@ const Input: React.FC<InputProps> = ({
                   ? "border-[#FFDE59]"
                   : "border-red-500"
                 : "border-white"
-                } rounded-[12px] focus:outline-none ${form.errors[name] && form.touched[name]
+                } rounded-full focus:outline-none ${form.errors[name] && form.touched[name]
                   ? authFlow
                     ? "focus:border-[#FFDE59] focus:ring-0"
                     : "focus:border-red-500 focus:ring-0"

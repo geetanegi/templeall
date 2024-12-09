@@ -12,8 +12,7 @@ import apiService from "../services/apiService";
 import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
-import { ROUTES } from "../utils/routesPath";
-import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
+
 import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
@@ -21,7 +20,6 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
 
 import { viewPdf } from "../utils/downloadUtils";
-import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { validationConstant } from "../utils/validationEnums";
 
 const Register: React.FC = () => {
@@ -397,7 +395,7 @@ const Register: React.FC = () => {
                     </button>
                   </div>
 
-                  <p
+                  {/* <p
                     className={`mb-6 mt-2 text-center text-primaryText md:text-left`}
                   >
                     Already have an account?{" "}
@@ -407,12 +405,12 @@ const Register: React.FC = () => {
                     >
                       Login
                     </Link>
-                  </p>
+                  </p> */}
                 </Form>
               );
             }}
           </Formik>
-          <div className="mb-20 block h-[40px] w-full" style={{ zIndex: 1 }}>
+          {/* <div className="mb-20 block h-[40px] w-full" style={{ zIndex: 1 }}>
             <p className="text-center text-[14px] text-white">
               - or sign in using -{" "}
             </p>
@@ -420,7 +418,7 @@ const Register: React.FC = () => {
                 <AppleSignInButton />
               <GoogleLoginComponent />
             </div>
-          </div>
+          </div> */}
         </div>
       )}
       {showOtpScreen && <div className="flex my-auto">{DisplayScreens()}</div>}

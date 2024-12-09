@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/index.ts";
 import { setLoading } from "../../../reducers/loader/loader.ts";
 import QRModal from "./QRModal.tsx";
+// import clubIcon from "../../../assets/images/club_icon (1).svg";
 
 interface CourseTableProps {
   selectedHoles?: string[] | null;
@@ -49,12 +50,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       currentItems =
         filterCourses.slice(startIndex, startIndex + pageSize) || [];
     } else {
-      currentItems =
-        courseData?.[0]?.courseList?.slice(startIndex, startIndex + pageSize) ||
-        [];
+      currentItems = courseData?.slice(startIndex, startIndex + pageSize) || [];
       let totalPage =
-        courseData?.[0]?.courseList.length > pageSize
-          ? Math.ceil(courseData?.[0]?.courseList.length / pageSize)
+        courseData?.length > pageSize
+          ? Math.ceil(courseData?.length / pageSize)
           : 1;
       setTotalPages(totalPage);
     }
@@ -70,10 +69,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       if (selectedCourseData) {
         const filteredHoles = selectedCourseData.holeList
           ? selectedCourseData.holeList.filter((hole) =>
-            selectedHoles && selectedHoles.length > 0
-              ? selectedHoles.includes(hole.id.toString())
-              : true,
-          )
+              selectedHoles && selectedHoles.length > 0
+                ? selectedHoles.includes(hole.id.toString())
+                : true,
+            )
           : selectedCourseData.holeList;
 
         setFilterCourses([
@@ -184,84 +183,98 @@ const CourseTable: React.FC<CourseTableProps> = ({
     setSelectedQR(url);
   };
 
-  const renderCourses = (courses: Course[]) => {
-    return courses.map((course) => (
+  const renderCourses = (courses: any) => {
+    return courses.map((course: any) => (
       <tr
         key={course.id}
         className="whitespace-nowrap bg-gray-100 font-normal text-black"
       >
         <td colSpan={2}>
-          {/* Main course card */}
-          <div className="flex items-center justify-between px-5 py-5 pl-10">
+          {/* <div className="flex items-center border justify-between px-5 py-3 pl-10">
             <span className="flex items-center justify-between space-x-2">
-              <LandPlot className="h-5 w-5 text-gray-400" />
-              <span className="text-[14px] font-semibold">
-                {course?.courseName}
-              </span>
+              <img
+                src={clubIcon}
+                alt="golf"
+                className="mr-1 w-4 text-gray-600"
+              />
+              <span className="text-[14px] font-semibold">{course?.name}</span>
             </span>
-            <div className="flex gap-1">
-              <button
-                onClick={() =>
-                  handlePreview(
-                    `${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`,
-                  )
-                }
-                className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
-              >
-                <QrCode className="mr-1 w-4 text-gray-600" />
-                Preview
-              </button>
-              <button
-                onClick={() => downloadQRCode(`course-${course.id}`, "png")}
-                className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
-              >
-                <QrCode className="mr-1 w-4 text-gray-600" />
-                Download
-              </button>
-            </div>
-          </div>
-          {course?.holeList?.map((hole) => {
-            const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
-            return (
-              <div key={hole?.id} className="bg-white">
-                {/* Golf card */}
-                <div className="w-full border border-gray-200"></div>
-                <div className="flex items-center justify-between px-5 pl-7">
-                  <span className="flex items-center justify-between space-x-3">
-                    <div className="ml-5 h-12 border border-gray-300"></div>
-                    <img
-                      src={Golf}
-                      alt="golf"
-                      className="mr-1 w-4 text-gray-600"
-                    />
-                    <span className="text-[14px]">
-                      Hole #{hole?.holeNumber} - Par {hole?.par}
-                    </span>
+          </div> */}
+          {course?.courseList?.map((club: any) => (
+            <div className="">
+              <div className="flex items-center justify-between px-5 py-3 pl-10">
+                <span className="flex items-center justify-between space-x-2">
+                {/* <div className="ml-5 h-12 border border-gray-300"></div> */}
+                  <LandPlot className="h-5 w-5 text-gray-400" />
+                  <span className="text-[14px] font-semibold">
+                    {club?.courseName}
                   </span>
-                  <div className="flex gap-1">
-                    <button
-                      onClick={() =>
-                        handlePreview(
-                          `${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`,
-                        )
-                      }
-                      className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
-                    >
-                      <QrCode className="mr-1 w-4 text-gray-600" />
-                      Preview
-                    </button>
-                    <button
-                      onClick={() => downloadQRCode(holeKey, "png")}
-                      className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
-                    >
-                      <QrCode className="mr-1 w-4 text-gray-600" />
-                      Download
-                    </button>
-                  </div>
+                </span>
+                <div className="flex gap-1">
+                  <button
+                    onClick={() =>
+                      handlePreview(
+                        `${API_URL.qrCodeByCourseId}${club.id}&courseName=${club.courseName}`,
+                      )
+                    }
+                    className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                  >
+                    <QrCode className="mr-1 w-4 text-gray-600" />
+                    Preview
+                  </button>
+                  <button
+                    onClick={() => downloadQRCode(`course-${club.id}`, "png")}
+                    className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                  >
+                    <QrCode className="mr-1 w-4 text-gray-600" />
+                    Download
+                  </button>
                 </div>
               </div>
-            );
-          })}{" "}
+              {club?.holeList?.map((hole: any) => {
+                const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
+                return (
+                  <div key={hole?.id} className="bg-white">
+                    {/* Golf card */}
+                    <div className="w-full border border-gray-200"></div>
+                    <div className="flex items-center justify-between px-5 pl-7">
+                      <span className="flex items-center justify-between space-x-3">
+                        <div className="ml-5 h-12 border border-gray-300"></div>
+                        <img
+                          src={Golf}
+                          alt="golf"
+                          className="mr-1 w-4 text-gray-600"
+                        />
+                        <span className="text-[14px]">
+                          Hole #{hole?.holeNumber} - Par {hole?.par}
+                        </span>
+                      </span>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() =>
+                            handlePreview(
+                              `${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`,
+                            )
+                          }
+                          className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                        >
+                          <QrCode className="mr-1 w-4 text-gray-600" />
+                          Preview
+                        </button>
+                        <button
+                          onClick={() => downloadQRCode(holeKey, "png")}
+                          className="font-weight-400 flex items-center justify-center rounded-md border-2 border-lime-500 bg-white px-2 py-[1px] text-[12px] text-gray-400"
+                        >
+                          <QrCode className="mr-1 w-4 text-gray-600" />
+                          Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}{" "}
+            </div>
+          ))}
         </td>
       </tr>
     ));
@@ -270,7 +283,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
   return (
     <PageLoader isActive={loader}>
       <div className="mt-[24px] flex h-full min-h-screen pb-14">
-        <div className="2xl:max-w-none  w-full max-w-7xl overflow-x-scroll md:overflow-auto">
+        <div className="2xl:max-w-none w-full max-w-7xl overflow-x-scroll md:overflow-auto">
           <div className="overflow-x-auto rounded-md border">
             <table className="font-inter w-full table-auto overflow-scroll text-left md:overflow-auto">
               <thead className="w-full rounded-lg text-base font-semibold text-white">

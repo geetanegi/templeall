@@ -23,8 +23,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ profile, isSelected, setSelecte
                     }
                 </div>
                 <div className='flex justify-center flex-col ml-3 h-full text-gray-500 text-sm'>
-                    <span className={`text-[16px]  font-semibold ${isSelected ? "text-[#ffffff]" : "text-[#1D1A0C]"}`}>{profile.firstName} {profile.lastName}</span>
-                    <span className={`text-[14px] tracking-[0.25px] ${isSelected ? "text-[#F5F6F7]" : "text-[#4E4E4E]" } ${profile?.username ? "visible": "invisible"} `}>{profile.username || "location"}</span>
+                    <span className={`text-[16px] w-[130px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold ${isSelected ? "text-[#ffffff]" : "text-[#1D1A0C]"}`}>{profile.firstName} {profile.lastName}</span>
+                    <span className={`text-[14px] tracking-[0.25px] w-[130px] overflow-hidden text-ellipsis whitespace-nowrap ${isSelected ? "text-[#F5F6F7]" : "text-[#4E4E4E]" } ${profile?.username ? "visible": "invisible"} `}>{profile.username || "location"}</span>
                 </div>
             </div>
             <div className={isSelected ? 'bg-custom-gradient-3 h-[4px]' : ''} ></div>

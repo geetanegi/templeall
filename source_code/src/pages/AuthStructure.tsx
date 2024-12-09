@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import SocialLoginScreen from "../components/social-login/SocialLoginScreen";
 import { PRIVACY_POLICY_URL, TERMS_AND_CONDITIONS_URL } from "../utils/constantEnums";
+import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 const AuthStructure: React.FC = () => {
   const location = useLocation();
@@ -32,29 +33,30 @@ const AuthStructure: React.FC = () => {
         >
           {/* <AceCamUI /> */}
           <div
-            className={`align-center flex h-screen w-full flex-col bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
+            className={`align-center flex h-screen w-full flex-col bg-backgroundDark  overflow-y-auto`}
           >
+            <img src={aceCampLogo} alt="" className="w-[220px] mx-auto" />
             {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-[12px] py-12 md:md:mt-20 md:w-[280px]">
+              <div className="mx-auto my-auto flex w-full flex-col items-center justify-center px-[12px] mb-10  md:w-[280px]">
                 {location.pathname === ROUTES.LOGIN && <Login />}
               </div>
             )}
             {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto flex w-full flex-col items-center justify-center px-3 md:w-[280px]">
+              <div className="mx-auto flex w-full flex-col justify-center px-3 md:w-[280px]">
                 {location.pathname === ROUTES.FORGET_PASSWORD && (
                   <ForgetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto  flex w-full flex-col items-center justify-center px-5 py-12 md:w-[280px]">
+              <div className="mx-auto  flex w-full flex-col items-center justify-center px-5 md:w-[280px]">
                 {location.pathname === ROUTES.RESET_PASSWORD && (
                   <ResetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 md:mt-[20px] md:w-[280px]"
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 md:w-[280px]"
               >
                 {location.pathname === ROUTES.SIGNUP && (
                   // <StripeIntegration>
@@ -65,7 +67,7 @@ const AuthStructure: React.FC = () => {
             )}
 
             {location.pathname === ROUTES.USER_REGISTRATION && (
-              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 py-12 md:mt-[20px] md:w-[280px]">
+              <div className="mx-auto my-auto flex h-max-content w-full flex-col items-center justify-center px-5 mb-10 md:mt-[20px] md:w-[280px]">
                 {location.pathname === ROUTES.USER_REGISTRATION && (
                   // <StripeIntegration>
                   <SocialLoginScreen />
@@ -74,7 +76,7 @@ const AuthStructure: React.FC = () => {
               </div>
             )}
 
-            <div className="-mt-10 flex items-center justify-center gap-2">
+            <div className="mt-auto flex items-center justify-center gap-2">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}

@@ -39,9 +39,12 @@ const tableHeaders = [
 const ContestManagement = () => {
   const navigate = useNavigate();
 
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermisions = JSON.parse(
+    decryptData(
+      useSelector((state: RootState) => state.auth.userPermissions),
+      secretKey,
+    ),
+  );
 
   const isCourseAdmin = userPermisions?.permission?.["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
@@ -64,7 +67,7 @@ const ContestManagement = () => {
     name: string;
     id: number | string;
   } | null>(null);
-  const [filterByContest, setFilterByContest] = useState<any>([])
+  const [filterByContest, setFilterByContest] = useState<any>([]);
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -106,16 +109,21 @@ const ContestManagement = () => {
   };
 
   useEffect(() => {
-    if(!userPermisions?.permission?.["is_player"]){
+    if (!userPermisions?.permission?.["is_player"]) {
       fetchContestList();
     }
+  }, [
+    selectedHoles,
+    selectedCourse,
+    currentStatus,
+    selectedContestType,
+    currentPage,
+  ]);
 
-  }, [selectedHoles, selectedCourse, currentStatus, selectedContestType, currentPage]);
-
-  useEffect(()=>{
-    getFilters("contest_type", setFilterByContest)
+  useEffect(() => {
+    getFilters("contest_type", setFilterByContest);
     fetchCourseList();
-  },[])
+  }, []);
 
   useEffect(() => {
     if (selectedCourse) {
@@ -126,11 +134,13 @@ const ContestManagement = () => {
   }, [selectedCourse]);
 
   const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const courseId:number|string = event.target.value
-    if(courseId){
-      const courseName = courses?.data?.filter((course) => course.id === Number(courseId))[0]?.courseName
+    const courseId: number | string = event.target.value;
+    if (courseId) {
+      const courseName = courses?.data?.filter(
+        (course) => course.id === Number(courseId),
+      )[0]?.courseName;
       setSelectedCourse({ name: String(courseName), id: event.target.value });
-    }else{
+    } else {
       setSelectedCourse(null);
     }
     setCurrentPage(0);
@@ -157,8 +167,6 @@ const ContestManagement = () => {
     data: any;
   }
 
-
-
   useEffect(() => {
     setRowData(computeTableData(totalAdminCount));
   }, [totalAdminCount]);
@@ -171,7 +179,7 @@ const ContestManagement = () => {
           <span className="text-xs">{status && "Active"}</span>
         </div>
       );
-    }else{ 
+    } else {
       return (
         <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#D0D0D033] py-1 text-[#8E8E8E]">
           <Ban height={15} width={15} />
@@ -192,6 +200,7 @@ const ContestManagement = () => {
       Status: getStatus(contest.activeStatus),
       Actions: isCourseAdmin ? (
         <button
+          key={contest?.id}
           className="text-[#0077B6]"
           onClick={() => {
             navigate(
@@ -324,17 +333,17 @@ const ContestManagement = () => {
   }
 
   const statusFilters = {
-    "Filter by Status":null,
-    "Active" : true,
-    "Inactive" : false,
-  }
+    "Filter by Status": null,
+    Active: true,
+    Inactive: false,
+  };
 
   return (
     <div
-      className="bg-admin-bg-position min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat pb-[24px] mb-[24px] px-[24px] md:flex-row"
+      className="bg-admin-bg-position mb-[24px] min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat px-[24px] pb-[24px] md:flex-row"
       style={{ paddingTop: "24px", backgroundImage: `url(${BG})` }}
     >
-      <div className="flex-1 md:flex-[0.75]  lg:flex-[0.75] xl:flex-[0.75]">
+      <div className="flex-1 md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
           <div className="align-center flex justify-between gap-2">
             <select
@@ -344,31 +353,41 @@ const ContestManagement = () => {
               className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:ml-2 md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
-                const value = e.target.value === "true" ? true : e.target.value === "false" ? false : null;
+                const value =
+                  e.target.value === "true"
+                    ? true
+                    : e.target.value === "false"
+                      ? false
+                      : null;
                 setCurrentStatus(value);
               }} // Update selected status
-            > {
-              Object.entries(statusFilters).map(([key, value])=>(
-                <option value={String(value)} key={key} onClick={()=>setCurrentStatus(value)}>{key}</option>
-              ))
-            }
+            >
+              {" "}
+              {Object.entries(statusFilters).map(([key, value]) => (
+                <option
+                  value={String(value)}
+                  key={key}
+                  onClick={() => setCurrentStatus(value)}
+                >
+                  {key}
+                </option>
+              ))}
             </select>
             <select
               id="courses"
+              defaultValue={""}
               className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm md:mt-0 md:w-[200px]"
               onChange={(e) => {
                 setCurrentPage(0);
                 setSelectedContestType(e.target.value);
               }} // Update selected status
             >
-              <option value="" selected>
-                Filter by Contests
-              </option>
-              {
-                filterByContest.map((filter: {id: number |string, type : string})=>(
-                  <option value={filter.id}>{filter.type}</option>    
-                ))
-              }
+              <option value="">Filter by Contests</option>
+              {filterByContest.map(
+                (filter: { id: number | string; type: string }) => (
+                  <option value={filter.id}>{filter.type}</option>
+                ),
+              )}
             </select>
             <select
               id="courses"
@@ -396,14 +415,15 @@ const ContestManagement = () => {
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
           </div>
-          {!isCourseAdmin && !userPermisions?.permission["is_player"] && (
+          {!isCourseAdmin && !userPermisions?.permission?.["is_player"] && (
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
                 navigate(ROUTES.CONTESTS, { state: "CREATE_CONTEST" });
               }}
             >
-              <Plus height={16} width={16} className="mt-[2px]" /> Create Contest
+              <Plus height={16} width={16} className="mt-[2px]" /> Create
+              Contest
             </button>
           )}
         </div>

@@ -302,7 +302,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             <div
               className={`text-md text-primaryColor ${firstName && lastName ? "visible" : "invisible"}`}
             >
-              {firstName || "dsds"} {lastName || "sdd"}
+              {firstName  || ""} {lastName || ""}
             </div>
             <div>{role}</div>
           </div>

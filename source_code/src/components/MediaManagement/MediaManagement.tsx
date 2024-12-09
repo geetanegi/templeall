@@ -223,7 +223,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       style={{ height: "max-content" }}
     >
       <div className="flex justify-between">
-        {!userPermisions?.permission["is_player"] ? (
+        {!userPermisions?.permission?.["is_player"] ? (
           <div
             className="flex gap-[4px] rounded-l-full rounded-r-full border bg-[#F5F6F7] p-[2px]"
             style={{ width: "max-content" }}
@@ -242,7 +242,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                   : mediaCounts.Video_Management || 0}
               </span>
             </button>
-            {userPermisions?.permission["is_super_admin"] ? (
+            {userPermisions?.permission?.["is_super_admin"] ? (
               <>
                 <button
                   className={`flex items-center justify-center whitespace-nowrap rounded-l-full rounded-r-full px-[16px] py-[2px] font-[14px] ${selectedTab === 2 ? "bg-primaryColor text-[#ffffff]" : "text-[#7B7887]"} `}
@@ -295,7 +295,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               </select>
             </div>
           ) : null}
-          {selectedTab === 3 && userPermisions?.permission["is_super_admin"] ? (
+          {selectedTab === 3 && userPermisions?.permission?.["is_super_admin"] ? (
             <button
               className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {
@@ -322,7 +322,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsRejectModalOpen={setIsRejectModalOpen}
         handleUpdateStatus={handleUpdateStatus}
         filterValue={filterValue}
-        isCourseAdmin={userPermisions?.permission["is_course_admin"]}
+        isCourseAdmin={userPermisions?.permission?.["is_course_admin"]}
         setIsStatusChange={setIsStatusChange}
         isStatusChange={isStatusChange}
         setDataLength={setDataLength}

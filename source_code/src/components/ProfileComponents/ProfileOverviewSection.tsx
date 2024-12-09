@@ -109,7 +109,7 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
       return false;
     } else if (role && role != "Player") {
       return true;
-    } else if (!userPermisions?.permission["is_player"]) {
+    } else if (!userPermisions?.permission?.["is_player"]) {
       return true;
     } else {
       return false;

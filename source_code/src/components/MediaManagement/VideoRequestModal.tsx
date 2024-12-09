@@ -11,6 +11,7 @@ import { setLoading } from "../../reducers/loader/loader";
 import * as Yup from "yup";
 import FormikControl from "../../Formik/components/FormikControl";
 import { getFilters } from "../../utils/genericApiCalls";
+import { validationConstant } from "../../utils/validationEnums";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -26,8 +27,8 @@ const initialValue = {
 
 const validationSchema = Yup.object({
   description: Yup.string()
-    .required("Description is required.")
-    .max(100, "Video description must be less than 100 characters"),
+    .required(validationConstant.videoDiscriptionReq)
+    .max(100, validationConstant.videoDiscriptionMaxLength),
 });
 
 const VideoRequestModal: React.FC<UploadVideoModalProps> = ({

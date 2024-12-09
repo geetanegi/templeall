@@ -32,6 +32,7 @@ export const encryptData = async (plainText: string, secretKey: string): Promise
 
 // Decrypt a cipher text string using AES-GCM and a secret key
 export const decryptData = (cipherText: string, secretKey: string): any => {
+  if(cipherText){
     try {
       const secretKeyBuffer = forge.util.createBuffer(forge.util.decode64(secretKey));
       const combinedData = forge.util.createBuffer(forge.util.decode64(cipherText));
@@ -54,5 +55,6 @@ export const decryptData = (cipherText: string, secretKey: string): any => {
       console.error('Decryption failed:', error);
       return null;
     }
+  }
   };
   

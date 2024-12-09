@@ -19,11 +19,14 @@ const AppleSignInButton: React.FC = () => {
       console.error("Apple login failed:", response.error);
       return;
     }
+
     if (response.authorization) {
       handleLoginSuccess(response);
     }
   
   };
+
+
 
   const handleLoginSuccess = async (response: any) => {
     dispatch(setLoading(true));

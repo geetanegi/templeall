@@ -75,6 +75,14 @@ function AppRoutes() {
       element: <TestComp />,
     },
     {
+      path: "/test",
+      element: <TestComp />,
+    },
+    {
+      path: "/test",
+      element: <TestComp />,
+    },
+    {
       path: ROUTES.USERS,
       element: (
         <PrivateRoute>

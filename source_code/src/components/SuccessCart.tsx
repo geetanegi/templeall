@@ -31,10 +31,10 @@ const PaymentSuccess: React.FC = () => {
       style={{ backgroundImage: `url(${BG})`, height: "max-content" }}
     >
       <div className="relative flex h-screen justify-center border-2 pt-10">
-        <img src={CardImg} alt="" className="h-[75%] max-w-2xl" />
+        <img src={CardImg} alt="" className="max-w-2xl"  style={{height: "max-content"}} />
         <div className="absolute">
           {/* card data here  */}
-          <div className="h-[75%] w-[700px] space-y-2 rounded-2xl bg-transparent p-8">
+          <div className="h-[75%] w-[700px] space-y-2 rounded-2xl bg-transparent p-8" style={{height: "max-content"}}>
             {/* Ticket-style cutout */}
 
             {/* Checkmark icon */}
@@ -104,7 +104,7 @@ const PaymentSuccess: React.FC = () => {
             </div>
             <div
               className="flex items-center justify-center"
-              style={{ marginTop: "24px" }}
+              style={{ marginTop: "10px" }}
             >
               <Link
                 to={ROUTES.DASHBOARD}

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
-import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
+// import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
 import apiService from "../services/apiService";
 import { RootState } from "../store";
 import { setLoading } from "../reducers/loader/loader";
@@ -19,7 +19,7 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import moment from "moment";
 // import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { decryptData, encryptData, secretKey } from "../utils/encrypt";
-import AppleSignInButton from "../components/social-login/AppleSignInButton";
+// import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { validationConstant } from "../utils/validationEnums";
 
 const Login: React.FC = () => {
@@ -189,7 +189,7 @@ const Login: React.FC = () => {
             </div>
           </Form>
         </Formik>
-        <div className="mt-[40px] flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
+        {/* <div className="mt-[0px]  flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
           <p className={`text-center text-[14px] text-primaryText`}>
             Don't have an account?{" "}
             <Link
@@ -206,7 +206,7 @@ const Login: React.FC = () => {
             <AppleSignInButton />
             <GoogleLoginComponent />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -66,10 +66,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       const filteredCourse = filterByCourse(totalData, selectedCourse);
       const selectedCourseData = filterByCourse(courseData, selectedCourse);
       if (selectedCourseData) {
-        const filteredHoles = filteredCourse?.[0].courseList[0].holeList
-          ? filteredCourse?.[0].courseList[0].holeList.filter((hole: any) =>
+        const filteredHoles = filteredCourse?.[0]?.courseList?.[0]?.holeList
+          ? filteredCourse?.[0]?.courseList?.[0]?.holeList?.filter((hole: any) =>
               selectedHoles && selectedHoles.length > 0
-                ? selectedHoles.includes(hole.id.toString())
+                ? selectedHoles?.includes(hole.id.toString())
                 : true,
             )
           : selectedCourseData.holeList;

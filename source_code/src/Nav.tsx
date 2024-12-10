@@ -22,7 +22,7 @@ import {
   updateProfile,
   updateProfileImage,
 } from "./reducers/Profiler/profiler";
-import { Bell, ChevronDown, Dot } from "lucide-react";
+import { Bell, ChevronDown, Dot, LogOut, UserRoundPen } from "lucide-react";
 import { Popover } from "./components/GenericUIcomponents/PopoverComponent";
 import NotificationPopoverComponent from "./components/Notification/NotificationComponent";
 import { timeZone } from "./utils/TimeUtils";
@@ -218,6 +218,20 @@ const Nav: React.FC = () => {
     return contestsRegex.test(pathname);
   };
 
+  const handlelogout = async () => {
+    const { data } = await apiService.post<any>(API_URL.logout, {
+      data: {
+        loginUserId: typeof userInfo === "object" ? userInfo.userId : undefined,
+      },
+    });
+    if (data) {
+      dispatch(loginUserDetails({}));
+      dispatch(resetCourseState());
+      dispatch(logout());
+      navigate(ROUTES.LOGIN, { replace: true });
+    }
+  };
+
   return (
     <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex h-full w-full items-center justify-between px-2">
@@ -331,11 +345,7 @@ const Nav: React.FC = () => {
                               <li>
                                 <a
                                   onClick={() => {
-                                    dispatch(loginUserDetails({}));
-                                    dispatch(resetCourseState());
-                                    dispatch(logout());
-                                    navigate(ROUTES.LOGIN, { replace: true });
-                                    // localStorage.clear();
+                                    handlelogout();
                                   }}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
@@ -401,16 +411,16 @@ const Nav: React.FC = () => {
                 )}
               </div>
               <div className="mx-4 max-w-[220px]">
-                <div className="max-w-[200px] text-left overflow-hidden text-ellipsis whitespace-nowrap ">
+                <div className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-left">
                   {`${profiledetails?.firstName || ""} ${profiledetails?.lastName || ""}`}
                 </div>
                 {userPermisions?.permission?.["is_player"] ? (
-                  <div className="flex items-center text-[#7B7887]  ">
-                    <span className="text-[12px] max-w-[90px] overflow-hidden text-ellipsis whitespace-nowrap">
+                  <div className="flex items-center text-[#7B7887]">
+                    <span className="max-w-[90px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px]">
                       HDCP: {profiledetails?.userProfile?.handicap}
                     </span>
                     <Dot className="mx-[-4px]" />
-                    <span className="text-[12px] max-w-[90px] overflow-hidden text-ellipsis whitespace-nowrap">
+                    <span className="max-w-[90px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px]">
                       GHIN: {profiledetails?.userProfile?.ghin}
                     </span>
                   </div>
@@ -422,10 +432,10 @@ const Nav: React.FC = () => {
             {dropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="absolute right-6 top-10 z-50 my-4 list-none divide-y divide-gray-100 rounded-lg bg-white shadow"
+                className="absolute right-6 top-10 z-50 my-4 w-[320px] list-none overflow-hidden rounded-lg bg-white shadow"
                 id="user-dropdown"
               >
-                <div className="cursor-pointer px-4 py-3">
+                <div className="cursor-pointer rounded-t-lg px-4 py-3">
                   <span className="block cursor-pointer text-sm text-gray-900">
                     {profiledetails.firstName} {profiledetails.lastName}
                   </span>
@@ -433,7 +443,8 @@ const Nav: React.FC = () => {
                     {profiledetails.email}
                   </span>
                 </div>
-                <ul className="py-2" aria-labelledby="user-menu-button">
+                <hr />
+                <ul className="" aria-labelledby="user-menu-button">
                   <li>
                     <Link
                       onClick={() => {
@@ -441,24 +452,21 @@ const Nav: React.FC = () => {
                         setDropdownOpen(false);
                       }}
                       to={ROUTES.PROFILE}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex h-[51px] items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100"
                     >
+                      <UserRoundPen size={18} />
                       Profile
                     </Link>
                   </li>
-
+                  <hr />
                   <li>
                     <a
                       onClick={() => {
-                        // localStorage.clear();
-                        // window.location.reload();
-                        dispatch(loginUserDetails({}));
-                        dispatch(resetCourseState());
-                        dispatch(logout());
-                        navigate(ROUTES.LOGIN, { replace: true });
+                        handlelogout();
                       }}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex h-[51px] cursor-pointer items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100"
                     >
+                      <LogOut size={18} />
                       Sign out
                     </a>
                   </li>

@@ -35,6 +35,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
   const [totalPages, setTotalPages] = useState<number>(1);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedQR, setSelectedQR] = useState<any | null>(null);
+  const [totalData, setTotalData] = useState<any[]>([]);
 
   const rowCount = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -61,24 +62,28 @@ const CourseTable: React.FC<CourseTableProps> = ({
   }, [pageSize, currentPage, courseData, filterCourses]);
 
   useEffect(() => {
-    if (selectedCourse !== null) {
-      const selectedCourseData = courseData
-        .flatMap((club) => club.courseList)
-        .find((course) => course.id === selectedCourse);
-
+    if (selectedCourse) {
+      const filteredCourse = filterByCourse(totalData, selectedCourse);
+      const selectedCourseData = filterByCourse(courseData, selectedCourse);
       if (selectedCourseData) {
-        const filteredHoles = selectedCourseData.holeList
-          ? selectedCourseData.holeList.filter((hole) =>
+        const filteredHoles = filteredCourse?.[0]?.courseList?.[0]?.holeList
+          ? filteredCourse?.[0]?.courseList?.[0]?.holeList?.filter((hole: any) =>
               selectedHoles && selectedHoles.length > 0
-                ? selectedHoles.includes(hole.id.toString())
+                ? selectedHoles?.includes(hole.id.toString())
                 : true,
             )
           : selectedCourseData.holeList;
-
+        const data = {
+          courseList: [
+            {
+              holeList: filteredHoles,
+            },
+          ],
+        };
         setFilterCourses([
           {
-            ...selectedCourseData,
-            holeList: filteredHoles,
+            ...selectedCourseData?.[0],
+            ...data,
           },
         ]);
       } else {
@@ -88,6 +93,12 @@ const CourseTable: React.FC<CourseTableProps> = ({
       setFilterCourses([]);
     }
   }, [selectedCourse, selectedHoles, courseData]);
+
+  const filterByCourse = (clubList: any, courseId: any) => {
+    return clubList.filter((club: any) =>
+      club.courseList.some((course: any) => course.id === courseId),
+    );
+  };
 
   const handlePageSizeChange = (value: any) => {
     setCurrentPage(0);
@@ -107,6 +118,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
       });
       if (res.status === 200 && !res.data.error) {
         setCourseData(res.data.data);
+        setTotalData(res.data.data);
       } else if (res.data.error) {
         ToastInfo(res.data.description || "Error fetching course data");
       }
@@ -185,12 +197,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
   const renderCourses = (courses: any) => {
     return courses.map((course: any) => (
-      <tr
-        key={course.id}
-        className="whitespace-nowrap  font-normal text-black"
-      >
+      <tr key={course.id} className="whitespace-nowrap font-normal text-black">
         <td colSpan={2}>
-          <div className="flex items-center bg-[#F5F6F7] border-y border-gray-400 justify-between py-3">
+          <div className="flex items-center justify-between border-y border-gray-400 bg-[#F5F6F7] py-3">
             <span className="flex items-center justify-between space-x-2">
               <img
                 src={clubIcon}
@@ -201,10 +210,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
             </span>
           </div>
           {course?.courseList?.map((club: any) => (
-            <div className="" key={club?.id} >
-              <div className="flex items-center bg-[#E9EDF5] justify-between px-5 pl-10">
+            <div className="" key={club?.id}>
+              <div className="flex items-center justify-between bg-[#E9EDF5] px-5 pl-10">
                 <span className="flex items-center justify-between space-x-2">
-                <div className="ml-2 mr-4 h-12 border border-gray-300"></div>
+                  <div className="ml-2 mr-4 h-12 border border-gray-300"></div>
                   <LandPlot className="h-5 w-5 text-gray-500" />
                   <span className="text-[14px] font-semibold">
                     {club?.courseName}
@@ -238,8 +247,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     <div className="w-full border border-gray-200"></div>
                     <div className="flex items-center justify-between px-5 pl-7">
                       <span className="flex items-center justify-between space-x-3">
-                      <div className="ml-5 mr-5 h-12 border border-gray-300"></div>
-                        <div className=" h-12 border border-gray-300"></div>
+                        <div className="ml-5 mr-5 h-12 border border-gray-300"></div>
+                        <div className="h-12 border border-gray-300"></div>
                         <img
                           src={Golf}
                           alt="golf"
@@ -263,7 +272,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                         </button>
                         <button
                           onClick={() => downloadQRCode(holeKey, "png")}
-                          className="font-weight-400 flex items-center justify-center rounded-md  bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
+                          className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                         >
                           <QrCode className="mr-1 w-4 text-primaryText" />
                           Download

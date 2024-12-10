@@ -182,7 +182,7 @@ const Login: React.FC = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className={`h-[36px] w-[200px] rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+                className={`h-[36px] w-[200px] rounded-[12px] border bg-buttonPrimary  text-primaryText hover:bg-lime-600`}
               >
                 Login
               </button>

@@ -95,7 +95,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         <div
           className={`"p-5 px-2" flex w-full flex-col items-center rounded-xl pb-10 md:mt-10 md:w-full`}
         >
-          <img src={aceCampLogo1} alt="" className="-mt-24 h-32 w-32" />
+          {/* <img src={aceCampLogo1} alt="" className="-mt-24 h-32 w-32" /> */}
           <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
             {showOtpScreen && "OTP Verification"}
           </h1>

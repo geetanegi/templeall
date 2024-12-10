@@ -292,10 +292,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     playvideo: () => void,
   ) => {
     if (status === constantWords.REJECT) {
-      return <div className="p-1 py-4 text-[gray]">No video</div>;
+      return <div className="p-1 py-2 text-[gray]">No video</div>;
     } else if (videos) {
       return (
-        <div className="flex gap-2 py-4">
+        <div className="flex gap-2 py-2">
           <button
             className="text-[#0077B6]"
             onClick={() => {
@@ -321,7 +321,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     } else {
       return (
         <button
-          className={`flex gap-2 py-4 ${activeStatus === constantWords.APPROVED || status === constantWords.APPROVED ? "cursor-pointer" : "cursor-default"} `}
+          className={`flex gap-2 py-2 ${activeStatus === constantWords.APPROVED || status === constantWords.APPROVED ? "cursor-pointer" : "cursor-default"} `}
           onClick={() => {
             if (activeStatus === constantWords.APPROVED || status === constantWords.APPROVED) {
               setVideoCategory(videoCategory);
@@ -403,7 +403,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
               />
             ) : !data.videos ? (
               <button
-                className={`flex cursor-pointer gap-2 py-4`}
+                className={`flex cursor-pointer gap-2 py-2`}
                 onClick={() => {
                   setVideoCategory("WINNER_VIDEO");
                   setSelectedReqVideoId(data.id);
@@ -414,7 +414,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                 <div className="text-[#0077B6]">Video</div>
               </button>
             ) : (
-              <div className="flex gap-2 py-4">
+              <div className="flex gap-2 py-2">
                 <button
                   className="text-[#0077B6]"
                   onClick={() => {
@@ -526,7 +526,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
                 />
               </div>
             ) : (
-              <div className="flex items-center gap-2 py-4">
+              <div className="flex items-center gap-2 py-2">
                 <CirclePlay
                   className="cursor-pointer text-[#0077B6]"
                   size={18}

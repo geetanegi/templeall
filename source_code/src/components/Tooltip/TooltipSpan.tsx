@@ -33,7 +33,7 @@ const TooltipSpan: React.FC<TooltipSpan> = ({
     case "left":
       tooltipStyles = "top-1/2 right-full transform -translate-y-1/2 mr-2";
       arrowStyles =
-        "absolute top-1/2 left-full transform -translate-y-1/2 bg-gray-900 h-2 w-2 rotate-45";
+        "absolute top-1/2 right-[-4px] transform -translate-y-1/2 bg-gray-900 h-2 w-2 rotate-45";
       break;
     case "right":
       tooltipStyles = "top-1/2 left-full transform -translate-y-1/2 ml-2";

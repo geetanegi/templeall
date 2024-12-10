@@ -23,7 +23,7 @@ const CoursePanel: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         setCourses(res.data);
       } else if (res.data.error) {
-        ToastInfo(res.data.description || "Error fetching course data");
+        ToastInfo(res?.data?.description || "Error fetching course data");
       }
     } catch (error) {
       console.error(error);
@@ -43,7 +43,7 @@ const CoursePanel: React.FC = () => {
       if (res.status === 200 && !res.data.error) {
         setHolesList(res.data);
       } else if (res.data.error) {
-        ToastInfo(res.data.description || "Error fetching hole data");
+        ToastInfo(res?.data?.description || "Error fetching hole data");
       }
     } catch (error) {
       ToastInfo("Error fetching hole data");

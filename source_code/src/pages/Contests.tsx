@@ -25,6 +25,7 @@ import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
 import { decryptData, secretKey } from "../utils/encrypt";
 import { combineDateAndTime } from "../utils/utils";
+import { validationConstant } from "../utils/validationEnums";
 
 // interface recurrence {
 //   frequency: string;
@@ -64,19 +65,18 @@ interface ContestFormValues {
   note: string;
 }
 
-// import * as Yup from 'yup';
 const validationSchema = Yup.object({
-  contestTypeId: Yup.string().required("This field is mandatory."),
-  clubName: Yup.string().required("This field is mandatory."),
-  courseName: Yup.string().required("This field is mandatory."),
-  holesName: Yup.string().required("This field is mandatory."),
-  Tee: Yup.string().required("This field is mandatory."),
+  contestTypeId: Yup.string().required(validationConstant.mandatoryField),
+  clubName: Yup.string().required(validationConstant.mandatoryField),
+  courseName: Yup.string().required(validationConstant.mandatoryField),
+  holesName: Yup.string().required(validationConstant.mandatoryField),
+  Tee: Yup.string().required(validationConstant.mandatoryField),
 
   startDate: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .required("This field is mandatory.")
-    .test("start-not-greater-than-end", "Start date cannot be later than end date", function (value) {
+    .required(validationConstant.mandatoryField)
+    .test("start-not-greater-than-end", validationConstant.startDateCannotBeLaterThenEnddate, function (value) {
       const { endDate } = this.parent;
       if (!value || !endDate) return true;
 
@@ -92,10 +92,10 @@ const validationSchema = Yup.object({
   endDate: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .required("This field is mandatory.")
+    .required(validationConstant.mandatoryField)
     .test(
       "is-greater-than-start-date",
-      "End date must be later than start date",
+      validationConstant.endDateMustBeLaterThenStartDate,
       function (value) {
         const { startDate } = this.parent;
         if (!value || !startDate) return true; 
@@ -106,14 +106,14 @@ const validationSchema = Yup.object({
   startTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .required("This field is mandatory.")
-    .test("start-not-greater-than-end", "Start time cannot be later than end time", function (value) {
+    .required(validationConstant.mandatoryField)
+    .test("start-not-greater-than-end", validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime, function (value) {
       const { endTime } = this.parent; 
       if (!value || !endTime) return true; 
 
       const start = moment(value, "hh:mm A"); 
       const end = moment(endTime, "hh:mm A"); 
-      if (start.isAfter(end)) {
+      if (start.isSameOrAfter(end)) {
         return false; 
       }
       return true;
@@ -121,10 +121,10 @@ const validationSchema = Yup.object({
   endTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .required("This field is mandatory.")
+    .required(validationConstant.mandatoryField)
     .test(
       "end-not-less-than-start",
-      "End time cannot be earlier than start time",
+      validationConstant.activeHourEndTimeCanNotBeEarlierThenActiveHourStartTime,
       function (value) {
         const { startTime } = this.parent;
         if (!value || !startTime) return true; 
@@ -138,7 +138,7 @@ const validationSchema = Yup.object({
           "HH:mm A",
         );
 
-        if (endTimeObj.isBefore(startTimeObj)) {
+        if (endTimeObj.isSameOrBefore(startTimeObj)) {
           return false;
         }
         return true;
@@ -148,10 +148,10 @@ const validationSchema = Yup.object({
   registrationStartTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .required("This field is mandatory.")
+    .required(validationConstant.mandatoryField)
     .test(
       "is-at-least-30-min-before-contest-end",
-      "Registration start time should be earlier than active start time.",
+      validationConstant.registrationStartTImeShouldBeEarlierThenActivehourStartTime,
       function (value) {
         const { startTime } = this.parent;  
         if (!value || !startTime) return true;
@@ -160,20 +160,32 @@ const validationSchema = Yup.object({
         const contestEnd = moment(startTime, "HH:mm A");
 
         if (!registrationEnd.isValid() || !contestEnd.isValid()) {
-          return false; // Invalid time format
+          return false;
         }
         if (registrationEnd.isAfter(contestEnd.subtract(0, "minutes"))) {
           return false;
         }
         return true;
       },
-    ),
+    )
+    .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function (value) {
+      const { registrationEndTime } = this.parent;
+      if (!value || !registrationEndTime) return true; 
+
+      const registrationEnd = moment(`${value}`, "HH:mm A");
+      const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
+
+      if (registrationEnd.isSameOrAfter(registrationStart)) {
+        return false;
+      }
+      return true;
+    }),
 
   registrationEndTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .required("This field is mandatory.")
-     .test("is-at-least-30-min-before-contest-end", "Registration end time must be at least 30 minutes before the contest end time", function (value) {
+    .required(validationConstant.mandatoryField)
+     .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function (value) {
       const { endTime } = this.parent;
       if (!value || !endTime) return true;
 
@@ -187,53 +199,52 @@ const validationSchema = Yup.object({
         return false;
       }
       return true;
+    })
+    .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
+      const { registrationStartTime } = this.parent;
+      if (!value || !registrationStartTime) return true; 
+
+      const registrationEnd = moment(`${value}`, "HH:mm A");
+      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+
+      if (registrationEnd.isSameOrBefore(registrationStart)) {
+        return false;
+      }
+      return true;
     }),
-    // .test("end-not-less-than-start", "Registration end time cannot be earlier than registration start time", function (value) {
-    //   const { registrationStartTime } = this.parent;
-    //   if (!value || !registrationStartTime) return true; 
-
-    //   const registrationEnd = moment(`${value}`, "HH:mm A");
-    //   const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
-
-    //   if (registrationEnd.isBefore(registrationStart)) {
-    //     return false;
-    //   }
-    //   return true;
-    // })
-   
 
   entryFee: Yup.number()
-    .required("This field is mandatory.")
-    .min(5, "Value should be between 5 and 100")
-    .max(100, "Value should be between 5 and 100"),
+    .required(validationConstant.mandatoryField)
+    .min(5, validationConstant.valueShouldBeBetweet5and100)
+    .max(100, validationConstant.valueShouldBeBetweet5and100),
   playerPercentage: Yup.number()
-    .required("This field is mandatory.")
-    .min(0, "Percentage must be at least 0.")
-    .max(100, "Percentage cannot exceed 100.")
-    .typeError("Please enter a valid number."),
+    .required(validationConstant.mandatoryField)
+    .min(0, validationConstant.percentageMustBeatLeast0)
+    .max(100, validationConstant.percentageCannotExceed100)
+    .typeError(validationConstant.validNumberValue),
 
   acecamPercentage: Yup.number()
-    .required("This field is mandatory.")
-    .min(0, "Percentage must be at least 0.")
-    .max(100, "Percentage cannot exceed 100.")
-    .typeError("Please enter a valid number."),
+    .required(validationConstant.mandatoryField)
+    .min(0, validationConstant.percentageMustBeatLeast0)
+    .max(100,  validationConstant.percentageCannotExceed100)
+    .typeError(validationConstant.validNumberValue),
 
   coursePercentage: Yup.number()
-    .required("This field is mandatory.")
-    .min(0, "Percentage must be at least 0.")
-    .max(100, "Percentage cannot exceed 100.")
-    .typeError("Please enter a valid number."),
+    .required(validationConstant.mandatoryField)
+    .min(0, validationConstant.percentageMustBeatLeast0)
+    .max(100,  validationConstant.percentageCannotExceed100)
+    .typeError(validationConstant.validNumberValue),
 
   charityPercentage: Yup.number()
-    .required("This field is mandatory.")
-    .min(0, "Percentage must be at least 0.")
-    .max(100, "Percentage cannot exceed 100.")
-    .typeError("Please enter a valid number."),
+    .required(validationConstant.mandatoryField)
+    .min(0, validationConstant.percentageMustBeatLeast0)
+    .max(100,  validationConstant.percentageCannotExceed100)
+    .typeError(validationConstant.validNumberValue),
 
   // Custom validation for the sum of percentages
   totalPercentage: Yup.number().test(
     "sum",
-    "Total Payout percentage should be 100%",
+    validationConstant.totalPayOutStructureSHouldBe100,
     function () {
       const {
         playerPercentage,
@@ -253,10 +264,10 @@ const validationSchema = Yup.object({
   entriesPer24Hours: Yup.string().when("limitSection", {
     is: "yes",
     then: Yup.string()
-      .required("This field is mandatory.")
+      .required(validationConstant.mandatoryField)
       .test(
         "min-value",
-        "Entries Per 24 hours should not be less than 1.",
+        validationConstant.entriesPer24HoursShouldNotBeLessThan1,
         (value) => {
           if (value) {
             const numValue = Number(value);
@@ -270,12 +281,12 @@ const validationSchema = Yup.object({
 
   waitTimeBetweenEntries: Yup.string().when("limitSection", {
     is: "yes",
-    then: Yup.string().required("This field is mandatory."),
+    then: Yup.string().required(validationConstant.mandatoryField),
     otherwise: Yup.string().nullable(), // Nullable when not required
   }),
 
-  queueLimit: Yup.string().required("This field is mandatory."),
-  note: Yup.string().required("This field is mandatory."),
+  queueLimit: Yup.string().required(validationConstant.mandatoryField),
+  note: Yup.string().required(validationConstant.mandatoryField),
 });
 
 const Contests: React.FC = () => {
@@ -344,7 +355,7 @@ const Contests: React.FC = () => {
   );
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
-  const isSuperAdmin = !userPermisions?.permission["is_super_admin"];
+  const isSuperAdmin = !userPermisions?.permission?.["is_super_admin"];
 
   const courseData = useSelector(
     (state: RootState) => state.courses.courseData,
@@ -731,7 +742,7 @@ const Contests: React.FC = () => {
                             Back
                           </button>
 
-                          {userPermisions?.permission["is_super_admin"] && (
+                          {userPermisions?.permission?.["is_super_admin"] && (
                             <button
                               disabled={isSuperAdmin || isSubmitting}
                               type="submit"

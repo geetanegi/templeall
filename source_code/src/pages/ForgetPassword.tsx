@@ -4,7 +4,6 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../Formik/components/FormikControl";
 import { Link } from "react-router-dom";
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import OtpScreen from "../components/OtpScreen";
 import apiService from "../services/apiService";
@@ -13,6 +12,7 @@ import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
 import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
+import { validationConstant } from "../utils/validationEnums";
 
 const ForgetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,13 +39,13 @@ const ForgetPassword: React.FC = () => {
    * ***/
   const validationSchema = Yup.object({
     username: Yup.string()
-      .required("Username is Required")
+      .required(validationConstant.usernameRequired)
       .matches(
         /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters",
+        validationConstant.userNameContains,
       )
-      .min(3, "Username must be at least 3 characters")
-      .max(25, "Username must be less than 25 characters"),
+      .min(3, validationConstant.usernameMinWordLimit)
+      .max(25, validationConstant.userNameMaxWordLimit),
   });
 
   const handleSubmit = async (values: ResetPasswordFormValues) => {
@@ -93,10 +93,10 @@ const ForgetPassword: React.FC = () => {
 
   return (
     <div
-      className={`${showOtpScreen ? "mt-[40px] py-4" : "-mt-[10px] mb-[50px] py-28"} `}
+      className={`${showOtpScreen ? "mt-[40px] py-4" : "-mt-[10px] mb-[50px]"} `}
     >
       <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl md:w-full">
-        <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+        {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />  */}
         <h1 className={`text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}

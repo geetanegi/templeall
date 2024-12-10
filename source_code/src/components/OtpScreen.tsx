@@ -147,11 +147,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
   return (
     <>
       <div className="flex flex-col items-center justify-center md:justify-between">
-        <div className="mb-[5px] flex w-full gap-1">
-          <h4 className="text-[12px] font-thin text-[#ffffff] md:text-left md:text-[12px]">
+        <div className="mb-[5px] flex w-full md:w-[220px] gap-1  whitespace-nowrap text-ellipsis">
+          <h4 className="text-[12px] w-[50%] font-thin text-[#ffffff] md:text-left md:text-[12px]">
             Enter the OTP sent to{" "}
           </h4>
-          <span className={`text-[12px] font-bold text-yellowText`}>
+          <span className={`text-[12px] font-bold text-yellowText overflow-hidden text-ellipsis`}>
             {email ? email : maskEmail}
           </span>
         </div>

@@ -8,6 +8,7 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
+import { validationConstant } from "../../utils/validationEnums";
 
 interface userDataTypes {
   firstName: string;
@@ -37,23 +38,23 @@ const initialValues = {
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
-    .required("First Name is required ")
+    .required(validationConstant.firstNameRequired)
     .matches(
       /^[A-Za-z]+$/,
-      "First Name must contain only alphabetic characters",
+      validationConstant.firstNameContains,
     )
-    .max(100, "First Name must be less than 100 characters"),
+    .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
-    .required("Last Name is required ")
-    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
-    .max(100, "Last Name must be less than 100 characters"),
+    .required(validationConstant.lastNameRequired)
+    .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
+    .max(25, validationConstant.lastNameMaxLength),
   email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Email is Required"),
+    .email(validationConstant.validEmail)
+    .required(validationConstant.emailRequired),
   contactNumber: Yup.string()
-    .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number.")
-    .min(10, "Please enter valid phone number.")
-    .max(10, "Please enter valid phone number."),
+    .matches(/^\+?[1-9]\d{1,14}$/, validationConstant.phoneNumberContains)
+    .min(10, validationConstant.validPhone)
+    .max(10, validationConstant.validPhone),
 });
 
 const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
@@ -193,8 +194,9 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
               <div className="mb-4 flex gap-4">
                 <input
                   name="countryCode"
-                  className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-4 py-3"
+                  className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#E6E6E6] cursor-not-allowed px-4 py-3 "
                   value={values.countryCode}
+                  disabled
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
@@ -205,10 +207,11 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
                   placeholder="Phone number"
                   id="contactNumber"
                   value={values.contactNumber}
+                  disabled
                   onChange={handleChange}
                   onBlur={handleBlur}
                   maxLength={10}
-                  className="w-[71%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
+                  className="w-[71%] rounded-lg border border-gray-200 bg-[#E6E6E6] cursor-not-allowed px-2 py-3 text-gray-500"
                 />
               </div>
               <div className="mb-5 ml-6">

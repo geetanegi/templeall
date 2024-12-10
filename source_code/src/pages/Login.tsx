@@ -5,10 +5,9 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithoutRemember } from "../reducers/login/login";
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
 import FormikControl from "../Formik/components/FormikControl";
 import FocusError from "../Formik/components/FocusError";
-import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
+// import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
 import apiService from "../services/apiService";
 import { RootState } from "../store";
 import { setLoading } from "../reducers/loader/loader";
@@ -20,7 +19,8 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import moment from "moment";
 // import AppleSignInButton from "../components/social-login/AppleSignInButton";
 import { decryptData, encryptData, secretKey } from "../utils/encrypt";
-import AppleSignInButton from "../components/social-login/AppleSignInButton";
+// import AppleSignInButton from "../components/social-login/AppleSignInButton";
+import { validationConstant } from "../utils/validationEnums";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -54,13 +54,13 @@ const Login: React.FC = () => {
    * ***/
   const validationSchema = Yup.object({
     username: Yup.string()
-      .required("Username is Required")
+      .required(validationConstant.usernameRequired)
       .matches(
         /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters  ",
+        validationConstant.userNameContains,
       )
-      .min(3, "Username must be at least 3 characters")
-      .max(25, "Username must be less than 25 characters"),
+      .min(3, validationConstant.usernameMinWordLimit)
+      .max(25, validationConstant.userNameMaxWordLimit),
     password: Yup.string()
       .required(PasswordRegex.REQUIRED)
       .matches(PasswordRegex.PATTERN, PasswordRegex.FORMAT)
@@ -114,8 +114,8 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-2 rounded-xl md:w-full">
-        <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+      <div className="flex w-full flex-col items-center gap-2 rounded-xl mt-5 md:w-full">
+        {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
         <Formik
           initialValues={initialValues}
@@ -189,7 +189,7 @@ const Login: React.FC = () => {
             </div>
           </Form>
         </Formik>
-        <div className="mt-[40px] flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
+        {/* <div className="mt-[0px]  flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
           <p className={`text-center text-[14px] text-primaryText`}>
             Don't have an account?{" "}
             <Link
@@ -202,13 +202,11 @@ const Login: React.FC = () => {
           <p className="mt-[10px] text-center text-[14px] text-white">
             - or sign in using -{" "}
           </p>
-          <div className="mt-[10px] flex items-center justify-center">
-            <div className="mr-4">
-              <AppleSignInButton />
-            </div>
+          <div className="mt-[10px] gap-8 flex items-center justify-center">
+            <AppleSignInButton />
             <GoogleLoginComponent />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

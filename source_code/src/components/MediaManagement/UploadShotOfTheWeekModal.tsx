@@ -18,6 +18,7 @@ import uuid from "react-uuid";
 import { AnyMessageParams } from "yup/lib/types";
 import { formatDuration } from "./mediaUtils/mediaUtils";
 import { getFilters } from "../../utils/genericApiCalls";
+import { validationConstant } from "../../utils/validationEnums";
 
 interface UploadVideoModalProps {
   isModalOpen: boolean;
@@ -45,26 +46,26 @@ const initialValue = {
 
 const validationSchema = Yup.object({
   title: Yup.string()
-    .required("Video title is required.")
-    .max(25, "Video title must be less than 25 characters")
+    .required(validationConstant.videoTitleReq)
+    .max(25, validationConstant.videoTitleMaxLength)
     .nullable(),
   description: Yup.string()
-    .required("Video description is required.")
-    .max(100, "Video description must be less than 100 characters")
+    .required(validationConstant.videoDiscriptionReq)
+    .max(100, validationConstant.videoDiscriptionMaxLength)
     .nullable(),
-  club: Yup.string().required("Club must be selected")
+  club: Yup.string().required(validationConstant.clubMustbeSelected)
   .nullable(),
-  course: Yup.string().required("Course must be selected")
+  course: Yup.string().required(validationConstant.courseMustbeSelect)
   .nullable(),
-  hole: Yup.string().required("Hole must be selected")
+  hole: Yup.string().required(validationConstant.holeMustbeSelected)
   .nullable(),
-  tee: Yup.string().required("Tee must be selected")
+  tee: Yup.string().required(validationConstant.teeMustbeSelected)
   .nullable(),
-  contestTypeId: Yup.string().required("Contest Name must be selected")
+  contestTypeId: Yup.string().required(validationConstant.contestNameMustbeSelected)
   .nullable(),
-  dateTime: Yup.string().required("Date and Time must be selected")
+  dateTime: Yup.string().required(validationConstant.dateTimeMustBeSelected)
   .nullable(),
-  username: Yup.string().required("Username is required")
+  username: Yup.string().required(validationConstant.usernameRequired)
   .nullable(),
 });
 

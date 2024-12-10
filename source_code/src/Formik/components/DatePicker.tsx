@@ -109,7 +109,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                       height: "40px !important",
                       backgroundColor: "transparent",
                       color: "white",
-                      borderRadius: "12px",
+                      borderRadius: authFlow ? "100px" : "12px",
                       border: "1.5px solid", // Ensure border is visible
                       borderColor: hasError ? "#ffde59 !important" : "white", // Cyan border on error, force it with !important
                       "&:hover .MuiOutlinedInput-notchedOutline": {

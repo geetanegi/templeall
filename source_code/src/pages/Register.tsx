@@ -4,7 +4,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
 
 import FormikControl from "../Formik/components/FormikControl";
 import OtpScreen from "../components/OtpScreen";
@@ -13,8 +12,7 @@ import apiService from "../services/apiService";
 import moment from "moment";
 import { setLoading } from "../reducers/loader/loader";
 import { ToastInfo, ToastSuccess } from "../components/Toast";
-import { ROUTES } from "../utils/routesPath";
-import GoogleLoginComponent from "../components/social-login/GoogleLoginComponent";
+
 import { API_URL } from "../services/enums";
 import dayjs from "dayjs";
 import { PasswordRegex } from "../utils/passwordValidation";
@@ -22,7 +20,7 @@ import { ALPHANUMERIC_REGEX } from "../utils/RegexPatterns";
 import TermsAndConditionsPdf from "../assets/Pdf/AceCamGolfTermsandConditions.pdf";
 
 import { viewPdf } from "../utils/downloadUtils";
-import AppleSignInButton from "../components/social-login/AppleSignInButton";
+import { validationConstant } from "../utils/validationEnums";
 
 const Register: React.FC = () => {
   // const stripe = useStripe();
@@ -61,27 +59,27 @@ const Register: React.FC = () => {
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
-      .required("First Name is required ")
+      .required(validationConstant.firstNameRequired)
       .matches(
         /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters",
+        validationConstant.firstNameContains,
       )
-      .max(100, "First Name must be less than 100 characters"),
+      .max(25, validationConstant.firstNameMaxLength),
     lastName: Yup.string()
-      .required("Last Name is required ")
+      .required(validationConstant.lastNameRequired)
       .matches(
         /^[A-Za-z]+$/,
-        "Last Name must contain only alphabetic characters",
+        validationConstant.lastNameContains,
       )
-      .max(100, "Last Name must be less than 100 characters"),
+      .max(25, validationConstant.lastNameMaxLength),
     username: Yup.string()
-      .required("Username is Required")
+      .required(validationConstant.usernameRequired)
       .matches(
         /^[a-zA-Z0-9]+$/,
-        "Username must contain only alphanumeric characters",
+        validationConstant.userNameContains,
       )
-      .min(3, "Username must be at least 3 characters")
-      .max(25, "Username must be less than 25 characters"),
+      .min(3, validationConstant.usernameMinWordLimit)
+      .max(25, validationConstant.userNameMaxWordLimit),
     password: Yup.string()
       .required(PasswordRegex.REQUIRED)
       .matches(PasswordRegex.PATTERN, PasswordRegex.FORMAT)
@@ -89,32 +87,31 @@ const Register: React.FC = () => {
     confirmPassword: Yup.string()
       .oneOf(
         [Yup.ref("password")],
-        "The passwords do not match. Please ensure both password fields are identical",
+        validationConstant.matchingConfirmPassword,
       )
-      .required("Confirm password is Required"),
+      .required(validationConstant.confirmPasswordRequired),
 
     email: Yup.string()
-      .email("Please enter a valid email address")
-      .required("Email is Required"),
+      .email(validationConstant.validEmail)
+      .required(validationConstant.emailRequired),
     acceptTerms: Yup.bool().oneOf(
       [true],
-      "You must agree to the Terms and Conditions to proceed",
+      validationConstant.agreeTermsAndConditions,
     ),
-    phone: Yup.string().required("Phone number field is missing."),
+    phone: Yup.string().required(validationConstant.phoneNumberIsRequired),
+    countryCode: Yup.string().required(validationConstant.countryCodeRequired),
     dateOfBirth: Yup.string()
-      .nullable() // Allow null values
+      .nullable() 
       .test(
         "valid-date",
-        "Invalid date. Expected format: MM/DD/YYYY",
+        validationConstant.validDateFormate,
         (value) => {
-          // Check if the value is non-null and valid
-          if (!value) return true; // If the value is null or empty, don't validate the format
-          return moment(value, "MM/DD/YYYY", true).isValid(); // Validate the date using MM/DD/YYYY format
+          if (!value) return true; 
+          return moment(value, "MM/DD/YYYY", true).isValid();
         },
       )
-      .test("not-future", "Date cannot be in the future", (value) => {
-        // Ensure the date is not in the future
-        if (!value) return true; // If value is empty or null, don't validate future date
+      .test("not-future", validationConstant.DOBCanNotBeInFuture, (value) => {
+        if (!value) return true; 
         return moment(value, "MM/DD/YYYY").isSameOrBefore(moment(), "day");
       }),
   });
@@ -184,7 +181,7 @@ const Register: React.FC = () => {
         <div
           className={`flex w-full flex-col items-center rounded-xl ${!showSuccessScreen ? "pb-4" : "p-5 px-2"} md:w-full`}
         >
-          <img src={aceCampLogo} alt="" className="w-[220px]" />
+          {/* <img src={aceCampLogo} alt="" className="w-[220px]" /> */}
           <h1 className={`mb-2 mt-5 text-xl font-semibold text-primaryText`}>
             {showOtpScreen && "OTP Verification"}
             {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
@@ -211,19 +208,18 @@ const Register: React.FC = () => {
     <>
       {!showOtpScreen && !showSuccessScreen && (
         <div className="bg-back-600 mt-[5px] flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
-          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+          {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting, values }) => {
+            {({ isSubmitting, values, errors }) => {
               console.log("values", values);
               return (
                 <Form className="w-full max-w-md">
-                  <div className="flex gap-2">
-                    <div className="flex w-1/2 flex-col">
+                  <div className="flex flex-col gap-2">
                       <FormikControl
                         label=" First Name"
                         name="firstName"
@@ -235,8 +231,6 @@ const Register: React.FC = () => {
                         authFlow={true}
                         maxLength={25}
                       />
-                    </div>
-                    <div className="flex w-1/2 flex-col">
                       <FormikControl
                         label=" Last Name"
                         name="lastName"
@@ -248,7 +242,6 @@ const Register: React.FC = () => {
                         authFlow={true}
                         maxLength={25}
                       />
-                    </div>
                   </div>
                   <div className="">
                     <FormikControl
@@ -315,8 +308,8 @@ const Register: React.FC = () => {
                       maxLength={256}
                     />
                   </div>
-                  <div className="flex h-[70px] items-center">
-                    <div className="h-[73px] w-20 pr-2">
+                  <div className={`flex h-[70px] items-center ${errors.countryCode ? "mb-7": ""}`}>
+                    <div className="h-[73px] w-28 w-20 pr-2">
                       <FormikControl
                         authFlow={true}
                         label="Phone"
@@ -327,7 +320,7 @@ const Register: React.FC = () => {
                         required={true}
                       />
                     </div>
-                    <div className="flex w-full flex-col">
+                    <div className="flex h-[73px] w-full flex-col">
                       <FormikControl
                         label="&nbsp;"
                         name="phone"
@@ -339,9 +332,9 @@ const Register: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <div className="mb-[10px] text-xs text-[#FFDE59]">
-                    (By providing your phone number, you agree to receivetext
-                    messages from AceCam Golf LLC.Message and data rates may
+                  <div className="mb-[10px] mt-2 text-xs text-[#FFDE59]">
+                    (By providing your phone number, you agree to receive text
+                    messages from AceCam Golf LLC. Message and data rates may
                     apply. )
                   </div>
 
@@ -350,6 +343,7 @@ const Register: React.FC = () => {
                       label="GHIN (Optional)"
                       Placeholder="GHIN"
                       name="ghin"
+                      authFlow={true}
                       control="number"
                       className="w-full"
                       placeholder="GHIN"
@@ -359,11 +353,11 @@ const Register: React.FC = () => {
 
                   <div className="mx-auto max-w-md">
                     <div className="mb-6 flex flex-col">
-                      <label className="inline-flex items-center">
+                      <label className="inline flex items-center justify-center">
                         <Field
                           type="checkbox"
                           name="acceptTerms"
-                          className="form-checkbox -mt-[1rem] h-4 w-4 leading-tight text-blue-400"
+                          className="form-checkbox md:-mt-[1rem] h-4 w-4 leading-tight text-blue-400"
                         />
                         <span className={`ml-2 text-[13px] text-primaryText`}>
                           Agreeing to{" "}
@@ -402,7 +396,7 @@ const Register: React.FC = () => {
                     </button>
                   </div>
 
-                  <p
+                  {/* <p
                     className={`mb-6 mt-2 text-center text-primaryText md:text-left`}
                   >
                     Already have an account?{" "}
@@ -412,25 +406,23 @@ const Register: React.FC = () => {
                     >
                       Login
                     </Link>
-                  </p>
+                  </p> */}
                 </Form>
               );
             }}
           </Formik>
-          <div className="mb-20 block h-[40px] w-full" style={{ zIndex: 1 }}>
+          {/* <div className="mb-20 block h-[40px] w-full" style={{ zIndex: 1 }}>
             <p className="text-center text-[14px] text-white">
               - or sign in using -{" "}
             </p>
-            <div className="flex items-center justify-center">
-              <div className="mr-4">
+            <div className="flex items-center justify-center gap-8  ">
                 <AppleSignInButton />
-              </div>
               <GoogleLoginComponent />
             </div>
-          </div>
+          </div> */}
         </div>
       )}
-      {showOtpScreen && <div>{DisplayScreens()}</div>}
+      {showOtpScreen && <div className="flex my-auto">{DisplayScreens()}</div>}
     </>
   );
 };

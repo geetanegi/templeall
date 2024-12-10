@@ -10,7 +10,8 @@ interface TimeRangePickerProps {
   endTimeValue: any;
   name1:string;
   name2:string
-  required?:boolean
+  required?:boolean;
+  [key: string]: any;
 }
 
 const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
@@ -30,43 +31,47 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
     if (startTimeValue) {
       setStartTime(moment(startTimeValue, "HH:mm:ss"));  // Adjust format as needed
     }
+  
+  }, [startTimeValue]);
+
+  useEffect(()=>{
     if (endTimeValue) {
       setEndTime(moment(endTimeValue, "HH:mm:ss"));  // Adjust format as needed
     }
-  }, [startTimeValue, endTimeValue]);
+  },[endTimeValue])
 
-  const disableStartTime = (
-    time: Moment,   
-    view: "hours" | "minutes" | "seconds",
-  ): boolean => {
-    if (!endTime) return false;
+  // const disableStartTime = (
+  //   time: Moment,   
+  //   view: "hours" | "minutes" | "seconds",
+  // ): boolean => {
+  //   if (!endTime) return false;
  
   
-    const maxStartTime = moment(endTime).subtract(5, "minutes");
-    const endHour = endTime.hour();
-    const maxHour = maxStartTime.hour();
-    const maxMinute = maxStartTime.minute();
+  //   const maxStartTime = moment(endTime).subtract(5, "minutes");
+  //   const endHour = endTime.hour();
+  //   const maxHour = maxStartTime.hour();
+  //   const maxMinute = maxStartTime.minute();
   
-    if (view === "hours") {
-      if (endHour === 0 && time.hour() === 0) {
-        return true;
-      }
+  //   if (view === "hours") {
+  //     if (endHour === 0 && time.hour() === 0) {
+  //       return true;
+  //     }
   
-      return time.hour() > maxHour;
-    }
+  //     return time.hour() > maxHour;
+  //   }
   
-    if (view === "minutes") {
-      if (time.hour() === maxHour) {
-        return time.minute() > maxMinute;
-      }
+  //   if (view === "minutes") {
+  //     if (time.hour() === maxHour) {
+  //       return time.minute() > maxMinute;
+  //     }
       
-      if (time.hour() === 0) {
-        return time.minute() > 59;
-      }
-    }
+  //     if (time.hour() === 0) {
+  //       return time.minute() > 59;
+  //     }
+  //   }
   
-    return false;
-  };
+  //   return false;
+  // };
   
 
   const disableEndTime = (
@@ -74,41 +79,42 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
     view: "hours" | "minutes" | "seconds",
   ): boolean => {
     if (!startTime) return false;
-
+  
     const minEndTime = moment(startTime).add(5, "minutes"); // Start time must always be 5 minutes less than end time
     const startHour = startTime.hour();
+    const startMinute = startTime.minute();
     const minHour = minEndTime.hour();
     const minMinute = minEndTime.minute();
-
-    // Disable end time if it is before the start time
-    if (time.isBefore(startTime)) {
-      return true;
-    }
-
+  
+  
     if (view === "hours") {
-      // If start time is 23:00, hide 00 hour in end time
-      if (startHour === 23 && time.hour() === 0) {
+      if (time.hour() === startHour && startMinute >= 55) {
         return true;
       }
 
-      // Disable hours less than the minimum hour, but keep 00 enabled for now
-      return time.hour() < minHour && time.hour() !== 0;
+      if(time.hour() < startHour ){
+        return true
+      }
+  
+      return time.hour() < minHour;
     }
-
+  
     if (view === "minutes") {
-      // For the same hour as minEndTime, disable minutes less than the minimum
       if (time.hour() === minHour) {
         return time.minute() < minMinute;
       }
-
-      // For hour 0, disable minutes from 0 to 4 (if start time is 23:00)
+  
       if (time.hour() === 0) {
         return time.minute() < 5;
       }
     }
-
+  
     return false;
   };
+  
+  
+
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -142,7 +148,6 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                       setFieldValue("endTime", null);
                     }
                   }}
-                  shouldDisableTime={disableStartTime}
                   slots={
                     CustomClockIcon && {
                       openPickerIcon: () => CustomClockIcon,

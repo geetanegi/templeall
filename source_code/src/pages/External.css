@@ -1,0 +1,48 @@
+.content-container {
+  font-family: "Nunito", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Pseudo-element to handle background with gradient + image */
+.content-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #072e1a 0%, #006633 50%, #000000 100%);
+  background-position: center center;
+  background-size: auto;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  opacity: 1;
+  /* Set the opacity for the background image */
+  z-index: -1;
+  /* Position the background behind the content */
+}
+
+/* Make sure the content stays on top */
+.content-container {
+  position: relative;
+  z-index: 1;
+}
+
+.sticky-image {
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.02;
+  z-index: -1;
+  transition: top 0.3s ease;
+  /* Smooth transition when it becomes sticky */
+  width: 73%;
+  padding-bottom: 300px;
+}
+
+.sticky-image.sticky {
+  position: fixed;
+  top: 10%;
+}

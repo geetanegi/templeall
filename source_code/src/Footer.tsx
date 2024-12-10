@@ -1,22 +1,24 @@
 import React from "react";
-import privacyPolicyPdf from "./assets/Pdf/AceCamGolfPrivacyPolicy.pdf";
-import TermsAndConditionsPdf from "./assets/Pdf/AceCamGolfTermsandConditions.pdf";
-import { viewPdf } from "./utils/downloadUtils";
+
+import { TERMS_AND_CONDITIONS_URL, PRIVACY_POLICY_URL } from "./utils/constantEnums";
 
 const Footer: React.FC = () => {
   const downloadPrivacyPolicyFunc = () => {
-    viewPdf(privacyPolicyPdf);
+    window.open(PRIVACY_POLICY_URL, "_blank");
   };
 
   const downloadTermsAndConditionsFunc = () => {
-    viewPdf(TermsAndConditionsPdf);
+    window.open(TERMS_AND_CONDITIONS_URL, "_blank");
+
   };
 
   return (
-    <div className="fixed bottom-0 w-full bg-[#F5F6F7] shadow-custom-shadow z-[100000000]">
-      <div className="flex justify-between py-1  pl-[24px] pr-[24px]">
+    <div className="fixed bottom-0 z-[100000000] w-full bg-[#F5F6F7] shadow-custom-shadow">
+      <div className="flex justify-between py-1 pl-[24px] pr-[24px]">
         <div className="flex items-center justify-center gap-2">
-          <p className={`whitespace-nowrap p-2 text-[13px] text-textColor font-medium`}>
+          <p
+            className={`whitespace-nowrap p-2 text-[13px] font-medium text-textColor`}
+          >
             © 2024 AceCam
             <sup className="text-[8px] font-medium">TM&nbsp;</sup>{" "}
             {/* <span className="align-super text-xs">™&nbsp;</span> */}
@@ -26,7 +28,7 @@ const Footer: React.FC = () => {
         <div className="flex items-center justify-center gap-2">
           <p
             onClick={downloadTermsAndConditionsFunc}
-            className={`cursor-pointer whitespace-nowrap text-[13px] text-buttonPrimary hover:underline font-medium`}
+            className={`cursor-pointer whitespace-nowrap text-[13px] font-medium text-buttonPrimary hover:underline`}
           >
             Terms and Conditions
           </p>{" "}
@@ -34,7 +36,7 @@ const Footer: React.FC = () => {
             |
           </p>{" "}
           <p
-            className={`cursor-pointer whitespace-nowrap text-[13px] text-buttonPrimary hover:underline font-medium`}
+            className={`cursor-pointer whitespace-nowrap text-[13px] font-medium text-buttonPrimary hover:underline`}
             onClick={downloadPrivacyPolicyFunc}
           >
             {" "}
@@ -44,7 +46,7 @@ const Footer: React.FC = () => {
             |
           </p>{" "}
           <p
-            className={`cursor-pointer whitespace-nowrap text-[13px] text-buttonPrimary hover:underline font-medium`}
+            className={`cursor-pointer whitespace-nowrap text-[13px] font-medium text-buttonPrimary hover:underline`}
           >
             <a href="mailto:support@acecamgolf.com">Contact Us</a>
           </p>

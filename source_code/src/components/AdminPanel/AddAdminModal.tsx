@@ -7,6 +7,7 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { setLoading } from "../../reducers/loader/loader";
 import { useDispatch } from "react-redux";
+import { validationConstant } from "../../utils/validationEnums";
 
 interface userDataType {
   firstName?: string;
@@ -31,39 +32,39 @@ interface AddAdminModalProps {
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
-    .required("First Name is required ")
+    .required(validationConstant.firstNameRequired)
     .matches(
       /^[A-Za-z]+$/,
-      "First Name must contain only alphabetic characters",
+      validationConstant.firstNameContains,
     )
-    .max(100, "First Name must be less than 100 characters"),
+    .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
-    .required("Last Name is required ")
-    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
-    .max(100, "Last Name must be less than 100 characters"),
+    .required(validationConstant.lastNameRequired)
+    .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
+    .max(25, validationConstant.lastNameMaxLength),
   username: Yup.string()
-    .required("Username is Required")
+    .required(validationConstant.usernameRequired)
     .matches(
       /^[a-zA-Z0-9]+$/,
-      "Username must contain only alphanumeric characters",
+      validationConstant.userNameContains,
     )
-    .min(3, "Username must be at least 3 characters")
-    .max(25, "Username must be less than 25 characters"),
+    .min(3, validationConstant.usernameMinWordLimit)
+    .max(25, validationConstant.userNameMaxWordLimit),
   password: Yup.string()
-    .required("Password is Required")
+    .required(validationConstant.passwordIsRequired)
     .matches(
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,25}$/,
-      "Password must be 8-25 characters long, include at least one letter, one number, and one special character.",
+      validationConstant.passwordContains,
     ),
   mobile: Yup.string()
-    .matches(/^[0-9]+$/, "Phone number must only contain numbers")
-    .required("Phone number is required"),
+    .matches(/^[0-9]+$/, validationConstant.phoneNumberContains)
+    .required(validationConstant.phoneNumberIsRequired),
   countryCode: Yup.string()
-    .required("Phone number is required")
-    .max(4, "Country code must be less than 4 numbers"),
+    .required(validationConstant.countryCodeRequired)
+    .max(4, validationConstant.countryCodeMaxLength),
   emailId: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Email is required"),
+    .email(validationConstant.validEmail)
+    .required(validationConstant.emailRequired),
 });
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
@@ -179,7 +180,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
           <form
             onSubmit={handleSubmit}
             className="w-full overflow-y-auto overflow-x-hidden rounded-lg md:w-[480px]"
-            style={{ maxHeight: "80vh" }}
+            style={{ maxHeight: "70vh" }}
           >
             <div className="relative mb-5 ml-5 mr-7">
               <input
@@ -203,13 +204,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                      touched.firstName &&
+                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.firstName &&
                       errors.firstName &&
                       typeof errors.firstName === "string"
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    } `}
+                      ? "border-red-500"
+                      : "border-gray-200"
+                      } `}
                   />
                   <span
                     className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.firstName ? "hidden" : ""}`}
@@ -237,13 +237,12 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${
-                      touched.lastName &&
+                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.lastName &&
                       errors.lastName &&
                       typeof errors.lastName === "string"
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    } `}
+                      ? "border-red-500"
+                      : "border-gray-200"
+                      } `}
                   />
                   <span
                     className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.lastName ? "hidden" : ""}`}

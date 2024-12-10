@@ -16,11 +16,11 @@ import MediaManagement from "./components/MediaManagement/MediaManagement";
 import CreateContest from "./pages/CreateContest";
 import ContestList from "./pages/ContestList";
 import Checkout from "./pages/Checkout";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsAndConditons from "./pages/TermsAndConditons";
 import PaymentSuccessCard from "./components/SuccessCart";
 import Footer from "./Footer";
 import ContestsWrapper from "./pages/ContestsWrapper";
+import ExternalTC from "./pages/ExternalTC";
+import ExternalPrivacyPolicy from "./pages/ExternalPrivacyPolicy";
 import TestComp from "./TestComp";
 
 // Lazy load components
@@ -62,12 +62,12 @@ function AppRoutes() {
       element: <AuthStructure />,
     },
     {
-      path: ROUTES.PRIVACY_POLICY,
-      element: <PrivacyPolicy />,
+      path: ROUTES.ExternalTC,
+      element: <ExternalTC />,
     },
     {
-      path: ROUTES.TERMS_AND_CONDITIONS,
-      element: <TermsAndConditons />,
+      path: ROUTES.ExternalPrivacyPolicy,
+      element: <ExternalPrivacyPolicy />,
     },
     {
       path: "/test",
@@ -199,6 +199,8 @@ function App() {
         ROUTES.SIGNUP,
         ROUTES.FORGET_PASSWORD,
         ROUTES.RESET_PASSWORD,
+        ROUTES.ExternalTC,
+        ROUTES.ExternalPrivacyPolicy
       ].includes(location.pathname) ||
         (isLogin && <Nav />)}
 

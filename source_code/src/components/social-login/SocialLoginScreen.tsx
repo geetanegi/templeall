@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import aceCampLogo from "../../assets/images/Logo_png with heading.png";
 import FormikControl from "../../Formik/components/FormikControl";
 import { viewPdf } from "../../utils/downloadUtils";
 import TermsAndConditionsPdf from "../../assets/Pdf/AceCamGolfTermsandConditions.pdf";
@@ -16,6 +15,7 @@ import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
 import { setLoading } from "../../reducers/loader/loader";
+import { validationConstant } from "../../utils/validationEnums";
 
 interface SocialLoginInputsInterface {
   username: string;
@@ -31,29 +31,30 @@ interface SocialLoginScreenProps {}
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
-    .required("First Name is required.")
+    .required(validationConstant.firstNameRequired)
     .matches(
       /^[A-Za-z]+$/,
-      "First Name must contain only alphabetic characters",
+      validationConstant.firstNameContains,
     )
-    .max(100, "First Name must be less than 100 characters"),
+    .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
-    .required("Last Name is required.")
-    .matches(/^[A-Za-z]+$/, "Last Name must contain only alphabetic characters")
-    .max(100, "Last Name must be less than 100 characters"),
+    .required(validationConstant.lastNameRequired)
+    .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
+    .max(25, validationConstant.lastNameMaxLength),
   username: Yup.string()
-    .required("Username is Required.")
+    .required(validationConstant.usernameRequired)
     .matches(
       /^[a-zA-Z0-9]+$/,
-      "Username must contain only alphanumeric characters  ",
+      validationConstant.userNameContains,
     )
-    .min(3, "Username must be at least 3 characters.")
-    .max(25, "Username must be less than 25 characters"),
+    .min(3, validationConstant.usernameMinWordLimit)
+    .max(25, validationConstant.userNameMaxWordLimit),
   acceptTerms: Yup.bool().oneOf(
     [true],
-    "You must agree to the Terms and Conditions to proceed",
+    validationConstant.agreeTermsAndConditions,
   ),
-  phone: Yup.string().required("Phone is Required."),
+  phone: Yup.string().required(validationConstant.phoneNumberIsRequired),
+  countryCode: Yup.string().required(validationConstant.countryCodeRequired),
 });
 
 const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
@@ -72,7 +73,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { email, maskEmail } = location.state;
+  const { email, maskEmail } = location.state || {};
 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
@@ -154,7 +155,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         <div>{DisplayScreens()}</div>
       ) : (
         <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
-          <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+          {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
           <div>
             <Formik
               initialValues={initialValues}
@@ -166,9 +167,11 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   <p className="text-center text-[16px] text-primaryText">
                     Please help us in getting to know you better.
                   </p>
-                  <p className="text-center text-[12px] text-primaryText">
-                    Email: <span className="text-yellowText">{maskEmail}</span>
+                  <div className="flex items-center justify-center">
+                  <p className="text-center w-full md:w-[220px] text-[12px] text-primaryText  overflow-hidden whitespace-nowrap text-[12px] text-ellipsis">
+                    Email: <span className="text-yellowText">{maskEmail || ""}</span>
                   </p>
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <div className="flex w-1/2 flex-col">
@@ -210,8 +213,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                     authFlow={true}
                   />
                 </div>
-                <div className="flex items-center">
-                  <div className="w-20 pr-2">
+                <div className="flex items-center mb-5 ">
+                  <div className="w-28 h-[73px] pr-2">
                     <FormikControl
                       authFlow={true}
                       label="Phone"
@@ -222,7 +225,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       required={true}
                     />
                   </div>
-                  <div className="flex w-full flex-col">
+                  <div className="flex h-[73px] w-full flex-col">
                     <FormikControl
                       label="&nbsp;"
                       name="phone"
@@ -235,14 +238,14 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                     />
                   </div>
                 </div>
-                <div className="mb-6 flex flex-col">
-                  <label className="inline-flex items-center">
+                <div className="mb-6 text-center flex flex-col">
+                  <label className="inline-flex justify-center items-center">
                     <Field
                       type="checkbox"
                       name="acceptTerms"
-                      className="form-checkbox h-4 w-4 leading-tight text-blue-400"
+                      className="form-checkbox md:-mt-[1rem] h-4 w-4 leading-tight text-blue-400"
                     />
-                    <span className={`ml-2 text-[13px] text-primaryText`}>
+                    <span className={`ml-1 text-[13px] text-primaryText`}>
                       Agreeing to{" "}
                       <Link
                         onClick={downloadTermsAndConditionsFunc}

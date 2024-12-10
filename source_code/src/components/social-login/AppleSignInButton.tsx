@@ -1,7 +1,7 @@
 import React from "react";
 import AppleLogin from "react-apple-login";
 import { setLoading } from "../../reducers/loader/loader";
-import AppleIcon from "../../assets/images/apple-1.png";
+import AppleIcon from "../../assets/images/Apple.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import apiService from "../../services/apiService";
@@ -19,11 +19,14 @@ const AppleSignInButton: React.FC = () => {
       console.error("Apple login failed:", response.error);
       return;
     }
+
     if (response.authorization) {
       handleLoginSuccess(response);
     }
   
   };
+
+
 
   const handleLoginSuccess = async (response: any) => {
     dispatch(setLoading(true));
@@ -67,21 +70,20 @@ const AppleSignInButton: React.FC = () => {
 
   return (
     <AppleLogin
-      clientId="com.acecamgolf.applelogin" // Your Service ID as Client ID
-      redirectURI="https://dev.acecamgolf.com/" // Your redirect URL
+      clientId="com.acecamgolf.applelogin" 
+      redirectURI="https://dev.acecamgolf.com/" 
       responseType="code id_token"
       responseMode="form_post"
       scope="name email"
       usePopup={true}
-      callback={handleAppleResponse} // Handle both success and failure here
+      callback={handleAppleResponse} 
       render={(renderProps: any) => (
         <button onClick={renderProps.onClick} className="apple-signin-button">
           <img
             src={AppleIcon}
             alt="Sign in with Apple"
-            className="h-10 w-10 rounded-full bg-white"
+            className="h-[36px]"
           />
-          {/* <span>Sign in with Apple</span> */}
         </button>
       )}
     />

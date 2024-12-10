@@ -3,7 +3,6 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../Formik/components/FormikControl";
 import { Link } from "react-router-dom";
-import aceCampLogo from "../assets/images/Logo_png with heading.png";
 import apiService from "../services/apiService";
 import SuccessScreen from "../components/SuccessScreen";
 import { setLoading } from "../reducers/loader/loader";
@@ -13,6 +12,7 @@ import { ROUTES } from "../utils/routesPath";
 import { API_URL } from "../services/enums";
 import { PasswordRegex } from "../utils/passwordValidation";
 import { encryptData, secretKey } from "../utils/encrypt";
+import { validationConstant } from "../utils/validationEnums";
 
 const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const ResetPassword: React.FC = () => {
     confirmPassword: Yup.string()
       .oneOf(
         [Yup.ref("password")],
-        "The passwords do not match. Please ensure both password fields are identical",
+        validationConstant.passWordMatching,
       )
       .required("Confirm password is required"),
   });
@@ -90,7 +90,7 @@ const ResetPassword: React.FC = () => {
   return (
     <div className="flex w-full flex-col items-center rounded-lg">
       {/* // sm:max-h-56 for mobile but not */}
-      <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />
+      {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
       {showSuccessScreen ? (
         <div className="mt-10">

@@ -25,9 +25,14 @@ const ProfileOverviewSection: React.FC<ProfileOverviewSectionProps> = ({
   isCommunitySearch,
   role,
 }) => {
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
+    decryptData(
+      userPermissionAvailable,
+      secretKey,
+    ),
+  );
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const location = useLocation();
   const [userinformation, setUserInformation] = useState<any>()

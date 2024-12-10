@@ -39,9 +39,11 @@ const tableHeaders = [
 const ContestManagement = () => {
   const navigate = useNavigate();
 
-  const userPermisions = JSON.parse(
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
     decryptData(
-      useSelector((state: RootState) => state.auth.userPermissions),
+      userPermissionAvailable,
       secretKey,
     ),
   );

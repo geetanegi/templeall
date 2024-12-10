@@ -16,9 +16,14 @@ const LiveLeaderBoard: React.FC = () => {
   const tz = momentTz.tz.guess();
   const dispatch = useDispatch();
 
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
+    decryptData(
+      userPermissionAvailable,
+      secretKey,
+    ),
+  );
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 

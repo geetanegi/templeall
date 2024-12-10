@@ -56,9 +56,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     Array<any>
   >([]);
   const [filterArray, setFilterArray] = useState<ContestType[]>([]);
-  const userPermisions = JSON.parse(
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
     decryptData(
-      useSelector((state: RootState) => state.auth.userPermissions),
+      userPermissionAvailable,
       secretKey,
     ),
   );

@@ -35,22 +35,25 @@ const BettingOverview: React.FC<BettingOverviewProps> = ({
   }, [userId, location.pathname]);
 
   const searchUserPS = async () => {
-    try {
-      const { data, status } = await apiService.post<any>(
-        API_URL.searchUserPS,
-        {
-          data: {
-            selectedUserId: userId,
+    if(userId){
+      try {
+        const { data, status } = await apiService.post<any>(
+          API_URL.searchUserPS,
+          {
+            data: {
+              selectedUserId: userId,
+            },
           },
-        },
-      );
-      if (status === 200 && data?.data != null && !data?.error) {
-        setUserStats(data?.data);
-      } else if (data?.error && data.description) {
-        // ToastInfo(data.description);
+        );
+        if (status === 200 && data?.data != null && !data?.error) {
+          setUserStats(data?.data);
+        } else if (data?.error && data.description) {
+          // ToastInfo(data.description);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+
     }
   };
 

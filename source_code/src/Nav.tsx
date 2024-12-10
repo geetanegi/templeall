@@ -46,17 +46,21 @@ const Nav: React.FC = () => {
     (state: RootState) => state.payment.paymentSuccess,
   );
 
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const userPermisions = JSON.parse(
+  const userInfo = useSelector((state: RootState) => state?.auth?.userInfo);
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
     decryptData(
-      useSelector((state: RootState) => state.auth.userPermissions),
+      userPermissionAvailable,
       secretKey,
     ),
   );
+
+  
   const profileImage =
-    useSelector((state: RootState) => state.profiler.profileImage) || "";
+    useSelector((state: RootState) => state?.profiler?.profileImage) || "";
   const profiledetails =
-    useSelector((state: RootState) => state.profiler.profile) || "";
+    useSelector((state: RootState) => state?.profiler?.profile) || "";
   const location = useLocation();
   // const data = useSelector(
   //   (state: RootState) => state.permissions.userPermissions,

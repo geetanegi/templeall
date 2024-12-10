@@ -16,10 +16,14 @@ const Dashboard: React.FC = () => {
   const location = useLocation();
 
   
-  
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
+    decryptData(
+      userPermissionAvailable,
+      secretKey,
+    ),
+  );
 
   useEffect(() => {
     if (!userPermisions?.data?.permission) {

@@ -102,9 +102,11 @@ const ContestForm: React.FC<ContestProps> = ({
     location.pathname,
   );
 
-  const userPermisions = JSON.parse(
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
     decryptData(
-      useSelector((state: RootState) => state.auth.userPermissions),
+      userPermissionAvailable,
       secretKey,
     ),
   );

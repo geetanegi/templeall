@@ -19,9 +19,14 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
 }) => {
   const location = useLocation();
   const { id, role } = location.state || {};
-  const userPermisions = JSON.parse(decryptData(useSelector(
-    (state: RootState) => state.auth.userPermissions,
-  ), secretKey))
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
+    decryptData(
+      userPermissionAvailable,
+      secretKey,
+    ),
+  );
 
   const [selectedUser, setSelectedUser] = useState<string | number>(userId);
   const [showUserNotFound, setShowUserNotFound] = useState<boolean>(false)

@@ -78,6 +78,7 @@ export const API_URL = {
   publishWinnerVideos: "/core/winner-video/published",
   getFilter: "/core/lookup/category",
   getPlayerVideoFilter: "/core/request-video/all-highlight-list",
+  logout: "core/history/logout",
 
 
   // social login api's

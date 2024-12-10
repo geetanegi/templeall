@@ -11,7 +11,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { loginWithoutRemember } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
-import aceCampLogo1 from "../../assets/images/logo (1).png";
+// import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
 import { setLoading } from "../../reducers/loader/loader";

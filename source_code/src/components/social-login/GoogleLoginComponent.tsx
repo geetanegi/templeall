@@ -9,7 +9,8 @@ import { ToastInfo } from "../../components/Toast";
 import { API_URL } from "../../services/enums";
 import "../../App.css";
 import { ROUTES } from "../../utils/routesPath";
-
+import googleIcon from "../../assets/images/Google.svg"
+ 
 
 const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
@@ -72,16 +73,19 @@ const LoginButton: React.FC = () => {
   };
 
   return (
-    <div className="google-login-button-check">
+    <div className=" google-login-button-check relative">
+      <img src={googleIcon} alt=" " className="absolute w-[40px]" />
+      <div className="opacity-0">
       <GoogleLogin
         onSuccess={handleLoginSuccess}
-        onError={() => {
+        onError={() => {  
           console.log("Login Failed");
         }}
         shape="circle"
         size="medium"
         type="icon"
       />
+      </div>
     </div>
   );
 };

@@ -93,15 +93,14 @@ const ForgetPassword: React.FC = () => {
 
   return (
     <div
-      className={`${showOtpScreen ? "mt-[40px] py-4" : "-mt-[10px] mb-[50px]"} `}
+      className={`${showOtpScreen ? "w-full py-4" : "w-full  mb-[50px]"} `}
     >
-      <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl md:w-full">
+      <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl">
         {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />  */}
-        <h1 className={`text-xl font-semibold text-primaryText`}>
+        <h1 className={`text-xl my-3 font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
-        <div className="">
           {!showOtpScreen && !showSuccessScreen && (
             <>
               <Formik
@@ -110,7 +109,7 @@ const ForgetPassword: React.FC = () => {
                 onSubmit={handleSubmit}
               >
                 <Form className="w-full max-w-sm md:max-w-md">
-                  <div className="mb-4">
+                  <div className="mb-4 md:w-full">
                     <FormikControl
                       label="Username"
                       name="username"
@@ -140,7 +139,6 @@ const ForgetPassword: React.FC = () => {
               </p>
             </>
           )}
-        </div>
         <div className="px-0 md:w-full">{DisplayScreens()}</div>
       </div>
     </div>

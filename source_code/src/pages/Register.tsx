@@ -219,7 +219,7 @@ const Register: React.FC = () => {
               console.log("values", values);
               return (
                 <Form className="w-full max-w-md">
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col">
                       <FormikControl
                         label=" First Name"
                         name="firstName"

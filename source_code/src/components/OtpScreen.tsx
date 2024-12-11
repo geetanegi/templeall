@@ -156,7 +156,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
           </span>
         </div>
         <div className="w-full py-1">
-          <p className="text-[14px] font-normal text-white">
+          <p className="text-[14px] pl-4 font-normal text-white">
             Enter OTP <span className="text-[#FFDE59]">*</span>
           </p>
         </div>

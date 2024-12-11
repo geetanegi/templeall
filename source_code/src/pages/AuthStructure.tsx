@@ -117,7 +117,7 @@ const AuthStructure: React.FC = () => {
               </div>
            
 
-            <div className="flex mt-[50px]  items-center  justify-center gap-2">
+            <div className="flex mt-[50px]  items-center  mb-10 md:mb-0 justify-center gap-2">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}

@@ -124,7 +124,7 @@ const Login: React.FC = () => {
         >
           <Form className="w-full max-w-sm md:max-w-md">
             <FocusError />
-            <div className="mb-4">
+            <div className="mb-4 md:w-full">
               <FormikControl
                 label="Username"
                 name="username"

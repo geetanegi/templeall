@@ -35,34 +35,35 @@ const AuthStructure: React.FC = () => {
     <PageLoader isActive={loader}>
       <div className="bg-backgroundDark">
         <div
-          className={`align-center flex h-screen w-full flex-col bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
+          className={`align-center flex h-screen w-full flex-col bg-backgroundDark overflow-y-auto ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
         >
           {/* <AceCamUI /> */}
           <div
             className={`align-center flex h-screen w-full flex-col overflow-y-auto bg-backgroundDark`}
           >
-            <img src={aceCampLogo} alt="" className="mx-auto w-[220px]" />
+            <div className="my-auto">
+            <img src={aceCampLogo} alt="" className="mx-auto mb-[20px] w-[220px]" />
             {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto my-auto mb-10 flex w-full flex-col items-center justify-center px-[12px] md:w-[280px]">
+              <div className="mx-auto  mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
                 {location.pathname === ROUTES.LOGIN && <Login />}
               </div>
             )}
             {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto my-auto mb-10 flex w-full flex-col items-center justify-center px-[12px] md:w-[280px]">
+              <div className="mx-auto  mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
                 {location.pathname === ROUTES.FORGET_PASSWORD && (
                   <ForgetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto my-auto mb-10 flex w-full flex-col items-center justify-center px-[12px] md:w-[280px]">
+              <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
                 {location.pathname === ROUTES.RESET_PASSWORD && (
                   <ResetPassword />
                 )}
               </div>
             )}
             {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto mb-10 flex h-max-content w-full flex-col items-center justify-center px-5 md:w-[280px]">
+              <div className="mx-auto my-auto mb-10 flex h-max-content w-[80%] flex-col items-center justify-center px-5 md:w-[280px]">
                 {location.pathname === ROUTES.SIGNUP && (
                   // <StripeIntegration>
                   <Register />
@@ -72,7 +73,7 @@ const AuthStructure: React.FC = () => {
             )}
 
             {location.pathname === ROUTES.USER_REGISTRATION && (
-              <div className="mx-auto my-auto mb-10 flex w-full flex-col items-center justify-center px-[12px] md:w-[280px]">
+              <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
                 {location.pathname === ROUTES.USER_REGISTRATION && (
                   // <StripeIntegration>
                   <SocialLoginScreen />
@@ -80,9 +81,9 @@ const AuthStructure: React.FC = () => {
                 )}
               </div>
             )}
-            {location.pathname === ROUTES.LOGIN ||
-            location.pathname === ROUTES.SIGNUP ? (
-              <div className="mx-auto mb-5 mt-auto  flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
+      
+              <div className={`mx-auto  flex w-full max-w-sm flex-col justify-center gap-1 text-[18px] md:max-w-md ${location.pathname === ROUTES.LOGIN ||
+            location.pathname === ROUTES.SIGNUP ? 'visible mb-5' : "invisible mb-[-40px]"}`}>
                 {location.pathname === ROUTES.SIGNUP ? (
                   <p
                     className={`text-center text-primaryText`}
@@ -114,9 +115,9 @@ const AuthStructure: React.FC = () => {
                   <GoogleLoginComponent />
                 </div>
               </div>
-            ) : null}
+           
 
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex mt-[50px]  items-center  justify-center gap-2">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
@@ -152,6 +153,10 @@ const AuthStructure: React.FC = () => {
                 </p>
               </div>
             </div>
+            </div>
+
+
+
           </div>
         </div>
       </div>

@@ -82,7 +82,7 @@ const AppleSignInButton: React.FC = () => {
           <img
             src={AppleIcon}
             alt="Sign in with Apple"
-            className="h-[36px]"
+            className="h-[34px]"
           />
         </button>
       )}

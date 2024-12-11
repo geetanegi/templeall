@@ -11,7 +11,6 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { loginWithoutRemember } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
-// import aceCampLogo1 from "../../assets/images/logo (1).png";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
 import { setLoading } from "../../reducers/loader/loader";
@@ -93,7 +92,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
     if (showOtpScreen === true) {
       return (
         <div
-          className={`"p-5 px-2" flex w-full flex-col items-center rounded-xl pb-10 md:mt-10 md:w-full`}
+          className={`"p-5 px-2" flex w-full flex-col items-center rounded-xl pb-10 mb-[-110px] md:w-full`}
         >
           {/* <img src={aceCampLogo1} alt="" className="-mt-24 h-32 w-32" /> */}
           <h1 className={`py-5 text-xl font-semibold text-primaryText`}>
@@ -154,7 +153,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
       {showOtpScreen ? (
         <div>{DisplayScreens()}</div>
       ) : (
-        <div className="bg-back-600 flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
+        <div className="bg-back-600 mb-[-110px] flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
           {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
           <div>
             <Formik
@@ -173,8 +172,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <div className="flex w-1/2 flex-col">
+                <div className="flex flex-col">
+                  <div className="w-full">
                     <FormikControl
                       label=" First Name"
                       name="firstName"
@@ -186,7 +185,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       authFlow={true}
                     />
                   </div>
-                  <div className="flex w-1/2 flex-col">
+                  <div className="w-full">
                     <FormikControl
                       label=" Last Name"
                       name="lastName"

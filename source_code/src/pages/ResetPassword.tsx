@@ -88,7 +88,7 @@ const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full mt-6 mb-[-50px] flex-col items-center rounded-lg">
+    <div className="flex w-full mb-[-50px] flex-col items-center rounded-lg">
       {/* // sm:max-h-56 for mobile but not */}
       {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 

@@ -4,6 +4,7 @@ import { ToastInfo } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 interface AdminSidePanelProps {
   selectedUserTab: number;
@@ -31,8 +32,13 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
     const [usersCounts, setUsersCounts] = useState<Array<any>>([]);
     const [updatedCount, setUpdatedCount] = useState<number>(0)
     const [isSearch, setIsSearch] = useState<boolean>(false)
-    const userPermisions = useSelector(
-      (state: RootState) => state.auth.userPermissions,
+    const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+    const userPermisions = userPermissionAvailable && JSON.parse(
+      decryptData(
+        userPermissionAvailable,
+        secretKey,
+      ),
     );
     const userInfo = useSelector((state: RootState) => state.auth.userInfo);
     console.log(setUpdatedCount, setIsSearch)
@@ -47,7 +53,7 @@ const AdminSidePanel = forwardRef<AdminSidePanelHandle, AdminSidePanelProps>(
     const getUserCount = async () => {
       let url = API_URL.getAllCount;
       let payload: Record<string, unknown> = {};
-      if (isCourseAdmin && userPermisions.data?.permission?.["is_course_admin"]) {
+      if (isCourseAdmin && userPermisions?.permission?.["is_course_admin"]) {
         url = API_URL.getCourseAdminByClubId;
         payload = {
           loginUserId:

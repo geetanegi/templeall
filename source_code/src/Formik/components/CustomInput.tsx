@@ -1,7 +1,7 @@
-// Input.tsx
-import React from "react";
+import React, { useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import TextField from "@mui/material/TextField";
+import { Eye, EyeOff } from "lucide-react";
 
 interface InputProps {
   label: string;
@@ -24,6 +24,13 @@ const Input: React.FC<InputProps> = ({
   validateRegex,
   onFocus = () => {},
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Function to toggle password visibility
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   // Function to validate input and block special characters and spaces
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const char = String.fromCharCode(event.which);
@@ -37,20 +44,13 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={`mb-4 ${className}`}>
-      <Field
-        name={name}
-        onFocus={() => {
-          onFocus();
-        }}
-      >
+      <Field name={name} onFocus={onFocus}>
         {({ field, form }: { field: any; form: any }) => {
           return (
             <TextField
               {...field}
-              type={type}
-              onFocus={() => {
-                onFocus();
-              }}
+              type={type === "password" && !showPassword ? "password" : "text"} // Toggle between password and text
+              onFocus={onFocus}
               label={
                 <span
                   style={{
@@ -83,18 +83,17 @@ const Input: React.FC<InputProps> = ({
                   fontSize: "14px",
                   height: "40px",
                   color: "#ffffff",
-
                   "& fieldset": {
                     borderColor: "#ffffff",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#ffffff", 
+                    borderColor: "#ffffff",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#ffffff", 
+                    borderColor: "#ffffff",
                   },
                   "&.Mui-error fieldset": {
-                    borderColor: "#FFDE59", 
+                    borderColor: "#FFDE59",
                   },
                 },
                 "& .MuiInputBase-input": {
@@ -111,18 +110,31 @@ const Input: React.FC<InputProps> = ({
                   color: () =>
                     Boolean(form.errors[name] && form.touched[name])
                       ? "#FFDE59"
-                      : "rgba(255, 255, 255, 0.7)", 
-                  fontSize: "12px", 
-                  marginTop: "4px", 
+                      : "rgba(255, 255, 255, 0.7)",
+                  fontSize: "12px",
+                  marginTop: "4px",
                 },
-
                 "& .MuiInputLabel-root": {
                   color: "rgba(255, 255, 255, 0.7)",
-                  transform: "translate(14px, 6px) scale(1)", 
+                  transform: "translate(14px, 6px) scale(1)",
                 },
                 "& .MuiInputLabel-shrink": {
                   transform: "translate(14px, -6px) scale(0.75)",
                 },
+              }}
+              InputProps={{
+                endAdornment: type === "password" && (
+                  <span
+                    onClick={handleClickShowPassword}
+                    style={{
+                      cursor: "pointer",
+                      padding: "10px",
+                      color: "#fff",
+                    }}
+                  >
+                    {showPassword ? <EyeOff color="rgb(238 235 235)" /> : <Eye color="rgb(238 235 235)" />}
+                  </span>
+                ),
               }}
             />
           );

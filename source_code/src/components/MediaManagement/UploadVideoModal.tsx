@@ -89,8 +89,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
         setCheckVideo(true);
       }
     } catch (error) {
-
-    }finally{
+    } finally {
       if (fileInputRef?.current) {
         fileInputRef.current.value = "";
       }
@@ -101,18 +100,19 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
     const videoURL = URL.createObjectURL(file);
     const video = document.createElement("video");
     video.src = videoURL;
-  
+
     video.addEventListener("loadeddata", () => {
       if (video.readyState >= 2) {
         video.currentTime = 2; // Set the time to capture the thumbnail (in seconds)
         setVideoDuration(formatDuration(video.duration)); // Format and store duration
       }
     });
-  
+
     video.addEventListener("seeked", () => {
       const canvas = document.createElement("canvas");
-      canvas.width = 160; // Set the desired width for the thumbnail
-      canvas.height = 90; // Set the desired height for the thumbnail
+      const aspectRatio = video.videoWidth / video.videoHeight;
+      canvas.width = video.videoWidth + 15;
+      canvas.height = video.videoWidth / aspectRatio;
       const context = canvas.getContext("2d");
       if (context) {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -120,7 +120,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
         setThumbnail(dataURL); // Set the generated thumbnail URL
       }
     });
-  
+
     video.load();
   };
 
@@ -170,7 +170,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                 videoDescription: values.description,
                 videoTitle: values.title,
                 requestId: selectedReqVideoId,
-                videoLength:videoDuration,
+                videoLength: videoDuration,
                 uploadedBy:
                   typeof userInfo === "object" ? userInfo?.userId : undefined,
               },
@@ -228,10 +228,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
       }
     } catch (error) {
       ToastInfo("Video Upload Failed");
-      handleReqVideoInprogressList(
-        { id: selectedReqVideoId },
-        "remove",
-      );
+      handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
     } finally {
       setIsModalOpen(false);
       dispatch(setLoading(false));

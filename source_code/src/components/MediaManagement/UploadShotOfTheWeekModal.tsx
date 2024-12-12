@@ -209,15 +209,18 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
   
     video.addEventListener("loadeddata", () => {
       if (video.readyState >= 2) {
-        video.currentTime = 2; // Set the time to capture the thumbnail (in seconds)
-        setVideoDuration(formatDuration(video.duration)); // Format and store duration
+        video.currentTime = 2; 
+        setVideoDuration(formatDuration(video.duration)); 
       }
     });
   
     video.addEventListener("seeked", () => {
       const canvas = document.createElement("canvas");
-      canvas.width = 160; // Set the desired width for the thumbnail
-      canvas.height = 90; // Set the desired height for the thumbnail
+      const aspectRatio = video.videoWidth / video.videoHeight;
+      canvas.width = video.videoWidth + 15 ; 
+      canvas.height = video.videoWidth/ aspectRatio;
+      // canvas.width = 160; 
+      // canvas.height = 90;
       const context = canvas.getContext("2d");
       if (context) {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -555,12 +558,12 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
                         />
                       </div>
                       <div className="flex gap-5 px-5">
-                        <div className="h-[92px] w-[120px] rounded-md border border-gray-400">
+                        <div className="text-center h-[92px] w-[120px] overflow-hidden rounded-md border border-gray-400">
                           {thumbnail ? (
                             <img
                               src={thumbnail}
                               alt=""
-                              className="h-[92px] w-[120px] rounded-md"
+                              className="h-full mx-auto"
                             />
                           ) : null}
                         </div>

@@ -338,10 +338,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const computeVideoThumbnail = () => {
     if (isApproved) {
       return (
-        <div className="h-full w-full rounded-t-lg bg-gray-100 object-cover">
+        <div className={`h-full w-full rounded-t-lg  overflow-hideen object-cover ${requestVideoPayload?.videos?.thumbnailUrl ? " bg-black" : " bg-gray-100"}`}>
           {requestVideoPayload?.videos?.thumbnailUrl && (
             <img
-              className="h-full w-full rounded-t-lg object-cover"
+              className="h-full object-cover mx-auto"
               src={requestVideoPayload?.videos?.thumbnailUrl || videoNotAvailable}
               alt=""
             />

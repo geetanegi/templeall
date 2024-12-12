@@ -132,7 +132,7 @@ const Input: React.FC<InputProps> = ({
                       color: "#fff",
                     }}
                   >
-                    {showPassword ? <EyeOff color="rgb(238 235 235)" /> : <Eye color="rgb(238 235 235)" />}
+                    {showPassword ? <Eye color="rgb(238 235 235)" /> : <EyeOff color="rgb(238 235 235)" />}
                   </span>
                 ),
               }}

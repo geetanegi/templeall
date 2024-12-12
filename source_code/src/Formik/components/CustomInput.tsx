@@ -57,7 +57,7 @@ const Input: React.FC<InputProps> = ({
                     display: "flex",
                     alignItems: "center",
                     color: "rgb(238 235 235)",
-                    fontWeight: "normal"
+                    fontWeight: "normal",
                   }}
                 >
                   {label}
@@ -81,20 +81,20 @@ const Input: React.FC<InputProps> = ({
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "15px",
                   fontSize: "14px",
-                  height: "36px",
+                  height: "40px",
                   color: "#ffffff",
 
                   "& fieldset": {
-                    borderColor: "#ffffff", // Default border color
+                    borderColor: "#ffffff",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#ffffff", // Border color on hover
+                    borderColor: "#ffffff", 
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#ffffff", // Border color when focused
+                    borderColor: "#ffffff", 
                   },
                   "&.Mui-error fieldset": {
-                    borderColor: "#FFDE59", // Border color when there's an error
+                    borderColor: "#FFDE59", 
                   },
                 },
                 "& .MuiInputBase-input": {
@@ -107,15 +107,21 @@ const Input: React.FC<InputProps> = ({
                     transition: "background-color 5000s ease-in-out 0s",
                   },
                 },
+                "& .MuiFormHelperText-root": {
+                  color: () =>
+                    Boolean(form.errors[name] && form.touched[name])
+                      ? "#FFDE59"
+                      : "rgba(255, 255, 255, 0.7)", 
+                  fontSize: "12px", 
+                  marginTop: "4px", 
+                },
+
                 "& .MuiInputLabel-root": {
-                  color: "rgba(255, 255, 255, 0.7)", // Placeholder color changes on error
-                  transform: "translate(14px, 6px) scale(1)", // Adjust initial position for label
+                  color: "rgba(255, 255, 255, 0.7)",
+                  transform: "translate(14px, 6px) scale(1)", 
                 },
                 "& .MuiInputLabel-shrink": {
-                  transform: "translate(14px, -6px) scale(0.75)", // Position when placeholder shrinks
-                },
-                "& .MuiFormHelperText-root": {
-                  color: "#FFDE59", // Error message color
+                  transform: "translate(14px, -6px) scale(0.75)",
                 },
               }}
             />

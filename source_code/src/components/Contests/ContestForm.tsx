@@ -180,7 +180,6 @@ const ContestForm: React.FC<ContestProps> = ({
         </div>
         <div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-2 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-            <div>
               <CustomDatePicker
                 name="startDate"
                 label="Start Date"
@@ -189,8 +188,6 @@ const ContestForm: React.FC<ContestProps> = ({
                 maxDate={values.endDate}
                 minDate={today.format("YYYY-MM-DD")}
               />
-            </div>
-            <div>
               <CustomDatePicker
                 name="endDate"
                 label="End Date"
@@ -198,7 +195,6 @@ const ContestForm: React.FC<ContestProps> = ({
                 disabled={isSuperAdmin}
                 minDate={values.startDate || today.format("YYYY-MM-DD")}
               />
-            </div>
           </div>
         </div>
       </div>

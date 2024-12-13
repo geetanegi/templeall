@@ -1,24 +1,25 @@
 import React from "react";
-import { Field, ErrorMessage } from "formik";
+import { Field, ErrorMessage, FieldProps } from "formik";
+import TextField from "@mui/material/TextField";
 
-interface NumberInputProps {
+interface InputProps {
   label: string;
   name: string;
+  type?: string;
   className?: string;
   required?: boolean;
-  authFlow?: boolean;
   maxLength?: number;
-  placeholder?: string;
+  disabled?: boolean;
 }
 
-const NumberInput: React.FC<NumberInputProps> = ({
+const MUINumber: React.FC<InputProps> = ({
   label,
   name,
+  type = "text",
   className = "",
   required = false,
-  authFlow = false,
   maxLength,
-  placeholder,
+  disabled = false,
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const allowedKeys = [
@@ -28,10 +29,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
       "Delete",
       "Tab",
     ];
-    if (
-      !allowedKeys.includes(event.key) && // Allow backspace, delete, arrows, and tab
-      !/^[0-9]$/.test(event.key) // Only allow number keys
-    ) {
+    if (!allowedKeys.includes(event.key) && !/^[0-9]$/.test(event.key)) {
       event.preventDefault();
     }
   };
@@ -39,62 +37,106 @@ const NumberInput: React.FC<NumberInputProps> = ({
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     const pasteData = event.clipboardData.getData("text");
     if (!/^\d+$/.test(pasteData)) {
-      // Allow only numeric paste data
       event.preventDefault();
     }
   };
 
-
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    form: FieldProps["form"],
+  ) => {
+    const { value } = event.target;
+    if (/^\d*$/.test(value)) {
+      form.setFieldValue(name, value);
+    }
+  };
 
   return (
-    <div className={`mb-[20px] ${className}`}>
-      <label htmlFor={name} className="mb-1 block text-sm font-thin text-white">
-        {label}
-        {required && (
-          <span className={authFlow ? "text-[#FFDE59]" : "text-red-500"}>
-            {" "}
-            *
-          </span>
-        )}
-      </label>
+    <div className={`${className}`}>
       <Field name={name}>
-        {({ field, form }: { field: any; form: any }) => (
-          <div>
-            <input
-              {...field}
-              id={name}
-              type="text"
-              maxLength={maxLength}
-              onKeyDown={handleKeyDown}
-              onPaste={handlePaste}
-              className={`w-full border bg-transparent  px-4 py-[5px] text-white ${
-                form.errors[name] && form.touched[name]
-                  ? authFlow
-                    ? "border-[#FFDE59]" 
-                    : "border-red-500"
-                  : "border-white"
-                
-              } ${authFlow ? "rounded-full" : "rounded-[12px]"} focus:outline-none ${
-                form.errors[name] && form.touched[name]
-                  ? authFlow
-                    ? "focus:border-[#FFDE59] focus:ring-0 rounded-full"
-                    : "focus:border-red-500 focus:ring-0"
-                  : "focus:border-white focus:ring-0"
-              } `}
-              placeholder={placeholder}
-            />
-            <ErrorMessage
-              name={name}
-              component="div"
-              className={`text-[11px] ${
-                authFlow ? "text-[#FFDE59]" : "text-red-500"
-              }`}
-            />
-          </div>
+        {({ field, form }: FieldProps) => (
+          <TextField
+            {...field}
+            type={type}
+            label={
+              <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "rgb(238 235 235)",  
+                fontWeight: "normal",
+              }}
+            >
+              {label}
+              {required && (
+                <span
+                  className="mr-2 text-loginValidationColor"
+                  style={{ marginLeft: "0.25rem" }}
+                >
+                  *
+                </span>
+              )}
+            </span>
+            }
+            disabled={disabled}
+            className="w-full"
+            helperText={<ErrorMessage name={name} component="span" />}
+            error={Boolean(form.errors[name] && form.touched[name])}
+            onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, form)
+            }
+            inputProps={{ maxLength }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "15px",
+                fontSize: "14px",
+                height: "40px",
+                color: "#ffffff",
+                "& fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&.Mui-error fieldset": {
+                  borderColor: "#FFFF00",
+                },
+              },
+              "& .MuiInputBase-input": {
+                padding: "8px 14px",
+                fontSize: "14px",
+                height: "100%",
+                "&:-webkit-autofill": {
+                  WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                  WebkitTextFillColor: "#fff",
+                  transition: "background-color 5000s ease-in-out 0s",
+                },
+              },
+              "& .MuiFormHelperText-root": {
+                color: () =>
+                  Boolean(form.errors[name] && form.touched[name])
+                    ? "#FFFF00"
+                    : "rgba(255, 255, 255, 0.7)",
+                fontSize: "12px",
+              },
+              "& .MuiInputLabel-root": {
+                color: "#ffffff",
+                transform: "translate(14px, 8px) scale(1)",
+              },
+              "& .MuiInputLabel-shrink": {
+                transform: "translate(14px, -9px) scale(0.9)",
+              },
+            }}
+          />
         )}
       </Field>
     </div>
   );
 };
 
-export default NumberInput;
+export default MUINumber;

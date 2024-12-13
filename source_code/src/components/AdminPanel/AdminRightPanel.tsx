@@ -21,6 +21,7 @@ import { API_URL } from "../../services/enums";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import { debounceFunc } from "../../utils/debounce-utils";
+import { decryptData, secretKey } from "../../utils/encrypt";
 
 interface AdminRightPanelProps {
   selectedUserTab: number;
@@ -60,8 +61,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     ref: ForwardedRef<AdminRightPanelHandle>,
   ) => {
     const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-    const userPermisions = useSelector(
-      (state: RootState) => state.auth.userPermissions,
+    const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+    const userPermisions = userPermissionAvailable && JSON.parse(
+      decryptData(
+        userPermissionAvailable,
+        secretKey,
+      ),
     );
     const [tableHeaders, setTableHeaders] = useState<any>([]);
     const [rowData, setRowData] = useState<Array<any>>([]);
@@ -184,7 +190,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           } else if (selectedUserTab === 2) {
             if (
               isCourseAdmin &&
-              userPermisions.data?.permission?.["is_course_admin"]
+              userPermisions?.permission?.["is_course_admin"]
             ) {
               listingEndPoint = API_URL.getClubCourseAdmin;
               payload = {

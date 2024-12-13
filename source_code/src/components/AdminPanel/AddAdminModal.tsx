@@ -212,7 +212,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                       } `}
                   />
                   <span
-                    className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.firstName ? "hidden" : ""}`}
+                    className={`pointer-events-none absolute left-[42%] top-3 text-red-500 ${values.firstName ? "hidden" : ""}`}
                   >
                     *
                   </span>
@@ -245,7 +245,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                       } `}
                   />
                   <span
-                    className={`pointer-events-none absolute left-[45%] top-3 text-red-500 ${values.lastName ? "hidden" : ""}`}
+                    className={`pointer-events-none absolute left-[42%] top-3 text-red-500 ${values.lastName ? "hidden" : ""}`}
                   >
                     *
                   </span>
@@ -273,7 +273,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                 className="mx-5 w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
               />
               <span
-                className={`pointer-events-none absolute left-[22%] top-3 text-red-500 ${values.username ? "hidden" : ""}`}
+                className={`pointer-events-none absolute left-[23%] top-3 text-red-500 ${values.username ? "hidden" : ""}`}
               >
                 *
               </span>
@@ -298,7 +298,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                 className="mx-5 w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
               />
               <span
-                className={`pointer-events-none absolute left-[21%] top-3 text-red-500 ${values.password ? "hidden" : ""}`}
+                className={`pointer-events-none absolute left-[22%] top-3 text-red-500 ${values.password ? "hidden" : ""}`}
               >
                 *
               </span>
@@ -345,10 +345,10 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                 value={values.countryCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[80px]"
+                className="w-full rounded-lg border border-gray-200 bg-gray-100 overflow-hidden text-elipsis px-2 py-3 text-gray-500 md:w-[80px]"
               />
               <span
-                className={`pointer-events-none absolute left-[5%] top-3 text-red-500 ${values.countryCode ? "hidden" : ""}`}
+                className={`pointer-events-none absolute left-[16%] top-3 text-red-500 ${values.countryCode ? "hidden" : ""}`}
               >
                 *
               </span>
@@ -365,7 +365,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                   className="w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[340px]"
                 />
                 <span
-                  className={`pointer-events-none absolute left-[18%] top-3 text-red-500 ${values.mobile ? "hidden" : ""}`}
+                  className={`pointer-events-none absolute left-[17%] top-3 text-red-500 ${values.mobile ? "hidden" : ""}`}
                 >
                   *
                 </span>

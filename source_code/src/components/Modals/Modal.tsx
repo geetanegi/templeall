@@ -19,7 +19,7 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-[1000000000] rounded-lg flex items-center justify-center overflow-auto bg-black bg-opacity-50">
       <div className="relative w-full max-w-lg rounded-lg bg-white shadow-lg">
         <div className="p-4">
           <div className="flex items-center justify-between">
@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({
           </div>
           <div className="">{children}</div>
         </div>
-        <div>{footer}</div>
+        <div className="rounded-lg" style={{height: "max-content"}}>{footer}</div>
       </div>
     </div>
   );

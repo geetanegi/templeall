@@ -230,7 +230,6 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
       ToastInfo("Video Upload Failed");
       handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
     } finally {
-      setIsModalOpen(false);
       dispatch(setLoading(false));
     }
   };
@@ -270,15 +269,11 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                       >
                         Video Category :
                       </span>
-                      <span className="font-semibold text-[#000000]">
+                      <span className={`font-semibold text-[#000000] ${videoCategory === "WINNER_VIDEO" ? "hidden" : "visible"}`}>
                         {" "}
-                        {videoCategory === "TOP_SHOT"
-                          ? "Top Shot"
-                          : videoCategory === "NOT_TOP_SHOT"
-                            ? "Not Top Shot"
-                            : ""}
+                        {videoCategory}
                       </span>
-                    </div>
+                    </div>  
                     <div className="flex px-5">
                       <FormikControl
                         label="Video Title"

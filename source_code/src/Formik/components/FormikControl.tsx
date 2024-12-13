@@ -9,19 +9,21 @@ import Textarea from "./Textarea";
 import NumberInput from "./NumberInput";
 import MUIInput from "./MUIInput";
 import SearchInput from "./SearchInput";
+import CustomInput from "./CustomInput";
 
 interface FormikControlProps {
   control:
-  | "input"
-  | "textarea"
-  | "select"
-  | "radio"
-  | "checkbox"
-  | "customCheckbox"
-  | "number"
-  | "date"
-  | "customInput"
-  | "searchInput";
+    | "input"
+    | "textarea"
+    | "select"
+    | "radio"
+    | "checkbox"
+    | "customCheckbox"
+    | "number"
+    | "date"
+    | "customInput"
+    | "searchInput"
+    | "logIn";
 
   [key: string]: any;
 }
@@ -102,7 +104,7 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
       return <DatePicker label={rest.label} name={rest.name} {...rest} />;
     case "number":
       return (
-        <div className="w-full h-[76px]">
+        <div className="h-[76px] w-full">
           <NumberInput
             label={rest.label}
             placeholder={rest.placeholder}
@@ -119,6 +121,16 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
           value={rest.value}
           options={rest.options}
           name={rest.name}
+          {...rest}
+        />
+      );
+    case "logIn":
+      return (
+        <CustomInput
+          label={rest.label}
+          name={rest.name}
+          maxLength={rest.maxLength}
+          validateRegex={rest.validateRegex}
           {...rest}
         />
       );

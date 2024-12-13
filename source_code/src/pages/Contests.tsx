@@ -347,12 +347,16 @@ const Contests: React.FC = () => {
     note: editData?.note,
   };
 
-  const userPermisions = JSON.parse(
+  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
+ 
+  const userPermisions = userPermissionAvailable && JSON.parse(
     decryptData(
-      useSelector((state: RootState) => state.auth.userPermissions),
+      userPermissionAvailable,
       secretKey,
     ),
   );
+
+  
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const isSuperAdmin = !userPermisions?.permission?.["is_super_admin"];

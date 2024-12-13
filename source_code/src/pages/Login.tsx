@@ -124,11 +124,11 @@ const Login: React.FC = () => {
         >
           <Form className="w-full max-w-sm md:max-w-md">
             <FocusError />
-            <div className="mb-4">
+            <div className="mb-[20px] md:w-full">
               <FormikControl
                 label="Username"
                 name="username"
-                control="input"
+                control="logIn"
                 className="w-full"
                 placeholder="userName"
                 type="text"
@@ -142,7 +142,7 @@ const Login: React.FC = () => {
               <FormikControl
                 label="Password"
                 name="password"
-                control="input"
+                control="logIn"
                 className="w-full"
                 placeholder="Password"
                 type="password"

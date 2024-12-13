@@ -35,63 +35,71 @@ const AuthStructure: React.FC = () => {
     <PageLoader isActive={loader}>
       <div className="bg-backgroundDark">
         <div
-          className={`align-center flex h-screen w-full flex-col bg-backgroundDark overflow-y-auto ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
+          className={`align-center flex h-screen w-full flex-col overflow-y-auto bg-backgroundDark ${location.pathname === ROUTES.SIGNUP ? "" : "justify-center"} overflow-y-auto`}
         >
           {/* <AceCamUI /> */}
           <div
             className={`align-center flex h-screen w-full flex-col overflow-y-auto bg-backgroundDark`}
           >
             <div className="my-auto">
-            <img src={aceCampLogo} alt="" className="mx-auto mb-[20px] w-[220px]" />
-            {location.pathname === ROUTES.LOGIN && (
-              <div className="mx-auto  mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
-                {location.pathname === ROUTES.LOGIN && <Login />}
-              </div>
-            )}
-            {location.pathname === ROUTES.FORGET_PASSWORD && (
-              <div className="mx-auto  mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
-                {location.pathname === ROUTES.FORGET_PASSWORD && (
-                  <ForgetPassword />
-                )}
-              </div>
-            )}
-            {location.pathname === ROUTES.RESET_PASSWORD && (
-              <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
-                {location.pathname === ROUTES.RESET_PASSWORD && (
-                  <ResetPassword />
-                )}
-              </div>
-            )}
-            {location.pathname === ROUTES.SIGNUP && (
-              <div className="mx-auto my-auto mb-10 flex h-max-content w-[80%] flex-col items-center justify-center px-5 md:w-[280px]">
-                {location.pathname === ROUTES.SIGNUP && (
-                  // <StripeIntegration>
-                  <Register />
-                  // </StripeIntegration>
-                )}
-              </div>
-            )}
+              <img
+                src={aceCampLogo}
+                alt=""
+                className="mx-auto mb-[20px] w-[220px]"
+              />
+              {location.pathname === ROUTES.LOGIN && (
+                <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
+                  {location.pathname === ROUTES.LOGIN && <Login />}
+                </div>
+              )}
+              {location.pathname === ROUTES.FORGET_PASSWORD && (
+                <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
+                  {location.pathname === ROUTES.FORGET_PASSWORD && (
+                    <ForgetPassword />
+                  )}
+                </div>
+              )}
+              {location.pathname === ROUTES.RESET_PASSWORD && (
+                <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
+                  {location.pathname === ROUTES.RESET_PASSWORD && (
+                    <ResetPassword />
+                  )}
+                </div>
+              )}
+              {location.pathname === ROUTES.SIGNUP && (
+                <div className="mx-auto my-auto mb-10 flex h-max-content w-[80%] flex-col items-center justify-center px-5 md:w-[280px]">
+                  {location.pathname === ROUTES.SIGNUP && (
+                    // <StripeIntegration>
+                    <Register />
+                    // </StripeIntegration>
+                  )}
+                </div>
+              )}
 
-            {location.pathname === ROUTES.USER_REGISTRATION && (
-              <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
-                {location.pathname === ROUTES.USER_REGISTRATION && (
-                  // <StripeIntegration>
-                  <SocialLoginScreen />
-                  // </StripeIntegration>
-                )}
-              </div>
-            )}
-      
-              <div className={`mx-auto  flex w-full max-w-sm flex-col justify-center gap-1 text-[18px] md:max-w-md ${location.pathname === ROUTES.LOGIN ||
-            location.pathname === ROUTES.SIGNUP ? 'visible mb-5' : "invisible mb-[-40px]"}`}>
+              {location.pathname === ROUTES.USER_REGISTRATION && (
+                <div className="mx-auto mb-10 flex w-[80%] flex-col items-center justify-center px-[12px] md:w-[280px]">
+                  {location.pathname === ROUTES.USER_REGISTRATION && (
+                    // <StripeIntegration>
+                    <SocialLoginScreen />
+                    // </StripeIntegration>
+                  )}
+                </div>
+              )}
+
+              <div
+                className={`mx-auto flex w-full max-w-sm flex-col justify-center gap-1 text-[18px] md:max-w-md ${
+                  location.pathname === ROUTES.LOGIN ||
+                  location.pathname === ROUTES.SIGNUP
+                    ? "visible mb-5"
+                    : "invisible mb-[-40px]"
+                }`}
+              >
                 {location.pathname === ROUTES.SIGNUP ? (
-                  <p
-                    className={`text-center text-primaryText`}
-                  >
+                  <p className={`text-center text-[14px] text-primaryText`}>
                     Already have an account?{" "}
                     <Link
                       to={ROUTES.LOGIN}
-                      className={`text-sm text-link hover:underline`}
+                      className={`text-[14px] text-link hover:underline`}
                     >
                       Login
                     </Link>
@@ -110,18 +118,13 @@ const AuthStructure: React.FC = () => {
                 <p className="mt-[10px] text-center text-[14px] text-white">
                   - or sign in using -{" "}
                 </p>
-                <div className="mt-[10px] flex items-center justify-center gap-8">
+                <div className="mt-[10px] flex items-center justify-center gap-[36px]">
                   <AppleSignInButton />
                   <GoogleLoginComponent />
                 </div>
               </div>
-           
-
-
-
-
-          </div>
-            <div className="flex mt-auto  items-center   justify-center gap-2">
+            </div>
+            <div className="mt-auto flex items-center justify-center gap-2">
               <p
                 onClick={downloadTermsAndConditionsFunc}
                 className={`cursor-pointer whitespace-nowrap text-[13px] text-link hover:underline`}
@@ -147,7 +150,7 @@ const AuthStructure: React.FC = () => {
                 <a href="mailto:support@acecamgolf.com">Contact Us</a>
               </p>
             </div>
-            <div className="mb-2 flex items-center mb-10 md:mb-0 justify-center gap-2">
+            <div className="mb-10 mb-2 flex items-center justify-center gap-2 md:mb-0">
               <div className="right-1 top-[1px] flex">
                 <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
                   © 2024 AceCam
@@ -157,7 +160,7 @@ const AuthStructure: React.FC = () => {
                 </p>
               </div>
             </div>
-            </div>
+          </div>
         </div>
       </div>
     </PageLoader>

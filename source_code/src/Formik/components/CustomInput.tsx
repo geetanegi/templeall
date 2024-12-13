@@ -43,9 +43,14 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={`mb-4 ${className}`}>
+    <div className={`${className}`}>
       <Field name={name} onFocus={onFocus}>
         {({ field, form }: { field: any; form: any }) => {
+          const { value } = field;
+
+          if (name === "countryCode" && !value) {
+            form.setFieldValue(name, "+1");
+          }
           return (
             <TextField
               {...field}
@@ -63,7 +68,7 @@ const Input: React.FC<InputProps> = ({
                   {label}
                   {required && (
                     <span
-                      className="mr-2 text-yellowText"
+                      className="text-loginValidationColor mr-2"
                       style={{ marginLeft: "0.25rem" }}
                     >
                       *
@@ -77,6 +82,9 @@ const Input: React.FC<InputProps> = ({
               error={Boolean(form.errors[name] && form.touched[name])}
               inputProps={{ maxLength }}
               onKeyPress={handleKeyPress}
+              InputLabelProps={{
+                shrink: Boolean(field.value),
+              }}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "15px",
@@ -85,21 +93,26 @@ const Input: React.FC<InputProps> = ({
                   color: "#ffffff",
                   "& fieldset": {
                     borderColor: "#ffffff",
+                    color: "#ffffff",
                   },
                   "&:hover fieldset": {
                     borderColor: "#ffffff",
+                    color: "#ffffff",
                   },
                   "&.Mui-focused fieldset": {
                     borderColor: "#ffffff",
+                    color: "#ffffff",
                   },
                   "&.Mui-error fieldset": {
-                    borderColor: "#FFDE59",
+                    borderColor: "#FFFF00",
+                    color: "#ffffff",
                   },
                 },
                 "& .MuiInputBase-input": {
                   padding: "8px 14px",
                   fontSize: "14px",
                   height: "100%",
+                  color: "#ffffff",
                   "&:-webkit-autofill": {
                     WebkitBoxShadow: "0 0 0px 1000px transparent inset",
                     WebkitTextFillColor: "#fff",
@@ -109,17 +122,23 @@ const Input: React.FC<InputProps> = ({
                 "& .MuiFormHelperText-root": {
                   color: () =>
                     Boolean(form.errors[name] && form.touched[name])
-                      ? "#FFDE59"
+                      ? "#FFFF00"
                       : "rgba(255, 255, 255, 0.7)",
-                  fontSize: "12px",
+                  fontSize: "11px",
                   marginTop: "4px",
                 },
                 "& .MuiInputLabel-root": {
                   color: "rgba(255, 255, 255, 0.7)",
-                  transform: "translate(14px, 6px) scale(1)",
+                  transform: "translate(14px, 8px) scale(1)",
                 },
                 "& .MuiInputLabel-shrink": {
                   transform: "translate(14px, -6px) scale(0.75)",
+                },
+                "&:-webkit-autofill": {
+                  WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                  WebkitTextFillColor: "#ffffff",
+                  color: "#ffffff",
+                  transition: "background-color 5000s ease-in-out 0s", 
                 },
               }}
               InputProps={{
@@ -128,11 +147,15 @@ const Input: React.FC<InputProps> = ({
                     onClick={handleClickShowPassword}
                     style={{
                       cursor: "pointer",
-                      padding: "10px",
-                      color: "#fff",
+                      // padding: ,
+                      color: "rgb(238 235 235)",
                     }}
                   >
-                    {showPassword ? <Eye color="rgb(238 235 235)" /> : <EyeOff color="rgb(238 235 235)" />}
+                    {showPassword ? (
+                      <Eye color="rgb(238 235 235)" />
+                    ) : (
+                      <EyeOff color="rgb(238 235 235)" />
+                    )}
                   </span>
                 ),
               }}

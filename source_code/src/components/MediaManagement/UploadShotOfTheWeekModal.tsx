@@ -218,7 +218,9 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       const canvas = document.createElement("canvas");
       const aspectRatio = video.videoWidth / video.videoHeight;
       canvas.width = 185; 
-      canvas.height = 160/ aspectRatio;  
+      canvas.height = 160/ aspectRatio; 
+      // canvas.width = 160; 
+      // canvas.height = 90;
       const context = canvas.getContext("2d");
       if (context) {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);

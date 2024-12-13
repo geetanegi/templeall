@@ -113,7 +113,7 @@ const ForgetPassword: React.FC = () => {
                     <FormikControl
                       label="Username"
                       name="username"
-                      control="input"
+                      control="logIn"
                       className="w-full"
                       placeholder="Username"
                       type="text"

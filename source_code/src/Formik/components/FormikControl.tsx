@@ -104,10 +104,9 @@ const FormikControl: React.FC<FormikControlProps> = ({ control, ...rest }) => {
       return <DatePicker label={rest.label} name={rest.name} {...rest} />;
     case "number":
       return (
-        <div className="h-[76px] w-full">
+        <div className="">
           <NumberInput
             label={rest.label}
-            placeholder={rest.placeholder}
             name={rest.name}
             {...rest}
           />

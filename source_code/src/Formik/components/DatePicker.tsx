@@ -1,163 +1,129 @@
-import React, { useState, useEffect } from "react";
-import { Field, ErrorMessage, FieldProps } from "formik";
+import React from "react";
+import { Field, FieldProps } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import dayjs, { Dayjs } from "dayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import moment, { Moment } from "moment";
 
 interface DatePickerProps {
-  label: string;
+  label?: string;
   name: string;
   placeholder?: string;
-  maxDate?: Dayjs | string;
+  maxDate?: Moment | string;    
+  minDate?: Moment | string;
   required?: boolean;
-  authFlow?: boolean;
   [key: string]: any;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
+const CustomDatePicker: React.FC<DatePickerProps> = ({
   label,
   name,
-  placeholder,
   maxDate,
-  required = false,
-  authFlow,
+  minDate,
+  required,
   ...rest
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isIncomplete, setIsIncomplete] = useState(false);
-  const [error, setError] = useState<boolean | string | null>(false);
-
+  const minDateValue = typeof minDate === "string" ? moment(minDate) : minDate;
+  const maxDateValue = typeof maxDate === "string" ? moment(maxDate) : maxDate;
   return (
-    <div className="mb-[20px]">
+    <LocalizationProvider dateAdapter={AdapterMoment}>
       <Field name={name}>
-        {({ form, field }: FieldProps) => {
-          const { setFieldValue, setTouched, errors, touched } = form;
+        {({ form, field, meta }: FieldProps) => {
+          const { setFieldValue, setFieldTouched } = form;
           const { value } = field;
-          const hasError = Boolean(touched[name] && errors[name]);
-          const isDateTyped = Boolean(value);
-          const maxDateValue =
-            typeof maxDate === "string" ? dayjs(maxDate) : maxDate;
-
-          useEffect(() => {
-            if (value) {
-              const date = dayjs(value);
-              setIsIncomplete(!date.isValid());
-            } else {
-              setIsIncomplete(false);
-            }
-          }, [value]);
-
-          const labelMarginTop = () => {
-            if (isFocused || isDateTyped || hasError || isIncomplete) {
-              return "12px"; // Label should be up for focused, typed, error, or incomplete state
-            }
-            return "0"; // Default state
-          };
 
           return (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <div
-                style={{
-                  position: "relative",
-                  borderRadius: "12px",
-                  transition: "background-color 0.3s ease",
+            <div onClick={()=> setFieldTouched(name, true)}>
+              <DatePicker
+                label={
+                  <span style={{ fontSize: "14px" }}>
+                    {label}
+                    {required && (
+                      <span style={{ color: "#FFFF00", marginLeft: "0.25rem" }}>
+                        *
+                      </span>
+                    )}
+                  </span>
+                }
+                minDate={minDateValue}
+                maxDate={maxDateValue}
+                {...field}
+                {...rest}
+                value={value ? moment(value) : null}
+                onChange={(newValue: Moment | null) => {
+                  setFieldValue(
+                    name,
+                    newValue ? moment(newValue.toISOString()).format('YYYY-MM-DD') : null,
+                  );
                 }}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => {
-                  setIsFocused(false);
-                  setTouched({ ...touched, [name]: true }); // Mark field as touched on blur
+                
+                
+                slotProps={{
+                  actionBar: {
+                      actions: ["accept"],
+                    },
+                  textField: {
+                      error: Boolean(meta.error && meta.touched),
+                      helperText: meta.touched && meta.error,
+  
+                      sx: {
+                        "& .MuiOutlinedInput-root": { 
+                          borderRadius: "15px",
+                          fontSize: "14px",
+                          height: "40px",
+                          color: "#ffffff",
+                          "& fieldset": {
+                            borderColor: "#ffffff",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "#ffffff",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "#ffffff",
+                          },
+                          "&.Mui-error fieldset": {
+                            borderColor: "#FFFF00",
+                          },
+                        },
+                        "& .MuiSvgIcon-root": {
+                          color: "rgba(255, 255, 255, 0.7)"
+                        },
+                        "& .MuiInputBase-input": {
+                          padding: "8px 14px",
+                          fontSize: "14px",
+                          height: "100%",
+                          "&:-webkit-autofill": {
+                            WebkitBoxShadow: "0 0 0px 1000px transparent inset",
+                            WebkitTextFillColor: "#fff",
+                            transition: "background-color 5000s ease-in-out 0s",
+                          },
+                        },
+                        "& .MuiFormHelperText-root": {
+                          color: () =>
+                            Boolean(form.errors[name] && form.touched[name])
+                              ? "#FFFF00"
+                              : "rgba(255, 255, 255, 0.7)",
+                          fontSize: "11px",
+                          marginTop: "4px",
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "rgba(255, 255, 255, 0.7)",
+                          transform: "translate(14px, 6px) scale(1)",
+                        },
+                        "& .MuiInputLabel-shrink": {
+                          color: "rgba(255, 255, 255, 0.7)",
+                          transform: "translate(14px, -6px) scale(0.75)",
+                        },
+                      },
+                    },
                 }}
-              >
-                <label
-                  htmlFor={name}
-                  className="mb-1 block text-sm font-thin text-white"
-                >
-                  {label}
-                  {required && (
-                    <span
-                      className={authFlow ? "text-[#FFDE59]" : "text-red-500"}
-                    >
-                      {" "}
-                      *
-                    </span>
-                  )}
-                </label>
-                <DesktopDatePicker
-                  value={value ? dayjs(value) : null}
-                  onChange={(newValue: Dayjs | null) => {
-                    setFieldValue(
-                      name,
-                      newValue ? newValue?.format("MM/DD/YYYY") : null, // Store the formatted date
-                    );
-                    setIsIncomplete(
-                      newValue ? !dayjs(newValue).isValid() : false,
-                    );
-                  }}
-                  onError={(error) => {
-                    setError(error);
-                    if (error) {
-                      setIsIncomplete(true);
-                    } else {
-                      setIsIncomplete(false);
-                    }
-                  }}
-                  maxDate={maxDateValue}
-                  {...rest}
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      height: "40px !important",
-                      backgroundColor: "transparent",
-                      color: "white",
-                      borderRadius: authFlow ? "100px" : "12px",
-                      border: "1.5px solid", // Ensure border is visible
-                      borderColor: hasError ? "#ffde59 !important" : "white", // Cyan border on error, force it with !important
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: hasError ? "#ffde59" : "lightgray",
-                      },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: hasError ? "cyan" : "",
-                        borderWidth: "0",
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: hasError || isIncomplete ? "#ffde59" : "white",
-                      position: "absolute",
-                      pointerEvents: "none",
-                      marginTop: error ? "12px" : labelMarginTop(),
-                      "&.Mui-focused": {
-                        marginTop: "12px",
-                        color: hasError ? "cyan" : "white", // Change label color to cyan on error
-                      },
-                    },
-                    "& .MuiSvgIcon-fontSizeMedium": {
-                      color: "#ffffff",
-                    },
-                    "& .MuiFormHelperText-root": {
-                      color: "#ffde59",
-                      marginLeft: "5px",
-                    },
-                    "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input": {
-                      padding: "5px 16px",
-                      fontSize: "14px",
-                    },
-                    "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "cyan !important", // Force cyan border color on error
-                    },
-                  }}
-                />
-              </div>
-            </LocalizationProvider>
+              />
+            </div>
           );
         }}
       </Field>
-      <ErrorMessage
-        name={name}
-        component="div"
-        className={`text-[11px] ${authFlow ? "text-[#FFDE59]" : "text-red-500"}`}
-      />
-    </div>
+    </LocalizationProvider>
   );
 };
 
-export default DatePicker;
+export default CustomDatePicker;

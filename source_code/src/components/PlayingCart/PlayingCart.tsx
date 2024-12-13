@@ -40,7 +40,7 @@ const PlayingCart: React.FC = () => {
         <div className="rounded-lg bg-gray-100">
           <div className="mb-4 flex justify-between p-4">
             <span className="text-gray-700">Contest</span>
-            <span className="text-gray-700">Total Prize</span>
+            <span className="text-gray-700">Total Price</span>
             <span></span>
           </div>
         </div>

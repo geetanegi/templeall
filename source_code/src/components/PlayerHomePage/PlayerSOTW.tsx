@@ -50,7 +50,7 @@ const PlayerSOTW: React.FC<any> = ({ data }) => {
       })}
 
       {selectedVideo && (
-        <div className="fixed bottom-1 right-0 z-50">
+        <div className="fixed bottom-10 right-0 z-50">
           <VideoPlayer
             isVideoPlayerVisible={isVideoPlayerVisible}
             setIsVideoPlayerVisible={setIsVideoPlayerVisible}

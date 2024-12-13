@@ -177,11 +177,9 @@ const Nav: React.FC = () => {
       }
     };
 
-    // Add event listener to detect clicks outside the dropdown
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      // Clean up the event listener on component unmount
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);

@@ -237,8 +237,12 @@ const Checkout: React.FC = () => {
               </div>
               {selectedPaymentMethod === "credit_card" && <CheckoutCard />}
               <button
-                onClick={handleCheckoutCart}
-                className="relative mx-auto flex w-full items-center justify-center gap-1 rounded-md bg-primaryColor py-2 mt-12 text-white"
+                onClick={()=>{
+                  if(selectedContests){
+                    handleCheckoutCart()
+                  }
+                  }}
+                className={`relative mx-auto flex w-full items-center justify-center gap-1 rounded-md bg-primaryColor py-2 mt-12 text-white ${selectedContests ? "" : "opacity-50 cursor-not-allowed"}`}
               >
                 <span className="mx-2">Register</span>
               </button>

@@ -35,46 +35,61 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={`mb-[20px] ${className}`}>
-      <label htmlFor={name} className="mb-1 block text-sm font-thin text-white">
-        {label}
-        {required && (
-          <span className={authFlow ? "text-[#FFDE59]" : "text-red-500"}>
-            {" "}
-            *
-          </span>
-        )}
-      </label>
+    <div className={` ${className}`}>
+      {name !== "countryCode" ? (
+        <label
+          htmlFor={name}
+          className="mb-1 block text-sm font-thin text-white"
+        >
+          {label}
+          {required && (
+            <span className={authFlow ? "text-[#FFDE59]" : "text-red-500"}>
+              {" "}
+              *
+            </span>
+          )}
+        </label>
+      ) : null}
       <Field name={name}>
-        {({ field, form }: { field: any; form: any }) => (
-          <div>
-            <input
-              {...field}
-              id={name}
-              type={type}
-              maxLength={maxLength}
-              onKeyPress={handleKeyPress}
-              className={`w-full border bg-transparent px-4 py-[5px] text-white ${form.errors[name] && form.touched[name]
-                ? authFlow
-                  ? "border-[#FFDE59]"
-                  : "border-red-500"
-                : "border-white"
-                } rounded-full focus:outline-none ${form.errors[name] && form.touched[name]
-                  ? authFlow
-                    ? "focus:border-[#FFDE59] focus:ring-0"
-                    : "focus:border-red-500 focus:ring-0"
-                  : "focus:border-white focus:ring-0"
-                } `}
-              placeholder={label}
-            />
-            <ErrorMessage
-              name={name}
-              component="div"
-              className={`text-[11px] ${authFlow ? "text-[#FFDE59]" : "text-red-500"
+        {({ field, form }: { field: any; form: any }) => {
+          const { value } = field;
+
+          if (name === "countryCode" && !value) {
+            form.setFieldValue(name, "+1");
+          }
+          return (
+            <div>
+              <input
+                {...field}
+                id={name}
+                type={type}
+                maxLength={maxLength}
+                onKeyPress={handleKeyPress}
+                className={`mb-[2px] w-full h-[40px] border bg-transparent px-4 py-[5px] text-white ${
+                  form.errors[name] && form.touched[name]
+                    ? authFlow
+                      ? "border-[#FFDE59]"
+                      : "border-red-500"
+                    : "border-white"
+                } rounded-[15px] focus:outline-none ${
+                  form.errors[name] && form.touched[name]
+                    ? authFlow
+                      ? "focus:border-[#FFDE59] focus:ring-0"
+                      : "focus:border-red-500 focus:ring-0"
+                    : "focus:border-white focus:ring-0"
+                } placeholder:pr-10`}
+                placeholder={label}
+              />
+              <ErrorMessage
+                name={name}
+                component="div"
+                className={`text-[11px] ${
+                  authFlow ? "text-[#FFDE59]" : "text-red-500"
                 }`}
-            />
-          </div>
-        )}
+              />
+            </div>
+          );
+        }}
       </Field>
     </div>
   );

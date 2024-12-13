@@ -16,7 +16,7 @@ interface Option {
 interface SelectProps {
   label: string;
   name: string;
-  options: Option[];
+  options: Option[] | any[];
   skipCode?: boolean;
   required?: boolean;
   disabled?: boolean;
@@ -79,7 +79,7 @@ const MUISelect: React.FC<SelectProps> = ({
         );
 
         return (
-          <Box sx={{ minWidth: "200px" }}>
+          <Box sx={{ minWidth: "10px" }}>
             <FormControl
               fullWidth
               variant="outlined"

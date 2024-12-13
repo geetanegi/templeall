@@ -116,7 +116,7 @@ const LeaderBoardTable: React.FC<{
         onClose={() => setOpenModal(false)}
         title="Leaderboard"
         footer={
-          <div className="-mt-4 bg-[#F5F6F7] px-3 py-2 text-right">
+          <div className="-mt-4 rounded-lg   bg-[#F5F6F7] px-3 py-2 text-right">
             <button
               onClick={() => setOpenModal(false)}
               className="rounded-md bg-primaryColor px-5 py-2 text-white"
@@ -126,7 +126,7 @@ const LeaderBoardTable: React.FC<{
           </div>
         }
       >
-        <div className="-mt-3 h-[80vh]">
+        <div className="-mt-3 pt-5 pb-10" style={{height:"max-content"}}>
           <TableComponent
             Headers={headers}
             rowData={tableData}

@@ -113,24 +113,27 @@ const ResetPassword: React.FC = () => {
                 <FormikControl
                   label="Password"
                   name="password"
-                  control="input"
+                  control="logIn"
                   className="w-full"
                   placeholder="Password"
                   type="password"
                   required={true}
                   authFlow={true}
                 />
+              </div>
+                <div className="mb-4">
                 <FormikControl
                   label="Confirm Password"
                   name="confirmPassword"
-                  control="input"
+                  control="logIn"
                   className="w-full"
                   placeholder="Confirm Password"
                   type="password"
                   required={true}
                   authFlow={true}
                 />
-              </div>
+
+                </div>
 
               <div className="flex items-center justify-center">
                 <button

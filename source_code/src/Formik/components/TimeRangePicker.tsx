@@ -121,9 +121,13 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
       <div className="w-[50%]">
         <Field name={name1}>
           {({ field, form, meta }: any) => {
-            const { setFieldValue } = form;
+             const { setFieldValue, setFieldTouched } = form;
             return (
-              <>
+              <div onClick={()=>{
+                  if(startTime){
+                    setFieldTouched(field.name, true)
+                  }
+                }}>
                 <TimePicker
                   {...field}
                   label={<span className="text-[13px]" style={{ display: "flex", alignItems: "center" }}>
@@ -188,7 +192,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                     },
                   }}
                 />
-              </>
+              </div>
             );
           }}
         </Field>
@@ -197,9 +201,13 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
       <div className="w-[50%]">
         <Field name={name2}>
           {({ field, form, meta }: any) => {
-            const { setFieldValue } = form;
+            const { setFieldValue, setFieldTouched } = form;
             return (
-              <>
+              <div onClick={()=>{
+                if(endTime){
+                  setFieldTouched(field.name, true)
+                }
+              }}>
                 <TimePicker
                   {...field}
                   label={<span style={{ display: "flex", alignItems: "center" }}>
@@ -259,7 +267,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                     },
                   }}
                 />
-              </>
+              </div>
             );
           }}
         </Field>

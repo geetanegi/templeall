@@ -153,8 +153,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
       {showOtpScreen ? (
         <div>{DisplayScreens()}</div>
       ) : (
-        <div className="bg-back-600 mb-[-110px] flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
-          {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
+        <div className="bg-back-600 mb-[-80px] flex h-auto w-full flex-col items-center rounded-xl md:w-full md:p-0">
           <div>
             <Formik
               initialValues={initialValues}
@@ -168,16 +167,16 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   </p>
                   <div className="flex items-center justify-center">
                   <p className="text-center w-full md:w-[220px] text-[12px] text-primaryText  overflow-hidden whitespace-nowrap text-[12px] text-ellipsis">
-                    Email: <span className="text-yellowText">{maskEmail || ""}</span>
+                    Email: <span className="text-loginValidationColor">{maskEmail || ""}</span>
                   </p>
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <div className="w-full">
+                  <div className="mb-4 w-full">
                     <FormikControl
                       label=" First Name"
                       name="firstName"
-                      control="input"
+                      control="logIn"
                       className="w-full"
                       placeholder=" Your First Name"
                       type="text"
@@ -185,11 +184,11 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       authFlow={true}
                     />
                   </div>
-                  <div className="w-full">
+                  <div className="mb-4 w-full">
                     <FormikControl
                       label=" Last Name"
                       name="lastName"
-                      control="input"
+                      control="logIn"
                       className="w-full"
                       placeholder=" Your Last Name"
                       type="text"
@@ -202,7 +201,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   <FormikControl
                     label="Username"
                     name="username"
-                    control="input"
+                    control="logIn"
                     className="w-full"
                     placeholder="userName"
                     type="text"
@@ -212,8 +211,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                     authFlow={true}
                   />
                 </div>
-                <div className="flex items-center mb-5 ">
-                  <div className="w-28 h-[73px] pr-2">
+                <div className="flex  mb-5 ">
+                  <div className="w-28  pr-2">
                     <FormikControl
                       authFlow={true}
                       label="Phone"
@@ -224,21 +223,21 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       required={true}
                     />
                   </div>
-                  <div className="flex h-[73px] w-full flex-col">
+                  <div className="flex w-full flex-col">
                     <FormikControl
-                      label="&nbsp;"
+                      label="Phone"
                       name="phone"
                       control="number"
                       className="w-full"
                       placeholder="Phone"
-                      // required={true}
+                      required={true}
                       authFlow={true}
                       maxLength={10}
                     />
                   </div>
                 </div>
                 <div className="mb-6 text-center flex flex-col">
-                  <label className="inline-flex justify-center items-center">
+                  <label className="inline-flex justify-center ">
                     <Field
                       type="checkbox"
                       name="acceptTerms"
@@ -258,7 +257,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   </label>
                   <span
                     style={{
-                      color: "#FFDE59",
+                      color: "#FFFF00",
                       fontSize: "0.875rem",
                     }}
                   >

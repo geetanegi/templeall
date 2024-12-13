@@ -36,14 +36,24 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
             <div onClick={()=> setFieldTouched(name, true)}>
               <DatePicker
                 label={
-                  <span style={{ fontSize: "14px" }}>
-                    {label}
-                    {required && (
-                      <span style={{ color: "#FFFF00", marginLeft: "0.25rem" }}>
-                        *
-                      </span>
-                    )}
-                  </span>
+                  <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "rgb(238 235 235)",  
+                    fontWeight: "normal",
+                  }}
+                >
+                  {label}
+                  {required && (
+                    <span
+                      className="mr-2 text-loginValidationColor"
+                      style={{ marginLeft: "0.25rem" }}
+                    >
+                      *
+                    </span>
+                  )}
+                </span>
                 }
                 minDate={minDateValue}
                 maxDate={maxDateValue}
@@ -108,7 +118,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
                         },
                         "& .MuiInputLabel-root": {
                           color: "rgba(255, 255, 255, 0.7)",
-                          transform: "translate(14px, 6px) scale(1)",
+                          transform: "translate(14px, 8px) scale(1)",
                         },
                         "& .MuiInputLabel-shrink": {
                           color: "rgba(255, 255, 255, 0.7)",

@@ -24,29 +24,36 @@ import {
 import { setLoading } from "../../reducers/loader/loader";
 import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
+import ContestModal from "./contestUtils/contestModal";
+import moment from "moment";
 
 const tableHeaders = [
-  { id: 1, key: "Contest Type", field: "Contest Type" },
-  { id: 2, key: "Club name", field: "Club name" },
-  { id: 3, key: "Course Name", field: "Course Name" },
-  { id: 4, key: "Hole number", field: "Hole number" },
-  { id: 5, key: "Tee", field: "Tee" },
-  { id: 6, key: "Entry fee", field: "Entry fee" },
-  { id: 7, key: "Status", field: "Status" },
-  { id: 8, key: "Actions", field: "Actions" },
+  { id: 1, key: "contestId", field: "Contest ID" },
+  { id: 2, key: "Contest Type", field: "Contest Type" },
+  { id: 3, key: "Club name", field: "Club name" },
+  { id: 4, key: "Course Name", field: "Course Name" },
+  { id: 5, key: "Hole number", field: "Hole number" },
+  { id: 6, key: "Tee", field: "Tee" },
+  { id: 7, key: "Entry fee", field: "Entry fee" },
+  { id: 8, key: "No. of Participants", field: "No. of Participants" },
+  { id: 9, key: "createdDate", field: "Created date" },
+  { id: 10, key: "createdBy", field: "Created By" },
+  { id: 11, key: "Updated date", field: "Updated date" },
+  { id: 12, key: "updatedBy", field: "Updated By" },
+  { id: 13, key: "Status", field: "Status" },
+  { id: 14, key: "Actions", field: "Actions" },
 ];
 
 const ContestManagement = () => {
   const navigate = useNavigate();
 
-  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
- 
-  const userPermisions = userPermissionAvailable && JSON.parse(
-    decryptData(
-      userPermissionAvailable,
-      secretKey,
-    ),
+  const userPermissionAvailable = useSelector(
+    (state: RootState) => state?.auth?.userPermissions,
   );
+
+  const userPermisions =
+    userPermissionAvailable &&
+    JSON.parse(decryptData(userPermissionAvailable, secretKey));
 
   const isCourseAdmin = userPermisions?.permission?.["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
@@ -70,12 +77,18 @@ const ContestManagement = () => {
     id: number | string;
   } | null>(null);
   const [filterByContest, setFilterByContest] = useState<any>([]);
+  const [contestId, setContestId] = useState<number | string>("");
+  const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
     try {
+      let endPoint = API_URL.getCourseList
+      if(isCourseAdmin){
+        endPoint = API_URL.getCourseFilterForCA
+      }
       const res = await apiService.post<CourseApiResponse>(
-        API_URL.getCourseList,
+        endPoint,
         {
           data: {},
         },
@@ -176,14 +189,14 @@ const ContestManagement = () => {
   const getStatus = (status: boolean) => {
     if (status) {
       return (
-        <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#97D0A533] py-0.5 text-[#248A3D]">
+        <div className="flex w-3/4 items-center px-5 w-[100px] justify-center space-x-1 rounded-md bg-[#97D0A533] py-0.5 text-[#248A3D]">
           <MdSportsGolf className="size-5" />
           <span className="text-xs">{status && "Active"}</span>
         </div>
       );
     } else {
       return (
-        <div className="flex w-3/4 items-center justify-center space-x-1 rounded-md bg-[#D0D0D033] py-1 text-[#8E8E8E]">
+        <div className="flex w-3/4 items-center px-5 w-[100px] justify-center space-x-1 rounded-md bg-[#D0D0D033] py-1 text-[#8E8E8E]">
           <Ban height={15} width={15} />
           <span className="text-xs">{!status && "Inactive"}</span>
         </div>
@@ -193,18 +206,33 @@ const ContestManagement = () => {
 
   const computeTableData = (fetchedData: any) => {
     const data = fetchedData?.map((contest: any) => ({
+      "Contest Id": contest.cid || '',
+      
       "Contest Type": contest.contestType,
       "Club name": contest.clubName || "N/A",
       "Course Name": contest.courseName || "N/A",
-      "Hole number": contest.holeNumber || "N/A",
-      Tee: contest.teeName || "N/A",
+      "Hole number": `Hole #${contest.holeNumber} - Par ${contest.par || ""}` || "N/A",
+      Tee: contest.teeName +" " + `(Yards ${contest.teeYardage})` || "N/A",
       "Entry fee": "$" + contest.entryFee || "N/A",
+      "No. of Participants": contest.playerCount || 0,
+      "createdDate": moment
+      .utc(contest.createdDate)
+      .local()
+      .format("MM-DD-YYYY") ,
+      "createdby": contest.createdBy || '',
+      "updatedDate":moment
+      .utc(contest.updatedDate)
+      .local()
+      .format("MM-DD-YYYY"),
+      "updatedBy": contest.updatedBy || '',
       Status: getStatus(contest.activeStatus),
       Actions: isCourseAdmin ? (
         <button
           key={contest?.id}
           className="text-[#0077B6]"
           onClick={() => {
+            // setContestId(contest.id);
+            // setIsContestModalOpn(true);
             navigate(
               `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
             );
@@ -221,7 +249,7 @@ const ContestManagement = () => {
 
   const isCompleted = (status: boolean, id: number) => {
     return (
-      <div className="flex w-[70%] justify-between gap-2 py-2">
+      <div className="flex w-[70%] pr-5 justify-left gap-2 py-2">
         <button style={{ color: "#046221" }}>
           <SquarePen
             strokeWidth={1}
@@ -259,9 +287,14 @@ const ContestManagement = () => {
 
   const fetchContestList = async () => {
     try {
+      let endPoint =  API_URL.getAllContests
+      if(isCourseAdmin){
+        endPoint = API_URL.getAllContestForCA
+      }
+
       dispatch(setLoading(true));
       var res = null;
-      res = await apiService.post<ContestApiResponse>(API_URL.getAllContests, {
+      res = await apiService.post<ContestApiResponse>(endPoint, {
         data: {
           searchParams: {
             contestTypeId: selectedContestType || null,
@@ -445,6 +478,13 @@ const ContestManagement = () => {
           />
         </PageLoader>
       </div>
+
+      <ContestModal
+        isContestModalOpen={isContestModalOpen}
+        setIsContestModalOpn={setIsContestModalOpn}
+        contestId={contestId}
+        setContestId={setContestId}
+      />
 
       <Modal
         isOpen={isModalOpen}

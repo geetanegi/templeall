@@ -33,7 +33,6 @@ export const getIconComponent = ({
   strokeWidth,
 }: IconProps): JSX.Element | null => {
   const IconComponent = iconMap[name as keyof typeof iconMap];
-// debugger
   if (!IconComponent) {
     console.log(`Icon "${name}" not found. Returning null.`);
     return null; // Or return a default icon component

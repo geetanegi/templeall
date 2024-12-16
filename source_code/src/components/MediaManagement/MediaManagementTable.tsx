@@ -355,10 +355,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             course: data?.courseName || "",
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
-            reuestDate: moment()
+            reuestDate: moment
               .utc(data?.startTime)
               .local()
-              .format("MM-DD-YYYY-"),
+              .format("MM-DD-YYYY"),
             time: moment.utc(data?.startTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">

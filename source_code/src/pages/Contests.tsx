@@ -429,7 +429,7 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
         if (selectedCourse) {
           const holeListOptions =
             holeList?.map((item) => ({
-              key: item.holeNumber,
+              key: `Hole #${item.holeNumber} - Par ${item.par || ""}`,
               value: item.id,
             })) || [];
           setHoleOptions(holeListOptions as []);
@@ -440,7 +440,7 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
                 ?.teeList || [];
             const teeOptions =
               teeList?.map((item) => ({
-                key: item.teeName +" " + item.yardage,
+                key: item.teeName +" " +`(Yards ${item.yardage})` ,
                 value: item.id,
               })) || [];
             setTeeOptions(teeOptions as []);

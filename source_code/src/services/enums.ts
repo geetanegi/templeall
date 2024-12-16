@@ -80,6 +80,7 @@ export const API_URL = {
   getPlayerVideoFilter: "/core/request-video/all-highlight-list",
   logout: "core/history/logout",
   getAllContestForCA: "/core/contest/all-contests-ca",
+  getCourseFilterForCA: "/core/course/course-by-playerId",
 
   // social login api's
 

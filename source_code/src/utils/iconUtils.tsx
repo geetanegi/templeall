@@ -7,7 +7,7 @@ const iconMap = {
   Community: Icons.UsersRound,
   Home: Icons.Home,
   Users: Icons.Users,
-  "Highlight Hub": Icons.Calendar,
+  "Highlight Hub": Icons.FileVideo2,
   Courses: Icons.LandPlot,
   Reports: Icons.Calendar,
   "Bet Central": Icons.CircleDollarSign,
@@ -33,7 +33,6 @@ export const getIconComponent = ({
   strokeWidth,
 }: IconProps): JSX.Element | null => {
   const IconComponent = iconMap[name as keyof typeof iconMap];
-
   if (!IconComponent) {
     console.log(`Icon "${name}" not found. Returning null.`);
     return null; // Or return a default icon component

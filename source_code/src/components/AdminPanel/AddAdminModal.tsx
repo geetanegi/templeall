@@ -8,6 +8,9 @@ import { API_URL } from "../../services/enums";
 import { setLoading } from "../../reducers/loader/loader";
 import { useDispatch } from "react-redux";
 import { validationConstant } from "../../utils/validationEnums";
+import FormikControl from "../../Formik/components/FormikControl";
+import MUISelect from "../../Formik/components/MUISelect";
+import MUINumber from "../../Formik/components/MUINumber";
 
 interface userDataType {
   firstName?: string;
@@ -33,10 +36,7 @@ interface AddAdminModalProps {
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .required(validationConstant.firstNameRequired)
-    .matches(
-      /^[A-Za-z]+$/,
-      validationConstant.firstNameContains,
-    )
+    .matches(/^[A-Za-z]+$/, validationConstant.firstNameContains)
     .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
     .required(validationConstant.lastNameRequired)
@@ -44,10 +44,7 @@ const validationSchema = Yup.object({
     .max(25, validationConstant.lastNameMaxLength),
   username: Yup.string()
     .required(validationConstant.usernameRequired)
-    .matches(
-      /^[a-zA-Z0-9]+$/,
-      validationConstant.userNameContains,
-    )
+    .matches(/^[a-zA-Z0-9]+$/, validationConstant.userNameContains)
     .min(3, validationConstant.usernameMinWordLimit)
     .max(25, validationConstant.userNameMaxWordLimit),
   password: Yup.string()
@@ -65,6 +62,11 @@ const validationSchema = Yup.object({
   emailId: Yup.string()
     .email(validationConstant.validEmail)
     .required(validationConstant.emailRequired),
+  courseIds: Yup.string().when("selectedUserTab", {
+    is: 2, // Apply this validation only when selectedUserTab === 2
+    then: Yup.string().required(validationConstant.courseRequired),
+    otherwise: Yup.string().nullable(),
+  }),
 });
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
@@ -77,12 +79,39 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
   selectedUserTab,
 }) => {
   const [, setRoles] = useState<any[]>([]);
+  const [courses, setCourses] = useState<any[]>([]);
+
+  const fetchCourseList = async () => {
+    try {
+      const res = await apiService.post<any>(API_URL.getCourseList, {
+        data: {},
+      });
+      if (res.status === 200 && !res.data.error) {
+        const courseData =
+          res?.data?.data?.map((course: any) => ({
+            value: course.id,
+            key: course.courseName,
+          })) || [];
+        setCourses(courseData);
+      } else if (res.data.error) {
+        ToastInfo(res.data.description || "Error fetching course data");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     getRoles();
   }, []);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      fetchCourseList();
+    }
+  }, [isModalOpen]);
 
   const getRoles = async () => {
     try {
@@ -168,215 +197,113 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
+        {({ handleSubmit, isSubmitting }) => (
           <form
             onSubmit={handleSubmit}
-            className="w-full overflow-y-auto overflow-x-hidden rounded-lg md:w-[480px]"
-            style={{ maxHeight: "70vh" }}
+            className="w-full rounded-lg md:w-[480px]"
           >
-            <div className="relative mb-5 ml-5 mr-7">
-              <input
-                type="text"
-                value={selectedUserTab === 2 ? "Course Admin" : "Super Admin"}
-                disabled
-                className={`w-full rounded-lg border bg-[#E6E6E6] px-2 py-3 text-gray-500`}
-              />
-              {/* Asterisk styled to appear as if inside the select */}
-            </div>
-
-            <div className="mx-5 mb-5 flex w-full justify-between md:w-[430px]">
-              <div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="firstName"
-                    placeholder="First Name"
-                    id="name"
-                    value={values.firstName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.firstName &&
-                      errors.firstName &&
-                      typeof errors.firstName === "string"
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } `}
-                  />
-                  <span
-                    className={`pointer-events-none absolute left-[42%] top-3 text-red-500 ${values.firstName ? "hidden" : ""}`}
-                  >
-                    *
-                  </span>
-                </div>
-
-                <div>
-                  {touched.firstName &&
-                    errors.firstName &&
-                    typeof errors.firstName === "string" && (
-                      <span className="text-red-600">{errors.firstName}</span>
-                    )}
-                </div>
-              </div>
-              <div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last Name"
-                    id="lastName"
-                    value={values.lastName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    maxLength={100}
-                    className={`rounded-lg border bg-gray-100 px-2 py-3 text-gray-500 ${touched.lastName &&
-                      errors.lastName &&
-                      typeof errors.lastName === "string"
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } `}
-                  />
-                  <span
-                    className={`pointer-events-none absolute left-[42%] top-3 text-red-500 ${values.lastName ? "hidden" : ""}`}
-                  >
-                    *
-                  </span>
-                </div>
-                <div>
-                  {touched.lastName &&
-                    errors.lastName &&
-                    typeof errors.lastName === "string" && (
-                      <span className="text-red-600">{errors.lastName}</span>
-                    )}
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                id="username"
-                value={values.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                maxLength={25}
-                className="mx-5 w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
-              />
-              <span
-                className={`pointer-events-none absolute left-[23%] top-3 text-red-500 ${values.username ? "hidden" : ""}`}
-              >
-                *
-              </span>
-            </div>
-            <div className="mb-5 ml-6">
-              {touched.username &&
-                errors.username &&
-                typeof errors.username === "string" && (
-                  <span className="text-red-600">{errors.username}</span>
-                )}
-            </div>
-            <div className="relative">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                id="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                maxLength={25}
-                className="mx-5 w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
-              />
-              <span
-                className={`pointer-events-none absolute left-[22%] top-3 text-red-500 ${values.password ? "hidden" : ""}`}
-              >
-                *
-              </span>
-            </div>
-            <div className="mb-5 ml-6">
-              {touched.password &&
-                errors.password &&
-                typeof errors.password === "string" && (
-                  <span className="text-red-600">{errors.password}</span>
-                )}
-            </div>
-            <div className="relative">
-              <input
-                type="email"
-                name="emailId"
-                placeholder="Email"
-                id="emailId"
-                value={values.emailId}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="mx-5 w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
-              />
-              <span
-                className={`pointer-events-none absolute left-[15%] top-3 text-red-500 ${values.emailId ? "hidden" : ""}`}
-              >
-                *
-              </span>
-            </div>
-
-            <div className="mb-5 ml-6">
-              {touched.emailId &&
-                errors.emailId &&
-                typeof errors.emailId === "string" && (
-                  <span className="text-red-600">{errors.emailId}</span>
-                )}
-            </div>
-            <div className="relative mx-5 flex gap-1">
-              <input
-                type="text"
-                name="countryCode"
-                placeholder="Country Code"
-                id="countryCode"
-                maxLength={4}
-                value={values.countryCode}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="w-full rounded-lg border border-gray-200 bg-gray-100 overflow-hidden text-elipsis px-2 py-3 text-gray-500 md:w-[80px]"
-              />
-              <span
-                className={`pointer-events-none absolute left-[16%] top-3 text-red-500 ${values.countryCode ? "hidden" : ""}`}
-              >
-                *
-              </span>
-              <span className="relative">
+            <div
+              className="h-full w-full overflow-y-auto overflow-x-hidden md:w-[480px]"
+              style={{ maxHeight: "60vh" }}
+            >
+              <div className="relative mx-5 mb-5">
                 <input
                   type="text"
-                  name="mobile"
-                  placeholder="Phone"
-                  id="emailId"
-                  value={values.mobile}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  maxLength={10}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[340px]"
+                  value={selectedUserTab === 2 ? "Course Admin" : "Super Admin"}
+                  disabled
+                  className={`w-full cursor-not-allowed rounded-md border border-gray-400 bg-gray-200 px-2 py-3 text-gray-500`}
                 />
-                <span
-                  className={`pointer-events-none absolute left-[17%] top-3 text-red-500 ${values.mobile ? "hidden" : ""}`}
-                >
-                  *
-                </span>
-              </span>
-            </div>
-            <div className="mb-5 ml-6">
-              {touched.mobile &&
-                errors.mobile &&
-                typeof errors.mobile === "string" && (
-                  <span className="text-red-600">{errors.mobile}</span>
-                )}
+              </div>
+              {selectedUserTab === 2 ? (
+                <div className="mb-3 px-5">
+                  <MUISelect
+                    label="Course"
+                    name="courseIds"
+                    required={true}
+                    options={courses}
+                  />
+                </div>
+              ) : null}
+              <div className="mx-5 flex justify-between gap-4">
+                <div className="flex">
+                  <FormikControl
+                    label="First Name"
+                    name="firstName"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="First Name"
+                    type="text"
+                    required={true}
+                  />
+                </div>
+                <div className="flex">
+                  <FormikControl
+                    label="Last Name"
+                    name="lastName"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="Last Name"
+                    type="text"
+                    required={true}
+                  />
+                </div>
+              </div>
+              <div className="mx-5 flex">
+                <FormikControl
+                  label="Username"
+                  name="username"
+                  control="customInput"
+                  className="w-full"
+                  placeholder="Username"
+                  type="text"
+                  required={true}
+                />
+              </div>
+              <div className="mx-5 flex">
+                <FormikControl
+                  label="Password"
+                  name="password"
+                  control="customInput"
+                  className="w-full"
+                  placeholder="Password"
+                  type="password"
+                  required={true}
+                />
+              </div>
+              <div className="mx-5 flex">
+                <FormikControl
+                  label="Email"
+                  name="emailId"
+                  control="customInput"
+                  className="w-full"
+                  placeholder="Email"
+                  type="email"
+                  required={true}
+                />
+              </div>
+              <div className="relative mx-5 flex gap-1">
+                <div className="flex w-[30%]">
+                  <FormikControl
+                    label="Country Code"
+                    name="countryCode"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="Country Code"
+                    type="text"
+                    required={true}
+                  />
+                </div>
+                <div className="flex w-full">
+                  <MUINumber
+                    label="Phone"
+                    name="mobile"
+                    className="h-full w-full"
+                    type="text"
+                    required={true}
+                    maxLength={10}
+                  />
+                </div>
+              </div>
             </div>
             <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
               <button

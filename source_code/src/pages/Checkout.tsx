@@ -71,6 +71,7 @@ const Checkout: React.FC = () => {
     (state: RootState) => state.courses.selectedContests,
   );
 
+
   const selectedContestObj: any =
     selectedTeeType !== null && selectedContestsList;
 
@@ -98,6 +99,13 @@ const Checkout: React.FC = () => {
     "wallet" | "credit_card"
   >("wallet"); // Default to 'wallet'
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  useEffect(()=>{
+    if(!selectedContests){
+      navigate(ROUTES.CONTESTS, { replace: true }); 
+    }
+
+  },[selectedContests])
 
   const handleCheckoutCart = async () => {
     // api obj

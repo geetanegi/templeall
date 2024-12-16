@@ -56,6 +56,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     Array<any>
   >([]);
   const [filterArray, setFilterArray] = useState<ContestType[]>([]);
+  // const [courseSpecificVideoCount, setCourseSpecificVideoCount] = useState<string |number>(0)
   const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
  
   const userPermisions = userPermissionAvailable && JSON.parse(
@@ -239,7 +240,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
               />
               Winning Shots
               <span className="ml-[16px] h-[14px] w-[26px] rounded-[100px] bg-[#E9ECF1] text-[11px] text-[#000000]">
-                {selectedTab === 1 && filterValue
+                {(selectedTab === 1 && filterValue || userPermisions?.permission?.["is_course_admin"])
                   ? dataLength
                   : mediaCounts.Video_Management || 0}
               </span>

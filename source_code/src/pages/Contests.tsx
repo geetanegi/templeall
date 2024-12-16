@@ -435,7 +435,7 @@ const Contests: React.FC = () => {
                 ?.teeList || [];
             const teeOptions =
               teeList?.map((item) => ({
-                key: item.teeName,
+                key: item.teeName +" " + item.yardage,
                 value: item.id,
               })) || [];
             setTeeOptions(teeOptions as []);

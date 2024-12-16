@@ -65,6 +65,7 @@ const MUINumber: React.FC<InputProps> = ({
                 alignItems: "center",
                 color: "rgb(238 235 235)",  
                 fontWeight: "normal",
+                fontSize:"13px"
               }}
             >
               {label}

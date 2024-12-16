@@ -39,13 +39,13 @@ const ForgetPassword: React.FC = () => {
    * ***/
   const validationSchema = Yup.object({
     username: Yup.string()
-      .required(validationConstant.usernameRequired)
-      .matches(
-        /^[a-zA-Z0-9]+$/,
-        validationConstant.userNameContains,
-      )
-      .min(3, validationConstant.usernameMinWordLimit)
-      .max(25, validationConstant.userNameMaxWordLimit),
+      .required(validationConstant.mandatoryField),
+      // .matches(
+      //   /^[a-zA-Z0-9]+$/,
+      //   validationConstant.userNameContains,
+      // )
+      // .min(3, validationConstant.usernameMinWordLimit)
+      // .max(25, validationConstant.userNameMaxWordLimit),
   });
 
   const handleSubmit = async (values: ResetPasswordFormValues) => {
@@ -111,7 +111,7 @@ const ForgetPassword: React.FC = () => {
                 <Form className="w-full max-w-sm md:max-w-md">
                   <div className="mb-4 md:w-full">
                     <FormikControl
-                      label="Username"
+                      label="Username / Email ID / Phone"
                       name="username"
                       control="logIn"
                       className="w-full"
@@ -120,6 +120,7 @@ const ForgetPassword: React.FC = () => {
                       required={true}
                       maxLength={25}
                       authFlow={true}
+                      labelMarginRight={4}
                     />
                   </div>
                   <div className="flex items-center justify-center">

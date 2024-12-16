@@ -112,7 +112,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
     return false;
   };
   
-  
+    
 
   
 
@@ -124,7 +124,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
              const { setFieldValue, setFieldTouched } = form;
             return (
               <div onClick={()=>{
-                  if(startTime){
+                  if(form.values[field.name]){
                     setFieldTouched(field.name, true)
                   }
                 }}>
@@ -204,7 +204,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
             const { setFieldValue, setFieldTouched } = form;
             return (
               <div onClick={()=>{
-                if(endTime){
+                if(form.values[field.name]){
                   setFieldTouched(field.name, true)
                 }
               }}>

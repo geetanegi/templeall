@@ -289,7 +289,12 @@ const validationSchema = Yup.object({
   note: Yup.string().required(validationConstant.mandatoryField),
 });
 
-const Contests: React.FC = () => {
+interface ContestsProps {
+  contestId?: number | string
+  handleClose?:()=>void
+}
+
+const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
   const dispatch = useDispatch();
   const tz = momentTz.tz.guess();
   const { id } = useParams();
@@ -532,7 +537,7 @@ const Contests: React.FC = () => {
       dispatch(setLoading(true));
       const res = await apiService.post<ApiResponse>(API_URL.getContestById, {
         data: {
-          contestId: id,
+          contestId: contestId || id,
         },
       });
       if (res.status === 200 && !res.data.error) {
@@ -548,10 +553,10 @@ const Contests: React.FC = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (id || contestId) {
       fetchEditData();
     }
-  }, [id]);
+  }, [id, contestId]);
 
   const handleSubmit = async (
     values: ContestFormValues,
@@ -655,6 +660,84 @@ const Contests: React.FC = () => {
   const handleDiscard = () => {
     navigate(-1);
   };
+
+  if(contestId){
+    return (
+      <Formik
+      initialValues={initialValues} // Initialize age field
+      validationSchema={validationSchema} // Set validation schema
+      onSubmit={handleSubmit}
+      enableReinitialize={true}
+    >
+      {({ values, setFieldValue }) => {
+        handleValues(values);
+        useEffect(() => {
+          if (
+            location.pathname === ROUTES.UPDFATE_CONTEST &&
+            dataLoaded &&
+            loader === false &&
+            clubOptions.length > 0
+          ) {
+            if (values.clubName === "") {
+              setFieldValue("courseName", "");
+              setFieldValue("Tee", "");
+              setFieldValue("holesName", "");
+            } else if (values.clubName !== "") {
+              if (values.courseName !== "") {
+                //
+                if (values.holesName !== "") {
+                  //
+                } else if (values.holesName === "") {
+                }
+              } else if (values.courseName === "") {
+              }
+            }
+          }
+        }, [
+          setFieldValue,
+          teeOptions,
+          holeOptions,
+          courseOptions,
+          values,
+          loader,
+        ]);
+
+        return (
+          <Form>
+            <ContestForm
+              values={values}
+              isSuperAdmin={isSuperAdmin}
+              saveState={saveState}
+              holeOptions={holeOptions || []}
+              clubOptions={clubOptions || []}
+              courseOptions={courseOptions || []}
+              contestTypeOptions={
+                contestTypeOptions?.map((item) => ({
+                  value: item.id,
+                  key: item.type,
+                })) || []
+              }
+              teeOptions={teeOptions || []}
+              endDate={endDate}
+              startDate={startdate}
+              toggleModal={toggleModal}
+              frequency={frequency}
+            />
+            <div className="flex justify-end gap-4">
+              <button
+                type="button"
+                onClick={()=> handleClose && handleClose()}
+                className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
+              >
+                Back
+              </button>
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
+    )
+  }
 
   return (
     <PageLoader isActive={loader}>

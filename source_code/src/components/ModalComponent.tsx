@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    title: string;
+    title?: string;
     children: React.ReactNode;
     footer?: React.ReactNode;
 }
@@ -31,12 +31,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
 
     return (
         <div
-            className="fixed z-50 inset-0 backdrop-blur-sm bg-gray-900 bg-opacity-50 flex flex-col items-center justify-center"
+            className="fixed z-[1000000000] inset-0 backdrop-blur-sm bg-gray-900 bg-opacity-50 flex flex-col items-center justify-center"
         >
             <div
                 className="bg-white md:mx-0 mx-5 rounded-lg max-w-max shadow-lg"
                 onClick={(e) => e.stopPropagation()}
-            >
+            >   
                 <div className='flex m-4 align-center justify-between mb-5'>
                     <h2 className="text-[18px] font-normal mb-4">{title}</h2>
                     <X className='bg-gray-400 text-white rounded-2xl p-1 cursor-pointer' onClick={handleClose} />

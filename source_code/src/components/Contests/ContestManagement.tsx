@@ -24,6 +24,7 @@ import {
 import { setLoading } from "../../reducers/loader/loader";
 import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
+import ContestModal from "./contestUtils/contestModal";
 
 const tableHeaders = [
   { id: 1, key: "Contest Type", field: "Contest Type" },
@@ -39,14 +40,13 @@ const tableHeaders = [
 const ContestManagement = () => {
   const navigate = useNavigate();
 
-  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
- 
-  const userPermisions = userPermissionAvailable && JSON.parse(
-    decryptData(
-      userPermissionAvailable,
-      secretKey,
-    ),
+  const userPermissionAvailable = useSelector(
+    (state: RootState) => state?.auth?.userPermissions,
   );
+
+  const userPermisions =
+    userPermissionAvailable &&
+    JSON.parse(decryptData(userPermissionAvailable, secretKey));
 
   const isCourseAdmin = userPermisions?.permission?.["is_course_admin"];
   const loader = useSelector((state: RootState) => state.loader.isLoading);
@@ -70,6 +70,8 @@ const ContestManagement = () => {
     id: number | string;
   } | null>(null);
   const [filterByContest, setFilterByContest] = useState<any>([]);
+  const [contestId, setContestId] = useState<number | string>("");
+  const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -205,9 +207,11 @@ const ContestManagement = () => {
           key={contest?.id}
           className="text-[#0077B6]"
           onClick={() => {
-            navigate(
-              `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
-            );
+            setContestId(contest.id);
+            setIsContestModalOpn(true);
+            // navigate(
+            //   `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
+            // );
           }}
         >
           <Eye className="w-5" />
@@ -259,9 +263,14 @@ const ContestManagement = () => {
 
   const fetchContestList = async () => {
     try {
+      let endPoint =  API_URL.getAllContests
+      if(isCourseAdmin){
+        endPoint = API_URL.getAllContestForCA
+      }
+
       dispatch(setLoading(true));
       var res = null;
-      res = await apiService.post<ContestApiResponse>(API_URL.getAllContests, {
+      res = await apiService.post<ContestApiResponse>(endPoint, {
         data: {
           searchParams: {
             contestTypeId: selectedContestType || null,
@@ -445,6 +454,13 @@ const ContestManagement = () => {
           />
         </PageLoader>
       </div>
+
+      <ContestModal
+        isContestModalOpen={isContestModalOpen}
+        setIsContestModalOpn={setIsContestModalOpn}
+        contestId={contestId}
+        setContestId={setContestId}
+      />
 
       <Modal
         isOpen={isModalOpen}

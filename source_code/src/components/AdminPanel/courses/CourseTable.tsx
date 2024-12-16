@@ -308,6 +308,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
               <tbody className="bg-white">{renderCourses(dataPerPage)}</tbody>
             </table>
           </div>
+          {
+            
+          }
           {courseData[0]?.courseList.length > 10 && (
             <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
               <div className="align-center flex h-[30px] justify-center">
@@ -337,8 +340,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
         {/* QR code components rendered off-screen */}
         <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
-          {courseData[0]?.courseList?.map((course) => (
-            <React.Fragment key={course.id}>
+          {courseData.map((club) => {
+           return club.courseList?.map((course)=>(
+              <React.Fragment key={course.id}>
               <QRCode
                 value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
                 size={500}
@@ -364,7 +368,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
                 );
               })}
             </React.Fragment>
-          ))}
+            ))
+           })}
         </div>
       </div>
       {openModal && (

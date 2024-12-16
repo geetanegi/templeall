@@ -111,7 +111,7 @@ const ForgetPassword: React.FC = () => {
                 <Form className="w-full max-w-sm md:max-w-md">
                   <div className="mb-4 md:w-full">
                     <FormikControl
-                      label="Username / Email ID / Phone"
+                      label="Username / Email ID"
                       name="username"
                       control="logIn"
                       className="w-full"

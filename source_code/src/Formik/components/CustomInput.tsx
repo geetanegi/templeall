@@ -12,6 +12,8 @@ interface InputProps {
   maxLength?: number;
   validateRegex?: RegExp;
   onFocus?: () => void;
+  labelMarginRight?:any
+
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,6 +25,7 @@ const Input: React.FC<InputProps> = ({
   maxLength,
   validateRegex,
   onFocus = () => {},
+  labelMarginRight=2
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -68,7 +71,7 @@ const Input: React.FC<InputProps> = ({
                   {label}
                   {required && (
                     <span
-                      className="text-loginValidationColor mr-2"
+                      className={`text-loginValidationColor  mr-${labelMarginRight}`}
                       style={{ marginLeft: "0.25rem" }}
                     >
                       *
@@ -152,9 +155,9 @@ const Input: React.FC<InputProps> = ({
                     }}
                   >
                     {showPassword ? (
-                      <Eye color="rgb(238 235 235)" />
+                      <Eye color="rgb(238 235 235)"  />
                     ) : (
-                      <EyeOff color="rgb(238 235 235)" />
+                      <EyeOff color="rgb(238 235 235)"  />
                     )}
                   </span>
                 ),

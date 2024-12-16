@@ -58,5 +58,6 @@ export const validationConstant = {
     validNumberValue: "Please enter a valid number.",
     totalPayOutStructureSHouldBe100: "Total Payout percentage should be 100%.",
     entriesPer24HoursShouldNotBeLessThan1: "Entries Per 24 hours should not be less than 1.",
-    startDateCanNotBeEarlierThanTodaysDate: "Start date cannot be earlier than today's date. Please select a valid date."
+    startDateCanNotBeEarlierThanTodaysDate: "Start date cannot be earlier than today's date. Please select a valid date.",
+    courseRequired: "Course is required"
 }

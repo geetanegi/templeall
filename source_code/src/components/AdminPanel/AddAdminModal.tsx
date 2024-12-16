@@ -62,11 +62,11 @@ const validationSchema = Yup.object({
   emailId: Yup.string()
     .email(validationConstant.validEmail)
     .required(validationConstant.emailRequired),
-    courseIds: Yup.string().when("selectedUserTab", {
-      is: 2, // Apply this validation only when selectedUserTab === 2
-      then: Yup.string().required(validationConstant.courseRequired),
-      otherwise: Yup.string().nullable(),
-    }),
+  courseIds: Yup.string().when("selectedUserTab", {
+    is: 2, // Apply this validation only when selectedUserTab === 2
+    then: Yup.string().required(validationConstant.courseRequired),
+    otherwise: Yup.string().nullable(),
+  }),
 });
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
@@ -83,17 +83,15 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
 
   const fetchCourseList = async () => {
     try {
-      const res = await apiService.post<any>(
-        API_URL.getCourseList,
-        {
-          data: {},
-        },
-      );
+      const res = await apiService.post<any>(API_URL.getCourseList, {
+        data: {},
+      });
       if (res.status === 200 && !res.data.error) {
-        const courseData = res?.data?.data?.map((course:any) => ({
-          value: course.id,
-          key: course.courseName,
-        })) || [];
+        const courseData =
+          res?.data?.data?.map((course: any) => ({
+            value: course.id,
+            key: course.courseName,
+          })) || [];
         setCourses(courseData);
       } else if (res.data.error) {
         ToastInfo(res.data.description || "Error fetching course data");
@@ -109,12 +107,11 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
     getRoles();
   }, []);
 
-  useEffect(()=>{
-    if(isModalOpen){
+  useEffect(() => {
+    if (isModalOpen) {
       fetchCourseList();
-      
     }
-  },[isModalOpen])
+  }, [isModalOpen]);
 
   const getRoles = async () => {
     try {
@@ -200,10 +197,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          handleSubmit,
-          isSubmitting,
-        }) => (
+        {({ handleSubmit, isSubmitting }) => (
           <form
             onSubmit={handleSubmit}
             className="w-full rounded-lg md:w-[480px]"
@@ -217,20 +211,19 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                   type="text"
                   value={selectedUserTab === 2 ? "Course Admin" : "Super Admin"}
                   disabled
-                  className={`w-full rounded-md border border-gray-400 bg-gray-200 cursor-not-allowed px-2 py-3 text-gray-500`}
+                  className={`w-full cursor-not-allowed rounded-md border border-gray-400 bg-gray-200 px-2 py-3 text-gray-500`}
                 />
               </div>
-              {
-                selectedUserTab === 2 ? 
-              <div className="mb-3 px-5">
-                <MUISelect
-                  label="Course"
-                  name="courseIds"
-                  required={true}
-                  options={courses}
-                />
-              </div> : null
-              }
+              {selectedUserTab === 2 ? (
+                <div className="mb-3 px-5">
+                  <MUISelect
+                    label="Course"
+                    name="courseIds"
+                    required={true}
+                    options={courses}
+                  />
+                </div>
+              ) : null}
               <div className="mx-5 flex justify-between gap-4">
                 <div className="flex">
                   <FormikControl
@@ -301,23 +294,14 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                   />
                 </div>
                 <div className="flex w-full">
-                  {/* <FormikControl
+                  <MUINumber
                     label="Phone"
                     name="mobile"
-                    control="number"
-                    className="w-full"
-                    placeholder="Phone"
+                    className="h-full w-full"
                     type="text"
                     required={true}
-                  /> */}
-                   <MUINumber
-                label="Phone"
-                name="mobile"
-                className="w-full h-full"
-                type="text"
-                required={true}
-                maxLength={10}
-              />
+                    maxLength={10}
+                  />
                 </div>
               </div>
             </div>

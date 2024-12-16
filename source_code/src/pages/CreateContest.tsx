@@ -211,7 +211,6 @@ const validationSchema = Yup.object({
     .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
       const { registrationStartTime } = this.parent;
       if (!value || !registrationStartTime) return true; 
-
       const registrationEnd = moment(`${value}`, "HH:mm A");
       const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
 

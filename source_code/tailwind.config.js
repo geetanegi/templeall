@@ -33,7 +33,7 @@ export default {
         "custom-gradient-3":
           "linear-gradient(90deg, #95C11E 66.59%, rgba(255, 255, 255, 0) 100%)",
         "backgroundDark": "linear-gradient(180deg, #072E1A 0%, #006633 50%, #000000 100%)",
-        "backgroundActive": " linear-gradient(180deg, #FFDE59 0%, #FFC234 100%)"
+        "backgroundActive": " linear-gradient(180deg, #FFFF00 0%, #FFC234 100%)"
 
 
       },
@@ -50,7 +50,7 @@ export default {
         primaryText: "#FFFFFF",
         backgroundDark2:
           "linear-gradient(180deg, rgba(4, 98, 33, 0.6) 0%, rgba(7, 46, 26, 0.6) 100%)",
-        yellowText: "#FFDE59",
+        yellowText: "#FFFF00",
         loginValidationColor: "#FFFF00",
         warning: "#FFF3E0",
         warningText: "#FF9800",

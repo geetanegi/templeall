@@ -52,7 +52,7 @@ const LeaderBoardTable: React.FC<{
           <img
             src={row?.imageUrl}
             style={index > 2 ? { color: '#fff' } : { color: '#000' }}
-            className="mr-[8px] h-5 w-5 rounded-full border border-[#FFDE59]"
+            className="mr-[8px] h-5 w-5 rounded-full border border-yellowText"
           />
           <span className="text-[13px]" style={index > 1 ? { color: '#fff' } : { color: '#000' }}>{row.username}</span>
         </div>
@@ -85,7 +85,7 @@ const LeaderBoardTable: React.FC<{
           pagination={false}
           oddRowStyle={{
             background: '#284226',
-            borderBottom: '1px solid #FFDE59'
+            borderBottom: '1px solid #FFFF00'
           }}
           firstRowStyle={{
             background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
@@ -133,20 +133,20 @@ const LeaderBoardTable: React.FC<{
             pagination={false}
             oddRowStyle={{
               background: '#284226',
-              borderBottom: '1px solid #FFDE59'
+              borderBottom: '1px solid #FFFF00'
             }}
 
             firstRowStyle={{
               background: 'linear-gradient(180deg, #A09825 0%, #FFF5BA 25%, #F7F6B1 46%, #C5BB61 87%)',
-              borderBottom: '1px solid #FFDE59'
+              borderBottom: '1px solid #FFFF00'
             }}
             secondRowStyle={{
               background: 'linear-gradient(180deg, #BABABA 16.67%, #DFDFDF 52.17%, #A5A5A5 82.67%, #BCBCBC 100%)',
-              borderBottom: '1px solid #FFDE59'
+              borderBottom: '1px solid #FFFF00'
             }}
             thirdRowStyle={{
               background: 'linear-gradient(180deg, #907B4B 0%, #B09659 11%, #865F1C 52%, #8A6629 75%, #B38531 100%)',
-              borderBottom: '1px solid #FFDE59'
+              borderBottom: '1px solid #FFFF00'
 
             }}
             greenTheme={true}

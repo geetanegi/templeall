@@ -38,14 +38,13 @@ const ForgetPassword: React.FC = () => {
    * Validation Schema of login Form
    * ***/
   const validationSchema = Yup.object({
-    username: Yup.string()
-      .required(validationConstant.mandatoryField),
-      // .matches(
-      //   /^[a-zA-Z0-9]+$/,
-      //   validationConstant.userNameContains,
-      // )
-      // .min(3, validationConstant.usernameMinWordLimit)
-      // .max(25, validationConstant.userNameMaxWordLimit),
+    username: Yup.string().required(validationConstant.mandatoryField),
+    // .matches(
+    //   /^[a-zA-Z0-9]+$/,
+    //   validationConstant.userNameContains,
+    // )
+    // .min(3, validationConstant.usernameMinWordLimit)
+    // .max(25, validationConstant.userNameMaxWordLimit),
   });
 
   const handleSubmit = async (values: ResetPasswordFormValues) => {
@@ -92,54 +91,58 @@ const ForgetPassword: React.FC = () => {
   };
 
   return (
-    <div
-      className={`${showOtpScreen ? "w-full py-4" : "w-full  mb-[50px]"} `}
-    >
+    <div className={`${showOtpScreen ? "w-full py-4" : "mb-[50px] w-full"} `}>
       <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl">
         {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />  */}
-        <h1 className={`text-xl my-3 font-semibold text-primaryText`}>
+        <h1 className={`my-3 text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
-          {!showOtpScreen && !showSuccessScreen && (
-            <>
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-              >
-                <Form className="w-full max-w-sm md:max-w-md">
-                  <div className="mb-4 md:w-full">
-                    <FormikControl
-                      label="Username / Email ID"
-                      name="username"
-                      control="logIn"
-                      className="w-full"
-                      placeholder="Username"
-                      type="text"
-                      required={true}
-                      maxLength={25}
-                      authFlow={true}
-                      labelMarginRight={4}
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <button
-                      type="submit"
-                      className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
-                    >
-                      Send OTP
-                    </button>
-                  </div>
-                </Form>
-              </Formik>
-              <p className="mt-4 text-center">
-                <Link to={ROUTES.LOGIN} className={`text-link hover:underline`}>
-                  Back to login
-                </Link>
-              </p>
-            </>
-          )}
+        {!showOtpScreen && !showSuccessScreen && (
+          <>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              <Form className="w-full max-w-sm md:max-w-md">
+                <div className="text-center text-[#ffffff]">
+                  Enter your username, email, or phone number. We'll send a
+                  secure one-time password (OTP) to help you reset your
+                  password. Please ensure the mobile number must include a
+                  country code, e.g., +1xxxxxxxxxx.
+                </div>
+                <div className="mb-4 md:w-full">
+                  <FormikControl
+                    label="Username / Email ID / Phone"
+                    name="username"
+                    control="logIn"
+                    className="w-full"
+                    placeholder="Username"
+                    type="text"
+                    required={true}
+                    maxLength={25}
+                    authFlow={true}
+                    labelMarginRight={4}
+                  />
+                </div>
+                <div className="flex items-center justify-center">
+                  <button
+                    type="submit"
+                    className={`flex h-[36px] w-[200px] items-center justify-center rounded-[12px] border bg-buttonPrimary py-2 text-primaryText hover:bg-lime-600`}
+                  >
+                    Send OTP
+                  </button>
+                </div>
+              </Form>
+            </Formik>
+            <p className="mt-4 text-center">
+              <Link to={ROUTES.LOGIN} className={`text-link hover:underline`}>
+                Back to login
+              </Link>
+            </p>
+          </>
+        )}
         <div className="px-0 md:w-full">{DisplayScreens()}</div>
       </div>
     </div>

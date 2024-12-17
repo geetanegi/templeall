@@ -237,13 +237,13 @@ const Nav: React.FC = () => {
   return (
     <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex h-full w-full items-center justify-between px-2">
-        <div className="align-center flex h-full justify-center">
-          <a
+        <div className="align-center flex h-full justify-center cursor-normal">
+          {/* <a
             href="#"
-            className="flex w-[82px] items-center space-x-3 rtl:space-x-reverse"
-          >
+            className="flex w-[82px] items-center cursor-normal  space-x-3 rtl:space-x-reverse"
+          > */}
             <img src={aceCampLogo} alt="Ace Camp Logo" />
-          </a>
+          {/* </a> */}
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
           <div
@@ -258,7 +258,7 @@ const Nav: React.FC = () => {
                   key={menu.name}
                   className={`w-15 h-full px-2 ${
                     selectedMenu === menu.name
-                      ? "text-grayu-600" // Keep background unchanged
+                      ? "text-grayu-600"
                       : "text-gray-600"
                   }`}
                 >

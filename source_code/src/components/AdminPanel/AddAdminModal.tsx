@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../ModalComponent";
 import apiService from "../../services/apiService";
-import { Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
@@ -33,41 +33,7 @@ interface AddAdminModalProps {
   selectedUserTab: number | string;
 }
 
-const validationSchema = Yup.object({
-  firstName: Yup.string()
-    .required(validationConstant.firstNameRequired)
-    .matches(/^[A-Za-z]+$/, validationConstant.firstNameContains)
-    .max(25, validationConstant.firstNameMaxLength),
-  lastName: Yup.string()
-    .required(validationConstant.lastNameRequired)
-    .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
-    .max(25, validationConstant.lastNameMaxLength),
-  username: Yup.string()
-    .required(validationConstant.usernameRequired)
-    .matches(/^[a-zA-Z0-9]+$/, validationConstant.userNameContains)
-    .min(3, validationConstant.usernameMinWordLimit)
-    .max(25, validationConstant.userNameMaxWordLimit),
-  password: Yup.string()
-    .required(validationConstant.passwordIsRequired)
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,25}$/,
-      validationConstant.passwordContains,
-    ),
-  mobile: Yup.string()
-    .matches(/^[0-9]+$/, validationConstant.phoneNumberContains)
-    .required(validationConstant.phoneNumberIsRequired),
-  countryCode: Yup.string()
-    .required(validationConstant.countryCodeRequired)
-    .max(4, validationConstant.countryCodeMaxLength),
-  emailId: Yup.string()
-    .email(validationConstant.validEmail)
-    .required(validationConstant.emailRequired),
-  courseIds: Yup.string().when("selectedUserTab", {
-    is: 2, // Apply this validation only when selectedUserTab === 2
-    then: Yup.string().required(validationConstant.courseRequired),
-    otherwise: Yup.string().nullable(),
-  }),
-});
+
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
   isModalOpen,
@@ -78,6 +44,44 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
   refreashUserData,
   selectedUserTab,
 }) => {
+
+
+  const validationSchema = Yup.object({
+    firstName: Yup.string()
+      .required(validationConstant.firstNameRequired)
+      .matches(/^[A-Za-z]+$/, validationConstant.firstNameContains)
+      .max(25, validationConstant.firstNameMaxLength),
+    lastName: Yup.string()
+      .required(validationConstant.lastNameRequired)
+      .matches(/^[A-Za-z]+$/, validationConstant.lastNameContains)
+      .max(25, validationConstant.lastNameMaxLength),
+    username: Yup.string()
+      .required(validationConstant.usernameRequired)
+      .matches(/^[a-zA-Z0-9]+$/, validationConstant.userNameContains)
+      .min(3, validationConstant.usernameMinWordLimit)
+      .max(25, validationConstant.userNameMaxWordLimit),
+    password: Yup.string()
+      .required(validationConstant.passwordIsRequired)
+      .matches(
+        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,25}$/,
+        validationConstant.passwordContains,
+      ),
+    mobile: Yup.string()
+      .matches(/^[0-9]+$/, validationConstant.phoneNumberContains)
+      .required(validationConstant.phoneNumberIsRequired),
+    countryCode: Yup.string()
+      .required(validationConstant.countryCodeRequired)
+      .max(4, validationConstant.countryCodeMaxLength),
+    emailId: Yup.string()
+      .email(validationConstant.validEmail)
+      .required(validationConstant.emailRequired),
+    courseIds:selectedUserTab === 2? Yup.string().required(validationConstant.courseRequired) :  Yup.string().when("selectedUserTab", {
+      is: (selectedUserTab: number | string) => selectedUserTab === 2, // Make sure this logic is correct
+      then: Yup.string().required(validationConstant.courseRequired),
+      otherwise: Yup.string().nullable(),
+    }),
+  });
+
   const [, setRoles] = useState<any[]>([]);
   const [courses, setCourses] = useState<any[]>([]);
   const fetchCourseList = async () => {
@@ -101,6 +105,32 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
   };
 
   const dispatch = useDispatch();
+
+  let initialValues = {}
+  if(selectedUserTab === 2){
+    initialValues = {
+      firstName: "",
+      lastName: "",
+      username: "",
+      emailId: "",
+      password: "",
+      roleIds: "",
+      countryCode: "+1",
+      mobile: "",
+      courseIds: ""
+    }
+  }else {
+    initialValues = {
+      firstName: "",
+      lastName: "",
+      username: "",
+      emailId: "",
+      password: "",
+      roleIds: "",
+      countryCode: "+1",
+      mobile: "",
+    }
+  }
 
   useEffect(() => {
     getRoles();
@@ -183,24 +213,17 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
   return (
     <Modal isOpen={isModalOpen} onClose={() => closeModal()} title="Add User">
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          username: "",
-          emailId: "",
-          password: "",
-          roleIds: "",
-          countryCode: "+1",
-          mobile: "",
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        enableReinitialize={true}
       >
-        {({ handleSubmit, isSubmitting }) => (
-          <form
-            onSubmit={handleSubmit}
-            className="w-full rounded-lg md:w-[480px]"
-          >
+        {({ isSubmitting }) => (
+          // <form
+          // onSubmit={handleSubmit}
+          // className="w-full rounded-lg md:w-[480px]"
+          // >
+            <Form>
             <div
               className="h-full w-full overflow-y-auto overflow-x-hidden md:w-[480px]"
               style={{ maxHeight: "60vh" }}
@@ -320,7 +343,8 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                 {userData ? "Edit User" : "Add User"}
               </button>
             </div>
-          </form>
+          </Form>
+          // </form>
         )}
       </Formik>
     </Modal>

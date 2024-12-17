@@ -47,6 +47,7 @@ const MUIInput: React.FC<InputProps> = ({
               type={type}
               onFocus={onFocus}
               autoComplete="off"
+            
               label={
                 <span className="text-[13px]">
                   {label}

@@ -165,9 +165,8 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
                   disabled={true}
                 />
             </div>
-            <div className="mx-5 w-full md:w-[430px]">
-              <div className="mb-4 flex gap-4">
-              <div className="flex w-[30%]">
+              <div className="mb-4 flex gap-4 mx-5 w-full md:w-[430px]">
+              <div className="flex w-[30%] ">
                   <FormikControl
                     label="Country Code"
                     name="countryCode"
@@ -188,7 +187,6 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
                     disabled={true}
                   />
                 </div>
-              </div>
             </div>
             <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
               <button

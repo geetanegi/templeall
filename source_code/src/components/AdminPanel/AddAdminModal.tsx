@@ -80,7 +80,6 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
 }) => {
   const [, setRoles] = useState<any[]>([]);
   const [courses, setCourses] = useState<any[]>([]);
-
   const fetchCourseList = async () => {
     try {
       const res = await apiService.post<any>(API_URL.getCourseList, {

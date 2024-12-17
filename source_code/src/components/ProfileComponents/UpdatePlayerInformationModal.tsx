@@ -20,6 +20,7 @@ import moment from "moment";
 // } from "@stripe/react-stripe-js";
 import PageLoader from "../PageLoader";
 import { validationConstant } from "../../utils/validationEnums";
+import FormikControl from "../../Formik/components/FormikControl";
 interface userProfileType {
   contactNumber?: string;
   ball?: string;
@@ -80,10 +81,7 @@ const initialValues = {
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .required(validationConstant.firstNameRequired)
-    .matches(
-      /^[A-Za-z]+$/,
-      validationConstant.firstNameContains,
-    )
+    .matches(/^[A-Za-z]+$/, validationConstant.firstNameContains)
     .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
     .required(validationConstant.lastNameRequired)
@@ -100,11 +98,11 @@ const validationSchema = Yup.object({
     /^[A-Za-z0-9\s]+$/,
     validationConstant.locationContains,
   ),
-  city: Yup.string().matches(
-    /^[A-Za-z\s]+$/,
-    validationConstant.cityContains,
+  city: Yup.string().matches(/^[A-Za-z\s]+$/, validationConstant.cityContains),
+  ghin: Yup.string().matches(
+    /^\+?[1-9]\d{1,14}$/,
+    validationConstant.invalidGHIN,
   ),
-  ghin: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, validationConstant.invalidGHIN),
   alternateEmail: Yup.string().email(validationConstant.validEmail),
   handicap: Yup.string()
     .typeError(validationConstant.handicapNumberContains)
@@ -215,29 +213,29 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
           initialValues={
             userData
               ? {
-                firstName: userData?.firstName,
-                lastName: userData?.lastName,
-                email: userData?.email,
-                contactNumber: userData?.userProfile?.contactNumber || "",
-                ghin: userData?.userProfile?.ghin || "",
-                location: userData?.userProfile?.location || "",
-                city: userData?.userProfile?.city || "",
-                alternateEmail: userData?.userProfile?.alternateEmail || "",
-                dateOfBirth: userData?.userProfile?.dateOfBirth || "",
-                cardDetails: "",
-                fullNameOnCard: "",
-                expirationDate: "",
-                username: userData?.username || "",
-                ball: userData?.userProfile?.ball || "",
-                clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || '',
-                courseIds:
-                  userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
-                    .id,
-                clubs: userData?.userProfile?.clubs || "",
-                cvv: "",
-                countryCode: userData?.userProfile?.countryCode || "+1",
-                handicap: userData?.userProfile?.handicap || "",
-              }
+                  firstName: userData?.firstName,
+                  lastName: userData?.lastName,
+                  email: userData?.email,
+                  contactNumber: userData?.userProfile?.contactNumber || "",
+                  ghin: userData?.userProfile?.ghin || "",
+                  location: userData?.userProfile?.location || "",
+                  city: userData?.userProfile?.city || "",
+                  alternateEmail: userData?.userProfile?.alternateEmail || "",
+                  dateOfBirth: userData?.userProfile?.dateOfBirth || "",
+                  cardDetails: "",
+                  fullNameOnCard: "",
+                  expirationDate: "",
+                  username: userData?.username || "",
+                  ball: userData?.userProfile?.ball || "",
+                  clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || "",
+                  courseIds:
+                    userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
+                      .id,
+                  clubs: userData?.userProfile?.clubs || "",
+                  cvv: "",
+                  countryCode: userData?.userProfile?.countryCode || "+1",
+                  handicap: userData?.userProfile?.handicap || "",
+                }
               : initialValues
           }
           validationSchema={validationSchema}
@@ -256,9 +254,35 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
               <form onSubmit={handleSubmit}>
                 <div
                   className="scrollbar-hidden h-[340px] overflow-auto"
-                // style={scrollbarStyles}
+                  // style={scrollbarStyles}
                 >
-                  <div className="flex w-[90%] gap-4 md:w-[430px]">
+                  <div className="mx-5 mt-1 flex w-full justify-between gap-4 md:w-[430px]">
+                    <div className="flex">
+                      <FormikControl
+                        label="First Name"
+                        name="firstName"
+                        control="customInput"
+                        className="w-full"
+                        placeholder="First Name"
+                        type="text"
+                        required={true}
+                        disabled={true}
+                      />
+                    </div>
+                    <div className="flex">
+                      <FormikControl
+                        label="Last Name"
+                        name="lastName"
+                        control="customInput"
+                        className="w-full"
+                        placeholder="Last Name"
+                        type="text"
+                        required={true}
+                        disabled={true}
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="flex w-[90%] gap-4 md:w-[430px]">
                     <div className="w-1/2">
                       <input
                         type="text"
@@ -305,9 +329,19 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                           )}
                       </div>
                     </div>
-                  </div>
-                  <div>
-                    <input
+                  </div> */}
+                  <div className="mx-5 w-full md:w-[430px]">
+                  <FormikControl
+                        label="Username"
+                        name="username"
+                        control="customInput"
+                        className="w-full"
+                        placeholder="Username"
+                        type="text"
+                        required={true}
+                        disabled={true}
+                      />
+                    {/* <input
                       type="text"
                       name="username"
                       placeholder="Username"
@@ -326,10 +360,20 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                             {errors.username}
                           </span>
                         )}
-                    </div>
+                    </div> */}
                   </div>
-                  <div className="mb-5">
-                    <input
+                  <div className="mb-5 mx-5 w-full md:w-[430px]">
+                  <FormikControl
+                        label="DOB"
+                        name="dateOfBirth"
+                        control="customInput"
+                        className="w-full"
+                        placeholder="DOB"
+                        type="text"
+                        required={true}
+                        disabled={true}
+                      />
+                    {/* <input
                       type="text"
                       id="dateOfBirth"
                       name="dateOfBirth"
@@ -343,7 +387,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                       max={maxDate}
                       disabled
                       className="mx-5 w-[90%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500 md:w-[430px]"
-                    />
+                    /> */}
                   </div>
                   <div className="mb-5 flex w-[90%] gap-4 md:w-[430px]">
                     <div className="w-1/2">

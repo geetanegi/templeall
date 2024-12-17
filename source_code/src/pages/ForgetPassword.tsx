@@ -94,7 +94,7 @@ const ForgetPassword: React.FC = () => {
     <div className={`${showOtpScreen ? "w-full py-4" : "mb-[50px] w-full"} `}>
       <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl">
         {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" />  */}
-        <h1 className={`my-3 text-xl font-semibold text-primaryText`}>
+        <h1 className={`mt-3 text-xl font-semibold text-primaryText`}>
           {showOtpScreen && "OTP Verification"}
           {!showOtpScreen && !showSuccessScreen && "Forgot Your Password"}
         </h1>
@@ -106,7 +106,7 @@ const ForgetPassword: React.FC = () => {
               onSubmit={handleSubmit}
             >
               <Form className="w-full max-w-sm md:max-w-md">
-                <div className="text-center text-[#ffffff]">
+                <div className="text-center text-[#ffffff] mb-4">
                   Enter your username, email, or phone number. We'll send a
                   secure one-time password (OTP) to help you reset your
                   password. Please ensure the mobile number must include a

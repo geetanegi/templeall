@@ -41,10 +41,10 @@ const inputLabelStyles = {
 
 const selectStyles = {
   backgroundColor: "#FAFAFA",
-  padding: "6px",
+  padding: "2px",
   borderRadius: "6px",
   fontSize: "14px",
-  "& .MuiSelect-select": { padding: "8px 12px" },
+  "& .MuiSelect-select": { padding: "10px 12px" },
   "&:hover": { backgroundColor: "#f0f0f0" },
 };
 

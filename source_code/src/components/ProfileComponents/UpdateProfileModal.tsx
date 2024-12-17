@@ -9,6 +9,8 @@ import { API_URL } from "../../services/enums";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
 import { validationConstant } from "../../utils/validationEnums";
+import FormikControl from "../../Formik/components/FormikControl";
+import MUINumber from "../../Formik/components/MUINumber";
 
 interface userDataTypes {
   firstName: string;
@@ -123,104 +125,68 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
         onSubmit={handleSubmit}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
           handleSubmit,
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit}>
-            <div>
-              <input
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                id="firstName"
-                value={values.firstName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 md:w-[430px]"
-              />
-              <div className="mb-5 ml-6">
-                {touched.firstName &&
-                  errors.firstName &&
-                  typeof errors.firstName === "string" && (
-                    <span className="text-red-600">{errors.firstName}</span>
-                  )}
+            <div className="mx-5 w-full md:w-[430px]">
+              <div>
+              <FormikControl
+                    label="First Name"
+                    name="firstName"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="First Name"
+                    type="text"
+                    required={true}
+                  />
               </div>
               <div>
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  id="lastName"
-                  value={values.lastName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 md:w-[430px]"
+              <FormikControl
+                    label="Last Name"
+                    name="lastName"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="Last Name"
+                    type="text"
+                    required={true}
+                  />
+              </div>
+            </div>
+            <div className="mx-5 w-full md:w-[430px]">
+            <FormikControl
+                  label="Email"
+                  name="email"
+                  control="customInput"
+                  className="w-full"
+                  placeholder="Email"
+                  type="email"
+                  required={true}
+                  disabled={true}
                 />
-                <div className="mb-5 ml-6">
-                  {touched.lastName &&
-                    errors.lastName &&
-                    typeof errors.lastName === "string" && (
-                      <span className="text-red-600">{errors.lastName}</span>
-                    )}
+            </div>
+              <div className="mb-4 flex gap-4 mx-5 w-full md:w-[430px]">
+              <div className="flex w-[30%] ">
+                  <FormikControl
+                    label="Country Code"
+                    name="countryCode"
+                    control="customInput"
+                    className="w-full"
+                    placeholder="Country Code"
+                    type="text"
+                    disabled={true}
+                  />
                 </div>
-              </div>
-            </div>
-            <div>
-              <input
-                type="text"
-                name="email"
-                placeholder="Email"
-                id="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled
-                className="mx-5 w-[90%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500 md:w-[430px]"
-              />
-              <div className="mb-5 ml-6">
-                {touched.email &&
-                  errors.email &&
-                  typeof errors.email === "string" && (
-                    <span className="text-red-600">{errors.email}</span>
-                  )}
-              </div>
-            </div>
-            <div>
-              <div className="mb-4 flex gap-4">
-                <input
-                  name="countryCode"
-                  className="ml-5 w-[15%] rounded-lg border border-gray-200 bg-[#E6E6E6] cursor-not-allowed px-4 py-3 "
-                  value={values.countryCode}
-                  disabled
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                />
-                <input
-                  type="text"
-                  name="contactNumber"
-                  placeholder="Phone number"
-                  id="contactNumber"
-                  value={values.contactNumber}
-                  disabled
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  maxLength={10}
-                  className="w-[71%] rounded-lg border border-gray-200 bg-[#E6E6E6] cursor-not-allowed px-2 py-3 text-gray-500"
-                />
-              </div>
-              <div className="mb-5 ml-6">
-                {touched.contactNumber &&
-                  errors.contactNumber &&
-                  typeof errors.contactNumber === "string" && (
-                    <span className="text-red-600">{errors.contactNumber}</span>
-                  )}
-              </div>
+                <div className="flex w-full">
+                  <MUINumber
+                    label="Phone"
+                    name="mobile"
+                    className="h-full w-full "
+                    type="text"
+                    maxLength={10}
+                    disabled={true}
+                  />
+                </div>
             </div>
             <div className="flex w-full items-center justify-end rounded-bl-lg rounded-br-lg border border-gray-200 bg-[#F5F6F7] p-6 md:w-[480px]">
               <button

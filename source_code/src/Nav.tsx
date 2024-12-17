@@ -238,12 +238,12 @@ const Nav: React.FC = () => {
     <nav className="h-[56px] w-full border-b border-gray-200 bg-white shadow">
       <div className="relative flex h-full w-full items-center justify-between px-2">
         <div className="align-center flex h-full justify-center cursor-normal">
-          <a
+          {/* <a
             href="#"
             className="flex w-[82px] items-center cursor-normal  space-x-3 rtl:space-x-reverse"
-          >
-            <img src={aceCampLogo} alt="Ace Camp Logo" />
-          </a>
+          > */}
+            <img src={aceCampLogo} alt="Ace Camp Logo" /> 
+          {/* </a> */}
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">
           <div

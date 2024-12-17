@@ -41,7 +41,7 @@ export interface APIResContestData {
 
 export interface jackpot {
   contestType: string;
-  jackpotAmount: null;
+  jackpotAmount: number;
   clubName: string;
   courseName: string;
   holeNumber: 7;

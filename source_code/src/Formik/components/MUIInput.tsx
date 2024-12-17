@@ -11,6 +11,7 @@ interface InputProps {
   maxLength?: number;
   validateRegex?: RegExp;
   onFocus?: () => void;
+  disabled?: boolean;
 }
 
 const MUIInput: React.FC<InputProps> = ({
@@ -22,6 +23,7 @@ const MUIInput: React.FC<InputProps> = ({
   maxLength,
   validateRegex,
   onFocus = () => {},
+  disabled = false,
 }) => {
   // Function to validate input and block special characters and spaces
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -45,6 +47,7 @@ const MUIInput: React.FC<InputProps> = ({
               type={type}
               onFocus={onFocus}
               autoComplete="off"
+            
               label={
                 <span className="text-[13px]">
                   {label}
@@ -52,6 +55,7 @@ const MUIInput: React.FC<InputProps> = ({
                 </span>
               }
               className={`w-full rounded-lg border px-2 text-gray-500`}
+              disabled={disabled}
               // Remove fullWidth to allow custom width control
               helperText={<ErrorMessage name={name} component="span" />}
               error={Boolean(form.errors[name] && form.touched[name])}
@@ -63,6 +67,7 @@ const MUIInput: React.FC<InputProps> = ({
                   borderRadius: "5px",
                   backgroundColor: "#FAFAFA",
                   height: "50px",
+                  background: disabled ? "#e5e7eb" : ""
                 },
                 // width: "100%",
                 // borderRadius: "10px",

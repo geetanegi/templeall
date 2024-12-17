@@ -81,10 +81,12 @@ const MUINumber: React.FC<InputProps> = ({
                 padding: "9px", // Adjust padding as needed
                 margin: 0, // Remove margin if needed
                 // border: "1px solid #CACACA", // Adjust or remove border
+                background: disabled ? "#e5e7eb" : ""
               },
               "& .MuiInputBase-input": {
                 padding: "6px",
                 fontSize: "14px", // Adjust input padding to align with your design
+                background: disabled ? "#e5e7eb" : ""
               },
               "& .MuiFormHelperText-root": {
                 margin: 0, // Remove margin from helper text

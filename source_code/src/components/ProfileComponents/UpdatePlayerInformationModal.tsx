@@ -8,8 +8,6 @@ import { ToastInfo, ToastSuccess } from "../Toast";
 import { API_URL } from "../../services/enums";
 import { RootState } from "../../store";
 import apiService from "../../services/apiService";
-import { CourseApiResponse } from "../AdminPanel/courses/courses.interface";
-import { ChevronDown } from "lucide-react";
 import moment from "moment";
 // import {
 //   // CardCvcElement,
@@ -20,6 +18,9 @@ import moment from "moment";
 // } from "@stripe/react-stripe-js";
 import PageLoader from "../PageLoader";
 import { validationConstant } from "../../utils/validationEnums";
+import FormikControl from "../../Formik/components/FormikControl";
+import MUINumber from "../../Formik/components/MUINumber";
+import MUISelect from "../../Formik/components/MUISelect";
 interface userProfileType {
   contactNumber?: string;
   ball?: string;
@@ -80,10 +81,7 @@ const initialValues = {
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .required(validationConstant.firstNameRequired)
-    .matches(
-      /^[A-Za-z]+$/,
-      validationConstant.firstNameContains,
-    )
+    .matches(/^[A-Za-z]+$/, validationConstant.firstNameContains)
     .max(25, validationConstant.firstNameMaxLength),
   lastName: Yup.string()
     .required(validationConstant.lastNameRequired)
@@ -100,11 +98,11 @@ const validationSchema = Yup.object({
     /^[A-Za-z0-9\s]+$/,
     validationConstant.locationContains,
   ),
-  city: Yup.string().matches(
-    /^[A-Za-z\s]+$/,
-    validationConstant.cityContains,
+  city: Yup.string().matches(/^[A-Za-z\s]+$/, validationConstant.cityContains),
+  ghin: Yup.string().matches(
+    /^\+?[1-9]\d{1,14}$/,
+    validationConstant.invalidGHIN,
   ),
-  ghin: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, validationConstant.invalidGHIN),
   alternateEmail: Yup.string().email(validationConstant.validEmail),
   handicap: Yup.string()
     .typeError(validationConstant.handicapNumberContains)
@@ -123,21 +121,26 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   const loader = useSelector((state: RootState) => state.loader.isLoading);
-  const [maxDate, setMaxDate] = useState("");
-  const [courses, setCourses] = useState<CourseApiResponse | null>(null);
+  // const [maxDate, setMaxDate] = useState("");
+  const [courses, setCourses] = useState<any[]>([]);
   // const [cardTouched, setCardTouched] = useState(false);
   // const [_cardError, setCardError] = useState<string | null>(null);
   // const [isCardEmpty, setIsCardEmpty] = useState(true);
   const fetchCourseList = async () => {
     try {
-      const res = await apiService.post<CourseApiResponse>(
+      const res = await apiService.post<any>(
         API_URL.getCourseList,
         {
           data: {},
         },
       );
       if (res.status === 200 && !res.data.error) {
-        setCourses(res.data);
+        const courseData =
+          res?.data?.data?.map((course: any) => ({
+            value: course.id,
+            key: course.courseName,
+          })) || [];
+        setCourses(courseData);
       } else if (res.data.error) {
         ToastInfo(res.data.description || "Error fetching course data");
       }
@@ -147,16 +150,16 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
   };
 
   useEffect(() => {
-    getCurrentDate();
+    // getCurrentDate();
     fetchCourseList();
   }, []);
 
-  const getCurrentDate = () => {
-    const today = new Date();
-    today.setDate(today.getDate() - 1);
-    const maxDateString = today.toISOString().split("T")[0]; // Format as YYYY-MM-DD
-    setMaxDate(maxDateString);
-  };
+  // const getCurrentDate = () => {
+  //   const today = new Date();
+  //   today.setDate(today.getDate() - 1);
+  //   const maxDateString = today.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+  //   setMaxDate(maxDateString);
+  // };
   const dispatch = useDispatch();
 
   const handleSubmit = async (
@@ -215,29 +218,33 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
           initialValues={
             userData
               ? {
-                firstName: userData?.firstName,
-                lastName: userData?.lastName,
-                email: userData?.email,
-                contactNumber: userData?.userProfile?.contactNumber || "",
-                ghin: userData?.userProfile?.ghin || "",
-                location: userData?.userProfile?.location || "",
-                city: userData?.userProfile?.city || "",
-                alternateEmail: userData?.userProfile?.alternateEmail || "",
-                dateOfBirth: userData?.userProfile?.dateOfBirth || "",
-                cardDetails: "",
-                fullNameOnCard: "",
-                expirationDate: "",
-                username: userData?.username || "",
-                ball: userData?.userProfile?.ball || "",
-                clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || '',
-                courseIds:
-                  userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
-                    .id,
-                clubs: userData?.userProfile?.clubs || "",
-                cvv: "",
-                countryCode: userData?.userProfile?.countryCode || "+1",
-                handicap: userData?.userProfile?.handicap || "",
-              }
+                  firstName: userData?.firstName,
+                  lastName: userData?.lastName,
+                  email: userData?.email,
+                  contactNumber: userData?.userProfile?.contactNumber || "",
+                  ghin: userData?.userProfile?.ghin || "",
+                  location: userData?.userProfile?.location || "",
+                  city: userData?.userProfile?.city || "",
+                  alternateEmail: userData?.userProfile?.alternateEmail || "",
+                  dateOfBirth:
+                    moment
+                      .utc(userData?.userProfile?.dateOfBirth)
+                      .local()
+                      .format("MM-DD-YYYY") || "",
+                  cardDetails: "",
+                  fullNameOnCard: "",
+                  expirationDate: "",
+                  username: userData?.username || "",
+                  ball: userData?.userProfile?.ball || "",
+                  clubId: userData?.userCourseAndClubInfo?.[0]?.club?.id || "",
+                  courseIds:
+                    userData?.userCourseAndClubInfo?.[0]?.club?.courseList?.[0]
+                      .id,
+                  clubs: userData?.userProfile?.clubs || "",
+                  cvv: "",
+                  countryCode: userData?.userProfile?.countryCode || "+1",
+                  handicap: userData?.userProfile?.handicap || "",
+                }
               : initialValues
           }
           validationSchema={validationSchema}
@@ -245,350 +252,206 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
         >
           {({
             values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
             handleSubmit,
             isSubmitting,
           }) => {
+            let maxLength = 7
+              if(values.handicap){
+                const inputValue =  String(values.handicap);
+                const isDecimal = inputValue.includes(".");
+                maxLength = isDecimal ? 8 : 7;
+              }
             return (
               <form onSubmit={handleSubmit}>
                 <div
                   className="scrollbar-hidden h-[340px] overflow-auto"
-                // style={scrollbarStyles}
                 >
-                  <div className="flex w-[90%] gap-4 md:w-[430px]">
-                    <div className="w-1/2">
-                      <input
-                        type="text"
+                  <div className="mx-5 mt-1 flex w-full justify-between gap-4 md:w-[430px]">
+                    <div className="flex">
+                      <FormikControl
+                        label="First Name"
                         name="firstName"
+                        control="customInput"
+                        className="w-full"
                         placeholder="First Name"
-                        id="firstName"
-                        value={values.firstName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        max={100}
-                        disabled
-                        className="mx-5 w-full cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887]"
-                      />
-                      <div className="mb-5 ml-6">
-                        {touched.firstName &&
-                          errors.firstName &&
-                          typeof errors.firstName === "string" && (
-                            <span className="text-red-600">
-                              {errors.firstName}
-                            </span>
-                          )}
-                      </div>
-                    </div>
-                    <div className="w-1/2">
-                      <input
+                        maxLength={25}
                         type="text"
+                        required={true}
+                        disabled={true}
+                      />
+                    </div>
+                    <div className="flex">
+                      <FormikControl
+                        label="Last Name"
                         name="lastName"
+                        control="customInput"
+                        maxLength={25}
+                        className="w-full"
                         placeholder="Last Name"
-                        id="lastName"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        max={100}
-                        disabled
-                        className="mx-5 w-full cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887]"
+                        type="text"
+                        required={true}
+                        disabled={true}
                       />
-                      <div className="mb-5 ml-6">
-                        {touched.lastName &&
-                          errors.lastName &&
-                          typeof errors.lastName === "string" && (
-                            <span className="text-red-600">
-                              {errors.lastName}
-                            </span>
-                          )}
-                      </div>
                     </div>
                   </div>
-                  <div>
-                    <input
-                      type="text"
+                                <div className="mx-5 w-full md:w-[430px]">
+                    <FormikControl
+                      label="Username"
                       name="username"
+                      control="customInput"
+                      className="w-full"
                       placeholder="Username"
-                      disabled
-                      id="username"
-                      value={values.username}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      className="mx-5 w-[90%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500 md:w-[430px]"
-                    />
-                    <div className="mb-5 ml-6">
-                      {touched.username &&
-                        errors.username &&
-                        typeof errors.username === "string" && (
-                          <span className="text-red-600">
-                            {errors.username}
-                          </span>
-                        )}
-                    </div>
-                  </div>
-                  <div className="mb-5">
-                    <input
                       type="text"
-                      id="dateOfBirth"
+                      required={true}
+                      disabled={true}
+                    />
+                   
+                  </div>
+                  <div className="mx-5 w-full md:w-[430px]">
+                    <FormikControl
+                      label="DOB"
                       name="dateOfBirth"
+                      control="customInput"
+                      className="w-full"
                       placeholder="DOB"
-                      value={
-                        values.dateOfBirth &&
-                        moment(values?.dateOfBirth).format("MM/DD/YYYY")
-                      }
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      max={maxDate}
-                      disabled
-                      className="mx-5 w-[90%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500 md:w-[430px]"
+                      type="text"
+                      required={true}
+                      disabled={true}
                     />
+                   
                   </div>
-                  <div className="mb-5 flex w-[90%] gap-4 md:w-[430px]">
+                  <div className="mx-5 flex w-[90%] gap-4 md:w-[430px]">
                     <div className="w-1/2">
-                      <input
-                        type="text"
+                      <FormikControl
+                        label="Location"
                         name="location"
+                        control="customInput"
+                        className="w-full"
                         placeholder="Location"
-                        id="location"
-                        value={values.location}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
                         maxLength={25}
+                        type="text"
                       />
-                      <div className="mx-5">
-                        {touched.location &&
-                          errors.location &&
-                          typeof errors.location === "string" && (
-                            <span className="text-red-600">
-                              {errors.location}
-                            </span>
-                          )}
-                      </div>
+                
                     </div>
 
                     <div className="w-1/2">
-                      <input
-                        type="text"
+                      <FormikControl
+                        label="City"
                         name="city"
+                        control="customInput"
+                        className="w-full"
                         placeholder="City"
-                        id="city"
-                        value={values.city}
-                        onChange={(e) => {
-                          const inputValue = e.target.value;
-
-                          const regex = /^[A-Za-z\s]*$/;
-
-                          if (regex.test(inputValue)) {
-                            handleChange(e);
-                          }
-                        }}
-                        onBlur={handleBlur}
-                        className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
                         maxLength={25}
+                        type="text"
                       />
-                      <div className="mx-5">
-                        {touched.city &&
-                          errors.city &&
-                          typeof errors.city === "string" && (
-                            <span className="text-red-600">{errors.city}</span>
-                          )}
-                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-4 flex w-[100%] gap-4 lg:w-auto">
-                      <input
+                  <div className="mx-5 flex w-full gap-4 md:w-[430px]">
+                    <div className="flex w-[30%]">
+                      <FormikControl
+                        label="Country Code"
                         name="countryCode"
-                        className="ml-5 w-[15%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 px-4 py-3 text-[#7B7887]"
-                        value={values.countryCode}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        disabled
+                        control="customInput"
+                        className="w-full"
+                        placeholder="Country Code"
                         type="text"
+                        disabled={true}
                       />
-                      <input
+                    </div>
+                    <div className="flex w-full">
+                      <MUINumber
+                        label="Phone"
+                        name="mobile"
+                        className="h-full w-full"
                         type="text"
-                        name="contactNumber"
-                        placeholder="Phone number"
-                        id="contactNumber"
-                        value={values.contactNumber}
-                        onChange={(e) => {
-                          const inputValue = e.target.value;
-                          if (/^[0-9]*$/.test(inputValue)) {
-                            handleChange(e);
-                          }
-                        }}
-                        onBlur={handleBlur}
-                        disabled
                         maxLength={10}
-                        className="w-[71%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500"
+                        disabled={true}
                       />
                     </div>
-                    <div className="mb-5 ml-6">
-                      {touched.contactNumber &&
-                        errors.contactNumber &&
-                        typeof errors.contactNumber === "string" && (
-                          <span className="text-red-600">
-                            {errors.contactNumber}
-                          </span>
-                        )}
-                    </div>
                   </div>
-
-                  <div>
-                    <input
-                      type="text"
+                 
+                  <div className="mx-5 w-full md:w-[430px]">
+                    <FormikControl
+                      label="Email"
                       name="email"
-                      placeholder="Primary Email Address"
-                      id="email"
-                      value={values.email}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      disabled
-                      className="mx-5 w-[90%] cursor-not-allowed rounded-lg border border-gray-200 bg-[#E6E6E6] px-2 py-3 text-[#7B7887] text-gray-500 md:w-[430px]"
+                      control="customInput"
+                      className="w-full"
+                      placeholder="Email"
+                      type="email"
+                      required={true}
+                      disabled={true}
                     />
-                    <div className="mb-5 ml-6">
-                      {touched.email &&
-                        errors.email &&
-                        typeof errors.email === "string" && (
-                          <span className="text-red-600">{errors.email}</span>
-                        )}
-                    </div>
                   </div>
-                  <div>
-                    <input
-                      type="text"
+                  <div className="mx-5 w-full md:w-[430px]">
+                    <FormikControl
+                      label="Alternate Email"
                       name="alternateEmail"
+                      control="customInput"
+                      className="w-full"
                       placeholder="Alternate Email"
-                      id="alternateEmail"
-                      value={values.alternateEmail}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 md:w-[430px]"
-                      maxLength={256}
+                      type="email"
                     />
-                    <div className="mb-5 ml-6">
-                      {touched.alternateEmail &&
-                        errors.alternateEmail &&
-                        typeof errors.alternateEmail === "string" && (
-                          <span className="text-red-600">
-                            {errors.alternateEmail}
-                          </span>
-                        )}
-                    </div>
                   </div>
-                  <div className="mb-5">
-                    <input
-                      type="text"
+                  
+                  <div className="-mb-4 mx-5 w-full md:w-[430px]">
+                    <MUINumber
+                      label="GHIN"
                       name="ghin"
-                      placeholder="GHIN"
-                      id="ghin"
-                      value={values.ghin}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      maxLength={7}
-                      className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500 md:w-[430px]"
-                    />
-                    <div className="mx-5">
-                      {touched.ghin &&
-                        errors.ghin &&
-                        typeof errors.ghin === "string" && (
-                          <span className="text-red-600">{errors.ghin}</span>
-                        )}
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <input
+                      className="h-full w-full"
                       type="text"
-                      name="handicap"
-                      placeholder="HDCP"
-                      id="handicap"
-                      value={values.handicap}
-                      onChange={(e) => {
-                        const inputValue = e.target.value;
-
-                        const regex = /^\d*\.?\d*$/;
-
-                        if (regex.test(inputValue)) {
-                          const isDecimal = inputValue.includes(".");
-                          const maxLength = isDecimal ? 8 : 7;
-
-                          if (inputValue.length <= maxLength) {
-                            handleChange(e);
-                          }
-                        }
-                      }}
-                      onBlur={handleBlur}
-                      maxLength={8}
-                      className="mx-5 w-[90%] rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-[#7B7887] text-gray-500 md:w-[430px]"
+                      maxLength={7}
                     />
-                    <span
-                      className={`pointer-events-none absolute left-[17%] top-3 text-red-500 ${values.handicap ? "hidden" : ""}`}
-                    >
-                      *
-                    </span>
-                    <div className="mb-5 ml-6">
-                      {touched.handicap &&
-                        errors.handicap &&
-                        typeof errors.handicap === "string" && (
-                          <span className="text-red-600">
-                            {errors.handicap}
-                          </span>
-                        )}
-                    </div>
+                  
                   </div>
-                  <div className="mb-5 flex w-[90%] gap-4 md:w-[430px]">
+                  <div className="mx-5 w-full md:w-[430px]">
+                  <FormikControl
+                      label="HDCP"
+                      name="handicap"
+                      control="customInput"
+                      className="w-full"
+                      validateRegex={/^\d*\.?\d*$/}
+                      maxLength={maxLength}
+                      placeholder="HDCP"
+                      type="text"
+                    />
+                    
+                  </div>
+                  <div className="mx-5 flex w-[90%] gap-4 md:w-[430px]">
                     <div className="w-1/2">
-                      <input
-                        type="text"
-                        name="clubs"
-                        placeholder="Clubs"
-                        id="clubs"
-                        value={values.clubs}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        maxLength={25}
-                        className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
-                      />
+                    <FormikControl
+                      label="Clubs"
+                      name="clubs"
+                      control="customInput"
+                      className="w-full"
+                      validateRegex={/^\d*\.?\d*$/}
+                      maxLength={maxLength}
+                      placeholder="Clubs"
+                      type="text"
+                    />
+                    
                     </div>
 
                     <div className="w-1/2">
-                      <input
-                        type="text"
-                        name="ball"
-                        placeholder="Ball"
-                        id="ball"
-                        maxLength={25}
-                        value={values.ball}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="mx-5 w-full rounded-lg border border-gray-200 bg-[#F5F6F7] px-2 py-3 text-gray-500"
-                      />
+                    <FormikControl
+                      label="Ball"
+                      name="ball"
+                      control="customInput"
+                      className="w-full"
+                      validateRegex={/^\d*\.?\d*$/}
+                      maxLength={maxLength}
+                      placeholder="Ball"
+                      type="text"
+                    />
+                    
                     </div>
                   </div>
-                  <div className="relative mb-5">
-                    <select
-                      id="courseIds"
-                      name="courseIds"
-                      value={values.courseIds}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      className="mx-5 w-[90%] appearance-none rounded-lg border border-gray-200 bg-gray-100 px-2 py-3 text-gray-500 md:w-[430px]"
-                    >
-                      <option value="" label="Select Courses" />
-                      {courses?.data?.map((course: any) => (
-                        <option
-                          key={course.id}
-                          value={course.id}
-                          selected={values.courseIds === course.id}
-                          label={course.courseName}
-                        />
-                      ))}
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-10 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500" />
+                  <div className="mb-5  mx-5">
+                  <MUISelect
+                    label="Course"
+                    name="courseIds"
+                    
+                    options={courses ? courses :  []}
+                  />
                   </div>
 
                   {/* Card Inforemation */}

@@ -134,7 +134,7 @@ const ActiveContestAccordion: React.FC = () => {
                 {item.allDailyActiveContestDTOS.length > 0 &&
                   item.allDailyActiveContestDTOS.map((item, index) => (
                     <div key={index}>
-                      <div className="border-t-[1px] border-[#046221] px-4 pt-4 text-gray-700">
+                      <div className="border-t-[1px] border-[#046221] px-4 text-gray-700">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-[14px] font-bold text-white">
@@ -177,7 +177,7 @@ const ActiveContestAccordion: React.FC = () => {
                                 ) */}
                               </span>
                             </p>
-                            <div className="py-2">
+                            {/* <div className="py-2">
                               <p className="flex items-center justify-start text-[13px] font-thin text-white">
                                 Reg. start date/time:{" "}
                                 <span className="px-1 text-xs font-semibold">
@@ -196,15 +196,53 @@ const ActiveContestAccordion: React.FC = () => {
                                     .format("MM/DD/YYYY - hh:mm A")}
                                 </span>
                               </p>
-                            </div>
+                            </div> */}
                           </div>
+                          <div className="py-2 ">
+                              <p className="flex items-center justify-start text-[13px] font-thin text-white">
+                                Reg. start date/time:{" "}
+                                <span className="px-1 text-xs font-semibold">
+                                  {moment
+                                    .utc(item.registrationStartTime)
+                                    .local()
+                                    .format("MM/DD/YYYY - hh:mm A")}
+                                </span>
+                              </p>
+                              <p className="flex items-center justify-start text-[13px] font-thin text-white">
+                                Reg. end date/time :{" "}
+                                <span className="pl-1 text-xs font-bold text-white">
+                                  {moment
+                                    .utc(item.registrationEndTime)
+                                    .local()
+                                    .format("MM/DD/YYYY - hh:mm A")}{" "}
+                                </span>
+                              </p>
+                              <p className="flex items-center justify-start text-[13px] font-thin text-white">
+                                Contest start date/time:{" "}
+                                <span className="px-1 text-xs font-semibold">
+                                  {moment
+                                    .utc(item.startTime)
+                                    .local()
+                                    .format("MM/DD/YYYY - hh:mm A")}
+                                </span>
+                              </p>
+                              <p className="flex items-center justify-start text-[13px] font-thin text-white">
+                                Contest end date/time:{" "}
+                                <span className="pl-1 text-xs font-bold text-white">
+                                  {moment
+                                    .utc(item.endTime)
+                                    .local()
+                                    .format("MM/DD/YYYY - hh:mm A")}
+                                </span>
+                              </p>
+                            </div>
                           <div>
                             <div className="flex justify-end">
                               <div className="flex w-[150px] justify-between py-3">
                                 <div className="">
-                                  <p className="rounded-md bg-[#97D0A533] p-1 text-[10px] text-white">
+                                  <p className="rounded-md bg-[#97D0A533] p-1 text-[14px] text-white">
                                     Status:{" "}
-                                    <span className="text-[10px] font-bold text-yellowText">
+                                    <span className="text-[14px] font-bold text-yellowText">
                                       {item.registered}
                                       {}
                                     </span>{" "}
@@ -220,7 +258,7 @@ const ActiveContestAccordion: React.FC = () => {
                               </div> */}
                               </div>
                             </div>
-                            <div className="mt-2">
+                            {/* <div className="mt-2">
                               <p className="flex items-center justify-end text-[13px] font-thin text-white">
                                 Reg. end date/time :{" "}
                                 <span className="pl-1 text-xs font-bold text-white">
@@ -239,7 +277,7 @@ const ActiveContestAccordion: React.FC = () => {
                                     .format("MM/DD/YYYY - hh:mm A")}
                                 </span>
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>

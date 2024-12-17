@@ -614,6 +614,7 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
         activeStatus: editData?.activeStatus,
+        cid:editData?.cid,
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
           id: editData?.payoutStructure?.id,

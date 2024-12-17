@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-0 z-[100000000] w-full bg-[#F5F6F7] shadow-custom-shadow">
+    <div className="fixed bottom-0 z-40 w-full bg-[#F5F6F7] shadow-custom-shadow">
       <div className="flex justify-between py-1 pl-[24px] pr-[24px]">
         <div className="flex items-center justify-center gap-2">
           <p

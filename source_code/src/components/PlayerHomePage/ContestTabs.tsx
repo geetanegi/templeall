@@ -28,6 +28,7 @@ const ContestTabs: React.FC<contestProps> = ({ showMostRecent }) => {
         zoneId: timeZone,
       },
     });
+    
     setJackpotArr(res.data.data);
   };
 

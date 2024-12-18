@@ -133,62 +133,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
     fetchCourseData();
   }, []);
 
-  // const generateQRCodeDataURL = async (
-  //   svg: SVGSVGElement,
-  //   format: "png" | "jpeg",
-  // ): Promise<string> => {
-  //   const svgData = new XMLSerializer().serializeToString(svg);
-  //   const canvas = document.createElement("canvas");
-  //   const ctx = canvas.getContext("2d");
-
-  //   const img = new Image();
-  //   img.src = "data:image/svg+xml;base64," + btoa(svgData);
-
-  //   return new Promise((resolve, reject) => {
-  //     img.onload = () => {
-  //       // Define padding around the QR code
-  //       const padding = 20; // Adjust this value for more or less padding
-  //       const imgWidth = img.width;
-  //       const imgHeight = img.height;
-
-  //       // Set the canvas size to include padding
-  //       canvas.width = imgWidth + padding * 2;
-  //       canvas.height = imgHeight + padding * 2;
-
-  //       if (ctx) {
-  //         // Fill the canvas with a white background
-  //         ctx.fillStyle = "white";
-  //         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  //         // Draw the SVG image on top of the white background with padding
-  //         ctx.drawImage(img, padding, padding);
-  //         resolve(canvas.toDataURL(`image/${format}`));
-  //       } else {
-  //         reject("Canvas context is not available");
-  //       }
-  //     };
-
-  //     img.onerror = reject;
-  //   });
-  // };
-
-  // const downloadQRCode = async (key: string, format: "png" | "jpeg") => {
-  //   const svg = qrCodeRefs.current[key];
-  //   if (svg) {
-  //     try {
-  //       const url = await generateQRCodeDataURL(svg, format);
-  //       const link = document.createElement("a");
-  //       link.href = url;
-  //       link.download = `qrcode-${key}.${format}`;
-  //       link.click();
-  //       ToastSuccess("QR Code generated successfully");
-  //     } catch (error) {
-  //       ToastInfo("Failed to generate QR Code. Please try again later.");
-  //     }
-  //   } else {
-  //     ToastInfo("Failed to generate QR Code. Please try again later.");
-  //   }
-  // };
 
   const generateQRCodeDataURL = async (
     svg: SVGSVGElement,
@@ -230,14 +174,15 @@ const CourseTable: React.FC<CourseTableProps> = ({
     });
   };
 
-  const downloadQRCode = async (key: string, format: "png" | "jpeg", scale: number = 5) => {
+  const downloadQRCode = async (key: string, format: "png" | "jpeg", name: string, scale: number = 5) => {
     const svg = qrCodeRefs.current[key];
     if (svg) {
       try {
         const url = await generateQRCodeDataURL(svg, format, scale);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `qrcode-${key}.${format}`;
+        const nameTrim = name.replace(/\s+/g, '');
+        link.download = `${nameTrim}.${format}`;
         link.click();
         ToastSuccess("QR Code generated successfully");
       } catch (error) {
@@ -290,7 +235,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     Preview
                   </button>
                   <button
-                    onClick={() => downloadQRCode(`course-${club.id}`, "png")}
+                    onClick={() => downloadQRCode(`course-${club.id}`, "png", club.courseName)}
                     className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                   >
                     <QrCode className="mr-1 w-4 text-primaryText" />
@@ -300,6 +245,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
               </div>
               {club?.holeList?.map((hole: any) => {
                 const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
+                const name = `${course?.name}_Hole${hole.holeNumber}_Par${hole.par}`;
                 return (
                   <div key={hole?.id} className="bg-white">
                     <div className="w-full border border-gray-200"></div>
@@ -329,7 +275,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           Preview
                         </button>
                         <button
-                          onClick={() => downloadQRCode(holeKey, "png")}
+                          onClick={() => downloadQRCode(holeKey, "png", name)}
                           className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                         >
                           <QrCode className="mr-1 w-4 text-primaryText" />

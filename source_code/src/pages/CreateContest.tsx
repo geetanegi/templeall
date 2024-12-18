@@ -73,10 +73,14 @@ const CreateContest: React.FC = () => {
 
   const [editData, setEditData] = useState<any>(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [startTime, setStartTime] = useState<any>(null)
+  const [endTime, setEndTime] = useState<any>(null)
+  const [registrationStartTime, setRegistrationStartTime] = useState<any>(null)
+  const [registrationEndTime, setRegistrationEndTime] = useState<any>(null)
 
   const onClose = () => setIsOpenModal(false);
 
-  const validationSchema = Yup.object({
+  const validationSchema = () => Yup.object({
     contestTypeId: Yup.string().required(validationConstant.mandatoryField),
     clubName: Yup.string().required(validationConstant.mandatoryField),
     courseName: Yup.string().required(validationConstant.mandatoryField),
@@ -128,11 +132,10 @@ const CreateContest: React.FC = () => {
       .nullable()
       .transform((value) => (value === "" ? null : value))
       .required(validationConstant.mandatoryField)
-      .test("start-not-greater-than-end", validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime, function (value) {
-        const { endTime } = this.parent; 
-        if (!value || !endTime) return true; 
+      .test("start-not-greater-than-end", validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime, function () {
+        if (!startTime || !endTime) return true; 
   
-        const start = moment(value, "hh:mm A"); 
+        const start = moment(startTime, "hh:mm A"); 
         const end = moment(endTime, "hh:mm A"); 
         if (start.isSameOrAfter(end)) {
           return false; 
@@ -146,12 +149,11 @@ const CreateContest: React.FC = () => {
       .test(
         "end-not-less-than-start",
         validationConstant.activeHourEndTimeCanNotBeEarlierThenActiveHourStartTime,
-        function (value) {
-          const { startTime } = this.parent;
-          if (!value || !startTime) return true; 
-  
+        function () {
+          if (!endTime || !startTime) return true; 
+          debugger
           const endTimeObj = moment(
-            `${value}`,
+            `${endTime}`,
             "HH:mm A",
           );
           const startTimeObj = moment(
@@ -173,11 +175,10 @@ const CreateContest: React.FC = () => {
       .test(
         "is-at-least-30-min-before-contest-end",
         validationConstant.registrationStartTImeShouldBeEarlierThenActivehourStartTime,
-        function (value) {
-          const { startTime } = this.parent;  
-          if (!value || !startTime) return true;
+        function () {
+          if (!registrationStartTime || !startTime) return true;
   
-          const registrationEnd = moment(value, "HH:mm A");
+          const registrationEnd = moment(registrationStartTime, "HH:mm A");
           const contestEnd = moment(startTime, "HH:mm A");
   
           if (!registrationEnd.isValid() || !contestEnd.isValid()) {
@@ -189,11 +190,12 @@ const CreateContest: React.FC = () => {
           return true;
         },
       )
-      .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function (value) {
-        const { registrationEndTime } = this.parent;
-        if (!value || !registrationEndTime) return true; 
+      .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function () {
+        // const { registrationEndTime } = this.parent;
+
+        if (!registrationStartTime || !registrationEndTime) return true; 
   
-        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationEnd = moment(`${registrationStartTime}`, "HH:mm A");
         const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
   
         if (registrationEnd.isSameOrAfter(registrationStart)) {
@@ -206,11 +208,11 @@ const CreateContest: React.FC = () => {
       .nullable()
       .transform((value) => (value === "" ? null : value))
       .required(validationConstant.mandatoryField)
-       .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function (value) {
-        const { endTime } = this.parent;
-        if (!value || !endTime) return true;
+       .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function () {
+        // const { endTime } = this.parent;
+        if (!registrationEndTime || !endTime) return true;
   
-        const registrationEnd = moment(value, "HH:mm A");
+        const registrationEnd = moment(registrationEndTime, "HH:mm A");
         const contestEnd = moment(endTime, "HH:mm A")
   
         if (!registrationEnd.isValid() || !contestEnd.isValid()) {
@@ -221,10 +223,10 @@ const CreateContest: React.FC = () => {
         }
         return true;
       })
-      .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
-        const { registrationStartTime } = this.parent;
-        if (!value || !registrationStartTime) return true; 
-        const registrationEnd = moment(`${value}`, "HH:mm A");
+      .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function () {
+        // const { registrationStartTime } = this.parent;
+        if (!registrationEndTime || !registrationStartTime) return true; 
+        const registrationEnd = moment(`${registrationEndTime}`, "HH:mm A");
         const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
   
         if (registrationEnd.isSameOrBefore(registrationStart)) {
@@ -667,6 +669,20 @@ const CreateContest: React.FC = () => {
                   enableReinitialize={true}
                 >
                   {({ isSubmitting, values, setFieldValue, dirty }) => {
+                    useEffect(()=>{
+                        if(values.startTime){
+                          setStartTime(values.startTime)
+                        }
+                        if(values.endTime){
+                          setEndTime(values.endTime)
+                        }
+                        if(values.registrationStartTime){
+                          setRegistrationStartTime(values.registrationStartTime)
+                        }
+                        if(values.registrationEndTime){
+                          setRegistrationEndTime(values.registrationEndTime)
+                        }
+                    }, [values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime])
                     handleValues(values);
                     useEffect(() => {
                       if (!loader && clubOptions.length > 0 && dataLoaded) {

@@ -24,7 +24,7 @@ const handleClose = () => {
     <Modal
       isOpen={isContestModalOpen}
       onClose={handleClose}
-      title="View Contest"
+      // title="View Contest"
     >
       <div className="h-[80vh] p-5  rounded-md overflow-auto">
         <Contests contestId={contestId} handleClose={handleClose} />

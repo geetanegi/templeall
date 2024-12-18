@@ -305,6 +305,7 @@ const Register: React.FC = () => {
                         label="Phone"
                         name="countryCode"
                         control="input"
+                        maxLength={5}
                         className="w-full"
                         type="text"
                         required={true}

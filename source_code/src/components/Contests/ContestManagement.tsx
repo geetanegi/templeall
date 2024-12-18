@@ -230,12 +230,12 @@ const ContestManagement = () => {
         <button
           key={contest?.id}
           className="text-[#0077B6]"
-          onClick={() => {
-            // setContestId(contest.id);
-            // setIsContestModalOpn(true);
-            navigate(
-              `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
-            );
+          onClick={() => {  
+            setContestId(contest.id);
+            setIsContestModalOpn(true);
+            // navigate(
+            //   `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
+            // );
           }}
         >
           <Eye className="w-5" />

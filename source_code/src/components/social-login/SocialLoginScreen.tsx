@@ -219,6 +219,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       name="countryCode"
                       control="input"
                       className="w-full"
+                      maxLength={5}
                       type="text"
                       required={true}
                     />

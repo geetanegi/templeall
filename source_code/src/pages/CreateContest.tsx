@@ -63,238 +63,7 @@ interface ContestFormValues {
   note: string;
 }
 
-const validationSchema = Yup.object({
-  contestTypeId: Yup.string().required(validationConstant.mandatoryField),
-  clubName: Yup.string().required(validationConstant.mandatoryField),
-  courseName: Yup.string().required(validationConstant.mandatoryField),
-  holesName: Yup.string().required(validationConstant.mandatoryField),
-  Tee: Yup.string().required(validationConstant.mandatoryField),
 
-  startDate: Yup.string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .required(validationConstant.mandatoryField)
-    .test("start-not-greater-than-end", validationConstant.startDateCannotBeLaterThenEnddate, function (value) {
-      const { endDate } = this.parent;
-      if (!value || !endDate) return true;
-
-      const start = moment(value, "YYYY-MM-DD");
-      const end = moment(endDate, "YYYY-MM-DD");
-
-      if (start.isAfter(end)) {
-        return false;
-      }
-      return true;
-    }).test(
-      "start-not-past",
-      validationConstant.startDateCanNotBeEarlierThanTodaysDate,
-      function (value) {
-        if (!value) return true;
-  
-        const start = moment(value, "YYYY-MM-DD");
-        const today = moment().startOf("day");
-  
-        return !start.isBefore(today); 
-      }
-    ),
-  endDate: Yup.string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .required(validationConstant.mandatoryField)
-    .test(
-      "is-greater-than-start-date",
-      validationConstant.endDateMustBeLaterThenStartDate,
-      function (value) {
-        const { startDate } = this.parent;
-        if (!value || !startDate) return true; 
-        return new Date(value) >= new Date(startDate); 
-      },
-    ),
-
-  startTime: Yup.string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .required(validationConstant.mandatoryField)
-    .test("start-not-greater-than-end", validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime, function (value) {
-      const { endTime } = this.parent; 
-      if (!value || !endTime) return true; 
-
-      const start = moment(value, "hh:mm A"); 
-      const end = moment(endTime, "hh:mm A"); 
-      if (start.isSameOrAfter(end)) {
-        return false; 
-      }
-      return true;
-    }),
-  endTime: Yup.string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .required(validationConstant.mandatoryField)
-    .test(
-      "end-not-less-than-start",
-      validationConstant.activeHourEndTimeCanNotBeEarlierThenActiveHourStartTime,
-      function (value) {
-        const { startTime } = this.parent;
-        if (!value || !startTime) return true; 
-
-        const endTimeObj = moment(
-          `${value}`,
-          "HH:mm A",
-        );
-        const startTimeObj = moment(
-          `${startTime}`,
-          "HH:mm A",
-        );
-
-        if (endTimeObj.isSameOrBefore(startTimeObj)) {
-          return false;
-        }
-        return true;
-      },
-    ),
-
-  registrationStartTime: Yup.string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .required(validationConstant.mandatoryField)
-    .test(
-      "is-at-least-30-min-before-contest-end",
-      validationConstant.registrationStartTImeShouldBeEarlierThenActivehourStartTime,
-      function (value) {
-        const { startTime } = this.parent;  
-        if (!value || !startTime) return true;
-
-        const registrationEnd = moment(value, "HH:mm A");
-        const contestEnd = moment(startTime, "HH:mm A");
-
-        if (!registrationEnd.isValid() || !contestEnd.isValid()) {
-          return false;
-        }
-        if (registrationEnd.isAfter(contestEnd.subtract(0, "minutes"))) {
-          return false;
-        }
-        return true;
-      },
-    )
-    .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function (value) {
-      const { registrationEndTime } = this.parent;
-      if (!value || !registrationEndTime) return true; 
-
-      const registrationEnd = moment(`${value}`, "HH:mm A");
-      const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
-
-      if (registrationEnd.isSameOrAfter(registrationStart)) {
-        return false;
-      }
-      return true;
-    }),
-
-  registrationEndTime: Yup.string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .required(validationConstant.mandatoryField)
-     .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function (value) {
-      const { endTime } = this.parent;
-      if (!value || !endTime) return true;
-
-      const registrationEnd = moment(value, "HH:mm A");
-      const contestEnd = moment(endTime, "HH:mm A")
-
-      if (!registrationEnd.isValid() || !contestEnd.isValid()) {
-        return false; // Invalid time format
-      }
-      if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
-        return false;
-      }
-      return true;
-    })
-    .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
-      const { registrationStartTime } = this.parent;
-      if (!value || !registrationStartTime) return true; 
-      const registrationEnd = moment(`${value}`, "HH:mm A");
-      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
-
-      if (registrationEnd.isSameOrBefore(registrationStart)) {
-        return false;
-      }
-      return true;
-    }),
-
-  entryFee: Yup.number()
-    .required(validationConstant.mandatoryField)
-    .min(5, validationConstant.valueShouldBeBetweet5and100)
-    .max(100, validationConstant.valueShouldBeBetweet5and100),
-  playerPercentage: Yup.number()
-    .required(validationConstant.mandatoryField)
-    .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100, validationConstant.percentageCannotExceed100)
-    .typeError(validationConstant.validNumberValue),
-
-  acecamPercentage: Yup.number()
-    .required(validationConstant.mandatoryField)
-    .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100,  validationConstant.percentageCannotExceed100)
-    .typeError(validationConstant.validNumberValue),
-
-  coursePercentage: Yup.number()
-    .required(validationConstant.mandatoryField)
-    .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100,  validationConstant.percentageCannotExceed100)
-    .typeError(validationConstant.validNumberValue),
-
-  charityPercentage: Yup.number()
-    .required(validationConstant.mandatoryField)
-    .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100,  validationConstant.percentageCannotExceed100)
-    .typeError(validationConstant.validNumberValue),
-
-  // Custom validation for the sum of percentages
-  totalPercentage: Yup.number().test(
-    "sum",
-    validationConstant.totalPayOutStructureSHouldBe100,
-    function () {
-      const {
-        playerPercentage,
-        acecamPercentage,
-        charityPercentage,
-        coursePercentage,
-      } = this.parent;
-      const player = Number(playerPercentage || 0);
-      const acecam = Number(acecamPercentage || 0);
-      const course = Number(coursePercentage || 0);
-      const charity = Number(charityPercentage || 0);
-
-      const total = player + acecam + course + charity;
-      return total === 100;
-    },
-  ),
-  entriesPer24Hours: Yup.string().when("limitSection", {
-    is: "yes",
-    then: Yup.string()
-      .required(validationConstant.mandatoryField)
-      .test(
-        "min-value",
-        validationConstant.entriesPer24HoursShouldNotBeLessThan1,
-        (value) => {
-          if (value) {
-            const numValue = Number(value);
-            return !isNaN(numValue) && numValue >= 1;
-          }
-          return true; // Pass validation if no value is entered
-        },
-      ),
-    otherwise: Yup.string().nullable(), // Nullable when not required
-  }),
-
-  waitTimeBetweenEntries: Yup.string().when("limitSection", {
-    is: "yes",
-    then: Yup.string().required(validationConstant.mandatoryField),
-    otherwise: Yup.string().nullable(), // Nullable when not required
-  }),
-
-  queueLimit: Yup.string().required(validationConstant.mandatoryField),
-  note: Yup.string().required(validationConstant.mandatoryField),
-});
 
 const CreateContest: React.FC = () => {
   const dispatch = useDispatch();
@@ -306,6 +75,239 @@ const CreateContest: React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const onClose = () => setIsOpenModal(false);
+
+  const validationSchema = Yup.object({
+    contestTypeId: Yup.string().required(validationConstant.mandatoryField),
+    clubName: Yup.string().required(validationConstant.mandatoryField),
+    courseName: Yup.string().required(validationConstant.mandatoryField),
+    holesName: Yup.string().required(validationConstant.mandatoryField),
+    Tee: Yup.string().required(validationConstant.mandatoryField),
+  
+    startDate: Yup.string()
+      .nullable()
+      .transform((value) => (value === "" ? null : value))
+      .required(validationConstant.mandatoryField)
+      .test("start-not-greater-than-end", validationConstant.startDateCannotBeLaterThenEnddate, function (value) {
+        const { endDate } = this.parent;
+        if (!value || !endDate) return true;
+  
+        const start = moment(value, "YYYY-MM-DD");
+        const end = moment(endDate, "YYYY-MM-DD");
+  
+        if (start.isAfter(end)) {
+          return false;
+        }
+        return true;
+      }).test(
+        "start-not-past",
+        validationConstant.startDateCanNotBeEarlierThanTodaysDate,
+        function (value) {
+          if (!value) return true;
+    
+          const start = moment(value, "YYYY-MM-DD");
+          const today = moment().startOf("day");
+    
+          return !start.isBefore(today); 
+        }
+      ),
+    endDate: Yup.string()
+      .nullable()
+      .transform((value) => (value === "" ? null : value))
+      .required(validationConstant.mandatoryField)
+      .test(
+        "is-greater-than-start-date",
+        validationConstant.endDateMustBeLaterThenStartDate,
+        function (value) {
+          const { startDate } = this.parent;
+          if (!value || !startDate) return true; 
+          return new Date(value) >= new Date(startDate); 
+        },
+      ),
+  
+    startTime: Yup.string()
+      .nullable()
+      .transform((value) => (value === "" ? null : value))
+      .required(validationConstant.mandatoryField)
+      .test("start-not-greater-than-end", validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime, function (value) {
+        const { endTime } = this.parent; 
+        if (!value || !endTime) return true; 
+  
+        const start = moment(value, "hh:mm A"); 
+        const end = moment(endTime, "hh:mm A"); 
+        if (start.isSameOrAfter(end)) {
+          return false; 
+        }
+        return true;
+      }),
+    endTime: Yup.string()
+      .nullable()
+      .transform((value) => (value === "" ? null : value))
+      .required(validationConstant.mandatoryField)
+      .test(
+        "end-not-less-than-start",
+        validationConstant.activeHourEndTimeCanNotBeEarlierThenActiveHourStartTime,
+        function (value) {
+          const { startTime } = this.parent;
+          if (!value || !startTime) return true; 
+  
+          const endTimeObj = moment(
+            `${value}`,
+            "HH:mm A",
+          );
+          const startTimeObj = moment(
+            `${startTime}`,
+            "HH:mm A",
+          );
+  
+          if (endTimeObj.isSameOrBefore(startTimeObj)) {
+            return false;
+          }
+          return true;
+        },
+      ),
+  
+    registrationStartTime: Yup.string()
+      .nullable()
+      .transform((value) => (value === "" ? null : value))
+      .required(validationConstant.mandatoryField)
+      .test(
+        "is-at-least-30-min-before-contest-end",
+        validationConstant.registrationStartTImeShouldBeEarlierThenActivehourStartTime,
+        function (value) {
+          const { startTime } = this.parent;  
+          if (!value || !startTime) return true;
+  
+          const registrationEnd = moment(value, "HH:mm A");
+          const contestEnd = moment(startTime, "HH:mm A");
+  
+          if (!registrationEnd.isValid() || !contestEnd.isValid()) {
+            return false;
+          }
+          if (registrationEnd.isAfter(contestEnd.subtract(0, "minutes"))) {
+            return false;
+          }
+          return true;
+        },
+      )
+      .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function (value) {
+        const { registrationEndTime } = this.parent;
+        if (!value || !registrationEndTime) return true; 
+  
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
+  
+        if (registrationEnd.isSameOrAfter(registrationStart)) {
+          return false;
+        }
+        return true;
+      }),
+  
+    registrationEndTime: Yup.string()
+      .nullable()
+      .transform((value) => (value === "" ? null : value))
+      .required(validationConstant.mandatoryField)
+       .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function (value) {
+        const { endTime } = this.parent;
+        if (!value || !endTime) return true;
+  
+        const registrationEnd = moment(value, "HH:mm A");
+        const contestEnd = moment(endTime, "HH:mm A")
+  
+        if (!registrationEnd.isValid() || !contestEnd.isValid()) {
+          return false; // Invalid time format
+        }
+        if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
+          return false;
+        }
+        return true;
+      })
+      .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
+        const { registrationStartTime } = this.parent;
+        if (!value || !registrationStartTime) return true; 
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+  
+        if (registrationEnd.isSameOrBefore(registrationStart)) {
+          return false;
+        }
+        return true;
+      }),
+  
+    entryFee: Yup.number()
+      .required(validationConstant.mandatoryField)
+      .min(5, validationConstant.valueShouldBeBetweet5and100)
+      .max(100, validationConstant.valueShouldBeBetweet5and100),
+    playerPercentage: Yup.number()
+      .required(validationConstant.mandatoryField)
+      .min(0, validationConstant.percentageMustBeatLeast0)
+      .max(100, validationConstant.percentageCannotExceed100)
+      .typeError(validationConstant.validNumberValue),
+  
+    acecamPercentage: Yup.number()
+      .required(validationConstant.mandatoryField)
+      .min(0, validationConstant.percentageMustBeatLeast0)
+      .max(100,  validationConstant.percentageCannotExceed100)
+      .typeError(validationConstant.validNumberValue),
+  
+    coursePercentage: Yup.number()
+      .required(validationConstant.mandatoryField)
+      .min(0, validationConstant.percentageMustBeatLeast0)
+      .max(100,  validationConstant.percentageCannotExceed100)
+      .typeError(validationConstant.validNumberValue),
+  
+    charityPercentage: Yup.number()
+      .required(validationConstant.mandatoryField)
+      .min(0, validationConstant.percentageMustBeatLeast0)
+      .max(100,  validationConstant.percentageCannotExceed100)
+      .typeError(validationConstant.validNumberValue),
+  
+    // Custom validation for the sum of percentages
+    totalPercentage: Yup.number().test(
+      "sum",
+      validationConstant.totalPayOutStructureSHouldBe100,
+      function () {
+        const {
+          playerPercentage,
+          acecamPercentage,
+          charityPercentage,
+          coursePercentage,
+        } = this.parent;
+        const player = Number(playerPercentage || 0);
+        const acecam = Number(acecamPercentage || 0);
+        const course = Number(coursePercentage || 0);
+        const charity = Number(charityPercentage || 0);
+  
+        const total = player + acecam + course + charity;
+        return total === 100;
+      },
+    ),
+    entriesPer24Hours: Yup.string().when("limitSection", {
+      is: "yes",
+      then: Yup.string()
+        .required(validationConstant.mandatoryField)
+        .test(
+          "min-value",
+          validationConstant.entriesPer24HoursShouldNotBeLessThan1,
+          (value) => {
+            if (value) {
+              const numValue = Number(value);
+              return !isNaN(numValue) && numValue >= 1;
+            }
+            return true; // Pass validation if no value is entered
+          },
+        ),
+      otherwise: Yup.string().nullable(), // Nullable when not required
+    }),
+  
+    waitTimeBetweenEntries: Yup.string().when("limitSection", {
+      is: "yes",
+      then: Yup.string().required(validationConstant.mandatoryField),
+      otherwise: Yup.string().nullable(), // Nullable when not required
+    }),
+  
+    queueLimit: Yup.string().required(validationConstant.mandatoryField),
+    note: Yup.string().required(validationConstant.mandatoryField),
+  });
 
   const initialValues: ContestFormValues = {
     contestTypeId: editData?.contestTypeId || "",

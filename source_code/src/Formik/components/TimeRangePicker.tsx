@@ -11,6 +11,7 @@ interface TimeRangePickerProps {
   name1:string;
   name2:string
   required?:boolean;
+  disabled?:boolean
   [key: string]: any;
 }
 
@@ -21,6 +22,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
   name1,
   name2,
   required,
+  disabled=false,
   ...rest
 }) => {
   const [startTime, setStartTime] = useState<Moment | null>(null);
@@ -177,6 +179,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                           fontSize: "14px",
                           padding: "0px 16px 0px 6px",
                           height: "46px",
+                           background: disabled ? "#e5e7eb" : ""
                         },
                         "& .MuiInputLabel-root": {
                           fontSize: "14px",
@@ -222,7 +225,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                   onChange={(newValue: Moment | null) => {
                     setEndTime(newValue);
                     setFieldValue(name2, newValue ? moment(newValue).format('HH:mm:ss') : null);
-                  }}
+                  }}      
                   shouldDisableTime={disableEndTime}
                   slots={
                     CustomClockIcon && {
@@ -252,6 +255,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                           fontSize: "14px",
                           padding: "0px 16px 0px 6px",
                           height: "46px",
+                           background: disabled ? "#e5e7eb" : ""
                         },
                         "& .MuiInputLabel-root": {
                           fontSize: "14px",

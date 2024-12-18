@@ -104,7 +104,6 @@ const Checkout: React.FC = () => {
   useEffect(() => {
     console.log(!selectedContests, selectedContestsList)
     if (!selectedContests && !isPaymentSuccess) {
-      debugger;
       navigate(ROUTES.CONTESTS, { replace: true });
     }
   }, [selectedContests]);

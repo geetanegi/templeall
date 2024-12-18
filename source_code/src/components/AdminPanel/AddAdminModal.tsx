@@ -310,6 +310,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     name="countryCode"
                     control="customInput"
                     className="w-full"
+                    maxLength={5}
                     placeholder="Country Code"
                     type="text"
                     required={true}

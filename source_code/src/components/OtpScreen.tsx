@@ -57,7 +57,7 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
       dispatch(setLoading(true));
       let urlResend = url ? API_URL.reSendOtpRegister : API_URL.reSendOtpSignIn;
       let dataForRegister = {
-        tempUserId: localStorage.getItem("tokenRegisterPassword"),
+        tempUserId: token || localStorage.getItem("tokenRegisterPassword"),
       };
       const newData = { username, mode: "WEB" };
       const { data, status } = await apiService.post<any>(urlResend, {

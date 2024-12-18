@@ -104,7 +104,7 @@ const MUISelect: React.FC<SelectProps> = ({
                 onChange={handleSelectChange}
                 disabled={disabled}
                 label={label}
-                sx={selectStyles}
+                sx={{...selectStyles,  background: disabled ? "#e5e7eb" : ""}}
               >
                 <MenuItem value="">
                   <em>Select</em>

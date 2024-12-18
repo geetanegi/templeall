@@ -230,7 +230,7 @@ const ContestManagement = () => {
         <button
           key={contest?.id}
           className="text-[#0077B6]"
-          onClick={() => {
+          onClick={() => {  
             // setContestId(contest.id);
             // setIsContestModalOpn(true);
             navigate(

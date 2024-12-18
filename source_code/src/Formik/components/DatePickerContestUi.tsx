@@ -12,6 +12,7 @@ interface DatePickerProps {
   maxDate?: Moment | string;    
   minDate?: Moment | string;
   required?: boolean;
+  disabled?: boolean
   [key: string]: any;
 }
 
@@ -21,6 +22,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
   maxDate,
   minDate,
   required,
+  disabled=false,
   ...rest
 }) => {
   const minDateValue = typeof minDate === "string" ? moment(minDate) : minDate;
@@ -53,6 +55,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
                 maxDate={maxDateValue}
                 {...field}
                 {...rest}
+                disabled={disabled}
                 value={value ? moment(value) : null}
                 onChange={(newValue: Moment | null) => {
                   setFieldValue(
@@ -78,6 +81,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
                           fontSize: "14px",
                           padding: "0px 16px 0px 6px",
                           height: "46px",
+                           background: disabled ? "#e5e7eb" : ""
                         },
                         // Center label in empty state
                         "& .MuiInputLabel-root": {

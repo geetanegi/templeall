@@ -172,7 +172,7 @@ const ContestForm: React.FC<ContestProps> = ({
         <div className="flex items-center">
           <h5 className="text-l font-normal text-black">Contest Duration</h5>
           <TooltipSpan
-            text={<Info className="text-yellowText" size={16} />}
+            text={<Info className="text-gray" size={16} />}
             tooltip={"Set the dates for which the contest begins and ends."}
             needPY={true}
             position="right"
@@ -207,7 +207,7 @@ const ContestForm: React.FC<ContestProps> = ({
                   Active Hours
                 </h5>
                 <TooltipSpan
-                  text={<Info className="text-yellowText" size={16} />}
+                  text={<Info className="text-gray" size={16} />}
                   tooltip={
                     "Set the time frame during which the contest will be ACTIVE; all tee shots must be taken within this period to be eligible for contest prizes."
                   }
@@ -233,7 +233,7 @@ const ContestForm: React.FC<ContestProps> = ({
                   Registration Period
                 </h5>
                 <TooltipSpan
-                  text={<Info className="text-yellowText" size={16} />}
+                  text={<Info className="text-gray" size={16} />}
                   tooltip={
                     "Set the time frame during which players can register for the contest."
                   }

@@ -26,6 +26,7 @@ import { getFilters } from "../utils/genericApiCalls";
 import { decryptData, secretKey } from "../utils/encrypt";
 import { combineDateAndTime } from "../utils/utils";
 import { validationConstant } from "../utils/validationEnums";
+import ContestViewScreen from "../components/Contests/ContestViewScreen";
 
 // interface recurrence {
 //   frequency: string;
@@ -664,79 +665,80 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
 
   if(contestId){
     return (
-      <Formik
-      initialValues={initialValues} // Initialize age field
-      validationSchema={validationSchema} // Set validation schema
-      onSubmit={handleSubmit}
-      enableReinitialize={true}
-    >
-      {({ values, setFieldValue }) => {
-        handleValues(values);
-        useEffect(() => {
-          if (
-            location.pathname === ROUTES.UPDFATE_CONTEST &&
-            dataLoaded &&
-            loader === false &&
-            clubOptions.length > 0
-          ) {
-            if (values.clubName === "") {
-              setFieldValue("courseName", "");
-              setFieldValue("Tee", "");
-              setFieldValue("holesName", "");
-            } else if (values.clubName !== "") {
-              if (values.courseName !== "") {
-                //
-                if (values.holesName !== "") {
-                  //
-                } else if (values.holesName === "") {
-                }
-              } else if (values.courseName === "") {
-              }
-            }
-          }
-        }, [
-          setFieldValue,
-          teeOptions,
-          holeOptions,
-          courseOptions,
-          values,
-          loader,
-        ]);
+      <ContestViewScreen contestData={editData} saveState={saveState} />
+    //   <Formik
+    //   initialValues={initialValues} // Initialize age field
+    //   validationSchema={validationSchema} // Set validation schema
+    //   onSubmit={handleSubmit}
+    //   enableReinitialize={true}
+    // >
+    //   {({ values, setFieldValue }) => {
+    //     handleValues(values);
+    //     useEffect(() => {
+    //       if (
+    //         location.pathname === ROUTES.UPDFATE_CONTEST &&
+    //         dataLoaded &&
+    //         loader === false &&
+    //         clubOptions.length > 0
+    //       ) {
+    //         if (values.clubName === "") {
+    //           setFieldValue("courseName", "");
+    //           setFieldValue("Tee", "");
+    //           setFieldValue("holesName", "");
+    //         } else if (values.clubName !== "") {
+    //           if (values.courseName !== "") {
+    //             //
+    //             if (values.holesName !== "") {
+    //               //
+    //             } else if (values.holesName === "") {
+    //             }
+    //           } else if (values.courseName === "") {
+    //           }
+    //         }
+    //       }
+    //     }, [
+    //       setFieldValue,
+    //       teeOptions,
+    //       holeOptions,
+    //       courseOptions,
+    //       values,
+    //       loader,
+    //     ]);
 
-        return (
-          <Form>
-            <ContestForm
-              values={values}
-              isSuperAdmin={isSuperAdmin}
-              saveState={saveState}
-              holeOptions={holeOptions || []}
-              clubOptions={clubOptions || []}
-              courseOptions={courseOptions || []}
-              contestTypeOptions={
-                contestTypeOptions?.map((item) => ({
-                  value: item.id,
-                  key: item.type,
-                })) || []
-              }
-              teeOptions={teeOptions || []}
-              endDate={endDate}
-              startDate={startdate}
-              toggleModal={toggleModal}
-              frequency={frequency}
-            />
-            <div className="flex justify-end gap-4">
-              <button
-                type="button"
-                onClick={()=> handleClose && handleClose()}
-                className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
-              >
-                Back
-              </button>
-            </div>
-          </Form>
-        );
-      }}
-    </Formik>
+    //     return (
+    //       <Form>
+    //         <ContestForm
+    //           values={values}
+    //           isSuperAdmin={isSuperAdmin}
+    //           saveState={saveState}
+    //           holeOptions={holeOptions || []}
+    //           clubOptions={clubOptions || []}
+    //           courseOptions={courseOptions || []}
+    //           contestTypeOptions={
+    //             contestTypeOptions?.map((item) => ({
+    //               value: item.id,
+    //               key: item.type,
+    //             })) || []
+    //           }
+    //           teeOptions={teeOptions || []}
+    //           endDate={endDate}
+    //           startDate={startdate}
+    //           toggleModal={toggleModal}
+    //           frequency={frequency}
+    //         />
+    //         <div className="flex justify-end gap-4">
+    //           <button
+    //             type="button"
+    //             onClick={()=> handleClose && handleClose()}
+    //             className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
+    //           >
+    //             Back
+    //           </button>
+    //         </div>
+    //       </Form>
+    //     );
+    //   }}
+    // </Formik>
     )
   }
 

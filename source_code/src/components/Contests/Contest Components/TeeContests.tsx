@@ -245,7 +245,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           {teeContest.note !== null && (
             <div className="rounded-b-[6px] bg-warning">
               <p className="px-1 py-1 text-[11px] text-warningText">
-                <StickyNote color="#FF9800" size={14} className="mx-1 inline" />
+                <StickyNote color="#FFFF00" size={14} className="mx-1 inline" />
                 <b>Eligibility criteria</b> : {teeContest.note}
               </p>
             </div>

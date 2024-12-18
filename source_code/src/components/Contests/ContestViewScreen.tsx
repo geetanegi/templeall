@@ -15,40 +15,49 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
 }) => {
   return (
     <div className="w-[70vw] px-5">
-      <div className="mb-2 flex gap-10">
-        <div>
-          <span className="text-[11px]">Contest Type</span>
-          <p className="text-[14px]">{contestData?.contestType || ""}</p>
+      <h1 className="mb-5 -mt-6">Viewing Contest ID {contestData?.cid || ""}</h1>
+      <div className="mb-2 flex w-[69vw] flex-wrap">
+        <div className="w-[23vw]">
+          <span className="text-[11px] font-bold">Contest Type</span>
+          <p className="whitespace-nowrap text-[14px]">
+            {contestData?.contestType || ""}
+          </p>
         </div>
-        <div>
-          <span className="text-[11px]">Club Name</span>
-          <p className="text-[14px]">{contestData?.club?.name || ""}</p>
+        <div className="w-[23vw]">
+          <span className="text-[11px] font-bold">Club Name</span>
+          <p className="whitespace-nowrap text-[14px]">
+            {contestData?.club?.name || ""}
+          </p>
         </div>
-        <div>
-          <span className="text-[11px]">Course Name</span>
-          <p className="text-[14px]">{contestData?.course?.courseName || ""}</p>
+        <div className="w-[23vw]">
+          <span className="text-[11px] font-bold">Course Name</span>
+          <p className="whitespace-nowrap text-[14px]">
+            {contestData?.course?.courseName || ""}
+          </p>
         </div>
-        <div>
-          <span className="text-[11px]">Hole Number</span>
-          <p className="text-[14px]">
+      </div>
+      <div className="mb-2 flex w-[70vw] flex-wrap">
+        <div className="w-[23vw]">
+          <span className="text-[11px] font-bold">Hole Number</span>
+          <p className="whitespace-nowrap text-[14px]">
             {contestData?.hole?.holeNumber
               ? `Hole #${contestData?.hole?.holeNumber} - Par ${contestData?.hole?.par}`
               : ""}
           </p>
         </div>
-        <div>
-          <span className="text-[11px]">Tee</span>
-          <p className="text-[14px]">
+        <div className="w-[23vw]">
+          <span className="text-[11px] font-bold">Tee</span>
+          <p className="whitespace-nowrap text-[14px]">
             {contestData?.tee?.teeName
               ? `${contestData?.tee?.teeName} (Yards ${contestData?.tee?.yardage || ""})`
               : ""}
           </p>
         </div>
       </div>
-      <div className="flex gap-20">
-        <div className="mb-2">
+      <div className="mt-5 flex">
+        <div className="mb-2 w-[23vw]">
           <div className="flex items-center">
-            <span className="text-[11px]"> Contest Duration</span>
+            <span className="text-[11px] font-bold"> Contest Duration</span>
             <TooltipSpan
               text={<Info className="text-black" size={14} />}
               tooltip={"Set the dates for which the contest begins and ends."}
@@ -79,7 +88,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                 </span>
               )}
               {saveState?.frequency === "DAILY" && (
-                <span className="text-xs text-gray-500">
+                <span className="w-[20vw] text-[12px] text-gray-500">
                   {" "}
                   Occurs{" "}
                   {saveState.repeatEvery === 1
@@ -94,10 +103,10 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
             </div>
           )}
         </div>
-        <div className="flex gap-20">
-          <div>
-            <div className="flex items-center">
-              <span className="text-[11px]">Active Hours</span>
+        <div className="flex">
+          <div className="w-[23vw]">
+            <div className="-mb-2 flex items-center">
+              <span className="text-[11px] font-bold">Active Hours</span>
               <TooltipSpan
                 text={<Info className="text-black" size={14} />}
                 tooltip={
@@ -127,8 +136,11 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
             </div>
           </div>
           <div>
-            <div className="flex items-center">
-              <span className="text-[11px]"> Registration Period</span>
+            <div className="-mb-2 flex items-center">
+              <span className="text-[11px] font-bold">
+                {" "}
+                Registration Period
+              </span>
               <TooltipSpan
                 text={<Info className="text-black" size={14} />}
                 tooltip={
@@ -161,8 +173,8 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
           </div>
         </div>
       </div>
-      <span className="text-[11px]">Payout</span>
-      <div className="mb-2 flex items-center gap-4">
+      <span className="text-[11px] font-bold">Payout</span>
+      <div className="mb-7 flex items-center gap-4">
         <div>
           <span className="text-[11px]">Player %</span>
           <p className="text-[14px]">
@@ -188,24 +200,25 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
           </p>
         </div>
       </div>
-      <div className="mb-2 items-center gap-4">
-        <span className="text-[11px]">Eligibility Requirements</span>
+      <div className="mb-7 items-center gap-4">
+        <span className="text-[11px] font-bold">Eligibility Requirements</span>
         <p className="text-[14px]">
-          {contestData?.note || ""}{" "}
-          Your HDCP must be no less than 7.0 to be eligible for participation, unless you are woman, or older than 70 years of age. Your HDCP must be no less t
+          {contestData?.note || ""} Your HDCP must be no less than 7.0 to be
+          eligible for participation, unless you are woman, or older than 70
+          years of age. Your HDCP must be no less t
+        </p>
+      </div>
+      <div className="mb-2 flex items-center">
+        <span className="text-[11px] font-bold">Limit Entries Per User -</span>
+        <p className="text-[12px]">
+          {contestData?.limitSection ? "Yes" : "No"}
         </p>
       </div>
       <div className="flex gap-20">
-        <div className="mb-2 items-center">
-          <span className="text-[11px]">Limit Entries Per User -</span>
-          <p className="text-[12px]">
-            {contestData?.limitSection ? "Yes" : "No"}
-          </p>
-        </div>
         {!contestData?.limitSection ? (
           <>
             <div className="items-center gap-1">
-              <span className="text-[11px]">
+              <span className="text-[11px] font-bold">
                 How many Entries Per 24 Hours -{" "}
               </span>
               <p className="text-[14px]">
@@ -213,7 +226,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
               </p>
             </div>
             <div className="items-center gap-1">
-              <span className="text-[11px]">
+              <span className="text-[11px] font-bold">
                 Wait Time in Between Entries Hours -{" "}
               </span>
               <p className="text-[14px]">
@@ -224,7 +237,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
         ) : null}
 
         <div className="items-center gap-1">
-          <span className="text-[11px]">Queue Limit (4) - </span>
+          <span className="text-[11px] font-bold">Queue Limit (4)</span>
           <p className="text-[14px]">4</p>
         </div>
       </div>

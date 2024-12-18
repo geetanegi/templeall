@@ -80,7 +80,7 @@ const CreateContest: React.FC = () => {
 
   const onClose = () => setIsOpenModal(false);
 
-  const validationSchema = (startTime:any, endTime:any, registrationStartTime:any, registrationEndTime:any) => Yup.object({
+  const validationSchema = () => Yup.object({
     contestTypeId: Yup.string().required(validationConstant.mandatoryField),
     clubName: Yup.string().required(validationConstant.mandatoryField),
     courseName: Yup.string().required(validationConstant.mandatoryField),
@@ -190,7 +190,7 @@ const CreateContest: React.FC = () => {
           return true;
         },
       )
-      .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function (value) {
+      .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function () {
         // const { registrationEndTime } = this.parent;
 
         if (!registrationStartTime || !registrationEndTime) return true; 
@@ -208,7 +208,7 @@ const CreateContest: React.FC = () => {
       .nullable()
       .transform((value) => (value === "" ? null : value))
       .required(validationConstant.mandatoryField)
-       .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function (value) {
+       .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function () {
         // const { endTime } = this.parent;
         if (!registrationEndTime || !endTime) return true;
   
@@ -223,7 +223,7 @@ const CreateContest: React.FC = () => {
         }
         return true;
       })
-      .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
+      .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function () {
         // const { registrationStartTime } = this.parent;
         if (!registrationEndTime || !registrationStartTime) return true; 
         const registrationEnd = moment(`${registrationEndTime}`, "HH:mm A");
@@ -664,7 +664,7 @@ const CreateContest: React.FC = () => {
 
                 <Formik
                   initialValues={initialValues} // Initialize age field
-                  validationSchema={(values:any)=>validationSchema(values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime)} // Set validation schema
+                  validationSchema={validationSchema} // Set validation schema
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
@@ -682,7 +682,6 @@ const CreateContest: React.FC = () => {
                         if(values.registrationEndTime){
                           setRegistrationEndTime(values.registrationEndTime)
                         }
-                        validationSchema(values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime)
                     }, [values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime])
                     handleValues(values);
                     useEffect(() => {

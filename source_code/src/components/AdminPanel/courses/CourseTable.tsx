@@ -173,14 +173,15 @@ const CourseTable: React.FC<CourseTableProps> = ({
     });
   };
 
-  const downloadQRCode = async (key: string, format: "png" | "jpeg", scale: number = 5) => {
+  const downloadQRCode = async (key: string, format: "png" | "jpeg", name: string, scale: number = 5) => {
     const svg = qrCodeRefs.current[key];
     if (svg) {
       try {
         const url = await generateQRCodeDataURL(svg, format, scale);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `qrcode-${key}.${format}`;
+        const nameTrim = name.replace(/\s+/g, '');
+        link.download = `${nameTrim}.${format}`;
         link.click();
         ToastSuccess("QR Code generated successfully");
       } catch (error) {
@@ -233,7 +234,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     Preview
                   </button>
                   <button
-                    onClick={() => downloadQRCode(`course-${club.id}`, "png")}
+                    onClick={() => downloadQRCode(`course-${club.id}`, "png", club.courseName)}
                     className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                   >
                     <QrCode className="mr-1 w-4 text-primaryText" />
@@ -243,6 +244,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
               </div>
               {club?.holeList?.map((hole: any) => {
                 const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
+                const name = `${course?.name}_Hole${hole.holeNumber}_Par${hole.par}`;
                 return (
                   <div key={hole?.id} className="bg-white">
                     <div className="w-full border border-gray-200"></div>
@@ -272,7 +274,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           Preview
                         </button>
                         <button
-                          onClick={() => downloadQRCode(holeKey, "png")}
+                          onClick={() => downloadQRCode(holeKey, "png", name)}
                           className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                         >
                           <QrCode className="mr-1 w-4 text-primaryText" />

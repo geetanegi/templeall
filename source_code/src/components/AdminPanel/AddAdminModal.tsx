@@ -311,6 +311,8 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     control="customInput"
                     className="w-full"
                     placeholder="Country Code"
+                    maxLength={5}
+                    validateRegex={/^\+?[0-9]+$/}
                     type="text"
                     required={true}
                   />

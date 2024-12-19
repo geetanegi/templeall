@@ -101,7 +101,7 @@ const CoursePanel: React.FC = () => {
                 options={
                   holesList?.data.map((hole) => ({
                     value: hole.id.toString(),
-                    label: hole.holeNumber.toString(),
+                    label: hole ? `Hole #${hole.holeNumber} - Par ${hole.par || ""}` : '',
                   })) || []
                 }
                 maxDisplayCount={2}

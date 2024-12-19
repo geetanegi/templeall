@@ -157,7 +157,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         ToastInfo(data.description);
       }
     } catch (error) {
-      ToastInfo("Error fetching roles");
+      console.log(error)
     }
   };
 

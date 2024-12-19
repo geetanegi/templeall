@@ -193,6 +193,22 @@ const validationSchema = Yup.object({
     .transform((value) => (value === "" ? null : value))
     .required(validationConstant.mandatoryField)
     .test(
+      "end-not-less-than-start",
+      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
+      function (value) {
+        const { registrationStartTime } = this.parent;
+        if (!value || !registrationStartTime) return true;
+
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+
+        if (registrationEnd.isSameOrBefore(registrationStart)) {
+          return false;
+        }
+        return true;
+      },
+    )
+    .test(
       "is-at-least-30-min-before-contest-end",
       validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime,
       function (value) {
@@ -206,22 +222,6 @@ const validationSchema = Yup.object({
           return false; // Invalid time format
         }
         if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
-          return false;
-        }
-        return true;
-      },
-    )
-    .test(
-      "end-not-less-than-start",
-      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
-      function (value) {
-        const { registrationStartTime } = this.parent;
-        if (!value || !registrationStartTime) return true;
-
-        const registrationEnd = moment(`${value}`, "HH:mm A");
-        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
-
-        if (registrationEnd.isSameOrBefore(registrationStart)) {
           return false;
         }
         return true;

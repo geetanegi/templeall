@@ -55,7 +55,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
       </div>
       <div className="mb-7 flex">
         <div className="min-w-[27vw]">
-          <div className="flex -mb-2 items-center">
+          <div className="-mb-2 flex items-center">
             <span className="text-[14px] font-bold"> Contest Duration</span>
             <TooltipSpan
               text={<Info className="text-black" size={14} />}
@@ -197,25 +197,25 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
         <div>
           <span className="text-[14px]">Player </span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.playerPercentage + '%' || "0%"}
+            {contestData?.payoutStructure?.playerPercentage + "%" || "0%"}
           </p>
         </div>
         <div>
           <span className="text-[14px]">AceCam </span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.acecamPercentage + '%' || "0%"}
+            {contestData?.payoutStructure?.acecamPercentage + "%" || "0%"}
           </p>
         </div>
         <div>
           <span className="text-[14px]">Course</span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.coursePercentage + '%' || "0%"}
+            {contestData?.payoutStructure?.coursePercentage + "%" || "0%"}
           </p>
         </div>
         <div>
           <span className="text-[14px]">Charity</span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.charityPercentage + '%' || "0%"}
+            {contestData?.payoutStructure?.charityPercentage + "%" || "0%"}
           </p>
         </div>
       </div>
@@ -225,26 +225,21 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
       </div>
       <div className="flex items-center">
         <span className="text-[14px] font-bold">Limit Entries Per User -</span>
-        <p className="text-xs ml-1">{contestData?.limitSection ? " Yes" : "No"}</p>
+        <p className="ml-1 text-xs">
+          {contestData?.limitSection ? " Yes" : "No"}
+        </p>
       </div>
       <div className="flex gap-20">
-       
-            <div className="items-center gap-1">
-              <span className="text-[14px]">
-                How many Entries Per 24 Hours -{" "}
-              </span>
-              <p className="text-xs">{contestData?.entriesPer24Hours || 0}</p>
-            </div>
-            <div className="items-center gap-1">
-              <span className="text-[14px]">
-                Wait Time in Between Entries Hours -{" "}
-              </span>
-              <p className="text-xs">
-                {contestData?.waitTimeBetweenEntries || 0}
-              </p>
-            </div>
-        
-
+        <div className="items-center gap-1">
+          <span className="text-[14px]">How many Entries Per 24 Hours - </span>
+          <p className="text-xs">{contestData?.entriesPer24Hours || 0}</p>
+        </div>
+        <div className="items-center gap-1">
+          <span className="text-[14px]">
+            Wait Time in Between Entries Hours -{" "}
+          </span>
+          <p className="text-xs">{contestData?.waitTimeBetweenEntries || 0}</p>
+        </div>
         <div className="items-center gap-1">
           <span className="text-[14px]">Queue Limit (4)</span>
           <p className="text-xs">4</p>

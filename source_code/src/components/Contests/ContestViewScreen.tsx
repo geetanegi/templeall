@@ -69,7 +69,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
             {moment.utc(contestData?.startTime).local().format("MM/DD/YYYY") ||
               ""}{" "}
             -{" "}
-            {moment.utc(contestData?.entTime).local().format("MM/DD/YYYY") ||
+            {moment.utc(contestData?.endTime).local().format("MM/DD/YYYY") ||
               ""}{" "}
           </p>
           {saveState.selectedDays !== "" && saveState.frequency !== "" && (
@@ -83,7 +83,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                     : "day"}{" "}
                   until{" "}
                   <span className="text-xs font-semibold text-gray-500">
-                    {moment.utc(contestData?.startTime).format("MM/DD/YYYY")}
+                    {moment.utc(contestData?.endTime).local().format("MM/DD/YYYY")}
                   </span>
                 </span>
               )}
@@ -96,7 +96,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                     : ` every ${getOrdinal(saveState.repeatEvery)} `}
                   day until{" "}
                   <span className="text-xs font-semibold text-gray-500">
-                    {moment.utc(contestData?.endTime).format("MM/DD/YYYY")}
+                    {moment.utc(contestData?.endTime).local().format("MM/DD/YYYY")}
                   </span>
                 </span>
               )}
@@ -203,9 +203,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
       <div className="mb-7 items-center gap-4">
         <span className="text-[11px] font-bold">Eligibility Requirements</span>
         <p className="text-[14px]">
-          {contestData?.note || ""} Your HDCP must be no less than 7.0 to be
-          eligible for participation, unless you are woman, or older than 70
-          years of age. Your HDCP must be no less t
+          {contestData?.note || ""}
         </p>
       </div>
       <div className="mb-2 flex items-center">

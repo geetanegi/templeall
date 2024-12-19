@@ -316,7 +316,10 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
   const navigate = useNavigate();
 
   const [editData, setEditData] = useState<any>(null);
-
+  const [startTime, setStartTime] = useState<any>(null)
+  const [endTime, setEndTime] = useState<any>(null)
+  const [registrationStartTime, setRegistrationStartTime] = useState<any>(null)
+  const [registrationEndTime, setRegistrationEndTime] = useState<any>(null)
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const onClose = () => setIsOpenModal(false);
@@ -703,8 +706,36 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
-                  {({ isSubmitting, values, setFieldValue, dirty }) => {
+                  {({ isSubmitting, values, validateField, setFieldValue, dirty }) => {
                     handleValues(values);
+                    useEffect(()=>{
+                      if(values.startTime){
+                        validateField('startTime')
+                      }
+                      if(values.endTime){
+                        validateField('endTime')
+                      }
+                      if(values.registrationStartTime){
+                        validateField('registrationStartTime')
+                      }
+                      if(values.registrationEndTime){
+                        validateField("registrationEndTime")
+                      }
+                    }, [startTime, endTime, registrationStartTime, registrationEndTime])
+                    useEffect(()=>{
+                      if(values.startTime){
+                        setStartTime(values.startTime)
+                      }
+                      if(values.endTime){
+                        setEndTime(values.endTime)
+                      }
+                      if(values.registrationStartTime){
+                        setRegistrationStartTime(values.registrationStartTime)
+                      }
+                      if(values.registrationEndTime){
+                        setRegistrationEndTime(values.registrationEndTime)
+                      }
+                  }, [values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime])
                     useEffect(() => {
                       if (
                         location.pathname === ROUTES.UPDFATE_CONTEST &&

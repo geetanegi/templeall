@@ -432,7 +432,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             setCheckVideo(false);
             setIsModalOpen(false);
           }}
-          title="Upload Video"
+          title="Upload Shot of the Week"
         >
           <Formik
             initialValues={

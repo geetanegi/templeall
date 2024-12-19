@@ -69,7 +69,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
             {moment.utc(contestData?.startTime).local().format("MM/DD/YYYY") ||
               ""}{" "}
             -{" "}
-            {moment.utc(contestData?.entTime).local().format("MM/DD/YYYY") ||
+            {moment.utc(contestData?.endTime).local().format("MM/DD/YYYY") ||
               ""}{" "}
           </p>
           {saveState.selectedDays !== "" && saveState.frequency !== "" && (
@@ -83,7 +83,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                     : "day"}{" "}
                   until{" "}
                   <span className="text-xs font-semibold text-gray-500">
-                    {moment.utc(contestData?.startTime).format("MM/DD/YYYY")}
+                    {moment.utc(contestData?.endTime).local().format("MM/DD/YYYY")}
                   </span>
                 </span>
               )}
@@ -96,7 +96,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                     : ` every ${getOrdinal(saveState.repeatEvery)} `}
                   day until{" "}
                   <span className="text-xs font-semibold text-gray-500">
-                    {moment.utc(contestData?.endTime).format("MM/DD/YYYY")}
+                    {moment.utc(contestData?.endTime).local().format("MM/DD/YYYY")}
                   </span>
                 </span>
               )}

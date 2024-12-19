@@ -299,7 +299,7 @@ const Register: React.FC = () => {
                     />
                   </div>
                   <div className={`flex gap-2`}>
-                    <div className="min-h-[20px] w-40 pr-2">
+                    <div className="min-h-[20px] w-36 pr-2">
                       <FormikControl
                         authFlow={true}
                         label="Phone"
@@ -307,6 +307,7 @@ const Register: React.FC = () => {
                         control="input"
                         maxLength={5}
                         className="w-full"
+                        validateRegex={/^\+?[0-9]+$/}
                         type="text"
                         required={true}
                       />

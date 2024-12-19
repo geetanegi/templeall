@@ -212,7 +212,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   />
                 </div>
                 <div className="flex  mb-5 ">
-                  <div className="w-28  pr-2">
+                  <div className="w-36 pr-2">
                     <FormikControl
                       authFlow={true}
                       label="Phone"
@@ -220,6 +220,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                       control="input"
                       className="w-full"
                       maxLength={5}
+                      validateRegex={/^\+?[0-9]+$/}
                       type="text"
                       required={true}
                     />

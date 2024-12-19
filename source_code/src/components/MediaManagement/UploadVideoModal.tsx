@@ -249,7 +249,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
             setCheckVideo(false);
             setIsModalOpen(false);
           }}
-          title="Upload Video"
+          title={videoCategory === "WINNER_VIDEO" ? "Upload Winning Shot": "Upload Requested Video"}
         >
           <Formik
             initialValues={initialValue}

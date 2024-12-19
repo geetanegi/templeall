@@ -249,7 +249,7 @@ const ContestManagement = () => {
 
   const isCompleted = (status: boolean, id: number) => {
     return (
-      <div className="flex w-[70%] pr-5 justify-left gap-4 py-2">
+      <div className="flex w-[70%] pr-5 justify-left gap-5 py-2">
         <button style={{ color: "#046221" }}>
           <SquarePen
             strokeWidth={1}
@@ -453,7 +453,7 @@ const ContestManagement = () => {
               options={
                 holesList?.data.map((hole) => ({
                   value: hole.holeNumber.toString(),
-                  label: hole.holeNumber.toString(),
+                  label: hole ? `Hole #${hole.holeNumber} - Par ${hole.par || ""}` : '',
                 })) || []
               }
               maxDisplayCount={2}

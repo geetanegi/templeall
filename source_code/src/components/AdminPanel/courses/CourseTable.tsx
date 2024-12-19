@@ -295,7 +295,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
   return (
     <PageLoader isActive={loader}>
       <div className="mt-[24px] flex h-full min-h-screen pb-14">
-        <div className="2xl:max-w-none w-full max-w-7xl overflow-x-scroll md:overflow-auto">
+        <div className="2xl:max-w-none w-full max-w-[100vw] overflow-x-scroll md:overflow-auto">
           <div className="overflow-x-auto rounded-md border">
             <table className="font-inter w-full table-auto overflow-scroll text-left md:overflow-auto">
               <thead className="w-full rounded-lg text-base font-semibold text-white">

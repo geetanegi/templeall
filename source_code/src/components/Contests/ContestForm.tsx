@@ -287,17 +287,34 @@ const ContestForm: React.FC<ContestProps> = ({
             {saveState.selectedDays !== "" && saveState.frequency !== "" && (
               <div className="mb-4 flex items-center">
                 {saveState?.frequency === "WEEKLY" && (
+
                   <span className="text-xs text-gray-500">
+                    <span className="flex" style={{width: "max-content"}}>
                     {" "}
                     Occurs every{" "}
                     {saveState?.selectedDays?.length < 7
                       ? saveState.selectedDays.join(", ")
                       : "day"}{" "}
                     until{" "}
+                    {userPermisions?.permission?.["is_super_admin"] && (
+                  <SquarePen
+                    className={`mx-2 h-5 text-[#95c11e] cursor-pointer`}
+                    strokeWidth={1}
+                    onClick={() => {
+                      if (isSuperAdmin) {
+                        return;
+                      }
+                      toggleModal();
+                    }}
+                  />
+                )}
+                    </span>
                     <span className="text-xs font-semibold text-gray-500">
                       {moment.utc(endDate).format("MM/DD/YYYY")}
                     </span>
+                    
                   </span>
+                 
                 )}
                 {saveState?.frequency === "DAILY" && (
                   <span className="text-xs text-gray-500">
@@ -312,9 +329,9 @@ const ContestForm: React.FC<ContestProps> = ({
                     </span>
                   </span>
                 )}
-                {userPermisions?.permission?.["is_super_admin"] && (
+                {userPermisions?.permission?.["is_super_admin"] && saveState?.frequency === "DAILY" && (
                   <SquarePen
-                    className={`mx-2 h-5 text-[#95c11e]`}
+                    className={`mx-2 h-5 text-[#95c11e] cursor-pointer`}
                     strokeWidth={1}
                     onClick={() => {
                       if (isSuperAdmin) {

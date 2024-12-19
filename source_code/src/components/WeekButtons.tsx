@@ -1,6 +1,7 @@
 import React from "react";
 
 interface Day {
+  key:number;
   id: string; // Unique identifier for each day (now a string)
   label: string; // Day label
 }
@@ -32,20 +33,29 @@ const WeekButtons: React.FC<WeekButtonsProps> = ({
   setSelectedDays,
 }) => {
   const days: Day[] = [
-    { id: "MONDAY", label: "M" },
-    { id: "TUESDAY", label: "T" },
-    { id: "WEDNESDAY", label: "W" },
-    { id: "THURSDAY", label: "T" },
-    { id: "FRIDAY", label: "F" },
-    { id: "SATURDAY", label: "S" },
-    { id: "SUNDAY", label: "S" },
+    {key:1,  id: "MONDAY", label: "M" },
+    {key:2, id: "TUESDAY", label: "T" },
+    {key:3, id: "WEDNESDAY", label: "W" },
+    {key:4, id: "THURSDAY", label: "T" },
+    {key:5, id: "FRIDAY", label: "F" },
+    {key:6, id: "SATURDAY", label: "S" },
+    {key:7, id: "SUNDAY", label: "S" },
+  ];
+
+  const dayOrder: string[] = [
+    "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"
   ];
 
   const handleClick = (id: string) => {
-    // Toggle the day ID in the selectedDays array
-    setSelectedDays((prev) =>
-      prev.includes(id) ? prev.filter((d) => d !== id) : [...prev, id],
-    );
+    setSelectedDays((prev) => {
+      const newSelectedDays = prev.includes(id)
+        ? prev.filter((d) => d !== id) 
+        : [...prev, id]; 
+
+      return newSelectedDays.sort((a, b) => {
+        return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+      });
+    });
   };
 
   return (

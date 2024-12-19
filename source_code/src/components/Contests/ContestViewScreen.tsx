@@ -228,8 +228,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
         <p className="text-xs ml-1">{contestData?.limitSection ? " Yes" : "No"}</p>
       </div>
       <div className="flex gap-20">
-        {!contestData?.limitSection ? (
-          <>
+       
             <div className="items-center gap-1">
               <span className="text-[14px]">
                 How many Entries Per 24 Hours -{" "}
@@ -244,8 +243,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                 {contestData?.waitTimeBetweenEntries || 0}
               </p>
             </div>
-          </>
-        ) : null}
+        
 
         <div className="items-center gap-1">
           <span className="text-[14px]">Queue Limit (4)</span>

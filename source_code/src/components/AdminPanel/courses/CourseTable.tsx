@@ -1,4 +1,4 @@
-  import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { LandPlot, QrCode } from "lucide-react";
 import apiService from "../../../services/apiService";
 import { ToastInfo, ToastSuccess } from "../../Toast";
@@ -68,10 +68,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       if (selectedCourseData) {
         const filteredHoles = filteredCourse?.[0]?.courseList?.[0]?.holeList
           ? filteredCourse?.[0]?.courseList?.[0]?.holeList?.filter((hole: any) =>
-              selectedHoles && selectedHoles.length > 0
-                ? selectedHoles?.includes(hole.id.toString())
-                : true,
-            )
+            selectedHoles && selectedHoles.length > 0
+              ? selectedHoles?.includes(hole.id.toString())
+              : true,
+          )
           : selectedCourseData.holeList;
         const data = {
           courseList: [
@@ -133,9 +133,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
     fetchCourseData();
   }, []);
 
+
   const generateQRCodeDataURL = async (
     svg: SVGSVGElement,
     format: "png" | "jpeg",
+    scale: number = 5 // Use a larger scale factor for very high quality
   ): Promise<string> => {
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement("canvas");
@@ -147,21 +149,21 @@ const CourseTable: React.FC<CourseTableProps> = ({
     return new Promise((resolve, reject) => {
       img.onload = () => {
         // Define padding around the QR code
-        const padding = 20; // Adjust this value for more or less padding
-        const imgWidth = img.width;
-        const imgHeight = img.height;
+        const padding = 40; // Increased padding for more space around the image
+        const imgWidth = img.width * scale; // Scale the width
+        const imgHeight = img.height * scale; // Scale the height
 
-        // Set the canvas size to include padding
-        canvas.width = imgWidth + padding * 2;
-        canvas.height = imgHeight + padding * 2;
+        // Set the canvas size to include padding and scale
+        canvas.width = imgWidth + padding * 2 * scale;
+        canvas.height = imgHeight + padding * 2 * scale;
 
         if (ctx) {
           // Fill the canvas with a white background
           ctx.fillStyle = "white";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          // Draw the SVG image on top of the white background with padding
-          ctx.drawImage(img, padding, padding);
+          // Draw the SVG image on top of the white background with padding and scale
+          ctx.drawImage(img, padding * scale, padding * scale, imgWidth, imgHeight);
           resolve(canvas.toDataURL(`image/${format}`));
         } else {
           reject("Canvas context is not available");
@@ -172,14 +174,15 @@ const CourseTable: React.FC<CourseTableProps> = ({
     });
   };
 
-  const downloadQRCode = async (key: string, format: "png" | "jpeg") => {
+  const downloadQRCode = async (key: string, format: "png" | "jpeg", name: string, scale: number = 5) => {
     const svg = qrCodeRefs.current[key];
     if (svg) {
       try {
-        const url = await generateQRCodeDataURL(svg, format);
+        const url = await generateQRCodeDataURL(svg, format, scale);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `qrcode-${key}.${format}`;
+        const nameTrim = name.replace(/\s+/g, '');
+        link.download = `${nameTrim}.${format}`;
         link.click();
         ToastSuccess("QR Code generated successfully");
       } catch (error) {
@@ -232,7 +235,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     Preview
                   </button>
                   <button
-                    onClick={() => downloadQRCode(`course-${club.id}`, "png")}
+                    onClick={() => downloadQRCode(`course-${club.id}`, "png", club.courseName)}
                     className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                   >
                     <QrCode className="mr-1 w-4 text-primaryText" />
@@ -242,6 +245,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
               </div>
               {club?.holeList?.map((hole: any) => {
                 const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
+                const name = `${course?.name}_Hole${hole.holeNumber}_Par${hole.par}`;
                 return (
                   <div key={hole?.id} className="bg-white">
                     <div className="w-full border border-gray-200"></div>
@@ -271,7 +275,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           Preview
                         </button>
                         <button
-                          onClick={() => downloadQRCode(holeKey, "png")}
+                          onClick={() => downloadQRCode(holeKey, "png", name)}
                           className="font-weight-400 flex items-center justify-center rounded-md bg-primaryColor px-2 py-[1px] text-[12px] text-primaryText"
                         >
                           <QrCode className="mr-1 w-4 text-primaryText" />
@@ -309,7 +313,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
             </table>
           </div>
           {
-            
+
           }
           {courseData[0]?.courseList.length > 10 && (
             <div className="mt-1.5 mt-5 flex w-full flex-col items-center justify-center gap-5 px-1 sm:flex-row sm:justify-between">
@@ -341,35 +345,35 @@ const CourseTable: React.FC<CourseTableProps> = ({
         {/* QR code components rendered off-screen */}
         <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
           {courseData.map((club) => {
-           return club.courseList?.map((course)=>(
+            return club.courseList?.map((course) => (
               <React.Fragment key={course.id}>
-              <QRCode
-                value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
-                size={500}
-                // level="H"
-                bgColor="#FFFFFF"
-                fgColor="#000000"
-                ref={(el: any) =>
-                  (qrCodeRefs.current[`course-${course.id}`] = el)
-                }
-              />
-              {course.holeList?.map((hole) => {
-                const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
-                return (
-                  <QRCode
-                    key={holeKey}
-                    value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`}
-                    size={500}
-                    // level="H"
-                    bgColor="#FFFFFF"
-                    fgColor="#000000"
-                    ref={(el: any) => (qrCodeRefs.current[holeKey] = el)}
-                  />
-                );
-              })}
-            </React.Fragment>
+                <QRCode
+                  value={`${API_URL.qrCodeByCourseId}${course.id}&courseName=${course.courseName}`}
+                  size={500}
+                  // level="H"
+                  bgColor="#FFFFFF"
+                  fgColor="#000000"
+                  ref={(el: any) =>
+                    (qrCodeRefs.current[`course-${course.id}`] = el)
+                  }
+                />
+                {course.holeList?.map((hole) => {
+                  const holeKey = `course-${course.id}-hole-${hole.holeNumber}-par-${hole.par}`;
+                  return (
+                    <QRCode
+                      key={holeKey}
+                      value={`${API_URL.qrCodeByHoldId}?course=${course.id}&holeId=${hole.id}&holeNo=${hole.holeNumber}&par=${hole.par}&courseName=${course.courseName}`}
+                      size={500}
+                      // level="H"
+                      bgColor="#FFFFFF"
+                      fgColor="#000000"
+                      ref={(el: any) => (qrCodeRefs.current[holeKey] = el)}
+                    />
+                  );
+                })}
+              </React.Fragment>
             ))
-           })}
+          })}
         </div>
       </div>
       {openModal && (

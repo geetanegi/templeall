@@ -249,7 +249,7 @@ const ContestManagement = () => {
 
   const isCompleted = (status: boolean, id: number) => {
     return (
-      <div className="flex w-[70%] pr-5 justify-left gap-2 py-2">
+      <div className="flex w-[70%] pr-5 justify-left gap-5 py-2">
         <button style={{ color: "#046221" }}>
           <SquarePen
             strokeWidth={1}
@@ -260,6 +260,19 @@ const ContestManagement = () => {
             height={24}
             width={24}
           />
+        </button>
+        <button
+          key={id}
+          className="text-[#0077B6]"
+          onClick={() => {  
+            setContestId(id);
+            setIsContestModalOpn(true);
+            // navigate(
+            //   `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
+            // );
+          }}
+        >
+          <Eye className="w-5" />
         </button>
         <SwitchComponent
           isChecked={status}
@@ -440,7 +453,7 @@ const ContestManagement = () => {
               options={
                 holesList?.data.map((hole) => ({
                   value: hole.holeNumber.toString(),
-                  label: hole.holeNumber.toString(),
+                  label: hole ? `Hole #${hole.holeNumber} - Par ${hole.par || ""}` : '',
                 })) || []
               }
               maxDisplayCount={2}

@@ -225,7 +225,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
       </div>
       <div className="flex items-center">
         <span className="text-[14px] font-bold">Limit Entries Per User -</span>
-        <p className="text-xs">{contestData?.limitSection ? "Yes" : "No"}</p>
+        <p className="text-xs ml-1">{contestData?.limitSection ? " Yes" : "No"}</p>
       </div>
       <div className="flex gap-20">
         {!contestData?.limitSection ? (

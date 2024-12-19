@@ -708,34 +708,55 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                 >
                   {({ isSubmitting, values, validateField, setFieldValue, dirty }) => {
                     handleValues(values);
-                    useEffect(()=>{
-                      if(values.startTime){
-                        validateField('startTime')
+                    useEffect(() => {
+                      if (values.startTime) {
+                        validateField("startTime");
                       }
-                      if(values.endTime){
-                        validateField('endTime')
+                      if (values.endTime) {
+                        validateField("endTime");
                       }
-                      if(values.registrationStartTime){
-                        validateField('registrationStartTime')
+                      if (values.registrationStartTime) {
+                        validateField("registrationStartTime");
                       }
-                      if(values.registrationEndTime){
-                        validateField("registrationEndTime")
+                      if (values.registrationEndTime) {
+                        validateField("registrationEndTime");
                       }
-                    }, [startTime, endTime, registrationStartTime, registrationEndTime])
-                    useEffect(()=>{
-                      if(values.startTime){
-                        setStartTime(values.startTime)
+                      if(values.startDate){
+                        validateField('startDate')
                       }
-                      if(values.endTime){
-                        setEndTime(values.endTime)
+                      if(values.endDate){
+                        validateField('endDate')
                       }
-                      if(values.registrationStartTime){
-                        setRegistrationStartTime(values.registrationStartTime)
+                    }, [
+                      startTime,
+                      endTime,
+                      registrationStartTime,
+                      registrationEndTime,
+                      startdate,
+                      endDate
+                    ]);
+                    useEffect(() => {
+                      if (values.startTime) {
+                        setStartTime(values.startTime);
                       }
-                      if(values.registrationEndTime){
-                        setRegistrationEndTime(values.registrationEndTime)
+                      if (values.endTime) {
+                        setEndTime(values.endTime);
                       }
-                  }, [values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime])
+                      if (values.registrationStartTime) {
+                        if(!values.endTime){
+                          setFieldValue("endTime", endTime)
+                        }
+                        setRegistrationStartTime(values.registrationStartTime);
+                      }
+                      if (values.registrationEndTime) {
+                        setRegistrationEndTime(values.registrationEndTime);
+                      }
+                    }, [
+                      values.startTime,
+                      values.endTime,
+                      values.registrationStartTime,
+                      values.registrationEndTime,
+                    ]);
                     useEffect(() => {
                       if (
                         location.pathname === ROUTES.UPDFATE_CONTEST &&

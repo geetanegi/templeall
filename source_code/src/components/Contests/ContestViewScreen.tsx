@@ -195,27 +195,27 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
       <span className="text-[14px] font-bold">Payout</span>
       <div className="mb-7 flex items-center gap-4">
         <div>
-          <span className="text-[14px]">Player %</span>
+          <span className="text-[14px]">Player </span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.playerPercentage || "0"}
+            {contestData?.payoutStructure?.playerPercentage + '%' || "0%"}
           </p>
         </div>
         <div>
-          <span className="text-[14px]">AceCam %</span>
+          <span className="text-[14px]">AceCam </span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.acecamPercentage || "0"}
+            {contestData?.payoutStructure?.acecamPercentage + '%' || "0%"}
           </p>
         </div>
         <div>
-          <span className="text-[14px]">Course %</span>
+          <span className="text-[14px]">Course</span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.coursePercentage || "0"}
+            {contestData?.payoutStructure?.coursePercentage + '%' || "0%"}
           </p>
         </div>
         <div>
-          <span className="text-[14px]">Charity %</span>
+          <span className="text-[14px]">Charity</span>
           <p className="text-center text-xs">
-            {contestData?.payoutStructure?.charityPercentage || "0"}
+            {contestData?.payoutStructure?.charityPercentage + '%' || "0%"}
           </p>
         </div>
       </div>

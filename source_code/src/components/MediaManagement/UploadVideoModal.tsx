@@ -227,7 +227,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
         );
       }
     } catch (error) {
-      ToastInfo("Video Upload Failed");
+      console.error(error);
       handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
     } finally {
       dispatch(setLoading(false));

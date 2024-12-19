@@ -192,6 +192,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                             paddingLeft: "15px",
                           },
                       },
+                      inputProps:{readOnly: true}
                     },
                   }}
                 />
@@ -268,6 +269,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                             paddingLeft: "15px",
                           },
                       },
+                      inputProps:{readOnly: true}
                     },
                   }}
                 />

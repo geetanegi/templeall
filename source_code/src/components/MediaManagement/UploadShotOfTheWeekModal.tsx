@@ -361,7 +361,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         );
       }
     } catch (error) {
-      ToastInfo("Video Upload Failed");
+      console.error(error);
       handleInprogressVideoList({ vidId }, "remove");
     } finally {
       setUsersList([]);

@@ -76,7 +76,7 @@ const AppleSignInButton: React.FC = () => {
       responseMode="form_post"
       scope="name email"
       usePopup={true}
-      callback={handleAppleResponse} 
+      callback={handleAppleResponse}
       render={(renderProps: any) => (
         <button onClick={renderProps.onClick} className="apple-signin-button">
           <img

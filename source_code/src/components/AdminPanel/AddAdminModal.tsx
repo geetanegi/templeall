@@ -71,7 +71,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
       .required(validationConstant.phoneNumberIsRequired),
     countryCode: Yup.string()
       .required(validationConstant.countryCodeRequired)
-      .max(4, validationConstant.countryCodeMaxLength),
+      .max(5, validationConstant.countryCodeMaxLength),
     emailId: Yup.string()
       .email(validationConstant.validEmail)
       .required(validationConstant.emailRequired),

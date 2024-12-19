@@ -45,7 +45,7 @@ const ActiveContestAccordion: React.FC = () => {
         ToastInfo(res.data.description || "Error fetching contest data");
       }
     } catch (error) {
-      console.error("Error fetching contest data");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

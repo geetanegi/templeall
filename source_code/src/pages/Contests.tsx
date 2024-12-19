@@ -697,7 +697,7 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                     : userPermisions?.permission["is_course_admin"]
                       ? "Contest Details"
                       : "Edit Contest"} */}
-                  Edit Contest
+                  Edit Contest ID {editData?.cid || ''}
                 </h3>
 
                 <Formik

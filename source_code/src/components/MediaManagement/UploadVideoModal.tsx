@@ -166,7 +166,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
               data: {
                 requestType:
                   selectedTab === 1 ? "WINNER_VIDEO" : "REQUEST_VIDEO",
-                videoCategory: "TOP_SHOT",
+                videoCategory: videoCategory,
                 videoDescription: values.description,
                 videoTitle: values.title,
                 requestId: selectedReqVideoId,

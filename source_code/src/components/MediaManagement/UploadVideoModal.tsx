@@ -301,7 +301,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                           <img
                             src={thumbnail}
                             alt=""
-                            className="h-[92px] w-[120px] rounded-md"
+                            className="h-full mx-auto"
                           />
                         ) : null}
                       </div>

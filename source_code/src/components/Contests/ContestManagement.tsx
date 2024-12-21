@@ -238,12 +238,12 @@ const ContestManagement = () => {
       "createdDate": moment
         .utc(contest.createdDate)
         .local()
-        .format("MM-DD-YYYY hh:mm A"),
+        .format("MM/DD/YYYY hh:mm A"),
       "createdby": contest.createdBy || '',
       "updatedDate": moment
         .utc(contest.updatedDate)
         .local()
-        .format("MM-DD-YYYY hh:mm A"),
+        .format("MM/DD/YYYY hh:mm A"),
       "updatedBy": contest.updatedBy || '',
 
     }));

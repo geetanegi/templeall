@@ -133,7 +133,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
     fetchCourseData();
   }, []);
 
-
   const generateQRCodeDataURL = async (
     svg: SVGSVGElement,
     format: "png" | "jpeg",
@@ -186,7 +185,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
         link.click();
         ToastSuccess("QR Code generated successfully");
       } catch (error) {
-        ToastInfo("Failed to generate QR Code. Please try again later.");
+        console.error(error);
       }
     } else {
       ToastInfo("Failed to generate QR Code. Please try again later.");

@@ -71,7 +71,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
       .required(validationConstant.phoneNumberIsRequired),
     countryCode: Yup.string()
       .required(validationConstant.countryCodeRequired)
-      .max(4, validationConstant.countryCodeMaxLength),
+      .max(5, validationConstant.countryCodeMaxLength),
     emailId: Yup.string()
       .email(validationConstant.validEmail)
       .required(validationConstant.emailRequired),
@@ -157,7 +157,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         ToastInfo(data.description);
       }
     } catch (error) {
-      ToastInfo("Error fetching roles");
+      console.log(error)
     }
   };
 
@@ -310,8 +310,8 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
                     name="countryCode"
                     control="customInput"
                     className="w-full"
-                    placeholder="Country Code"
                     maxLength={5}
+                    placeholder="Country Code"
                     validateRegex={/^\+?[0-9]+$/}
                     type="text"
                     required={true}

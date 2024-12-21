@@ -1,6 +1,7 @@
 import React from "react";
 import Award from "../../assets/images/image 55.png";
 import { jackpot } from "./contestdata";
+import { formatNumberWithCustomCommas } from "../../utils/utils";
 
 const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
 
@@ -22,7 +23,7 @@ const JackpotAmount: React.FC<{ jackpot: jackpot }> = ({ jackpot }) => {
               </h1>
               <h1 className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] font-bold bg-clip-text text-xl text-transparent">
                 <span className="bg-gradient-to-r from-[#FFEECC] to-[#AD9515] font-bold bg-clip-text text-[24px] text-transparent">
-                  ${jackpot && !isNaN(Number(jackpot.jackpotAmount)) && jackpot?.jackpotAmount?.toFixed(2)}
+                  ${jackpot && !isNaN(Number(jackpot.jackpotAmount)) && formatNumberWithCustomCommas(Number(jackpot?.jackpotAmount))}
                 </span>
               </h1>
             </div>

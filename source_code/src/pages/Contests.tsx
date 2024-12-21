@@ -193,6 +193,22 @@ const validationSchema = Yup.object({
     .transform((value) => (value === "" ? null : value))
     .required(validationConstant.mandatoryField)
     .test(
+      "end-not-less-than-start",
+      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
+      function (value) {
+        const { registrationStartTime } = this.parent;
+        if (!value || !registrationStartTime) return true;
+
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+
+        if (registrationEnd.isSameOrBefore(registrationStart)) {
+          return false;
+        }
+        return true;
+      },
+    )
+    .test(
       "is-at-least-30-min-before-contest-end",
       validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime,
       function (value) {
@@ -206,22 +222,6 @@ const validationSchema = Yup.object({
           return false; // Invalid time format
         }
         if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
-          return false;
-        }
-        return true;
-      },
-    )
-    .test(
-      "end-not-less-than-start",
-      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
-      function (value) {
-        const { registrationStartTime } = this.parent;
-        if (!value || !registrationStartTime) return true;
-
-        const registrationEnd = moment(`${value}`, "HH:mm A");
-        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
-
-        if (registrationEnd.isSameOrBefore(registrationStart)) {
           return false;
         }
         return true;
@@ -626,7 +626,7 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
-        activeStatus: editData?.activeStatus,
+        activeStatus: false,
         cId: editData?.cid,
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
@@ -697,7 +697,7 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                     : userPermisions?.permission["is_course_admin"]
                       ? "Contest Details"
                       : "Edit Contest"} */}
-                  Edit Contest
+                  Edit Contest ID {editData?.cid || ''}
                 </h3>
 
                 <Formik
@@ -708,34 +708,55 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                 >
                   {({ isSubmitting, values, validateField, setFieldValue, dirty }) => {
                     handleValues(values);
-                    useEffect(()=>{
-                      if(values.startTime){
-                        validateField('startTime')
+                    useEffect(() => {
+                      if (values.startTime) {
+                        validateField("startTime");
                       }
-                      if(values.endTime){
-                        validateField('endTime')
+                      if (values.endTime) {
+                        validateField("endTime");
                       }
-                      if(values.registrationStartTime){
-                        validateField('registrationStartTime')
+                      if (values.registrationStartTime) {
+                        validateField("registrationStartTime");
                       }
-                      if(values.registrationEndTime){
-                        validateField("registrationEndTime")
+                      if (values.registrationEndTime) {
+                        validateField("registrationEndTime");
                       }
-                    }, [startTime, endTime, registrationStartTime, registrationEndTime])
-                    useEffect(()=>{
-                      if(values.startTime){
-                        setStartTime(values.startTime)
+                      if(values.startDate){
+                        validateField('startDate')
                       }
-                      if(values.endTime){
-                        setEndTime(values.endTime)
+                      if(values.endDate){
+                        validateField('endDate')
                       }
-                      if(values.registrationStartTime){
-                        setRegistrationStartTime(values.registrationStartTime)
+                    }, [
+                      startTime,
+                      endTime,
+                      registrationStartTime,
+                      registrationEndTime,
+                      startdate,
+                      endDate
+                    ]);
+                    useEffect(() => {
+                      if (values.startTime) {
+                        setStartTime(values.startTime);
                       }
-                      if(values.registrationEndTime){
-                        setRegistrationEndTime(values.registrationEndTime)
+                      if (values.endTime) {
+                        setEndTime(values.endTime);
                       }
-                  }, [values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime])
+                      if (values.registrationStartTime) {
+                        if(!values.endTime){
+                          setFieldValue("endTime", endTime)
+                        }
+                        setRegistrationStartTime(values.registrationStartTime);
+                      }
+                      if (values.registrationEndTime) {
+                        setRegistrationEndTime(values.registrationEndTime);
+                      }
+                    }, [
+                      values.startTime,
+                      values.endTime,
+                      values.registrationStartTime,
+                      values.registrationEndTime,
+                    ]);
                     useEffect(() => {
                       if (
                         location.pathname === ROUTES.UPDFATE_CONTEST &&

@@ -147,7 +147,7 @@ const ResetPassword: React.FC = () => {
           </Formik>
           <p className="mt-4 text-center">
             <Link to={ROUTES.LOGIN} className={`text-link hover:underline`}>
-              Back to login
+              Back to Login
             </Link>
           </p>
         </>

@@ -24,3 +24,31 @@ export const combineDateAndTime = (date: string | Moment, time: string) => {
   // Return the combined date and time in ISO format
   return combined.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
 };
+
+
+export function formatNumberWithCustomCommas(number:number) {
+  // Convert the number to a string
+  let numStr = number.toFixed(2).toString();
+  
+  // Split the number into integer and decimal parts
+  let [integerPart, decimalPart] = numStr.split('.');
+  
+  // Format the integer part with commas
+  let result = '';
+  let count = 0;
+  for (let i = integerPart.length - 1; i >= 0; i--) {
+    count++;
+    result = integerPart[i] + result;
+    
+    if (count % 3 === 0 && i !== 0) {
+      result = ',' + result;
+    }
+  }
+
+  // If there's a decimal part, append it back to the result
+  if (decimalPart) {
+    result = result + '.' + decimalPart;
+  }
+  
+  return result;
+}

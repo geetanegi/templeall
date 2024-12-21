@@ -29,19 +29,20 @@ import moment from "moment";
 
 const tableHeaders = [
   { id: 1, key: "contestId", field: "Contest ID" },
+  { id: 14, key: "Actions", field: "Actions" },
+  { id: 13, key: "Status", field: "Status" },
   { id: 2, key: "Contest Type", field: "Contest Type" },
   { id: 3, key: "Club name", field: "Club name" },
   { id: 4, key: "Course Name", field: "Course Name" },
   { id: 5, key: "Hole number", field: "Hole number" },
   { id: 6, key: "Tee", field: "Tee" },
   { id: 7, key: "Entry fee", field: "Entry fee" },
-  { id: 8, key: "No. of Participants", field: "No. of Participants" },
+  { id: 8, key: "Total Reg.", field: "Total Reg." },
   { id: 9, key: "createdDate", field: "Created date" },
   { id: 10, key: "createdBy", field: "Created By" },
   { id: 11, key: "Updated date", field: "Updated date" },
   { id: 12, key: "updatedBy", field: "Updated By" },
-  { id: 13, key: "Status", field: "Status" },
-  { id: 14, key: "Actions", field: "Actions" },
+
 ];
 
 const ContestManagement = () => {
@@ -79,6 +80,7 @@ const ContestManagement = () => {
   const [filterByContest, setFilterByContest] = useState<any>([]);
   const [contestId, setContestId] = useState<number | string>("");
   const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
+  const [cId, setCId] = useState<string | null>('')
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -119,7 +121,7 @@ const ContestManagement = () => {
         ToastInfo(res.data.description || "Error fetching hole data");
       }
     } catch (error) {
-      ToastInfo("Error fetching hole data");
+      console.error(error);
     }
   };
 
@@ -207,14 +209,32 @@ const ContestManagement = () => {
   const computeTableData = (fetchedData: any) => {
     const data = fetchedData?.map((contest: any) => ({
       "Contest Id": contest.cid || '',
-      
+      Actions: isCourseAdmin ? (
+        <button
+          key={contest?.id}
+          className="text-[#0077B6]"
+          onClick={() => {  
+            setContestId(contest.id);
+            setIsContestModalOpn(true);
+            setCId(contest.cid)
+            // navigate(
+            //   `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
+            // );
+          }}
+        >
+          <Eye className="w-5" />
+        </button>
+      ) : (
+        isCompleted(contest.activeStatus, contest.id, contest.cid)
+      ),
+      Status: getStatus(contest.activeStatus),
       "Contest Type": contest.contestType,
       "Club name": contest.clubName || "N/A",
       "Course Name": contest.courseName || "N/A",
       "Hole number": `Hole #${contest.holeNumber} - Par ${contest.par || ""}` || "N/A",
       Tee: contest.teeName +" " + `(Yards ${contest.teeYardage})` || "N/A",
       "Entry fee": "$" + contest.entryFee || "N/A",
-      "No. of Participants": contest.playerCount || 0,
+      "Total Reg.": contest.playerCount || 0,
       "createdDate": moment
       .utc(contest.createdDate)
       .local()
@@ -225,29 +245,12 @@ const ContestManagement = () => {
       .local()
       .format("MM-DD-YYYY"),
       "updatedBy": contest.updatedBy || '',
-      Status: getStatus(contest.activeStatus),
-      Actions: isCourseAdmin ? (
-        <button
-          key={contest?.id}
-          className="text-[#0077B6]"
-          onClick={() => {  
-            setContestId(contest.id);
-            setIsContestModalOpn(true);
-            // navigate(
-            //   `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
-            // );
-          }}
-        >
-          <Eye className="w-5" />
-        </button>
-      ) : (
-        isCompleted(contest.activeStatus, contest.id)
-      ),
+      
     }));
     return data;
   };
 
-  const isCompleted = (status: boolean, id: number) => {
+  const isCompleted = (status: boolean, id: number, cid: string) => {
     return (
       <div className="flex w-[70%] pr-5 justify-left gap-5 py-2">
         <button style={{ color: "#046221" }}>
@@ -267,6 +270,7 @@ const ContestManagement = () => {
           onClick={() => {  
             setContestId(id);
             setIsContestModalOpn(true);
+            setCId(cid)
             // navigate(
             //   `${ROUTES.UPDFATE_CONTEST.replace(":id", contest.id?.toString())}`,
             // );
@@ -334,7 +338,7 @@ const ContestManagement = () => {
         dispatch(setLoading(false));
       }
     } catch (error) {
-      console.error("Error fetching contest data");
+      console.error(error);
       dispatch(setLoading(false));
     }
   };
@@ -363,7 +367,7 @@ const ContestManagement = () => {
         revert(); // Revert the switch state on failure
       }
     } catch (error) {
-      ToastInfo("Error updating contest status");
+      console.error(error);
       revert(); // Revert the switch state on failure
     } finally {
       dispatch(setLoading(false));
@@ -497,6 +501,8 @@ const ContestManagement = () => {
         setIsContestModalOpn={setIsContestModalOpn}
         contestId={contestId}
         setContestId={setContestId}
+        cid={cId}
+        
       />
 
       <Modal

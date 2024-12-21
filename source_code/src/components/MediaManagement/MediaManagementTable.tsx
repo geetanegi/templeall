@@ -455,7 +455,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             course: data?.courseName || "",
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
-            time: moment.utc(data?.requestTime).local().format("hh:mm A"),
+            time: moment.utc(data?.startTime).local().format("hh:mm A"),
             Category: (
               <div className="relative inline-block flex items-center text-[14px]">
                 {data.videoCategory}

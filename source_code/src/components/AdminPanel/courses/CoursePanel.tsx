@@ -46,7 +46,7 @@ const CoursePanel: React.FC = () => {
         ToastInfo(res?.data?.description || "Error fetching hole data");
       }
     } catch (error) {
-      ToastInfo("Error fetching hole data");
+      console.error(error)
     }
   };
 

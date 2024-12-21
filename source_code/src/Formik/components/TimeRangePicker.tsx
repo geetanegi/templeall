@@ -138,12 +138,15 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                     <span style={{ color: "red", marginLeft: "0.25rem" }}>*</span>
                   )}
                 </span>}
-                  value={startTime}
+                  value={form.values[field.name] ? moment(form.values[field.name] , "hh:mm:ss") : startTime}
                   ampm={false}
                   {...rest}
                   onChange={(newValue: Moment | null) => {
                     setStartTime(newValue);
                     setFieldValue(name1, newValue ? moment(newValue).format('HH:mm:ss') : null);
+                    // if(newValue && endTime && newValue > endTime){
+                    //   setFieldValue(name2, '')
+                    // }
                     // Reset end time if it's no longer valid
                     if (
                       endTime &&
@@ -192,6 +195,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                             paddingLeft: "15px",
                           },
                       },
+                      inputProps:{readOnly: true}
                     },
                   }}
                 />
@@ -220,7 +224,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                   )}
                 </span>}
                   {...rest}
-                  value={endTime}
+                  value={form.values[field.name] ? moment(form.values[field.name] , "hh:mm:ss") : endTime}
                   ampm={false}
                   onChange={(newValue: Moment | null) => {
                     setEndTime(newValue);
@@ -268,6 +272,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
                             paddingLeft: "15px",
                           },
                       },
+                      inputProps:{readOnly: true}
                     },
                   }}
                 />

@@ -177,7 +177,7 @@ const ContestList: React.FC = () => {
         ToastInfo(res.data.description || "Error fetching course data");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

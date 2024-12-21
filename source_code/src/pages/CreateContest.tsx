@@ -190,6 +190,22 @@ const validationSchema = Yup.object({
     .transform((value) => (value === "" ? null : value))
     .required(validationConstant.mandatoryField)
     .test(
+      "end-not-less-than-start",
+      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
+      function (value) {
+        const { registrationStartTime } = this.parent;
+        if (!value || !registrationStartTime) return true;
+
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+
+        if (registrationEnd.isSameOrBefore(registrationStart)) {
+          return false;
+        }
+        return true;
+      },
+    )
+    .test(
       "is-at-least-30-min-before-contest-end",
       validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime,
       function (value) {
@@ -203,22 +219,6 @@ const validationSchema = Yup.object({
           return false; // Invalid time format
         }
         if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
-          return false;
-        }
-        return true;
-      },
-    )
-    .test(
-      "end-not-less-than-start",
-      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
-      function (value) {
-        const { registrationStartTime } = this.parent;
-        if (!value || !registrationStartTime) return true;
-
-        const registrationEnd = moment(`${value}`, "HH:mm A");
-        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
-
-        if (registrationEnd.isSameOrBefore(registrationStart)) {
           return false;
         }
         return true;
@@ -301,7 +301,6 @@ const validationSchema = Yup.object({
   note: Yup.string().required(validationConstant.mandatoryField),
 });
 
-
 const CreateContest: React.FC = () => {
   const dispatch = useDispatch();
   const tz = momentTz.tz.guess();
@@ -310,12 +309,11 @@ const CreateContest: React.FC = () => {
 
   const [editData, setEditData] = useState<any>(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [startTime, setStartTime] = useState<any>(null)
-  const [endTime, setEndTime] = useState<any>(null)
-  const [registrationStartTime, setRegistrationStartTime] = useState<any>(null)
-  const [registrationEndTime, setRegistrationEndTime] = useState<any>(null)
+  const [startTime, setStartTime] = useState<any>(null);
+  const [endTime, setEndTime] = useState<any>(null);
+  const [registrationStartTime, setRegistrationStartTime] = useState<any>(null);
+  const [registrationEndTime, setRegistrationEndTime] = useState<any>(null);
   const onClose = () => setIsOpenModal(false);
-
 
   const initialValues: ContestFormValues = {
     contestTypeId: editData?.contestTypeId || "",
@@ -341,15 +339,14 @@ const CreateContest: React.FC = () => {
     note: "",
   };
 
-  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
- 
-  const userPermisions = userPermissionAvailable && JSON.parse(
-    decryptData(
-      userPermissionAvailable,
-      secretKey,
-    ),
+  const userPermissionAvailable = useSelector(
+    (state: RootState) => state?.auth?.userPermissions,
   );
-  
+
+  const userPermisions =
+    userPermissionAvailable &&
+    JSON.parse(decryptData(userPermissionAvailable, secretKey));
+
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const isSuperAdmin = !userPermisions?.permission?.["is_super_admin"];
@@ -428,7 +425,7 @@ const CreateContest: React.FC = () => {
                 ?.teeList || [];
             const teeOptions =
               teeList?.map((item) => ({
-                key: item.teeName +" " +`(Yards ${item.yardage})` ,
+                key: item.teeName + " " + `(Yards ${item.yardage})`,
                 value: item.id,
               })) || [];
             setTeeOptions(teeOptions as []);
@@ -654,8 +651,6 @@ const CreateContest: React.FC = () => {
     navigate(-1);
   };
 
-
-
   return (
     <PageLoader isActive={loader}>
       <div className="bg-gray-100">
@@ -676,36 +671,62 @@ const CreateContest: React.FC = () => {
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
-                  {({ isSubmitting, values, validateField, setFieldValue, dirty }) => {
-
-                    useEffect(()=>{
-                      if(values.startTime){
-                        validateField('startTime')
+                  {({
+                    isSubmitting,
+                    values,
+                    validateField,
+                    setFieldValue,
+                    dirty,
+                  }) => {
+                    useEffect(() => {
+                      if (values.startTime) {
+                        validateField("startTime");
                       }
-                      if(values.endTime){
-                        validateField('endTime')
+                      if (values.endTime) {
+                        validateField("endTime");
                       }
-                      if(values.registrationStartTime){
-                        validateField('registrationStartTime')
+                      if (values.registrationStartTime) {
+                        validateField("registrationStartTime");
                       }
-                      if(values.registrationEndTime){
-                        validateField("registrationEndTime")
+                      if (values.registrationEndTime) {
+                        validateField("registrationEndTime");
                       }
-                    }, [startTime, endTime, registrationStartTime, registrationEndTime])
-                    useEffect(()=>{
-                        if(values.startTime){
-                          setStartTime(values.startTime)
+                      if(values.startDate){
+                        validateField('startDate')
+                      }
+                      if(values.endDate){
+                        validateField('endDate')
+                      }
+                    }, [
+                      startTime,
+                      endTime,
+                      registrationStartTime,
+                      registrationEndTime,
+                      startdate,
+                      endDate
+                    ]);
+                    useEffect(() => {
+                      if (values.startTime) {
+                        setStartTime(values.startTime);
+                      }
+                      if (values.endTime) {
+                        setEndTime(values.endTime);
+                      }
+                      if (values.registrationStartTime) {
+                        if(!values.endTime){
+                          setFieldValue("endTime", endTime)
                         }
-                        if(values.endTime){
-                          setEndTime(values.endTime)
-                        }
-                        if(values.registrationStartTime){
-                          setRegistrationStartTime(values.registrationStartTime)
-                        }
-                        if(values.registrationEndTime){
-                          setRegistrationEndTime(values.registrationEndTime)
-                        }
-                    }, [values.startTime, values.endTime, values.registrationStartTime, values.registrationEndTime])
+                        setRegistrationStartTime(values.registrationStartTime);
+                      }
+                      if (values.registrationEndTime) {
+                        setRegistrationEndTime(values.registrationEndTime);
+                      }
+                    }, [
+                      values.startTime,
+                      values.endTime,
+                      values.registrationStartTime,
+                      values.registrationEndTime,
+                    ]);
                     handleValues(values);
                     useEffect(() => {
                       if (!loader && clubOptions.length > 0 && dataLoaded) {

@@ -50,8 +50,11 @@ const StatusDropdown: React.FC<StatusDropdownProps> = ({
   // Close dropdown if clicked outside
 
   useEffect(() => {
-    getFilters("request_status", setStatusDropdownOptions);
-  }, []);
+    if(isOpen){
+      getFilters("request_status", setStatusDropdownOptions);
+
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

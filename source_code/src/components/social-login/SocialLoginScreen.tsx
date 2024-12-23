@@ -9,7 +9,6 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { loginWithoutRemember } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
@@ -84,7 +83,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
       .add(3, "hours")
       .format("YYYY-MM-DD HH:mm:ss");
     localStorage.setItem("expirationTime", expirationTime);
-    dispatch(loginWithoutRemember({ token: token }));
+    // dispatch(loginWithoutRemember({ token: token }));
     navigate(ROUTES.DASHBOARD);
   };
 

@@ -141,13 +141,13 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                   {moment
                     .utc(contestData?.startTime)
                     .local()
-                    .format("HH:mm A") || ""}
+                    .format("HH:mm") || ""}
                 </p>
               </div>
               <div>
                 <span className="text-[14px]"> End Time</span>
                 <p className="text-xs">
-                  {moment.utc(contestData?.endTime).local().format("HH:mm A") ||
+                  {moment.utc(contestData?.endTime).local().format("HH:mm") ||
                     ""}
                 </p>
               </div>
@@ -175,7 +175,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                   {moment
                     .utc(contestData?.registrationStartTime)
                     .local()
-                    .format("HH:mm A") || ""}
+                    .format("HH:mm") || ""}
                 </p>
               </div>
               <div>
@@ -184,7 +184,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                   {moment
                     .utc(contestData?.registrationEndTime)
                     .local()
-                    .format("HH:mm A") || ""}
+                    .format("HH:mm") || ""}
                 </p>
               </div>
             </div>

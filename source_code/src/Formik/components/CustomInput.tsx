@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import TextField from "@mui/material/TextField";
 import { Eye, EyeOff } from "lucide-react";
@@ -12,7 +12,7 @@ interface InputProps {
   maxLength?: number;
   validateRegex?: RegExp;
   onFocus?: () => void;
-  labelMarginRight?:any
+  labelMarginRight?: any
 
 }
 
@@ -24,11 +24,10 @@ const Input: React.FC<InputProps> = ({
   required = false,
   maxLength,
   validateRegex,
-  onFocus = () => {},
-  labelMarginRight=2
+  onFocus = () => { },
+  labelMarginRight = 2
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-
   // Function to toggle password visibility
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -50,15 +49,20 @@ const Input: React.FC<InputProps> = ({
       <Field name={name} onFocus={onFocus}>
         {({ field, form }: { field: any; form: any }) => {
           const { value } = field;
+          const safeValue = value ?? "";
+          console.log(value, safeValue, "values")
 
           if (name === "countryCode" && !value) {
             form.setFieldValue(name, "+1");
           }
+
           return (
             <TextField
               {...field}
+              value={safeValue ? value : ''}
               type={type === "password" && !showPassword ? "password" : "text"} // Toggle between password and text
               onFocus={onFocus}
+              autoComplete="off"
               label={
                 <span
                   style={{
@@ -86,7 +90,7 @@ const Input: React.FC<InputProps> = ({
               inputProps={{ maxLength }}
               onKeyPress={handleKeyPress}
               InputLabelProps={{
-                shrink: Boolean(field.value),
+                shrink: !!(field.value || form.touched[name]),
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {
@@ -141,7 +145,16 @@ const Input: React.FC<InputProps> = ({
                   WebkitBoxShadow: "0 0 0px 1000px transparent inset",
                   WebkitTextFillColor: "#ffffff",
                   color: "#ffffff",
-                  transition: "background-color 5000s ease-in-out 0s", 
+                  transition: "background-color 5000s ease-in-out 0s",
+                },
+                "& input::-webkit-password-toggle": {
+                  display: "none", // Chrome/Safari
+                },
+                "& input::-ms-reveal": {
+                  display: "none", // Edge
+                },
+                "& input::-webkit-clear-button": {
+                  display: "none", // Chrome/Safari
                 },
               }}
               InputProps={{
@@ -155,9 +168,9 @@ const Input: React.FC<InputProps> = ({
                     }}
                   >
                     {showPassword ? (
-                      <Eye color="rgb(238 235 235)"  />
+                      <Eye color="rgb(238 235 235)" />
                     ) : (
-                      <EyeOff color="rgb(238 235 235)"  />
+                      <EyeOff color="rgb(238 235 235)" />
                     )}
                   </span>
                 ),

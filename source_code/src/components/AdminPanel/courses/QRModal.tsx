@@ -47,11 +47,11 @@ const QRModal: React.FC<QRModalProps> = ({
           <div className="px-5 py-5 text-left">
             <span>
               {" "}
-              <strong>Course</strong>: {queryParams.courseName}{queryParams.holeNo && ','}
+              <strong>Course</strong>: {queryParams.courseName || ''}{queryParams.holeNo && ','}
             </span>
             <span>
               <strong>{queryParams.holeNo && "  Hole No: "}</strong>
-              {queryParams.holeNo}
+              {queryParams.holeNo || ''}
             </span>
           </div>
         </div>

@@ -86,7 +86,7 @@ const ContestManagement = () => {
   const fetchCourseList = async () => {
     try {
       let endPoint = API_URL.getCourseList
-      if(isCourseAdmin){
+      if (isCourseAdmin) {
         endPoint = API_URL.getCourseFilterForCA
       }
       const res = await apiService.post<CourseApiResponse>(
@@ -236,16 +236,16 @@ const ContestManagement = () => {
       "Entry fee": "$" + contest.entryFee || "N/A",
       "Total Reg.": contest.playerCount || 0,
       "createdDate": moment
-      .utc(contest.createdDate)
-      .local()
-      .format("MM-DD-YYYY") ,
+        .utc(contest.createdDate)
+        .local()
+        .format("MM/DD/YYYY hh:mm A"),
       "createdby": contest.createdBy || '',
-      "updatedDate":moment
-      .utc(contest.updatedDate)
-      .local()
-      .format("MM-DD-YYYY"),
+      "updatedDate": moment
+        .utc(contest.updatedDate)
+        .local()
+        .format("MM/DD/YYYY hh:mm A"),
       "updatedBy": contest.updatedBy || '',
-      
+
     }));
     return data;
   };
@@ -305,7 +305,7 @@ const ContestManagement = () => {
   const fetchContestList = async () => {
     try {
       let endPoint =  API_URL.getAllContests
-      if(isCourseAdmin){
+      if (isCourseAdmin){
         endPoint = API_URL.getAllContestForCA
       }
 

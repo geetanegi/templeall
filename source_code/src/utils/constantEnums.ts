@@ -6,8 +6,8 @@ export const constantWords = {
   Rejected: "Rejected",
 };
 // const baseUrl="http://localhost:8080/"
-// const baseUrl="https://dev.acecamgolf.com/"
-const baseUrl="https://test.acecamgolf.com/"
+const baseUrl="https://dev.acecamgolf.com/"
+// const baseUrl="https://test.acecamgolf.com/"
 // const baseUrl ="https://acecamgolf.com/"
 
 

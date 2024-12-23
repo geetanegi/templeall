@@ -74,7 +74,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   uploadSotwProgressArr,
   getAllMediaCounts
 }) => {
-  
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
@@ -97,7 +96,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
 
-  
+
 
   useEffect(() => {
     getVideosList();
@@ -192,8 +191,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       };
       if (filterValue) {
         payload.searchParams = {
-            "statusId": filterValue,
-          }  
+         "statusId": filterValue,
+        }   
       }
     }
 
@@ -201,14 +200,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       payload = {}
       payload.loginUserId = typeof userInfo === "object" ? userInfo.userId : null,
       payload.contestTypeId = null,
-      
       payload.pageSortingParam = {
         sortDir: "DESC",
         sortBy: "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
-      
       if (filterValue) {
         payload.contestTypeId = filterValue
       }
@@ -255,11 +252,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       />
     ) : (
       <div
-        className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${
-          status === constantWords.APPROVED
+        className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${status === constantWords.APPROVED
             ? "bg-green-100 text-green-600"
             : "bg-red-100 text-red-600"
-        }} `}
+          }} `}
       >
         {status === constantWords.APPROVED && (
           <CircleCheck size={12} className="text-green-600" />
@@ -381,8 +377,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
-            time: moment.utc(data?.startTime).local().format("hh:mm A"),
+            date: moment.utc(data?.hitTime).local().format("MM-DD-YYYY"),
+            time: moment.utc(data?.hitTime).local().format("hh:mm A"),
             upload: uploadProgressArr?.find(
               (vid: any) => vid.id === data.id,
             ) ? (
@@ -455,7 +451,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             course: data?.courseName || "",
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
-            time: moment.utc(data?.startTime).local().format("hh:mm A"),
+            time: moment.utc(data?.hitTime).local().format("hh:mm A"),
             Category: (
               <div className="relative inline-block flex items-center text-[14px]">
                 {data.videoCategory}

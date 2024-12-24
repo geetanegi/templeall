@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import TextField from "@mui/material/TextField";
 import { Eye, EyeOff } from "lucide-react";
@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isAutofilled, setIsAutofilled] = useState(false);
-  // Function to toggle password visibility
+
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import TextField from "@mui/material/TextField";
 import { Eye, EyeOff } from "lucide-react";
@@ -28,15 +28,20 @@ const Input: React.FC<InputProps> = ({
   labelMarginRight = 2
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isAutofilled, setIsAutofilled] = useState(false);
   // Function to toggle password visibility
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
 
-  // Function to validate input and block special characters and spaces
+  const handleAnimationStart = (e: React.AnimationEvent<HTMLInputElement>) => {
+    if (e.animationName === "mui-auto-fill") {
+      setIsAutofilled(true);
+    }
+  };
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const char = String.fromCharCode(event.which);
-    // Check if the character is not alphanumeric
+    setIsAutofilled(false)
     if (validateRegex) {
       if (!validateRegex.test(char)) {
         event.preventDefault(); // Block the input
@@ -44,25 +49,31 @@ const Input: React.FC<InputProps> = ({
     }
   };
 
+
   return (
     <div className={`${className}`}>
       <Field name={name} onFocus={onFocus}>
         {({ field, form }: { field: any; form: any }) => {
           const { value } = field;
           const safeValue = value ?? "";
-          console.log(value, safeValue, "values")
-
           if (name === "countryCode" && !value) {
             form.setFieldValue(name, "+1");
           }
+
+          const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            form.setFieldValue(name, e.target.value);
+            setIsAutofilled(false); // Reset autofill state
+          };
 
           return (
             <TextField
               {...field}
               value={safeValue ? value : ''}
+              onChange={handleChange}
               type={type === "password" && !showPassword ? "password" : "text"} // Toggle between password and text
               onFocus={onFocus}
-              autoComplete="off"
+              autoComplete="on"
+              onAnimationStart={handleAnimationStart}
               label={
                 <span
                   style={{
@@ -90,7 +101,7 @@ const Input: React.FC<InputProps> = ({
               inputProps={{ maxLength }}
               onKeyPress={handleKeyPress}
               InputLabelProps={{
-                shrink: !!(field.value || form.touched[name]),
+                shrink: isAutofilled || field.value,
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {

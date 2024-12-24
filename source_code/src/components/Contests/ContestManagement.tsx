@@ -26,6 +26,7 @@ import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import ContestModal from "./contestUtils/contestModal";
 import moment from "moment";
+import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
 
 const tableHeaders = [
   { id: 1, key: "contestId", field: "Contest ID" },
@@ -81,6 +82,10 @@ const ContestManagement = () => {
   const [contestId, setContestId] = useState<number | string>("");
   const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
   const [cId, setCId] = useState<string | null>('')
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
+
+
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -467,6 +472,10 @@ const ContestManagement = () => {
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
           </div>
+          <button className="ml-auto mr-10 text-[#4169E1]" 
+            onClick={()=>setIsDrawerOpen(!isDrawerOpen)}>
+            Filter
+          </button>
           {!isCourseAdmin && !userPermisions?.permission?.["is_player"] && (
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
@@ -495,6 +504,13 @@ const ContestManagement = () => {
           />
         </PageLoader>
       </div>
+
+      <FilterPannelDrawer
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+      >
+
+      </FilterPannelDrawer>
 
       <ContestModal
         isContestModalOpen={isContestModalOpen}

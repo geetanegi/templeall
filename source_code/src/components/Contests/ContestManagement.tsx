@@ -508,6 +508,7 @@ const ContestManagement = () => {
       <FilterPannelDrawer
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+          filterList={[]}
       >
 
       </FilterPannelDrawer>

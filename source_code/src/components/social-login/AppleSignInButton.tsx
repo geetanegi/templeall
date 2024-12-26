@@ -23,7 +23,7 @@ const AppleSignInButton: React.FC = () => {
     if (response.authorization) {
       handleLoginSuccess(response);
     }
-  
+
   };
 
 

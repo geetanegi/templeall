@@ -33,10 +33,12 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.userInfo = action.payload.userInfo;
     },
-    loginWithoutRemember: (state, action: PayloadAction<{ token: string }>) => {
+    loginWithoutRemember: (state, action: PayloadAction<{ token: string,
+      userInfo: { username: string; password: string; userId: string }
+     }>) => {
       state.isAuthenticated = true;
       state.token = action.payload.token; // Save the token
-      state.userInfo = ""; // Do not save user info
+      state.userInfo = action.payload.userInfo; // Do not save user info
     },
     logout: (state) => {
       state.isAuthenticated = false;

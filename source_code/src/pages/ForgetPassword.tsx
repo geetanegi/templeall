@@ -121,7 +121,7 @@ const ForgetPassword: React.FC = () => {
                     placeholder="Username"
                     type="text"
                     required={true}
-                    maxLength={25}
+                    maxLength={100}
                     authFlow={true}
                     labelMarginRight={4}
                   />

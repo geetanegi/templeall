@@ -63,29 +63,14 @@ const CourseTable: React.FC<CourseTableProps> = ({
 
   useEffect(() => {
     if (selectedCourse) {
-      const filteredCourse = filterByCourse(totalData, selectedCourse);
+      let filteredCourse = filterByCourse(totalData, selectedCourse);
       const selectedCourseData = filterByCourse(courseData, selectedCourse);
       if (selectedCourseData) {
-        const filteredHoles = filteredCourse?.[0]?.courseList?.[0]?.holeList
-          ? filteredCourse?.[0]?.courseList?.[0]?.holeList?.filter((hole: any) =>
-            selectedHoles && selectedHoles.length > 0
-              ? selectedHoles?.includes(hole.id.toString())
-              : true,
-          )
-          : selectedCourseData.holeList;
-        const data = {
-          courseList: [
-            {
-              holeList: filteredHoles,
-            },
-          ],
-        };
-        setFilterCourses([
-          {
-            ...selectedCourseData?.[0],
-            ...data,
-          },
-        ]);
+      
+        if(selectedHoles?.length){
+          filteredCourse = filterBySelectedHoles(selectedCourseData, selectedHoles)
+        }
+        setFilterCourses([...filteredCourse])
       } else {
         setFilterCourses([]);
       }
@@ -94,10 +79,28 @@ const CourseTable: React.FC<CourseTableProps> = ({
     }
   }, [selectedCourse, selectedHoles, courseData]);
 
+  const filterBySelectedHoles =(data: any, selectedHoleIds: string[]) =>{
+    return data.map((club:any) => ({
+      ...club,
+      courseList: club.courseList.map((course:any) => ({
+        ...course,
+        holeList: course?.holeList?.filter((hole:any) =>{ 
+          debugger
+          return selectedHoleIds?.includes(String(hole?.id))}) // Filter by selected holes
+      }))
+    }));
+  }
+
   const filterByCourse = (clubList: any, courseId: any) => {
-    return clubList.filter((club: any) =>
-      club.courseList.some((course: any) => course.id === courseId),
+     const clubData= clubList.filter((club: any) =>{
+     const data = club.courseList.some((course: any) => course.id === courseId)
+     console.log(data, "dataaaaa")
+     return data
+    
+    }
     );
+    console.log(clubData, "clubData")
+    return clubData
   };
 
   const handlePageSizeChange = (value: any) => {

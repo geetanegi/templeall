@@ -104,7 +104,14 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
           if (token) {
-            dispatch(loginWithoutRemember({ token: data?.data?.token }));
+            dispatch(loginWithoutRemember({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }));
             dispatch(
               login({
                 token: data?.data?.token,

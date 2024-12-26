@@ -145,7 +145,7 @@ export const createComment = async (
 export const updateViewCount = async (id: string | number) => {
   await apiService.post<any>(API_URL.updatevideoViewCount, {
     data: {
-      videosId: id,
+      videoId: id,
       views: true,
     },
   });

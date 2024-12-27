@@ -111,11 +111,6 @@ const ContestForm: React.FC<ContestProps> = ({
     ),
   );
 
-  // const computeContestMinTime = () => {
-  //     const currentDate = combineDateAndTime(moment(), values.startTime);
-  //     return
-  // }
-
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

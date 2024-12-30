@@ -29,19 +29,19 @@ import moment from "moment";
 import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
 
 const tableHeaders = [
-  { id: 1, key: "contestId", field: "Contest ID" },
+  { id: 1, key: "cId", field: "Contest ID" },
   { id: 14, key: "Actions", field: "Actions" },
-  { id: 13, key: "Status", field: "Status" },
-  { id: 2, key: "Contest Type", field: "Contest Type" },
-  { id: 3, key: "Club name", field: "Club name" },
-  { id: 4, key: "Course Name", field: "Course Name" },
-  { id: 5, key: "Hole number", field: "Hole number" },
-  { id: 6, key: "Tee", field: "Tee" },
-  { id: 7, key: "Entry fee", field: "Entry fee" },
-  { id: 8, key: "Total Reg.", field: "Total Reg." },
+  { id: 13, key: "activeStatus", field: "Status" },
+  { id: 2, key: "contestType", field: "Contest Type" },
+  { id: 3, key: "clubName", field: "Club name" },
+  { id: 4, key: "courseName", field: "Course Name" },
+  { id: 5, key: "holeNumber", field: "Hole number" },
+  { id: 6, key: "teeName", field: "Tee" },
+  { id: 7, key: "entryFee", field: "Entry fee" },
+  { id: 8, key: "playerCount", field: "Total Reg." },
   { id: 9, key: "createdDate", field: "Created date" },
   { id: 10, key: "createdBy", field: "Created By" },
-  { id: 11, key: "Updated date", field: "Updated date" },
+  { id: 11, key: "updatedDate", field: "Updated date" },
   { id: 12, key: "updatedBy", field: "Updated By" },
 
 ];
@@ -132,7 +132,7 @@ const ContestManagement = () => {
 
   useEffect(() => {
     if (!userPermisions?.permission?.["is_player"]) {
-      fetchContestList();
+      fetchContestList(null, null);
     }
   }, [
     selectedHoles,
@@ -307,7 +307,7 @@ const ContestManagement = () => {
     setTotalAdminCount(newData);
   };
 
-  const fetchContestList = async (sortDir:string, sortBy:string) => {
+  const fetchContestList = async (sortDir:string | null, sortBy:string | null) => {
     try {
       let endPoint = API_URL.getAllContests
       if (isCourseAdmin) {

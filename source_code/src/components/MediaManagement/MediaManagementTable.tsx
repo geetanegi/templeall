@@ -99,7 +99,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
   useEffect(() => {
-    getVideosList();
+    getVideosList(null, null);
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
@@ -119,7 +119,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         computeRowData(fetchedData);
       }
     }else if(rowData.length) {
-      getVideosList();
+      getVideosList(null, null);
     }
   }, [uploadSotwProgressArr]);
 
@@ -127,7 +127,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     if (uploadProgressArr && selectedTab !== 3) {
       computeRowData(fetchedData);
     } else if(rowData.length) {
-      getVideosList();
+      getVideosList(null, null);
     }
   }, [uploadProgressArr]);
 
@@ -137,19 +137,19 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   }, [activeStatus, isVisible]);
 
-  const getVideosList = async () => {
+  const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
     try {
       if (!isModalOpen && !isSOTWModalOpen) {
         dispatch(setLoading(true));
       }
       if (isCourseAdmin) {
-        await makeApiCall(API_URL.getCourseSpecificVideo);
+        await makeApiCall(API_URL.getCourseSpecificVideo, sortDir, sortBy);
       } else if (selectedTab === 1) {
-        await makeApiCall(API_URL.getAllWinnersVideo);
+        await makeApiCall(API_URL.getAllWinnersVideo, sortDir, sortBy);
       } else if (selectedTab === 2) {
-        await makeApiCall(API_URL.getAllReqVideos);
+        await makeApiCall(API_URL.getAllReqVideos, sortDir, sortBy);
       } else if (selectedTab === 3) {
-        await makeApiCall(API_URL.getAllShotOfTheWeekSA);
+        await makeApiCall(API_URL.getAllShotOfTheWeekSA, sortDir, sortBy);
       }
     } catch (error) {
       console.error(error);
@@ -160,20 +160,20 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   };
 
-  const makeApiCall = async (endPoint: string) => {
+  const makeApiCall = async (endPoint: string, sortDir:string | null, sortBy:string | null) => {
     let payload: any = {};
 
     if (selectedTab === 3) {
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
     } else if (selectedTab === 1) {
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
@@ -184,8 +184,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       }
     } else if (selectedTab === 2) {
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
@@ -201,8 +201,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       payload.loginUserId = typeof userInfo === "object" ? userInfo.userId : null,
       payload.contestTypeId = null,
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
@@ -574,6 +574,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
           style="min-w-[150px]"
           totalElement={totalElement}
           elementPerPage={rowData.length}
+          handleSorting={getVideosList}
         />
       </PageLoader>
       <ConfirmationModal

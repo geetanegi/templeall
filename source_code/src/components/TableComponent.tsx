@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import PaginationComponent from "./PaginationComponent";
 
 interface TableComponentProps {
@@ -18,15 +18,15 @@ interface TableComponentProps {
   firstRowStyle?: React.CSSProperties;
   greenTheme?: boolean;
   totalElement?: number;
-  elementPerPage?: number
-  handleSorting?: (sortDir:string, sortBy: string)=>void
+  elementPerPage?: number;
+  handleSorting?: (sortDir:string | null, sortBy: string | null)=>void
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
   Headers,
   rowData,
   currentPage = 0,
-  setCurrentPage = () => { },
+  setCurrentPage = () => {},
   totalPages = 1,
   pagination = true,
   style = {},
@@ -39,6 +39,11 @@ const TableComponent: React.FC<TableComponentProps> = ({
   elementPerPage = 10,
   handleSorting = ()=>{}
 }) => {
+  const [sortConfig, setSortConfig] = useState<{
+    key: string | null;
+    direction: "asc" | "desc";
+  }>({ key: null, direction: "asc" });
+
 
   const scrollbarStyles: React.CSSProperties = {
     overflow: "auto", // Enable scrolling
@@ -53,11 +58,10 @@ const TableComponent: React.FC<TableComponentProps> = ({
       return secondRowStyle;
     } else if (index === 2) {
       return thirdRowStyle;
+    } else if (index > 2) {
+      return oddRowStyle;
     }
-    else if (index > 2) {
-      return oddRowStyle
-    }
-  }
+  };
 
   return (
     <div className="mb-2 mt-[16px] flex h-full text-sm mb-1">
@@ -70,20 +74,23 @@ const TableComponent: React.FC<TableComponentProps> = ({
             {greenTheme ? (
               <thead className="w-full rounded-lg text-base font-semibold text-white">
                 <tr className="bg-[#07321B] text-sm">
-                  {Headers.map((item, index) => {
-                    return (
-                      <th
-                        key={index}
-                        className={`whitespace-nowrap px-3 py-3 font-normal text-white ${style}`}
-                        style={{
-                          width: "max-content",
-                        }}
-                        onClick={()=>handleSorting()}
-                      >
-                        {item.field}
-                      </th>
-                    );
-                  })}
+                  {Headers.map((item, index) => (
+                    <th
+                      key={index}
+                      className={`whitespace-nowrap px-3 py-3 font-normal text-white ${style}`}
+                      style={{
+                        width: "max-content",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {item.field}
+                      {sortConfig.key === item.field && (
+                        <span>
+                          {sortConfig.direction === "asc" ? " 🔼" : " 🔽"}
+                        </span>
+                      )}
+                    </th>
+                  ))}
                 </tr>
               </thead>
             ) : (
@@ -96,9 +103,23 @@ const TableComponent: React.FC<TableComponentProps> = ({
                         className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
                         style={{
                           width: "max-content",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => {
+                          let direction: "asc" | "desc" = "asc";
+                          if (sortConfig.key === item.key && sortConfig.direction === "asc") {
+                            direction = "desc";
+                          }
+                          setSortConfig({key: item.key , direction });
+                          handleSorting(sortConfig.direction, item.key)
                         }}
                       >
                         {item.field}
+                        {sortConfig.key === item.key && (
+                          <span>
+                            {sortConfig.direction === "asc" ? " 🔼" : " 🔽"}
+                          </span>
+                        )}
                       </th>
                     );
                   })}
@@ -108,42 +129,34 @@ const TableComponent: React.FC<TableComponentProps> = ({
 
             <tbody className="bg-white text-sm">
               {rowData?.map((data, index) => (
-                <tr
-                  key={index}
-                  style={styleForRow(index)}
-                >
-                  {Object.entries(data).map(([key], index) => {
-                    return (
-                      <td
-                        key={index}
-                        className={`whitespace-nowrap px-3 py-2 font-normal text-black`}
-                      >
-                        {data[key]}
-                      </td>
-                    );
-                  })}
+                <tr key={index} style={styleForRow(index)}>
+                  {Object.entries(data).map(([key], index) => (
+                    <td key={index} className={`whitespace-nowrap px-3 py-2 font-normal text-black`}>
+                      {data[key]}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
         {rowData.length ? null : (
           <div className="align-center flex h-[100px] w-full justify-center rounded-b-lg border bg-white">
             <div className="my-auto">Nothing to display</div>
           </div>
         )}
-        {pagination ? (
-          <div className="mt-4 flex w-full flex-col items-center justify-center gap-5  sm:flex-row sm:justify-between">
+
+        {pagination && (
+          <div className="mt-4 flex w-full flex-col items-center justify-center gap-5 sm:flex-row sm:justify-between">
             <div className="flex items-center justify-center">
-              <div>Showing results {currentPage * 10 + 1} to {currentPage * 10 + elementPerPage} of {totalElement}</div>
+              <div>
+                Showing results {currentPage * 10 + 1} to {currentPage * 10 + elementPerPage} of {totalElement}
+              </div>
             </div>
-            <PaginationComponent
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-            />
+            <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );

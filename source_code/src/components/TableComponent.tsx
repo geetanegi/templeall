@@ -19,6 +19,7 @@ interface TableComponentProps {
   greenTheme?: boolean;
   totalElement?: number;
   elementPerPage?: number
+  handleSorting?: (sortDir:string, sortBy: string)=>void
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
@@ -35,7 +36,8 @@ const TableComponent: React.FC<TableComponentProps> = ({
   thirdRowStyle = {},
   greenTheme = false,
   totalElement = 10,
-  elementPerPage = 10
+  elementPerPage = 10,
+  handleSorting = ()=>{}
 }) => {
 
   const scrollbarStyles: React.CSSProperties = {
@@ -76,6 +78,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
                         style={{
                           width: "max-content",
                         }}
+                        onClick={()=>handleSorting()}
                       >
                         {item.field}
                       </th>

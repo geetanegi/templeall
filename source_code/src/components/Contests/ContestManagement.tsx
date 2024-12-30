@@ -155,13 +155,13 @@ const ContestManagement = () => {
     }
   }, [selectedCourse]);
 
-  const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const courseId: number | string = event.target.value;
+  const handleCoursesChange = (id:number | string) => {
+    const courseId: number | string = id;
     if (courseId) {
       const courseName = courses?.data?.filter(
         (course) => course.id === Number(courseId),
       )[0]?.courseName;
-      setSelectedCourse({ name: String(courseName), id: event.target.value });
+      setSelectedCourse({ name: String(courseName), id: id});
     } else {
       setSelectedCourse(null);
     }
@@ -218,7 +218,7 @@ const ContestManagement = () => {
         <button
           key={contest?.id}
           className="text-[#0077B6]"
-          onClick={() => {  
+          onClick={() => {
             setContestId(contest.id);
             setIsContestModalOpn(true);
             setCId(contest.cid)
@@ -237,7 +237,7 @@ const ContestManagement = () => {
       "Club name": contest.clubName || "N/A",
       "Course Name": contest.courseName || "N/A",
       "Hole number": `Hole #${contest.holeNumber} - Par ${contest.par || ""}` || "N/A",
-      Tee: contest.teeName +" " + `(Yards ${contest.teeYardage})` || "N/A",
+      Tee: contest.teeName + " " + `(Yards ${contest.teeYardage})` || "N/A",
       "Entry fee": "$" + contest.entryFee || "N/A",
       "Total Reg.": contest.playerCount || 0,
       "createdDate": moment
@@ -272,7 +272,7 @@ const ContestManagement = () => {
         <button
           key={id}
           className="text-[#0077B6]"
-          onClick={() => {  
+          onClick={() => {
             setContestId(id);
             setIsContestModalOpn(true);
             setCId(cid)
@@ -307,10 +307,10 @@ const ContestManagement = () => {
     setTotalAdminCount(newData);
   };
 
-  const fetchContestList = async () => {
+  const fetchContestList = async (sortDir:string, sortBy:string) => {
     try {
-      let endPoint =  API_URL.getAllContests
-      if (isCourseAdmin){
+      let endPoint = API_URL.getAllContests
+      if (isCourseAdmin) {
         endPoint = API_URL.getAllContestForCA
       }
 
@@ -325,8 +325,8 @@ const ContestManagement = () => {
             holeNumbers: selectedHoles.length ? selectedHoles : null,
           },
           pageSortingParam: {
-            sortDir: "DESC",
-            sortBy: "createdDate",
+            sortDir: sortDir || "DESC",
+            sortBy: sortBy || "createdDate",
             pageNumber: currentPage,
             pageSize: pageSize,
           },
@@ -395,6 +395,33 @@ const ContestManagement = () => {
     Inactive: false,
   };
 
+  const filterList = [
+    { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
+    {type: "dropdown", filterName: "contestStatus", name: "Filter by Status"},
+    {type: "dropdown", filterName: "courseFilter", name: "Filter by Course"},
+    {type: "multi-select", filterName: "holesFilter", name: "Filter by Holes"},
+  
+  ]
+
+
+  const filterHandler = (filters: any) => {
+    console.log(filters, "filters")
+    setSelectedContestType(filters.contest_type)
+    setCurrentStatus(filters.contestStatus || null)
+    handleCoursesChange(filters.courseFilter || null) 
+    if(!filters.contestStatus){
+      setSelectedHoles('')
+    }
+    let selectedHoles = ''
+    filters?.holesFilter?.map((item:any, index:number)=>{
+      selectedHoles += item.id
+      if(filters?.holesFilter?.length > index){
+        selectedHoles += ','
+      }
+    })
+    setSelectedHoles(selectedHoles)
+  }
+
   return (
     <div
       className="bg-admin-bg-position mb-[24px] min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat px-[24px] pb-[24px] md:flex-row"
@@ -448,7 +475,7 @@ const ContestManagement = () => {
             </select>
             <select
               id="courses"
-              onChange={handleCoursesChange}
+              // onChange={handleCoursesChange}
               className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[200px]"
             >
               <option value="">Filter by Courses</option>
@@ -472,8 +499,8 @@ const ContestManagement = () => {
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
           </div>
-          <button className="ml-auto mr-10 text-[#4169E1]" 
-            onClick={()=>setIsDrawerOpen(!isDrawerOpen)}>
+          <button className="ml-auto mr-10 text-[#4169E1]"
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
             Filter
           </button>
           {!isCourseAdmin && !userPermisions?.permission?.["is_player"] && (
@@ -501,14 +528,17 @@ const ContestManagement = () => {
             totalAdminCount={totalAdminCount}
             totalElement={totalElement}
             elementPerPage={rowData.length}
+            handleSorting={fetchContestList}
           />
         </PageLoader>
       </div>
 
       <FilterPannelDrawer
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          filterList={[]}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        filterList={filterList}
+        filterHandler={filterHandler}
+
       >
 
       </FilterPannelDrawer>
@@ -519,7 +549,7 @@ const ContestManagement = () => {
         contestId={contestId}
         setContestId={setContestId}
         cid={cId}
-        
+
       />
 
       <Modal

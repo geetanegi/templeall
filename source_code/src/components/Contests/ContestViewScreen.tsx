@@ -68,19 +68,14 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
             <div>
               <span className="text-[14px]"> Start Date</span>
               <p className="text-[12px]">
-                {moment
-                  .utc(contestData?.startTime)
-                  .local()
+                {moment(contestData?.startTime)
                   .format("MM/DD/YYYY") || ""}{" "}
               </p>
             </div>
             <div>
               <span className="text-[14px]"> End Date</span>
               <p className="text-[12px]">
-                {moment
-                  .utc(contestData?.endTime)
-                  .local()
-                  .format("MM/DD/YYYY") || ""}{" "}
+                {moment(contestData?.endTime).format("MM/DD/YYYY") || ""}
               </p>
             </div>
           </div>
@@ -95,10 +90,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                     : "day"}{" "}
                   until{" "}
                   <span className="text-xs font-semibold text-gray-500">
-                    {moment
-                      .utc(contestData?.endTime)
-                      .local()
-                      .format("MM/DD/YYYY")}
+                    {moment(contestData?.endTime).format("MM/DD/YYYY")}
                   </span>
                 </span>
               )}
@@ -111,10 +103,7 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
                     : ` every ${getOrdinal(saveState.repeatEvery)} `}
                   day until{" "}
                   <span className="text-xs font-semibold text-gray-500">
-                    {moment
-                      .utc(contestData?.endTime)
-                      .local()
-                      .format("MM/DD/YYYY")}
+                    {moment(contestData?.endTime).format("MM/DD/YYYY")}
                   </span>
                 </span>
               )}
@@ -138,16 +127,13 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
               <div>
                 <span className="text-[14px]"> Start Time</span>
                 <p className="text-xs">
-                  {moment
-                    .utc(contestData?.startTime)
-                    .local()
-                    .format("HH:mm") || ""}
+                  {moment(contestData?.startTime).format("HH:mm") || ""}
                 </p>
               </div>
               <div>
                 <span className="text-[14px]"> End Time</span>
                 <p className="text-xs">
-                  {moment.utc(contestData?.endTime).local().format("HH:mm") ||
+                  {moment(contestData?.endTime).format("HH:mm") ||
                     ""}
                 </p>
               </div>
@@ -172,19 +158,13 @@ const ContestViewScreen: React.FC<ContestViewScreenProps> = ({
               <div>
                 <span className="text-[14px]"> Start Time</span>
                 <p className="text-xs">
-                  {moment
-                    .utc(contestData?.registrationStartTime)
-                    .local()
-                    .format("HH:mm") || ""}
+                  {moment(contestData?.registrationStartTime).format("HH:mm") || ""}
                 </p>
               </div>
               <div>
                 <span className="text-[14px]"> End Time</span>
                 <p className="text-xs">
-                  {moment
-                    .utc(contestData?.registrationEndTime)
-                    .local()
-                    .format("HH:mm") || ""}
+                  {moment(contestData?.registrationEndTime).format("HH:mm") || ""}
                 </p>
               </div>
             </div>

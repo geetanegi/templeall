@@ -94,33 +94,38 @@ const TableComponent: React.FC<TableComponentProps> = ({
                 </tr>
               </thead>
             ) : (
+
               <thead className="w-full rounded-lg text-base font-semibold text-white">
                 <tr className="bg-[#F3F6F9] text-sm">
                   {Headers.map((item, index) => {
                     return (
                       <th
-                        key={index}
-                        className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
-                        style={{
-                          width: "max-content",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          let direction: "asc" | "desc" = "asc";
-                          if (sortConfig.key === item.key && sortConfig.direction === "asc") {
-                            direction = "desc";
-                          }
-                          setSortConfig({key: item.key , direction });
-                          handleSorting(sortConfig.direction, item.key)
-                        }}
-                      >
-                        {item.field}
-                        {sortConfig.key === item.key && (
-                          <span>
-                            {sortConfig.direction === "asc" ? " 🔼" : " 🔽"}
-                          </span>
-                        )}
-                      </th>
+                      key={index}
+                      className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
+                      style={{
+                        width: "max-content",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        const isSameColumn = sortConfig.key === item.key;
+                        const newDirection: "asc" | "desc" = isSameColumn && sortConfig.direction === "asc" ? "desc" : "asc";
+                    
+                        const updatedSortConfig = { key: item.key, direction: newDirection };
+                        setSortConfig(updatedSortConfig);
+                    
+                        // Call handleSorting with the updated sort direction and key
+                        handleSorting(updatedSortConfig.direction, updatedSortConfig.key);
+                      }}
+                    >
+                      {item.field}
+                      {sortConfig.key === item.key && (
+                        <span>
+                          {sortConfig.direction === "asc" ? " 🔼" : " 🔽"}
+                        </span>
+                      )}
+                    </th>
+                    
+
                     );
                   })}
                 </tr>

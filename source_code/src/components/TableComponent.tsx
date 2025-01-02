@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import PaginationComponent from "./PaginationComponent";
+import { EllipsisVertical, MoveDown, MoveUp } from "lucide-react";
 
 interface TableComponentProps {
   Headers: Array<any>;
@@ -19,14 +20,14 @@ interface TableComponentProps {
   greenTheme?: boolean;
   totalElement?: number;
   elementPerPage?: number;
-  handleSorting?: (sortDir:string | null, sortBy: string | null)=>void
+  handleSorting?: (sortDir: string | null, sortBy: string | null) => void
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
   Headers,
   rowData,
   currentPage = 0,
-  setCurrentPage = () => {},
+  setCurrentPage = () => { },
   totalPages = 1,
   pagination = true,
   style = {},
@@ -37,13 +38,23 @@ const TableComponent: React.FC<TableComponentProps> = ({
   greenTheme = false,
   totalElement = 10,
   elementPerPage = 10,
-  handleSorting = ()=>{}
+  handleSorting = () => { }
 }) => {
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const clearSorting = () => {
+    setSortConfig({ key: null, direction: "asc" });
+    handleSorting(null, null);
+    setIsDropdownOpen(false);
+  };
 
   const scrollbarStyles: React.CSSProperties = {
     overflow: "auto", // Enable scrolling
@@ -86,7 +97,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
                       {item.field}
                       {sortConfig.key === item.field && (
                         <span>
-                          {sortConfig.direction === "asc" ? " 🔼" : " 🔽"}
+                          {sortConfig.direction === "asc" ? <MoveUp /> : <MoveDown />}
                         </span>
                       )}
                     </th>
@@ -100,31 +111,60 @@ const TableComponent: React.FC<TableComponentProps> = ({
                   {Headers.map((item, index) => {
                     return (
                       <th
-                      key={index}
-                      className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
-                      style={{
-                        width: "max-content",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        const isSameColumn = sortConfig.key === item.key;
-                        const newDirection: "asc" | "desc" = isSameColumn && sortConfig.direction === "asc" ? "desc" : "asc";
-                    
-                        const updatedSortConfig = { key: item.key, direction: newDirection };
-                        setSortConfig(updatedSortConfig);
-                    
-                        // Call handleSorting with the updated sort direction and key
-                        handleSorting(updatedSortConfig.direction, updatedSortConfig.key);
-                      }}
-                    >
-                      {item.field}
-                      {sortConfig.key === item.key && (
-                        <span>
-                          {sortConfig.direction === "asc" ? " 🔼" : " 🔽"}
-                        </span>
+                        key={index}
+                        className={`whitespace-nowrap px-3 py-3 font-normal text-[#7B7887] ${style}`}
+                        style={{
+                          width: "max-content",
+                          cursor: item.isSort ? "pointer" : "default",
+                        }}
+
+                      >
+                        <div className="flex">
+                        <div className="flex w-full items-center gap-3"
+                          onClick={() => {
+                            if (item.isSort) {
+                              const isSameColumn = sortConfig.key === item.key;
+                              const newDirection: "asc" | "desc" = isSameColumn && sortConfig.direction === "asc" ? "desc" : "asc";
+
+                              const updatedSortConfig = { key: item.key, direction: newDirection };
+                              setSortConfig(updatedSortConfig);
+
+                              // Call handleSorting with the updated sort direction and key
+                              handleSorting(updatedSortConfig.direction, updatedSortConfig.key);
+                            }
+                          }}
+                        >
+                          {item.field}
+                          {sortConfig.key === item.key && (
+                            <span>
+                              {sortConfig.direction === "asc" ? <MoveUp size={14} /> : <MoveDown size={14} />}
+                            </span>
+                          )}
+                        </div>
+                        {item.key === sortConfig.key && (
+                        <div className="relative ml-auto">
+                          <EllipsisVertical
+                            onClick={toggleDropdown}
+                            size={20}
+                            className="cursor-pointer "
+                          />
+                          {isDropdownOpen && (
+                            <div className="absolute top-6 right-0 z-10 w-32 rounded-md border bg-white shadow-md">
+                              <ul>
+                                <li
+                                  onClick={clearSorting}
+                                  className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                                >
+                                  Clear Sorting
+                                </li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       )}
-                    </th>
-                    
+                        </div>
+                      </th>
+
 
                     );
                   })}

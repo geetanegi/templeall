@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TableComponent from "../TableComponent";
-import { Ban, CircleCheck, Eye, Plus, SquarePen } from "lucide-react";
+import { Ban, CircleCheck, Eye, Plus, Search, SquarePen } from "lucide-react";
 import PageLoader from "../PageLoader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -16,7 +16,6 @@ import Modal from "../ModalComponent";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import ContestList from "../../pages/ContestList";
-import CheckboxDropdown from "../CheckboxDropdown";
 import {
   CourseApiResponse,
   HoleListResponse,
@@ -29,20 +28,20 @@ import moment from "moment";
 import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
 
 const tableHeaders = [
-  { id: 1, key: "cId", field: "Contest ID" },
-  { id: 14, key: "Actions", field: "Actions" },
-  { id: 13, key: "activeStatus", field: "Status" },
-  { id: 2, key: "contestType", field: "Contest Type" },
-  { id: 3, key: "clubName", field: "Club name" },
-  { id: 4, key: "courseName", field: "Course Name" },
-  { id: 5, key: "holeNumber", field: "Hole number" },
-  { id: 6, key: "teeName", field: "Tee" },
-  { id: 7, key: "entryFee", field: "Entry fee" },
-  { id: 8, key: "playerCount", field: "Total Reg." },
-  { id: 9, key: "createdDate", field: "Created date" },
-  { id: 10, key: "createdBy", field: "Created By" },
-  { id: 11, key: "updatedDate", field: "Updated date" },
-  { id: 12, key: "updatedBy", field: "Updated By" },
+  { id: 1, key: "cId", field: "Contest ID", isSort : true },
+  { id: 14, key: "Actions", field: "Actions", isSort : false},
+  { id: 13, key: "activeStatus", field: "Status", isSort : true },
+  { id: 2, key: "contestType", field: "Contest Type", isSort : true },
+  { id: 3, key: "clubName", field: "Club name", isSort : true },
+  { id: 4, key: "courseName", field: "Course Name", isSort : true },
+  { id: 5, key: "holeNumber", field: "Hole number", isSort : true },
+  { id: 6, key: "teeName", field: "Tee", isSort : true },
+  { id: 7, key: "entryFee", field: "Entry fee", isSort : true },
+  { id: 8, key: "playerCount", field: "Total Reg.", isSort : false },
+  { id: 9, key: "createdDate", field: "Created date", isSort : true },
+  { id: 10, key: "createdBy", field: "Created By", isSort : true },
+  { id: 11, key: "updatedDate", field: "Updated date", isSort : true },
+  { id: 12, key: "updatedBy", field: "Updated By", isSort : true },
 
 ];
 
@@ -82,9 +81,8 @@ const ContestManagement = () => {
   const [contestId, setContestId] = useState<number | string>("");
   const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
   const [cId, setCId] = useState<string | null>('')
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
-
+  const [sortConfig, setSortConfig] = useState<any>({sortDir: null, sortBy: null})
 
   const dispatch = useDispatch();
 
@@ -132,7 +130,7 @@ const ContestManagement = () => {
 
   useEffect(() => {
     if (!userPermisions?.permission?.["is_player"]) {
-      fetchContestList(null, null);
+      fetchContestList(sortConfig.sortDir, sortConfig.sortBy);
     }
   }, [
     selectedHoles,
@@ -170,17 +168,17 @@ const ContestManagement = () => {
     setSelectedHoles(""); // Reset selectedHoles to an empty array
   };
 
-  const handleSelectedValuesChange = (selectedValues: string[]) => {
-    let selectedHolesData = "";
-    setCurrentPage(0);
-    selectedValues.forEach((item, index) => {
-      selectedHolesData = selectedHolesData + item;
-      if (index < selectedValues.length - 1) {
-        selectedHolesData = selectedHolesData + ",";
-      }
-    });
-    setSelectedHoles(selectedHolesData);
-  };
+  // const handleSelectedValuesChange = (selectedValues: string[]) => {
+  //   let selectedHolesData = "";
+  //   setCurrentPage(0);
+  //   selectedValues.forEach((item, index) => {
+  //     selectedHolesData = selectedHolesData + item;
+  //     if (index < selectedValues.length - 1) {
+  //       selectedHolesData = selectedHolesData + ",";
+  //     }
+  //   });
+  //   setSelectedHoles(selectedHolesData);
+  // };
 
   interface ContestApiResponse {
     description: string | null;
@@ -308,6 +306,9 @@ const ContestManagement = () => {
   };
 
   const fetchContestList = async (sortDir:string | null, sortBy:string | null) => {
+    if(sortDir && sortBy){
+      setSortConfig({sortDir, sortBy})
+    }
     try {
       let endPoint = API_URL.getAllContests
       if (isCourseAdmin) {
@@ -389,11 +390,11 @@ const ContestManagement = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
-  const statusFilters = {
-    "Filter by Status": null,
-    Active: true,
-    Inactive: false,
-  };
+  // const statusFilters = {
+  //   "Filter by Status": null,
+  //   Active: true,
+  //   Inactive: false,
+  // };
 
   const filterList = [
     { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
@@ -405,7 +406,6 @@ const ContestManagement = () => {
 
 
   const filterHandler = (filters: any) => {
-    console.log(filters, "filters")
     setSelectedContestType(filters.contest_type)
     setCurrentStatus(filters.contestStatus || null)
     handleCoursesChange(filters.courseFilter || null) 
@@ -429,7 +429,7 @@ const ContestManagement = () => {
     >
       <div className="flex-1 md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
-          <div className="align-center flex justify-between gap-2">
+          {/* <div className="align-center flex justify-between gap-2">
             <select
               id="courses"
               style={{ marginLeft: "5px" }}
@@ -497,6 +497,32 @@ const ContestManagement = () => {
               disabled={selectedCourse ? false : true}
               onChange={handleSelectedValuesChange}
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
+            />
+          </div> */}
+           <div className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[320px]">
+            <input
+              className="w-full bg-gray-100 pl-2 focus:outline-none"
+              type="text"
+              // value={searchString}
+              // onChange={(e) => {
+              //   // debouncedGetPlayer(e);
+              //   // setCurrentPage(0);
+              //   // setSearchString(e.target.value);
+              // }}
+              placeholder={'Search by Contest Id'}
+              maxLength={100}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  // handleUserSearch(searchString);
+                }
+              }}
+            />
+            <Search
+              size={20}
+              color="gray"
+              onClick={() => {
+                // handleUserSearch(searchString);
+              }}
             />
           </div>
           <button className="ml-auto mr-10 text-[#4169E1]"

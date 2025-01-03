@@ -226,12 +226,12 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
                         )}
                         {isContestAlreadySelected && (
                           <TooltipSpan
-                          text={<Info size={32} className="ml-auto text-blue-700" />}
-                          tooltip={"You can only register for contests from one tee at a time."}
-                          needPY={true}
-                          position="left"
-                        />
-                         
+                            text={<Info size={32} className="ml-auto text-blue-700" />}
+                            tooltip={"You can only register for contests from one tee at a time."}
+                            needPY={true}
+                            position="left"
+                          />
+
                         )}
                       </span>
                     )}
@@ -244,9 +244,12 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
           </div>
           {teeContest.note !== null && (
             <div className="rounded-b-[6px] bg-warning">
-              <p className="px-1 py-1 text-[11px] text-warningText">
-                <StickyNote color="#FFFF00" size={14} className="mx-1 inline" />
-                <b>Eligibility criteria</b> : {teeContest.note}
+              <p className="px-1 py-1 text-[11px] text-warningText break-words ">
+
+                <span className="inline font-bold whitespace-nowrap">
+                  <StickyNote color="#FFFF00" size={14} className="mx-1 inline" />
+                  Eligibility criteria:</span>
+                <span className="">{teeContest.note}</span>
               </p>
             </div>
           )}
@@ -254,11 +257,10 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
       </div>
       <div className="absolute bottom-1 flex w-[69%] justify-end rounded-lg bg-white p-4">
         <button
-          className={`relative flex h-[38px] w-[132px] items-center justify-evenly gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${
-            Object.values(selectedContests).flat().length === 0
+          className={`relative flex h-[38px] w-[132px] items-center justify-evenly gap-1 rounded-md bg-primaryColor px-3 py-1 text-white ${Object.values(selectedContests).flat().length === 0
               ? "cursor-not-allowed"
               : ""
-          }`}
+            }`}
           onClick={() => {
             navigate(ROUTES.CHECKOUT);
           }}

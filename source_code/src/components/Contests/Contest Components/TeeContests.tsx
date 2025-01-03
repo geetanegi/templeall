@@ -248,7 +248,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
 
                 <span className="inline font-bold whitespace-nowrap">
                   <StickyNote color="#FFFF00" size={14} className="mx-1 inline" />
-                  Eligibility criteria:</span>
+                  Eligibility criteria: </span>
                 <span className="">{teeContest.note}</span>
               </p>
             </div>

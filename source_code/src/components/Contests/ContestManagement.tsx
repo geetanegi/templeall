@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TableComponent from "../TableComponent";
 import { Ban, CircleCheck, Eye, Plus, Search, SquarePen } from "lucide-react";
 import PageLoader from "../PageLoader";
@@ -26,6 +26,7 @@ import { decryptData, secretKey } from "../../utils/encrypt";
 import ContestModal from "./contestUtils/contestModal";
 import moment from "moment";
 import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
+import { debounceFunc } from "../../utils/debounce-utils";
 
 const tableHeaders = [
   { id: 1, key: "cId", field: "Contest ID", isSort : true },
@@ -83,7 +84,7 @@ const ContestManagement = () => {
   const [cId, setCId] = useState<string | null>('')
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [sortConfig, setSortConfig] = useState<any>({sortDir: null, sortBy: null})
-
+  const [searchString, setSearchString] = useState<any>('')
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -139,6 +140,12 @@ const ContestManagement = () => {
     selectedContestType,
     currentPage,
   ]);
+
+  useEffect(()=>{
+    if (!userPermisions?.permission?.["is_player"]) {
+      fetchContestList(sortConfig.sortDir, sortConfig.sortBy);
+    }
+  },[searchString])
 
   useEffect(() => {
     // getFilters("contest_type", setFilterByContest);
@@ -324,6 +331,7 @@ const ContestManagement = () => {
             activeStatus: currentStatus,
             courseName: selectedCourse?.name || null,
             holeNumbers: selectedHoles.length ? selectedHoles : null,
+            cId: searchString || null
           },
           pageSortingParam: {
             sortDir: sortDir || "DESC",
@@ -421,6 +429,16 @@ const ContestManagement = () => {
     })
     setSelectedHoles(selectedHoles)
   }
+  debounceFunc
+
+  const debouncedGetPlayer = useCallback(
+        debounceFunc(
+          (value: React.ChangeEvent<HTMLInputElement>) =>
+            setSearchString(value.target.value),
+          1000,
+        ),
+        [],
+      );
 
   return (
     <div
@@ -503,12 +521,12 @@ const ContestManagement = () => {
             <input
               className="w-full bg-gray-100 pl-2 focus:outline-none"
               type="text"
-              // value={searchString}
-              // onChange={(e) => {
-              //   // debouncedGetPlayer(e);
-              //   // setCurrentPage(0);
-              //   // setSearchString(e.target.value);
-              // }}
+              value={searchString}
+              onChange={(e) => {
+                debouncedGetPlayer(e);
+                setCurrentPage(0);
+                setSearchString(e.target.value);
+              }}
               placeholder={'Search by contest id'}
               maxLength={100}
               onKeyDown={(e) => {

@@ -33,7 +33,7 @@ interface AdminRightPanelProps {
 }
 
 interface PageSortingParam {
-  sortDir: "ASC" | "DESC";
+  sortDir: string;
   sortBy: string;
   pageNumber?: any;
   pageSize?: any;
@@ -45,7 +45,7 @@ interface PayloadTypes {
 }
 
 export interface AdminRightPanelHandle {
-  getUserData: () => void;
+  getUserData: (searchValue: string | null, sortDir:string | null, sortBy:string | null) => void;
 }
 
 const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
@@ -87,7 +87,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     useEffect(() => {
       if (isMounted.current) {
-        getUserData();
+        getUserData(null, null, null);
       } else {
         isMounted.current = true;
       }
@@ -96,9 +96,9 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
 
     useEffect(() => {
       if (searchString.length) {
-        getUserData(searchString);
+        getUserData(searchString, null, null);
       } else {
-        getUserData();
+        getUserData(null, null, null);
       }
     }, [currentPage]);
 
@@ -126,7 +126,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           { data: payload },
         );
         if (status === 200 && data?.data != null && !data?.error) {
-          getUserData();
+          getUserData(null, null, null);
           ToastSuccess(data.data.message);
         } else if (data?.error && data.description) {
           ToastError(data.description);
@@ -165,7 +165,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     };
 
     const getUserData = useCallback(
-      async (searchValue?: string) => {
+      async (searchValue: string |null, sortDir:string | null, sortBy:string | null) => {
         dispatch(setLoading(true));
         try {
           let payload: PayloadTypes = {};
@@ -174,8 +174,8 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
             listingEndPoint = API_URL.getAllPlayer;
             setTableHeaders(computeTableHeaders("player"));
             payload.pageSortingParam = {
-              sortDir: "DESC",
-              sortBy: "createdDate",
+              sortDir: sortDir || "DESC",
+              sortBy:  sortBy || "createdDate",
               pageNumber: currentPage,
               pageSize: pageSize,
             };
@@ -366,13 +366,13 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
     };
 
     const handleUserSearch = (value: string) => {
-      getUserData(value);
+      getUserData(value, null, null);
     };
 
     const debouncedGetPlayer = useCallback(
       debounceFunc(
         (value: React.ChangeEvent<HTMLInputElement>) =>
-          getUserData(value.target.value),
+          getUserData(value.target.value, null, null),
         1000,
       ),
       [selectedUserTab],
@@ -427,6 +427,7 @@ const AdminRightPanel = forwardRef<AdminRightPanelHandle, AdminRightPanelProps>(
           setPageSize={setPageSize}
           totalElement={totalElement}
           elementPerPage={rowData.length}
+          handleSorting={(sortDir:string | null, sortBy:string | null)=>getUserData(searchString, sortDir, sortBy)}
         />
       </div>
     );

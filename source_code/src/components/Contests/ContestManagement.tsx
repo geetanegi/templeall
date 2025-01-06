@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TableComponent from "../TableComponent";
-import { Ban, CircleCheck, Eye, Plus, SquarePen } from "lucide-react";
+import { Ban, CircleCheck, Eye, Plus, Search, SquarePen } from "lucide-react";
 import PageLoader from "../PageLoader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -16,7 +16,6 @@ import Modal from "../ModalComponent";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import ContestList from "../../pages/ContestList";
-import CheckboxDropdown from "../CheckboxDropdown";
 import {
   CourseApiResponse,
   HoleListResponse,
@@ -26,22 +25,23 @@ import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import ContestModal from "./contestUtils/contestModal";
 import moment from "moment";
+import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
 
 const tableHeaders = [
-  { id: 1, key: "contestId", field: "Contest ID" },
-  { id: 14, key: "Actions", field: "Actions" },
-  { id: 13, key: "Status", field: "Status" },
-  { id: 2, key: "Contest Type", field: "Contest Type" },
-  { id: 3, key: "Club name", field: "Club name" },
-  { id: 4, key: "Course Name", field: "Course Name" },
-  { id: 5, key: "Hole number", field: "Hole number" },
-  { id: 6, key: "Tee", field: "Tee" },
-  { id: 7, key: "Entry fee", field: "Entry fee" },
-  { id: 8, key: "Total Reg.", field: "Total Reg." },
-  { id: 9, key: "createdDate", field: "Created date" },
-  { id: 10, key: "createdBy", field: "Created By" },
-  { id: 11, key: "Updated date", field: "Updated date" },
-  { id: 12, key: "updatedBy", field: "Updated By" },
+  { id: 1, key: "cId", field: "Contest ID", isSort : true },
+  { id: 14, key: "Actions", field: "Actions", isSort : false},
+  { id: 13, key: "activeStatus", field: "Status", isSort : true },
+  { id: 2, key: "contestType", field: "Contest Type", isSort : true },
+  { id: 3, key: "club.name", field: "Club name", isSort : true },
+  { id: 4, key: "courseName", field: "Course Name", isSort : true },
+  { id: 5, key: "holeNumber", field: "Hole number", isSort : true },
+  { id: 6, key: "teeName", field: "Tee", isSort : true },
+  { id: 7, key: "entryFee", field: "Entry fee", isSort : true },
+  { id: 8, key: "playerCount", field: "Total Reg.", isSort : false },
+  { id: 9, key: "createdDate", field: "Created date", isSort : true },
+  { id: 10, key: "createdBy", field: "Created By", isSort : true },
+  { id: 11, key: "updatedDate", field: "Updated date", isSort : true },
+  { id: 12, key: "updatedBy", field: "Updated By", isSort : true },
 
 ];
 
@@ -81,6 +81,9 @@ const ContestManagement = () => {
   const [contestId, setContestId] = useState<number | string>("");
   const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
   const [cId, setCId] = useState<string | null>('')
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
+  const [sortConfig, setSortConfig] = useState<any>({sortDir: null, sortBy: null})
+
   const dispatch = useDispatch();
 
   const fetchCourseList = async () => {
@@ -127,7 +130,7 @@ const ContestManagement = () => {
 
   useEffect(() => {
     if (!userPermisions?.permission?.["is_player"]) {
-      fetchContestList();
+      fetchContestList(sortConfig.sortDir, sortConfig.sortBy);
     }
   }, [
     selectedHoles,
@@ -150,13 +153,13 @@ const ContestManagement = () => {
     }
   }, [selectedCourse]);
 
-  const handleCoursesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const courseId: number | string = event.target.value;
+  const handleCoursesChange = (id:number | string) => {
+    const courseId: number | string = id;
     if (courseId) {
       const courseName = courses?.data?.filter(
         (course) => course.id === Number(courseId),
       )[0]?.courseName;
-      setSelectedCourse({ name: String(courseName), id: event.target.value });
+      setSelectedCourse({ name: String(courseName), id: id});
     } else {
       setSelectedCourse(null);
     }
@@ -165,17 +168,17 @@ const ContestManagement = () => {
     setSelectedHoles(""); // Reset selectedHoles to an empty array
   };
 
-  const handleSelectedValuesChange = (selectedValues: string[]) => {
-    let selectedHolesData = "";
-    setCurrentPage(0);
-    selectedValues.forEach((item, index) => {
-      selectedHolesData = selectedHolesData + item;
-      if (index < selectedValues.length - 1) {
-        selectedHolesData = selectedHolesData + ",";
-      }
-    });
-    setSelectedHoles(selectedHolesData);
-  };
+  // const handleSelectedValuesChange = (selectedValues: string[]) => {
+  //   let selectedHolesData = "";
+  //   setCurrentPage(0);
+  //   selectedValues.forEach((item, index) => {
+  //     selectedHolesData = selectedHolesData + item;
+  //     if (index < selectedValues.length - 1) {
+  //       selectedHolesData = selectedHolesData + ",";
+  //     }
+  //   });
+  //   setSelectedHoles(selectedHolesData);
+  // };
 
   interface ContestApiResponse {
     description: string | null;
@@ -213,7 +216,7 @@ const ContestManagement = () => {
         <button
           key={contest?.id}
           className="text-[#0077B6]"
-          onClick={() => {  
+          onClick={() => {
             setContestId(contest.id);
             setIsContestModalOpn(true);
             setCId(contest.cid)
@@ -232,7 +235,7 @@ const ContestManagement = () => {
       "Club name": contest.clubName || "N/A",
       "Course Name": contest.courseName || "N/A",
       "Hole number": `Hole #${contest.holeNumber} - Par ${contest.par || ""}` || "N/A",
-      Tee: contest.teeName +" " + `(Yards ${contest.teeYardage})` || "N/A",
+      Tee: contest.teeName + " " + `(Yards ${contest.teeYardage})` || "N/A",
       "Entry fee": "$" + contest.entryFee || "N/A",
       "Total Reg.": contest.playerCount || 0,
       "createdDate": moment
@@ -267,7 +270,7 @@ const ContestManagement = () => {
         <button
           key={id}
           className="text-[#0077B6]"
-          onClick={() => {  
+          onClick={() => {
             setContestId(id);
             setIsContestModalOpn(true);
             setCId(cid)
@@ -302,10 +305,13 @@ const ContestManagement = () => {
     setTotalAdminCount(newData);
   };
 
-  const fetchContestList = async () => {
+  const fetchContestList = async (sortDir:string | null, sortBy:string | null) => {
+    if(sortDir && sortBy){
+      setSortConfig({sortDir, sortBy})
+    }
     try {
-      let endPoint =  API_URL.getAllContests
-      if (isCourseAdmin){
+      let endPoint = API_URL.getAllContests
+      if (isCourseAdmin) {
         endPoint = API_URL.getAllContestForCA
       }
 
@@ -320,8 +326,8 @@ const ContestManagement = () => {
             holeNumbers: selectedHoles.length ? selectedHoles : null,
           },
           pageSortingParam: {
-            sortDir: "DESC",
-            sortBy: "createdDate",
+            sortDir: sortDir || "DESC",
+            sortBy: sortBy || "createdDate",
             pageNumber: currentPage,
             pageSize: pageSize,
           },
@@ -384,11 +390,37 @@ const ContestManagement = () => {
     return <div className="h-[100vh] bg-[#ffffff]"></div>;
   }
 
-  const statusFilters = {
-    "Filter by Status": null,
-    Active: true,
-    Inactive: false,
-  };
+  // const statusFilters = {
+  //   "Filter by Status": null,
+  //   Active: true,
+  //   Inactive: false,
+  // };
+
+  const filterList = [
+    { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
+    {type: "dropdown", filterName: "contestStatus", name: "Filter by Status"},
+    {type: "dropdown", filterName: "courseFilter", name: "Filter by Course"},
+    {type: "multi-select", filterName: "holesFilter", name: "Filter by Holes"},
+  
+  ]
+
+
+  const filterHandler = (filters: any) => {
+    setSelectedContestType(filters.contest_type)
+    setCurrentStatus(filters.contestStatus || null)
+    handleCoursesChange(filters.courseFilter || null) 
+    if(!filters.contestStatus){
+      setSelectedHoles('')
+    }
+    let selectedHoles = ''
+    filters?.holesFilter?.map((item:any, index:number)=>{
+      selectedHoles += item.id
+      if(filters?.holesFilter?.length > index){
+        selectedHoles += ','
+      }
+    })
+    setSelectedHoles(selectedHoles)
+  }
 
   return (
     <div
@@ -397,7 +429,7 @@ const ContestManagement = () => {
     >
       <div className="flex-1 md:flex-[0.75] lg:flex-[0.75] xl:flex-[0.75]">
         <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
-          <div className="align-center flex justify-between gap-2">
+          {/* <div className="align-center flex justify-between gap-2">
             <select
               id="courses"
               style={{ marginLeft: "5px" }}
@@ -443,7 +475,7 @@ const ContestManagement = () => {
             </select>
             <select
               id="courses"
-              onChange={handleCoursesChange}
+              // onChange={handleCoursesChange}
               className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 outline-none md:w-[200px]"
             >
               <option value="">Filter by Courses</option>
@@ -466,7 +498,37 @@ const ContestManagement = () => {
               onChange={handleSelectedValuesChange}
               className="py-auto block flex w-full rounded-lg border border-gray-300 bg-gray-100 pl-2 text-sm text-gray-900 outline-none md:w-[200px]"
             />
+          </div> */}
+           <div className="align-center mt-5 flex w-full justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[320px]">
+            <input
+              className="w-full bg-gray-100 pl-2 focus:outline-none"
+              type="text"
+              // value={searchString}
+              // onChange={(e) => {
+              //   // debouncedGetPlayer(e);
+              //   // setCurrentPage(0);
+              //   // setSearchString(e.target.value);
+              // }}
+              placeholder={'Search by contest id'}
+              maxLength={100}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  // handleUserSearch(searchString);
+                }
+              }}
+            />
+            <Search
+              size={20}
+              color="gray"
+              onClick={() => {
+                // handleUserSearch(searchString);
+              }}
+            />
           </div>
+          <button className="ml-auto mr-10 text-[#4169E1]"
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+            Filter
+          </button>
           {!isCourseAdmin && !userPermisions?.permission?.["is_player"] && (
             <button
               className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
@@ -492,9 +554,20 @@ const ContestManagement = () => {
             totalAdminCount={totalAdminCount}
             totalElement={totalElement}
             elementPerPage={rowData.length}
+            handleSorting={fetchContestList}
           />
         </PageLoader>
       </div>
+
+      <FilterPannelDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        filterList={filterList}
+        filterHandler={filterHandler}
+
+      >
+
+      </FilterPannelDrawer>
 
       <ContestModal
         isContestModalOpen={isContestModalOpen}
@@ -502,7 +575,7 @@ const ContestManagement = () => {
         contestId={contestId}
         setContestId={setContestId}
         cid={cId}
-        
+
       />
 
       <Modal

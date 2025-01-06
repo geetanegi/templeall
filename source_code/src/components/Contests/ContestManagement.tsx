@@ -422,7 +422,6 @@ const ContestManagement = () => {
     setSelectedHoles(selectedHoles)
   }
 
-
   return (
     <div
       className="bg-admin-bg-position mb-[24px] min-h-[100vh] bg-white bg-contain bg-fixed bg-no-repeat px-[24px] pb-[24px] md:flex-row"

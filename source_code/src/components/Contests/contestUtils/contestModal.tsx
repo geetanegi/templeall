@@ -7,6 +7,7 @@ interface contestModalProps {
   setIsContestModalOpn: (flag: boolean) => void;
   contestId: number | string;
   setContestId: (value: any) => void;
+  cid: string | null
 }
 
 const ContestModal: React.FC<contestModalProps> = ({
@@ -14,6 +15,7 @@ const ContestModal: React.FC<contestModalProps> = ({
   setIsContestModalOpn,
   contestId,
   setContestId,
+  cid
 }) => {
 
 const handleClose = () => {
@@ -24,9 +26,9 @@ const handleClose = () => {
     <Modal
       isOpen={isContestModalOpen}
       onClose={handleClose}
-      title="View Contest"
+      title={`Viewing Contest ID ${cid || ""}`}
     >
-      <div className="h-[80vh] p-5  rounded-md overflow-auto">
+      <div className="px-6 py-6 pt-5  rounded-md overflow-auto">
         <Contests contestId={contestId} handleClose={handleClose} />
       </div>
     </Modal>

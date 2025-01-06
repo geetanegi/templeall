@@ -64,7 +64,7 @@ const CartItem: React.FC<{ contest: ContestProps }> = ({ contest }) => {
     <div>
       <div
         key={contest.contestId}
-        className={`relative flex items-center justify-between px-4 py-3 pb-4 ${!isRegistrationOpen ? "b border-b border-t border-[#FF9800] bg-[#FFF3E0]" : ""}`}
+        className={`relative flex items-center justify-between px-4 py-3 pb-4 ${!isRegistrationOpen ? "b border-b border-t border-[#FFFF00] bg-[#FFF3E0]" : ""}`}
       >
         <div>
           <div className="flex items-center">
@@ -87,7 +87,7 @@ const CartItem: React.FC<{ contest: ContestProps }> = ({ contest }) => {
           />
         </div>
         {!isRegistrationOpen && (
-          <p className="absolute left-20 top-16 text-xs text-[#FF9800]">
+          <p className="absolute left-20 top-16 text-xs text-[#FFFF00]">
             This registration for this contest has now been closed. You cannot
             register for this contest anymore.
           </p>

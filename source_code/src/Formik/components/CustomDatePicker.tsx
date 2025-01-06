@@ -96,6 +96,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
                             paddingLeft: "15px", // Adjust padding when the field is focused
                           },
                       },
+                      inputProps:{readOnly: true}
                     },
                   }}
                 />

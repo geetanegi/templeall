@@ -242,7 +242,7 @@ const Nav: React.FC = () => {
             href="#"
             className="flex w-[82px] items-center cursor-normal  space-x-3 rtl:space-x-reverse"
           > */}
-            <img src={aceCampLogo} alt="Ace Camp Logo" /> 
+            <img src={aceCampLogo} alt="Ace Camp Logo" className="w-[82px]" /> 
           {/* </a> */}
         </div>
         <div className="flex items-center justify-between md:h-full md:w-full">

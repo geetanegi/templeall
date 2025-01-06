@@ -14,7 +14,7 @@ import { RootState } from "../../store";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import TooltipSpan from "../Tooltip/TooltipSpan";
 import CustomDatePicker from "../../Formik/components/DatePickerContestUi";
-  import TimeRangePicker from "../../Formik/components/TimeRangePicker";
+import TimeRangePicker from "../../Formik/components/TimeRangePicker";
 
 interface ContestProps {
   clubOptions: { value: number; key: string }[];
@@ -103,18 +103,13 @@ const ContestForm: React.FC<ContestProps> = ({
   );
 
   const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
- 
+
   const userPermisions = userPermissionAvailable && JSON.parse(
     decryptData(
       userPermissionAvailable,
       secretKey,
     ),
   );
-
-  // const computeContestMinTime = () => {
-  //     const currentDate = combineDateAndTime(moment(), values.startTime);
-  //     return
-  // }
 
   return (
     <div className="space-y-4">
@@ -172,7 +167,7 @@ const ContestForm: React.FC<ContestProps> = ({
         <div className="flex items-center">
           <h5 className="text-l font-normal text-black">Contest Duration</h5>
           <TooltipSpan
-            text={<Info className="text-yellowText" size={16} />}
+            text={<Info className="text-gray" size={16} />}
             tooltip={"Set the dates for which the contest begins and ends."}
             needPY={true}
             position="right"
@@ -180,21 +175,21 @@ const ContestForm: React.FC<ContestProps> = ({
         </div>
         <div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-2 md:w-2/3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-              <CustomDatePicker
-                name="startDate"
-                label="Start Date"
-                required={true}
-                disabled={isUpdateContest ? true : false || isSuperAdmin}
-                maxDate={values.endDate}
-                minDate={today.format("YYYY-MM-DD")}
-              />
-              <CustomDatePicker
-                name="endDate"
-                label="End Date"
-                required={true}
-                disabled={isSuperAdmin}
-                minDate={values.startDate || today.format("YYYY-MM-DD")}
-              />
+            <CustomDatePicker
+              name="startDate"
+              label="Start Date"
+              required={true}
+              disabled={isUpdateContest ? true : false || isSuperAdmin}
+              maxDate={values.endDate}
+              minDate={today.format("YYYY-MM-DD")}
+            />
+            <CustomDatePicker
+              name="endDate"
+              label="End Date"
+              required={true}
+              disabled={isSuperAdmin}
+              minDate={values.startDate || today.format("YYYY-MM-DD")}
+            />
           </div>
         </div>
       </div>
@@ -207,7 +202,7 @@ const ContestForm: React.FC<ContestProps> = ({
                   Active Hours
                 </h5>
                 <TooltipSpan
-                  text={<Info className="text-yellowText" size={16} />}
+                  text={<Info className="text-gray" size={16} />}
                   tooltip={
                     "Set the time frame during which the contest will be ACTIVE; all tee shots must be taken within this period to be eligible for contest prizes."
                   }
@@ -233,7 +228,7 @@ const ContestForm: React.FC<ContestProps> = ({
                   Registration Period
                 </h5>
                 <TooltipSpan
-                  text={<Info className="text-yellowText" size={16} />}
+                  text={<Info className="text-gray" size={16} />}
                   tooltip={
                     "Set the time frame during which players can register for the contest."
                   }
@@ -267,8 +262,8 @@ const ContestForm: React.FC<ContestProps> = ({
               />
             </div>
             {values.startDate !== "" &&
-              values.endDate !== "" && 
-              saveState.selectedDays === "" && 
+              values.endDate !== "" &&
+              saveState.selectedDays === "" &&
               !saveState.frequency && (
                 <>
                   <div className="my-4 flex justify-start font-medium underline decoration-blue-600">
@@ -287,17 +282,34 @@ const ContestForm: React.FC<ContestProps> = ({
             {saveState.selectedDays !== "" && saveState.frequency !== "" && (
               <div className="mb-4 flex items-center">
                 {saveState?.frequency === "WEEKLY" && (
+
                   <span className="text-xs text-gray-500">
-                    {" "}
-                    Occurs every{" "}
-                    {saveState?.selectedDays?.length < 7
-                      ? saveState.selectedDays.join(", ")
-                      : "day"}{" "}
-                    until{" "}
-                    <span className="text-xs font-semibold text-gray-500">
-                      {moment.utc(endDate).format("MM/DD/YYYY")}
+                    <span className="flex" style={{ width: "max-content" }}>
+                      {" "}
+                      Occurs every{" "}
+                      {saveState?.selectedDays?.length < 7
+                        ? saveState.selectedDays.join(", ")
+                        : "day"}{" "}
+                      until{" "}
+                      {userPermisions?.permission?.["is_super_admin"] && (
+                        <SquarePen
+                          className={`mx-2 h-5 text-[#95c11e] cursor-pointer`}
+                          strokeWidth={1}
+                          onClick={() => {
+                            if (isSuperAdmin) {
+                              return;
+                            }
+                            toggleModal();
+                          }}
+                        />
+                      )}
                     </span>
+                    <span className="text-xs font-semibold text-gray-500">
+                      {moment(endDate).format("MM/DD/YYYY")}
+                    </span>
+
                   </span>
+
                 )}
                 {saveState?.frequency === "DAILY" && (
                   <span className="text-xs text-gray-500">
@@ -308,13 +320,13 @@ const ContestForm: React.FC<ContestProps> = ({
                       : ` every ${getOrdinal(saveState.repeatEvery)} `}
                     day until{" "}
                     <span className="text-xs font-semibold text-gray-500">
-                      {moment.utc(endDate).format("MM/DD/YYYY")}
+                      {moment(endDate).format("MM/DD/YYYY")}
                     </span>
                   </span>
                 )}
-                {userPermisions?.permission?.["is_super_admin"] && (
+                {userPermisions?.permission?.["is_super_admin"] && saveState?.frequency === "DAILY" && (
                   <SquarePen
-                    className={`mx-2 h-5 text-[#95c11e]`}
+                    className={`mx-2 h-5 text-[#95c11e] cursor-pointer`}
                     strokeWidth={1}
                     onClick={() => {
                       if (isSuperAdmin) {

@@ -104,7 +104,14 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         if (url) {
           localStorage.removeItem("tokenRegisterPassword");
           if (token) {
-            dispatch(loginWithoutRemember({ token: data?.data?.token }));
+            dispatch(loginWithoutRemember({
+              token: data?.data?.token,
+              userInfo: {
+                username: "",
+                password: "",
+                userId: data?.data?.userId,
+              },
+            }));
             dispatch(
               login({
                 token: data?.data?.token,
@@ -157,11 +164,11 @@ const OtpScreen: React.FC<OTPScreenPropps> = ({
         </div>
         <div className="w-full py-1">
           <p className="text-[14px] pl-4 font-normal text-white">
-            Enter OTP <span className="text-[#FFDE59]">*</span>
+            Enter OTP <span className="text-yellowText">*</span>
           </p>
         </div>
         <OtpInput otp={otp} length={6} onChangeOtp={handleOtpChange} />
-        <span className="text-xs text-[#FFDE59]">{otpError}</span>
+        <span className="text-xs text-yellowText">{otpError}</span>
 
         <div className="mt-2 flex py-1 text-center">
           <p className={`text-[12px] text-primaryText`}>

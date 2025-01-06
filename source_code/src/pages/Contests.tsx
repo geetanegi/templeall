@@ -20,12 +20,12 @@ import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
-import { ensureUTC } from "../utils/TimeUtils";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
 import { decryptData, secretKey } from "../utils/encrypt";
 import { combineDateAndTime } from "../utils/utils";
 import { validationConstant } from "../utils/validationEnums";
+import ContestViewScreen from "../components/Contests/ContestViewScreen";
 
 // interface recurrence {
 //   frequency: string;
@@ -76,18 +76,22 @@ const validationSchema = Yup.object({
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .required(validationConstant.mandatoryField)
-    .test("start-not-greater-than-end", validationConstant.startDateCannotBeLaterThenEnddate, function (value) {
-      const { endDate } = this.parent;
-      if (!value || !endDate) return true;
+    .test(
+      "start-not-greater-than-end",
+      validationConstant.startDateCannotBeLaterThenEnddate,
+      function (value) {
+        const { endDate } = this.parent;
+        if (!value || !endDate) return true;
 
-      const start = moment(value, "YYYY-MM-DD");
-      const end = moment(endDate, "YYYY-MM-DD");
+        const start = moment(value, "YYYY-MM-DD");
+        const end = moment(endDate, "YYYY-MM-DD");
 
-      if (start.isAfter(end)) {
-        return false;
-      }
-      return true;
-    }),
+        if (start.isAfter(end)) {
+          return false;
+        }
+        return true;
+      },
+    ),
 
   endDate: Yup.string()
     .nullable()
@@ -98,8 +102,8 @@ const validationSchema = Yup.object({
       validationConstant.endDateMustBeLaterThenStartDate,
       function (value) {
         const { startDate } = this.parent;
-        if (!value || !startDate) return true; 
-        return new Date(value) >= new Date(startDate); 
+        if (!value || !startDate) return true;
+        return new Date(value) >= new Date(startDate);
       },
     ),
 
@@ -107,17 +111,21 @@ const validationSchema = Yup.object({
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .required(validationConstant.mandatoryField)
-    .test("start-not-greater-than-end", validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime, function (value) {
-      const { endTime } = this.parent; 
-      if (!value || !endTime) return true; 
+    .test(
+      "start-not-greater-than-end",
+      validationConstant.activeHourStartTimeCanNotbeLaterThenActivehourEndTime,
+      function (value) {
+        const { endTime } = this.parent;
+        if (!value || !endTime) return true;
 
-      const start = moment(value, "hh:mm A"); 
-      const end = moment(endTime, "hh:mm A"); 
-      if (start.isSameOrAfter(end)) {
-        return false; 
-      }
-      return true;
-    }),
+        const start = moment(value, "hh:mm A");
+        const end = moment(endTime, "hh:mm A");
+        if (start.isSameOrAfter(end)) {
+          return false;
+        }
+        return true;
+      },
+    ),
   endTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
@@ -127,16 +135,10 @@ const validationSchema = Yup.object({
       validationConstant.activeHourEndTimeCanNotBeEarlierThenActiveHourStartTime,
       function (value) {
         const { startTime } = this.parent;
-        if (!value || !startTime) return true; 
+        if (!value || !startTime) return true;
 
-        const endTimeObj = moment(
-          `${value}`,
-          "HH:mm A",
-        );
-        const startTimeObj = moment(
-          `${startTime}`,
-          "HH:mm A",
-        );
+        const endTimeObj = moment(`${value}`, "HH:mm A");
+        const startTimeObj = moment(`${startTime}`, "HH:mm A");
 
         if (endTimeObj.isSameOrBefore(startTimeObj)) {
           return false;
@@ -153,7 +155,7 @@ const validationSchema = Yup.object({
       "is-at-least-30-min-before-contest-end",
       validationConstant.registrationStartTImeShouldBeEarlierThenActivehourStartTime,
       function (value) {
-        const { startTime } = this.parent;  
+        const { startTime } = this.parent;
         if (!value || !startTime) return true;
 
         const registrationEnd = moment(value, "HH:mm A");
@@ -168,50 +170,62 @@ const validationSchema = Yup.object({
         return true;
       },
     )
-    .test("end-not-less-than-start", validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime, function (value) {
-      const { registrationEndTime } = this.parent;
-      if (!value || !registrationEndTime) return true; 
+    .test(
+      "end-not-less-than-start",
+      validationConstant.registrationStartTimeCanNotBeLaterThenRegistrationEndTime,
+      function (value) {
+        const { registrationEndTime } = this.parent;
+        if (!value || !registrationEndTime) return true;
 
-      const registrationEnd = moment(`${value}`, "HH:mm A");
-      const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationEndTime}`, "HH:mm A");
 
-      if (registrationEnd.isSameOrAfter(registrationStart)) {
-        return false;
-      }
-      return true;
-    }),
+        if (registrationEnd.isSameOrAfter(registrationStart)) {
+          return false;
+        }
+        return true;
+      },
+    ),
 
   registrationEndTime: Yup.string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .required(validationConstant.mandatoryField)
-     .test("is-at-least-30-min-before-contest-end", validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime, function (value) {
-      const { endTime } = this.parent;
-      if (!value || !endTime) return true;
+    .test(
+      "end-not-less-than-start",
+      validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime,
+      function (value) {
+        const { registrationStartTime } = this.parent;
+        if (!value || !registrationStartTime) return true;
 
-      const registrationEnd = moment(value, "HH:mm A");
-      const contestEnd = moment(endTime, "HH:mm A")
+        const registrationEnd = moment(`${value}`, "HH:mm A");
+        const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
 
-      if (!registrationEnd.isValid() || !contestEnd.isValid()) {
-        return false; // Invalid time format
-      }
-      if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
-        return false;
-      }
-      return true;
-    })
-    .test("end-not-less-than-start", validationConstant.registrationEndTimeCannotBeEarlierThentheStartTime, function (value) {
-      const { registrationStartTime } = this.parent;
-      if (!value || !registrationStartTime) return true; 
+        if (registrationEnd.isSameOrBefore(registrationStart)) {
+          return false;
+        }
+        return true;
+      },
+    )
+    .test(
+      "is-at-least-30-min-before-contest-end",
+      validationConstant.registrationEndTimeMustBeATLeast30MinBeforeContestActivehourEndTime,
+      function (value) {
+        const { endTime } = this.parent;
+        if (!value || !endTime) return true;
 
-      const registrationEnd = moment(`${value}`, "HH:mm A");
-      const registrationStart = moment(`${registrationStartTime}`, "HH:mm A");
+        const registrationEnd = moment(value, "HH:mm A");
+        const contestEnd = moment(endTime, "HH:mm A");
 
-      if (registrationEnd.isSameOrBefore(registrationStart)) {
-        return false;
-      }
-      return true;
-    }),
+        if (!registrationEnd.isValid() || !contestEnd.isValid()) {
+          return false; // Invalid time format
+        }
+        if (registrationEnd.isAfter(contestEnd.subtract(30, "minutes"))) {
+          return false;
+        }
+        return true;
+      },
+    ),
 
   entryFee: Yup.number()
     .required(validationConstant.mandatoryField)
@@ -226,19 +240,19 @@ const validationSchema = Yup.object({
   acecamPercentage: Yup.number()
     .required(validationConstant.mandatoryField)
     .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100,  validationConstant.percentageCannotExceed100)
+    .max(100, validationConstant.percentageCannotExceed100)
     .typeError(validationConstant.validNumberValue),
 
   coursePercentage: Yup.number()
     .required(validationConstant.mandatoryField)
     .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100,  validationConstant.percentageCannotExceed100)
+    .max(100, validationConstant.percentageCannotExceed100)
     .typeError(validationConstant.validNumberValue),
 
   charityPercentage: Yup.number()
     .required(validationConstant.mandatoryField)
     .min(0, validationConstant.percentageMustBeatLeast0)
-    .max(100,  validationConstant.percentageCannotExceed100)
+    .max(100, validationConstant.percentageCannotExceed100)
     .typeError(validationConstant.validNumberValue),
 
   // Custom validation for the sum of percentages
@@ -290,18 +304,21 @@ const validationSchema = Yup.object({
 });
 
 interface ContestsProps {
-  contestId?: number | string
-  handleClose?:()=>void
+  contestId?: number | string;
+  handleClose?: () => void;
 }
 
-const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
+const Contests: React.FC<ContestsProps> = ({ contestId }) => {
   const dispatch = useDispatch();
   const tz = momentTz.tz.guess();
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [editData, setEditData] = useState<any>(null);
-
+  const [startTime, setStartTime] = useState<any>(null)
+  const [endTime, setEndTime] = useState<any>(null)
+  const [registrationStartTime, setRegistrationStartTime] = useState<any>(null)
+  const [registrationEndTime, setRegistrationEndTime] = useState<any>(null)
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const onClose = () => setIsOpenModal(false);
@@ -313,21 +330,13 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
     holesName: editData?.hole?.id,
     Tee: editData?.tee?.id,
     startDate:
-      moment.utc(editData?.startTime).local().format("YYYY-MM-DD") || "",
-    endDate: moment.utc(editData?.endTime).local().format("YYYY-MM-DD"),
-    startTime:
-      moment.utc(editData?.startTime).local().format("HH:mm:ss") ||
-      "",
-    endTime:
-      moment.utc(editData?.endTime).local().format("HH:mm:ss") || "",
-    registrationStartTime: moment
-      .utc(editData?.registrationStartTime)
-      .local()
+      moment(editData?.startTime).format("YYYY-MM-DD") || "",
+    endDate: moment(editData?.endTime).format("YYYY-MM-DD"),
+    startTime: moment(editData?.startTime).format("HH:mm:ss") || "",
+    endTime: moment(editData?.endTime).format("HH:mm:ss") || "",
+    registrationStartTime: moment(editData?.registrationStartTime)
       .format("HH:mm:ss"),
-    registrationEndTime: moment
-      .utc(editData?.registrationEndTime)
-      .local()
-      .format("HH:mm:ss"),
+    registrationEndTime: moment(editData?.registrationEndTime).format("HH:mm:ss"),
     entryFee: editData?.entryFee ? editData?.entryFee : "0",
     playerPercentage: editData?.payoutStructure?.playerPercentage
       ? editData?.payoutStructure?.playerPercentage
@@ -352,16 +361,14 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
     note: editData?.note,
   };
 
-  const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
- 
-  const userPermisions = userPermissionAvailable && JSON.parse(
-    decryptData(
-      userPermissionAvailable,
-      secretKey,
-    ),
+  const userPermissionAvailable = useSelector(
+    (state: RootState) => state?.auth?.userPermissions,
   );
 
-  
+  const userPermisions =
+    userPermissionAvailable &&
+    JSON.parse(decryptData(userPermissionAvailable, secretKey));
+
   const loader = useSelector((state: RootState) => state.loader.isLoading);
 
   const isSuperAdmin = !userPermisions?.permission?.["is_super_admin"];
@@ -440,7 +447,7 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
                 ?.teeList || [];
             const teeOptions =
               teeList?.map((item) => ({
-                key: item.teeName +" " +`(Yards ${item.yardage})` ,
+                key: item.teeName + " " + `(Yards ${item.yardage})`,
                 value: item.id,
               })) || [];
             setTeeOptions(teeOptions as []);
@@ -605,16 +612,16 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
         courseId: values.courseName,
         holeId: values.holesName,
         teeId: values.Tee,
-        startTime: ensureUTC(startTime || ""),
-        endTime: ensureUTC(endTime || ""),
-        registrationStartTime: ensureUTC(registrationStartTime || ""),
-        registrationEndTime: ensureUTC(registrationEndTime || ""),
+        startTime: startTime || "",
+        endTime: endTime || "",
+        registrationStartTime: registrationStartTime || "",
+        registrationEndTime: registrationEndTime || "",
         entryFee: values.entryFee,
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
         limitSection: values.limitSection === "yes" ? true : false,
-        activeStatus: editData?.activeStatus,
-        cid:editData?.cid,
+        activeStatus: false,
+        cId: editData?.cid,
         waitTimeBetweenEntries: values.waitTimeBetweenEntries,
         payoutStructure: {
           id: editData?.payoutStructure?.id,
@@ -662,82 +669,8 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
     navigate(-1);
   };
 
-  if(contestId){
-    return (
-      <Formik
-      initialValues={initialValues} // Initialize age field
-      validationSchema={validationSchema} // Set validation schema
-      onSubmit={handleSubmit}
-      enableReinitialize={true}
-    >
-      {({ values, setFieldValue }) => {
-        handleValues(values);
-        useEffect(() => {
-          if (
-            location.pathname === ROUTES.UPDFATE_CONTEST &&
-            dataLoaded &&
-            loader === false &&
-            clubOptions.length > 0
-          ) {
-            if (values.clubName === "") {
-              setFieldValue("courseName", "");
-              setFieldValue("Tee", "");
-              setFieldValue("holesName", "");
-            } else if (values.clubName !== "") {
-              if (values.courseName !== "") {
-                //
-                if (values.holesName !== "") {
-                  //
-                } else if (values.holesName === "") {
-                }
-              } else if (values.courseName === "") {
-              }
-            }
-          }
-        }, [
-          setFieldValue,
-          teeOptions,
-          holeOptions,
-          courseOptions,
-          values,
-          loader,
-        ]);
-
-        return (
-          <Form>
-            <ContestForm
-              values={values}
-              isSuperAdmin={isSuperAdmin}
-              saveState={saveState}
-              holeOptions={holeOptions || []}
-              clubOptions={clubOptions || []}
-              courseOptions={courseOptions || []}
-              contestTypeOptions={
-                contestTypeOptions?.map((item) => ({
-                  value: item.id,
-                  key: item.type,
-                })) || []
-              }
-              teeOptions={teeOptions || []}
-              endDate={endDate}
-              startDate={startdate}
-              toggleModal={toggleModal}
-              frequency={frequency}
-            />
-            <div className="flex justify-end gap-4">
-              <button
-                type="button"
-                onClick={()=> handleClose && handleClose()}
-                className="cursor-pointer rounded-lg bg-[#7B7887] px-8 py-2 text-white"
-              >
-                Back
-              </button>
-            </div>
-          </Form>
-        );
-      }}
-    </Formik>
-    )
+  if (contestId) {
+    return <ContestViewScreen contestData={editData} saveState={saveState} />;
   }
 
   return (
@@ -758,7 +691,7 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
                     : userPermisions?.permission["is_course_admin"]
                       ? "Contest Details"
                       : "Edit Contest"} */}
-                  Edit Contest
+                  Edit Contest ID {editData?.cid || ''}
                 </h3>
 
                 <Formik
@@ -767,8 +700,57 @@ const Contests: React.FC<ContestsProps> = ({contestId, handleClose}) => {
                   onSubmit={handleSubmit}
                   enableReinitialize={true}
                 >
-                  {({ isSubmitting, values, setFieldValue, dirty }) => {
+                  {({ isSubmitting, values, validateField, setFieldValue, dirty }) => {
                     handleValues(values);
+                    useEffect(() => {
+                      if (values.startTime) {
+                        validateField("startTime");
+                      }
+                      if (values.endTime) {
+                        validateField("endTime");
+                      }
+                      if (values.registrationStartTime) {
+                        validateField("registrationStartTime");
+                      }
+                      if (values.registrationEndTime) {
+                        validateField("registrationEndTime");
+                      }
+                      if(values.startDate){
+                        validateField('startDate')
+                      }
+                      if(values.endDate){
+                        validateField('endDate')
+                      }
+                    }, [
+                      startTime,
+                      endTime,
+                      registrationStartTime,
+                      registrationEndTime,
+                      startdate,
+                      endDate
+                    ]);
+                    useEffect(() => {
+                      if (values.startTime) {
+                        setStartTime(values.startTime);
+                      }
+                      if (values.endTime) {
+                        setEndTime(values.endTime);
+                      }
+                      if (values.registrationStartTime) {
+                        if(!values.endTime){
+                          setFieldValue("endTime", endTime)
+                        }
+                        setRegistrationStartTime(values.registrationStartTime);
+                      }
+                      if (values.registrationEndTime) {
+                        setRegistrationEndTime(values.registrationEndTime);
+                      }
+                    }, [
+                      values.startTime,
+                      values.endTime,
+                      values.registrationStartTime,
+                      values.registrationEndTime,
+                    ]);
                     useEffect(() => {
                       if (
                         location.pathname === ROUTES.UPDFATE_CONTEST &&

@@ -108,7 +108,7 @@ const Adminpanel: React.FC<AdminPanelProps> = ({ isCourseAdmin = false }) => {
           setIsModalOpen={setIsModalOpen}
           isModalOpen={isModalOpen}
           handleRefreshUserCount={handleRefreshUserCount}
-          refreashUserData={() => adminRightPanelRef?.current?.getUserData()}
+          refreashUserData={() => adminRightPanelRef?.current?.getUserData(null, null, null)}
           selectedUserTab={selectedUserTab}
         />
       </>

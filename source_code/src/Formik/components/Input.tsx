@@ -43,7 +43,7 @@ const Input: React.FC<InputProps> = ({
         >
           {label}
           {required && (
-            <span className={authFlow ? "text-[#FFDE59]" : "text-red-500"}>
+            <span className={authFlow ? "text-yellowText" : "text-red-500"}>
               {" "}
               *
             </span>
@@ -68,13 +68,13 @@ const Input: React.FC<InputProps> = ({
                 className={`mb-[2px] w-full h-[40px] border bg-transparent px-4 py-[5px] text-white ${
                   form.errors[name] && form.touched[name]
                     ? authFlow
-                      ? "border-[#FFDE59]"
+                      ? "border-yellowText"
                       : "border-red-500"
                     : "border-white"
                 } rounded-[15px] focus:outline-none ${
                   form.errors[name] && form.touched[name]
                     ? authFlow
-                      ? "focus:border-[#FFDE59] focus:ring-0"
+                      ? "focus:border-yellowText focus:ring-0"
                       : "focus:border-red-500 focus:ring-0"
                     : "focus:border-white focus:ring-0"
                 } placeholder:pr-10`}
@@ -84,7 +84,7 @@ const Input: React.FC<InputProps> = ({
                 name={name}
                 component="div"
                 className={`text-[11px] ${
-                  authFlow ? "text-[#FFDE59]" : "text-red-500"
+                  authFlow ? "text-yellowText" : "text-red-500"
                 }`}
               />
             </div>

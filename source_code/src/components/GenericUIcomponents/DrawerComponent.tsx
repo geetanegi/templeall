@@ -7,7 +7,7 @@ interface DrawerProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  className: string;
+  className?: string;
   title?:string
 }
 
@@ -54,7 +54,7 @@ const handleClose = () => {
       }
        
         
-        <div className="">{children}</div>
+        <div className="h-full w-full">{children}</div>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ export const encryptData = async (plainText: string, secretKey: string): Promise
     const base64CipherText = forge.util.encode64(combinedData.bytes());
     return base64CipherText || '';
   } catch (error) {
-    console.error('Encryption failed:', error);
+    console.error(error);
     return '';
   }
 };
@@ -52,7 +52,7 @@ export const decryptData = (cipherText: string, secretKey: string): any => {
       const decryptedPlainText = decipher.output.toString(); // No argument needed
       return decryptedPlainText;
     } catch (error) {
-      console.error('Decryption failed:', error);
+      console.error(error);
       return null;
     }
   }

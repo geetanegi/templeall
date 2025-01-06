@@ -46,7 +46,7 @@ const CoursePanel: React.FC = () => {
         ToastInfo(res?.data?.description || "Error fetching hole data");
       }
     } catch (error) {
-      ToastInfo("Error fetching hole data");
+      console.error(error)
     }
   };
 
@@ -101,7 +101,7 @@ const CoursePanel: React.FC = () => {
                 options={
                   holesList?.data.map((hole) => ({
                     value: hole.id.toString(),
-                    label: hole.holeNumber.toString(),
+                    label: hole ? `Hole #${hole.holeNumber} - Par ${hole.par || ""}` : '',
                   })) || []
                 }
                 maxDisplayCount={2}

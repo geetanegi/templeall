@@ -34,7 +34,7 @@ const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
-  contactNumber: "",
+  mobile: "",
   countryCode: "",
 };
 
@@ -53,7 +53,7 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email(validationConstant.validEmail)
     .required(validationConstant.emailRequired),
-  contactNumber: Yup.string()
+  mobile: Yup.string()
     .matches(/^\+?[1-9]\d{1,14}$/, validationConstant.phoneNumberContains)
     .min(10, validationConstant.validPhone)
     .max(10, validationConstant.validPhone),
@@ -102,6 +102,7 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
       dispatch(setLoading(false));
     }
   };
+  console.log(userData, "userData")
 
   return (
     <Modal
@@ -116,7 +117,7 @@ const UpdateProfileModal: React.FC<updateProfileModalprops> = ({
                 firstName: userData?.firstName || '',
                 lastName: userData?.lastName || '',
                 email: userData?.email || '',
-                contactNumber: userData.contactNumber || '',
+                mobile: userData.contactNumber || '',
                 countryCode: userData.countryCode || '',
               }
             : initialValues

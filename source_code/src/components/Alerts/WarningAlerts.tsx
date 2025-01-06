@@ -25,7 +25,7 @@ const WarningAlerts: React.FC<alerts> = ({ message, onClose }) => {
       <div className="ms-3 text-sm font-medium">{message}</div>
       <button
         type="button"
-        className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-50 p-1.5 text-yellow-500 hover:bg-yellow-200 focus:ring-2 focus:ring-[#FFDE59] dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700"
+        className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-50 p-1.5 text-yellow-500 hover:bg-yellow-200 focus:ring-2 focus:ring-[#FFFF00] dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700"
         data-dismiss-target="#alert-4"
         aria-label="Close"
         onClick={onClose}

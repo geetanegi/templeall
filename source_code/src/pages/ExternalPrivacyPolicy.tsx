@@ -14,7 +14,7 @@ const ExternalPrivacyPolicy = () => {
                             <img src={acecamLogoImg} alt="AceCam Logo" className="w-full" />
                         </div>
                     </div>
-                    <h1 className="mb-2 text-xl font-bold" style={{ color: "#ffde59" }}>
+                    <h1 className="mb-2 text-xl font-bold" style={{ color: "#ffff00" }}>
                         AceCam™ Golf Privacy Policy
                     </h1>
                     <p className="font-semibold">Last updated: 10/29/2024</p>

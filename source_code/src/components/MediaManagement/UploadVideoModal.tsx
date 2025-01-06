@@ -166,7 +166,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
               data: {
                 requestType:
                   selectedTab === 1 ? "WINNER_VIDEO" : "REQUEST_VIDEO",
-                videoCategory: "TOP_SHOT",
+                videoCategory: videoCategory,
                 videoDescription: values.description,
                 videoTitle: values.title,
                 requestId: selectedReqVideoId,
@@ -227,7 +227,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
         );
       }
     } catch (error) {
-      ToastInfo("Video Upload Failed");
+      console.error(error);
       handleReqVideoInprogressList({ id: selectedReqVideoId }, "remove");
     } finally {
       dispatch(setLoading(false));
@@ -249,7 +249,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
             setCheckVideo(false);
             setIsModalOpen(false);
           }}
-          title="Upload Video"
+          title={videoCategory === "WINNER_VIDEO" ? "Upload Winning Shot": "Upload Requested Video"}
         >
           <Formik
             initialValues={initialValue}
@@ -301,7 +301,7 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({
                           <img
                             src={thumbnail}
                             alt=""
-                            className="h-[92px] w-[120px] rounded-md"
+                            className="h-full mx-auto"
                           />
                         ) : null}
                       </div>

@@ -74,7 +74,6 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   uploadSotwProgressArr,
   getAllMediaCounts
 }) => {
-  
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
@@ -97,10 +96,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
 
-  
+
 
   useEffect(() => {
-    getVideosList();
+    getVideosList(null, null);
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
@@ -120,7 +119,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         computeRowData(fetchedData);
       }
     }else if(rowData.length) {
-      getVideosList();
+      getVideosList(null, null);
     }
   }, [uploadSotwProgressArr]);
 
@@ -128,7 +127,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     if (uploadProgressArr && selectedTab !== 3) {
       computeRowData(fetchedData);
     } else if(rowData.length) {
-      getVideosList();
+      getVideosList(null, null);
     }
   }, [uploadProgressArr]);
 
@@ -138,19 +137,19 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   }, [activeStatus, isVisible]);
 
-  const getVideosList = async () => {
+  const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
     try {
       if (!isModalOpen && !isSOTWModalOpen) {
         dispatch(setLoading(true));
       }
       if (isCourseAdmin) {
-        await makeApiCall(API_URL.getCourseSpecificVideo);
+        await makeApiCall(API_URL.getCourseSpecificVideo, sortDir, sortBy);
       } else if (selectedTab === 1) {
-        await makeApiCall(API_URL.getAllWinnersVideo);
+        await makeApiCall(API_URL.getAllWinnersVideo, sortDir, sortBy);
       } else if (selectedTab === 2) {
-        await makeApiCall(API_URL.getAllReqVideos);
+        await makeApiCall(API_URL.getAllReqVideos, sortDir, sortBy);
       } else if (selectedTab === 3) {
-        await makeApiCall(API_URL.getAllShotOfTheWeekSA);
+        await makeApiCall(API_URL.getAllShotOfTheWeekSA, sortDir, sortBy);
       }
     } catch (error) {
       console.error(error);
@@ -161,20 +160,20 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   };
 
-  const makeApiCall = async (endPoint: string) => {
+  const makeApiCall = async (endPoint: string, sortDir:string | null, sortBy:string | null) => {
     let payload: any = {};
 
     if (selectedTab === 3) {
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
     } else if (selectedTab === 1) {
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
@@ -185,15 +184,15 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       }
     } else if (selectedTab === 2) {
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
       if (filterValue) {
         payload.searchParams = {
-            "statusId": filterValue,
-          }  
+         "statusId": filterValue,
+        }   
       }
     }
 
@@ -201,14 +200,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       payload = {}
       payload.loginUserId = typeof userInfo === "object" ? userInfo.userId : null,
       payload.contestTypeId = null,
-      
       payload.pageSortingParam = {
-        sortDir: "DESC",
-        sortBy: "createdDate",
+        sortDir: sortDir || "DESC",
+        sortBy: sortBy || "createdDate",
         pageNumber: currentPage,
         pageSize: pageSize,
       };
-      
       if (filterValue) {
         payload.contestTypeId = filterValue
       }
@@ -255,11 +252,10 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       />
     ) : (
       <div
-        className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${
-          status === constantWords.APPROVED
+        className={`flex w-[90px] items-center gap-1.5 rounded px-2 py-1 shadow-md ${status === constantWords.APPROVED
             ? "bg-green-100 text-green-600"
             : "bg-red-100 text-red-600"
-        }} `}
+          }} `}
       >
         {status === constantWords.APPROVED && (
           <CircleCheck size={12} className="text-green-600" />
@@ -381,8 +377,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
-            time: moment.utc(data?.startTime).local().format("hh:mm A"),
+            date: moment.utc(data?.hitTime).local().format("MM-DD-YYYY"),
+            time: moment.utc(data?.hitTime).local().format("hh:mm A"),
             upload: uploadProgressArr?.find(
               (vid: any) => vid.id === data.id,
             ) ? (
@@ -455,7 +451,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             course: data?.courseName || "",
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
-            time: moment.utc(data?.requestTime).local().format("hh:mm A"),
+            time: moment.utc(data?.hitTime).local().format("hh:mm A"),
             Category: (
               <div className="relative inline-block flex items-center text-[14px]">
                 {data.videoCategory}
@@ -578,6 +574,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
           style="min-w-[150px]"
           totalElement={totalElement}
           elementPerPage={rowData.length}
+          handleSorting={getVideosList}
         />
       </PageLoader>
       <ConfirmationModal

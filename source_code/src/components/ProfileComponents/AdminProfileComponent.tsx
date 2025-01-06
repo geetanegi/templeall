@@ -77,7 +77,7 @@ const AdminProfileComponent: React.FC<AdminProfileComponentProps> = ({
           <Phone className="h-[18px] w-[18px] text-[#F5F6F7]" />
           {userinformation?.userProfile?.contactNumber ? (
             <div className="text-[#F5F6F7]">
-              {userinformation?.userProfile?.countryCode +
+              {(userinformation?.userProfile?.countryCode ? userinformation?.userProfile?.countryCode  : "")  +
                 userinformation?.userProfile?.contactNumber}
             </div>
           ) : (

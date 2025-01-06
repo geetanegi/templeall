@@ -44,11 +44,11 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   } else if (tab === 3) {
     return [
       { id: 1, key: "contestType", field: "Contest Type", isSort: true },
-      { id: 2, key: "clubName", field: "Club", isSort: true },
-      { id: 3, key: "courseName", field: "Course", isSort: true },
-      { id: 4, key: "holeNumber", field: "Hole", isSort: true },
-      { id: 5, key: "teeName", field: "Tee", isSort: true },
-      { id: 6, key: "username", field: "Player Username", isSort: true },
+      { id: 2, key: "club.name", field: "Club", isSort: true },
+      { id: 3, key: "course.courseName", field: "Course", isSort: true },
+      { id: 4, key: "hole.holeNumber", field: "Hole", isSort: true },
+      { id: 5, key: "tee.teeName", field: "Tee", isSort: true },
+      { id: 6, key: "player.username", field: "Player Username", isSort: true },
       { id: 7, key: "startTime", field: "Date", isSort: true },
       { id: 8, key: "startTime", field: "Time", isSort: true },
       { id: 9, key: "actions", field: "Actions", isSort: false },

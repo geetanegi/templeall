@@ -36,7 +36,7 @@ const FilterPannelDrawer: React.FC<FilterPannelDrawerProps> = ({
             isOpen={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
             className='w-[30vw] h-full'
-            title='Filter Pannel '
+            title='Filter panel '
         >
             <Formik
                 initialValues={{courseFilter: ''}}

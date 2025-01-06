@@ -32,7 +32,7 @@ const tableHeaders = [
   { id: 14, key: "Actions", field: "Actions", isSort : false},
   { id: 13, key: "activeStatus", field: "Status", isSort : true },
   { id: 2, key: "contestType", field: "Contest Type", isSort : true },
-  { id: 3, key: "clubName", field: "Club name", isSort : true },
+  { id: 3, key: "club.name", field: "Club name", isSort : true },
   { id: 4, key: "courseName", field: "Course Name", isSort : true },
   { id: 5, key: "holeNumber", field: "Hole number", isSort : true },
   { id: 6, key: "teeName", field: "Tee", isSort : true },
@@ -509,7 +509,7 @@ const ContestManagement = () => {
               //   // setCurrentPage(0);
               //   // setSearchString(e.target.value);
               // }}
-              placeholder={'Search by Contest Id'}
+              placeholder={'Search by contest id'}
               maxLength={100}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {

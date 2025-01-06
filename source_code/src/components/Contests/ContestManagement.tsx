@@ -18,10 +18,10 @@ import { useNavigate } from "react-router-dom";
 import ContestList from "../../pages/ContestList";
 import {
   CourseApiResponse,
-  HoleListResponse,
+  // HoleListResponse,
 } from "../AdminPanel/courses/courses.interface";
 import { setLoading } from "../../reducers/loader/loader";
-import { getFilters } from "../../utils/genericApiCalls";
+// import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import ContestModal from "./contestUtils/contestModal";
 import moment from "moment";
@@ -71,13 +71,13 @@ const ContestManagement = () => {
     null,
   );
   const [courses, setCourses] = useState<CourseApiResponse | null>(null);
-  const [holesList, setHolesList] = useState<HoleListResponse | null>(null);
+  // const [holesList, setHolesList] = useState<HoleListResponse | null>(null);
   const [selectedHoles, setSelectedHoles] = useState<string>("");
   const [selectedCourse, setSelectedCourse] = useState<{
     name: string;
     id: number | string;
   } | null>(null);
-  const [filterByContest, setFilterByContest] = useState<any>([]);
+  // const [filterByContest, setFilterByContest] = useState<any>([]);
   const [contestId, setContestId] = useState<number | string>("");
   const [isContestModalOpen, setIsContestModalOpn] = useState<boolean>(false);
   const [cId, setCId] = useState<string | null>('')
@@ -108,25 +108,25 @@ const ContestManagement = () => {
     }
   };
 
-  const fetchHoleList = async (selectedCourseId: string | number) => {
-    try {
-      const res = await apiService.post<HoleListResponse>(
-        API_URL.getHoleByCourseId,
-        {
-          data: {
-            courseId: selectedCourseId,
-          },
-        },
-      );
-      if (res.status === 200 && !res.data.error) {
-        setHolesList(res.data);
-      } else if (res.data.error) {
-        ToastInfo(res.data.description || "Error fetching hole data");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchHoleList = async (selectedCourseId: string | number) => {
+  //   try {
+  //     const res = await apiService.post<HoleListResponse>(
+  //       API_URL.getHoleByCourseId,
+  //       {
+  //         data: {
+  //           courseId: selectedCourseId,
+  //         },
+  //       },
+  //     );
+  //     if (res.status === 200 && !res.data.error) {
+  //       setHolesList(res.data);
+  //     } else if (res.data.error) {
+  //       ToastInfo(res.data.description || "Error fetching hole data");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
     if (!userPermisions?.permission?.["is_player"]) {
@@ -141,17 +141,17 @@ const ContestManagement = () => {
   ]);
 
   useEffect(() => {
-    getFilters("contest_type", setFilterByContest);
+    // getFilters("contest_type", setFilterByContest);
     fetchCourseList();
   }, []);
 
-  useEffect(() => {
-    if (selectedCourse) {
-      fetchHoleList(selectedCourse.id);
-    } else {
-      setHolesList(null);
-    }
-  }, [selectedCourse]);
+  // useEffect(() => {
+  //   if (selectedCourse) {
+  //     // fetchHoleList(selectedCourse.id);
+  //   } else {
+  //     // setHolesList(null);
+  //   }
+  // }, [selectedCourse]);
 
   const handleCoursesChange = (id:number | string) => {
     const courseId: number | string = id;
@@ -164,7 +164,7 @@ const ContestManagement = () => {
       setSelectedCourse(null);
     }
     setCurrentPage(0);
-    setHolesList(null); // Reset holesList to null when course changes
+    // setHolesList(null); // Reset holesList to null when course changes
     setSelectedHoles(""); // Reset selectedHoles to an empty array
   };
 
@@ -421,6 +421,7 @@ const ContestManagement = () => {
     })
     setSelectedHoles(selectedHoles)
   }
+
 
   return (
     <div

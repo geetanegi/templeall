@@ -20,7 +20,6 @@ import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
-import { ensureUTC } from "../utils/TimeUtils";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
 import { decryptData, secretKey } from "../utils/encrypt";
@@ -331,18 +330,13 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
     holesName: editData?.hole?.id,
     Tee: editData?.tee?.id,
     startDate:
-      moment.utc(editData?.startTime).local().format("YYYY-MM-DD") || "",
-    endDate: moment.utc(editData?.endTime).local().format("YYYY-MM-DD"),
-    startTime: moment.utc(editData?.startTime).local().format("HH:mm:ss") || "",
-    endTime: moment.utc(editData?.endTime).local().format("HH:mm:ss") || "",
-    registrationStartTime: moment
-      .utc(editData?.registrationStartTime)
-      .local()
+      moment(editData?.startTime).format("YYYY-MM-DD") || "",
+    endDate: moment(editData?.endTime).format("YYYY-MM-DD"),
+    startTime: moment(editData?.startTime).format("HH:mm:ss") || "",
+    endTime: moment(editData?.endTime).format("HH:mm:ss") || "",
+    registrationStartTime: moment(editData?.registrationStartTime)
       .format("HH:mm:ss"),
-    registrationEndTime: moment
-      .utc(editData?.registrationEndTime)
-      .local()
-      .format("HH:mm:ss"),
+    registrationEndTime: moment(editData?.registrationEndTime).format("HH:mm:ss"),
     entryFee: editData?.entryFee ? editData?.entryFee : "0",
     playerPercentage: editData?.payoutStructure?.playerPercentage
       ? editData?.payoutStructure?.playerPercentage
@@ -618,10 +612,10 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
         courseId: values.courseName,
         holeId: values.holesName,
         teeId: values.Tee,
-        startTime: ensureUTC(startTime || ""),
-        endTime: ensureUTC(endTime || ""),
-        registrationStartTime: ensureUTC(registrationStartTime || ""),
-        registrationEndTime: ensureUTC(registrationEndTime || ""),
+        startTime: startTime || "",
+        endTime: endTime || "",
+        registrationStartTime: registrationStartTime || "",
+        registrationEndTime: registrationEndTime || "",
         entryFee: values.entryFee,
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,

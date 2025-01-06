@@ -147,7 +147,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
       if (selectedCourse) {
         const holeListOptions =
           holeList?.map((item) => ({
-            key: item.holeNumber,
+            key:`Hole #${item?.holeNumber} - Par ${item?.par || ""}`,
             value: item.id,
           })) || [];
         setHoleOptions(holeListOptions as []);
@@ -157,7 +157,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
               ?.teeList || [];
           const teeOptions =
             teeList?.map((item) => ({
-              key: item.teeName,
+              key: item?.teeName + " " + `(Yards ${item?.yardage})`,
               value: item.id,
             })) || [];
           setTeeOptions(teeOptions as []);
@@ -361,7 +361,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
         );
       }
     } catch (error) {
-      ToastInfo("Video Upload Failed");
+      console.error(error);
       handleInprogressVideoList({ vidId }, "remove");
     } finally {
       setUsersList([]);
@@ -432,7 +432,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
             setCheckVideo(false);
             setIsModalOpen(false);
           }}
-          title="Upload Video"
+          title="Upload Shot of the Week"
         >
           <Formik
             initialValues={

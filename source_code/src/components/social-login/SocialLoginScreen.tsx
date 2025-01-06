@@ -9,7 +9,6 @@ import apiService from "../../services/apiService";
 import { API_URL } from "../../services/enums";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { loginWithoutRemember } from "../../reducers/login/login";
 import { ToastInfo } from "../Toast";
 import OtpScreen from "../OtpScreen";
 import { ROUTES } from "../../utils/routesPath";
@@ -84,7 +83,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
       .add(3, "hours")
       .format("YYYY-MM-DD HH:mm:ss");
     localStorage.setItem("expirationTime", expirationTime);
-    dispatch(loginWithoutRemember({ token: token }));
+    // dispatch(loginWithoutRemember({ token: token }));
     navigate(ROUTES.DASHBOARD);
   };
 
@@ -212,13 +211,15 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                   />
                 </div>
                 <div className="flex  mb-5 ">
-                  <div className="w-28  pr-2">
+                  <div className="w-36 pr-2">
                     <FormikControl
                       authFlow={true}
                       label="Phone"
                       name="countryCode"
                       control="input"
                       className="w-full"
+                      maxLength={5}
+                      validateRegex={/^\+?[0-9]+$/}
                       type="text"
                       required={true}
                     />
@@ -241,7 +242,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
                     <Field
                       type="checkbox"
                       name="acceptTerms"
-                      className="form-checkbox md:-mt-[1rem] h-4 w-4 leading-tight text-blue-400"
+                      className="form-checkbox h-4 w-4 leading-tight text-blue-400"
                     />
                     <span className={`ml-1 text-[13px] text-primaryText`}>
                       Agreeing to{" "}

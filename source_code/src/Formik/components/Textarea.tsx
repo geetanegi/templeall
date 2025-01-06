@@ -59,6 +59,7 @@ const MUITextArea: React.FC<TextAreaProps> = ({
                 "& .MuiInputBase-root": {
                   borderRadius: "5px",
                   backgroundColor: "#FAFAFA",
+                   background: disabled ? "#e5e7eb" : ""
                 },
               }}
             />

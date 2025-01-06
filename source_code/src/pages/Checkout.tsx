@@ -71,6 +71,7 @@ const Checkout: React.FC = () => {
     (state: RootState) => state.courses.selectedContests,
   );
 
+  const isPaymentSuccess = useSelector((state: RootState) => state.payment.paymentSuccess,)
 
   const selectedContestObj: any =
     selectedTeeType !== null && selectedContestsList;
@@ -84,11 +85,11 @@ const Checkout: React.FC = () => {
 
   const totalPrice =
     selectedContestTee !== null &&
-      selectedContestsList[selectedContestTee]?.length > 0
+    selectedContestsList[selectedContestTee]?.length > 0
       ? selectedContestsList[selectedContestTee].reduce(
-        (acc, contest) => acc + contest.entryFee,
-        0,
-      )
+          (acc, contest) => acc + contest.entryFee,
+          0,
+        )
       : 0;
 
   const paymentSucess = useSelector(
@@ -100,12 +101,12 @@ const Checkout: React.FC = () => {
   >("wallet"); // Default to 'wallet'
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  useEffect(()=>{
-    if(!selectedContests){
-      navigate(ROUTES.CONTESTS, { replace: true }); 
+  useEffect(() => {
+    console.log(!selectedContests, selectedContestsList)
+    if (!selectedContests && !isPaymentSuccess) {
+      navigate(ROUTES.CONTESTS, { replace: true });
     }
-
-  },[selectedContests])
+  }, [selectedContests]);
 
   const handleCheckoutCart = async () => {
     // api obj
@@ -120,10 +121,10 @@ const Checkout: React.FC = () => {
         cartInfo:
           selectedContests && Array.isArray(selectedContests)
             ? selectedContests.map((item) => ({
-              scheduleContestId: item.scheduleContestId,
-              amount: item.entryFee,
-              progressiveContestId: item.progressiveContestId,
-            }))
+                scheduleContestId: item.scheduleContestId,
+                amount: item.entryFee,
+                progressiveContestId: item.progressiveContestId,
+              }))
             : [],
         payment: {
           paymentMethod: "CARD",
@@ -164,18 +165,18 @@ const Checkout: React.FC = () => {
         <div className="grid min-h-screen w-full grid-cols-[65%_35%] overflow-x-hidden px-2">
           <div className="pl-10 pt-1">
             {/* Header Section */}
-            <h1 className="pb-1 text-[18px] font-normal pt-3">Playing Cart</h1>
+            <h1 className="pb-1 pt-3 text-[18px] font-normal">Playing Cart</h1>
             {/* Breadcrumb Section */}
-            <div className="mb-4 flex items-center space-x-2 text-sm text-gray-500 font-normal"  >
+            <div className="mb-4 flex items-center space-x-2 text-sm font-normal text-gray-500">
               <span
-                className="flex cursor-pointer gap-1 text-primaryColor items-center"
+                className="flex cursor-pointer items-center gap-1 text-primaryColor"
                 onClick={() => setModalOpen(true)}
               >
                 <LandPlot className="h-3 w-3" /> {selectedCourseName}
               </span>
               <span>&gt;</span>
               <span
-                className="flex cursor-pointer gap-1 text-primaryColor items-center"
+                className="flex cursor-pointer items-center gap-1 text-primaryColor"
                 onClick={() => setModalOpen(true)}
               >
                 <img src={Golf} className="h-3 w-3" />
@@ -183,7 +184,7 @@ const Checkout: React.FC = () => {
               </span>
               <span>&gt;</span>
               <span
-                className="flex cursor-pointer gap-1 text-primaryColor  items-center"
+                className="flex cursor-pointer items-center gap-1 text-primaryColor"
                 onClick={() => setModalOpen(true)}
               >
                 <img src={GolfTee} className="h-3 w-3" color="#7B7887" />
@@ -191,7 +192,7 @@ const Checkout: React.FC = () => {
                 {selectedContests && selectedContests[0]?.yardage} yards)
               </span>
               <span>&gt;</span>
-              <span className="flex gap-1 text-[#7B7887] items-center text-[12px]">
+              <span className="flex items-center gap-1 text-[12px] text-[#7B7887]">
                 <Trophy color="#7B7887" strokeWidth={1} className="h-3 w-3" />
                 Contests
               </span>
@@ -245,12 +246,12 @@ const Checkout: React.FC = () => {
               </div>
               {selectedPaymentMethod === "credit_card" && <CheckoutCard />}
               <button
-                onClick={()=>{
-                  if(selectedContests){
-                    handleCheckoutCart()
+                onClick={() => {
+                  if (selectedContests) {
+                    handleCheckoutCart();
                   }
-                  }}
-                className={`relative mx-auto flex w-full items-center justify-center gap-1 rounded-md bg-primaryColor py-2 mt-12 text-white ${selectedContests ? "" : "opacity-50 cursor-not-allowed"}`}
+                }}
+                className={`relative mx-auto mt-12 flex w-full items-center justify-center gap-1 rounded-md bg-primaryColor py-2 text-white ${selectedContests ? "" : "cursor-not-allowed opacity-50"}`}
               >
                 <span className="mx-2">Register</span>
               </button>

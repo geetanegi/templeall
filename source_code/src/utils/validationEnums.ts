@@ -35,7 +35,7 @@ export const validationConstant = {
     courseMustbeSelect: "Course must be selected.",
     holeMustbeSelected: "Hole must be selected.",
     teeMustbeSelected :"Tee must be selected.",
-    contestNameMustbeSelected: "Contest Name must be selected.",
+    contestNameMustbeSelected: "Contest Type must be selected.",
     dateTimeMustBeSelected: "Date and Time must be selected",
     locationContains: "Location must contain only alphabetic characters.",
     cityContains: "City must contain only alphabetic characters.",

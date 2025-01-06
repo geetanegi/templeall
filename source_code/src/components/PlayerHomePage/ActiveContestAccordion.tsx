@@ -45,7 +45,7 @@ const ActiveContestAccordion: React.FC = () => {
         ToastInfo(res.data.description || "Error fetching contest data");
       }
     } catch (error) {
-      console.error("Error fetching contest data");
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -81,7 +81,7 @@ const ActiveContestAccordion: React.FC = () => {
             <div
               key={i}
               // style={{
-              //   borderColor: i === openAccordion ? "#95C11E" : "#FFDE59",
+              //   borderColor: i === openAccordion ? "#95C11E" : "#FFFF00",
               // }}
               className={`relative my-3 overflow-hidden rounded-lg border-[1px] border-yellowText bg-reverse-graident-green shadow-sm`}
             >
@@ -287,7 +287,7 @@ const ActiveContestAccordion: React.FC = () => {
                           <div className="bg-[#37704B]">
                             <p className="px-1 py-1 text-[11px] text-yellowText">
                               <StickyNote
-                                color="#FFDE59"
+                                color="#FFFF00"
                                 size={14}
                                 className="mx-1 inline"
                               />

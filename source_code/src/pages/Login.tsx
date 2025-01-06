@@ -36,16 +36,14 @@ const Login: React.FC = () => {
 
   /***
    * Initial values of Login Form
+   * 
    * ***/
+
+  const userData = localStorage.getItem('userData') 
+  
   const initialValues: LoginFormValues = {
-    username:
-      typeof userInfo === "object" && userInfo !== null
-        ? userInfo.username || ""
-        : "",
-    password:
-      typeof userInfo === "object" && userInfo !== null
-        ? decryptData(userInfo.password, secretKey) || ""
-        : "",
+    username: userData ? JSON.parse(userData).username : '',
+    password: userData ? decryptData(JSON.parse(userData).password, secretKey) : "",
     rememberme: userInfo !== null,
   };
 
@@ -89,6 +87,7 @@ const Login: React.FC = () => {
           .format("YYYY-MM-DD HH:mm:ss");
         localStorage.setItem("expirationTime", expirationTime);
         if (rememberme === true) {
+          localStorage.setItem('userData', JSON.stringify({ ...loginObj, userId: data?.data?.userId } ))
           dispatch(
             login({
               token: data?.data?.token,
@@ -97,7 +96,10 @@ const Login: React.FC = () => {
           );
           navigate("/dashboard");
         } else {
-          dispatch(loginWithoutRemember({ token: data?.data?.token }));
+          localStorage.removeItem('userData')
+          dispatch(loginWithoutRemember({ token: data?.data?.token,
+            userInfo: { ...loginObj, userId: data?.data?.userId },
+           }));
           navigate("/dashboard");
         }
       } else if (status === 200 && data?.error && data?.description) {
@@ -111,14 +113,18 @@ const Login: React.FC = () => {
       dispatch(setLoading(false));
     }
   };
-
+console.log(userData, initialValues, "initialValues")
   return (
     <>
       <div className="flex w-full flex-col items-center gap-2 rounded-xl mt-5 md:w-full">
         {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
         <Formik
-          initialValues={initialValues}
+          initialValues={userData ? initialValues : {
+            username: '',
+            password: "",
+            rememberme: false,
+          }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >

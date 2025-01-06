@@ -519,7 +519,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           {/* Bookmark and more options */}
           <div className="absolute left-2 top-[-2px]">
             {isPublished ? (
-              <span className="h-[20px] w-[16px] text-[#FFDE59]">
+              <span className="h-[20px] w-[16px] text-yellowText]">
                 <img src={bookmarkImg} alt="" />
               </span>
             ) : null}

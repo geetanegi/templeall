@@ -70,8 +70,22 @@ const MUINumber: React.FC<InputProps> = ({
             error={Boolean(form.errors[name] && form.touched[name])}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(e, form)
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
+              if(name === 'entriesPer24Hours'){
+                console.log("!e.target.value", e.target.value, Number(e.target.value), (Number(e.target.value) === 0))
+                if(Number(e.target.value)  !== 0){
+                  handleChange(e, form)
+                }else if(e.target.value === ''){
+                    handleChange(e, form)
+                }
+              }else if(name === "waitTimeBetweenEntries" ){
+                if(Number(e.target.value) < 24){
+                  handleChange(e, form)
+                }
+              } else{
+                handleChange(e, form)
+              }
+            }
             }
             inputProps={{ maxLength }}
             sx={{

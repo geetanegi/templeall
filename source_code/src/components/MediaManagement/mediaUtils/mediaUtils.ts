@@ -5,53 +5,53 @@ import { ToastInfo, ToastSuccess } from "../../Toast";
 export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   if (renderFor === "courseAdmin") {
     return [
-      { id: 1, key: "playerUsername", field: "Player Username" },
-      { id: 3, key: "contestName", field: "Contest Name" },
-      { id: 4, key: "club", field: "Club" },
-      { id: 5, key: "course", field: "Course" },
-      { id: 6, key: "hole", field: "Hole" },
-      { id: 7, key: "tee", field: "Tee" },
-      { id: 9, key: "time", field: "Time" },
-      { id: 2, key: "date", field: "Date" },
-      { id: 11, key: "view", field: "View" },
+      { id: 1, key: "firstName", field: "Player Username", isSort: true },
+      { id: 3, key: "contestType", field: "Contest Name", isSort: true },
+      { id: 4, key: "clubName", field: "Club", isSort: true },
+      { id: 5, key: "courseName", field: "Course", isSort: true },
+      { id: 6, key: "holeNumber", field: "Hole", isSort: true },
+      { id: 7, key: "teeName", field: "Tee", isSort: true },
+      { id: 9, key: "startTime", field: "Time", isSort: true },
+      { id: 2, key: "startTime", field: "Date", isSort: true },
+      { id: 11, key: "view", field: "View", isSort: false },
     ];
   } else if (tab === 1) {
     return [
-      { id: 1, key: "contestName", field: "Contest Name" },
-      { id: 2, key: "club", field: "Club" },
-      { id: 3, key: "course", field: "Course" },
-      { id: 4, key: "hole", field: "Hole" },
-      { id: 5, key: "tee", field: "Tee" },
-      { id: 6, key: "playerUsername", field: "Player Username" },
-      { id: 7, key: "date", field: "Date" },
-      { id: 8, key: "time", field: "Time" },
-      { id: 9, key: "uploade", field: "Upload" },
+      { id: 1, key: "contestType", field: "Contest Name", isSort: true },
+      { id: 2, key: "clubName", field: "Club", isSort: true },
+      { id: 3, key: "courseName", field: "Course", isSort: true },
+      { id: 4, key: "holeNumber", field: "Hole", isSort: true },
+      { id: 5, key: "teeName", field: "Tee", isSort: true },
+      { id: 6, key: "firstName", field: "Player Username", isSort: true },
+      { id: 7, key: "startTime", field: "Date", isSort: true },
+      { id: 8, key: "startTime", field: "Time", isSort: true },
+      { id: 9, key: "uploade", field: "Upload", isSort: false },
     ];
   } else if (tab === 2) {
     return [
-      { id: 1, key: "playerUsername", field: "Player Username" },
-      { id: 2, key: "requestDate", field: "Request Date" },
-      { id: 3, key: "contestName", field: "Contest Name" },
-      { id: 4, key: "club", field: "Club" },
-      { id: 5, key: "course", field: "Course" },
-      { id: 6, key: "hole", field: "Hole" },
-      { id: 7, key: "tee", field: "Tee" },
-      { id: 9, key: "time", field: "Time" },
-      { id: 12, key: "category", field: "Category" },
-      { id: 10, key: "status", field: "Status" },
-      { id: 11, key: "uploade", field: "Upload" },
+      { id: 1, key: "firstName", field: "Player Username", isSort: true },
+      { id: 2, key: "requestTime", field: "Request Date", isSort: true },
+      { id: 3, key: "contestType", field: "Contest Name", isSort: true },
+      { id: 4, key: "clubName", field: "Club", isSort: true },
+      { id: 5, key: "courseName", field: "Course", isSort: true },
+      { id: 6, key: "holeNumber", field: "Hole", isSort: true },
+      { id: 7, key: "teeName", field: "Tee", isSort: true },
+      { id: 9, key: "requestTime", field: "Time", isSort: true },
+      { id: 12, key: "videoCategory", field: "Category", isSort: true },
+      { id: 10, key: "status", field: "Status", isSort: true },
+      { id: 11, key: "uploade", field: "Upload", isSort: false },
     ];
   } else if (tab === 3) {
     return [
-      { id: 1, key: "contestName", field: "Contest Type" },
-      { id: 2, key: "club", field: "Club" },
-      { id: 3, key: "course", field: "Course" },
-      { id: 4, key: "hole", field: "Hole" },
-      { id: 5, key: "tee", field: "Tee" },
-      { id: 6, key: "playerUsername", field: "Player Username" },
-      { id: 7, key: "date", field: "Date" },
-      { id: 8, key: "time", field: "Time" },
-      { id: 9, key: "actions", field: "Actions" },
+      { id: 1, key: "contestType", field: "Contest Type", isSort: true },
+      { id: 2, key: "club.name", field: "Club", isSort: true },
+      { id: 3, key: "course.courseName", field: "Course", isSort: true },
+      { id: 4, key: "hole.holeNumber", field: "Hole", isSort: true },
+      { id: 5, key: "tee.teeName", field: "Tee", isSort: true },
+      { id: 6, key: "player.username", field: "Player Username", isSort: true },
+      { id: 7, key: "startTime", field: "Date", isSort: true },
+      { id: 8, key: "startTime", field: "Time", isSort: true },
+      { id: 9, key: "actions", field: "Actions", isSort: false },
     ];
   } else {
     return [];
@@ -61,7 +61,7 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
 export const deleteVideos = async (
   type: string,
   reqId: string | number,
-  getVideosList?: () => void,
+  getVideosList?: (sortDir:string | null, sortBy:string | null) => void,
   userRole?: string,
 ) => {
   try {
@@ -78,7 +78,7 @@ export const deleteVideos = async (
     });
     if (res.status === 200 && !res.data.error) {
       ToastSuccess(res.data.data.message);
-      getVideosList?.();
+      getVideosList?.(null, null);
     } else if (res.data.error) {
       ToastInfo(res.data.description || "");
     }
@@ -145,7 +145,7 @@ export const createComment = async (
 export const updateViewCount = async (id: string | number) => {
   await apiService.post<any>(API_URL.updatevideoViewCount, {
     data: {
-      videosId: id,
+      videoId: id,
       views: true,
     },
   });

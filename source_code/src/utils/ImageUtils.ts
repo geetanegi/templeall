@@ -60,7 +60,8 @@ export default async function getCroppedImg(
       throw new Error("Image failed to load or has invalid dimensions.");
     }
   } catch (error) {
-    console.error("Error loading image:", error);
+
+    console.error(error);
     return null;
   }
 

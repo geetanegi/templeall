@@ -316,6 +316,7 @@ const ContestList: React.FC = () => {
                             contestListItem.eligibleForRegistration,
                           eligibleRegistrationTime:
                             contestListItem.eligibleRegistrationTime,
+                            ...contestListItem
                         }}
                       />
                     ))}

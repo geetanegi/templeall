@@ -166,6 +166,8 @@ const ContestList: React.FC = () => {
       const res = await apiService.post<any>(API_URL.getContestByTeeId, {
         data: {
           teeId: selectedTeeId,
+          date: moment().utc().format(),
+          zoneId: timeZone,
           playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
           courseId: selectedCourseId || null
         },

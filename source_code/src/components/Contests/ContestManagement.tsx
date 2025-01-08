@@ -329,8 +329,8 @@ const ContestManagement = () => {
           searchParams: {
             contestTypeId: selectedContestType || null,
             activeStatus: currentStatus,
-            courseName: selectedCourse?.name || null,
-            holeNumbers: selectedHoles.length ? selectedHoles : null,
+            courseId: selectedCourse || null,
+            holeIds: selectedHoles.length ? selectedHoles : null,
             cId: searchString || null
           },
           pageSortingParam: {
@@ -400,18 +400,24 @@ const ContestManagement = () => {
   const filterHandler = (filters: any) => {
     setSelectedContestType(filters.contest_type)
     setCurrentStatus(filters.contestStatus || null)
-    handleCoursesChange(filters.courseFilter || null) 
+    // handleCoursesChange(filters.courseFilter || null) 
+    setSelectedCourse(filters.courseFilter)
     if(!filters.contestStatus){
       setSelectedHoles('')
     }
     let selectedHoles = ''
     filters?.holesFilter?.map((item:any, index:number)=>{
       selectedHoles += item.id
-      if(filters?.holesFilter?.length > index){
+      if(filters?.holesFilter?.length > index+1){
         selectedHoles += ','
       }
     })
-    setSelectedHoles(selectedHoles)
+    if(filters.courseFilter){
+      setSelectedHoles(selectedHoles)
+    }
+    if(!filters.courseFilter){
+      setSelectedHoles('')
+    }
   }
 
   const debouncedGetPlayer = useCallback(
@@ -576,9 +582,9 @@ const ContestManagement = () => {
         filterList={filterList}
         filterHandler={filterHandler}
 
-      >
+      />
 
-      </FilterPannelDrawer>
+      {/* </FilterPannelDrawer> */}
 
       <ContestModal
         isContestModalOpen={isContestModalOpen}

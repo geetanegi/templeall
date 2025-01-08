@@ -151,7 +151,7 @@ const FilterPannel: React.FC<FilterPannelProps> = ({ filterList, disabled, selec
           return <MultiSelectDropdown
           label={'Filter by Holes'}
           options={filterDropdown?.data?.map((hole:any) => ({
-            id: hole.holeNumber.toString(),
+            id: hole.id.toString(),
             name: hole ? `Hole #${hole.holeNumber} - Par ${hole.par || ""}` : '',
           })) || []}
           labelKey="name"

@@ -43,6 +43,10 @@ const FilterPannel: React.FC<FilterPannelProps> = ({ filterList, disabled, selec
   const [filterDropdown, setFilterDropdown] = useState<any>([])
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
 
+  useEffect(()=>{
+    setSelectedOptions([])
+  },[selectedCourse])
+
   const getFilterOptions = () =>{
       setFilterDropdown(
         [
@@ -155,7 +159,6 @@ const FilterPannel: React.FC<FilterPannelProps> = ({ filterList, disabled, selec
           disabled={disabled}
           selectedValues={selectedOptions}
           onChange={(selected) =>{
-            debugger
             setFieldValue('holesFilter', selected)
             setSelectedOptions(selected)}}
         />

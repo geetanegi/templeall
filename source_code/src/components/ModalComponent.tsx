@@ -41,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
 
     return (
         <div
-            className="fixed z-[1000000000] inset-0 backdrop-blur-sm bg-gray-900 bg-opacity-50 flex flex-col items-center justify-center"
+            className="fixed z-50 inset-0 backdrop-blur-sm bg-gray-900 bg-opacity-50 flex flex-col items-center justify-center"
         >
             <div
                 className="bg-white md:mx-0 mx-5 rounded-lg max-w-max shadow-lg"

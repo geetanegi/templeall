@@ -33,7 +33,7 @@ const tableHeaders = [
   { id: 14, key: "Actions", field: "Actions", isSort : false},
   { id: 13, key: "activeStatus", field: "Status", isSort : true },
   { id: 2, key: "contestType", field: "Contest Type", isSort : true },
-  { id: 3, key: "club.name", field: "Club name", isSort : true },
+  { id: 3, key: "clubName", field: "Club name", isSort : true },
   { id: 4, key: "courseName", field: "Course Name", isSort : true },
   { id: 5, key: "holeNumber", field: "Hole number", isSort : true },
   { id: 6, key: "teeName", field: "Tee", isSort : true },
@@ -388,22 +388,6 @@ const ContestManagement = () => {
     }
   };
 
-  if (userPermisions?.permission["is_player"]) {
-    return (
-      <div>
-        <ContestList />
-      </div>
-    );
-  } else if (!userPermisions?.permission) {
-    return <div className="h-[100vh] bg-[#ffffff]"></div>;
-  }
-
-  // const statusFilters = {
-  //   "Filter by Status": null,
-  //   Active: true,
-  //   Inactive: false,
-  // };
-
   const filterList = [
     { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
     {type: "dropdown", filterName: "contestStatus", name: "Filter by Status"},
@@ -429,7 +413,6 @@ const ContestManagement = () => {
     })
     setSelectedHoles(selectedHoles)
   }
-  debounceFunc
 
   const debouncedGetPlayer = useCallback(
         debounceFunc(
@@ -439,6 +422,16 @@ const ContestManagement = () => {
         ),
         [],
       );
+
+  if (userPermisions?.permission["is_player"]) {
+    return (
+      <div>
+        <ContestList />
+      </div>
+    );
+  } else if (!userPermisions?.permission) {
+    return <div className="h-[100vh] bg-[#ffffff]"></div>;
+  }
 
   return (
     <div

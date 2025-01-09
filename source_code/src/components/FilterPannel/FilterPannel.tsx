@@ -101,6 +101,8 @@ const FilterPannel: React.FC<FilterPannelProps> = ({ filterList, disabled, selec
   useEffect(() => {
     if(filterList.filterName === 'contestStatus'){
       getFilterOptions()
+    }else if(filterList.filterName === "videoStatus"){
+      getFilters("request_status", setFilterDropdown);
     }else if(filterList.filterName === 'courseFilter'){
       fetchCourseList()
     }else if(filterList.filterName  === 'holesFilter'){
@@ -151,7 +153,7 @@ const FilterPannel: React.FC<FilterPannelProps> = ({ filterList, disabled, selec
           return <MultiSelectDropdown
           label={'Filter by Holes'}
           options={filterDropdown?.data?.map((hole:any) => ({
-            id: hole.holeNumber.toString(),
+            id: hole.id.toString(),
             name: hole ? `Hole #${hole.holeNumber} - Par ${hole.par || ""}` : '',
           })) || []}
           labelKey="name"

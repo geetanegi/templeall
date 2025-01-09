@@ -16,10 +16,10 @@ import Modal from "../ModalComponent";
 import { ROUTES } from "../../utils/routesPath";
 import { useNavigate } from "react-router-dom";
 import ContestList from "../../pages/ContestList";
-import {
-  CourseApiResponse,
-  // HoleListResponse,
-} from "../AdminPanel/courses/courses.interface";
+// import {
+//   CourseApiResponse,
+//   // HoleListResponse,
+// } from "../AdminPanel/courses/courses.interface";
 import { setLoading } from "../../reducers/loader/loader";
 // import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
@@ -35,7 +35,7 @@ const tableHeaders = [
   { id: 2, key: "contestType", field: "Contest Type", isSort : true },
   { id: 3, key: "clubName", field: "Club name", isSort : true },
   { id: 4, key: "courseName", field: "Course Name", isSort : true },
-  { id: 5, key: "holeNumber", field: "Hole number", isSort : true },
+  { id: 5, key: "holeNumbers", field: "Hole number", isSort : true },
   { id: 6, key: "teeName", field: "Tee", isSort : true },
   { id: 7, key: "entryFee", field: "Entry fee", isSort : true },
   { id: 8, key: "playerCount", field: "Total Reg.", isSort : false },
@@ -71,7 +71,7 @@ const ContestManagement = () => {
   const [selectedContestType, setSelectedContestType] = useState<string | null>(
     null,
   );
-  const [courses, setCourses] = useState<CourseApiResponse | null>(null);
+  // const [courses, setCourses] = useState<CourseApiResponse | null>(null);
   // const [holesList, setHolesList] = useState<HoleListResponse | null>(null);
   const [selectedHoles, setSelectedHoles] = useState<string>("");
   const [selectedCourse, setSelectedCourse] = useState<{
@@ -87,27 +87,27 @@ const ContestManagement = () => {
   const [searchString, setSearchString] = useState<any>('')
   const dispatch = useDispatch();
 
-  const fetchCourseList = async () => {
-    try {
-      let endPoint = API_URL.getCourseList
-      if (isCourseAdmin) {
-        endPoint = API_URL.getCourseFilterForCA
-      }
-      const res = await apiService.post<CourseApiResponse>(
-        endPoint,
-        {
-          data: {},
-        },
-      );
-      if (res.status === 200 && !res.data.error) {
-        setCourses(res.data);
-      } else if (res.data.error) {
-        ToastInfo(res.data.description || "Error fetching course data");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchCourseList = async () => {
+  //   try {
+  //     let endPoint = API_URL.getCourseList
+  //     if (isCourseAdmin) {
+  //       endPoint = API_URL.getCourseFilterForCA
+  //     }
+  //     const res = await apiService.post<CourseApiResponse>(
+  //       endPoint,
+  //       {
+  //         data: {},
+  //       },
+  //     );
+  //     if (res.status === 200 && !res.data.error) {
+  //       setCourses(res.data);
+  //     } else if (res.data.error) {
+  //       ToastInfo(res.data.description || "Error fetching course data");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   // const fetchHoleList = async (selectedCourseId: string | number) => {
   //   try {
@@ -147,10 +147,10 @@ const ContestManagement = () => {
     }
   },[searchString])
 
-  useEffect(() => {
-    // getFilters("contest_type", setFilterByContest);
-    fetchCourseList();
-  }, []);
+  // useEffect(() => {
+  //   // getFilters("contest_type", setFilterByContest);
+  //   fetchCourseList();
+  // }, []);
 
   // useEffect(() => {
   //   if (selectedCourse) {
@@ -160,20 +160,20 @@ const ContestManagement = () => {
   //   }
   // }, [selectedCourse]);
 
-  const handleCoursesChange = (id:number | string) => {
-    const courseId: number | string = id;
-    if (courseId) {
-      const courseName = courses?.data?.filter(
-        (course) => course.id === Number(courseId),
-      )[0]?.courseName;
-      setSelectedCourse({ name: String(courseName), id: id});
-    } else {
-      setSelectedCourse(null);
-    }
-    setCurrentPage(0);
-    // setHolesList(null); // Reset holesList to null when course changes
-    setSelectedHoles(""); // Reset selectedHoles to an empty array
-  };
+  // const handleCoursesChange = (id:number | string) => {
+  //   const courseId: number | string = id;
+  //   if (courseId) {
+  //     const courseName = courses?.data?.filter(
+  //       (course) => course.id === Number(courseId),
+  //     )[0]?.courseName;
+  //     setSelectedCourse({ name: String(courseName), id: id});
+  //   } else {
+  //     setSelectedCourse(null);
+  //   }
+  //   setCurrentPage(0);
+  //   // setHolesList(null); // Reset holesList to null when course changes
+  //   setSelectedHoles(""); // Reset selectedHoles to an empty array
+  // };
 
   // const handleSelectedValuesChange = (selectedValues: string[]) => {
   //   let selectedHolesData = "";
@@ -329,8 +329,8 @@ const ContestManagement = () => {
           searchParams: {
             contestTypeId: selectedContestType || null,
             activeStatus: currentStatus,
-            courseName: selectedCourse?.name || null,
-            holeNumbers: selectedHoles.length ? selectedHoles : null,
+            courseId: selectedCourse || null,
+            holeIds: selectedHoles.length ? selectedHoles : null,
             cId: searchString || null
           },
           pageSortingParam: {
@@ -399,19 +399,25 @@ const ContestManagement = () => {
 
   const filterHandler = (filters: any) => {
     setSelectedContestType(filters.contest_type)
-    setCurrentStatus(filters.contestStatus || null)
-    handleCoursesChange(filters.courseFilter || null) 
+    setCurrentStatus(filters.contestStatus === "" ? null : filters.contestStatus)
+    // handleCoursesChange(filters.courseFilter || null) 
+    setSelectedCourse(filters.courseFilter)
     if(!filters.contestStatus){
       setSelectedHoles('')
     }
     let selectedHoles = ''
     filters?.holesFilter?.map((item:any, index:number)=>{
       selectedHoles += item.id
-      if(filters?.holesFilter?.length > index){
+      if(filters?.holesFilter?.length > index+1){
         selectedHoles += ','
       }
     })
-    setSelectedHoles(selectedHoles)
+    if(filters.courseFilter){
+      setSelectedHoles(selectedHoles)
+    }
+    if(!filters.courseFilter){
+      setSelectedHoles('')
+    }
   }
 
   const debouncedGetPlayer = useCallback(
@@ -536,13 +542,13 @@ const ContestManagement = () => {
               }}
             />
           </div>
-          <button className="ml-auto mr-10 text-[#4169E1]"
+          <button className="ml-auto text-[#4169E1]"
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
             Filter
           </button>
           {!isCourseAdmin && !userPermisions?.permission?.["is_player"] && (
             <button
-              className="mb-0 mt-4 flex h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
+              className="mb-0 mt-4 flex ml-10 h-9 gap-2 rounded-md bg-primaryColor px-4 py-2 pb-0 pt-2 text-sm text-white md:mr-2 md:mt-0 md:px-6"
               onClick={() => {
                 navigate(ROUTES.CONTESTS, { state: "CREATE_CONTEST" });
               }}
@@ -576,9 +582,9 @@ const ContestManagement = () => {
         filterList={filterList}
         filterHandler={filterHandler}
 
-      >
+      />
 
-      </FilterPannelDrawer>
+      {/* </FilterPannelDrawer> */}
 
       <ContestModal
         isContestModalOpen={isContestModalOpen}

@@ -100,7 +100,7 @@ const MUISelect: React.FC<SelectProps> = ({
                 labelId={`${name}-label`}
                 id={name}
                 {...field}
-                value={field.value || ""}
+                value={field.value}
                 onChange={handleSelectChange}
                 disabled={disabled}
                 label={label}

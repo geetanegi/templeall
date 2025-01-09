@@ -16,17 +16,18 @@ import { setLoading } from "../../reducers/loader/loader";
 import RejectConfirmationModal from "./RejectConfirmationModal";
 // import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
-import { getFilters } from "../../utils/genericApiCalls";
+// import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import { constantWords } from "../../utils/constantEnums";
+import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
 
 interface MediaManagementProps {}
 
-type ContestType = {
-  id: string | number;
-  type: string;
-  displayName: string;
-};
+// type ContestType = {
+//   id: string | number;
+//   type: string;
+//   displayName: string;
+// };
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -34,7 +35,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] =
     useState<boolean>(false);
-  const [isSoTW, setIsSoTW] = useState<boolean>(false);
   const [videoCategory, setVideoCategory] = useState<string>("");
   const [selectedReqVideoId, setSelectedReqVideoId] = useState<number | string>(
     "",
@@ -55,8 +55,10 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [uploadSotwProgressArr, setUploadSotwProgressArr] = useState<
     Array<any>
   >([]);
-  const [filterArray, setFilterArray] = useState<ContestType[]>([]);
-  // const [courseSpecificVideoCount, setCourseSpecificVideoCount] = useState<string |number>(0)
+  // const [filterArray, setFilterArray] = useState<ContestType[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
+  const [filterObject, setFilterObject] = useState<any>({})
+  const [isTabchanged, setIsTabChanged] = useState<boolean>(false)
   const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
  
   const userPermisions = userPermissionAvailable && JSON.parse(
@@ -69,7 +71,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsSoTW(false);
     getAllMediaCounts();
     setFilterValue("");
   }, [selectedTab, isRefreshList, uploadProgressArr, uploadSotwProgressArr]);
@@ -78,16 +79,19 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     fetchCourseData();
   }, []);
 
-  const computeFilterDropDown = (selectedTab: number) => {
-    if (selectedTab === 1) {
-      getFilters("contest_type", setFilterArray);
-    } else if (selectedTab === 2) {
-      getFilters("request_status", setFilterArray);
-    }
-  };
+  // const computeFilterDropDown = (selectedTab: number) => {
+  //   if (selectedTab === 1) {
+  //     getFilters("contest_type", setFilterArray);
+  //   } else if (selectedTab === 2) {
+  //     getFilters("request_status", setFilterArray);
+  //   }
+  // };
 
   useEffect(() => {
-    computeFilterDropDown(selectedTab);
+    // computeFilterDropDown(selectedTab);
+    setFilterObject({})
+    setIsTabChanged(true); // Close the drawer temporarily
+  setTimeout(() => setIsTabChanged(false), 0); 
   }, [selectedTab]);
 
   const getAllMediaCounts = async () => {
@@ -168,9 +172,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       console.error(error);
     }
   };
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterValue(event.target.value);
-  };
+  // const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setFilterValue(event.target.value);
+  // };
 
   const handleInprogressVideoList = (data: any, action: string) => {
     if (action === "add") {
@@ -213,6 +217,52 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       );
     }
   };
+ 
+
+  const filterHandler = (filters: any) => {
+    let selectedHoles = ''
+    filters?.holesFilter?.map((item:any, index:number)=>{
+      selectedHoles += item.id
+      if(filters?.holesFilter?.length > index){
+        selectedHoles += ','
+      }
+    })
+    const obj = {
+      contestType: filters.contest_type || null,
+      courseId: filters.courseFilter || null,
+      holeNumber: selectedHoles || null,
+      videoStatus: filters.videoStatus || null
+    }
+    setFilterObject(obj)
+
+    if(!filters.courseFilter){
+      setFilterObject({...obj, holeNumber: null})
+    }
+
+    // setSelectedContestType(filters.contest_type)
+    // // setCurrentStatus(filters.contestStatus || null)
+    // setSelectedCourse(filters.courseFilter || null) 
+    // if(!filters.courseFilter ){
+    //   setSelectedHoles('')
+    // }
+    
+    // setSelectedHoles(selectedHoles)
+  }
+
+  let filterList = [
+    { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
+    {type: "dropdown", filterName: "courseFilter", name: "Filter by Course"},
+    {type: "multi-select", filterName: "holesFilter", name: "Filter by Holes"},
+  ]
+
+  if(selectedTab === 2){
+    filterList = [
+      { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
+      {type: "dropdown", filterName: "videoStatus", name: "Filter by Status"},
+      {type: "dropdown", filterName: "courseFilter", name: "Filter by Course"},
+      {type: "multi-select", filterName: "holesFilter", name: "Filter by Holes"},
+    ]
+  }
 
   if (userPermisions?.permission["is_player"]) {
     return <PlayerMediaPage />;
@@ -278,8 +328,12 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             ) : null}
           </div>
         ) : null}
+        <button className="ml-auto text-[#4169E1]"
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+            Filter
+          </button>
         <div className="flex gap-[16px]">
-          {selectedTab !== 3 ? (
+          {/* {selectedTab !== 3 ? (
             <div className="align-center flex">
               <select
                 id="courses"
@@ -297,12 +351,11 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 })}
               </select>
             </div>
-          ) : null}
+          ) : null} */}
           {selectedTab === 3 && userPermisions?.permission?.["is_super_admin"] ? (
             <button
-              className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
+              className="flex items-center justify-center whitespace-nowrap  ml-10 rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {
-                setIsSoTW(true);
                 setIsSOTWModalOpen(true);
               }}
             >
@@ -333,13 +386,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         isSOTWModalOpen={isSOTWModalOpen}
         uploadSotwProgressArr={uploadSotwProgressArr}
         getAllMediaCounts={getAllMediaCounts}
+        filterObject={filterObject}
       />
 
       <UploadVideoModal
         isModalOpen={isModalOpen}
         selectedTab={selectedTab}
         setIsModalOpen={setIsModalOpen}
-        isSoTW={isSoTW}
         videoCategory={videoCategory}
         selectedReqVideoId={selectedReqVideoId}
         setIsRefreshList={setIsRefreshList}
@@ -349,7 +402,6 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       <UploadShotOfTheWeekModal
         isModalOpen={isSOTWModalOpen}
         setIsModalOpen={setIsSOTWModalOpen}
-        isSoTW={isSoTW}
         videoCategory={videoCategory}
         selectedReqVideoId={selectedReqVideoId}
         setIsRefreshList={setIsRefreshList}
@@ -374,6 +426,13 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         setIsStatusChange={setIsStatusChange}
         isStatusChange={isStatusChange}
       />
+      {!isTabchanged && <FilterPannelDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        filterList={filterList}
+        filterHandler={filterHandler}
+
+      />}
     </div>
   );
 };

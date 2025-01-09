@@ -50,6 +50,7 @@ interface MediaManagementTableProps {
   isSOTWModalOpen: boolean;
   uploadSotwProgressArr: Array<any>;
   getAllMediaCounts: () => {}
+  filterObject:any
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -72,7 +73,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   isModalOpen,
   isSOTWModalOpen,
   uploadSotwProgressArr,
-  getAllMediaCounts
+  getAllMediaCounts,
+  filterObject
 }) => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -104,7 +106,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       setRowData([]);
     }
     setTotalPages(0);
-  }, [selectedTab, isRefreshList, currentPage, filterValue]);
+  }, [selectedTab, isRefreshList, currentPage, filterValue, filterObject]);
 
   useEffect(() => {
     setActiveStatus(constantWords.PENDING);
@@ -136,6 +138,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       computeRowData(fetchedData);
     }
   }, [activeStatus, isVisible]);
+
 
   const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
     try {
@@ -170,6 +173,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         pageNumber: currentPage,
         pageSize: pageSize,
       };
+      payload.searchParams = {
+        "holeIds": filterObject.holeNumber ,
+        "courseId": filterObject.courseId,
+        "contestTypeId": filterObject.contestType
+    }
     } else if (selectedTab === 1) {
       payload.pageSortingParam = {
         sortDir: sortDir || "DESC",
@@ -177,9 +185,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         pageNumber: currentPage,
         pageSize: pageSize,
       };
-      if (filterValue) {
+      if (filterObject) {
         payload.searchParams = {
-          "scheduleContest.contest.contestType.id": filterValue,
+          "holeIds": filterObject.holeNumber ,
+          "courseId": filterObject.courseId,
+          "contestTypeId": filterObject.contestType
         };
       }
     } else if (selectedTab === 2) {
@@ -189,9 +199,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         pageNumber: currentPage,
         pageSize: pageSize,
       };
-      if (filterValue) {
+      if (filterObject) {
         payload.searchParams = {
-         "statusId": filterValue,
+         "statusId": filterObject.videoStatus,
+         "holeIds": filterObject.holeNumber ,
+          "courseId": filterObject.courseId,
+          "contestTypeId": filterObject.contestType
         }   
       }
     }
@@ -206,8 +219,12 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         pageNumber: currentPage,
         pageSize: pageSize,
       };
-      if (filterValue) {
-        payload.contestTypeId = filterValue
+      if (filterObject) {
+        payload.searchParams = {
+          "holeIds": filterObject.holeNumber ,
+          "courseId": filterObject.courseId,
+          "contestTypeId": filterObject.contestType
+        };
       }
     }
 
@@ -354,8 +371,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             reuestDate: moment
               .utc(data?.startTime)
               .local()
-              .format("MM-DD-YYYY"),
-            time: moment.utc(data?.startTime).local().format("hh:mm A"),
+              .format("MM-DD-YYYY hh:mm A"),
+            // time: moment.utc(data?.startTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">
                 <CirclePlay
@@ -377,8 +394,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.hitTime).local().format("MM-DD-YYYY"),
-            time: moment.utc(data?.hitTime).local().format("hh:mm A"),
+            date: moment.utc(data?.hitTime).local().format("MM-DD-YYYY hh:mm A"),
+            // time: moment.utc(data?.hitTime).local().format("hh:mm A"),
             upload: uploadProgressArr?.find(
               (vid: any) => vid.id === data.id,
             ) ? (
@@ -441,17 +458,17 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             setIsVideoPlayerVisible(true);
           };
           return {
-            playerUserName: data?.username || "",
-            reuestDate: moment
-              .utc(data?.requestTime)
-              .local()
-              .format("MM-DD-YYYY"),
             contestName: data?.contestType || "",
             club: data?.clubName || "",
             course: data?.courseName || "",
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
-            time: moment.utc(data?.hitTime).local().format("hh:mm A"),
+            playerUserName: data?.username || "",
+            reuestDate: moment
+              .utc(data?.requestTime)
+              .local()
+              .format("MM-DD-YYYY hh:mm A"),
+            // time: moment.utc(data?.hitTime).local().format("hh:mm A"),
             Category: (
               <div className="relative inline-block flex items-center text-[14px]">
                 {data.videoCategory}
@@ -513,8 +530,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
             playerUserName: data?.username || "",
-            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY"),
-            time: moment.utc(data?.startTime).local().format("h:mm A"),
+            date: moment.utc(data?.startTime).local().format("MM-DD-YYYY h:mm A"),
+            // time: moment.utc(data?.startTime).local().format("h:mm A"),
             upload: data.chunkNo ? (
               <div className="w-full py-4">
                 <ProgressBar
@@ -565,6 +582,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             selectedTab,
             isCourseAdmin ? "courseAdmin" : "",
           )}
+          selectedTab={selectedTab}
           currentPage={currentPage}
           pageSize={pageSize}
           totalPages={totalPages}

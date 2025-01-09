@@ -18,7 +18,6 @@ import { validationConstant } from "../../utils/validationEnums";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
-  isSoTW: boolean;
   videoCategory: string;
   selectedReqVideoId: number | string;
   setIsRefreshList: (flag: boolean) => void;

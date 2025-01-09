@@ -71,7 +71,7 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { email, maskEmail } = location.state || {};
+  const { email, maskEmail, uniqueAppleId } = location.state || {};
 
   const downloadTermsAndConditionsFunc = () => {
     viewPdf(TermsAndConditionsPdf);
@@ -115,7 +115,8 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
   const handleSubmit = async (values: SocialLoginInputsInterface) => {
     dispatch(setLoading(true));
     try {
-      const payload = {
+      let payload = {}
+       payload = {
         username: values.username,
         firstName: values.firstName,
         lastName: values.lastName,
@@ -124,6 +125,12 @@ const SocialLoginScreen: React.FC<SocialLoginScreenProps> = () => {
         countryCode: values.countryCode,
         mode: "WEB",
       };
+      if(uniqueAppleId){
+        payload = {
+          ...payload,
+          uniqueAppleId
+        }
+      }
 
       const { data, status } = await apiService.post<any>(
         API_URL.socialLoginRegistration,

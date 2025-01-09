@@ -54,6 +54,7 @@ const AppleSignInButton: React.FC = () => {
             state: {
               email: data?.data?.emailId,
               maskEmail: data?.data?.maskEmail,
+              uniqueAppleId: data?.data?.uniqueAppleId
             },
           });
         }

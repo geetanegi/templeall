@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Drawer from '../GenericUIcomponents/DrawerComponent'
 import FilterPannel from './FilterPannel';
 import { Form, Formik } from 'formik';
@@ -24,12 +24,25 @@ const FilterPannelDrawer: React.FC<FilterPannelDrawerProps> = ({
     filterHandler
 }) => {
 
+    const [refreshFilter, setRefreshFilter] = useState<boolean>(false)
+
     const handleSubmit = (
         values: any
     ) => {
         filterHandler(values)
         setIsDrawerOpen(false)
     }
+
+    const handleClearAll = (resetForm: (nextState?: any) => void) => {
+        const initialValues = filterList.reduce((acc: any, filter) => {
+            acc[filter.filterName] = filter.type === 'multi-select' ? [] : ''; 
+            return acc;
+        }, {});
+
+        resetForm({ values: initialValues });
+        setRefreshFilter(true); 
+        setTimeout(() => setRefreshFilter(false), 0);
+    };
 
     return (
         <Drawer
@@ -38,25 +51,34 @@ const FilterPannelDrawer: React.FC<FilterPannelDrawerProps> = ({
             className='w-[30vw] h-full'
             title='Filter panel '
         >
+
             <Formik
-                initialValues={{courseFilter: ''}}
+                initialValues={{ courseFilter: '' }}
                 onSubmit={handleSubmit}
                 enableReinitialize={true}
             >
-                {({values}) => {
+
+                {({ values, resetForm }) => {
 
                     return <Form>
+                        <div className='flex'>
+                            <button className='ml-auto mr-5 mt-5 text-[#4169E1]'
+                                type='button'
+                                onClick={() => handleClearAll(resetForm)}
+                            >Clear All</button>
+                        </div>
                         <div className='h-screen flex flex-col '>
                             <div className='p-5 flex flex-col gap-4'>
                                 {
-                                 filterList.map((filter: filterListType) => (
+                                    !refreshFilter && filterList.map((filter: filterListType) => (
                                         <FilterPannel
                                             filterList={filter}
                                             disabled={!(values.courseFilter)}
                                             selectedCourse={values.courseFilter}
-                                             />))
+                                        />))
                                 }
                             </div>
+
                             <div className='mt-auto absolute w-full gap-3 border-t py-3 bottom-11 flex'>
                                 <button
                                     type="button"
@@ -75,6 +97,7 @@ const FilterPannelDrawer: React.FC<FilterPannelDrawerProps> = ({
                     </Form>
                 }}
             </Formik>
+
         </Drawer>
     )
 }

@@ -30,6 +30,7 @@ const AppleSignInButton: React.FC = () => {
 
   const handleLoginSuccess = async (response: any) => {
     dispatch(setLoading(true));
+    console.log("apple response", response)
     try {
       const { data, status } = await apiService.post<any>(
         API_URL.verifyAppleeToken,

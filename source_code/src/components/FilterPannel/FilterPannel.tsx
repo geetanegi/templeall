@@ -101,6 +101,8 @@ const FilterPannel: React.FC<FilterPannelProps> = ({ filterList, disabled, selec
   useEffect(() => {
     if(filterList.filterName === 'contestStatus'){
       getFilterOptions()
+    }else if(filterList.filterName === "videoStatus"){
+      getFilters("request_status", setFilterDropdown);
     }else if(filterList.filterName === 'courseFilter'){
       fetchCourseList()
     }else if(filterList.filterName  === 'holesFilter'){

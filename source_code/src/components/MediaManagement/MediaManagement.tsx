@@ -16,18 +16,18 @@ import { setLoading } from "../../reducers/loader/loader";
 import RejectConfirmationModal from "./RejectConfirmationModal";
 // import { computeFilterDropDown } from "./mediaUtils/mediaUtils";
 import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
-import { getFilters } from "../../utils/genericApiCalls";
+// import { getFilters } from "../../utils/genericApiCalls";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import { constantWords } from "../../utils/constantEnums";
 import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
 
 interface MediaManagementProps {}
 
-type ContestType = {
-  id: string | number;
-  type: string;
-  displayName: string;
-};
+// type ContestType = {
+//   id: string | number;
+//   type: string;
+//   displayName: string;
+// };
 
 const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -55,7 +55,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [uploadSotwProgressArr, setUploadSotwProgressArr] = useState<
     Array<any>
   >([]);
-  const [filterArray, setFilterArray] = useState<ContestType[]>([]);
+  // const [filterArray, setFilterArray] = useState<ContestType[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [filterObject, setFilterObject] = useState<any>({})
   const [isTabchanged, setIsTabChanged] = useState<boolean>(false)
@@ -79,16 +79,16 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     fetchCourseData();
   }, []);
 
-  const computeFilterDropDown = (selectedTab: number) => {
-    if (selectedTab === 1) {
-      getFilters("contest_type", setFilterArray);
-    } else if (selectedTab === 2) {
-      getFilters("request_status", setFilterArray);
-    }
-  };
+  // const computeFilterDropDown = (selectedTab: number) => {
+  //   if (selectedTab === 1) {
+  //     getFilters("contest_type", setFilterArray);
+  //   } else if (selectedTab === 2) {
+  //     getFilters("request_status", setFilterArray);
+  //   }
+  // };
 
   useEffect(() => {
-    computeFilterDropDown(selectedTab);
+    // computeFilterDropDown(selectedTab);
     setFilterObject({})
     setIsTabChanged(true); // Close the drawer temporarily
   setTimeout(() => setIsTabChanged(false), 0); 
@@ -172,9 +172,9 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
       console.error(error);
     }
   };
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterValue(event.target.value);
-  };
+  // const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setFilterValue(event.target.value);
+  // };
 
   const handleInprogressVideoList = (data: any, action: string) => {
     if (action === "add") {
@@ -230,7 +230,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     const obj = {
       contestType: filters.contest_type || null,
       courseId: filters.courseFilter || null,
-      holeNumber: selectedHoles || null
+      holeNumber: selectedHoles || null,
+      videoStatus: filters.videoStatus || null
     }
     setFilterObject(obj)
 
@@ -248,13 +249,20 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     // setSelectedHoles(selectedHoles)
   }
 
-  const filterList = [
+  let filterList = [
     { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
-    // {type: "dropdown", filterName: "contestStatus", name: "Filter by Status"},
     {type: "dropdown", filterName: "courseFilter", name: "Filter by Course"},
     {type: "multi-select", filterName: "holesFilter", name: "Filter by Holes"},
-  
   ]
+
+  if(selectedTab === 2){
+    filterList = [
+      { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
+      {type: "dropdown", filterName: "videoStatus", name: "Filter by Status"},
+      {type: "dropdown", filterName: "courseFilter", name: "Filter by Course"},
+      {type: "multi-select", filterName: "holesFilter", name: "Filter by Holes"},
+    ]
+  }
 
   if (userPermisions?.permission["is_player"]) {
     return <PlayerMediaPage />;
@@ -320,12 +328,12 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             ) : null}
           </div>
         ) : null}
-        <button className="ml-auto mr-10 text-[#4169E1]"
+        <button className="ml-auto text-[#4169E1]"
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
             Filter
           </button>
         <div className="flex gap-[16px]">
-          {selectedTab !== 3 ? (
+          {/* {selectedTab !== 3 ? (
             <div className="align-center flex">
               <select
                 id="courses"
@@ -343,10 +351,10 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
                 })}
               </select>
             </div>
-          ) : null}
+          ) : null} */}
           {selectedTab === 3 && userPermisions?.permission?.["is_super_admin"] ? (
             <button
-              className="flex items-center justify-center whitespace-nowrap rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
+              className="flex items-center justify-center whitespace-nowrap  ml-10 rounded-md bg-primaryColor px-6 font-[14px] text-[#ffffff]"
               onClick={() => {
                 setIsSOTWModalOpen(true);
               }}

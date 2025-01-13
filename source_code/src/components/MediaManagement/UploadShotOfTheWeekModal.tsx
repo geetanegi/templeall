@@ -236,7 +236,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     try {
       if (videoFile) {
         dispatch(setLoading(true));
-        const name = videoFile.name + uuid();
+        const name = uuid() + videoFile.name;
         let fileName = new Blob([name], {
           type: "application/json",
         });

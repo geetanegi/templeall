@@ -85,7 +85,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
       courseList: club.courseList.map((course:any) => ({
         ...course,
         holeList: course?.holeList?.filter((hole:any) =>{ 
-          debugger
           return selectedHoleIds?.includes(String(hole?.id))}) // Filter by selected holes
       }))
     }));

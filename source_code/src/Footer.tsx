@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
           <p
             className={`whitespace-nowrap p-2 text-[13px] font-medium text-textColor`}
           >
-            © 2024 AceCam
+            © 2025 AceCam
             <sup className="text-[8px] font-medium">TM&nbsp;</sup>{" "}
             {/* <span className="align-super text-xs">™&nbsp;</span> */}
             Golf, LLC. All rights reserved.

@@ -194,7 +194,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
             </div>
 
             <div className="flex flex-col place-items-end">
-              <p className="text-xs font-normal text-[#3C3C4399]">{`${moment(teeContest.registrationStartTime).format("hh:mm A")} - ${moment(teeContest.registrationEndTime).format("hh:mm A")} `}</p>{" "}
+              <p className="text-xs font-normal text-[#3C3C4399]">{`${moment.utc(teeContest.registrationStartTime).local().format("MM/DD/YYYY hh:mm A")} - ${moment.utc(teeContest.registrationEndTime).local().format("MM/DD/YYYY hh:mm A")} `}</p>{" "}
               <span className="mt-[4px] flex items-center rounded-md bg-green-100 px-2">
                 <img src={GolfTee} alt="" className="" />
                 <span className="p-1 text-xs font-semibold text-green-700">

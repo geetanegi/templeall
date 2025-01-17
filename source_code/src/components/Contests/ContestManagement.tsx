@@ -85,6 +85,7 @@ const ContestManagement = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [sortConfig, setSortConfig] = useState<any>({sortDir: null, sortBy: null})
   const [searchString, setSearchString] = useState<any>('')
+  const [searchQuery, setSearchQuery] = useState<any>('')
   const dispatch = useDispatch();
 
   // const fetchCourseList = async () => {
@@ -145,7 +146,7 @@ const ContestManagement = () => {
     if (!userPermisions?.permission?.["is_player"]) {
       fetchContestList(sortConfig.sortDir, sortConfig.sortBy);
     }
-  },[searchString])
+  },[searchQuery])
 
   // useEffect(() => {
   //   // getFilters("contest_type", setFilterByContest);
@@ -423,7 +424,7 @@ const ContestManagement = () => {
   const debouncedGetPlayer = useCallback(
         debounceFunc(
           (value: React.ChangeEvent<HTMLInputElement>) =>
-            setSearchString(value.target.value),
+            setSearchQuery(value.target.value),
           1000,
         ),
         [],

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 // lucide icons imports
-import { FileVideo2 } from "lucide-react";
+import { FileVideo2, Search } from "lucide-react";
 import MediaManagementTable from "./MediaManagementTable";
 import UploadVideoModal from "./UploadVideoModal";
 import VideoPlayer from "./VideoPlayer";
@@ -20,6 +20,7 @@ import UploadShotOfTheWeekModal from "./UploadShotOfTheWeekModal";
 import { decryptData, secretKey } from "../../utils/encrypt";
 import { constantWords } from "../../utils/constantEnums";
 import FilterPannelDrawer from "../FilterPannel/FilterPannelDrawer";
+import { debounceFunc } from "../../utils/debounce-utils";
 
 interface MediaManagementProps {}
 
@@ -59,6 +60,8 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [filterObject, setFilterObject] = useState<any>({})
   const [isTabchanged, setIsTabChanged] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<any>('')
+
   const userPermissionAvailable = useSelector((state: RootState) => state?.auth?.userPermissions)
  
   const userPermisions = userPermissionAvailable && JSON.parse(
@@ -248,6 +251,14 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
     
     // setSelectedHoles(selectedHoles)
   }
+    const debouncedGetPlayer = useCallback(
+          debounceFunc(
+            (value: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchQuery(value.target.value),
+            1000,
+          ),
+          [],
+        );
 
   let filterList = [
     { type: "dropdown", filterName: "contest_type", name: "Filter by Contests" },
@@ -332,6 +343,30 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
             Filter
           </button>
+         <div className="align-center mt-5 flex w-full justify-between ml-10 rounded-md border border-gray-300 bg-gray-100 px-4 py-2 md:mt-0 md:w-[320px]">
+            <input
+              className="w-full bg-gray-100 pl-2 focus:outline-none"
+              type="text"
+              onChange={(e) => {
+                debouncedGetPlayer(e);
+              }}
+              placeholder={'Search by player'}
+              maxLength={100}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  // handleUserSearch(searchString);
+                }
+              }}
+            />
+            <Search
+              size={20}
+              color="gray"
+              onClick={() => {
+                // handleUserSearch(searchString);
+              }}
+            />
+          </div>
+        
         <div className="flex gap-[16px]">
           {/* {selectedTab !== 3 ? (
             <div className="align-center flex">
@@ -387,6 +422,7 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
         uploadSotwProgressArr={uploadSotwProgressArr}
         getAllMediaCounts={getAllMediaCounts}
         filterObject={filterObject}
+        searchQuery={searchQuery}
       />
 
       <UploadVideoModal

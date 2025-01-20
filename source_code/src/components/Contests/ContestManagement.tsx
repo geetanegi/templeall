@@ -527,7 +527,7 @@ const ContestManagement = () => {
                 setCurrentPage(0);
                 setSearchString(e.target.value);
               }}
-              placeholder={'Search by contest id'}
+              placeholder={'Search by Contest ID'}
               maxLength={100}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {

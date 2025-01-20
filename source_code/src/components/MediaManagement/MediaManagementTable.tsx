@@ -51,6 +51,7 @@ interface MediaManagementTableProps {
   uploadSotwProgressArr: Array<any>;
   getAllMediaCounts: () => {}
   filterObject:any
+  searchQuery:string
 }
 
 const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
@@ -74,7 +75,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   isSOTWModalOpen,
   uploadSotwProgressArr,
   getAllMediaCounts,
-  filterObject
+  filterObject,
+  searchQuery
 }) => {
   const loader = useSelector((state: RootState) => state.loader.isLoading);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
@@ -139,6 +141,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
     }
   }, [activeStatus, isVisible]);
 
+  useEffect(()=>{
+    getVideosList(null, null)
+    setCurrentPage(0)
+  },[searchQuery])
+
 
   const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
     try {
@@ -178,6 +185,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
         "courseId": filterObject.courseId,
         "contestTypeId": filterObject.contestType
     }
+    if(searchQuery){
+      payload.searchParams = { 
+        player: searchQuery
+      }
+    }
     } else if (selectedTab === 1) {
       payload.pageSortingParam = {
         sortDir: sortDir || "DESC",
@@ -191,6 +203,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
           "courseId": filterObject.courseId,
           "contestTypeId": filterObject.contestType
         };
+      }
+      if(searchQuery){
+        payload.searchParams = { 
+          player: searchQuery
+        }
       }
     } else if (selectedTab === 2) {
       payload.pageSortingParam = {
@@ -206,6 +223,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
           "courseId": filterObject.courseId,
           "contestTypeId": filterObject.contestType
         }   
+      }
+      if(searchQuery){
+        payload.searchParams = { 
+          player: searchQuery
+        }
       }
     }
 
@@ -226,7 +248,16 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
           "contestTypeId": filterObject.contestType
         };
       }
+      if(searchQuery){
+        payload.searchParams = { 
+          player: searchQuery
+        }
+      }
     }
+
+    
+
+
 
     const { data, status } = await apiService.post<any>(endPoint, {
       data: payload,

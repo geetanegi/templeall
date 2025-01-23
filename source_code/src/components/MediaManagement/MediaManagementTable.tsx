@@ -105,12 +105,17 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
   useEffect(() => {
-    getVideosList(sortConfig.sortDir, sortConfig.sortBy);
+    getVideosList(null, null);
+    setSortConfig({sortDir: null, sortBy: null})
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
     setTotalPages(0);
-  }, [selectedTab, isRefreshList, currentPage, filterValue, filterObject]);
+  }, [selectedTab, isRefreshList,]);
+
+  useEffect(()=>{
+    getVideosList(sortConfig.sortDir, sortConfig.sortBy);
+  },[ currentPage, filterValue, filterObject])
 
   useEffect(() => {
     setActiveStatus(constantWords.PENDING);

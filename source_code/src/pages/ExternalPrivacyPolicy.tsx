@@ -665,7 +665,7 @@ const ExternalPrivacyPolicy = () => {
                         </a>
                     </p>
                     <p className="mt-2 text-gray-500">
-                        © 2024 AceCam Golf, LLC. All rights reserved.
+                        © 2025 AceCam Golf, LLC. All rights reserved.
                     </p>
                 </footer>
             </div>

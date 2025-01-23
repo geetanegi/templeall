@@ -153,7 +153,7 @@ const AuthStructure: React.FC = () => {
             <div className="mb-10 mb-2 flex items-center justify-center gap-2 md:mb-0">
               <div className="right-1 top-[1px] flex">
                 <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                  © 2024 AceCam
+                  © 2025 AceCam
                   <sup className="text-[8px]">TM&nbsp;</sup>{" "}
                   {/* <span className="align-super text-xs">™&nbsp;</span> */}
                   Golf, LLC. All rights reserved.

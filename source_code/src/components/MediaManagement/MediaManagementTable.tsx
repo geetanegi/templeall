@@ -23,6 +23,7 @@ import { RootState } from "../../store";
 import { setLoading } from "../../reducers/loader/loader";
 import ProgressBar from "../GenericUIcomponents/ProgressBar";
 import { constantWords } from "../../utils/constantEnums";
+import TooltipSpan from "../Tooltip/TooltipSpan";
 
 interface MediaManagementTableProps {
   setIsVideoPlayerVisible: (flag: boolean) => void;
@@ -96,6 +97,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalElement, setTotalElement] = useState<number>(10)
+  const [sortConfig, setSortConfig] = useState<any>({sortDir: null, sortBy: null})
   const dispatch = useDispatch();
 
 
@@ -104,11 +106,16 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
   useEffect(() => {
     getVideosList(null, null);
+    setSortConfig({sortDir: null, sortBy: null})
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
     setTotalPages(0);
-  }, [selectedTab, isRefreshList, currentPage, filterValue, filterObject]);
+  }, [selectedTab, isRefreshList,]);
+
+  useEffect(()=>{
+    getVideosList(sortConfig.sortDir, sortConfig.sortBy);
+  },[ currentPage, filterValue, filterObject])
 
   useEffect(() => {
     setActiveStatus(constantWords.PENDING);
@@ -148,6 +155,11 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
   const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
+    if(sortDir && sortBy){
+      setSortConfig({sortDir, sortBy})
+    }else{
+      setSortConfig({sortDir: null, sortBy: null})
+    }
     try {
       if (!isModalOpen && !isSOTWModalOpen) {
         dispatch(setLoading(true));
@@ -407,14 +419,27 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             // time: moment.utc(data?.startTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">
-                <CirclePlay
-                  className="cursor-pointer text-[#0077B6]"
-                  size={18}
-                  onClick={() => {
-                    setIsVideoPlayerVisible(true);
-                    setSelectedVideo(data.url);
-                  }}
-                />
+                {
+                  !data?.url ?
+                   <TooltipSpan
+                   text={<CirclePlay
+                    className={` text-[#808080] cursor-not-allowed` }
+                    size={18}
+                  />}
+                   tooltip={"Video not uploaded"}
+                   needPY={false}
+                   position="top"
+                 />
+                 :
+                 <CirclePlay
+                   className={`text-[#0077B6] cursor-pointer ml-1` }
+                   size={18}
+                   onClick={() => {
+                     setIsVideoPlayerVisible(true);
+                     setSelectedVideo(data.url);
+                   }}
+                 />
+                }
               </div>
             ),
           };

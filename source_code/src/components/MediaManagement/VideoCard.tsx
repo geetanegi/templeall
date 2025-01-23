@@ -95,7 +95,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [duration, setDuration] = useState<number | null>(null);
+  const [, setDuration] = useState<number | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [like, setlike] = useState<{
     islike: Boolean;
@@ -106,6 +106,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
     likecount: requestVideoPayload?.videos?.likes || 0,
     click: false,
   });
+
   const [videodetails, setVideoDetails] = useState<any>({
     ...(requestVideoPayload?.videos || {}),
   });
@@ -176,7 +177,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <p className="text-[12px]">{uploadDate}</p>
           </div>
           <div className="mt-[10px] flex items-center gap-1 text-sm font-light">
-            <Trophy size={13} /> <span className="text-[12px]">{title}</span>{" "}
+            <Trophy size={12} /> <span className="text-[12px]">{title}</span>{" "}
           </div>
           <div className="mt-1 items-center justify-start text-white">
             <div className="-mt-[6px] flex flex-wrap items-center text-[14px]">
@@ -511,7 +512,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 <span>{requestVideoPayload.type === "SOTW" || requestVideoPayload.type === "WIN" ? computeCategory() : requestVideoPayload.videoCategory}</span>
                 <span className="ml-auto text-[10px] text-[#FFFFFF]">
                   <span className="mr-[10px]">|</span>
-                  {duration ? Math.floor(duration * 100) / 100 : ""}
+                  {requestVideoPayload?.videos?.videoLength || ""}
                 </span>
               </div>
             </div>

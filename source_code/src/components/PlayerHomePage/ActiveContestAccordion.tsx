@@ -138,7 +138,7 @@ const ActiveContestAccordion: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-[14px] font-bold text-white">
-                              {item.contestType + " " + item.cid}
+                              {`${item.contestType}  (${item.cid})`}
                             </p>
                             <p className="text-[12px] font-thin text-white">
                               Entry Fees:{" "}

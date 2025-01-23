@@ -74,9 +74,12 @@ const MediaManagement: React.FC<MediaManagementProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllMediaCounts();
     setFilterValue("");
   }, [selectedTab, isRefreshList, uploadProgressArr, uploadSotwProgressArr]);
+
+  useEffect(()=>{
+    getAllMediaCounts();
+  }, [selectedTab, isRefreshList])
 
   useEffect(() => {
     fetchCourseData();

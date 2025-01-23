@@ -412,6 +412,7 @@ const UpdatePlayerInformationModal: React.FC<updateProfileModalprops> = ({
                       validateRegex={/^\d*\.?\d*$/}
                       maxLength={maxLength}
                       placeholder="HDCP"
+                      required={true}
                       type="text"
                     />
                     

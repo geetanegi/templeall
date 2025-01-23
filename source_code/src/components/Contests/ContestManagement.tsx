@@ -316,6 +316,8 @@ const ContestManagement = () => {
   const fetchContestList = async (sortDir:string | null, sortBy:string | null) => {
     if(sortDir && sortBy){
       setSortConfig({sortDir, sortBy})
+    }else{
+      setSortConfig({sortDir: null, sortBy: null})
     }
     try {
       let endPoint = API_URL.getAllContests

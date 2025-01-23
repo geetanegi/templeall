@@ -6,7 +6,7 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   if (renderFor === "courseAdmin") {
     return [
       { id: 0, key: "cId", field: "Contest ID", isSort : true },
-      { id: 3, key: "contestType", field: "Contest Name", isSort: true },
+      { id: 3, key: "contestName", field: "Contest Name", isSort: true },
       { id: 4, key: "clubName", field: "Club", isSort: true },
       { id: 5, key: "courseName", field: "Course", isSort: true },
       { id: 6, key: "holeNumbers", field: "Hole", isSort: true },
@@ -18,7 +18,7 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   } else if (tab === 1) {
     return [
       { id: 0, key: "cId", field: "Contest ID", isSort : true },
-      { id: 1, key: "contestType", field: "Contest Name", isSort: true },
+      { id: 1, key: "contestName", field: "Contest Name", isSort: true },
       { id: 2, key: "clubName", field: "Club", isSort: true },
       { id: 3, key: "courseName", field: "Course", isSort: true },
       { id: 4, key: "holeNumbers", field: "Hole", isSort: true },
@@ -30,7 +30,7 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   } else if (tab === 2) {
     return [
       { id: 0, key: "cId", field: "Contest ID", isSort : true },
-      { id: 3, key: "contestType", field: "Contest Name", isSort: true },
+      { id: 3, key: "contestName", field: "Contest Name", isSort: true },
       { id: 4, key: "clubName", field: "Club", isSort: true },
       { id: 5, key: "courseName", field: "Course", isSort: true },
       { id: 6, key: "holeNumbers", field: "Hole", isSort: true },

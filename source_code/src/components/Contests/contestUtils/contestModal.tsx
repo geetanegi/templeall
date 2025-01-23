@@ -28,7 +28,7 @@ const handleClose = () => {
       onClose={handleClose}
       title={`Viewing Contest ID ${cid || ""}`}
     >
-      <div className="px-6 py-6 pt-5  rounded-md overflow-auto">
+      <div className="px-6 py-6 pt-5  rounded-md ">
         <Contests contestId={contestId} handleClose={handleClose} />
       </div>
     </Modal>

@@ -291,9 +291,9 @@ const CommentsDrawer: React.FC<CommentsDrawerProps> = ({
           <div className="absolute bottom-10 mt-auto flex h-[56px] w-full items-center justify-center gap-2 bg-[#F5F6F7] text-[13px]">
             <input
               type="text"
-              placeholder="Comments"
+              placeholder="Write a comment..."
               value={editComment ? "" : comment}
-              className="h-[32px] w-[430px] rounded-[4px] border border-[#E6E6E6] bg-[#FAFAFA] pl-3"
+              className="h-[32px] w-[430px] rounded-[4px] border placeholder-[#000] border-[#E6E6E6] bg-[#FAFAFA] pl-3"
               onChange={(e) => setComment(e.target.value)}
               maxLength={150}
               onKeyDown={(e) => {

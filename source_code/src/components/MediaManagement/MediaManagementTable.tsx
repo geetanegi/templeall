@@ -23,6 +23,7 @@ import { RootState } from "../../store";
 import { setLoading } from "../../reducers/loader/loader";
 import ProgressBar from "../GenericUIcomponents/ProgressBar";
 import { constantWords } from "../../utils/constantEnums";
+import TooltipSpan from "../Tooltip/TooltipSpan";
 
 interface MediaManagementTableProps {
   setIsVideoPlayerVisible: (flag: boolean) => void;
@@ -407,14 +408,27 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             // time: moment.utc(data?.startTime).local().format("hh:mm A"),
             upload: (
               <div className="flex items-center gap-2 py-4">
-                <CirclePlay
-                  className="cursor-pointer text-[#0077B6]"
-                  size={18}
-                  onClick={() => {
-                    setIsVideoPlayerVisible(true);
-                    setSelectedVideo(data.url);
-                  }}
-                />
+                {
+                  !data?.url ?
+                   <TooltipSpan
+                   text={<CirclePlay
+                    className={` text-[#808080] cursor-not-allowed` }
+                    size={18}
+                  />}
+                   tooltip={"Video not uploaded"}
+                   needPY={false}
+                   position="top"
+                 />
+                 :
+                 <CirclePlay
+                   className={`text-[#0077B6] cursor-pointer ml-1` }
+                   size={18}
+                   onClick={() => {
+                     setIsVideoPlayerVisible(true);
+                     setSelectedVideo(data.url);
+                   }}
+                 />
+                }
               </div>
             ),
           };

@@ -157,6 +157,8 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
     if(sortDir && sortBy){
       setSortConfig({sortDir, sortBy})
+    }else{
+      setSortConfig({sortDir: null, sortBy: null})
     }
     try {
       if (!isModalOpen && !isSOTWModalOpen) {

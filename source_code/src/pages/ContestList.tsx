@@ -169,6 +169,7 @@ const ContestList: React.FC = () => {
           date: moment().utc().format(),
           zoneId: timeZone,
           playerId: typeof userInfo === "object" ? userInfo.userId : undefined,
+          courseId: selectedCourseId || null
         },
       });
       if (res.status === 200 && !res.data.error) {
@@ -284,7 +285,7 @@ const ContestList: React.FC = () => {
                     {/* <TeeInfo  />   */}
                   </div>
                   <div className="h-96 w-[70%] overflow-auto last:mb-[20px]">
-                    {contestList?.data.map((contestListItem) => (
+                    {contestList?.data.map((contestListItem:any) => (
                       <TeeContests
                         key={contestListItem.contestId}
                         teeContest={{
@@ -315,6 +316,7 @@ const ContestList: React.FC = () => {
                             contestListItem.eligibleForRegistration,
                           eligibleRegistrationTime:
                             contestListItem.eligibleRegistrationTime,
+                            ...contestListItem
                         }}
                       />
                     ))}

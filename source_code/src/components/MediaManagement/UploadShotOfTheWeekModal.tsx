@@ -23,7 +23,6 @@ import { validationConstant } from "../../utils/validationEnums";
 interface UploadVideoModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (flag: boolean) => void;
-  isSoTW: boolean;
   videoCategory: string;
   selectedReqVideoId: number | string;
   setIsRefreshList: (flag: boolean) => void;
@@ -237,7 +236,7 @@ const UploadShotOfTheWeekModal: React.FC<UploadVideoModalProps> = ({
     try {
       if (videoFile) {
         dispatch(setLoading(true));
-        const name =uuid() + videoFile.name;
+        const name = uuid() + videoFile.name;
         let fileName = new Blob([name], {
           type: "application/json",
         });

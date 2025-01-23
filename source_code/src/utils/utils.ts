@@ -19,10 +19,11 @@ export const combineDateAndTime = (date: string | Moment, time: string) => {
       second: parsedTime.second(),
       millisecond: parsedTime.millisecond(),
     })
-    .utc(); // Convert to UTC
+
 
   // Return the combined date and time in ISO format
-  return combined.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+  return combined.format("YYYY-MM-DD HH:mm:ss");
+
 };
 
 

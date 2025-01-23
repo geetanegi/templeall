@@ -20,7 +20,6 @@ import { setLoading } from "../reducers/loader/loader";
 import RecurrenceModal from "../components/RecurrenceModal";
 import ContestForm from "../components/Contests/ContestForm";
 import { ROUTES } from "../utils/routesPath";
-import { ensureUTC } from "../utils/TimeUtils";
 import UnsavedModal from "../components/UnSavedModal/UnsavedModal";
 import { getFilters } from "../utils/genericApiCalls";
 import { decryptData, secretKey } from "../utils/encrypt";
@@ -331,18 +330,18 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
     holesName: editData?.hole?.id,
     Tee: editData?.tee?.id,
     startDate:
-      moment.utc(editData?.startTime).local().format("YYYY-MM-DD") || "",
-    endDate: moment.utc(editData?.endTime).local().format("YYYY-MM-DD"),
-    startTime: moment.utc(editData?.startTime).local().format("HH:mm:ss") || "",
-    endTime: moment.utc(editData?.endTime).local().format("HH:mm:ss") || "",
-    registrationStartTime: moment
-      .utc(editData?.registrationStartTime)
-      .local()
-      .format("HH:mm:ss"),
-    registrationEndTime: moment
-      .utc(editData?.registrationEndTime)
-      .local()
-      .format("HH:mm:ss"),
+    moment.utc(editData?.startTime).local().format("YYYY-MM-DD") || "",
+  endDate: moment.utc(editData?.endTime).local().format("YYYY-MM-DD"),
+  startTime: moment.utc(editData?.startTime).local().format("HH:mm:ss") || "",
+  endTime: moment.utc(editData?.endTime).local().format("HH:mm:ss") || "",
+  registrationStartTime: moment
+    .utc(editData?.registrationStartTime)
+    .local()
+    .format("HH:mm:ss"),
+  registrationEndTime: moment
+    .utc(editData?.registrationEndTime)
+    .local()
+    .format("HH:mm:ss"),
     entryFee: editData?.entryFee ? editData?.entryFee : "0",
     playerPercentage: editData?.payoutStructure?.playerPercentage
       ? editData?.payoutStructure?.playerPercentage
@@ -409,9 +408,9 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
   const [contestTypeOptions, setContestTypeOptions] = useState<
     | {
-        id: string | number;
-        type: string;
-      }[]
+      id: string | number;
+      type: string;
+    }[]
     | null
   >(null);
 
@@ -618,10 +617,10 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
         courseId: values.courseName,
         holeId: values.holesName,
         teeId: values.Tee,
-        startTime: ensureUTC(startTime || ""),
-        endTime: ensureUTC(endTime || ""),
-        registrationStartTime: ensureUTC(registrationStartTime || ""),
-        registrationEndTime: ensureUTC(registrationEndTime || ""),
+        startTime: moment.utc(startTime).format(),
+        endTime: moment.utc(endTime).format(),
+        registrationStartTime: moment.utc(registrationStartTime).format(),
+        registrationEndTime: moment.utc(registrationEndTime).format(),
         entryFee: values.entryFee,
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
@@ -721,10 +720,10 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                       if (values.registrationEndTime) {
                         validateField("registrationEndTime");
                       }
-                      if(values.startDate){
+                      if (values.startDate) {
                         validateField('startDate')
                       }
-                      if(values.endDate){
+                      if (values.endDate) {
                         validateField('endDate')
                       }
                     }, [
@@ -743,7 +742,7 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                         setEndTime(values.endTime);
                       }
                       if (values.registrationStartTime) {
-                        if(!values.endTime){
+                        if (!values.endTime) {
                           setFieldValue("endTime", endTime)
                         }
                         setRegistrationStartTime(values.registrationStartTime);

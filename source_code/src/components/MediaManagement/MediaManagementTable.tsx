@@ -97,6 +97,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalElement, setTotalElement] = useState<number>(10)
+  const [sortConfig, setSortConfig] = useState<any>({sortDir: null, sortBy: null})
   const dispatch = useDispatch();
 
 
@@ -104,7 +105,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
   useEffect(() => {
-    getVideosList(null, null);
+    getVideosList(sortConfig.sortDir, sortConfig.sortBy);
     if (!(selectedTab === 1) && !filterValue) {
       setRowData([]);
     }
@@ -149,6 +150,9 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
 
 
   const getVideosList = async (sortDir:string | null, sortBy:string | null) => {
+    if(sortDir && sortBy){
+      setSortConfig({sortDir, sortBy})
+    }
     try {
       if (!isModalOpen && !isSOTWModalOpen) {
         dispatch(setLoading(true));

@@ -6,6 +6,26 @@ export const capitalizeFirstLetter = (value: string): string =>{
   }
 
 
+// export const combineDateAndTime = (date: string | Moment, time: string) => {
+//   // Parse the date and time separately
+//   const parsedDate = moment(date); // Parse the date
+//   const parsedTime = moment(time, "HH:mm:ss.SSS"); // Parse the time
+  
+//   // Combine date and time
+//   const combined = parsedDate
+//     .set({
+//       hour: parsedTime.hour(),
+//       minute: parsedTime.minute(),
+//       second: parsedTime.second(),
+//       millisecond: parsedTime.millisecond(),
+//     })
+
+
+//   // Return the combined date and time in ISO format
+//   return combined.format("YYYY-MM-DD HH:mm:ss");
+
+// };
+
 export const combineDateAndTime = (date: string | Moment, time: string) => {
   // Parse the date and time separately
   const parsedDate = moment(date); // Parse the date
@@ -19,11 +39,10 @@ export const combineDateAndTime = (date: string | Moment, time: string) => {
       second: parsedTime.second(),
       millisecond: parsedTime.millisecond(),
     })
-
+    .utc(); // Convert to UTC
 
   // Return the combined date and time in ISO format
-  return combined.format("YYYY-MM-DD HH:mm:ss");
-
+  return combined.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
 };
 
 

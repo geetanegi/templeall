@@ -645,7 +645,6 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
         note: values.note,
       },
     };
-
     try {
       dispatch(setLoading(true));
       const res = await apiService.post<any>(API_URL.createContest, obj);

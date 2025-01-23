@@ -1,4 +1,5 @@
 interface Contest {
+  cid: string;
   contestId: number;
   name: string;
   contestType: string;
@@ -30,6 +31,7 @@ export interface CourseData {
   yardage: number;
   teePosition: string;
   allDailyActiveContestDTOS: Contest[];
+  cid: string
 }
 
 export interface APIResContestData {

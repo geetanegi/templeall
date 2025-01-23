@@ -393,12 +393,13 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
       const rowData = tabledata?.map((data: any, index: number) => {
         if (isCourseAdmin) {
           return {
-            playerUserName: data?.username || "",
+            contestId : data?.cid,
             contestName: data?.contestType || "",
             club: data?.clubName || "",
             course: data?.courseName || "",
             hole: `Hole #${data.holeNumber} - Par ${data.par || ""}`,
             tee: data?.teeName || "",
+            playerUserName: data?.username || "",
             reuestDate: moment
               .utc(data?.startTime)
               .local()
@@ -419,6 +420,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
           };
         } else if (selectedTab === 1) {
           return {
+            contestId : data?.cid,
             contestName: data?.contestType || "",
             club: data?.clubName || "",
             course: data?.courseName || "",
@@ -489,6 +491,7 @@ const MediaManagementTable: React.FC<MediaManagementTableProps> = ({
             setIsVideoPlayerVisible(true);
           };
           return {
+            contestId : data?.cid,
             contestName: data?.contestType || "",
             club: data?.clubName || "",
             course: data?.courseName || "",

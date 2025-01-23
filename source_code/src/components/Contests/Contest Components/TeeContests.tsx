@@ -37,6 +37,7 @@ interface TeeContest {
   note: string | null;
   eligibleForRegistration: boolean;
   eligibleRegistrationTime: string | null;
+  cid: string
 }
 
 const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
@@ -185,7 +186,7 @@ const TeeContests: React.FC<{ teeContest: TeeContest }> = ({ teeContest }) => {
               <img src={golfStickWithTee} alt="" className="h-14 w-14" />
               <div className="pl-1">
                 <p className="text-sm font-semibold">
-                  {teeContest?.contestType}
+                  {teeContest?.contestType + " " + teeContest?.cid}
                 </p>
                 <p className="text-sm font-semibold text-red-600">
                   ${teeContest.entryFee}

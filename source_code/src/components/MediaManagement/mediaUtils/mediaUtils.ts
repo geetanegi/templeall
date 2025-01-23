@@ -5,17 +5,19 @@ import { ToastInfo, ToastSuccess } from "../../Toast";
 export const computeMediaHeaders = (tab: number, renderFor?: string) => {
   if (renderFor === "courseAdmin") {
     return [
-      { id: 1, key: "player", field: "Player Username", isSort: true },
+      { id: 0, key: "cId", field: "Contest ID", isSort : true },
       { id: 3, key: "contestType", field: "Contest Name", isSort: true },
       { id: 4, key: "clubName", field: "Club", isSort: true },
       { id: 5, key: "courseName", field: "Course", isSort: true },
       { id: 6, key: "holeNumbers", field: "Hole", isSort: true },
       { id: 7, key: "teeName", field: "Tee", isSort: true },
+      { id: 1, key: "player", field: "Player Username", isSort: true },
       { id: 2, key: "startTime", field: "Date", isSort: true },
       { id: 11, key: "view", field: "View", isSort: false },
     ];
   } else if (tab === 1) {
     return [
+      { id: 0, key: "cId", field: "Contest ID", isSort : true },
       { id: 1, key: "contestType", field: "Contest Name", isSort: true },
       { id: 2, key: "clubName", field: "Club", isSort: true },
       { id: 3, key: "courseName", field: "Course", isSort: true },
@@ -27,6 +29,7 @@ export const computeMediaHeaders = (tab: number, renderFor?: string) => {
     ];
   } else if (tab === 2) {
     return [
+      { id: 0, key: "cId", field: "Contest ID", isSort : true },
       { id: 3, key: "contestType", field: "Contest Name", isSort: true },
       { id: 4, key: "clubName", field: "Club", isSort: true },
       { id: 5, key: "courseName", field: "Course", isSort: true },

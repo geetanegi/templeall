@@ -109,8 +109,7 @@ const ForgetPassword: React.FC = () => {
                 <div className="text-center text-[#ffffff] mb-4">
                   Enter your username, email, or phone number. We'll send a
                   secure one-time password (OTP) to help you reset your
-                  password. Please ensure the mobile number must include a
-                  country code, e.g., +1xxxxxxxxxx.
+                  password. Please make sure that the mobile number entered includes the country code (e.g: +1xxxxxxxxxx).
                 </div>
                 <div className="mb-4 md:w-full">
                   <FormikControl

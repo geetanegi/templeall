@@ -403,9 +403,9 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
   const [contestTypeOptions, setContestTypeOptions] = useState<
     | {
-        id: string | number;
-        type: string;
-      }[]
+      id: string | number;
+      type: string;
+    }[]
     | null
   >(null);
 
@@ -612,10 +612,10 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
         courseId: values.courseName,
         holeId: values.holesName,
         teeId: values.Tee,
-        startTime: startTime || "",
-        endTime: endTime || "",
-        registrationStartTime: registrationStartTime || "",
-        registrationEndTime: registrationEndTime || "",
+        startTime: moment.utc(startTime).format(),
+        endTime: moment.utc(endTime).format(),
+        registrationStartTime: moment.utc(registrationStartTime).format(),
+        registrationEndTime: moment.utc(registrationEndTime).format(),
         entryFee: values.entryFee,
         entriesPer24Hours: values.entriesPer24Hours,
         queueLimit: values.queueLimit,
@@ -715,10 +715,10 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                       if (values.registrationEndTime) {
                         validateField("registrationEndTime");
                       }
-                      if(values.startDate){
+                      if (values.startDate) {
                         validateField('startDate')
                       }
-                      if(values.endDate){
+                      if (values.endDate) {
                         validateField('endDate')
                       }
                     }, [
@@ -737,7 +737,7 @@ const Contests: React.FC<ContestsProps> = ({ contestId }) => {
                         setEndTime(values.endTime);
                       }
                       if (values.registrationStartTime) {
-                        if(!values.endTime){
+                        if (!values.endTime) {
                           setFieldValue("endTime", endTime)
                         }
                         setRegistrationStartTime(values.registrationStartTime);

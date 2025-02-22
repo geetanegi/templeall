@@ -1,0 +1,29 @@
+.box {
+  /* height: 200px; */
+  background-color: red;
+  /* background-image: linear-gradient(0deg, #046221, #072e1a); */
+  position: relative;
+}
+
+.box:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("./assets/images/Flying-dollars.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+}
+
+/*  google logo css of social login */
+.google-login-button-check > div > div > div > div > div > div {
+  padding: 0 !important;
+  width: 20px !important;
+  top: -3px !important;
+  position: relative !important;
+  right: -4px !important;
+}

@@ -1,0 +1,36 @@
+import React from 'react'
+import defaultUserImage from "../../../assets/images/default-user 1.png"
+interface PlayerCardProps {
+    profile: any;
+    isSelected: boolean;
+    setSelectedUser: (userId: string | number) => void
+}
+
+const PlayerCard: React.FC<PlayerCardProps> = ({ profile, isSelected, setSelectedUser }) => {
+
+    return (
+        <div className={`${isSelected ? 'w-[252px]' : "w-[242px]" }  my-5`} >
+            <div className={`flex  cursor-pointer py-2 pl-2   
+                 ${isSelected? "h-[64px] w-[232px] bg-[#1D1A0CB2] rounded-t-md ml-auto" : "h-[64px] w-[242px] bg-[#FFFFFFB2] rounded-md"}
+            `}
+                onClick={() =>{setSelectedUser(profile.id)}}
+            >
+                <div className='border border-gray-300 rounded-md h-[48px] w-[48px]  overflow-hidden'>
+                    {
+                        profile?.imageUrl ? 
+                        <img src={profile?.imageUrl} alt="" className='h-[48px] mx-auto' /> :
+                        <img src={defaultUserImage} alt="" className='h-[48px] mx-auto' />
+                    }
+                </div>
+                <div className='flex justify-center flex-col ml-3 h-full text-gray-500 text-sm'>
+                    <span className={`text-[16px] w-[130px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold ${isSelected ? "text-[#ffffff]" : "text-[#1D1A0C]"}`}>{profile.firstName} {profile.lastName}</span>
+                    <span className={`text-[14px] tracking-[0.25px] w-[130px] overflow-hidden text-ellipsis whitespace-nowrap ${isSelected ? "text-[#F5F6F7]" : "text-[#4E4E4E]" } ${profile?.username ? "visible": "invisible"} `}>{profile.username || "location"}</span>
+                </div>
+            </div>
+            <div className={isSelected ? 'bg-custom-gradient-3 h-[4px]' : ''} ></div>
+        </div>
+
+    )
+}
+
+export default PlayerCard

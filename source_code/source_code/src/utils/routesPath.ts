@@ -1,0 +1,26 @@
+export const ROUTES = {
+  // HOME: "/",
+  LOGIN: "/",
+  SIGNUP: "/signup",
+  FORGET_PASSWORD: "/forget-password",
+  USER_REGISTRATION: "/user-registration",
+  DASHBOARD: "/dashboard",
+  STRIPE: "/stripe",
+  RESET_PASSWORD: "/reset-password",
+  CONTESTS: "/contests",
+  CREATE_CONTEST: "/create-contest",
+  UPDFATE_CONTEST: "/contests/:id",
+  PROFILE: "/profile",
+  GENERATE_QR: "/generate-qr",
+  CONTEST_LIST: "/contest-list",
+  CHECKOUT: "/checkout",
+  COMMUNITY: "/community",
+  MEDIA: "/media-management",
+  PRIVACY_POLICY: "/privacy-policy",
+  TERMS_AND_CONDITIONS: "/terms-and-conditions",
+  USERS: "/users",
+  PAYMENT_SUCCESS: "/payment-success",
+  NOT_FOUND: "/not-found", // Change '*' to a specific path
+  ExternalTC: "/termsandconditions",
+  ExternalPrivacyPolicy: "/privacypolicy"
+};

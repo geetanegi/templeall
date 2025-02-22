@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
     if (userPermisions?.permission?.["is_super_admin"]) {
       return <Adminpanel />;
     } else if (userPermisions?.permission?.["is_course_admin"]) {
-      return <Adminpanel isCourseAdmin={true} />;
+      return <Adminpanel isCourseAdmin={false} />;
     }
   }
 
@@ -47,6 +47,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
+    <AdminHomePage />
       {userPermisions?.permission?.["is_player"] && <PlayerHomePage />}
       {userPermisions?.permission?.["is_super_admin"] && <AdminHomePage />}
       {userPermisions?.permission?.["is_course_admin"] && <AdminHomePage />}

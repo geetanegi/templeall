@@ -69,14 +69,14 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const { username, password, rememberme } = values;
-      const payloadData = { username, password };
-      const encryptedPasword: string = await encryptData(password, secretKey);
-      const loginObj = { username, password: encryptedPasword, mode: "WEB" };
-      const encryptedpayload = await encryptData(
-        JSON.stringify(payloadData),
-        secretKey,
-      );
-      const newData = { payload: encryptedpayload, mode: "WEB" };
+     // const payloadData = { username, password };
+      //const encryptedPasword: string = await encryptData(password, secretKey);
+      const loginObj = { username, password: password, mode: "MOBILE" };
+      // const encryptedpayload = await encryptData(
+      //   JSON.stringify(payloadData),
+      //   secretKey,
+      // );
+      const newData = { username : username ,password : password, mode: "MOBILE" };
       const { data, status } = await apiService.post<any>(API_URL.login, {
         data: newData,
       });

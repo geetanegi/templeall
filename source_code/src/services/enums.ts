@@ -1,5 +1,5 @@
 export const API_URL = {
-  login: "auth/login",
+  login: "identity/auth/login",
   register: "identity/auth/register-new-user",
   forgotPassword: "identity/auth/forgot-password",
   verifyRegisterOtp: "identity/auth/verify-login-otp",
@@ -8,7 +8,7 @@ export const API_URL = {
   reSendOtpSignIn: "identity/auth/forgot-password",
   resetPassword: "identity/auth/reset-password",
   getAllRole: "core/roles/all-role",
-  getUserRole: "user-roles-mapping/get-user-permission",
+  getUserRole: "core/user-roles-mapping/get-user-permission",
   addAdmin: "core/user/add-user-admin",
   activeInactiveUser: "core/user/act-deactivate",
   getAllCourseAdmin: "core/user/all-course-admin",

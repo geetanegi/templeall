@@ -89,24 +89,28 @@ const Nav: React.FC = () => {
     try {
       dispatch(setLoading(true));
       dispatch(loginUserDetails({}));
-
+      console.log('--geetaaa-1----',userInfo)
       const data = await apiService.post<any>(API_URL.getUserRole, {
         data: {
           profileUserId:
-            typeof userInfo === "object" ? userInfo.userId : undefined,
+            typeof userInfo === "object" ? userInfo?.userId : undefined,
         },
       });
+      console.log('--geetaaa---2--')
       if (data.status === 200 && !data.data.error) {
+        console.log('--geetaaa-----',data.data.data.encrypt)
         dispatch(loginUserDetails(data.data.data.encrypt));
         dispatch(setLoading(false));
       }
     } catch (error) {
+      console.log('-e')
       dispatch(setLoading(false));
       console.log(error);
     }
   };
 
   useEffect(() => {
+    console.log('---geetttt')
     getUserRole();
     fetchUserInformation();
   }, []);

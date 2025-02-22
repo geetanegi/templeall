@@ -327,21 +327,7 @@ const Register: React.FC = () => {
                   </div>
                   <div className="mb-4 text-xs text-[#FFFF00]">
                     (By providing your phone number, you agree to receive text
-                    messages from AceCam Golf LLC. Message and data rates may
-                    apply. )
-                  </div>
-
-                  <div className="mb-4">
-                    <FormikControl
-                      label="GHIN (Optional)"
-                      Placeholder="GHIN"
-                      name="ghin"
-                      authFlow={true}
-                      control="number"
-                      className="w-full"
-                      placeholder="GHIN"
-                      maxLength={7}
-                    />
+                    messages from Temple App. )
                   </div>
 
                   <div className="mx-auto max-w-md">

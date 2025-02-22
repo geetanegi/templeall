@@ -1,6 +1,5 @@
 import "./External.css";
-import acecamLogoImg from "../assets/images/Logohtmlpage.png";
-import AceCam_Logo_Noshadow from "../assets/images/AceCam_Logo_Noshadow.png";
+import aceCampLogo from "../assets/images/Logohtmlpage.png";
 
 const ExternalTC = () => {
   return (
@@ -11,11 +10,11 @@ const ExternalTC = () => {
           <div className="mb-4 flex items-center justify-center">
             {/* <!-- Logo --> */}
             <div className="flex h-[168px] w-[220px] items-center justify-center rounded-full">
-              <img src={acecamLogoImg} alt="AceCam Logo" className="w-full" />
+              <img src={aceCampLogo} alt="AceCam Logo" className="w-full" />
             </div>
           </div>
           <h1 className="mb-2 text-xl font-bold" style={{ color: "#ffff00" }}>
-            AceCam™ Golf Terms and Conditions
+           Temple App Terms and Conditions
           </h1>
           <p className="font-semibold">Last updated: 10/29/2024</p>
         </div>
@@ -24,11 +23,11 @@ const ExternalTC = () => {
         <div className="mt-8">
           <p className="font-nunito text-lg text-justify md:text-sm  font-normal">
             These terms and conditions (“<strong>Agreement</strong>”) set forth
-            the general terms and conditions of your use of the “AceCam™ Golf”
-            mobile application (“Mobile Application” or “Service”) and any of
+            the general terms and conditions of your use of the Temple
+             application (“Mobile Application” or “Service”) and any of
             its related products and services (collectively, “Services”). This
             Agreement is legally binding between you (“User”, “you” or “your”)
-            and AceCam™ Golf LLC (doing business as “AceCam”, “we”, “us” or
+            and AceCam™ Golf LLC (doing business as “Temple App”, “we”, “us” or
             “our”).
           </p>
           <p className="font-nunito mt-4 text-lg text-justify md:text-sm  font-normal">
@@ -55,7 +54,7 @@ const ExternalTC = () => {
           {/* <!-- Eligibility --> */}
           <h3 className="mt-4 text-xl font-semibold">1. Eligibility</h3>
           <p className="font-nunito mt-2 text-justify text-lg md:text-sm  font-normal">
-            To use the AceCam Mobile Application and Services, you must be at
+            To use the Temple Mobile Application and Services, you must be at
             least 13 years of age. If you are under 18, you may create an
             account and use all social media features but are not permitted to
             participate in contests or any skill-based competition. By creating
@@ -938,7 +937,7 @@ const ExternalTC = () => {
             and agree to be bound by these Terms.
           </p>
         </div>
-        <img src={AceCam_Logo_Noshadow} alt="" className="sticky-image" />
+        <img src={aceCampLogo} alt="" className="sticky-image" />
         {/* <!-- Footer Section --> */}
         <footer className="mt-12 text-center text-lg md:text-sm ">
           <p className="text-gray-300">
@@ -947,7 +946,7 @@ const ExternalTC = () => {
             </a>
           </p>
           <p className="mt-2 text-gray-500">
-            © 2025 AceCam Golf, LLC. All rights reserved.
+            © 2025 Temple App, LLC. All rights reserved.
           </p>
         </footer>
       </div>

@@ -1,5 +1,5 @@
 export const API_URL = {
-  login: "identity/auth/login",
+  login: "auth/login",
   register: "identity/auth/register-new-user",
   forgotPassword: "identity/auth/forgot-password",
   verifyRegisterOtp: "identity/auth/verify-login-otp",
@@ -8,7 +8,7 @@ export const API_URL = {
   reSendOtpSignIn: "identity/auth/forgot-password",
   resetPassword: "identity/auth/reset-password",
   getAllRole: "core/roles/all-role",
-  getUserRole: "core/user-roles-mapping/get-user-permission",
+  getUserRole: "user-roles-mapping/get-user-permission",
   addAdmin: "core/user/add-user-admin",
   activeInactiveUser: "core/user/act-deactivate",
   getAllCourseAdmin: "core/user/all-course-admin",
@@ -26,7 +26,7 @@ export const API_URL = {
   getAllContests: "core/contest/all-contests",
   updateStatusContest: "core/contest/update-status",
   uploadProfileImage: "core/user/update-profile-pic",
-  fetchUserProfile: "core/user/fetch-profile",
+  fetchUserProfile: "user/fetch-profile",
   updateUserProfile: "core/user/update-profile",
   downloadProfileImage: "core/files/view-file",
   searchPlayer: "core/user/all-player-user",
@@ -78,7 +78,7 @@ export const API_URL = {
   publishWinnerVideos: "/core/winner-video/published",
   getFilter: "/core/lookup/category",
   getPlayerVideoFilter: "/core/request-video/all-highlight-list",
-  logout: "core/history/logout",
+  logout: "history/logout",
   getAllContestForCA: "/core/contest/all-contests-ca",
   getCourseFilterForCA: "/core/course/course-by-playerId",
 

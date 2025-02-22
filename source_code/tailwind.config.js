@@ -32,7 +32,8 @@ export default {
           "linear-gradient(90deg, rgba(29, 26, 12, 0) 0%, rgba(29, 26, 12, 0.4) 36%, rgba(29, 26, 12, 0.7) 100%)",
         "custom-gradient-3":
           "linear-gradient(90deg, #95C11E 66.59%, rgba(255, 255, 255, 0) 100%)",
-        "backgroundDark": "linear-gradient(180deg, #072E1A 0%, #006633 50%, #000000 100%)",
+        "backgroundDark": "linear-gradient(   #6b1057 0%, #30061c 50%, #350943 100%)",
+     
         "backgroundActive": " linear-gradient(180deg, #FFFF00 0%, #FFC234 100%)"
 
 

@@ -39,8 +39,8 @@ const AuthStructure: React.FC = () => {
         >
           {/* <AceCamUI /> */}
           <div
-            className={`align-center flex h-screen w-full flex-col overflow-y-auto bg-backgroundDark`}
-          >
+        className={`align-center flex h-screen w-full justify-center overflow-y-auto bg-mobile-background bg-contain bg-cover bg-fixed bg-center bg-no-repeat md:bg-desktop-background`}
+      >
             <div className="my-auto">
               <img
                 src={aceCampLogo}
@@ -150,16 +150,12 @@ const AuthStructure: React.FC = () => {
                 <a href="mailto:support@acecamgolf.com">Contact Us</a>
               </p>
             </div>
-            <div className="mb-10 mb-2 flex items-center justify-center gap-2 md:mb-0">
-              <div className="right-1 top-[1px] flex">
-                <p className={`whitespace-nowrap p-2 text-[13px] text-white`}>
-                  © 2025 AceCam
-                  <sup className="text-[8px]">TM&nbsp;</sup>{" "}
-                  {/* <span className="align-super text-xs">™&nbsp;</span> */}
-                  Golf, LLC. All rights reserved.
-                </p>
-              </div>
-            </div>
+            <div className="absolute bottom-2 right-4 md:right-6 text-white text-[13px]">
+  <p className="whitespace-nowrap">
+    © 2025 Temple App. All rights reserved.
+  </p>
+</div>
+
           </div>
         </div>
       </div>

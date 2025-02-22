@@ -1,6 +1,5 @@
 import "./External.css";
 import acecamLogoImg from "../assets/images/Logohtmlpage.png";
-import AceCam_Logo_Noshadow from "../assets/images/AceCam_Logo_Noshadow.png";
 
 const ExternalPrivacyPolicy = () => {
     return (
@@ -15,7 +14,7 @@ const ExternalPrivacyPolicy = () => {
                         </div>
                     </div>
                     <h1 className="mb-2 text-xl font-bold" style={{ color: "#ffff00" }}>
-                        AceCam™ Golf Privacy Policy
+                         Temple App Privacy Policy
                     </h1>
                     <p className="font-semibold">Last updated: 10/29/2024</p>
                 </div>
@@ -23,8 +22,8 @@ const ExternalPrivacyPolicy = () => {
                 {/* <!-- Content Section --> */}
                 <div className="mt-8">
                     <p className="font-nunito text-lg text-justify md:text-sm font-normal">
-                        At AceCam™ Golf LLC ("AceCam," "we," "us," or "our"), we prioritize the privacy and security of
-                        your personal information. As the provider of the AceCam mobile application ("AceCam App")
+                        At Temple App("Temple App," "we," "us," or "our"), we prioritize the privacy and security of
+                        your personal information. As the provider of the Temple App mobile application ("Temple App")
                         and associated services (collectively referred to as the "Services"), this Privacy Policy is designed to inform you about how we gather, utilize, share, and safeguard your information.
 
                     </p>
@@ -48,7 +47,7 @@ const ExternalPrivacyPolicy = () => {
                     </p>
                     <p className="font-nunito text-lg text-justify md:text-sm font-normal mt-4">
                         We may update this Privacy Policy periodically. If we make significant changes, we will notify
-                        you by posting the revised policy on the AceCam App and our website. Changes will take effect
+                        you by posting the revised policy on the Temple App and our website. Changes will take effect
                         as of the "Last Updated" date indicated at the end of this Privacy Policy. Continued use of our
                         Services signifies your acceptance of the updated Privacy Policy. We encourage you to review
                         this document periodically for the latest information regarding our privacy practices.
@@ -656,7 +655,7 @@ const ExternalPrivacyPolicy = () => {
                     <p className="font-nunito mt-3 text-lg text-justify md:text-sm font-normal">Thank you for choosing Ac</p>
                 </div>
 
-                <img src={AceCam_Logo_Noshadow} alt="" className="sticky-image" />
+                <img src={acecamLogoImg} alt="" className="sticky-image" />
                 {/* <!-- Footer Section --> */}
                 <footer className="mt-12 text-center text-lg md:text-sm">
                     <p className="text-gray-300">
@@ -665,7 +664,7 @@ const ExternalPrivacyPolicy = () => {
                         </a>
                     </p>
                     <p className="mt-2 text-gray-500">
-                        © 2025 AceCam Golf, LLC. All rights reserved.
+                        © 2025 Temple App. All rights reserved.
                     </p>
                 </footer>
             </div>

@@ -117,7 +117,6 @@ console.log(userData, initialValues, "initialValues")
   return (
     <>
       <div className="flex w-full flex-col items-center gap-2 rounded-xl mt-5 md:w-full">
-        {/* <img src={aceCampLogo} alt="" className="mb-[5px] w-[220px]" /> */}
 
         <Formik
           initialValues={userData ? initialValues : {
@@ -195,24 +194,6 @@ console.log(userData, initialValues, "initialValues")
             </div>
           </Form>
         </Formik>
-        {/* <div className="mt-[0px]  flex w-full max-w-sm flex-col justify-center gap-1 text-[14px] md:max-w-md">
-          <p className={`text-center text-[14px] text-primaryText`}>
-            Don't have an account?{" "}
-            <Link
-              to={ROUTES.SIGNUP}
-              className={`text-[14px] text-link hover:underline`}
-            >
-              Sign Up
-            </Link>
-          </p>
-          <p className="mt-[10px] text-center text-[14px] text-white">
-            - or sign in using -{" "}
-          </p>
-          <div className="mt-[10px] gap-8 flex items-center justify-center">
-            <AppleSignInButton />
-            <GoogleLoginComponent />
-          </div>
-        </div> */}
       </div>
     </>
   );
